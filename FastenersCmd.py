@@ -29,16 +29,13 @@ __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join( __dir__, 'Icons' )
 
 import ScrewMaker  
-
+screwMaker = ScrewMaker.Ui_ScrewMaker()
 
 class FSScrewObject:
-  def __init__(self, obj, type, attachTo, screwMaker):
+  def __init__(self, obj, type, attachTo):
     '''"Add screw type fastener" '''
-    self.screwMaker = screwMaker
     self.itemText = "Screw"
-    self.attachTo = attachTo
-    self.lastShape = None
-    self.Proxy = obj
+    #self.Proxy = obj.Name
     
     obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = [
         'ISO4017', 'ISO4014', 'EN1662', 'EN1665', 'ISO4762', 'ISO2009', 'ISO2010', 'ISO1580', 'ISO7045', 'ISO7046',
@@ -58,6 +55,7 @@ class FSScrewObject:
  
   def execute(self, fp):
     '''"Print a short message when doing a recomputation, this method is mandatory" '''
+    
     try:
       baseobj = fp.baseObject[0]
       shape = baseobj.Shape.getElement(fp.baseObject[1][0])
@@ -65,33 +63,32 @@ class FSScrewObject:
       baseobj = None
       shape = None
    
-    if (self.lastShape == None or self.diameter != fp.diameter or self.length != fp.length or self.type != fp.type
-          or self.realThread != fp.thread):
+    if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter or self.length != fp.length 
+          or self.type != fp.type or self.realThread != fp.thread):
       if fp.diameter == 'Auto':
-        d = self.screwMaker.AutoDiameter(fp.type, shape)
+        d = screwMaker.AutoDiameter(fp.type, shape)
       else:
         d = fp.diameter
         
-      d , l = self.screwMaker.FindClosest(fp.type, d, fp.length)
+      d , l = screwMaker.FindClosest(fp.type, d, fp.length)
       if l != fp.length:
         fp.length = l
       if d != fp.diameter:
         fp.diameter = d
-      s = self.screwMaker.createScrewParams(d, l, fp.type + ':', False, fp.thread, True)
-      self.lastShape = s
+      s = screwMaker.createScrewParams(d, l, fp.type + ':', False, fp.thread, True)
       self.diameter = fp.diameter
       self.length = fp.length
       self.type = fp.type
       self.realThread = fp.thread
+      fp.Label = s[1]
+      self.itemText = s[1]
+      fp.Shape = s[0]
     else:
       FreeCAD.Console.PrintLog("Using cached object\n")
-      s = self.lastShape
     if shape != None:
-      self.Proxy.Placement = FreeCAD.Placement() # reset placement
-      self.screwMaker.moveScrewToObject(self.Proxy, shape, fp.invert, fp.offset.Value)
-    self.Proxy.Label = s[1]
-    self.itemText = s[1]
-    fp.Shape = s[0]
+      #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
+      fp.Placement = FreeCAD.Placement() # reset placement
+      screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
     
   def getItemText():
     return self.itemText
@@ -145,7 +142,6 @@ class FSScrewCommand:
   def __init__(self, type, help):
     self.Type = type
     self.Help = help
-    self.screwMaker = ScrewMaker.Ui_ScrewMaker()
 
   def GetResources(self):
     icon = os.path.join( iconPath , self.Type + '.svg')
@@ -166,7 +162,7 @@ class FSScrewCommand:
         baseObject = None
       else:
         baseObject = (obj, [baseObjectName])
-      FSScrewObject(a, self.Type, baseObject, self.screwMaker)
+      FSScrewObject(a, self.Type, baseObject)
       a.Label = a.Proxy.itemText
       FSViewProviderTree(a.ViewObject)
     FreeCAD.ActiveDocument.recompute()

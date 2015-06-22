@@ -2969,8 +2969,14 @@ class Ui_ScrewMaker(object):
                 res = m
       return res
             
-          
+      
 
+ScrewMakerInstance = None      
+def Instance():
+  global ScrewMakerInstance
+  if ScrewMakerInstance == None:
+    ScrewMakerInstance = Ui_ScrewMaker()
+  return ScrewMakerInstance
 
 
 class screw():

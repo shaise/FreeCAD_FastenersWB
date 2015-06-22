@@ -28,12 +28,15 @@ import FreeCAD, FreeCADGui, Part, os
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join( __dir__, 'Icons' )
 
+import FastenerBase
+from FastenerBase import FSBaseObject
 import ScrewMaker  
-screwMaker = ScrewMaker.Ui_ScrewMaker()
+screwMaker = ScrewMaker.Instance()
 
-class FSScrewObject:
+class FSScrewObject(FSBaseObject):
   def __init__(self, obj, type, attachTo):
     '''"Add screw type fastener" '''
+    FSBaseObject.__init__(self, obj, attachTo)
     self.itemText = "Screw"
     #self.Proxy = obj.Name
     
@@ -46,10 +49,7 @@ class FSScrewObject:
     obj.addProperty("App::PropertyEnumeration","length","Parameters","Screw length").length = [
         '2', '3', '4', '5', '6', '8', '10', '12', '14', '16', '20', '25', '30', '35', '40', '45', '50',
         '55', '60', '65', '70', '80', '100', '110', '120', '130', '140', '150', '160', '180', '200' ]
-    obj.addProperty("App::PropertyLength","offset","Parameters","Offset from surface").offset = 0.0
-    obj.addProperty("App::PropertyBool", "invert", "Parameters", "Invert screw direction").invert = False
     obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
-    obj.addProperty("App::PropertyLinkSub", "baseObject", "Parameters", "Base object").baseObject = attachTo
     obj.type = type
     obj.Proxy = self
  
@@ -96,7 +96,7 @@ class FSScrewObject:
 
 
 class FSViewProviderTree:
-  "A View provider that nests children objects under the created one"
+  "A View provider for custom icon"
       
   def __init__(self, obj):
     obj.Proxy = self
@@ -171,15 +171,10 @@ class FSScrewCommand:
   def IsActive(self):
     return True
 
-FSCommands = []
-
 def FSAddCommand(type, help):
   cmd = 'FS' + type
   Gui.addCommand(cmd,FSScrewCommand(type, help))
-  FSCommands.append(cmd)
-
-def FSGetCommands():
-  return FSCommands
+  FastenerBase.FSCommands.append(cmd)
   
 FSAddCommand("ISO4017", "ISO 4017 Hex head screw")
 FSAddCommand("ISO4014", "ISO 4014 Hex head bolt")
@@ -201,80 +196,3 @@ FSAddCommand("ISO14580", "ISO 14580 Hexalobular socket cheese head screws")
 FSAddCommand("ISO14583", "ISO 14583 Hexalobular socket pan head screws")
 FSAddCommand("ISO7089", "Washer")
 
-
-  
-class FSMoveCommand:
-  """Move Screw command"""
-
-  def GetResources(self):
-    icon = os.path.join( iconPath , 'IconMove.svg')
-    return {'Pixmap'  : icon , # the name of a svg file available in the resources
-            'MenuText': "Move fastner" ,
-            'ToolTip' : "Move fastner to a new location"}
- 
-  def Activated(self):
-    selObj = self.GetSelection()
-    if selObj[0] == None:
-      return
-    selObj[0].baseObject = selObj[1]
-    FreeCAD.ActiveDocument.recompute()
-    return
-   
-  def IsActive(self):
-    selObj = self.GetSelection()
-    if selObj[0] != None:
-      return True
-    return False
-
-  def GetSelection(self):
-    screwObj = None
-    edgeObj = None
-    for selObj in Gui.Selection.getSelectionEx():
-      obj = selObj.Object
-      #FreeCAD.Console.PrintMessage(str(obj.Proxy is FastenerCmd.FSScrewObject))
-      if (hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSScrewObject)):
-        screwObj = obj
-      elif (len(selObj.SubObjects) == 1 and isinstance(selObj.SubObjects[0],Part.Edge)):
-        edgeObj = (obj, [selObj.SubElementNames[0]])
-    return (screwObj, edgeObj)
-        
-        
-Gui.addCommand('FSMove',FSMoveCommand())
-FSCommands.append('FSMove')
- 
- 
-class FSFlipCommand:
-  """Flip Screw command"""
-
-  def GetResources(self):
-    icon = os.path.join( iconPath , 'IconFlip.svg')
-    return {'Pixmap'  : icon , # the name of a svg file available in the resources
-            'MenuText': "Flip fastner" ,
-            'ToolTip' : "flip fastner orientation"}
- 
-  def Activated(self):
-    selObj = self.GetSelection()
-    if selObj == None:
-      return
-    selObj.invert = not(selObj.invert)
-    FreeCAD.ActiveDocument.recompute()
-    return
-   
-  def IsActive(self):
-    selObj = self.GetSelection()
-    if selObj != None:
-      return True
-    return False
-
-  def GetSelection(self):
-    screwObj = None
-    if len(Gui.Selection.getSelectionEx()) == 1:
-      obj = Gui.Selection.getSelectionEx()[0].Object
-      if (hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSScrewObject)):
-        if obj.baseObject != None:
-          screwObj = obj
-    return screwObj
-        
-        
-Gui.addCommand('FSFlip',FSFlipCommand())
-FSCommands.append('FSFlip')

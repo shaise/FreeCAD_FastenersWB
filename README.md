@@ -10,7 +10,8 @@ For Installation and how to use, please visit:
 http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
 #### Release notes:
-* V0.0.03  18 Jun 2015:  Add PEM Metric Press-Nut (Self clinching nut)
+* V0.0.04  23 Jun 2015:  Add ISO 4032 Metric Hex Nut
+* V0.0.03  21 Jun 2015:  Add PEM Metric Press-Nut (Self clinching nut)
 * V0.0.02  18 Jun 2015:  Save/Load issue fixed
 * V0.0.01  18 Jun 2015:  Initial version
 

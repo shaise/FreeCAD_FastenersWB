@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 ###################################################################################
 #
-#  FastenersCmd.py
+#  PEMInserts.py
 #  
 #  Copyright 2015 Shai Seger <shaise at gmail dot com>
 #  
@@ -35,6 +35,7 @@ import ScrewMaker
 screwMaker = ScrewMaker.Instance()
 
 
+###################################################################################
 # PEM Self Clinching nuts types: S/SS/CLS/CLSS/SP
 CLSSizeCodes = ['00', '0', '1', '2']
 CLSDiamCodes = ['Auto', 'M2', 'M2.5', 'M3', 'M3.5', 'M4', 'M5', 'M6', 'M8', 'M10', 'M12']
@@ -44,17 +45,13 @@ CLSPEMTable = {
   'M2.5':((0,    0.77, 0.97, 1.38), 4.2,   6.35,  1.5,  2.05),
   'M3':  ((0,    0.77, 0.97, 1.38), 4.2,   6.35,  1.5,  2.5),
   'M3.5':((0,    0.77, 0.97, 1.38), 4.73,  7.11,  1.5,  2.9),
-  'M4':  ((0,    0.77, 0.97, 1.38), 5.38,  7.87,  2,    3.3),
-  'M5':  ((0,    0.77, 0.97, 1.38), 6.33,  8.64,  2,    4.2),
-  'M6':  ((0.89, 1.15, 1.38, 2.21), 8.73,  11.18, 4.08, 5),
+  'M4':  ((0,    0.77, 0.97, 1.38), 5.38,  7.87,  2.0,  3.3),
+  'M5':  ((0,    0.77, 0.97, 1.38), 6.33,  8.64,  2.0,  4.2),
+  'M6':  ((0.89, 1.15, 1.38, 2.21), 8.73,  11.18, 4.08, 5.0),
   'M8':  ((0,    0,    1.38, 2.21), 10.47, 12.7,  5.47, 6.8),
   'M10': ((0,    0,    2.21, 3.05), 13.97, 17.35, 7.48, 8.5),
   'M12': ((0,    0,    3.05, 0),    16.95, 20.57, 8.5,  10.2)
   }
-
-# 2D lines on the X, Z Plane
-def clMakeLine2D(x1, z1, x2, z2):
-  return Part.makeLine(FreeCAD.Base.Vector(x1,0,z1),FreeCAD.Base.Vector(x2,0,z2))
 
 
 def clMakeWire(do, di, a, c, e, t):
@@ -69,20 +66,21 @@ def clMakeWire(do, di, a, c, e, t):
   c2 = (c + e) / 2
   sl = a / 20
   a2 = a / 2
-  e1 = clMakeLine2D(di, -a + ch1, do, -a)
-  e2 = clMakeLine2D(do, -a, c, -a)
-  e3 = clMakeLine2D(c, -a, c, -a * 0.75)
-  e4 = clMakeLine2D(c, -a * 0.75, c - sl, -a2)
-  e5 = clMakeLine2D(c - sl, -a2, c2, -a2)
-  e6 = clMakeLine2D(c2, -a2, c2, 0)
-  e7 = clMakeLine2D(c2, 0, e, 0)
-  e8 = clMakeLine2D(e, 0, e, t - ch2)
-  e9 = clMakeLine2D(e, t - ch2, e - ch2, t)
-  e10 = clMakeLine2D(e - ch2, t, do, t)
-  e11 = clMakeLine2D(do, t, di, t - ch1)
-  e12 = clMakeLine2D(di, t - ch1, di, -a + ch1) 
-  w = Part.Wire([e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12])
-  return Part.Face(w)
+  
+  fm = FastenerBase.FSFaceMaker()
+  fm.AddPoint(di, -a + ch1)
+  fm.AddPoint(do, -a)
+  fm.AddPoint(c, -a)
+  fm.AddPoint(c, -a * 0.75,)
+  fm.AddPoint(c - sl, -a2)
+  fm.AddPoint(c2, -a2)
+  fm.AddPoint(c2, 0)
+  fm.AddPoint(e, 0)
+  fm.AddPoint(e, t - ch2)
+  fm.AddPoint(e - ch2, t)
+  fm.AddPoint(do, t)
+  fm.AddPoint(di, t - ch1) 
+  return fm.GetFace()
 
 def clMakePressNut(diam, code):
   if not (code in CLSSizeCodes):
@@ -100,20 +98,6 @@ def clMakePressNut(diam, code):
   f = clMakeWire(do, di, a, c, e, t)
   p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
   return p
-  
-def clAutoDiameter(holeObj):
-  res = 'M5'
-  if holeObj != None and hasattr(holeObj, 'Curve') and hasattr(holeObj.Curve, 'Radius'):
-    d = holeObj.Curve.Radius * 2
-    mindif = 10.0
-    for m in CLSPEMTable:
-        dia = CLSPEMTable[m][1] + 0.1
-        if (dia > d):
-          dif = dia - d
-          if dif < mindif:
-            mindif = dif
-            res = m
-  return res
 
 def clFindClosest(diam, code):
   ''' Find closest standard screw to given parameters '''
@@ -165,7 +149,7 @@ class FSPressNutObject(FSBaseObject):
    
     if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter or self.tcode != fp.tcode):
       if fp.diameter == 'Auto':
-        d = clAutoDiameter(shape)
+        d = FastenerBase.FSAutoDiameterM(shape, CLSPEMTable, 1)
       else:
         d = fp.diameter
         
@@ -185,46 +169,8 @@ class FSPressNutObject(FSBaseObject):
       fp.Placement = FreeCAD.Placement() # reset placement
       screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
 
-class FSViewProviderIcon:
-  "A View provider for custom icon"
-      
-  def __init__(self, obj):
-    obj.Proxy = self
-    self.Object = obj.Object
-      
-  def attach(self, obj):
-    self.Object = obj.Object
-    return
 
-  def updateData(self, fp, prop):
-    return
-
-  def getDisplayModes(self,obj):
-    modes=[]
-    return modes
-
-  def setDisplayMode(self,mode):
-    return mode
-
-  def onChanged(self, vp, prop):
-    return
-
-  def __getstate__(self):
-    #        return {'ObjectName' : self.Object.Name}
-    return None
-
-  def __setstate__(self,state):
-    if state is not None:
-      import FreeCAD
-      doc = FreeCAD.ActiveDocument #crap
-      self.Object = doc.getObject(state['ObjectName'])
- 
-  def getIcon(self):
-    if isinstance(self.Object.Proxy,FSPressNutObject):
-      return os.path.join( iconPath , 'PEMPressNut.svg')
-    return None
-
-    
+FastenerBase.FSClassIcons[FSPressNutObject] = 'PEMPressNut.svg'    
 
 class FSPressnutCommand:
   """Add Preass-nut command"""
@@ -236,21 +182,7 @@ class FSPressnutCommand:
             'ToolTip' : "Add PEM Self Clinching Metric Nut"}
  
   def Activated(self):
-    baseObjectNames = [ None ]
-    obj = None
-    selObjects = Gui.Selection.getSelectionEx()
-    if len(selObjects) > 0:
-      baseObjectNames = selObjects[0].SubElementNames
-      obj = selObjects[0].Object
-    for baseObjectName in baseObjectNames:      
-      a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","PressNut")
-      if baseObjectName == None:
-        baseObject = None
-      else:
-        baseObject = (obj, [baseObjectName])
-      FSPressNutObject(a, baseObject)
-      FSViewProviderIcon(a.ViewObject)
-    FreeCAD.ActiveDocument.recompute()
+    FastenerBase.FSGenerateObjects(FSPressNutObject, "PressNut")
     return
    
   def IsActive(self):

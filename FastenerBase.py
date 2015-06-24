@@ -215,3 +215,32 @@ class FSMoveCommand:
 Gui.addCommand('FSMove',FSMoveCommand())
 FSCommands.append('FSMove')
  
+class FSMakeSimpleCommand:
+  """Move Screw command"""
+
+  def GetResources(self):
+    icon = os.path.join( iconPath , 'IconShape.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Simplify shape" ,
+            'ToolTip' : "Change object to simple non-parametric shape"}
+ 
+  def Activated(self):
+    for selObj in Gui.Selection.getSelectionEx():
+      obj = selObj.Object
+      FreeCAD.Console.PrintLog("sel shape: " + str(obj.Shape) + "\n")
+      if isinstance(obj.Shape, (Part.Solid, Part.Compound)):
+        FreeCAD.Console.PrintLog("simplify shape: " + obj.Name + "\n")
+        Part.show(obj.Shape)
+        Gui.ActiveDocument.getObject(obj.Name).Visibility = False
+    FreeCAD.ActiveDocument.recompute()
+    return
+   
+  def IsActive(self):
+    if len(Gui.Selection.getSelectionEx()) > 0:
+      return True
+    return False
+        
+        
+Gui.addCommand('FSSimple',FSMakeSimpleCommand())
+FSCommands.append('FSSimple')
+ 

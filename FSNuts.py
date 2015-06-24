@@ -69,8 +69,8 @@ cos30 = math.cos(math.radians(30.0))
 def nutMakeFace(do, di, s, m):
   do = do / 2
   di = di / 2
-  s = s / 2
-  e = s / cos30
+  s = s / 2.01
+  e = s * 1.02 / cos30
   ch1 = do - di
   ch2 = (e - s) / cos15
   fm = FastenerBase.FSFaceMaker()

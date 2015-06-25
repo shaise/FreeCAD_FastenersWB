@@ -42,15 +42,9 @@ class FSScrewObject(FSBaseObject):
     diameters.insert(0, 'Auto')
     #self.Proxy = obj.Name
     
-    obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = screwMaker.GetAllTypes()
-    #    'ISO4017', 'ISO4014', 'EN1662', 'EN1665', 'ISO4762', 'ISO2009', 'ISO2010', 'ISO1580', 'ISO7045', 'ISO7046',
-    #    'ISO7047', 'ISO1207', 'ISO7048', 'ISO7380', 'ISO10642', 'ISO14579', 'ISO14580', 'ISO14583', 'ISO7089']
+    obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = screwMaker.GetAllTypes("Screw")
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
-    #    'Auto', 'M1.6', 'M2', 'M2.5', 'M3', 'M4', 'M5', 'M6', 'M8', 'M10', 'M12', 'M14', 'M16', 'M20', 'M24',
-    #    'M27', 'M30', 'M36', 'M42', 'M48', 'M56', 'M64' ]
     obj.addProperty("App::PropertyEnumeration","length","Parameters","Screw length").length = screwMaker.GetAllLengths(type, diameters[1])
-    #    '2', '3', '4', '5', '6', '8', '10', '12', '14', '16', '20', '25', '30', '35', '40', '45', '50',
-    #    '55', '60', '65', '70', '80', '100', '110', '120', '130', '140', '150', '160', '180', '200' ]
     obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.type = type
     obj.Proxy = self
@@ -98,14 +92,12 @@ class FSScrewObject(FSBaseObject):
           fp.length = screwMaker.GetAllLengths(fp.type, fp.diameter)
         fp.length = l
       
-      if l == 'Auto':
-        l = '2'
       s = screwMaker.createScrewParams(d, l, fp.type + ':', False, fp.thread, True)
       self.diameter = fp.diameter
       self.length = fp.length
       self.type = fp.type
       self.realThread = fp.thread
-      fp.Label = s[1]
+      fp.Label = fp.diameter + 'x' + fp.length + '-' + s[1]
       self.itemText = s[1]
       fp.Shape = s[0]
     else:
@@ -219,5 +211,91 @@ FSAddCommand("ISO7048", "ISO 7048 Cheese head screws with type H cross r.")
 FSAddCommand("ISO14579", "ISO 14579 Hexalobular socket head cap screws")
 FSAddCommand("ISO14580", "ISO 14580 Hexalobular socket cheese head screws")
 FSAddCommand("ISO14583", "ISO 14583 Hexalobular socket pan head screws")
-FSAddCommand("ISO7089", "Washer")
+
+class FSWasherObject(FSBaseObject):
+  def __init__(self, obj, type, attachTo):
+    '''"Add washer type fastener" '''
+    FSBaseObject.__init__(self, obj, attachTo)
+    self.itemText = "Washer"
+    diameters = screwMaker.GetAllDiams(type)
+    diameters.insert(0, 'Auto')
+    #self.Proxy = obj.Name
+    
+    obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = screwMaker.GetAllTypes("Washer")
+    obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
+    obj.type = type
+    obj.Proxy = self
+ 
+  def execute(self, fp):
+    '''"Print a short message when doing a recomputation, this method is mandatory" '''
+    
+    try:
+      baseobj = fp.baseObject[0]
+      shape = baseobj.Shape.getElement(fp.baseObject[1][0])
+    except:
+      baseobj = None
+      shape = None
+   
+    if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter):
+      if fp.diameter == 'Auto':
+        d = screwMaker.AutoDiameter(fp.type, shape)
+        diameterchange = True      
+      else:
+        d = fp.diameter
+        
+      d , l = screwMaker.FindClosest(fp.type, d, '0')
+      if d != fp.diameter:
+        fp.diameter = d
+      s = screwMaker.createScrewParams(d, l, fp.type + ':', False, False, True)
+      self.diameter = fp.diameter
+      fp.Label = fp.diameter + '-' + s[1]
+      self.itemText = s[1]
+      fp.Shape = s[0]
+    else:
+      FreeCAD.Console.PrintLog("Using cached object\n")
+    if shape != None:
+      #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
+      fp.Placement = FreeCAD.Placement() # reset placement
+      screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
+    
+  def getItemText():
+    return self.itemText
+    
+class FSWasherCommand:
+  """Add Screw command"""
+
+  def __init__(self, type, help):
+    self.Type = type
+    self.Help = help
+
+  def GetResources(self):
+    icon = os.path.join( iconPath , self.Type + '.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Add " + self.Help ,
+            'ToolTip' : self.Help}
+ 
+  def Activated(self):
+    baseObjectNames = [ None ]
+    obj = None
+    selObjects = Gui.Selection.getSelectionEx()
+    if len(selObjects) > 0:
+      baseObjectNames = selObjects[0].SubElementNames
+      obj = selObjects[0].Object
+    for baseObjectName in baseObjectNames:      
+      a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Washer")
+      if baseObjectName == None:
+        baseObject = None
+      else:
+        baseObject = (obj, [baseObjectName])
+      FSWasherObject(a, self.Type, baseObject)
+      a.Label = a.Proxy.itemText
+      FSViewProviderTree(a.ViewObject)
+    FreeCAD.ActiveDocument.recompute()
+    return
+   
+  def IsActive(self):
+    return True
+
+Gui.addCommand("FSISO7089",FSWasherCommand("ISO7089", "Washer"))
+FastenerBase.FSCommands.append("FSISO7089")
 

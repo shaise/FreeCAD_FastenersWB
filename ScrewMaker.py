@@ -2949,16 +2949,10 @@ class Ui_ScrewMaker(object):
           if (diff < mindif):
             mindif = diff
             diam = m
-      
-      if name == "Washer":
-        return (diam, 'Auto')
 
       # auto find length
       if (len_table != None) and not (len in len_table):
-        if len == 'Auto':
-          origlen = 1.0
-        else:
-          origlen = float(len)
+        origlen = float(len)
         mindif = 100.0
         for l in len_table:
           diff = abs(float(l) - origlen)
@@ -2993,8 +2987,11 @@ class Ui_ScrewMaker(object):
                 res = m
       return res
     
-    def GetAllTypes(self):
-      list = screwTables.keys()
+    def GetAllTypes(self, type):
+      list = []
+      for key in screwTables:
+        if screwTables[key][0] == type:
+          list.append(key)
       list.sort()
       return list
     
@@ -3005,10 +3002,6 @@ class Ui_ScrewMaker(object):
       return list
       
     def GetAllLengths(self, type, diam):
-      if type == 'ISO7089':
-        # washer type have only one legth
-        #return [ iso7089def[type][2] ]
-        return [ 'Auto' ]
       lens = screwTables[type][2]
       range = screwTables[type][3][diam]
       list = []

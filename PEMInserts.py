@@ -161,6 +161,7 @@ class FSPressNutObject(FSBaseObject):
       s = clMakePressNut(d, l)
       self.diameter = fp.diameter
       self.tcode = fp.tcode
+      fp.Label = fp.diameter + '-PressNut'
       fp.Shape = s
     else:
       FreeCAD.Console.PrintLog("Using cached object\n")

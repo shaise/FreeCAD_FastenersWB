@@ -127,6 +127,7 @@ class FSHexNutObject(FSBaseObject):
       s = nutMakeSolid(d)
       self.diameter = fp.diameter
       fp.Shape = s
+      fp.Label = fp.diameter + '-Nut'
     else:
       FreeCAD.Console.PrintLog("Using cached object\n")
     if shape != None:

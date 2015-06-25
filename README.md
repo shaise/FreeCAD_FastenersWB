@@ -10,6 +10,7 @@ For Installation and how to use, please visit:
 http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
 #### Release notes:
+* V0.0.06  25 Jun 2015:  Show only applicable M values and lengths, add descriptive name
 * V0.0.05  24 Jun 2015:  Add simplify object function, Change icon colors
 * V0.0.04  23 Jun 2015:  Add ISO 4032 Metric Hex Nut
 * V0.0.03  21 Jun 2015:  Add PEM Metric Press-Nut (Self clinching nut)

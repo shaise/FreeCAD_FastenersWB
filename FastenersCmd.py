@@ -38,17 +38,19 @@ class FSScrewObject(FSBaseObject):
     '''"Add screw type fastener" '''
     FSBaseObject.__init__(self, obj, attachTo)
     self.itemText = "Screw"
+    diameters = screwMaker.GetAllDiams(type)
+    diameters.insert(0, 'Auto')
     #self.Proxy = obj.Name
     
-    obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = [
-        'ISO4017', 'ISO4014', 'EN1662', 'EN1665', 'ISO4762', 'ISO2009', 'ISO2010', 'ISO1580', 'ISO7045', 'ISO7046',
-        'ISO7047', 'ISO1207', 'ISO7048', 'ISO7380', 'ISO10642', 'ISO14579', 'ISO14580', 'ISO14583', 'ISO7089']
-    obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = [
-        'Auto', 'M1.6', 'M2', 'M2.5', 'M3', 'M4', 'M5', 'M6', 'M8', 'M10', 'M12', 'M14', 'M16', 'M20', 'M24',
-        'M27', 'M30', 'M36', 'M42', 'M48', 'M56', 'M64' ]
-    obj.addProperty("App::PropertyEnumeration","length","Parameters","Screw length").length = [
-        '2', '3', '4', '5', '6', '8', '10', '12', '14', '16', '20', '25', '30', '35', '40', '45', '50',
-        '55', '60', '65', '70', '80', '100', '110', '120', '130', '140', '150', '160', '180', '200' ]
+    obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = screwMaker.GetAllTypes()
+    #    'ISO4017', 'ISO4014', 'EN1662', 'EN1665', 'ISO4762', 'ISO2009', 'ISO2010', 'ISO1580', 'ISO7045', 'ISO7046',
+    #    'ISO7047', 'ISO1207', 'ISO7048', 'ISO7380', 'ISO10642', 'ISO14579', 'ISO14580', 'ISO14583', 'ISO7089']
+    obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
+    #    'Auto', 'M1.6', 'M2', 'M2.5', 'M3', 'M4', 'M5', 'M6', 'M8', 'M10', 'M12', 'M14', 'M16', 'M20', 'M24',
+    #    'M27', 'M30', 'M36', 'M42', 'M48', 'M56', 'M64' ]
+    obj.addProperty("App::PropertyEnumeration","length","Parameters","Screw length").length = screwMaker.GetAllLengths(type, diameters[1])
+    #    '2', '3', '4', '5', '6', '8', '10', '12', '14', '16', '20', '25', '30', '35', '40', '45', '50',
+    #    '55', '60', '65', '70', '80', '100', '110', '120', '130', '140', '150', '160', '180', '200' ]
     obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.type = type
     obj.Proxy = self
@@ -65,16 +67,39 @@ class FSScrewObject(FSBaseObject):
    
     if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter or self.length != fp.length 
           or self.type != fp.type or self.realThread != fp.thread):
+      typechange = False
+      if not (hasattr(self,'type')) or fp.type != self.type:
+        typechange = True
+        curdiam = fp.diameter
+        diameters = screwMaker.GetAllDiams(fp.type)
+        diameters.insert(0, 'Auto')
+        if not(curdiam in diameters):
+          curdiam='Auto'
+        fp.diameter = diameters
+        fp.diameter = curdiam
+      
+      diameterchange = False      
+      if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
+        diameterchange = True      
+
       if fp.diameter == 'Auto':
         d = screwMaker.AutoDiameter(fp.type, shape)
+        diameterchange = True      
       else:
         d = fp.diameter
         
       d , l = screwMaker.FindClosest(fp.type, d, fp.length)
-      if l != fp.length:
-        fp.length = l
       if d != fp.diameter:
+        diameterchange = True      
         fp.diameter = d
+        
+      if l != fp.length or diameterchange or typechange:
+        if diameterchange or typechange:
+          fp.length = screwMaker.GetAllLengths(fp.type, fp.diameter)
+        fp.length = l
+      
+      if l == 'Auto':
+        l = '2'
       s = screwMaker.createScrewParams(d, l, fp.type + ':', False, fp.thread, True)
       self.diameter = fp.diameter
       self.length = fp.length
@@ -180,7 +205,7 @@ FSAddCommand("ISO4017", "ISO 4017 Hex head screw")
 FSAddCommand("ISO4014", "ISO 4014 Hex head bolt")
 FSAddCommand("EN1662", "EN 1662 Hexagon bolt with flange, small series")
 FSAddCommand("EN1665", "EN 1665 Hexagon bolt with flange, heavy series")
-FSAddCommand("ISO4762", "Hexagon socket head cap screw")
+FSAddCommand("ISO4762", "ISO4762 Hexagon socket head cap screw")
 FSAddCommand("ISO7380", "ISO 7380 Hexagon socket button head screw")
 FSAddCommand("ISO10642", "ISO 10642 Hexagon socket countersunk head screw")
 FSAddCommand("ISO2009", "ISO 2009 Slotted countersunk flat head screw")

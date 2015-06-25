@@ -1029,6 +1029,24 @@ screwTables = {
     'ISO7089': ("Washer", iso7089def, None, None)
 }
 
+def MCompare(x, y):
+  x1 = float(x.lstrip('M'))
+  y1 = float(y.lstrip('M'))
+  if x1 > y1:
+    return 1
+  if x1 < y1:
+    return -1
+  return 0
+
+def NumCompare(x, y):
+  x1 = float(x)
+  y1 = float(y)
+  if x1 > y1:
+    return 1
+  if x1 < y1:
+    return -1
+  return 0
+
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -2917,7 +2935,7 @@ class Ui_ScrewMaker(object):
 
       
     def FindClosest(self, type, diam, len):
-      ''' Find closest standard screw to given parameters '''
+      ''' Find closest standard screw to given parameters '''        
       if not (type in screwTables):
         return (diam, len)
       name, diam_table, len_table, range_table = screwTables[type]
@@ -2932,9 +2950,15 @@ class Ui_ScrewMaker(object):
             mindif = diff
             diam = m
       
+      if name == "Washer":
+        return (diam, 'Auto')
+
       # auto find length
       if (len_table != None) and not (len in len_table):
-        origlen = float(len)
+        if len == 'Auto':
+          origlen = 1.0
+        else:
+          origlen = float(len)
         mindif = 100.0
         for l in len_table:
           diff = abs(float(l) - origlen)
@@ -2968,7 +2992,34 @@ class Ui_ScrewMaker(object):
                 mindif = dif
                 res = m
       return res
-            
+    
+    def GetAllTypes(self):
+      list = screwTables.keys()
+      list.sort()
+      return list
+    
+    def GetAllDiams(self, type):
+      FreeCAD.Console.PrintLog("Get diams for type:" + str(type) + "\n")
+      list = screwTables[type][1].keys()
+      list.sort(cmp = MCompare)
+      return list
+      
+    def GetAllLengths(self, type, diam):
+      if type == 'ISO7089':
+        # washer type have only one legth
+        #return [ iso7089def[type][2] ]
+        return [ 'Auto' ]
+      lens = screwTables[type][2]
+      range = screwTables[type][3][diam]
+      list = []
+      min = float(range[0])
+      max = float(range[1])
+      for len in lens:
+        l = float(len)
+        if l >= min and l <= max:
+          list.append(len)
+      list.sort(cmp = NumCompare)
+      return list
       
 
 ScrewMakerInstance = None      

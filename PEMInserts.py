@@ -25,7 +25,7 @@
 
 from FreeCAD import Gui
 from FreeCAD import Base
-import FreeCAD, FreeCADGui, Part, os
+import FreeCAD, FreeCADGui, Part, os, math
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join( __dir__, 'Icons' )
 
@@ -34,6 +34,7 @@ from FastenerBase import FSBaseObject
 import ScrewMaker  
 screwMaker = ScrewMaker.Instance()
 
+tan30 = math.tan(math.radians(30))
 
 ###################################################################################
 # PEM Self Clinching nuts types: S/SS/CLS/CLSS/SP
@@ -134,6 +135,7 @@ class FSPressNutObject(FSBaseObject):
     
     obj.addProperty("App::PropertyEnumeration","tcode","Parameters","Thickness code").tcode = CLSSizeCodes
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Press nut thread diameter").diameter = CLSDiamCodes
+    obj.invert = FastenerBase.FSLastInvert
     obj.tcode = '1'
     obj.Proxy = self
  
@@ -161,6 +163,7 @@ class FSPressNutObject(FSBaseObject):
       s = clMakePressNut(d, l)
       self.diameter = fp.diameter
       self.tcode = fp.tcode
+      FastenerBase.FSLastInvert = fp.invert
       fp.Label = fp.diameter + '-PressNut'
       fp.Shape = s
     else:
@@ -191,3 +194,228 @@ class FSPressnutCommand:
 
 Gui.addCommand("FSPressNut", FSPressnutCommand())
 FastenerBase.FSCommands.append("FSPressNut")
+
+
+###################################################################################
+# PEM Self Clinching standoffs types: SO/SOS/SOA/SO4
+SOLengths = {'3':0, '4':0, '6':0, '8':0, '10':4, '12':4, '14':4, '16':8, '18':8, '20':8, '22':11, '25':11}
+#BSLengths = {'6':3.2, '8':4, '10':4, '12':5, '14':6.5, '16':6.5, '18':9.5, '20':9.5, '22':9.5, '25':9.5}
+SODiameters = ['Auto', 'M3', '3.5M3', 'M3.5', 'M4', 'M5' ]
+SOPEMTable = {
+#          B,    C,    H,   d, Lmin, Lmax
+  'M3':   (3.2,  4.2,  4.8, 2.5, 3, 18),
+  '3.5M3':(3.2,  5.39, 6.4, 2.5, 3, 25),
+  'M3.5': (3.9,  5.39, 6.4, 2.9, 3, 25),
+  'M4':   (4.8,  7.12, 7.9, 3.3, 3, 25),
+  'M5':   (5.36, 7.12, 7.9, 4.2, 3, 25)
+  }
+
+
+def soMakeFace(b, c, h, d, l):
+  h10 = h / 10.0
+  c12 = c / 12.5
+  c20 = c / 20.0
+  c40 = c / 40.0
+  b = b / 2
+  c = c / 2
+  d = d / 2
+  ch1 = b - d
+  l1 = float(l)
+  l2 = l1 - SOLengths[l]
+  c1 = c - c40
+  c2 = c - c20
+  l3 = h10 * 2 + (c12 + c20) * 2
+  
+  fm = FastenerBase.FSFaceMaker()
+  fm.AddPoint(b, 0)
+  fm.AddPoint(d, -ch1)
+  fm.AddPoint(d, -(l2 - ch1))
+  fm.AddPoint(b, -l2)
+  if (l1 - l2) > 0.01:
+    fm.AddPoint(b, -l1)
+  fm.AddPoint(c, -l1)
+  if (l3 < l1):
+    fm.AddPoint(c, -l3)
+    fm.AddPoint(c1, -l3)
+    fm.AddPoint(c1, -(l3 - c20))
+    fm.AddPoint(c, -(l3 - c20))
+  fm.AddPoint(c, -(h10 * 2 + c12 + c20))
+  fm.AddPoint(c1, -(h10 * 2 + c12 + c20))
+  fm.AddPoint(c1, -(h10 * 2 + c12))
+  fm.AddPoint(c, -(h10 * 2 + c12))
+  fm.AddPoint(c, -h10 * 2)
+  fm.AddPoint(c2, -h10 * 2)
+  fm.AddPoint(c2, -h10)
+  fm.AddPoint(h * 0.6, -h10)
+  fm.AddPoint(h * 0.6, 0)
+  return fm.GetFace()
+
+def bsMakeFace(b, c, h, d, l):
+  h10 = h / 10.0
+  h102 = h10 + h10 / 2
+  c12 = c / 12.5
+  c20 = c / 20.0
+  c40 = c / 40.0
+  b = b / 2
+  c = c / 2
+  d = d / 2
+  ch1 = b - d
+  ch2 = d * tan30
+  l1 = float(l)
+  #l2 = l1 - SOLengths[l]
+  c1 = c - c40
+  c2 = c - c20
+  l3 = h10 * 2 + (c12 + c20) * 2
+  
+  fm = FastenerBase.FSFaceMaker()
+  fm.AddPoint(0, 0)
+  fm.AddPoint(0, -h102)
+  fm.AddPoint(d, -(h102 + ch2))
+  fm.AddPoint(d, -(l1 - ch1))
+  fm.AddPoint(b, -l1)
+  fm.AddPoint(c, -l1)
+  if (l3 < l1):
+    fm.AddPoint(c, -l3)
+    fm.AddPoint(c1, -l3)
+    fm.AddPoint(c1, -(l3 - c20))
+    fm.AddPoint(c, -(l3 - c20))
+  fm.AddPoint(c, -(h10 * 2 + c12 + c20))
+  fm.AddPoint(c1, -(h10 * 2 + c12 + c20))
+  fm.AddPoint(c1, -(h10 * 2 + c12))
+  fm.AddPoint(c, -(h10 * 2 + c12))
+  fm.AddPoint(c, -h10 * 2)
+  fm.AddPoint(c2, -h10 * 2)
+  fm.AddPoint(c2, -h10)
+  fm.AddPoint(h * 0.6, -h10)
+  fm.AddPoint(h * 0.6, 0)
+  return fm.GetFace()
+
+def soMakeStandOff(diam, len, blind):
+  if not(len in SOLengths):
+    return None
+  if not(diam in SOPEMTable):
+    return None
+  
+  l = int(len)
+  b, c, h, d, lmin, lmax = SOPEMTable[diam]
+  if blind:
+    lmin, lmax = (6, 25)
+  if l < lmin or l > lmax:
+    return None
+  
+  if blind:
+    f = bsMakeFace(b, c, h, d, len)
+  else:
+    f = soMakeFace(b, c, h, d, len)
+  p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+  htool = screwMaker.makeHextool(h, 3, h * 2)
+  htool.translate(Base.Vector(0.0,0.0,-2.0))
+  return p.cut(htool)
+
+def soFindClosest(diam, len):
+  ''' Find closest standard screw to given parameters '''
+  if not(diam in SOPEMTable):
+    return None
+  if (float(len) > SOPEMTable[diam][5]):
+    return str(SOPEMTable[diam][5])
+  if (float(len) < SOPEMTable[diam][4]):
+    return str(SOPEMTable[diam][4])
+  return len
+ 
+def soGetAllLengths(diam, blind):
+  if blind:
+    lmin, lmax = (6, 25)
+  else:
+    b, c, h, d, lmin, lmax = SOPEMTable[diam]
+  list = []
+  for len in SOLengths:
+    l = float(len)
+    if l >= lmin and l <= lmax:
+      list.append(len)
+  list.sort(cmp = FastenerBase.NumCompare)
+  return list
+
+# h = clMakePressNut('M5','1')
+
+class FSStandOffObject(FSBaseObject):
+  def __init__(self, obj, attachTo):
+    '''"Add StandOff (self clinching) type fastener" '''
+    FSBaseObject.__init__(self, obj, attachTo)
+    self.itemText = "StandOff"
+    #self.Proxy = obj.Name
+    
+    obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Standoff thread diameter").diameter = SODiameters
+    obj.addProperty("App::PropertyBool", "blind", "Parameters", "Blind Standoff type").blind = False
+    obj.addProperty("App::PropertyEnumeration","length","Parameters","Standoff length").length = soGetAllLengths(SODiameters[1], False)
+    obj.invert = FastenerBase.FSLastInvert
+    obj.Proxy = self
+ 
+  def execute(self, fp):
+    '''"Print a short message when doing a recomputation, this method is mandatory" '''
+    
+    try:
+      baseobj = fp.baseObject[0]
+      shape = baseobj.Shape.getElement(fp.baseObject[1][0])
+    except:
+      baseobj = None
+      shape = None
+   
+    if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter or self.length != fp.length or self.blind != fp.blind):
+      diameterchange = False      
+      if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
+        diameterchange = True      
+      if fp.diameter == 'Auto':
+        d = FastenerBase.FSAutoDiameterM(shape, SOPEMTable, 1)
+        diameterchange = True      
+      else:
+        d = fp.diameter
+        
+      blindchange = False
+      if not(hasattr(self,'blind')) or self.blind != fp.blind:
+        blindchange = True;
+        
+      l = soFindClosest(d, fp.length)
+      if d != fp.diameter:
+        diameterchange = True      
+        fp.diameter = d
+
+      if l != fp.length or diameterchange or blindchange:
+        if diameterchange or blindchange:
+          fp.length = soGetAllLengths(fp.diameter, fp.blind)
+        fp.length = l
+               
+      s = soMakeStandOff(d, l, fp.blind)
+      self.diameter = fp.diameter
+      self.length = fp.length
+      self.blind = fp.blind
+      FastenerBase.FSLastInvert = fp.invert
+      fp.Label = fp.diameter + 'x' + fp.length + '-Standoff'
+      fp.Shape = s
+    else:
+      FreeCAD.Console.PrintLog("Using cached object\n")
+    if shape != None:
+      #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
+      fp.Placement = FreeCAD.Placement() # reset placement
+      screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
+
+
+FastenerBase.FSClassIcons[FSStandOffObject] = 'PEMTHStandoff.svg'    
+
+class FSStandOffCommand:
+  """Add Standoff command"""
+
+  def GetResources(self):
+    icon = os.path.join( iconPath , 'PEMTHStandoff.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Add Standoff" ,
+            'ToolTip' : "Add PEM Self Clinching Metric Standoff"}
+ 
+  def Activated(self):
+    FastenerBase.FSGenerateObjects(FSStandOffObject, "Standoff")
+    return
+   
+  def IsActive(self):
+    return True
+
+Gui.addCommand("FSStandOff", FSStandOffCommand())
+FastenerBase.FSCommands.append("FSStandOff")

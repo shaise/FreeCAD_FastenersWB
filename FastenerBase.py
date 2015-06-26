@@ -36,12 +36,34 @@ class FSBaseObject:
   
 FSCommands = []
 FSClassIcons = {}
+FSLastInvert = False
 
 def FSGetCommands():
   return FSCommands
 
 
 # common helpers 
+
+# sort compare function for m sizes
+def MCompare(x, y):
+  x1 = float(x.lstrip('M'))
+  y1 = float(y.lstrip('M'))
+  if x1 > y1:
+    return 1
+  if x1 < y1:
+    return -1
+  return 0
+
+# sort compare function for string numbers
+def NumCompare(x, y):
+  x1 = float(x)
+  y1 = float(y)
+  if x1 > y1:
+    return 1
+  if x1 < y1:
+    return -1
+  return 0
+
 class FSFaceMaker:
   '''Create a face point by point on the x,z plane'''
   def __init__(self):
@@ -151,26 +173,27 @@ class FSFlipCommand:
             'ToolTip' : "flip fastner orientation"}
  
   def Activated(self):
-    selObj = self.GetSelection()
-    if selObj == None:
+    selObjs = self.GetSelection()
+    if len(selObjs) == 0:
       return
-    selObj.invert = not(selObj.invert)
+    for selObj in selObjs:
+      FreeCAD.Console.PrintLog("sel obj: " + str(selObj.invert) + "\n")
+      selObj.invert = not(selObj.invert)
     FreeCAD.ActiveDocument.recompute()
     return
    
   def IsActive(self):
-    selObj = self.GetSelection()
-    if selObj != None:
-      return True
-    return False
+    selObjs = self.GetSelection()
+    return len(selObjs) > 0
 
   def GetSelection(self):
-    screwObj = None
-    if len(Gui.Selection.getSelectionEx()) == 1:
-      obj = Gui.Selection.getSelectionEx()[0].Object
+    screwObj = []
+    for selobj in Gui.Selection.getSelectionEx():
+      obj = selobj.Object
+      #FreeCAD.Console.PrintLog("sel obj: " + str(obj) + "\n")
       if (hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSBaseObject)):
         if obj.baseObject != None:
-          screwObj = obj
+          screwObj.append(obj)
     return screwObj
         
         

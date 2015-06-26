@@ -52,6 +52,7 @@ __author__ = "Ulrich Brammer <ulrich1a@users.sourceforge.net>"
 import FreeCAD, Part, math
 from FreeCAD import Base
 import DraftVecUtils
+import FastenerBase
 
 try:
    #from PyQt4 import QtCore, QtGui
@@ -1028,24 +1029,6 @@ screwTables = {
     'ISO14583': ("Screw", iso14583def, iso7045length, iso7046range),
     'ISO7089': ("Washer", iso7089def, None, None)
 }
-
-def MCompare(x, y):
-  x1 = float(x.lstrip('M'))
-  y1 = float(y.lstrip('M'))
-  if x1 > y1:
-    return 1
-  if x1 < y1:
-    return -1
-  return 0
-
-def NumCompare(x, y):
-  x1 = float(x)
-  y1 = float(y)
-  if x1 > y1:
-    return 1
-  if x1 < y1:
-    return -1
-  return 0
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -2998,7 +2981,7 @@ class Ui_ScrewMaker(object):
     def GetAllDiams(self, type):
       FreeCAD.Console.PrintLog("Get diams for type:" + str(type) + "\n")
       list = screwTables[type][1].keys()
-      list.sort(cmp = MCompare)
+      list.sort(cmp = FastenerBase.MCompare)
       return list
       
     def GetAllLengths(self, type, diam):
@@ -3011,7 +2994,7 @@ class Ui_ScrewMaker(object):
         l = float(len)
         if l >= min and l <= max:
           list.append(len)
-      list.sort(cmp = NumCompare)
+      list.sort(cmp = FastenerBase.NumCompare)
       return list
       
 

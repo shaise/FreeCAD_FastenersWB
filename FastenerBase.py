@@ -253,7 +253,8 @@ class FSMakeSimpleCommand:
       FreeCAD.Console.PrintLog("sel shape: " + str(obj.Shape) + "\n")
       if isinstance(obj.Shape, (Part.Solid, Part.Compound)):
         FreeCAD.Console.PrintLog("simplify shape: " + obj.Name + "\n")
-        Part.show(obj.Shape)
+        cobj = FreeCAD.ActiveDocument.addObject("Part::Feature", obj.Label + "_Copy")
+        cobj.Shape = obj.Shape;
         Gui.ActiveDocument.getObject(obj.Name).Visibility = False
     FreeCAD.ActiveDocument.recompute()
     return

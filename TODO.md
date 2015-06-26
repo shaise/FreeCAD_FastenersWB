@@ -10,3 +10,5 @@
 * ~~When generating a simple copy of a part, copy the name as well~~
 * Add more multi select options
 * Add threads to nuts
+* Add "Make hole countersunk" function
+* Countersunk screws should be autofit by head diameter rather then by thread diameter

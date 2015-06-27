@@ -30,7 +30,7 @@ iconPath = os.path.join( __dir__, 'Icons' )
 class FSBaseObject:
   '''Base Class for all fasteners'''
   def __init__(self, obj, attachTo):
-    obj.addProperty("App::PropertyLength","offset","Parameters","Offset from surface").offset = 0.0
+    obj.addProperty("App::PropertyDistance","offset","Parameters","Offset from surface").offset = 0.0
     obj.addProperty("App::PropertyBool", "invert", "Parameters", "Invert screw direction").invert = False
     obj.addProperty("App::PropertyLinkSub", "baseObject", "Parameters", "Base object").baseObject = attachTo
   

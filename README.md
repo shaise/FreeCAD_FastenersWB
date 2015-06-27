@@ -10,6 +10,7 @@ For Installation and how to use, please visit:
 http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
 #### Release notes:
+* V0.0.08  27 Jun 2015:  Edge selection over multiple objects when generating fasteners now works.
 * V0.0.07  26 Jun 2015:  Add PEM Standoffs
 * V0.0.06  25 Jun 2015:  Show only applicable M values and lengths, add descriptive name
 * V0.0.05  24 Jun 2015:  Add simplify object function, Change icon colors

@@ -142,21 +142,26 @@ class FSViewProviderIcon:
         return os.path.join( iconPath , FSClassIcons[type])
     return None
 
+def FSGetAttachableSelections():
+  asels = []
+  for selObj in Gui.Selection.getSelectionEx():
+    baseObjectNames = selObj.SubElementNames
+    obj = selObj.Object
+    for baseObjectName in baseObjectNames:
+      shape = obj.Shape.getElement(baseObjectName)
+      if not(hasattr(shape,"Curve")):
+        continue
+      if not(hasattr(shape.Curve,"Center")):
+        continue
+      asels.append((obj, [baseObjectName]))
+  if len(asels) == 0:
+    asels.append(None)
+  return asels
 
 def FSGenerateObjects(objectClass, name):
-  baseObjectNames = [ None ]
-  obj = None
-  selObjects = Gui.Selection.getSelectionEx()
-  if len(selObjects) > 0:
-    baseObjectNames = selObjects[0].SubElementNames
-    obj = selObjects[0].Object
-  for baseObjectName in baseObjectNames:      
+  for selObj in FSGetAttachableSelections():
     a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython",name)
-    if baseObjectName == None:
-      baseObject = None
-    else:
-      baseObject = (obj, [baseObjectName])
-    objectClass(a, baseObject)
+    objectClass(a, selObj)
     FSViewProviderIcon(a.ViewObject)
   FreeCAD.ActiveDocument.recompute()
 
@@ -169,8 +174,8 @@ class FSFlipCommand:
   def GetResources(self):
     icon = os.path.join( iconPath , 'IconFlip.svg')
     return {'Pixmap'  : icon , # the name of a svg file available in the resources
-            'MenuText': "Flip fastner" ,
-            'ToolTip' : "flip fastner orientation"}
+            'MenuText': "Invert fastner" ,
+            'ToolTip' : "Invert fastner orientation"}
  
   def Activated(self):
     selObjs = self.GetSelection()

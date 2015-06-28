@@ -1,6 +1,6 @@
 * ~~Add Press-Nuts~~
 * ~~Add stand-offs~~
-* Add studs  
+* ~~Add studs~~  
 * ~~Add standard nuts~~
 * Seperate toolbars to different fastener types
 * Use drop-down buttons 

@@ -35,6 +35,7 @@ import ScrewMaker
 screwMaker = ScrewMaker.Instance()
 
 tan30 = math.tan(math.radians(30))
+cos30 = math.cos(math.radians(30))
 
 ###################################################################################
 # PEM Self Clinching nuts types: S/SS/CLS/CLSS/SP
@@ -430,3 +431,167 @@ class FSStandOffCommand:
 
 Gui.addCommand("FSStandOff", FSStandOffCommand())
 FastenerBase.FSCommands.append("FSStandOff")
+
+###################################################################################
+# PEM Self Clinching studs types: FH/FHS/FHA
+FHLengths = ['6', '8', '10', '12', '15', '18', '20', '25', '30', '35']
+#BSLengths = {'6':3.2, '8':4, '10':4, '12':5, '14':6.5, '16':6.5, '18':9.5, '20':9.5, '22':9.5, '25':9.5}
+FHDiameters = ['Auto', 'M2.5', 'M3', 'M3.5', 'M4', 'M5', 'M6', 'M8' ]
+FHPEMTable = {
+#          H,    S,    d, Lmin, Lmax
+  'M2.5': (4.1,  1.95, 2.05, 6,  18),
+  'M3':   (4.6,  2.1,  2.5,  6,  25),
+  'M3.5': (5.3,  2.25, 2.9,  6,  30),
+  'M4':   (5.9,  2.4,  3.3,  6,  35),
+  'M5':   (6.5,  2.7,  4.2,  8,  35),
+  'M6':   (8.2,  3.0,  5.0,  10, 35),
+  'M8':   (9.6,  3.7, 6.75, 12, 35)
+  }
+
+def fhMakeFace(m, h, d, l):
+  h10 = h / 10.0
+  h20 = h / 20.0
+  m25 = m * 0.025
+  hs = 0.8 + 0.125 * m
+  he = 0.8 + 0.2 * m
+  h = h / 2.0
+  m = m / 2.0
+  d = d / 2.0
+  h85 = h * 0.85
+  m9 = m * 0.9
+  mr = m9 - m25 * (1.0 - cos30)
+  ch1 = m - d
+  
+  fm = FastenerBase.FSFaceMaker()
+  fm.AddPoint(0, 0)
+  fm.AddPoint(h - h20, 0)
+  fm.AddArc(h, - h20, h - h20, -h10)
+  fm.AddPoint(h - h20, -(h10 + h20))
+  fm.AddPoint(m , -(h10 + h20))
+  fm.AddPoint(m , -hs)
+  fm.AddPoint(m9, -(hs + m25))
+  fm.AddArc(mr, -(hs + m25 * 1.5), m9, -(hs + m25 * 2))
+  fm.AddPoint(m, -he)
+  fm.AddPoint(m, -(l - ch1))
+  fm.AddPoint(m - ch1, -l)
+  fm.AddPoint(0, -l)
+  return fm.GetFace()
+
+def fhMakeStud(diam, len):
+  if not(len in FHLengths):
+    return None
+  if not(diam in FHPEMTable):
+    return None
+
+  (key, shape) = FastenerBase.FSGetKey('Stud', diam, len)
+  if shape != None:
+    return shape
+  
+  l = int(len)
+  m = float(diam.lstrip('M'))
+  h, s, d, lmin, lmax = FHPEMTable[diam]
+  if l < lmin or l > lmax:
+    return None
+  
+  f = fhMakeFace(m, h, d, l)
+  p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+  FastenerBase.FSCache[key] = p
+  return p
+
+def fhFindClosest(diam, len):
+  ''' Find closest standard screw to given parameters '''
+  if not(diam in FHPEMTable):
+    return None
+  if (float(len) > FHPEMTable[diam][4]):
+    return str(FHPEMTable[diam][4])
+  if (float(len) < FHPEMTable[diam][3]):
+    return str(FHPEMTable[diam][3])
+  return len
+ 
+def fhGetAllLengths(diam):
+  h, s, d, lmin, lmax = FHPEMTable[diam]
+  list = []
+  for len in FHLengths:
+    l = float(len)
+    if l >= lmin and l <= lmax:
+      list.append(len)
+  list.sort(cmp = FastenerBase.NumCompare)
+  return list
+
+  
+class FSStudObject(FSBaseObject):
+  def __init__(self, obj, attachTo):
+    '''"Add Stud (self clinching) type fastener" '''
+    FSBaseObject.__init__(self, obj, attachTo)
+    self.itemText = "Stud"
+    #self.Proxy = obj.Name
+    
+    obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Standoff thread diameter").diameter = FHDiameters
+    obj.addProperty("App::PropertyEnumeration","length","Parameters","Standoff length").length = fhGetAllLengths(FHDiameters[1])
+    obj.invert = FastenerBase.FSLastInvert
+    obj.Proxy = self
+ 
+  def execute(self, fp):
+    '''"Print a short message when doing a recomputation, this method is mandatory" '''
+    
+    try:
+      baseobj = fp.baseObject[0]
+      shape = baseobj.Shape.getElement(fp.baseObject[1][0])
+    except:
+      baseobj = None
+      shape = None
+   
+    if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter or self.length != fp.length):
+      diameterchange = False      
+      if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
+        diameterchange = True      
+      if fp.diameter == 'Auto':
+        d = FastenerBase.FSAutoDiameterM(shape, FHPEMTable, -1)
+        diameterchange = True      
+      else:
+        d = fp.diameter
+        
+      l = fhFindClosest(d, fp.length)
+      if d != fp.diameter:
+        diameterchange = True      
+        fp.diameter = d
+
+      if l != fp.length or diameterchange:
+        if diameterchange:
+          fp.length = fhGetAllLengths(fp.diameter)
+        fp.length = l
+               
+      s = fhMakeStud(d, l)
+      self.diameter = fp.diameter
+      self.length = fp.length
+      FastenerBase.FSLastInvert = fp.invert
+      fp.Label = fp.diameter + 'x' + fp.length + '-Stud'
+      fp.Shape = s
+    else:
+      FreeCAD.Console.PrintLog("Using cached object\n")
+    if shape != None:
+      #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
+      fp.Placement = FreeCAD.Placement() # reset placement
+      screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
+
+
+FastenerBase.FSClassIcons[FSStudObject] = 'PEMStud.svg'    
+
+class FSStudCommand:
+  """Add Standoff command"""
+
+  def GetResources(self):
+    icon = os.path.join( iconPath , 'PEMStud.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Add Stud" ,
+            'ToolTip' : "Add PEM Self Clinching Metric Stud"}
+ 
+  def Activated(self):
+    FastenerBase.FSGenerateObjects(FSStudObject, "Stud")
+    return
+   
+  def IsActive(self):
+    return True
+
+Gui.addCommand("FSStud", FSStudCommand())
+FastenerBase.FSCommands.append("FSStud")

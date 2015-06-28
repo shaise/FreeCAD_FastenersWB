@@ -90,6 +90,13 @@ class FSFaceMaker:
       self.edges.append(Part.makeLine(self.lastPoint, curPoint))
     self.lastPoint = curPoint
     FreeCAD.Console.PrintLog("Add Point: " + str(curPoint) + "\n")
+    
+    # add an arc starting at last point and going through x1,z1 and x2,z2
+  def AddArc(self, x1, z1, x2, z2):
+    midPoint = FreeCAD.Base.Vector(x1,0,z1)
+    endPoint = FreeCAD.Base.Vector(x2,0,z2)
+    self.edges.append(Part.Arc(self.lastPoint, midPoint, endPoint).toShape())
+    self.lastPoint = endPoint
 
     
   def GetFace(self):

@@ -84,16 +84,22 @@ def nutMakeFace(do, di, s, m):
   fm.AddPoint(di, m - ch1)
   return fm.GetFace()
 
+    
 def nutMakeSolid(diam):
   if not(diam in MHexNutTable):
     return None
+  (key, shape) = FastenerBase.FSGetKey('Nut', diam)
+  if shape != None:
+    return shape
   
   s, m, di = MHexNutTable[diam]
   do = float(diam.lstrip('M'))
   f = nutMakeFace(do, di, s, m)
   p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
   htool = screwMaker.makeHextool(s, m, s * 2)
-  return p.cut(htool)
+  shape = p.cut(htool)
+  FastenerBase.FSCache[key] = shape
+  return shape
   
 # h = clMakePressNut('M5','1')
 

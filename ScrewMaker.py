@@ -1427,6 +1427,12 @@ class Ui_ScrewMaker(object):
             createScrewParams(ND_text, NL_text, ST_text, self.SymbolThread.isChecked(), self.RealThread.isChecked(), false)
    
     def createScrewParams(self, ND_text, NL_text, ST_text, symbolThread, realThread, shapeOnly):
+        key = ''
+        if shapeOnly:
+          (key, shape) = FastenerBase.FSGetKey('Screw', ND_text, NL_text, ST_text, symbolThread, realThread)
+          if shape != None:
+            return shape
+    
         try:
             self.symbolThread = symbolThread
             self.realThread = realThread
@@ -1572,6 +1578,7 @@ class Ui_ScrewMaker(object):
             else:
                label = ST_text + '-' + ND_text.lstrip('M') +'_'
             if shapeOnly:
+              FastenerBase.FSCache[key] = (screw, Type_text)
               return (screw, Type_text)
             doc=App.activeDocument()
             ScrewObj = doc.addObject("Part::Feature",label)

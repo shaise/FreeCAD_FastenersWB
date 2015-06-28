@@ -265,19 +265,9 @@ class FSWasherCommand:
             'ToolTip' : self.Help}
  
   def Activated(self):
-    baseObjectNames = [ None ]
-    obj = None
-    selObjects = Gui.Selection.getSelectionEx()
-    if len(selObjects) > 0:
-      baseObjectNames = selObjects[0].SubElementNames
-      obj = selObjects[0].Object
-    for baseObjectName in baseObjectNames:      
+    for selObj in FastenerBase.FSGetAttachableSelections():
       a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Washer")
-      if baseObjectName == None:
-        baseObject = None
-      else:
-        baseObject = (obj, [baseObjectName])
-      FSWasherObject(a, self.Type, baseObject)
+      FSWasherObject(a, self.Type, selObj)
       a.Label = a.Proxy.itemText
       FSViewProviderTree(a.ViewObject)
     FreeCAD.ActiveDocument.recompute()

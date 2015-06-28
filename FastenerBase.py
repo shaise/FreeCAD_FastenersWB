@@ -44,6 +44,18 @@ def FSGetCommands():
 
 # common helpers 
 
+# fastener chach - prevent recreation of same fasteners
+FSCache = {}
+def FSGetKey(*args):
+  obj = None
+  key = 'FS'
+  for arg in args:
+    key = key + '|' + str(arg)
+  if key in FSCache:
+    FreeCAD.Console.PrintLog("Using cached shape for: " + key + "\n")
+    return (key, FSCache[key])
+  return (key, None)
+
 # sort compare function for m sizes
 def MCompare(x, y):
   x1 = float(x.lstrip('M'))
@@ -142,11 +154,22 @@ class FSViewProviderIcon:
         return os.path.join( iconPath , FSClassIcons[type])
     return None
 
+def GetEdgeName(obj, edge):
+  i = 1
+  for e in obj.Edges:
+    if e.isEqual(edge):
+      return 'Edge' + str(i)
+    i = i + 1
+  return None
+      
+    
 def FSGetAttachableSelections():
   asels = []
   for selObj in Gui.Selection.getSelectionEx():
     baseObjectNames = selObj.SubElementNames
     obj = selObj.Object
+    edgestable = {}
+    # add explicitly selected edges
     for baseObjectName in baseObjectNames:
       shape = obj.Shape.getElement(baseObjectName)
       if not(hasattr(shape,"Curve")):
@@ -154,6 +177,25 @@ def FSGetAttachableSelections():
       if not(hasattr(shape.Curve,"Center")):
         continue
       asels.append((obj, [baseObjectName]))
+      edgestable[baseObjectName] = 1
+      
+    # add all edges od a selected srface
+    for subobj in selObj.SubObjects:
+      if not(isinstance(subobj, Part.Face)):
+        continue
+      #FreeCAD.Console.PrintLog("Found face: " + str(subobj) + "\n")
+
+      for edge in subobj.Edges:
+        if not(hasattr(edge,"Curve")):
+          continue
+        if not(hasattr(edge.Curve,"Center")):
+          continue
+        edgeName = GetEdgeName(obj.Shape, edge)
+        if edgeName == None or edgeName in edgestable:
+          continue
+        asels.append((obj, [edgeName]))
+        edgestable[edgeName] = 1
+          
   if len(asels) == 0:
     asels.append(None)
   return asels

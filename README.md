@@ -10,6 +10,8 @@ For Installation and how to use, please visit:
 http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
 #### Release notes:
+* V0.0.09  28 Jun 2015:  Selecting a face will put a fastener in all holes in that face.  
+                         Caching of fasteners speed up generation of same shape ones
 * V0.0.08  27 Jun 2015:  Edge selection over multiple objects when generating fasteners now works.
 * V0.0.07  26 Jun 2015:  Add PEM Standoffs
 * V0.0.06  25 Jun 2015:  Show only applicable M values and lengths, add descriptive name

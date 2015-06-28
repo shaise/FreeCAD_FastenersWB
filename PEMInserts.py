@@ -91,6 +91,10 @@ def clMakePressNut(diam, code):
   if not(diam in CLSPEMTable):
     return None
   
+  (key, shape) = FastenerBase.FSGetKey('PressNut', diam, code)
+  if shape != None:
+    return shape
+
   ls, c, e, t, di = CLSPEMTable[diam]
   a = ls[i]
   if a == 0:
@@ -98,6 +102,7 @@ def clMakePressNut(diam, code):
   do = float(diam.lstrip('M'))
   f = clMakeWire(do, di, a, c, e, t)
   p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+  FastenerBase.FSCache[key] = p
   return p
 
 def clFindClosest(diam, code):
@@ -295,6 +300,10 @@ def soMakeStandOff(diam, len, blind):
     return None
   if not(diam in SOPEMTable):
     return None
+
+  (key, shape) = FastenerBase.FSGetKey('StandOff', diam, len, blind)
+  if shape != None:
+    return shape
   
   l = int(len)
   b, c, h, d, lmin, lmax = SOPEMTable[diam]
@@ -310,7 +319,9 @@ def soMakeStandOff(diam, len, blind):
   p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
   htool = screwMaker.makeHextool(h, 3, h * 2)
   htool.translate(Base.Vector(0.0,0.0,-2.0))
-  return p.cut(htool)
+  shape = p.cut(htool)
+  FastenerBase.FSCache[key] = shape
+  return shape
 
 def soFindClosest(diam, len):
   ''' Find closest standard screw to given parameters '''

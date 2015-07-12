@@ -156,7 +156,7 @@ class FSHexNutCommand:
     return
    
   def IsActive(self):
-    return True
+    return Gui.ActiveDocument != None
 
 Gui.addCommand("FSHexNut", FSHexNutCommand())
 FastenerBase.FSCommands.append("FSHexNut")

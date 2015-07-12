@@ -176,7 +176,7 @@ class FSScrewCommand:
     return
    
   def IsActive(self):
-    return True
+    return Gui.ActiveDocument != None
 
 def FSAddCommand(type, help):
   cmd = 'FS' + type
@@ -274,7 +274,7 @@ class FSWasherCommand:
     return
    
   def IsActive(self):
-    return True
+    return Gui.ActiveDocument != None
 
 Gui.addCommand("FSISO7089",FSWasherCommand("ISO7089", "Washer"))
 FastenerBase.FSCommands.append("FSISO7089")

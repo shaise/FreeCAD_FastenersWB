@@ -56,9 +56,15 @@ static char * C:\Program Files\FreeCAD 0_15\Mod\Fasteners\wbicon_xpm[] = {
  
     def Initialize(self):
         "This function is executed when FreeCAD starts"
-        import FastenerBase, FastenersCmd, PEMInserts, FSNuts
-        self.list = FastenerBase.FSGetCommands() # A list of command names created in the line above
-        self.appendToolbar("My Commands",self.list) # creates a new toolbar with your commands
+        import FastenerBase, FastenersCmd, PEMInserts, FSNuts, CountersunkHoles
+        self.list = []
+        cmdlist = FastenerBase.FSGetCommands("command") # A list of command names created in the line above
+        FreeCAD.Console.PrintLog(str(cmdlist) + "\n")
+        self.appendToolbar("FS Commands",cmdlist) # creates a new toolbar with your commands
+        self.list.extend(cmdlist)
+        screwlist = FastenerBase.FSGetCommands("screws") # A list of command names created in the line above
+        self.appendToolbar("FS Screws",screwlist) # creates a new toolbar with your commands
+        self.list.extend(screwlist)
         # self.appendMenu("My New Menu",self.list) # creates a new menu
         # self.appendMenu(["An existing Menu","My submenu"],self.list) # appends a submenu to an existing menu
  

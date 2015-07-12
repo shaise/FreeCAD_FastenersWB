@@ -33,13 +33,28 @@ class FSBaseObject:
     obj.addProperty("App::PropertyDistance","offset","Parameters","Offset from surface").offset = 0.0
     obj.addProperty("App::PropertyBool", "invert", "Parameters", "Invert screw direction").invert = False
     obj.addProperty("App::PropertyLinkSub", "baseObject", "Parameters", "Base object").baseObject = attachTo
+    
+class FSCommandList:
+  def __init__(self):
+    self.commands = {}
+    
+  def append(self, cmd, group = "screws", subgroup = "screws"):
+    if not(group in self.commands):
+      self.commands[group] = []
+    self.commands[group].append((cmd, subgroup))
+    
+  def getCommands(self, group):
+    cmdlist = []
+    for cmd in self.commands[group]:
+      cmdlist.append(cmd[0])
+    return cmdlist
   
-FSCommands = []
+FSCommands = FSCommandList()
 FSClassIcons = {}
 FSLastInvert = False
 
-def FSGetCommands():
-  return FSCommands
+def FSGetCommands(group = "screws"):
+  return FSCommands.getCommands(group)
 
 
 # common helpers 
@@ -186,7 +201,7 @@ def FSGetAttachableSelections():
       asels.append((obj, [baseObjectName]))
       edgestable[baseObjectName] = 1
       
-    # add all edges od a selected srface
+    # add all edges of a selected surface
     for subobj in selObj.SubObjects:
       if not(isinstance(subobj, Part.Face)):
         continue
@@ -252,7 +267,7 @@ class FSFlipCommand:
         
         
 Gui.addCommand('FSFlip',FSFlipCommand())
-FSCommands.append('FSFlip')
+FSCommands.append('FSFlip', "command")
 
 class FSMoveCommand:
   """Move Screw command"""
@@ -290,7 +305,7 @@ class FSMoveCommand:
         
         
 Gui.addCommand('FSMove',FSMoveCommand())
-FSCommands.append('FSMove')
+FSCommands.append('FSMove', "command")
  
 class FSMakeSimpleCommand:
   """Move Screw command"""
@@ -320,5 +335,5 @@ class FSMakeSimpleCommand:
         
         
 Gui.addCommand('FSSimple',FSMakeSimpleCommand())
-FSCommands.append('FSSimple')
+FSCommands.append('FSSimple', "command")
  

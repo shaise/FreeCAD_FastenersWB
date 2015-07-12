@@ -196,7 +196,7 @@ class FSPressnutCommand:
     return
    
   def IsActive(self):
-    return True
+    return Gui.ActiveDocument != None
 
 Gui.addCommand("FSPressNut", FSPressnutCommand())
 FastenerBase.FSCommands.append("FSPressNut")
@@ -427,7 +427,7 @@ class FSStandOffCommand:
     return
    
   def IsActive(self):
-    return True
+    return Gui.ActiveDocument != None
 
 Gui.addCommand("FSStandOff", FSStandOffCommand())
 FastenerBase.FSCommands.append("FSStandOff")
@@ -591,7 +591,7 @@ class FSStudCommand:
     return
    
   def IsActive(self):
-    return True
+    return Gui.ActiveDocument != None
 
 Gui.addCommand("FSStud", FSStudCommand())
 FastenerBase.FSCommands.append("FSStud")

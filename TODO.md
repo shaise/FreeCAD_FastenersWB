@@ -12,5 +12,5 @@
 * ~~Offsets can be negative~~
 * ~~Support face selection~~
 * Add threads to nuts
-* Add "Make hole countersunk" function
-* Countersunk screws should be autofit by head diameter rather then by thread diameter
+* ~~Add "Make hole countersunk" function~~
+* ~~Countersunk screws should be autofit by head diameter rather then by thread diameter~~

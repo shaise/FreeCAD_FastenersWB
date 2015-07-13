@@ -176,7 +176,7 @@ class FSPressNutObject(FSBaseObject):
       FreeCAD.Console.PrintLog("Using cached object\n")
     if shape != None:
       #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
-      fp.Placement = FreeCAD.Placement() # reset placement
+      #fp.Placement = FreeCAD.Placement() # reset placement
       screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
 
 
@@ -407,7 +407,7 @@ class FSStandOffObject(FSBaseObject):
       FreeCAD.Console.PrintLog("Using cached object\n")
     if shape != None:
       #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
-      fp.Placement = FreeCAD.Placement() # reset placement
+      #fp.Placement = FreeCAD.Placement() # reset placement
       screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
 
 
@@ -571,7 +571,7 @@ class FSStudObject(FSBaseObject):
       FreeCAD.Console.PrintLog("Using cached object\n")
     if shape != None:
       #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
-      fp.Placement = FreeCAD.Placement() # reset placement
+      #fp.Placement = FreeCAD.Placement() # reset placement
       screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
 
 

@@ -137,7 +137,7 @@ class FSHexNutObject(FSBaseObject):
     else:
       FreeCAD.Console.PrintLog("Using cached object\n")
     if shape != None:
-      fp.Placement = FreeCAD.Placement() # reset placement
+      #fp.Placement = FreeCAD.Placement() # reset placement
       screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
 
 FastenerBase.FSClassIcons[FSHexNutObject] = 'HexNut.svg'    

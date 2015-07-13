@@ -1009,25 +1009,25 @@ iso10664def = {
    } 
 
 screwTables = {
-    'ISO4017': ("Screw", iso4017head, iso4017length, iso4017range),
-    'ISO4014': ("Screw", iso4014head, iso4014length, iso4014range),
-    'EN1662': ("Screw", en1662def, en1662length, en1662range),            
-    'EN1665': ("Screw", en1665def, en1665length, en1665range),
-    'ISO2009': ("Screw", iso2009def, iso2009length, iso2009range),
-    'ISO2010': ("Screw", iso2009def, iso2009length, iso2009range),
-    'ISO4762': ("Screw", iso4762def, iso4762length, iso4762range),
-    'ISO10642': ("Screw", iso10642def, iso10642length, iso10642range),
-    'ISO1207': ("Screw", iso1207def, iso1207length, iso1207range),
-    'ISO1580': ("Screw", iso1580def, iso2009length, iso2009range),
-    'ISO7045': ("Screw", iso7045def, iso7045length, iso7045range),
-    'ISO7046': ("Screw", iso7046def, iso7045length, iso7046range),
-    'ISO7047': ("Screw", iso2009def, iso7045length, iso7046range),
-    'ISO7048': ("Screw", iso7048def, iso7048length, iso7048range),
-    'ISO7380': ("Screw", iso7380def, iso7380length, iso7380range),
-    'ISO14579': ("Screw", iso14579def, iso14579length, iso14579range),
-    'ISO14580': ("Screw", iso14580def, iso14580length, iso1207range),
-    'ISO14583': ("Screw", iso14583def, iso7045length, iso7046range),
-    'ISO7089': ("Washer", iso7089def, None, None)
+    'ISO4017': ("Screw", iso4017head, iso4017length, iso4017range, -1),
+    'ISO4014': ("Screw", iso4014head, iso4014length, iso4014range, -1),
+    'EN1662': ("Screw", en1662def, en1662length, en1662range, -1),            
+    'EN1665': ("Screw", en1665def, en1665length, en1665range, -1),
+    'ISO2009': ("Screw", iso2009def, iso2009length, iso2009range, 4),
+    'ISO2010': ("Screw", iso2009def, iso2009length, iso2009range, 4),
+    'ISO4762': ("Screw", iso4762def, iso4762length, iso4762range, -1),
+    'ISO10642': ("Screw", iso10642def, iso10642length, iso10642range, 3),
+    'ISO1207': ("Screw", iso1207def, iso1207length, iso1207range, -1),
+    'ISO1580': ("Screw", iso1580def, iso2009length, iso2009range, -1),
+    'ISO7045': ("Screw", iso7045def, iso7045length, iso7045range, -1),
+    'ISO7046': ("Screw", iso2009def, iso7045length, iso7046range, 4),
+    'ISO7047': ("Screw", iso2009def, iso7045length, iso7046range, 4),
+    'ISO7048': ("Screw", iso7048def, iso7048length, iso7048range, -1),
+    'ISO7380': ("Screw", iso7380def, iso7380length, iso7380range, -1),
+    'ISO14579': ("Screw", iso14579def, iso14579length, iso14579range, -1),
+    'ISO14580': ("Screw", iso14580def, iso14580length, iso1207range, -1),
+    'ISO14583': ("Screw", iso14583def, iso7045length, iso7046range, -1),
+    'ISO7089': ("Washer", iso7089def, None, None, -1)
 }
 
 try:
@@ -1664,6 +1664,7 @@ class Ui_ScrewMaker(object):
           
           #FreeCAD.Console.PrintLog("pl mit Rot: "+ str(pl) + "\n")
           #neuPlatz = Part2.Object.Placement.multiply(pl)
+          ScrewObj_m.Placement = FreeCAD.Placement()
           neuPlatz = ScrewObj_m.Placement
           #FreeCAD.Console.PrintLog("die Position     "+ str(neuPlatz) + "\n")
           neuPlatz.Rotation = pl.Rotation.multiply(ScrewObj_m.Placement.Rotation)
@@ -2928,7 +2929,7 @@ class Ui_ScrewMaker(object):
       ''' Find closest standard screw to given parameters '''        
       if not (type in screwTables):
         return (diam, len)
-      name, diam_table, len_table, range_table = screwTables[type]
+      name, diam_table, len_table, range_table, table_pos = screwTables[type]
       
       # auto find diameter
       if not (diam in diam_table):
@@ -2967,14 +2968,21 @@ class Ui_ScrewMaker(object):
       if holeObj != None and hasattr(holeObj, 'Curve') and hasattr(holeObj.Curve, 'Radius') and (type in screwTables):
         d = holeObj.Curve.Radius * 2
         table = screwTables[type][1]
+        tablepos = screwTables[type][4]
         mindif = 10.0
+        dif = mindif
         for m in table:
-            dia = float(m.lstrip('M')) + 0.1
-            if (dia > d):
-              dif = dia - d
-              if dif < mindif:
-                mindif = dif
-                res = m
+            if (tablepos == -1):
+              dia = float(m.lstrip('M')) + 0.1
+              if (dia > d):
+                dif = dia - d
+            else:
+              dia = table[m][tablepos]
+              if (d > dia):
+                dif = d - dia
+            if dif < mindif:
+              mindif = dif
+              res = m
       return res
     
     def GetAllTypes(self, type):

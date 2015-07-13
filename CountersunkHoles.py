@@ -80,25 +80,18 @@ class Ui_DlgCountersunktHoles(object):
         self.hboxlayout1.addWidget(self.comboDiameter)
         spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Minimum)
         self.hboxlayout1.addItem(spacerItem)
-        self.gridLayout.addLayout(self.hboxlayout1, 2, 0, 1, 6)
+        self.gridLayout.addLayout(self.hboxlayout1, 2, 0, 1, 5)
         self.selectNoneButton = QtGui.QPushButton(self.groupBox_2)
         self.selectNoneButton.setObjectName(_fromUtf8("selectNoneButton"))
-        self.gridLayout.addWidget(self.selectNoneButton, 0, 5, 1, 1)
+        self.gridLayout.addWidget(self.selectNoneButton, 0, 4, 1, 1)
         self.treeView = QtGui.QTreeView(self.groupBox_2)
         self.treeView.setObjectName(_fromUtf8("treeView"))
-        self.gridLayout.addWidget(self.treeView, 1, 0, 1, 6)
+        self.gridLayout.addWidget(self.treeView, 1, 0, 1, 5)
         self.selectAllButton = QtGui.QPushButton(self.groupBox_2)
         self.selectAllButton.setObjectName(_fromUtf8("selectAllButton"))
-        self.gridLayout.addWidget(self.selectAllButton, 0, 4, 1, 1)
-        self.selectFaces = QtGui.QRadioButton(self.groupBox_2)
-        self.selectFaces.setObjectName(_fromUtf8("selectFaces"))
-        self.gridLayout.addWidget(self.selectFaces, 0, 2, 1, 1)
+        self.gridLayout.addWidget(self.selectAllButton, 0, 3, 1, 1)
         spacerItem1 = QtGui.QSpacerItem(221, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.gridLayout.addItem(spacerItem1, 0, 3, 1, 1)
-        self.selectEdges = QtGui.QRadioButton(self.groupBox_2)
-        self.selectEdges.setChecked(True)
-        self.selectEdges.setObjectName(_fromUtf8("selectEdges"))
-        self.gridLayout.addWidget(self.selectEdges, 0, 0, 1, 1)
+        self.gridLayout.addItem(spacerItem1, 0, 2, 1, 1)
         self.gridLayout_2.addWidget(self.groupBox_2, 1, 0, 1, 1)
 
         self.retranslateUi(DlgCountersunktHoles)
@@ -109,36 +102,40 @@ class Ui_DlgCountersunktHoles(object):
         self.groupBox.setTitle(_translate("DlgCountersunktHoles", "Shape", None))
         self.label.setText(_translate("DlgCountersunktHoles", "Base shape:", None))
         self.labelBaseObject.setText(_translate("DlgCountersunktHoles", "Base", None))
-        self.groupBox_2.setTitle(_translate("DlgCountersunktHoles", "Fillet Parameter", None))
+        self.groupBox_2.setTitle(_translate("DlgCountersunktHoles", "Chamfer Parameters", None))
         self.labelRadius.setText(_translate("DlgCountersunktHoles", "Diameter:", None))
         self.comboDiameter.setItemText(0, _translate("DlgCountersunktHoles", "No selection", None))
         self.selectNoneButton.setText(_translate("DlgCountersunktHoles", "None", None))
         self.selectAllButton.setText(_translate("DlgCountersunktHoles", "All", None))
-        self.selectFaces.setText(_translate("DlgCountersunktHoles", "Select faces", None))
-        self.selectEdges.setText(_translate("DlgCountersunktHoles", "Select edges", None))
 
         ###################################################################################
         # End position for generated code from pyuic4
         ###################################################################################
 
     def fillTable(self, parent, baseObj, edgelist):
-        #DiamModel = FSDiameterModel(FSFilletDialog)
-        DiamModel = FSDiameterModel(parent)
-        DiamModel.insertColumns(0,2);
-        DiamModel.setHeaderData(0, QtCore.Qt.Horizontal, "Edges to chamfer", QtCore.Qt.DisplayRole)
-        DiamModel.setHeaderData(1, QtCore.Qt.Horizontal, "Diameter", QtCore.Qt.DisplayRole)
+        self.comboDiameter.clear()
+        self.comboDiameter.addItems(FSCSHSizes)
+        self.comboDiameter.currentIndexChanged.connect(self.onDiameterChange)
+        self.selectNoneButton.clicked.connect(self.onNoneClicked)
+        self.selectAllButton.clicked.connect(self.onAllClicked)
+        self.itemRefreshDisabled = False
+        
+        dm = FSDiameterModel(parent)
+        dm.insertColumns(0,2);
+        dm.setHeaderData(0, QtCore.Qt.Horizontal, "Edges to chamfer", QtCore.Qt.DisplayRole)
+        dm.setHeaderData(1, QtCore.Qt.Horizontal, "Diameter", QtCore.Qt.DisplayRole)
         edges = []
         for i in range(len(baseObj.Shape.Edges)):
           edge = 'Edge' + str(i + 1)
           if FSIsValidEdge(baseObj, edge):
             edges.append(edge)
         nedges = len(edges)
-        DiamModel.insertRows(0, nedges)
+        dm.insertRows(0, nedges)
         
         self.treeView.setRootIsDecorated(False)
         self.treeView.setItemDelegate(FSDiameterDelegate(parent))
-        self.treeView.setModel(DiamModel)
-        self.model = DiamModel
+        self.treeView.setModel(dm)
+        self.model = dm
 
         header = self.treeView.header()
         header.setResizeMode(0, QtGui.QHeaderView.Stretch)
@@ -147,40 +144,76 @@ class Ui_DlgCountersunktHoles(object):
         
         edgediams = {}
         for edgediam in edgelist:
-           edge,diam,invert = edgediam.split(':')
+           edge,diam,invert,offset = edgediam.split(':')
            edgediams[edge] = diam
 
         for i in range(nedges):
           edge = edges[i]
-          DiamModel.setData(DiamModel.index(i,0), edge)
+          dm.setData(dm.index(i,0), edge)
           if edge in edgediams:
-            DiamModel.setData(DiamModel.index(i,0), QtCore.Qt.Checked, QtCore.Qt.CheckStateRole)
-            DiamModel.setData(DiamModel.index(i,1), edgediams[edge])
+            dm.setData(dm.index(i,0), QtCore.Qt.Checked, QtCore.Qt.CheckStateRole)
+            dm.setData(dm.index(i,1), edgediams[edge])
           else:
-            #DiamModel.setData(DiamModel.index(i,0), i, QtCore.Qt.UserRole)
-            DiamModel.setData(DiamModel.index(i,0), QtCore.Qt.Unchecked, QtCore.Qt.CheckStateRole)
-            DiamModel.setData(DiamModel.index(i,1), "M2")
+            #dm.setData(dm.index(i,0), i, QtCore.Qt.UserRole)
+            dm.setData(dm.index(i,0), QtCore.Qt.Unchecked, QtCore.Qt.CheckStateRole)
+            dm.setData(dm.index(i,1), FSCSHSizes[0])
           
     def GetData(self):
-        DiamModel = self.model
-        nedges = DiamModel.rowCount()
+        dm = self.model
+        nedges = dm.rowCount()
         listEdges = []
         for i in range (nedges):
-            if DiamModel.data(DiamModel.index(i,0), QtCore.Qt.CheckStateRole) == QtCore.Qt.Unchecked:
+            if dm.data(dm.index(i,0), QtCore.Qt.CheckStateRole) == QtCore.Qt.Unchecked:
                 continue
-            listEdges.append(DiamModel.data(DiamModel.index(i,0)) + ':' + DiamModel.data(DiamModel.index(i,1)) + ':0')
+            listEdges.append(dm.data(dm.index(i,0)) + ':' + dm.data(dm.index(i,1)) + ':0:0')
         return listEdges
         
-    def AddEdges(self, edges):
-        DiamModel = self.model
-        nedges = DiamModel.rowCount()
+    def AddEdges(self, obj, edges):
+        dm = self.model
+        nedges = dm.rowCount()
         self.treeView.selectionModel().clearSelection()
+        self.itemRefreshDisabled = True
         for edge in edges:
             for i in range (nedges):
-                if DiamModel.data(DiamModel.index(i,0)) == edge:
-                    DiamModel.setData(DiamModel.index(i,0), QtCore.Qt.Checked, QtCore.Qt.CheckStateRole)
-                    index = DiamModel.index(i, 0);
+                if dm.data(dm.index(i,0)) == edge:
+                    m = FastenerBase.FSAutoDiameterM(obj.Shape.getElement(edge), FSCSHTable, -1)
+                    index = dm.index(i, 0);
+                    dm.setData(index, QtCore.Qt.Checked, QtCore.Qt.CheckStateRole)
+                    dm.setData(dm.index(i, 1), m)
                     self.treeView.selectionModel().select(index, QtGui.QItemSelectionModel.Select)
+        self.itemRefreshDisabled = False
+        dm.itemChanged.emit(None)
+                    
+    def onDiameterChange(self, diamindex):
+        diam = self.comboDiameter.itemText(diamindex)
+        dm = self.model
+        nedges = dm.rowCount()
+        self.itemRefreshDisabled = True
+        for i in range (nedges):
+            if dm.data(dm.index(i,0), QtCore.Qt.CheckStateRole) == QtCore.Qt.Checked:
+                dm.setData(dm.index(i,1), diam)
+        self.itemRefreshDisabled = False
+        dm.itemChanged.emit(None)
+               
+    def onNoneClicked(self):
+        dm = self.model
+        nedges = dm.rowCount()
+        self.itemRefreshDisabled = True
+        for i in range (nedges):
+            dm.setData(dm.index(i,0), QtCore.Qt.Unchecked, QtCore.Qt.CheckStateRole)
+        self.itemRefreshDisabled = False
+        dm.itemChanged.emit(None)
+    
+    def onAllClicked(self):
+        dm = self.model
+        nedges = dm.rowCount()
+        self.itemRefreshDisabled = True
+        for i in range (nedges):
+            dm.setData(dm.index(i,0), QtCore.Qt.Checked, QtCore.Qt.CheckStateRole)
+        self.itemRefreshDisabled = False
+        dm.itemChanged.emit(None)
+    
+    
 
 from FreeCAD import Gui
 from FreeCAD import Base
@@ -190,6 +223,8 @@ iconPath = os.path.join( __dir__, 'Icons' )
 
 import FastenerBase
 from FastenerBase import FSBaseObject
+import ScrewMaker  
+screwMaker = ScrewMaker.Instance()
 
 
 class FSDiameterDelegate(QtGui.QItemDelegate):
@@ -287,9 +322,9 @@ class FSSelObserver:
     #if len(sub) == 0 and obj == FSSelectionFilterGate.lastobj:
     #  self.dialog.addSelection(FSSelectionFilterGate.lastedge)
     if sub[0:4] == 'Edge':
-      self.dialog.addSelectionEdge(sub)
+      self.dialog.addSelectionEdge(obj, sub)
     elif sub[0:4] == 'Face':
-      self.dialog.addSelectionFace(sub)
+      self.dialog.addSelectionFace(obj, sub)
     return True
       
   def removeSelection(self,doc,obj,sub):                # Delete the selected object
@@ -334,14 +369,12 @@ class FSTaskFilletDialog:
         
     def accept(self):
         if (self.object == None):
-          a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Countersunks")
-          FSCountersunkObject(a, self.baseObj)
-          #a.ViewObject.Proxy = 0
-          FSViewProviderCountersunk(a.ViewObject)
-        else:
-          a = self.object
-        a.diameters = self.form.ui.GetData()
-        FreeCAD.Console.PrintLog(str(a.diameters) + "\n")
+          self.object = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Countersunk")
+          FSCountersunkObject(self.object, self.baseObj)
+          #self.object.ViewObject.Proxy = 0
+          FSViewProviderCountersunk(self.object.ViewObject)
+        self.object.diameters = self.form.ui.GetData()
+        FreeCAD.Console.PrintLog(str(self.object.diameters) + "\n")
         FreeCAD.ActiveDocument.recompute()
         self.DialogClosing()
         return True
@@ -361,23 +394,25 @@ class FSTaskFilletDialog:
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) + int(QtGui.QDialogButtonBox.Cancel)
         
-    def addSelectionEdge(self, edge):
-        self.form.ui.AddEdges([edge])
+    def addSelectionEdge(self, objname, edge):
+        if objname == self.baseObj.Name:
+            self.form.ui.AddEdges(self.baseObj, [edge])
         self.RefreshSelection()
 
-    def addSelectionFace(self, name):
+    def addSelectionFace(self, objname, name):
         obj = self.baseObj
-        face = obj.Shape.getElement(name)
-        if face == None:
-            return
-        edges = []
-        for edge in face.Edges:
-            if not(hasattr(edge,"Curve")):
-                continue
-            if not(hasattr(edge.Curve,"Center")):
-                continue
-            edges.append(FastenerBase.GetEdgeName(obj.Shape, edge))
-        self.form.ui.AddEdges(edges)
+        if objname == obj.Name:
+            face = obj.Shape.getElement(name)
+            if face == None:
+                return
+            edges = []
+            for edge in face.Edges:
+                if not(hasattr(edge,"Curve")):
+                    continue
+                if not(hasattr(edge.Curve,"Center")):
+                    continue
+                edges.append(FastenerBase.GetEdgeName(obj.Shape, edge))
+            self.form.ui.AddEdges(obj, edges)
         self.RefreshSelection()        
         
     def RefreshSelection(self):
@@ -391,13 +426,8 @@ class FSTaskFilletDialog:
         self.selobserver.disableObserver = False
 
     def onItemChanged(self, item):
-        #FreeCAD.Console.PrintLog("Item change 1: " +str(item) + "\n")
-        #try:
-        self.RefreshSelection()
-        #except:
-        #  e = sys.exc_info()[1]
-        #FreeCAD.Console.PrintLog("Err: " + str(e) + "\n")
-        #FreeCAD.Console.PrintLog("Item change: " +str(item) + "\n")
+        if not(self.form.ui.itemRefreshDisabled):
+            self.RefreshSelection()
 
         
 class FSViewProviderCountersunk:
@@ -456,10 +486,14 @@ class FSViewProviderCountersunk:
     Gui.Control.closeDialog()
     return False
 
-FSCDSHSizes = ['M3', 'M4', 'M5', 'M6', 'M8', 'M10', 'M12', 'M14', 'M16', 'M20']
+FSCSHSizes = ['M1.6', 'M2', 'M2.5', 'M3', 'M3.5', 'M4', 'M5', 'M6', 'M8', 'M10', 'M12', 'M14', 'M16', 'M20']
 FSCSHTable={
     #       d     k
+    'M1.6':(2.8,  1.0),
+    'M2':  (3.6,  1.2),
+    'M2.5':(4.5,  1.5),
     'M3':  (6.0,  1.86),
+    'M3.5':(7.1,  2.35),
     'M4':  (8.0,  2.48),
     'M5':  (10.0, 3.10),
     'M6':  (12.0, 3.72),
@@ -472,7 +506,7 @@ FSCSHTable={
 
 def cshMakeFace(m, d, k):
   m = m / 2
-  d = d / 2
+  d = (d / 2) * 1.05
   h1 = m + k
   h2 = k - (d - m)
   
@@ -513,7 +547,15 @@ class FSCountersunkObject:
   def execute(self, fp):
     '''"Print a short message when doing a recomputation, this method is mandatory" '''
     #fp.Shape = Part.makeBox(1,1,1 + len(fp.diameters))
-    fp.Shape = cshMakeCSHole(FSCDSHSizes[len(fp.diameters)])
+    origshape = fp.baseObject[0].Shape
+    shape = origshape
+    for diam in fp.diameters:
+      FreeCAD.Console.PrintLog("Generating hole tool for: " + diam + "\n")
+      edge, m, f, o = diam.split(':')
+      cshole = cshMakeCSHole(m)
+      screwMaker.moveScrewToObject(cshole, origshape.getElement(edge), f == '1', float(o))
+      shape = shape.cut(cshole)
+    fp.Shape = shape
 
 
 class FSFilletCommand:
@@ -533,7 +575,7 @@ class FSFilletCommand:
     return len(Gui.Selection.getSelectionEx()) == 1
 
 Gui.addCommand("FSFillet", FSFilletCommand())
-#FastenerBase.FSCommands.append("FSFillet", "command")
+FastenerBase.FSCommands.append("FSFillet", "command")
 
 # to monitor selections: add SelObserver http://www.freecadweb.org/wiki/index.php?title=Code_snippets#Function_resident_with_the_mouse_click_action
 # to filter selections: use Gui.Selection.SelectionGate

@@ -104,7 +104,7 @@ class FSScrewObject(FSBaseObject):
       FreeCAD.Console.PrintLog("Using cached object\n")
     if shape != None:
       #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
-      fp.Placement = FreeCAD.Placement() # reset placement
+      #fp.Placement = FreeCAD.Placement() # reset placement
       screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
     
   def getItemText():
@@ -245,7 +245,7 @@ class FSWasherObject(FSBaseObject):
       FreeCAD.Console.PrintLog("Using cached object\n")
     if shape != None:
       #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
-      fp.Placement = FreeCAD.Placement() # reset placement
+      #fp.Placement = FreeCAD.Placement() # reset placement
       screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
     
   def getItemText():

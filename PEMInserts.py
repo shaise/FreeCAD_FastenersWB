@@ -199,7 +199,7 @@ class FSPressnutCommand:
     return Gui.ActiveDocument != None
 
 Gui.addCommand("FSPressNut", FSPressnutCommand())
-FastenerBase.FSCommands.append("FSPressNut")
+FastenerBase.FSCommands.append("FSPressNut", "screws", "PEM Inserts")
 
 
 ###################################################################################
@@ -430,7 +430,7 @@ class FSStandOffCommand:
     return Gui.ActiveDocument != None
 
 Gui.addCommand("FSStandOff", FSStandOffCommand())
-FastenerBase.FSCommands.append("FSStandOff")
+FastenerBase.FSCommands.append("FSStandOff", "screws", "PEM Inserts")
 
 ###################################################################################
 # PEM Self Clinching studs types: FH/FHS/FHA
@@ -594,4 +594,4 @@ class FSStudCommand:
     return Gui.ActiveDocument != None
 
 Gui.addCommand("FSStud", FSStudCommand())
-FastenerBase.FSCommands.append("FSStud")
+FastenerBase.FSCommands.append("FSStud", "screws", "PEM Inserts")

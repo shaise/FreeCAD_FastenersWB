@@ -34,19 +34,50 @@ class FSBaseObject:
     obj.addProperty("App::PropertyBool", "invert", "Parameters", "Invert screw direction").invert = False
     obj.addProperty("App::PropertyLinkSub", "baseObject", "Parameters", "Base object").baseObject = attachTo
     
+class FSGroupCommand:
+    def __init__(self, cmds, menuText, toolTip):
+        self.commands = cmds
+        self.menuText = menuText
+        self.toolTip = toolTip
+    
+    def GetCommands(self):
+        return tuple(self.commands) # a tuple of command names that you want to group
+        #return ('FSFlip', 'FSMove', 'FSSimple', 'FSFillet')
+
+    def GetResources(self):
+        return { 'MenuText': self.menuText, 'ToolTip': self.toolTip}
+ 
+    def IsActive(self):
+        return Gui.ActiveDocument != None
+    #def Activated(self, index): # index is an int in the range [0, len(GetCommands)
+
+DropButtonSupported = int(FreeCAD.Version()[1]) > 15 and  int(FreeCAD.Version()[2].split()[0]) > 5165    
+    
 class FSCommandList:
   def __init__(self):
     self.commands = {}
     
-  def append(self, cmd, group = "screws", subgroup = "screws"):
+  def append(self, cmd, group = "screws", subgroup = None):
     if not(group in self.commands):
       self.commands[group] = []
     self.commands[group].append((cmd, subgroup))
     
-  def getCommands(self, group):
+  def getCommands(self, group):      
     cmdlist = []
+    cmdsubs = {}
     for cmd in self.commands[group]:
-      cmdlist.append(cmd[0])
+      command, subgroup = cmd
+      if subgroup != None and DropButtonSupported:
+        if not(subgroup in cmdsubs):
+          cmdsubs[subgroup] = []
+          cmdlist.append(subgroup.replace(" ", ""))
+        cmdsubs[subgroup].append(command)
+      else:
+        cmdlist.append(command)
+    for subcommand in cmdsubs:
+      FreeCAD.Console.PrintLog(subcommand + ":" + str(cmdsubs[subcommand]) + "\n")
+      Gui.addCommand(subcommand.replace(" ", ""), FSGroupCommand(cmdsubs[subcommand], subcommand, subcommand))
+    FreeCAD.Console.PrintLog(str(cmdlist) + "\n")
     return cmdlist
   
 FSCommands = FSCommandList()

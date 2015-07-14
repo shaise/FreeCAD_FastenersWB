@@ -178,29 +178,29 @@ class FSScrewCommand:
   def IsActive(self):
     return Gui.ActiveDocument != None
 
-def FSAddCommand(type, help):
+def FSAddCommand(type, help, dropGroup = None):
   cmd = 'FS' + type
   Gui.addCommand(cmd,FSScrewCommand(type, help))
-  FastenerBase.FSCommands.append(cmd)
+  FastenerBase.FSCommands.append(cmd, "screws", dropGroup)
   
-FSAddCommand("ISO4017", "ISO 4017 Hex head screw")
-FSAddCommand("ISO4014", "ISO 4014 Hex head bolt")
-FSAddCommand("EN1662", "EN 1662 Hexagon bolt with flange, small series")
-FSAddCommand("EN1665", "EN 1665 Hexagon bolt with flange, heavy series")
-FSAddCommand("ISO4762", "ISO4762 Hexagon socket head cap screw")
-FSAddCommand("ISO7380", "ISO 7380 Hexagon socket button head screw")
-FSAddCommand("ISO10642", "ISO 10642 Hexagon socket countersunk head screw")
-FSAddCommand("ISO2009", "ISO 2009 Slotted countersunk flat head screw")
-FSAddCommand("ISO2010", "ISO 2010 Slotted raised countersunk head screw")
-FSAddCommand("ISO1580", "ISO 1580 Slotted pan head screw")
-FSAddCommand("ISO1207", "ISO 1207 Slotted cheese head screw")
-FSAddCommand("ISO7045", "ISO 7045 Pan head screws type H cross recess")
-FSAddCommand("ISO7046", "ISO 7046 Countersunk flat head screws H cross r.")
-FSAddCommand("ISO7047", "ISO 7047 Raised countersunk head screws H cross r.")
-FSAddCommand("ISO7048", "ISO 7048 Cheese head screws with type H cross r.")
-FSAddCommand("ISO14579", "ISO 14579 Hexalobular socket head cap screws")
-FSAddCommand("ISO14580", "ISO 14580 Hexalobular socket cheese head screws")
-FSAddCommand("ISO14583", "ISO 14583 Hexalobular socket pan head screws")
+FSAddCommand("ISO4017", "ISO 4017 Hex head screw", "Hex head")
+FSAddCommand("ISO4014", "ISO 4014 Hex head bolt", "Hex head")
+FSAddCommand("EN1662", "EN 1662 Hexagon bolt with flange, small series", "Hex head")
+FSAddCommand("EN1665", "EN 1665 Hexagon bolt with flange, heavy series", "Hex head")
+FSAddCommand("ISO4762", "ISO4762 Hexagon socket head cap screw", "Hexagon socket")
+FSAddCommand("ISO7380", "ISO 7380 Hexagon socket button head screw", "Hexagon socket")
+FSAddCommand("ISO10642", "ISO 10642 Hexagon socket countersunk head screw", "Hexagon socket")
+FSAddCommand("ISO2009", "ISO 2009 Slotted countersunk flat head screw", "Slotted")
+FSAddCommand("ISO2010", "ISO 2010 Slotted raised countersunk head screw", "Slotted")
+FSAddCommand("ISO1580", "ISO 1580 Slotted pan head screw", "Slotted")
+FSAddCommand("ISO1207", "ISO 1207 Slotted cheese head screw", "Slotted")
+FSAddCommand("ISO7045", "ISO 7045 Pan head screws type H cross recess", "H cross")
+FSAddCommand("ISO7046", "ISO 7046 Countersunk flat head screws H cross r.", "H cross")
+FSAddCommand("ISO7047", "ISO 7047 Raised countersunk head screws H cross r.", "H cross")
+FSAddCommand("ISO7048", "ISO 7048 Cheese head screws with type H cross r.", "H cross")
+FSAddCommand("ISO14579", "ISO 14579 Hexalobular socket head cap screws", "Hexalobular socket")
+FSAddCommand("ISO14580", "ISO 14580 Hexalobular socket cheese head screws", "Hexalobular socket")
+FSAddCommand("ISO14583", "ISO 14583 Hexalobular socket pan head screws", "Hexalobular socket")
 
 class FSWasherObject(FSBaseObject):
   def __init__(self, obj, type, attachTo):

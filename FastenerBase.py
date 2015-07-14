@@ -71,13 +71,12 @@ class FSCommandList:
         if not(subgroup in cmdsubs):
           cmdsubs[subgroup] = []
           cmdlist.append(subgroup.replace(" ", ""))
-        cmdsubs[subgroup].append(command)
+          cmdlist.append("Separator")
+        cmdsubs[subgroup].append(command)     
       else:
         cmdlist.append(command)
     for subcommand in cmdsubs:
-      FreeCAD.Console.PrintLog(subcommand + ":" + str(cmdsubs[subcommand]) + "\n")
       Gui.addCommand(subcommand.replace(" ", ""), FSGroupCommand(cmdsubs[subcommand], subcommand, subcommand))
-    FreeCAD.Console.PrintLog(str(cmdlist) + "\n")
     return cmdlist
   
 FSCommands = FSCommandList()

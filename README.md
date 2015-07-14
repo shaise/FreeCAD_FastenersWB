@@ -10,6 +10,7 @@ For Installation and how to use, please visit:
 http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
 #### Release notes:
+* V0.1.02  14 Jul 2015:  Group screws in drop-down buttons  
 * V0.1.01  13 Jul 2015:  Add a command to make recessed holes for countersunk screws.  
 * V0.0.10  29 Jun 2015:  Add PEM Metric Studs.  
 * V0.0.09  28 Jun 2015:  Selecting a face will put a fastener in all holes in that face.  

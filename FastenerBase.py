@@ -65,9 +65,10 @@ class FSCommandList:
   def getCommands(self, group):      
     cmdlist = []
     cmdsubs = {}
+    useDropButtons = DropButtonSupported and len(self.commands) > 36
     for cmd in self.commands[group]:
       command, subgroup = cmd
-      if subgroup != None and DropButtonSupported:
+      if subgroup != None and useDropButtons:
         if not(subgroup in cmdsubs):
           cmdsubs[subgroup] = []
           cmdlist.append(subgroup.replace(" ", ""))

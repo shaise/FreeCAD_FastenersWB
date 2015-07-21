@@ -65,7 +65,9 @@ class FSCommandList:
   def getCommands(self, group):      
     cmdlist = []
     cmdsubs = {}
-    useDropButtons = DropButtonSupported and len(self.commands) > 36
+    p = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Fasteners")
+    DropButtonEnabled = p.GetBool("GroupArrowIcons", False) == 1
+    useDropButtons = DropButtonSupported and DropButtonEnabled
     for cmd in self.commands[group]:
       command, subgroup = cmd
       if subgroup != None and useDropButtons:

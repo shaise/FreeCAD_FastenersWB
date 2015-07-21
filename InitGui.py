@@ -56,6 +56,7 @@ static char * C:\Program Files\FreeCAD 0_15\Mod\Fasteners\wbicon_xpm[] = {
  
     def Initialize(self):
         "This function is executed when FreeCAD starts"
+        import os
         import FastenerBase, PEMInserts, FastenersCmd, FSNuts, CountersunkHoles
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command") # A list of command names created in the line above
@@ -65,6 +66,9 @@ static char * C:\Program Files\FreeCAD 0_15\Mod\Fasteners\wbicon_xpm[] = {
         screwlist = FastenerBase.FSGetCommands("screws") # A list of command names created in the line above
         self.appendToolbar("FS Screws",screwlist) # creates a new toolbar with your commands
         self.list.extend(screwlist)
+        FreeCADGui.addIconPath(FastenerBase.iconPath)
+        FreeCADGui.addPreferencePage( os.path.join( FastenerBase.__dir__, 'FSprefs.ui'),'Fasteners' )
+
         # self.appendMenu("My New Menu",self.list) # creates a new menu
         # self.appendMenu(["An existing Menu","My submenu"],self.list) # appends a submenu to an existing menu
  

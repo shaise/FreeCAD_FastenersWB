@@ -100,7 +100,7 @@ def clMakePressNut(diam, code):
   a = ls[i]
   if a == 0:
     return None
-  do = float(diam.lstrip('M'))
+  do = FastenerBase.MToFloat(diam)
   f = clMakeWire(do, di, a, c, e, t)
   p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
   FastenerBase.FSCache[key] = p
@@ -177,7 +177,7 @@ class FSPressNutObject(FSBaseObject):
     if shape != None:
       #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
       #fp.Placement = FreeCAD.Placement() # reset placement
-      screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
+      FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
 
 
 FastenerBase.FSClassIcons[FSPressNutObject] = 'PEMPressNut.svg'    
@@ -408,7 +408,7 @@ class FSStandOffObject(FSBaseObject):
     if shape != None:
       #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
       #fp.Placement = FreeCAD.Placement() # reset placement
-      screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
+      FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
 
 
 FastenerBase.FSClassIcons[FSStandOffObject] = 'PEMTHStandoff.svg'    
@@ -488,7 +488,7 @@ def fhMakeStud(diam, len):
     return shape
   
   l = int(len)
-  m = float(diam.lstrip('M'))
+  m = FastenerBase.MToFloat(diam)
   h, s, d, lmin, lmax = FHPEMTable[diam]
   if l < lmin or l > lmax:
     return None
@@ -572,7 +572,7 @@ class FSStudObject(FSBaseObject):
     if shape != None:
       #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
       #fp.Placement = FreeCAD.Placement() # reset placement
-      screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
+      FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
 
 
 FastenerBase.FSClassIcons[FSStudObject] = 'PEMStud.svg'    

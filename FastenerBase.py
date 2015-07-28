@@ -23,7 +23,8 @@
 #  
 ###################################################################################
 from FreeCAD import Gui
-import FreeCAD, FreeCADGui, Part, os
+from FreeCAD import Base
+import FreeCAD, FreeCADGui, Part, os, math
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join( __dir__, 'Icons' )
 
@@ -52,6 +53,8 @@ class FSGroupCommand:
     #def Activated(self, index): # index is an int in the range [0, len(GetCommands)
 
 DropButtonSupported = int(FreeCAD.Version()[1]) > 15 and  int(FreeCAD.Version()[2].split()[0]) > 5165    
+FSParam = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Fasteners")
+DropButtonEnabled = FSParam.GetBool("GroupArrowIcons", False) == 1
     
 class FSCommandList:
   def __init__(self):
@@ -65,21 +68,23 @@ class FSCommandList:
   def getCommands(self, group):      
     cmdlist = []
     cmdsubs = {}
-    p = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Fasteners")
-    DropButtonEnabled = p.GetBool("GroupArrowIcons", False) == 1
     useDropButtons = DropButtonSupported and DropButtonEnabled
     for cmd in self.commands[group]:
       command, subgroup = cmd
-      if subgroup != None and useDropButtons:
+      if subgroup != None and DropButtonEnabled:
         if not(subgroup in cmdsubs):
           cmdsubs[subgroup] = []
-          cmdlist.append(subgroup.replace(" ", ""))
-          cmdlist.append("Separator")
+          if DropButtonSupported:
+            cmdlist.append(subgroup.replace(" ", ""))
+            cmdlist.append("Separator")
         cmdsubs[subgroup].append(command)     
       else:
         cmdlist.append(command)
     for subcommand in cmdsubs:
-      Gui.addCommand(subcommand.replace(" ", ""), FSGroupCommand(cmdsubs[subcommand], subcommand, subcommand))
+      if DropButtonSupported:
+        Gui.addCommand(subcommand.replace(" ", ""), FSGroupCommand(cmdsubs[subcommand], subcommand, subcommand))
+      else:
+        cmdlist.append((subcommand.replace(" ", ""), cmdsubs[subcommand]))
     return cmdlist
   
 FSCommands = FSCommandList()
@@ -104,10 +109,15 @@ def FSGetKey(*args):
     return (key, FSCache[key])
   return (key, None)
 
+def MToFloat(m):
+    m = m.lstrip('(');
+    m = m.rstrip(')');
+    return float(m.lstrip('M'))
+  
 # sort compare function for m sizes
 def MCompare(x, y):
-  x1 = float(x.lstrip('M'))
-  y1 = float(y.lstrip('M'))
+  x1 = MToFloat(x)
+  y1 = MToFloat(y)
   if x1 > y1:
     return 1
   if x1 < y1:
@@ -159,7 +169,7 @@ def FSAutoDiameterM(holeObj, table, tablepos):
     mindif = 10.0
     for m in table:
         if tablepos == -1:
-          dia = float(m.lstrip('M')) + 0.1
+          dia = MToFloat(m) + 0.1
         else:
           dia = table[m][tablepos] + 0.1
         if (dia > d):
@@ -262,6 +272,63 @@ def FSGenerateObjects(objectClass, name):
     FSViewProviderIcon(a.ViewObject)
   FreeCAD.ActiveDocument.recompute()
 
+def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
+    Pnt1 = None
+    Axis1 = None
+    Axis2 = None
+    s = attachToObject
+    if hasattr(s,"Curve"):
+      if hasattr(s.Curve,"Center"):
+          Pnt1 = s.Curve.Center
+          Axis1 = s.Curve.Axis
+    if hasattr(s,'Surface'):
+      #print 'the object is a face!'
+      if hasattr(s.Surface,'Axis'):
+          Axis1 = s.Surface.Axis
+
+    if hasattr(s,'Point'):
+      FreeCAD.Console.PrintLog( "the object seems to be a vertex! "+ str(s.Point) + "\n")
+      Pnt1 = s.Point
+          
+    if (Axis1 != None):
+      if invert:
+        Axis1 = Base.Vector(0,0,0) - Axis1
+      
+      Pnt1 = Pnt1 + Axis1 * offset
+      #FreeCAD.Console.PrintLog( "Got Axis1: " + str(Axis1) + "\n")
+      Axis2 = Base.Vector(0.0,0.0,1.0)
+      Axis2_minus = Base.Vector(0.0,0.0,-1.0)
+        
+      # Calculate angle
+      if Axis1 == Axis2:
+          normvec = Base.Vector(1.0,0.0,0.0)
+          result = 0.0
+      else:
+          if Axis1 == Axis2_minus:
+              normvec = Base.Vector(1.0,0.0,0.0)
+              result = math.pi
+          else:
+              normvec = Axis1.cross(Axis2) # Berechne Achse der Drehung = normvec
+              normvec.normalize() # Normalisieren fuer Quaternionenrechnung
+              #normvec_rot = normvec
+              result = DraftVecUtils.angle(Axis1, Axis2, normvec) # Winkelberechnung
+      sin_res = math.sin(result/2.0)
+      cos_res = math.cos(result/2.0)
+      normvec.multiply(-sin_res) # Berechnung der Quaternionen-Elemente
+      #FreeCAD.Console.PrintLog( "Winkel = "+ str(math.degrees(result)) + "\n")
+      #FreeCAD.Console.PrintLog("Normalvektor: "+ str(normvec) + "\n")
+        
+      pl = FreeCAD.Placement()
+      pl.Rotation = (normvec.x,normvec.y,normvec.z,cos_res) #Drehungs-Quaternion
+      
+      #FreeCAD.Console.PrintLog("pl mit Rot: "+ str(pl) + "\n")
+      #neuPlatz = Part2.Object.Placement.multiply(pl)
+      ScrewObj_m.Placement = FreeCAD.Placement()
+      neuPlatz = ScrewObj_m.Placement
+      #FreeCAD.Console.PrintLog("die Position     "+ str(neuPlatz) + "\n")
+      neuPlatz.Rotation = pl.Rotation.multiply(ScrewObj_m.Placement.Rotation)
+      neuPlatz.move(Pnt1)
+      #FreeCAD.Console.PrintLog("die rot. Position: "+ str(neuPlatz) + "\n")
 
 
 # common actions on fateners:

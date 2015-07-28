@@ -59,13 +59,21 @@ static char * C:\Program Files\FreeCAD 0_15\Mod\Fasteners\wbicon_xpm[] = {
         import os
         import FastenerBase, PEMInserts, FastenersCmd, FSNuts, CountersunkHoles
         self.list = []
-        cmdlist = FastenerBase.FSGetCommands("command") # A list of command names created in the line above
-        FreeCAD.Console.PrintLog(str(cmdlist) + "\n")
-        self.appendToolbar("FS Commands",cmdlist) # creates a new toolbar with your commands
+        cmdlist = FastenerBase.FSGetCommands("command") 
+        self.appendToolbar("FS Commands",cmdlist) 
         self.list.extend(cmdlist)
-        screwlist = FastenerBase.FSGetCommands("screws") # A list of command names created in the line above
-        self.appendToolbar("FS Screws",screwlist) # creates a new toolbar with your commands
-        self.list.extend(screwlist)
+        screwlist1 = FastenerBase.FSGetCommands("screws") 
+        screwlist = []
+        for cmd in screwlist1:
+          if isinstance(cmd, tuple): # group in sub toolbars
+            FreeCAD.Console.PrintLog("Append toolbar " + str(cmd) + "\n")
+            self.appendToolbar(cmd[0],cmd[1]) 
+            self.list.extend(cmd[1])
+          else:
+            screwlist.append(cmd)
+        if len(screwlist) > 0:
+          self.appendToolbar("FS Screws",screwlist) # creates main screw toolbar
+          self.list.extend(screwlist)
         FreeCADGui.addIconPath(FastenerBase.iconPath)
         FreeCADGui.addPreferencePage( os.path.join( FastenerBase.__dir__, 'FSprefs.ui'),'Fasteners' )
 

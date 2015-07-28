@@ -37,15 +37,17 @@ class FSScrewObject(FSBaseObject):
   def __init__(self, obj, type, attachTo):
     '''"Add screw type fastener" '''
     FSBaseObject.__init__(self, obj, attachTo)
-    self.itemText = "Screw"
+    self.itemText = screwMaker.GetTypeName(type)
     diameters = screwMaker.GetAllDiams(type)
     diameters.insert(0, 'Auto')
     #self.Proxy = obj.Name
     
-    obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = screwMaker.GetAllTypes("Screw")
+    obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = screwMaker.GetAllTypes(self.itemText)
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
-    obj.addProperty("App::PropertyEnumeration","length","Parameters","Screw length").length = screwMaker.GetAllLengths(type, diameters[1])
-    obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
+    if (self.itemText == "Screw"):
+      obj.addProperty("App::PropertyEnumeration","length","Parameters","Screw length").length = screwMaker.GetAllLengths(type, diameters[1])
+    if (self.itemText != "Washer"):
+      obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.type = type
     obj.Proxy = self
  
@@ -58,30 +60,32 @@ class FSScrewObject(FSBaseObject):
     except:
       baseobj = None
       shape = None
-   
-    if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter or self.length != fp.length 
-          or self.type != fp.type or self.realThread != fp.thread):
-      typechange = False
-      if not (hasattr(self,'type')) or fp.type != self.type:
-        typechange = True
-        curdiam = fp.diameter
-        diameters = screwMaker.GetAllDiams(fp.type)
-        diameters.insert(0, 'Auto')
-        if not(curdiam in diameters):
-          curdiam='Auto'
-        fp.diameter = diameters
-        fp.diameter = curdiam
+    
+    typechange = False
+    if fp.type == "ISO7380":
+      fp.type = "ISO7380-1"   # backward compatibility
+    if not (hasattr(self,'type')) or fp.type != self.type:
+      typechange = True
+      curdiam = fp.diameter
+      diameters = screwMaker.GetAllDiams(fp.type)
+      diameters.insert(0, 'Auto')
+      if not(curdiam in diameters):
+        curdiam='Auto'
+      fp.diameter = diameters
+      fp.diameter = curdiam
       
-      diameterchange = False      
-      if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
-        diameterchange = True      
+    diameterchange = False      
+    if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
+      diameterchange = True      
 
-      if fp.diameter == 'Auto':
-        d = screwMaker.AutoDiameter(fp.type, shape)
-        diameterchange = True      
-      else:
-        d = fp.diameter
-        
+    if fp.diameter == 'Auto':
+      d = screwMaker.AutoDiameter(fp.type, shape)
+      fp.diameter = d
+      diameterchange = True      
+    else:
+      d = fp.diameter
+    
+    if hasattr(fp,'length'):
       d , l = screwMaker.FindClosest(fp.type, d, fp.length)
       if d != fp.diameter:
         diameterchange = True      
@@ -91,24 +95,40 @@ class FSScrewObject(FSBaseObject):
         if diameterchange or typechange:
           fp.length = screwMaker.GetAllLengths(fp.type, fp.diameter)
         fp.length = l
+    else:
+      l = 1
       
-      s = screwMaker.createScrewParams(d, l, fp.type + ':', False, fp.thread, True)
-      self.diameter = fp.diameter
-      self.length = fp.length
-      self.type = fp.type
-      self.realThread = fp.thread
-      fp.Label = fp.diameter + 'x' + fp.length + '-' + s[1]
-      self.itemText = s[1]
-      fp.Shape = s[0]
+    threadType = 'simple'
+    if hasattr(fp,'thread') and fp.thread:
+      threadType = 'real'
+      
+    (key, s) = FastenerBase.FSGetKey(self.itemText, fp.type, d, l, threadType)
+    if s == None:
+      s = screwMaker.createScrew(fp.type, d, l, threadType, True)
+      FastenerBase.FSCache[key] = s
     else:
       FreeCAD.Console.PrintLog("Using cached object\n")
+
+    self.type = fp.type
+    self.diameter = fp.diameter
+    if hasattr(fp,'length'):
+      self.length = fp.length
+      fp.Label = fp.diameter + 'x' + fp.length + '-' + self.itemText
+    else:
+      fp.Label = fp.diameter + '-' + self.itemText
+    
+    if hasattr(fp,'thread'):
+      self.realThread = fp.thread
+    #self.itemText = s[1]
+    fp.Shape = s
+
     if shape != None:
       #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
       #fp.Placement = FreeCAD.Placement() # reset placement
-      screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
+      FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
     
-  def getItemText():
-    return self.itemText
+  #def getItemText():
+  #  return self.itemText
     
 
 
@@ -159,6 +179,7 @@ class FSScrewCommand:
   def __init__(self, type, help):
     self.Type = type
     self.Help = help
+    self.TypeName = screwMaker.GetTypeName(type)
 
   def GetResources(self):
     icon = os.path.join( iconPath , self.Type + '.svg')
@@ -168,7 +189,7 @@ class FSScrewCommand:
  
   def Activated(self):
     for selObj in FastenerBase.FSGetAttachableSelections():
-      a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Screw")
+      a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython",self.TypeName)
       FSScrewObject(a, self.Type, selObj)
       a.Label = a.Proxy.itemText
       FSViewProviderTree(a.ViewObject)
@@ -178,40 +199,58 @@ class FSScrewCommand:
   def IsActive(self):
     return Gui.ActiveDocument != None
 
-def FSAddCommand(type, help, dropGroup = None):
+def FSAddScrewCommand(type, help, dropGroup = None):
   cmd = 'FS' + type
   Gui.addCommand(cmd,FSScrewCommand(type, help))
   FastenerBase.FSCommands.append(cmd, "screws", dropGroup)
   
-FSAddCommand("ISO4017", "ISO 4017 Hex head screw", "Hex head")
-FSAddCommand("ISO4014", "ISO 4014 Hex head bolt", "Hex head")
-FSAddCommand("EN1662", "EN 1662 Hexagon bolt with flange, small series", "Hex head")
-FSAddCommand("EN1665", "EN 1665 Hexagon bolt with flange, heavy series", "Hex head")
-FSAddCommand("ISO4762", "ISO4762 Hexagon socket head cap screw", "Hexagon socket")
-FSAddCommand("ISO7380", "ISO 7380 Hexagon socket button head screw", "Hexagon socket")
-FSAddCommand("ISO10642", "ISO 10642 Hexagon socket countersunk head screw", "Hexagon socket")
-FSAddCommand("ISO2009", "ISO 2009 Slotted countersunk flat head screw", "Slotted")
-FSAddCommand("ISO2010", "ISO 2010 Slotted raised countersunk head screw", "Slotted")
-FSAddCommand("ISO1580", "ISO 1580 Slotted pan head screw", "Slotted")
-FSAddCommand("ISO1207", "ISO 1207 Slotted cheese head screw", "Slotted")
-FSAddCommand("ISO7045", "ISO 7045 Pan head screws type H cross recess", "H cross")
-FSAddCommand("ISO7046", "ISO 7046 Countersunk flat head screws H cross r.", "H cross")
-FSAddCommand("ISO7047", "ISO 7047 Raised countersunk head screws H cross r.", "H cross")
-FSAddCommand("ISO7048", "ISO 7048 Cheese head screws with type H cross r.", "H cross")
-FSAddCommand("ISO14579", "ISO 14579 Hexalobular socket head cap screws", "Hexalobular socket")
-FSAddCommand("ISO14580", "ISO 14580 Hexalobular socket cheese head screws", "Hexalobular socket")
-FSAddCommand("ISO14583", "ISO 14583 Hexalobular socket pan head screws", "Hexalobular socket")
+FSAddScrewCommand("ISO4017", "ISO 4017 Hex head screw", "Hex head")
+FSAddScrewCommand("ISO4014", "ISO 4014 Hex head bolt", "Hex head")
+FSAddScrewCommand("EN1662", "EN 1662 Hexagon bolt with flange, small series", "Hex head")
+FSAddScrewCommand("EN1665", "EN 1665 Hexagon bolt with flange, heavy series", "Hex head")
+FSAddScrewCommand("ISO4762", "ISO4762 Hexagon socket head cap screw", "Hexagon socket")
+FSAddScrewCommand("ISO7380-1", "ISO 7380 Hexagon socket button head screw", "Hexagon socket")
+FSAddScrewCommand("ISO7380-2", "ISO 7380 Hexagon socket button head screws with collar", "Hexagon socket")
+FSAddScrewCommand("ISO10642", "ISO 10642 Hexagon socket countersunk head screw", "Hexagon socket")
+FSAddScrewCommand("ISO2009", "ISO 2009 Slotted countersunk flat head screw", "Slotted")
+FSAddScrewCommand("ISO2010", "ISO 2010 Slotted raised countersunk head screw", "Slotted")
+FSAddScrewCommand("ISO1580", "ISO 1580 Slotted pan head screw", "Slotted")
+FSAddScrewCommand("ISO1207", "ISO 1207 Slotted cheese head screw", "Slotted")
+FSAddScrewCommand("DIN967", "DIN 967 Cross recessed pan head screws with collar", "H cross")
+FSAddScrewCommand("ISO7045", "ISO 7045 Pan head screws type H cross recess", "H cross")
+FSAddScrewCommand("ISO7046", "ISO 7046 Countersunk flat head screws H cross r.", "H cross")
+FSAddScrewCommand("ISO7047", "ISO 7047 Raised countersunk head screws H cross r.", "H cross")
+FSAddScrewCommand("ISO7048", "ISO 7048 Cheese head screws with type H cross r.", "H cross")
+FSAddScrewCommand("ISO14579", "ISO 14579 Hexalobular socket head cap screws", "Hexalobular socket")
+FSAddScrewCommand("ISO14580", "ISO 14580 Hexalobular socket cheese head screws", "Hexalobular socket")
+#FSAddScrewCommand("ISO14581", "ISO 14581 Hexalobular socket countersunk flat head screws", "Hexalobular socket")
+FSAddScrewCommand("ISO14582", "ISO 14582 Hexalobular socket countersunk head screws, high head", "Hexalobular socket")
+FSAddScrewCommand("ISO14583", "ISO 14583 Hexalobular socket pan head screws", "Hexalobular socket")
+FSAddScrewCommand("ISO14584", "ISO 14584 Hexalobular socket raised countersunk head screws", "Hexalobular socket")
+FSAddScrewCommand("ISO7089", "ISO 7089 Washer", "Washer")
+FSAddScrewCommand("ISO7090", "ISO 7090 Plain Washers, chamfered - Normal series", "Washer")
+#FSAddScrewCommand("ISO7091", "ISO 7091 Plain washer - Normal series Product Grade C", "Washer")  # same as 7089??
+FSAddScrewCommand("ISO7092", "ISO 7092 Plain washers - Small series", "Washer")
+FSAddScrewCommand("ISO7093-1", "ISO 7093-1 Plain washers - Large series", "Washer")
+FSAddScrewCommand("ISO7094", "ISO 7094 Plain washers - Extra large series", "Washer")
+FSAddScrewCommand("ISO4032", "ISO 4032 Hexagon nuts, Style 1", "Nut")
+FSAddScrewCommand("ISO4033", "ISO 4033 Hexagon nuts, Style 2", "Nut")
+FSAddScrewCommand("ISO4035", "ISO 4035 Hexagon thin nuts, chamfered", "Nut")
+#FSAddScrewCommand("ISO4036", "ISO 4035 Hexagon thin nuts, unchamfered", "Nut")
+FSAddScrewCommand("EN1661", "EN 1661 Hexagon nuts with flange", "Nut")
+
+
 
 class FSWasherObject(FSBaseObject):
   def __init__(self, obj, type, attachTo):
-    '''"Add washer type fastener" '''
+    '''"Add washer / nut type fastener" '''
     FSBaseObject.__init__(self, obj, attachTo)
-    self.itemText = "Washer"
+    self.itemText = screwMaker.GetTypeName(type)
     diameters = screwMaker.GetAllDiams(type)
     diameters.insert(0, 'Auto')
     #self.Proxy = obj.Name
     
-    obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = screwMaker.GetAllTypes("Washer")
+    obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = screwMaker.GetAllTypes(self.itemText)
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
     obj.type = type
     obj.Proxy = self
@@ -246,7 +285,7 @@ class FSWasherObject(FSBaseObject):
     if shape != None:
       #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
       #fp.Placement = FreeCAD.Placement() # reset placement
-      screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
+      FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
     
   def getItemText():
     return self.itemText
@@ -277,5 +316,5 @@ class FSWasherCommand:
     return Gui.ActiveDocument != None
 
 Gui.addCommand("FSISO7089",FSWasherCommand("ISO7089", "Washer"))
-FastenerBase.FSCommands.append("FSISO7089")
+#FastenerBase.FSCommands.append("FSISO7089")
 

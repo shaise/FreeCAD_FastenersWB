@@ -10,6 +10,7 @@ For Installation and how to use, please visit:
 http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
 #### Release notes:
+* V0.2.01  28 Jul 2015:  Update to Ulrich's V2.0 screw maker. many more screws, and nuts with threads!   
 * V0.1.04  21 Jul 2015:  Drop-down buttons can be enabled in Preferences unser Fasteners.   
 * V0.1.03  15 Jul 2015:  Disable drop-down buttons. It will be used only when screw items count will be too big.   
 * V0.1.02  14 Jul 2015:  Group screws in drop-down buttons (works for FreeCAD 0.16 and up)  

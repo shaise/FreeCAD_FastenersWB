@@ -525,7 +525,7 @@ def cshMakeCSHole(diam):
   if shape != None:
     return shape
   
-  m = float(diam.lstrip('M'))
+  m = FastenerBase.MToFloat(diam)
   d, k = FSCSHTable[diam]
   
   f = cshMakeFace(m, d, k)
@@ -553,7 +553,7 @@ class FSCountersunkObject:
       FreeCAD.Console.PrintLog("Generating hole tool for: " + diam + "\n")
       edge, m, f, o = diam.split(':')
       cshole = cshMakeCSHole(m)
-      screwMaker.moveScrewToObject(cshole, origshape.getElement(edge), f == '1', float(o))
+      FastenerBase.FSMoveToObject(cshole, origshape.getElement(edge), f == '1', float(o))
       shape = shape.cut(cshole)
     fp.Shape = shape
 

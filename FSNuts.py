@@ -23,6 +23,10 @@
 #  
 ###################################################################################
 
+
+# NOTE!! this command is left for backward compatibility, Screw_Maker.py nuts are now used.
+
+
 from FreeCAD import Gui
 from FreeCAD import Base
 import FreeCAD, FreeCADGui, Part, os, math
@@ -93,7 +97,7 @@ def nutMakeSolid(diam):
     return shape
   
   s, m, di = MHexNutTable[diam]
-  do = float(diam.lstrip('M'))
+  do = FastenerBase.MToFloat(diam)
   f = nutMakeFace(do, di, s, m)
   p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
   htool = screwMaker.makeHextool(s, m, s * 2)
@@ -138,7 +142,7 @@ class FSHexNutObject(FSBaseObject):
       FreeCAD.Console.PrintLog("Using cached object\n")
     if shape != None:
       #fp.Placement = FreeCAD.Placement() # reset placement
-      screwMaker.moveScrewToObject(fp, shape, fp.invert, fp.offset.Value)
+      FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
 
 FastenerBase.FSClassIcons[FSHexNutObject] = 'HexNut.svg'    
 
@@ -149,7 +153,7 @@ class FSHexNutCommand:
     icon = os.path.join( iconPath , 'HexNut.svg')
     return {'Pixmap'  : icon , # the name of a svg file available in the resources
             'MenuText': "Add Hex Nut" ,
-            'ToolTip' : "Add Metric Hexagon Nut - ISO 4032"}
+            'ToolTip' : "Add Metric Hexagon Nut - ISO 4032, Style 3"}
  
   def Activated(self):
     FastenerBase.FSGenerateObjects(FSHexNutObject, "Nut")
@@ -159,4 +163,4 @@ class FSHexNutCommand:
     return Gui.ActiveDocument != None
 
 Gui.addCommand("FSHexNut", FSHexNutCommand())
-FastenerBase.FSCommands.append("FSHexNut")
+#FastenerBase.FSCommands.append("FSHexNut", "screws", "Nut")

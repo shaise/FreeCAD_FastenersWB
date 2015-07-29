@@ -25,6 +25,8 @@
 from FreeCAD import Gui
 from FreeCAD import Base
 import FreeCAD, FreeCADGui, Part, os, math
+import DraftVecUtils
+
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join( __dir__, 'Icons' )
 

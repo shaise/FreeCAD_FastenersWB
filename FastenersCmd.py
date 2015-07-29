@@ -273,13 +273,13 @@ class FSWasherObject(FSBaseObject):
         d = fp.diameter
         
       d , l = screwMaker.FindClosest(fp.type, d, '0')
-      if d != fp.diameter:
+      if d != fp.diameter: 
         fp.diameter = d
-      s = screwMaker.createScrewParams(d, l, fp.type + ':', False, False, True)
+      s = screwMaker.createScrew(fp.type, d, l, 'simple', True)
       self.diameter = fp.diameter
-      fp.Label = fp.diameter + '-' + s[1]
-      self.itemText = s[1]
-      fp.Shape = s[0]
+      fp.Label = fp.diameter + '-' + self.itemText
+      #self.itemText = s[1]
+      fp.Shape = s
     else:
       FreeCAD.Console.PrintLog("Using cached object\n")
     if shape != None:
@@ -315,6 +315,6 @@ class FSWasherCommand:
   def IsActive(self):
     return Gui.ActiveDocument != None
 
-Gui.addCommand("FSISO7089",FSWasherCommand("ISO7089", "Washer"))
+#Gui.addCommand("FSISO7089",FSWasherCommand("ISO7089", "Washer"))
 #FastenerBase.FSCommands.append("FSISO7089")
 

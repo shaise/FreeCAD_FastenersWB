@@ -27,25 +27,19 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_19">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="topMargin">
+         <number>0</number>
+        </property>
         <item>
-         <widget class="Gui::PrefCheckBox" name="gui::prefcheckbox_1">
-          <property name="toolTip">
-           <string>group similar fasteners in drop-down buttons to reduce toolbar clutter. (requires a restart)</string>
-          </property>
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>Group screws in drop down buttons</string>
-          </property>
-          <property name="prefEntry" stdset="0">
-           <string>GroupArrowIcons</string>
-          </property>
-          <property name="prefPath" stdset="0">
-           <string>Mod/Fasteners</string>
+           <string>Toolbar screw icons grouping:</string>
           </property>
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_5">
+         <spacer name="horizontalSpacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -56,6 +50,37 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="Gui::PrefComboBox" name="gui::comboBox">
+          <property name="toolTip">
+           <string>Method of icon grouping</string>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <property name="prefEntry" stdset="0">
+           <string>ScrewToolbarGroupMode</string>
+          </property>
+          <property name="prefPath" stdset="0">
+           <string>Mod/Fasteners</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>None</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Separate toolbars</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Drop down buttons</string>
+           </property>
+          </item>
+         </widget>
         </item>
        </layout>
       </item>
@@ -103,6 +128,13 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>Gui::PrefComboBox</class>
+   <extends>QComboBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

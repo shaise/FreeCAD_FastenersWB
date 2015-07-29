@@ -56,7 +56,9 @@ class FSGroupCommand:
 
 DropButtonSupported = int(FreeCAD.Version()[1]) > 15 and  int(FreeCAD.Version()[2].split()[0]) > 5165    
 FSParam = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Fasteners")
-DropButtonEnabled = FSParam.GetBool("GroupArrowIcons", False) == 1
+GroupButtonMode = FSParam.GetInt("ScrewToolbarGroupMode", 0) # 0 = nine, 1 = seperate toolbar 2 = drop down buttons
+if GroupButtonMode == 2 and not(DropButtonSupported):
+  GroupButtonMode = 1
     
 class FSCommandList:
   def __init__(self):
@@ -70,20 +72,19 @@ class FSCommandList:
   def getCommands(self, group):      
     cmdlist = []
     cmdsubs = {}
-    useDropButtons = DropButtonSupported and DropButtonEnabled
     for cmd in self.commands[group]:
       command, subgroup = cmd
-      if subgroup != None and DropButtonEnabled:
+      if subgroup != None and GroupButtonMode > 0:
         if not(subgroup in cmdsubs):
           cmdsubs[subgroup] = []
-          if DropButtonSupported:
+          if GroupButtonMode == 2:
             cmdlist.append(subgroup.replace(" ", ""))
             cmdlist.append("Separator")
         cmdsubs[subgroup].append(command)     
       else:
         cmdlist.append(command)
     for subcommand in cmdsubs:
-      if DropButtonSupported:
+      if GroupButtonMode == 2:
         Gui.addCommand(subcommand.replace(" ", ""), FSGroupCommand(cmdsubs[subcommand], subcommand, subcommand))
       else:
         cmdlist.append((subcommand.replace(" ", ""), cmdsubs[subcommand]))

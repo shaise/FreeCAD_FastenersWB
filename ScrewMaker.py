@@ -11,44 +11,45 @@ from PySide import QtCore, QtGui
 from screw_maker import *
 
 screwTables = {
-    #            name,    def table,   length table,  range table,  diam pos*
-    'ISO4017':  ("Screw",  iso4017head,  iso4017length,  iso4017range,  -1),
-    'ISO4014':  ("Screw",  iso4014head,  iso4014length,  iso4014range,  -1),
-    'EN1662':   ("Screw",  en1662def,    en1662length,   en1662range,   -1),            
-    'EN1665':   ("Screw",  en1665def,    en1665length,   en1665range,   -1),
-    'ISO2009':  ("Screw",  iso2009def,   iso2009length,  iso2009range,  4),
-    'ISO2010':  ("Screw",  iso2009def,   iso2009length,  iso2009range,  4),
-    'ISO4762':  ("Screw",  iso4762def,   iso4762length,  iso4762range,  -1),
-    'ISO10642': ("Screw",  iso10642def,  iso10642length, iso10642range, 3),
-    'ISO1207':  ("Screw",  iso1207def,   iso1207length,  iso1207range,  -1),
-    'ISO1580':  ("Screw",  iso1580def,   iso2009length,  iso2009range,  -1),
-    'ISO7045':  ("Screw",  iso7045def,   iso7045length,  iso7045range,  -1),
-    'ISO7046':  ("Screw",  iso2009def,   iso7045length,  iso7046range,  4),
-    'ISO7047':  ("Screw",  iso2009def,   iso7045length,  iso7046range,  4),
-    'ISO7048':  ("Screw",  iso7048def,   iso7048length,  iso7048range,  -1),
-    'DIN967':   ("Screw",  din967def,    din967length,   din967range,   -1),
+    #            name,    def table,   length table,  range table,  diam pos*, K pos**
+    'ISO4017':  ("Screw",  iso4017head,  iso4017length,  iso4017range,  -1, 0),
+    'ISO4014':  ("Screw",  iso4014head,  iso4014length,  iso4014range,  -1, 0),
+    'EN1662':   ("Screw",  en1662def,    en1662length,   en1662range,   -1, 0),            
+    'EN1665':   ("Screw",  en1665def,    en1665length,   en1665range,   -1, 0),
+    'ISO2009':  ("Screw",  iso2009def,   iso2009length,  iso2009range,  4, 5),
+    'ISO2010':  ("Screw",  iso2009def,   iso2009length,  iso2009range,  4, 5),
+    'ISO4762':  ("Screw",  iso4762def,   iso4762length,  iso4762range,  -1, 0),
+    'ISO10642': ("Screw",  iso10642def,  iso10642length, iso10642range, 3, 7),
+    'ISO1207':  ("Screw",  iso1207def,   iso1207length,  iso1207range,  -1, 0),
+    'ISO1580':  ("Screw",  iso1580def,   iso2009length,  iso2009range,  -1, 0),
+    'ISO7045':  ("Screw",  iso7045def,   iso7045length,  iso7045range,  -1, 0),
+    'ISO7046':  ("Screw",  iso2009def,   iso7045length,  iso7046range,  4, 5),
+    'ISO7047':  ("Screw",  iso2009def,   iso7045length,  iso7046range,  4, 5),
+    'ISO7048':  ("Screw",  iso7048def,   iso7048length,  iso7048range,  -1, 0),
+    'DIN967':   ("Screw",  din967def,    din967length,   din967range,   -1, 0),
     #'ISO7380':  ("Screw", iso7380def, iso7380length, iso7380range, -1),
-    'ISO7380-1':("Screw",  iso7380def,   iso7380length,  iso7380range,  -1),
-    'ISO7380-2':("Screw",  iso7380_2def, iso7380length,  iso7380range,  -1),
-    'ISO14579': ("Screw",  iso14579def,  iso14579length, iso14579range, -1),
-    'ISO14580': ("Screw",  iso14580def,  iso14580length, iso1207range,  -1),
-    'ISO14582': ("Screw",  iso14582def,  iso14582length, iso14582range, 4),
-    'ISO14583': ("Screw",  iso14583def,  iso7045length,  iso7046range,  -1),
-    'ISO14584': ("Screw",  iso14584def,  iso7045length, iso14584range,  3),
-    'ISO7089':  ("Washer", iso7089def,   None,          None,           -1),
-    'ISO7090':  ("Washer", iso7090def,   None,          None,           -1),
-    #'ISO7091':  ("Washer", iso7091def,   None,          None,           -1), # same as 7089 ??
-    'ISO7092':  ("Washer", iso7092def,   None,          None,           -1),
-    'ISO7093-1':("Washer", iso7093def,   None,          None,           -1),
-    'ISO7094':  ("Washer", iso7094def,   None,          None,           -1),
-    'ISO4032':  ("Nut",    iso4032def,   None,          None,           -1),
-    'ISO4033':  ("Nut",    iso4033def,   None,          None,           -1),
-    'ISO4035':  ("Nut",    iso4035def,   None,          None,           -1),
+    'ISO7380-1':("Screw",  iso7380def,   iso7380length,  iso7380range,  -1, 0),
+    'ISO7380-2':("Screw",  iso7380_2def, iso7380length,  iso7380range,  -1, 0),
+    'ISO14579': ("Screw",  iso14579def,  iso14579length, iso14579range, -1, 0),
+    'ISO14580': ("Screw",  iso14580def,  iso14580length, iso1207range,  -1, 0),
+    'ISO14582': ("Screw",  iso14582def,  iso14582length, iso14582range, 4, 5),
+    'ISO14583': ("Screw",  iso14583def,  iso7045length,  iso7046range,  -1, 0),
+    'ISO14584': ("Screw",  iso14584def,  iso7045length, iso14584range,  3, 5),
+    'ISO7089':  ("Washer", iso7089def,   None,          None,           -1, 0),
+    'ISO7090':  ("Washer", iso7090def,   None,          None,           -1, 0),
+    #'ISO7091':  ("Washer", iso7091def,   None,          None,           -1, 0), # same as 7089 ??
+    'ISO7092':  ("Washer", iso7092def,   None,          None,           -1, 0),
+    'ISO7093-1':("Washer", iso7093def,   None,          None,           -1, 0),
+    'ISO7094':  ("Washer", iso7094def,   None,          None,           -1, 0),
+    'ISO4032':  ("Nut",    iso4032def,   None,          None,           -1, 0),
+    'ISO4033':  ("Nut",    iso4033def,   None,          None,           -1, 0),
+    'ISO4035':  ("Nut",    iso4035def,   None,          None,           -1, 0),
     #'ISO4036':  ("Nut",    iso4036def,   None,          None,           -1),
-    'EN1661':   ("Nut",    en1661def,    None,          None,           -1),
-    'ScrewTap': ("ScrewTap", tuningTable, None,         None,           -1),
+    'EN1661':   ("Nut",    en1661def,    None,          None,           -1, 0),
+    'ScrewTap': ("ScrewTap", tuningTable, None,         None,           -1, 0),
     
     # * diam pos = the position within the def table to be used for auto diameter selection, -1 = get size from Mxx
+    # * K Pos = the position within the def table to be used for countersunk holes creation
 }
 
 class FSScrewMaker(Screw):
@@ -56,7 +57,7 @@ class FSScrewMaker(Screw):
       ''' Find closest standard screw to given parameters '''        
       if not (type in screwTables):
         return (diam, len)
-      name, diam_table, len_table, range_table, table_pos = screwTables[type]
+      name, diam_table, len_table, range_table, table_pos, k_pos = screwTables[type]
       
       # auto find diameter
       if not (diam in diam_table):
@@ -144,6 +145,35 @@ class FSScrewMaker(Screw):
       list.sort(cmp = FastenerBase.NumCompare)
       return list
 
+    def GetAllCountersunkTypes(self):
+      list = []
+      for key in screwTables:
+        if screwTables[key][0] == "Screw" and screwTables[key][4] >= 0:
+          list.append(key)
+      list.sort()
+      return list
+      
+    def GetCountersunkDiams(self, type):
+      dpos = screwTables[type][4]
+      if dpos < 0:
+        return None
+      kpos = screwTables[type][5]
+      table = screwTables[type][1]
+      res = {}
+      for diam in table:
+        res[diam] = (table[diam][dpos], table[diam][kpos])
+      return res
+   
+    def GetCountersunkDims(self, type, diam):
+      dpos = screwTables[type][4]
+      if dpos < 0:
+        return (0,0)
+      kpos = screwTables[type][5]
+      table = screwTables[type][1]
+      if not(diam in table):
+        return (0,0)
+      return (table[diam][dpos], table[diam][kpos])
+      
 
 
 ScrewMakerInstance = None      

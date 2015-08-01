@@ -11,7 +11,9 @@
 * ~~Add more multi select options~~
 * ~~Offsets can be negative~~
 * ~~Support face selection~~
-* Add threads to nuts
+* ~~Add threads to nuts~~
 * ~~Add "Make hole countersunk" function~~
 * ~~Countersunk screws should be autofit by head diameter rather then by thread diameter~~
 * Add option to insert screws in the countersunk hole generation dialog
+* Add option to select auto diameter method - by inner or outer thread diameter
+* ~~Select the type of countersunk holes to match the screws~~

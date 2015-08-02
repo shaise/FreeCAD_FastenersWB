@@ -10,6 +10,7 @@ For Installation and how to use, please visit:
 http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
 #### Release notes:
+* V0.2.06  02 Aug 2015:  Added hole diameter calculator helper.
 * V0.2.05  01 Aug 2015:  Option to select type of screw for countersunk holes.
 * V0.2.03  30 Jul 2015:  Seperate option for grouping icons as toolbars or as drop-down buttons   
 * V0.2.01  28 Jul 2015:  Update to Ulrich's V2.0 screw maker. many more screws, and nuts with threads!   

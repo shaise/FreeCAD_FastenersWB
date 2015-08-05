@@ -10,6 +10,10 @@ For Installation and how to use, please visit:
 http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
 #### Release notes:
+
+
+* V0.2.07  05 Aug 2015:  Add option to select auto crew diameter matching method: 
+                         by inner or outer thread diameter
 * V0.2.06  02 Aug 2015:  Added hole diameter calculator helper.
 * V0.2.05  01 Aug 2015:  Option to select type of screw for countersunk holes.
 * V0.2.03  30 Jul 2015:  Seperate option for grouping icons as toolbars or as drop-down buttons   

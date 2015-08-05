@@ -141,50 +141,6 @@ from FastenerBase import FSBaseObject
 import ScrewMaker  
 screwMaker = ScrewMaker.Instance()
 
-
-FSCScrewHoleChart = (
-  ("M1", 0.75),
-  ("M1.1", 0.85),
-  ("M1.2", 0.95),
-  ("M1.4", 1.10),
-  ("M1.6", 1.25),
-  ("M1.8", 1.45),
-  ("M2", 1.60),
-  ("M2.2", 1.75),
-  ("M2.5", 2.05),
-  ("M3", 2.50),
-  ("M3.5", 2.90),
-  ("M4", 3.30),
-  ("M4.5", 3.70),
-  ("M5", 4.20),
-  ("M6", 5.00),
-  ("M7", 6.00),
-  ("M8", 6.80),
-  ("M9", 7.80),
-  ("M10", 8.50),
-  ("M11", 9.50),
-  ("M12", 10.20),
-  ("M14", 12.00),
-  ("M16", 14.00),
-  ("M18", 15.50),
-  ("M20", 17.50),
-  ("M22", 19.50),
-  ("M24", 21.00),
-  ("M27", 24.00),
-  ("M30", 26.50),
-  ("M33", 29.50),
-  ("M36", 32.00),
-  ("M39", 35.00),
-  ("M42", 37.50),
-  ("M45", 40.50),
-  ("M48", 43.00),
-  ("M52", 47.00),
-  ("M56", 50.50),
-  ("M60", 54.50),
-  ("M64", 58.00),
-  ("M68", 62.00)
-)
-
 FSCPEMPressNutHoleChart = (
   ("M2", 4.22),
   ("M2.5", 4.22),
@@ -218,21 +174,11 @@ FSCPEMStudHoleChart = (
 )
 
 FSCScrewTypes = (
-  ("ISO7045.svg", "Metric Screw", FSCScrewHoleChart),
+  ("ISO7045.svg", "Metric Screw", ScrewMaker.FSCScrewHoleChart),
   ("PEMPressNut.svg", "PEM Press-nut", FSCPEMPressNutHoleChart),
   ("PEMBLStandoff.svg", "PEM Stand-off", FSCPEMStudHoleChart),
   ("PEMStud.svg", "PEM Stud", FSCPEMStudHoleChart)
 )
-
-# prepare a dictionary for fast search of FSCGetInnerThread
-FSCScrewHoleChartDict = {}
-for s in FSCScrewHoleChart:
-  FSCScrewHoleChartDict[s[0]] = s[1]
-       
-def FSCGetInnerThread(diam):
-  diam = diam.lstrip('(')
-  diam = diam.rstrip(')')
-  return FSCScrewHoleChartDict[diam]
        
 FSScrewCalcDlg = QtGui.QDockWidget()
 FSScrewCalcDlg.ui = Ui_DockWidget()

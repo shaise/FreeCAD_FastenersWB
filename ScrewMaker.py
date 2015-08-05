@@ -6,6 +6,7 @@ import FreeCAD, FreeCADGui, Part, math
 from FreeCAD import Base
 import DraftVecUtils
 import FastenerBase
+import FSScrewCalc
 
 from PySide import QtCore, QtGui
 from screw_maker import *
@@ -90,9 +91,12 @@ class FSScrewMaker(Screw):
       return (diam, len)
         
         
-    def AutoDiameter(self, type, holeObj):
+    def AutoDiameter(self, type, holeObj, baseobj = None):
       ''' Calculate screw diameter automatically based on given hole '''
       res = 'M6'
+      matchOuter = FastenerBase.FSMatchOuter
+      if baseobj.Name.startswith("Washer"):
+        matchOuter = True
       if holeObj != None and hasattr(holeObj, 'Curve') and hasattr(holeObj.Curve, 'Radius') and (type in screwTables):
         d = holeObj.Curve.Radius * 2
         table = screwTables[type][1]
@@ -101,9 +105,14 @@ class FSScrewMaker(Screw):
         dif = mindif
         for m in table:
             if (tablepos == -1):
-              dia = FastenerBase.MToFloat(m) + 0.1
-              if (dia > d):
-                dif = dia - d
+              if matchOuter:
+                dia = FastenerBase.MToFloat(m) - 0.01
+                if (d > dia):
+                  dif = d - dia
+              else:
+                dia = FSScrewCalc.FSCGetInnerThread(m)
+                dif = math.fabs(dia - d)
+              
             else:
               dia = table[m][tablepos]
               if (d > dia):

@@ -79,7 +79,7 @@ class FSScrewObject(FSBaseObject):
       diameterchange = True      
 
     if fp.diameter == 'Auto':
-      d = screwMaker.AutoDiameter(fp.type, shape)
+      d = screwMaker.AutoDiameter(fp.type, shape, baseobj)
       fp.diameter = d
       diameterchange = True      
     else:
@@ -289,7 +289,8 @@ class FSWasherObject(FSBaseObject):
     
   def getItemText():
     return self.itemText
-    
+
+#deprecated    
 class FSWasherCommand:
   """Add Screw command"""
 

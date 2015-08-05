@@ -24,6 +24,7 @@
 ###################################################################################
 from FreeCAD import Gui
 from FreeCAD import Base
+from PySide import QtGui
 import FreeCAD, FreeCADGui, Part, os, math
 import DraftVecUtils
 
@@ -99,6 +100,22 @@ def FSGetCommands(group = "screws"):
 
 
 # common helpers 
+
+# get instance of a toolbar item
+def FSGetToolbarItem(tname, iname):
+  mw = QtGui.qApp.activeWindow()
+  tb = None
+  for c in mw.children():
+    if isinstance(c, QtGui.QToolBar) and c.windowTitle() == tname:
+      tb = c
+      break
+  if tb == None:
+    return None
+  for c in tb.children():
+    if isinstance(c, QtGui.QToolButton) and c.text() == iname:
+      return c
+  return None
+      
 
 # fastener chach - prevent recreation of same fasteners
 FSCache = {}
@@ -439,4 +456,38 @@ class FSMakeSimpleCommand:
         
 Gui.addCommand('FSSimple',FSMakeSimpleCommand())
 FSCommands.append('FSSimple', "command")
+ 
+
+FSMatchOuter = False
+class FSToggleMatchTypeCommand:
+  """Toggle screw matching method"""
+
+  def GetResources(self):
+    self.menuText = "Toggle Match Type"
+    self.iconInner = os.path.join( iconPath , 'IconMatchTypeInner.svg')
+    self.iconOuter = os.path.join( iconPath , 'IconMatchTypeOuter.svg')
+    return {'Pixmap'  : self.iconInner , # the name of a svg file available in the resources
+            'MenuText': self.menuText ,
+            'ToolTip' : "Toggle auto screw diameter matching inner<->outer thread"}
+ 
+  def Activated(self):
+    global FSMatchOuter
+    if not(hasattr(self, 'toolbarItem')):
+      self.toolbarItem = FSGetToolbarItem("FS Commands", self.menuText)
+    if self.toolbarItem == None:
+      return
+    if FSMatchOuter:
+      FSMatchOuter = False
+      self.toolbarItem.setIcon(QtGui.QIcon(self.iconInner))
+    else:
+      FSMatchOuter = True
+      self.toolbarItem.setIcon(QtGui.QIcon(self.iconOuter))    
+    return
+   
+  def IsActive(self):
+    return True
+        
+        
+Gui.addCommand('FSToggleMatchType',FSToggleMatchTypeCommand())
+FSCommands.append('FSToggleMatchType', "command")
  

@@ -128,7 +128,6 @@ class Ui_DockWidget(object):
         self.textHole.setText(str(table[diamindex][1]))
          
     def onTypeChange(self, typeindex):
-        FreeCAD.Console.PrintLog("type change to " + str(typeindex) + "\n")
         self.fillDiameters()
     
 from FreeCAD import Gui
@@ -224,8 +223,17 @@ FSCScrewTypes = (
   ("PEMBLStandoff.svg", "PEM Stand-off", FSCPEMStudHoleChart),
   ("PEMStud.svg", "PEM Stud", FSCPEMStudHoleChart)
 )
-       
 
+# prepare a dictionary for fast search of FSCGetInnerThread
+FSCScrewHoleChartDict = {}
+for s in FSCScrewHoleChart:
+  FSCScrewHoleChartDict[s[0]] = s[1]
+       
+def FSCGetInnerThread(diam):
+  diam = diam.lstrip('(')
+  diam = diam.rstrip(')')
+  return FSCScrewHoleChartDict[diam]
+       
 FSScrewCalcDlg = QtGui.QDockWidget()
 FSScrewCalcDlg.ui = Ui_DockWidget()
 FSScrewCalcDlg.ui.setupUi(FSScrewCalcDlg)
@@ -239,6 +247,7 @@ class FSScrewCalcCommand:
   """Display a calculator for needed screw holes"""
 
   def GetResources(self):
+    FreeCAD.Console.PrintLog("Getting resources\n")
     icon = os.path.join( iconPath , 'IconScrewCalc.svg')
     return {'Pixmap'  : icon , # the name of a svg file available in the resources
             'MenuText': "Screw calculator" ,

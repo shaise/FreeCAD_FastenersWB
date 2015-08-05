@@ -66,7 +66,7 @@ static char * C:\Program Files\FreeCAD 0_15\Mod\Fasteners\wbicon_xpm[] = {
         screwlist = []
         for cmd in screwlist1:
           if isinstance(cmd, tuple): # group in sub toolbars
-            FreeCAD.Console.PrintLog("Append toolbar " + str(cmd) + "\n")
+            #FreeCAD.Console.PrintLog("Append toolbar " + str(cmd) + "\n")
             self.appendToolbar(cmd[0],cmd[1]) 
             self.list.extend(cmd[1])
           else:

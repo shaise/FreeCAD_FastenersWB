@@ -116,7 +116,7 @@ import sys
 import PEMInserts
 
 def FSCPGetDiameters(type, item):
-  if type == "Screw" or type == "Washer" or type == "ScrewTap":
+  if type == "Screw" or type == "Washer" or type == "ScrewTap" or type == "Nut":
     return screwMaker.GetAllDiams(item)
   if type == "PressNut" or type == "StandOff" or type == "Stud":
     return PEMInserts.FSPIGetAllDiameters(type)
@@ -181,10 +181,10 @@ class FSCPSelObserver:
     #  FreeCAD.Console.PrintLog("FSO-Reentering:" + "\n")
     #  return
     self.disableObserver = True
-    FreeCAD.Console.PrintLog("Clearing:" + str(len(Gui.Selection.getSelection())) + "\n")
+    #FreeCAD.Console.PrintLog("Clearing:" + str(len(Gui.Selection.getSelection())) + "\n")
     #Gui.Selection.clearSelection()
     for obj in self.selection:
-      FreeCAD.Console.PrintLog("Adding:" + str(obj) + "\n")
+      #FreeCAD.Console.PrintLog("Adding:" + str(obj) + "\n")
       Gui.Selection.addSelection(obj)
     FreeCAD.Console.PrintLog("FSO-ClrSel:" + "\n")
     #self.disableObserver = False
@@ -218,13 +218,13 @@ class FSTaskChangeParamDialog:
         self.fstype = fstype
         #FreeCAD.Console.PrintLog(fstype.typeName + str(fstype.hasLength) + str(fstype.lengthFixed) + "\n")
         ui.comboFastenerType.addItem('No Change')
-        FreeCAD.Console.PrintLog("nitems: " + str(len(fstype.items)) + "\n")
+        #FreeCAD.Console.PrintLog("nitems: " + str(len(fstype.items)) + "\n")
         for screw in fstype.items:
             ui.comboFastenerType.addItem(QtGui.QIcon(os.path.join(iconPath , screw + '.svg')), screw)
         if len(fstype.items) == 1:
             ui.comboFastenerType.setCurrentIndex(1)
             ui.comboFastenerType.setEnabled(False)
-        FreeCAD.Console.PrintLog("manual\n")
+        #FreeCAD.Console.PrintLog("manual\n")
         self.UpdateDiameters()
         return
         
@@ -233,7 +233,7 @@ class FSTaskChangeParamDialog:
           ui = self.form.ui
           ui.comboDiameter.clear()
           ui.comboDiameter.addItem('No Change')
-          FreeCAD.Console.PrintLog(str(ui.comboFastenerType.currentIndex()) + " " + str(ui.comboFastenerType.count()) + "\n")
+          #FreeCAD.Console.PrintLog(str(ui.comboFastenerType.currentIndex()) + " " + str(ui.comboFastenerType.count()) + "\n")
           if ui.comboFastenerType.currentIndex() == 0 and ui.comboFastenerType.isEnabled():
             listDiams = FSCPGetDiametersFromSelection(self.selection)
           else:
@@ -366,11 +366,13 @@ class FSChangeParamCommand:
     if len(sel) == 0:
       return False
     self.type = None
+    tmaxlen = 0
     for typename in FastenerBase.FSFasenerTypeDB:
       #FreeCAD.Console.PrintLog(typename + "\n")
-      if sel[0].Name.startswith(typename):
+      tlen = len(typename)
+      if sel[0].Name.startswith(typename) and tlen > tmaxlen:
         self.type = typename
-        break
+        tmaxlen = tlen
     if self.type == None:
       return False
     for obj in sel:

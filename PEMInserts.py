@@ -595,3 +595,31 @@ class FSStudCommand:
 
 Gui.addCommand("FSStud", FSStudCommand())
 FastenerBase.FSCommands.append("FSStud", "screws", "PEM Inserts")
+
+## add fastener types
+FastenerBase.FSAddFastenerType("PressNut", False)
+FastenerBase.FSAddItemsToType("PressNut", "PressNut")
+FastenerBase.FSAddFastenerType("StandOff")
+FastenerBase.FSAddItemsToType("StandOff", "StandOff")
+FastenerBase.FSAddFastenerType("Stud")
+FastenerBase.FSAddItemsToType("Stud", "Stud")
+
+def FSPIGetAllDiameters(type):
+  if type == "PressNut":
+    diams = list(CLSDiamCodes)
+  elif type == "StandOff":
+    diams = list(SODiameters)
+  elif type == "Stud":
+    diams = list(FHDiameters)
+  diams.pop(0)
+  return diams
+  
+def FSPIGetAllLengths(type, diam):
+  #if type == "PressNut":
+  #  return []
+  if type == "StandOff":
+    return soGetAllLengths(diam, False)
+  elif type == "Stud":
+    return fhGetAllLengths(diam)
+  return []
+

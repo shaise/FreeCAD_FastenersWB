@@ -404,3 +404,11 @@ class FSScrewRodCommand:
 
 Gui.addCommand("FSScrewTap",FSScrewRodCommand())
 FastenerBase.FSCommands.append("FSScrewTap", "screws", "misc")
+
+## add fastener types
+FastenerBase.FSAddFastenerType("Screw")
+FastenerBase.FSAddFastenerType("Washer", False)
+FastenerBase.FSAddFastenerType("Nut", False)
+FastenerBase.FSAddFastenerType("ScrewTap", True, False)
+for item in ScrewMaker.screwTables:
+  FastenerBase.FSAddItemsToType(ScrewMaker.screwTables[item][0], item)

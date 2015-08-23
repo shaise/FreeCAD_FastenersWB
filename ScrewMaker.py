@@ -157,7 +157,7 @@ class FSScrewMaker(Screw):
         mindif = 10.0
         dif = mindif
         for m in table:
-            FreeCAD.Console.PrintLog("Test M:" + m + "\n")
+            #FreeCAD.Console.PrintLog("Test M:" + m + "\n")
             if (tablepos == -1):
               if matchOuter:
                 dia = FastenerBase.MToFloat(m) - 0.01

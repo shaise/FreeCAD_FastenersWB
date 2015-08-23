@@ -25,7 +25,7 @@
 from FreeCAD import Gui
 from FreeCAD import Base
 from PySide import QtGui
-import FreeCAD, FreeCADGui, Part, os, math
+import FreeCAD, FreeCADGui, Part, os, math, sys
 import DraftVecUtils
 
 __dir__ = os.path.dirname(__file__)
@@ -98,8 +98,39 @@ FSLastInvert = False
 def FSGetCommands(group = "screws"):
   return FSCommands.getCommands(group)
 
+# fastener types
+
+class FSFastenerType:
+  def __init__(self, typeName, hasLength, lengthFixed):
+    self.typeName = typeName
+    self.hasLength = hasLength
+    self.lengthFixed = lengthFixed
+    self.items = []
+    
+FSFasenerTypeDB = {}
+def FSAddFastenerType(typeName, hasLength = True, lengthFixed = True):
+  FSFasenerTypeDB[typeName] = FSFastenerType(typeName, hasLength, lengthFixed)
+  
+def FSAddItemsToType(typeName, item):
+  if not(typeName in FSFasenerTypeDB):
+    return
+  FSFasenerTypeDB[typeName].items.append(item)
 
 # common helpers 
+
+# show traceback of system error
+def FSShowError():
+  global lastErr
+  lastErr = sys.exc_info()
+  tb = lastErr[2]
+  tbnext = tb
+  x = 10
+  while tbnext != None and x > 0:
+    FreeCAD.Console.PrintError("At " + tbnext.tb_frame.f_code.co_filename + " Line " + str(tbnext.tb_lineno) + "\n")
+    tbnext = tbnext.tb_next
+    x = x - 1
+  FreeCAD.Console.PrintError(str(lastErr[1]) + ": " + lastErr[1].__doc__ + "\n")
+
 
 # get instance of a toolbar item
 def FSGetToolbarItem(tname, iname):
@@ -459,6 +490,8 @@ FSCommands.append('FSSimple', "command")
  
 
 FSMatchOuter = False
+FSMatchIconNeedUpdate = 0
+
 class FSToggleMatchTypeCommand:
   """Toggle screw matching method"""
 
@@ -476,15 +509,22 @@ class FSToggleMatchTypeCommand:
       self.toolbarItem = FSGetToolbarItem("FS Commands", self.menuText)
     if self.toolbarItem == None:
       return
-    if FSMatchOuter:
-      FSMatchOuter = False
-      self.toolbarItem.setIcon(QtGui.QIcon(self.iconInner))
-    else:
-      FSMatchOuter = True
-      self.toolbarItem.setIcon(QtGui.QIcon(self.iconOuter))    
+    FSMatchOuter = not(FSMatchOuter)
+    self.UpdateIcon()
     return
-   
+    
+  def UpdateIcon(self):
+    if FSMatchOuter:
+      self.toolbarItem.setIcon(QtGui.QIcon(self.iconOuter))    
+    else:
+      self.toolbarItem.setIcon(QtGui.QIcon(self.iconInner))
+    
   def IsActive(self):
+    global FSMatchIconNeedUpdate
+    if FSMatchIconNeedUpdate > 0:
+      FSMatchIconNeedUpdate = FSMatchIconNeedUpdate - 1
+      if FSMatchIconNeedUpdate == 0:
+        self.UpdateIcon()
     return True
         
         

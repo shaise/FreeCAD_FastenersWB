@@ -18,3 +18,4 @@
 * ~~Add option to select auto diameter method - by inner or outer thread diameter~~
 * ~~Select the type of countersunk holes to match the screws~~
 * ~~Add option to batch-change fasteners properties~~
+* Add function to generate spreadsheet BOM

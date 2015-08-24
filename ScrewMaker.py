@@ -144,10 +144,10 @@ class FSScrewMaker(Screw):
       return (diam, len)
         
         
-    def AutoDiameter(self, type, holeObj, baseobj = None):
+    def AutoDiameter(self, type, holeObj, baseobj = None, matchOuter = FastenerBase.FSMatchOuter):
       ''' Calculate screw diameter automatically based on given hole '''
       res = 'M6'
-      matchOuter = FastenerBase.FSMatchOuter
+      #matchOuter = FastenerBase.FSMatchOuter
       if baseobj != None and baseobj.Name.startswith("Washer"):
         matchOuter = True
       if holeObj != None and hasattr(holeObj, 'Curve') and hasattr(holeObj.Curve, 'Radius') and (type in screwTables):

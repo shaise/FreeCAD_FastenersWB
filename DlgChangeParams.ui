@@ -39,9 +39,12 @@
         <item>
          <widget class="QCheckBox" name="checkAutoDiameter">
           <property name="text">
-           <string>Auto calculate diameter</string>
+           <string>Auto set diameter</string>
           </property>
          </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="comboMatchType"/>
         </item>
        </layout>
       </item>

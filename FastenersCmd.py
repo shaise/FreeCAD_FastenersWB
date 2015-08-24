@@ -44,12 +44,17 @@ class FSScrewObject(FSBaseObject):
     
     obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = screwMaker.GetAllTypes(self.itemText)
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
+    self.VerifyCreateMatchOuter(obj)
     if (self.itemText == "Screw"):
       obj.addProperty("App::PropertyEnumeration","length","Parameters","Screw length").length = screwMaker.GetAllLengths(type, diameters[1])
     if (self.itemText != "Washer"):
       obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.type = type
     obj.Proxy = self
+    
+  def VerifyCreateMatchOuter(self, obj):
+    if not (hasattr(obj,'matchOuter')):
+      obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
  
   def execute(self, fp):
     '''"Print a short message when doing a recomputation, this method is mandatory" '''
@@ -60,6 +65,11 @@ class FSScrewObject(FSBaseObject):
     except:
       baseobj = None
       shape = None
+    
+    # for backward compatibility: add missing attribute if needed
+    self.VerifyCreateMatchOuter(fp)
+    
+    FreeCAD.Console.PrintLog("MatchOuter:" + str(fp.matchOuter) + "\n")
     
     typechange = False
     if fp.type == "ISO7380":
@@ -79,7 +89,7 @@ class FSScrewObject(FSBaseObject):
       diameterchange = True      
 
     if fp.diameter == 'Auto':
-      d = screwMaker.AutoDiameter(fp.type, shape, baseobj)
+      d = screwMaker.AutoDiameter(fp.type, shape, baseobj, fp.matchOuter)
       fp.diameter = d
       diameterchange = True      
     else:
@@ -169,6 +179,8 @@ class FSViewProviderTree:
   def getIcon(self):
     if hasattr(self.Object, "type"):
       return os.path.join( iconPath , self.Object.type + '.svg')
+    elif isinstance(self.Object.Proxy, FSScrewRodObject):
+      return os.path.join( iconPath , 'ScrewTap.svg')
     return os.path.join( iconPath , 'ISO4017.svg')
 
 
@@ -324,7 +336,7 @@ class FSScrewRodObject(FSBaseObject):
   def __init__(self, obj, attachTo):
     '''"Add screw rod" '''
     FSBaseObject.__init__(self, obj, attachTo)
-    self.itemText = "ThreadedRod"
+    self.itemText = "ScrewTap"
     self.type = 'ScrewTap'
     diameters = screwMaker.GetAllDiams(self.type)
     diameters.insert(0, 'Auto')
@@ -332,8 +344,13 @@ class FSScrewRodObject(FSBaseObject):
     
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
     obj.addProperty("App::PropertyLength","length","Parameters","Screw length").length = 20.0
+    self.VerifyCreateMatchOuter(obj)
     obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.Proxy = self
+ 
+  def VerifyCreateMatchOuter(self, obj):
+    if not (hasattr(obj,'matchOuter')):
+      obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
  
   def execute(self, fp):
     '''"Print a short message when doing a recomputation, this method is mandatory" '''
@@ -345,12 +362,13 @@ class FSScrewRodObject(FSBaseObject):
       baseobj = None
       shape = None
           
+    self.VerifyCreateMatchOuter(fp)
     diameterchange = False      
     if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
       diameterchange = True      
 
     if fp.diameter == 'Auto':
-      d = screwMaker.AutoDiameter(self.type, shape, baseobj)
+      d = screwMaker.AutoDiameter(self.type, shape, baseobj, fp.matchOuter)
       fp.diameter = d
       diameterchange = True      
     else:

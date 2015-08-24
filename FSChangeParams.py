@@ -51,6 +51,9 @@ class Ui_DlgChangeParams(object):
         self.checkAutoDiameter = QtGui.QCheckBox(self.mainGroup)
         self.checkAutoDiameter.setObjectName(_fromUtf8("checkAutoDiameter"))
         self.horizontalLayout_2.addWidget(self.checkAutoDiameter)
+        self.comboMatchType = QtGui.QComboBox(self.mainGroup)
+        self.comboMatchType.setObjectName(_fromUtf8("comboMatchType"))
+        self.horizontalLayout_2.addWidget(self.comboMatchType)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.horizontalLayout_3 = QtGui.QHBoxLayout()
         self.horizontalLayout_3.setObjectName(_fromUtf8("horizontalLayout_3"))
@@ -92,7 +95,7 @@ class Ui_DlgChangeParams(object):
         DlgChangeParams.setWindowTitle(_translate("DlgChangeParams", "Change fastener parameters", None))
         self.mainGroup.setTitle(_translate("DlgChangeParams", "Fastener Parameters", None))
         self.labelFastenerType.setText(_translate("DlgChangeParams", "Fastener type:", None))
-        self.checkAutoDiameter.setText(_translate("DlgChangeParams", "Auto calculate diameter", None))
+        self.checkAutoDiameter.setText(_translate("DlgChangeParams", "Auto set diameter", None))
         self.labelDiameter.setText(_translate("DlgChangeParams", "Diameter:", None))
         self.labelLength.setText(_translate("DlgChangeParams", "Length:", None))
         self.checkSetLength.setText(_translate("DlgChangeParams", "Set length (mm):", None))
@@ -113,7 +116,7 @@ from FastenerBase import FSBaseObject
 import ScrewMaker  
 screwMaker = ScrewMaker.Instance()
 import sys
-import PEMInserts
+import FastenersCmd, PEMInserts
 
 def FSCPGetDiameters(type, item):
   if type == "Screw" or type == "Washer" or type == "ScrewTap" or type == "Nut":
@@ -195,7 +198,9 @@ class FSTaskChangeParamDialog:
     def __init__(self, obj):
         self.object = obj
         self.baseObj = obj
+        self.disableUpdate = True
         self.selection = Gui.Selection.getSelection()
+        self.matchOuter = FastenerBase.FSMatchOuter
         FSChangeParamDialog = QtGui.QWidget()
         FSChangeParamDialog.ui = Ui_DlgChangeParams()
         FSChangeParamDialog.ui.setupUi(FSChangeParamDialog)
@@ -212,6 +217,20 @@ class FSTaskChangeParamDialog:
         ui.checkAutoDiameter.stateChanged.connect(self.onAutoDiamChange)
         ui.checkSetLength.stateChanged.connect(self.onSetLengthChange)
         ui.spinLength.setEnabled(False)
+        self.hatMatchOption = False
+        if len(self.selection) > 0:
+          selobj = self.selection[0]
+          #FreeCAD.Console.PrintLog("selobj: " + str(selobj.Proxy) + "\n")
+          if hasattr(selobj, 'Proxy') and hasattr(selobj.Proxy, 'VerifyCreateMatchOuter'):
+            self.hatMatchOption = True
+        if self.hatMatchOption:
+          ui.comboMatchType.addItem("No Change")
+          ui.comboMatchType.addItem(QtGui.QIcon(os.path.join(iconPath , 'IconMatchTypeInner.svg')), "Match inner thread")
+          ui.comboMatchType.addItem(QtGui.QIcon(os.path.join(iconPath , 'IconMatchTypeOuter.svg')), "Match outer thread")
+          ui.comboMatchType.setEnabled(False)
+          ui.comboMatchType.setCurrentIndex(0)
+        else:
+          ui.comboMatchType.hide()
        
     def FillFields(self, fstype):
         ui = self.form.ui
@@ -225,10 +244,13 @@ class FSTaskChangeParamDialog:
             ui.comboFastenerType.setCurrentIndex(1)
             ui.comboFastenerType.setEnabled(False)
         #FreeCAD.Console.PrintLog("manual\n")
+        self.disableUpdate = False
         self.UpdateDiameters()
         return
         
     def UpdateDiameters(self):
+        if self.disableUpdate:
+          return
         try:
           ui = self.form.ui
           ui.comboDiameter.clear()
@@ -285,8 +307,10 @@ class FSTaskChangeParamDialog:
             ui = self.form.ui
             if (ui.checkAutoDiameter.isChecked()):
                 ui.comboDiameter.setEnabled(False)
+                ui.comboMatchType.setEnabled(True)
             else:
                 ui.comboDiameter.setEnabled(True)
+                ui.comboMatchType.setEnabled(False)
         except:
             FastenerBase.FSShowError()
         return
@@ -310,6 +334,9 @@ class FSTaskChangeParamDialog:
                 if ui.comboFastenerType.isEnabled() and ui.comboFastenerType.currentIndex() > 0:
                     obj.type = str(ui.comboFastenerType.currentText())
                 if ui.checkAutoDiameter.isChecked():
+                    if self.hatMatchOption and ui.comboMatchType.currentIndex() > 0:
+                      obj.Proxy.VerifyCreateMatchOuter(obj)
+                      obj.matchOuter = ui.comboMatchType.currentIndex() == 2
                     obj.diameter = 'Auto'
                 elif ui.comboDiameter.currentIndex() > 0:
                     obj.diameter = str(ui.comboDiameter.currentText())
@@ -322,8 +349,11 @@ class FSTaskChangeParamDialog:
                         obj.length = str(ui.comboLength.currentText())
                     else:
                         if ui.checkSetLength.isChecked():
-                            d, l = screwMaker.FindClosest(obj.type, obj.diameter, ui.spinLength.value())
-                            obj.length = l
+                            if isinstance(obj.Proxy, FastenersCmd.FSScrewRodObject):
+                              obj.length = ui.spinLength.value()
+                            else:
+                              d, l = screwMaker.FindClosest(obj.type, obj.diameter, ui.spinLength.value())
+                              obj.length = l
             FreeCAD.ActiveDocument.recompute()            
         except:
             FastenerBase.FSShowError()
@@ -369,14 +399,12 @@ class FSChangeParamCommand:
     tmaxlen = 0
     for typename in FastenerBase.FSFasenerTypeDB:
       #FreeCAD.Console.PrintLog(typename + "\n")
-      tlen = len(typename)
-      if sel[0].Name.startswith(typename) and tlen > tmaxlen:
+      if filter(lambda c: not c.isdigit(), sel[0].Name) == typename:
         self.type = typename
-        tmaxlen = tlen
     if self.type == None:
       return False
     for obj in sel:
-      if not(obj.Name.startswith(self.type)):
+      if filter(lambda c: not c.isdigit(), obj.Name) != self.type:
         return False
     return True
       

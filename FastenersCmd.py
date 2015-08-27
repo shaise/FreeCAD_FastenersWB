@@ -88,7 +88,9 @@ class FSScrewObject(FSBaseObject):
     if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
       diameterchange = True      
 
-    if fp.diameter == 'Auto':
+    matchouterchange = not (hasattr(self,'matchOuter')) or self.matchOuter != fp.matchOuter
+
+    if fp.diameter == 'Auto' or matchouterchange:
       d = screwMaker.AutoDiameter(fp.type, shape, baseobj, fp.matchOuter)
       fp.diameter = d
       diameterchange = True      
@@ -121,6 +123,7 @@ class FSScrewObject(FSBaseObject):
 
     self.type = fp.type
     self.diameter = fp.diameter
+    self.matchOuter = fp.matchOuter
     if hasattr(fp,'length'):
       self.length = fp.length
       fp.Label = fp.diameter + 'x' + fp.length + '-' + self.itemText
@@ -365,9 +368,11 @@ class FSScrewRodObject(FSBaseObject):
     self.VerifyCreateMatchOuter(fp)
     diameterchange = False      
     if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
-      diameterchange = True      
+      diameterchange = True    
+      
+    matchouterchange = not (hasattr(self,'matchOuter')) or self.matchOuter != fp.matchOuter
 
-    if fp.diameter == 'Auto':
+    if fp.diameter == 'Auto' or matchouterchange:
       d = screwMaker.AutoDiameter(self.type, shape, baseobj, fp.matchOuter)
       fp.diameter = d
       diameterchange = True      
@@ -392,6 +397,7 @@ class FSScrewRodObject(FSBaseObject):
 
     self.diameter = fp.diameter
     self.length = l
+    self.matchOuter = fp.matchOuter
     fp.Label = fp.diameter + 'x' + str(l) + '-' + self.itemText
     self.realThread = fp.thread
     fp.Shape = s

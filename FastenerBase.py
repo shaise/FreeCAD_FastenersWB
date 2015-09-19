@@ -55,7 +55,8 @@ class FSGroupCommand:
         return Gui.ActiveDocument != None
     #def Activated(self, index): # index is an int in the range [0, len(GetCommands)
 
-DropButtonSupported = int(FreeCAD.Version()[1]) > 15 and  int(FreeCAD.Version()[2].split()[0]) > 5165    
+DropButtonSupported = int(FreeCAD.Version()[1]) > 15 and  int(FreeCAD.Version()[2].split()[0]) >= 5165
+RadioButtonSupported = int(FreeCAD.Version()[1]) > 15 and  int(FreeCAD.Version()[2].split()[0]) >= 5560   
 FSParam = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Fasteners")
 GroupButtonMode = FSParam.GetInt("ScrewToolbarGroupMode", 0) # 0 = nine, 1 = seperate toolbar 2 = drop down buttons
 if GroupButtonMode == 2 and not(DropButtonSupported):
@@ -492,6 +493,7 @@ FSCommands.append('FSSimple', "command")
 FSMatchOuter = False
 FSMatchIconNeedUpdate = 0
 
+# frecad 0.15 version:
 class FSToggleMatchTypeCommand:
   """Toggle screw matching method"""
 
@@ -527,7 +529,54 @@ class FSToggleMatchTypeCommand:
         self.UpdateIcon()
     return True
         
+
+#freecad v0.16 version:
+class FSMatchTypeInnerCommand:
+    def Activated(self, index):
+        pass
+
+    def GetResources(self):
+        return { 'Pixmap'  : os.path.join( iconPath , 'IconMatchTypeInner.svg'),
+                 'MenuText': 'Match screws by inner thread diameter (Tap hole)', 
+                 'Checkable': True}
+
+
+class FSMatchTypeOuterCommand:
+    def Activated(self, index):
+        pass
         
-Gui.addCommand('FSToggleMatchType',FSToggleMatchTypeCommand())
-FSCommands.append('FSToggleMatchType', "command")
+    def GetResources(self):
+        return { 'Pixmap'  : os.path.join( iconPath , 'IconMatchTypeOuter.svg'),
+                 'MenuText': 'Match screws by outer thread diameter (Pass hole)', 
+                 'Checkable': False}
+
+class FSMatchTypeGroupCommand:
+    def GetCommands(self):
+        return ("FSMatchTypeInner", "FSMatchTypeOuter") # a tuple of command names that you want to group
+
+    def Activated(self, index):
+        if index == 0:
+            FSMatchOuter = False
+            FreeCAD.Console.PrintLog("Set auto diameter to match inner thread\n")
+        else:
+            FSMatchOuter = True
+            FreeCAD.Console.PrintLog("Set auto diameter to match outer thread\n")
+
+    def GetDefaultCommand(self): # return the index of the tuple of the default command. This method is optional and when not implemented '0' is used 
+        return 0
+
+    def GetResources(self):
+        return { 'MenuText': 'Screw diamter matching mode', 'ToolTip': 'Screw diamter matching mode (by inner or outer thread diameter)', 'DropDownMenu': False, 'Exclusive' : True }
+       
+    def IsActive(self): # optional
+        return True
+
+if RadioButtonSupported:
+    FreeCADGui.addCommand('FSMatchTypeInner',FSMatchTypeInnerCommand())
+    FreeCADGui.addCommand('FSMatchTypeOuter',FSMatchTypeOuterCommand())
+    FreeCADGui.addCommand('FSMatchTypeGroup',FSMatchTypeGroupCommand())
+    FSCommands.append('FSMatchTypeGroup', "command")
+else:
+    Gui.addCommand('FSToggleMatchType',FSToggleMatchTypeCommand())
+    FSCommands.append('FSToggleMatchType', "command")
  

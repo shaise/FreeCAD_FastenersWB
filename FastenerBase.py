@@ -580,3 +580,73 @@ else:
     Gui.addCommand('FSToggleMatchType',FSToggleMatchTypeCommand())
     FSCommands.append('FSToggleMatchType', "command")
  
+###################################################################################
+# Generate BOM command
+###################################################################################
+
+class FSMakeBomCommand:
+  """Generate fasteners bill of material"""
+
+  def GetResources(self):
+    icon = os.path.join( iconPath , 'IconBOM.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Generate BOM" ,
+            'ToolTip' : "Generate fasteners bill of material"}
+ 
+  def Activated(self):
+    self.fastenerDB = {}
+    sheet = FreeCAD.ActiveDocument.addObject('Spreadsheet::Sheet','Fasteners_BOM')
+    sheet.setColumnWidth('A', 200)
+    sheet.set('A1', "Type")
+    sheet.set('B1', "Qty")
+    for obj in FreeCAD.ActiveDocument.Objects:
+      name = filter(lambda c: not c.isdigit(), obj.Name)
+      method = getattr(self, 'Add' + name, lambda x: "nothing")
+      method(obj)
+      FreeCAD.Console.PrintLog(name + "\n")
+    line = 2
+    for fastener in sorted(self.fastenerDB.keys()):
+      sheet.set('A' + str(line), fastener)
+      sheet.set('B' + str(line), str(self.fastenerDB[fastener]))
+      line += 1
+    FreeCAD.ActiveDocument.recompute()
+    return
+    
+  def AddFastener(self, fastener):
+    if self.fastenerDB.has_key(fastener):
+      self.fastenerDB[fastener] = self.fastenerDB[fastener] + 1
+    else:
+      self.fastenerDB[fastener] = 1
+      
+  def AddScrew(self, obj):
+    self.AddFastener(obj.type + " Screw " + obj.diameter + "x" + obj.length)
+    
+  def AddNut(self, obj):
+    if hasattr(obj, 'type'):
+      type = obj.type
+    else:
+      type = 'ISO4033'
+    self.AddFastener(type + " Nut " + obj.diameter)
+
+  def AddWasher(self, obj):
+    self.AddFastener(obj.type + " Washer " + obj.diameter)
+    
+  def AddScrewTap(self, obj):
+    self.AddFastener("ScrewTap " + obj.diameter + "x" + str(obj.length))
+    
+  def AddPressNut(self, obj):
+    self.AddFastener("PEM PressNut " + obj.diameter + "-" + obj.tcode)
+    
+  def AddStandoff(self, obj):
+    self.AddFastener("PEM Standoff " + obj.diameter + "x" + obj.length)
+    
+  def AddStud(self, obj):
+    self.AddFastener("PEM Stud " + obj.diameter + "x" + obj.length)
+    
+    
+  def IsActive(self):
+    return Gui.ActiveDocument != None
+        
+        
+Gui.addCommand('FSMakeBOM',FSMakeBomCommand())
+FSCommands.append('FSMakeBOM', "command")

@@ -12,6 +12,7 @@ http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 #### Release notes:
 
 
+* V0.2.13  01 Oct 2015:  Add generation of BOM
 * V0.2.11  24 Aug 2015:  Add inner/outer match attribute to screws. Fix several bugs
 * V0.2.10  23 Aug 2015:  Add new command: Batch change fasteners parameters
 * V0.2.09  23 Aug 2015:  Fixed screw creation bug when not attached to geometry

@@ -19,3 +19,4 @@
 * ~~Select the type of countersunk holes to match the screws~~
 * ~~Add option to batch-change fasteners properties~~
 * ~~Add function to generate spreadsheet BOM~~
+* Add various types of hole generation as proposed by pablogil

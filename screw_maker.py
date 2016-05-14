@@ -3983,7 +3983,7 @@ class Screw(object):
 
   def makeHextool(self,s_hex, k_hex, cir_hex):
     # makes a cylinder with an inner hex hole, used as cutting tool
-    # create hexagon
+    # create hexagon face
     mhex=Base.Matrix()
     mhex.rotateZ(math.radians(60.0))
     polygon = []
@@ -3993,16 +3993,20 @@ class Screw(object):
        vhex = mhex.multiply(vhex)
     polygon.append(vhex)
     hexagon = Part.makePolygon(polygon)
-    # create circle
+    hexagon = Part.Face(hexagon)
+
+    # create circle face
     circ=Part.makeCircle(cir_hex/2.0,Base.Vector(0.0,0.0,-k_hex*0.1))
+    circ=Part.Face(Part.Wire(circ))
+
+
     # Create the face with the circle as outline and the hexagon as hole
-    face=Part.Face([Part.Wire(circ),hexagon])
-    
+    face=circ.cut(hexagon)
+   
     # Extrude in z to create the final cutting tool
     exHex=face.extrude(Base.Vector(0.0,0.0,k_hex*1.2))
     # Part.show(exHex)
     return exHex
-
 
   def makeShellthread(self, d, P, halfrots, withcham, offSet):
     d = float(d)

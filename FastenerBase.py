@@ -341,7 +341,7 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
     if hasattr(s,'Point'):
       FreeCAD.Console.PrintLog( "the object seems to be a vertex! "+ str(s.Point) + "\n")
       Pnt1 = s.Point
-          
+            
     if (Axis1 != None):
       if invert:
         Axis1 = Base.Vector(0,0,0) - Axis1
@@ -367,6 +367,7 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
       sin_res = math.sin(result/2.0)
       cos_res = math.cos(result/2.0)
       normvec.multiply(-sin_res) # Berechnung der Quaternionen-Elemente
+              
       #FreeCAD.Console.PrintLog( "Winkel = "+ str(math.degrees(result)) + "\n")
       #FreeCAD.Console.PrintLog("Normalvektor: "+ str(normvec) + "\n")
         
@@ -374,13 +375,9 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
       pl.Rotation = (normvec.x,normvec.y,normvec.z,cos_res) #Drehungs-Quaternion
       
       #FreeCAD.Console.PrintLog("pl mit Rot: "+ str(pl) + "\n")
-      #neuPlatz = Part2.Object.Placement.multiply(pl)
       ScrewObj_m.Placement = FreeCAD.Placement()
-      neuPlatz = ScrewObj_m.Placement
-      #FreeCAD.Console.PrintLog("die Position     "+ str(neuPlatz) + "\n")
-      neuPlatz.Rotation = pl.Rotation.multiply(ScrewObj_m.Placement.Rotation)
-      neuPlatz.move(Pnt1)
-      #FreeCAD.Console.PrintLog("die rot. Position: "+ str(neuPlatz) + "\n")
+      ScrewObj_m.Placement.Rotation = pl.Rotation.multiply(ScrewObj_m.Placement.Rotation)
+      ScrewObj_m.Placement.move(Pnt1)
 
 
 # common actions on fateners:

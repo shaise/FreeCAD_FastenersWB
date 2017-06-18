@@ -4997,8 +4997,10 @@ class Screw(object):
  
     for i in range(3):
       cutplace.Rotation = pl_rot.Rotation.multiply(corner.Placement.Rotation)
+      corner.Placement=cutplace
       crossShell = crossShell.cut(corner)
       addPlace.Rotation = pl_rot.Rotation.multiply(cornerShell.Placement.Rotation)
+      cornerShell.Placement = addPlace
       for coFace in cornerShell.Faces:
         crossFaces.append(coFace)
 

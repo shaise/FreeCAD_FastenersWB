@@ -166,8 +166,10 @@ class Ui_DlgCountersunktHoles(object):
         
         edgediams = {}
         type = 'Default'
+        #FreeCAD.Console.PrintLog("Num Edge:" + str(len(edgelist)) + "\n")
         for edgediam in edgelist:
            edge, diam, invert, offset, type = cshSplitEdgeDiam(edgediam)
+           #FreeCAD.Console.PrintLog("Add Edge:" + str(edge) + "'" + str(diam) + "\n")
            edgediams[edge] = diam
         
         self.fillScrewType(screwMaker.GetAllCountersunkTypes())
@@ -216,6 +218,7 @@ class Ui_DlgCountersunktHoles(object):
         self.treeView.selectionModel().clearSelection()
         self.itemRefreshDisabled = True
         for edge in edges:
+            #FreeCAD.Console.PrintLog("Diam Table:" + str(edge) + "\n")
             for i in range (nedges):
                 if dm.data(dm.index(i,0)) == edge:
                     m = FastenerBase.FSAutoDiameterM(obj.Shape.getElement(edge), self.diamTable, -1)
@@ -256,8 +259,11 @@ class Ui_DlgCountersunktHoles(object):
         dm.itemChanged.emit(None)
                
     def onScrewChange(self, screwindex):
+        if screwindex < 0:
+            return
         self.itemRefreshDisabled = True
         type = self.comboScrewType.itemText(screwindex)
+        #FreeCAD.Console.PrintLog("ScrewChange " + str(screwindex) + ":" + str(type) + "\n")
         self.fillDiameters(type)
         # update diameters if needed
         dm = self.model
@@ -265,6 +271,9 @@ class Ui_DlgCountersunktHoles(object):
         isChange = False
         for i in range (nedges):
             diam = dm.data(dm.index(i,1))
+            #FreeCAD.Console.PrintLog("Looking for diam:" + str(i) + "," + str(diam) + "\n")
+            if diam == None:
+                continue
             diam1 = self.GetClosest(diam)
             #FreeCAD.Console.PrintLog(diam + "->" + diam1 + "\n")
             if diam != diam1:

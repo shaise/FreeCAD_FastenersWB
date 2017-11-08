@@ -58,7 +58,7 @@ class FSGroupCommand:
 DropButtonSupported = int(FreeCAD.Version()[1]) > 15 # and  int(FreeCAD.Version()[2].split()[0]) >= 5165
 RadioButtonSupported = int(FreeCAD.Version()[1]) > 15 # and  int(FreeCAD.Version()[2].split()[0]) >= 5560   
 FSParam = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Fasteners")
-GroupButtonMode = FSParam.GetInt("ScrewToolbarGroupMode", 0) # 0 = nine, 1 = seperate toolbar 2 = drop down buttons
+GroupButtonMode = FSParam.GetInt("ScrewToolbarGroupMode", 0) # 0 = nine, 1 = separate toolbar 2 = drop down buttons
 if GroupButtonMode == 2 and not(DropButtonSupported):
   GroupButtonMode = 1
     

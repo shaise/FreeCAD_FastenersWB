@@ -1,17 +1,22 @@
-# FreeCAD_FastenersWB
-A workbench to add/attach various fasteners to parts  
+# FreeCAD Fasteners Workbench
+A FreeCAD workbench to add/attach various fasteners to parts  
 
-#### Developpers:
-* ScrewMaker: Ulrich Brammer <ulrich1a[at]users.sourceforge.net>
-* Workbench wrapper:  Shai Seger
-
-#### Installation
-For Installation and how to use, please visit:  
-http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
-
-#### Release notes:
+![Fasteners_toolbar](https://user-images.githubusercontent.com/4140247/32561138-815cc5f8-c479-11e7-988e-3be19d3e98c3.png)
+![image](https://user-images.githubusercontent.com/4140247/32561849-4276249a-c47b-11e7-9977-110be802d624.png)
+![image](https://user-images.githubusercontent.com/4140247/32561853-466e708e-c47b-11e7-9029-923256e50650.png)![image](https://user-images.githubusercontent.com/4140247/32561890-5a563096-c47b-11e7-9026-cf81bea25834.png)
 
 
+### Installation
+Starting from FreeCAD v0.17.9940 an Addons Installer has been built-in to FreeCAD and can be accessed from the Tools menu. 
+You can use said Addon Installer to seamlessly install Fasteners Workbench.
+Versions before FreeCAD require manual installation, please see how via http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
+
+
+### Usage
+Please see http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/ for a synopsis on how to use Fasteners Workbench.
+
+
+#### Release notes
 * V0.2.14  19 Jun 2017:  Fix countersunk function bug. Merge Maurice's fix for screw generation
 * V0.2.13  01 Oct 2015:  Add generation of BOM
 * V0.2.11  24 Aug 2015:  Add inner/outer match attribute to screws. Fix several bugs
@@ -22,7 +27,7 @@ http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
                          by inner or outer thread diameter
 * V0.2.06  02 Aug 2015:  Added hole diameter calculator helper.
 * V0.2.05  01 Aug 2015:  Option to select type of screw for countersunk holes.
-* V0.2.03  30 Jul 2015:  Seperate option for grouping icons as toolbars or as drop-down buttons   
+* V0.2.03  30 Jul 2015:  Separate option for grouping icons as toolbars or as drop-down buttons   
 * V0.2.01  28 Jul 2015:  Update to Ulrich's V2.0 screw maker. many more screws, and nuts with threads!   
 * V0.1.04  21 Jul 2015:  Drop-down buttons can be enabled in Preferences unser Fasteners.   
 * V0.1.03  15 Jul 2015:  Disable drop-down buttons. It will be used only when screw items count will be too big.   
@@ -41,3 +46,10 @@ http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 * V0.0.01  18 Jun 2015:  Initial version
 
  
+#### Developers
+* ScrewMaker: Ulrich Brammer <ulrich1a[at]users.sourceforge.net>
+* Workbench wrapper:  Shai Seger
+
+### Feedback
+For further discussion, feel free to open a forum thread on [FreeCAD Open Discussion subforum](https://forum.freecadweb.org/viewforum.php?f=8&sid=853eff68d2a09bfd39fb3508d038af97) 
+and make sure ping user 'shaise'.   

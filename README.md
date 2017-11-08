@@ -3,7 +3,8 @@ A FreeCAD workbench to add/attach various fasteners to parts
 
 ![Fasteners_toolbar](https://user-images.githubusercontent.com/4140247/32561138-815cc5f8-c479-11e7-988e-3be19d3e98c3.png)
 ![image](https://user-images.githubusercontent.com/4140247/32561849-4276249a-c47b-11e7-9977-110be802d624.png)
-![image](https://user-images.githubusercontent.com/4140247/32561853-466e708e-c47b-11e7-9029-923256e50650.png)![image](https://user-images.githubusercontent.com/4140247/32561890-5a563096-c47b-11e7-9026-cf81bea25834.png)
+![image](https://user-images.githubusercontent.com/4140247/32561853-466e708e-c47b-11e7-9029-923256e50650.png)![image](https://user-images.githubusercontent.com/4140247/32561890-5a563096-c47b-11e7-9026-cf81bea25834.png)![image](https://user-images.githubusercontent.com/4140247/32562381-82b2e8d0-c47c-11e7-828d-1e1b361c6f12.png)
+
 
 
 ### Installation
@@ -47,9 +48,9 @@ Please see http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
  
 #### Developers
-* ScrewMaker: Ulrich Brammer <ulrich1a[at]users.sourceforge.net>
-* Workbench wrapper:  Shai Seger
+* ScrewMaker: Ulrich Brammer <ulrich1a[at]users.sourceforge.net> [@ulrich1a](https://github.com/ulrich1a)
+* Workbench wrapper:  Shai Seger [@shaise](https://github.com/shaise)
 
 ### Feedback
 For further discussion, feel free to open a forum thread on [FreeCAD Open Discussion subforum](https://forum.freecadweb.org/viewforum.php?f=8&sid=853eff68d2a09bfd39fb3508d038af97) 
-and make sure ping user 'shaise'.   
+and make sure to ping user 'shaise'.   

@@ -3542,7 +3542,7 @@ class Screw(object):
           rthread = self.makeShellthread(dia, P, halfturns, False, offSet)
           rthread.translate(Base.Vector(0.0, 0.0,-a_point -2.0*P))
           #head = head.fuse(rthread)
-          Part.show(rthread)
+          #Part.show(rthread)
           for threadFace in rthread.Faces:
             headFaces.append(threadFace)
 

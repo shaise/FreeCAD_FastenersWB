@@ -23,36 +23,21 @@
 #  
 ###################################################################################
 
+import fnwb_locator
+fnWBpath = os.path.dirname(fnwb_locator.__file__)
+fnWB_icons_path =  os.path.join( fnWBpath, 'Icons')
+
+global main_fnWB_Icon
+main_fnWB_Icon = os.path.join( fnWB_icons_path , 'FNLogo.svg')
+
+
 class FastenersWorkbench (Workbench):
  
+    global main_fnWB_Icon
+    
     MenuText = "Fasteners"
     ToolTip = "Create ISO Fasteners"
-    Icon = '''
-/* XPM */
-static char * C:\Program Files\FreeCAD 0_15\Mod\Fasteners\wbicon_xpm[] = {
-"16 16 5 1",
-" 	c None",
-".	c #000000",
-"+	c #03B83F",
-"@	c #0D8132",
-"#	c #034D1C",
-"                ",
-" .....    ..... ",
-" .+@@.    .@@#. ",
-" .+@@.    .@@#. ",
-" .+@@......@@#. ",
-" .+@@@@@@@@@@#. ",
-" .+@@@@@@@@@@#. ",
-" .+@@@@@@@@@@#. ",
-" .............. ",
-"     .+@@#.     ",
-"     .+@@#.     ",
-"     .+@@#.     ",
-"     .+@@#.     ",
-"     .+@@#.     ",
-"     ......     ",
-"                "};
-'''
+    Icon = main_fnWB_Icon
  
     def Initialize(self):
         "This function is executed when FreeCAD starts"

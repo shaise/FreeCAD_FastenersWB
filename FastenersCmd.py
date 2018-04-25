@@ -116,7 +116,7 @@ class FSScrewObject(FSBaseObject):
       
     (key, s) = FastenerBase.FSGetKey(self.itemText, fp.type, d, l, threadType)
     if s == None:
-      s = screwMaker.createScrew(fp.type, d, l, threadType, True)
+      s = screwMaker.createFastener(fp.type, d, l, threadType, True)
       FastenerBase.FSCache[key] = s
     else:
       FreeCAD.Console.PrintLog("Using cached object\n")
@@ -253,6 +253,8 @@ FSAddScrewCommand("ISO4033", "ISO 4033 Hexagon nuts, Style 2", "Nut")
 FSAddScrewCommand("ISO4035", "ISO 4035 Hexagon thin nuts, chamfered", "Nut")
 #FSAddScrewCommand("ISO4036", "ISO 4035 Hexagon thin nuts, unchamfered", "Nut")
 FSAddScrewCommand("EN1661", "EN 1661 Hexagon nuts with flange", "Nut")
+FSAddScrewCommand("DIN557", "DIN 557 Square nuts", "Nut")
+FSAddScrewCommand("DIN562", "DIN 562 Square nuts", "Nut")
 
 
 

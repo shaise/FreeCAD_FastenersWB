@@ -36,7 +36,7 @@ iconPath = os.path.join( __dir__, 'Icons' )
 import FastenerBase
 from FastenerBase import FSBaseObject
 import ScrewMaker  
-screwMaker = ScrewMaker.Instance()
+#screwMaker = ScrewMaker.Instance()
 
 
 ###################################################################################
@@ -100,6 +100,7 @@ def nutMakeSolid(diam):
   do = FastenerBase.MToFloat(diam)
   f = nutMakeFace(do, di, s, m)
   p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+  screwMaker = ScrewMaker.Instance()
   htool = screwMaker.makeHextool(s, m, s * 2)
   shape = p.cut(htool)
   FastenerBase.FSCache[key] = shape
@@ -164,3 +165,119 @@ class FSHexNutCommand:
 
 Gui.addCommand("FSHexNut", FSHexNutCommand())
 #FastenerBase.FSCommands.append("FSHexNut", "screws", "Nut")
+
+###################################################################################
+# Square Metric Hex nuts DIN562
+din562def = {
+#         s,    m,    d
+  'M1.6':(3.2,  1,    1.25),
+  'M2':  (4.0,  1.2,  1.6),
+  'M2.5':(5.0,  1.6,  2.05),
+  'M3':  (5.5,  1.8,  2.5),
+  'M4':  (7.0,  2.2,  3.3),
+  'M5':  (8.0,  2.7,  4.2),
+  'M6':  (10.0, 3.2,  5.0),
+  'M8':  (13.0, 4,    6.8),
+  'M10': (17.0, 5,    8.5)
+}
+
+def makeSquareTool(s, m):
+  # makes a cylinder with an inner square hole, used as cutting tool
+  # create square face
+  msq = Base.Matrix()
+  msq.rotateZ(math.radians(90.0))
+  polygon = []
+  vsq = Base.Vector(s / 2.0, s / 2.0, -m * 0.1)
+  for i in range(4):
+     polygon.append(vsq)
+     vsq = msq.multiply(vsq)
+  polygon.append(vsq)
+  square = Part.makePolygon(polygon)
+  square = Part.Face(square)
+
+  # create circle face
+  circ = Part.makeCircle(s * 3.0, Base.Vector(0.0, 0.0, -m * 0.1))
+  circ = Part.Face(Part.Wire(circ))
+
+  # Create the face with the circle as outline and the square as hole
+  face=circ.cut(square)
+ 
+  # Extrude in z to create the final cutting tool
+  exSquare = face.extrude(Base.Vector(0.0, 0.0, m * 1.2))
+  # Part.show(exHex)
+  return exSquare
+
+tan30 = math.tan(math.radians(30.0))
+
+def sqnutMakeFace(do, di, dw, s, m):
+  do = do / 2
+  dw = dw / 2
+  di = di / 2
+  ch1 = do - di
+  ch2 = (s - dw) * tan30
+  
+  fm = FastenerBase.FSFaceMaker()
+  fm.AddPoint(di, ch1)
+  fm.AddPoint(do, 0)
+  fm.AddPoint(s, 0)
+  if dw > 0:
+    fm.AddPoint(s, m - ch2)
+    fm.AddPoint(dw, m)
+  else :
+    fm.AddPoint(s, m)
+  fm.AddPoint(do, m)
+  fm.AddPoint(di, m - ch1)
+  return fm.GetFace()
+
+def nut562MakeSolid(diam):
+  if not(diam in din562def):
+    return None
+  (key, shape) = FastenerBase.FSGetKey('Nut562', diam)
+  if shape != None:
+    return shape
+  
+  s, m, di = din562def[diam]
+  do = FastenerBase.MToFloat(diam)
+  f = sqnutMakeFace(do, di, 0, s, m)
+  p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+  htool = makeSquareTool(s, m)
+  shape = p.cut(htool)
+  FastenerBase.FSCache[key] = shape
+  return shape
+    
+###################################################################################
+# Square Metric Hex nuts DIN 557
+din557def = {
+#         s,    m,    d     dw
+  'M4':  (7.0,  3.2,  3.3,  5.7),
+  'M5':  (8.0,  4,    4.2,  6.7),
+  'M6':  (10.0, 5,    5.0,  8.7),
+  'M8':  (13.0, 6.5,  6.8,  11.5),
+  'M10': (17.0, 8,    8.5,  15.5),
+  'M12': (19.0, 10,   10.2, 17.2),
+  'M16': (24.0, 13,   14.0, 22)
+}
+
+def nut557MakeSolid(diam):
+  if not(diam in din557def):
+    return None
+  (key, shape) = FastenerBase.FSGetKey('Nut557', diam)
+  if shape != None:
+    return shape
+  
+  s, m, di, dw = din557def[diam]
+  do = FastenerBase.MToFloat(diam)
+  f = sqnutMakeFace(do, di, dw, s, m)
+  p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+  htool = makeSquareTool(s, m)
+  shape = p.cut(htool)
+  FastenerBase.FSCache[key] = shape
+  return shape
+  
+
+def createNut(type, diam):
+  if (type == 'DIN557'):
+    return nut557MakeSolid(diam)
+  if (type == 'DIN562'):
+    return nut562MakeSolid(diam)
+  return None

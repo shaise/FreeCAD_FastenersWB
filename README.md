@@ -17,7 +17,7 @@ Versions before FreeCAD require manual installation, please see how via http://t
 Please see http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/ for a synopsis on how to use Fasteners Workbench.
 
 ### Note for FreeCAD 0.17 Part Design:
-To attach a fastener to a feature created with part design, it must be attached to the body, rather then one of its inner elements. To do so, first switch the "Display Mode" of the body from "Through" to "Tip". This can be found in the "View" tab of the Body's properties panel. To continue editing the Body, switch back to "Through" 
+To attach a fastener to a feature created with part design, it must be attached to the body, rather then one of its inner elements. To do so, first switch the "Display Mode" of the body from "Through" to "Tip". This can be found in the "View" tab of the Body's properties panel. You might also need to change "selectable" to "True" in the same place. To continue editing the Body, switch back to "Through" 
 
 #### Release notes
 * V0.2.15  25 Apr 2018:  Add DIN 562 and DIN 557 square nuts

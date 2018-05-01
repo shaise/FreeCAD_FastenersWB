@@ -285,6 +285,9 @@ def FSGetAttachableSelections():
   for selObj in Gui.Selection.getSelectionEx():
     baseObjectNames = selObj.SubElementNames
     obj = selObj.Object
+    grp = obj.getParentGeoFeatureGroup()
+    if grp != None and hasattr(grp,'TypeId') and grp.TypeId == 'PartDesign::Body' :
+      obj = grp
     edgestable = {}
     # add explicitly selected edges
     for baseObjectName in baseObjectNames:
@@ -294,6 +297,7 @@ def FSGetAttachableSelections():
       if not(hasattr(shape.Curve,"Center")):
         continue
       asels.append((obj, [baseObjectName]))
+      FreeCAD.Console.PrintLog("Linking to " + obj.Name + "[" + baseObjectName + "].\n")
       edgestable[baseObjectName] = 1
       
     # add all edges of a selected surface

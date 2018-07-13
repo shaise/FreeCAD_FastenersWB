@@ -274,7 +274,7 @@ class FSViewProviderIcon:
 def GetEdgeName(obj, edge):
   i = 1
   for e in obj.Edges:
-    if e.isEqual(edge):
+    if e.isSame(edge):
       return 'Edge' + str(i)
     i = i + 1
   return None

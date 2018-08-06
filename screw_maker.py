@@ -3499,7 +3499,8 @@ class Screw(object):
       edgeH1 = Part.makeLine(Pnt1,PntH1)
       edgeH2 = Part.makeLine(PntH1,PntH0)
       edgeH3 = Part.makeLine(PntH0,Pnt0)
-      hWire = Part.Wire([edge1,edgeH1,edgeH2,edgeH3]) # Cutter for recess-Shell
+      hWire = Part.Wire([edge1,edgeH3,edgeH2,edgeH1]) # Cutter for recess-Shell
+      hWire.reverse()  # a fix to work with ver 18 
       hFace = Part.Face(hWire)
       hCut = hFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
       #Part.show(hWire)

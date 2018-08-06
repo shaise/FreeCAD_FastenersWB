@@ -21,6 +21,7 @@ Please see http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 It is now done automatically
 
 #### Release notes
+* V0.2.18  13 Aug 2018:  Fix ISO10642 & ISO14584 issues on ver 0.18. issue #25
 * V0.2.17  13 Jul 2018:  Fix Bug: selecting a face to select all holes did not work.
 * V0.2.16  01 May 2018:  Attaching to Partdesign features redirect the atachment to the parent body 
 * V0.2.15  25 Apr 2018:  Add DIN 562 and DIN 557 square nuts

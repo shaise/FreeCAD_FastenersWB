@@ -69,6 +69,8 @@ def nutMakeLine2D(x1, z1, x2, z2):
 
 cos15 = math.cos(math.radians(15.0))
 cos30 = math.cos(math.radians(30.0))
+tan15 = math.tan(math.radians(15.0))
+tan30 = math.tan(math.radians(30.0))
 
 def nutMakeFace(do, di, s, m):
   do = do / 2
@@ -207,7 +209,6 @@ def makeSquareTool(s, m):
   # Part.show(exHex)
   return exSquare
 
-tan30 = math.tan(math.radians(30.0))
 
 def sqnutMakeFace(do, di, dw, s, m):
   do = do / 2
@@ -274,10 +275,86 @@ def nut557MakeSolid(diam):
   FastenerBase.FSCache[key] = shape
   return shape
   
+###################################################################################
+# Nyloc Hex nuts DIN 985
+din985def = {
+#           P,    damax, dw,  e,     m,   h,    s_nom
+  'M3':    (0.5,  3.45, 4.6,  6.1,   2.4,  4.0,  5.5),
+  'M4':    (0.7,  4.6,  5.9,  7.7,   2.9,  5.0,  7.0), 
+  'M5':    (0.8,  5.75, 6.9,  8.9,   3.2,  5.0,  8.0),
+  'M6':    (1.0,  6.75, 8.9,  11.05, 4.0,  6.0, 10.0),
+  'M7':    (1.0,  6.75, 9.6,  12.12, 4.7,  7.5, 11.0),
+  'M8':    (1.25, 8.75, 11.6, 14.5,  5.5,  8.0, 13.0),
+  'M10':   (1.50, 10.8, 15.6, 17.9,  6.5, 10.0,  16.0),
+  'M12':   (1.75, 13.0, 17.4, 20.1,  8.0, 12.0,  18.0),
+  'M14':   (2.00, 15.1, 20.5, 24.5,  9.5, 14.0,  22.0),
+  'M16':   (2.00, 17.3, 22.5, 26.9, 10.5, 16.0,  24.0),
+  'M18':   (2.50, 19.5, 24.9, 29.6, 13.0, 18.5,  27.0),
+  'M20':   (2.50, 21.6, 27.7, 33.7, 14.0, 20.0,  30.0),
+  'M22':   (2.50, 23.7, 29.5, 37.3, 15.0, 22.0,  34.0),
+  'M24':   (3.00, 25.9, 33.2, 40.1, 15.0, 24.0,  36.0),
+  'M27':   (3.00, 29.1, 38.0, 45.2, 17.0, 27.0,  41.0),
+  'M30':   (3.50, 32.4, 42.7, 50.9, 19.0, 30.0,  46.0), 
+  'M33':   (3.50, 35.6, 46.6, 55.4, 22.0, 33.0,  50.0), 
+  'M36':   (4.00, 38.9, 51.1, 61.0, 25.0, 36.0,  55.0),
+  'M39':   (4.00, 42.1, 55.9, 66.5, 17.0, 39.0,  60.0),
+  'M42':   (4.50, 45.4, 60.6, 71.3, 29.0, 42.0,  65.0),
+  'M45':   (4.50, 48.6, 64.7, 77.0, 32.0, 45.0,  70.0),
+  'M48':   (5.00, 51.8, 69.4, 82.6, 36.0, 48.0,  75.0),
+  } 
 
+  
+def nylocMakeFace(do, p, da, dw, e, m, h, s):
+  di = (do - p) / 2
+  do = do / 2
+  dw = dw / 2
+  da = da / 2
+  e = e / 2
+  s = s / 2
+  s1 = s * 0.999
+  ch1 = do - di
+  ch2 = (e - dw) * tan30
+  ch3 = m - (e - s) * tan30
+  h1 = h * 0.9
+  r = (s - di) / 3
+    
+  fm = FastenerBase.FSFaceMaker()
+  fm.AddPoint(di, ch1)
+  fm.AddPoint(da, 0)
+  fm.AddPoint(dw, 0)
+  fm.AddPoint(e, ch2)
+  fm.AddPoint(e, ch3)
+  fm.AddPoint(s1, m)
+  fm.AddPoint(s1, h - r)
+  fm.AddArc2(-r, 0, 90)
+  fm.AddPoint(di + r, h)
+  fm.AddPoint(di + r, h1)
+  fm.AddPoint(di, h1)
+  return fm.GetFace()
+
+def nut985MakeSolid(diam):
+  if not(diam in din985def):
+    return None
+  (key, shape) = FastenerBase.FSGetKey('Nut985', diam)
+  if shape != None:
+    return shape
+  
+  p, da, dw, e, m, h, s = din985def[diam]
+  do = FastenerBase.MToFloat(diam)
+  f = nylocMakeFace(do, p, da, dw, e, m, h, s)
+  p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+  screwMaker = ScrewMaker.Instance()
+  htool = htool = screwMaker.makeHextool(s, m, s * 2)
+  shape = p.cut(htool)
+  FastenerBase.FSCache[key] = shape
+  return shape
+ 
+ 
 def createNut(type, diam):
   if (type == 'DIN557'):
     return nut557MakeSolid(diam)
   if (type == 'DIN562'):
     return nut562MakeSolid(diam)
+  if (type == 'DIN985'):
+    return nut985MakeSolid(diam)
   return None

@@ -199,7 +199,7 @@ class FSFaceMaker:
     else:
       self.edges.append(Part.makeLine(self.lastPoint, curPoint))
     self.lastPoint = curPoint
-    FreeCAD.Console.PrintLog("Add Point: " + str(curPoint) + "\n")
+    #FreeCAD.Console.PrintLog("Add Point: " + str(curPoint) + "\n")
     
     # add an arc starting at last point and going through x1,z1 and x2,z2
   def AddArc(self, x1, z1, x2, z2):
@@ -207,7 +207,29 @@ class FSFaceMaker:
     endPoint = FreeCAD.Base.Vector(x2,0,z2)
     self.edges.append(Part.Arc(self.lastPoint, midPoint, endPoint).toShape())
     self.lastPoint = endPoint
-
+    
+    # add an arc starting at last point, with relative center xc, zc and angle a
+  def AddArc2(self, xc, zc, a):
+    # convert to radians
+    a = math.radians(a)
+    # get absolute center
+    xac = self.lastPoint.x + xc
+    zac = self.lastPoint.z + zc
+    # start angle
+    sa = math.atan2(-zc, -xc)
+    # radius
+    r = math.sqrt(xc * xc + zc * zc)
+    # middle point
+    sa += a / 2.0
+    #FreeCAD.Console.PrintLog("ang1: " + str(math.degrees(sa)) + "\n")
+    x1 = xac + r * math.cos(sa)
+    z1 = zac + r * math.sin(sa)
+    # end point
+    sa += a / 2.0
+    #FreeCAD.Console.PrintLog("ang2: " + str(math.degrees(sa)) + "\n")
+    x2 = xac + r * math.cos(sa)
+    z2 = zac + r * math.sin(sa)
+    self.AddArc(x1, z1, x2, z2)
     
   def GetFace(self):
     self.edges.append(Part.makeLine(self.lastPoint, self.firstPoint))

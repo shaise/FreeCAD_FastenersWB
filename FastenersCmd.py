@@ -255,6 +255,7 @@ FSAddScrewCommand("ISO4035", "ISO 4035 Hexagon thin nuts, chamfered", "Nut")
 FSAddScrewCommand("EN1661", "EN 1661 Hexagon nuts with flange", "Nut")
 FSAddScrewCommand("DIN557", "DIN 557 Square nuts", "Nut")
 FSAddScrewCommand("DIN562", "DIN 562 Square nuts", "Nut")
+FSAddScrewCommand("DIN985", "DIN 985 Nyloc nuts", "Nut")
 
 
 

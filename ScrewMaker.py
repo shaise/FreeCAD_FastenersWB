@@ -10,7 +10,7 @@ import FastenerBase
 from PySide import QtCore, QtGui
 from screw_maker import *
 import FSNuts
-from FSNuts import din557def, din562def
+from FSNuts import din557def, din562def, din985def
 
 FSCScrewHoleChart = (
   ("M1", 0.75),
@@ -104,13 +104,14 @@ screwTables = {
     'EN1661':   ("Nut",    en1661def,    None,          None,           -1, 0),
     'DIN557':   ("Nut",    din557def,    None,          None,           -1, 0),
     'DIN562':   ("Nut",    din562def,    None,          None,           -1, 0),
+    'DIN985':   ("Nut",    din985def,    None,          None,           -1, 0),
     'ScrewTap': ("ScrewTap", tuningTable, None,         None,           -1, 0),
     
     # * diam pos = the position within the def table to be used for auto diameter selection, -1 = get size from Mxx
     # * K Pos = the position within the def table to be used for countersunk holes creation
 }
 
-FSNutsList = ['DIN562', 'DIN557']
+FSNutsList = ['DIN562', 'DIN557', 'DIN985']
 
 class FSScrewMaker(Screw):
     def FindClosest(self, type, diam, len):

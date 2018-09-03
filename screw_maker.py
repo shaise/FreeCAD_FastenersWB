@@ -4315,7 +4315,7 @@ class Screw(object):
 
 
 
-  # if da<>None: make Shell for a nut else: make a screw tap
+  # if da is not None: make Shell for a nut else: make a screw tap
   def makeInnerThread_2(self, d, P, rotations, da, l):
     d = float(d)
     bot_off = 0.0 # nominal length
@@ -4367,7 +4367,7 @@ class Screw(object):
     # print "Shellpoints: ", len(TheShell.Vertexes)
 
     # Handling of the top faces
-    if da <> None:
+    if da is not None:
       TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
       for flaeche in TheShell.Faces:
        TheFaces.append(flaeche)
@@ -4472,7 +4472,7 @@ class Screw(object):
          botFaces.append(flaeche)
     #FreeCAD.Console.PrintMessage("Bottom-Shell: " + str(i) + "\n")
     
-    if da <> None:
+    if da is not None:
       # points for chamfer: common-Method
       pch0 =  (da/2.0-cham_i_delta, 0.0, -(rotations)*P + cham_i) # bottom chamfer
       pch1 =  (da/2.0, 0.0, -(rotations)*P)  #
@@ -4506,7 +4506,7 @@ class Screw(object):
     
       for flaeche in BotShell.Faces:
         TheFaces.append(flaeche)
-      if da <> None:
+      if da is not None:
         TheFaces.append(cham_face.Faces[0])
       else:  
         TheFaces.append(bot_face)
@@ -4545,7 +4545,7 @@ class Screw(object):
     
       for flaeche in BotShell.Faces:
         TheFaces.append(flaeche)
-      if da <> None:
+      if da is not None:
         for flaeche in cham_Shell.Faces:
           TheFaces.append(flaeche)
       else:  

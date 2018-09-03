@@ -12,6 +12,7 @@ from screw_maker import *
 import FSNuts
 from FSNuts import din557def, din562def, din985def
 
+
 FSCScrewHoleChart = (
   ("M1", 0.75),
   ("M1.1", 0.85),
@@ -198,10 +199,8 @@ class FSScrewMaker(Screw):
     
     def GetAllDiams(self, type):
       FreeCAD.Console.PrintLog("Get diams for type:" + str(type) + "\n")
-      list = screwTables[type][1].keys()
-      list.sort(cmp = FastenerBase.MCompare)
-      return list
-      
+      return sorted(screwTables[type][1], key = FastenerBase.MToFloat)
+
     def GetAllLengths(self, type, diam):
       lens = screwTables[type][2]
       range = screwTables[type][3][diam]
@@ -212,7 +211,7 @@ class FSScrewMaker(Screw):
         l = float(len)
         if l >= min and l <= max:
           list.append(len)
-      list.sort(cmp = FastenerBase.NumCompare)
+      list.sort(key = FastenerBase.MToFloat)
       return list
 
     def GetAllCountersunkTypes(self):

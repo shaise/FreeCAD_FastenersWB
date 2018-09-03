@@ -399,12 +399,12 @@ class FSChangeParamCommand:
     tmaxlen = 0
     for typename in FastenerBase.FSFasenerTypeDB:
       #FreeCAD.Console.PrintLog(typename + "\n")
-      if filter(lambda c: not c.isdigit(), sel[0].Name) == typename:
+      if FastenerBase.FSRemoveDigits(sel[0].Name) == typename:
         self.type = typename
     if self.type == None:
       return False
     for obj in sel:
-      if filter(lambda c: not c.isdigit(), obj.Name) != self.type:
+      if FastenerBase.FSRemoveDigits(obj.Name) != self.type:
         return False
     return True
       

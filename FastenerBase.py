@@ -185,6 +185,13 @@ def NumCompare(x, y):
   if x1 < y1:
     return -1
   return 0
+  
+def FSRemoveDigits(txt):
+  res = ''
+  for c in txt:
+    if not c.isdigit():
+      res += c
+  return res
 
 class FSFaceMaker:
   '''Create a face point by point on the x,z plane'''
@@ -623,7 +630,7 @@ class FSMakeBomCommand:
     sheet.set('A1', "Type")
     sheet.set('B1', "Qty")
     for obj in FreeCAD.ActiveDocument.Objects:
-      name = filter(lambda c: not c.isdigit(), obj.Name)
+      name = FSRemoveDigits(obj.Name)
       method = getattr(self, 'Add' + name, lambda x: "nothing")
       method(obj)
       FreeCAD.Console.PrintLog(name + "\n")
@@ -636,7 +643,7 @@ class FSMakeBomCommand:
     return
     
   def AddFastener(self, fastener):
-    if self.fastenerDB.has_key(fastener):
+    if fastener in self.fastenerDB:
       self.fastenerDB[fastener] = self.fastenerDB[fastener] + 1
     else:
       self.fastenerDB[fastener] = 1

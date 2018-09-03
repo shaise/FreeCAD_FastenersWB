@@ -31,6 +31,8 @@
 from PySide import QtCore, QtGui
 import sys
 
+QTVer = int(QtCore.qVersion().split('.')[0])
+
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -162,7 +164,7 @@ class Ui_DlgCountersunktHoles(object):
         header = self.treeView.header()
         header.setResizeMode(0, QtGui.QHeaderView.Stretch)
         header.setDefaultAlignment(QtCore.Qt.AlignLeft)
-        header.setMovable(False)
+        #header.setMovable(False)
         
         edgediams = {}
         type = 'Default'
@@ -197,8 +199,8 @@ class Ui_DlgCountersunktHoles(object):
 
     def fillDiameters(self, type):
         self.diamTable = cshGetTable(type)
-        self.diamList = self.diamTable.keys()
-        self.diamList.sort(cmp = FastenerBase.MCompare)
+        self.diamList = sorted(self.diamTable, key = FastenerBase.MToFloat)
+        #self.diamList.sort(cmp = FastenerBase.MCompare)
         self.comboDiameter.clear()
         self.comboDiameter.addItems(self.diamList)        
           
@@ -225,7 +227,11 @@ class Ui_DlgCountersunktHoles(object):
                     index = dm.index(i, 0);
                     dm.setData(index, QtCore.Qt.Checked, QtCore.Qt.CheckStateRole)
                     dm.setData(dm.index(i, 1), m)
-                    self.treeView.selectionModel().select(index, QtGui.QItemSelectionModel.Select)
+                    if QTVer >= 5:
+                      self.treeView.selectionModel().select(index, QtCore.QItemSelectionModel.Select)
+                    else:
+                      self.treeView.selectionModel().select(index, QtGui.QItemSelectionModel.Select)
+                    
         self.itemRefreshDisabled = False
         dm.itemChanged.emit(None)
         

@@ -585,6 +585,7 @@ class FSMatchTypeGroupCommand:
         return ("FSMatchTypeInner", "FSMatchTypeOuter") # a tuple of command names that you want to group
 
     def Activated(self, index):
+        global FSMatchOuter
         if index == 0:
             FSMatchOuter = False
             FreeCAD.Console.PrintLog("Set auto diameter to match inner thread\n")

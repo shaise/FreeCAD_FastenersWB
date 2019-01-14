@@ -21,6 +21,7 @@ Please see http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 It is now done automatically
 
 #### Release notes
+* V0.3.01  14 Jan 2019:  Fix hole matching bug
 * V0.3.00  03 Sep 2018:  Make WB compatible with Python 3 and Qt 5
 * V0.2.19  22 Aug 2018:  Add DIN 985 - Nyloc nuts. issue #27
 * V0.2.18  13 Aug 2018:  Fix ISO10642 & ISO14584 issues on ver 0.18. issue #25

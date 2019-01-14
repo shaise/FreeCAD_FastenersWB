@@ -3727,7 +3727,7 @@ class Screw(object):
       edgeB2 = Part.makeLine(PntB1,PntB2)
       edgeB3 = Part.makeLine(PntB2,PntB3)
 
-      if a_point <= r:
+      if a_point <= (r + 0.0001):
         edgeB1 = Part.makeLine(Pnt9,PntB1)
         aWire=Part.Wire([edge2,edge3,edge4,edge5,edge6,edge7, \
             edgeB1, edgeB2, edgeB3])

@@ -344,7 +344,11 @@ def soGetAllLengths(diam, blind):
     l = float(len)
     if l >= lmin and l <= lmax:
       list.append(len)
-  list.sort(cmp = FastenerBase.NumCompare)
+  try:  # py3
+    import functools
+    sorted(list, key = functools.cmp_to_key(FastenerBase.NumCompare))
+  except:
+    list.sort(cmp = FastenerBase.NumCompare)
   return list
 
 # h = clMakePressNut('M5','1')
@@ -515,7 +519,11 @@ def fhGetAllLengths(diam):
     l = float(len)
     if l >= lmin and l <= lmax:
       list.append(len)
-  list.sort(cmp = FastenerBase.NumCompare)
+  try:  # py3
+    import functools
+    sorted(list, key = functools.cmp_to_key(FastenerBase.NumCompare))
+  except:
+    list.sort(cmp = FastenerBase.NumCompare)
   return list
 
   

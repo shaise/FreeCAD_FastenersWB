@@ -255,7 +255,7 @@ class FSScrewMaker(Screw):
       self.smScrewThrScaleA = FSParam.GetFloat("ScrewThrScaleA", 0.99)
       self.smScrewThrScaleB = FSParam.GetFloat("ScrewThrScaleB", -0.05)
       newState = str(self.sm3DPrintMode) + str(self.smNutThrScaleA) + str(self.smNutThrScaleB) + str(self.smScrewThrScaleA) + str(self.smScrewThrScaleB)
-      if (oldState <> newState):
+      if (oldState != newState):
         FastenerBase.FSCacheRemoveThreaded() # thread parameters have changed, remove cached ones    
 
     def createFastener(self, type, diam, len, threadType, shapeOnly = False):

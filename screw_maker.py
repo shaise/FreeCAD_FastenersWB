@@ -1842,6 +1842,13 @@ class Screw(object):
   def __init__(self):
     self.objAvailable = True
     self.Tuner = 510
+    # thread scaling for 3D printers
+    # scaled_diam = diam * ScaleA + ScaleB 
+    self.sm3DPrintMode = False
+    self.smNutThrScaleA = 1.0
+    self.smNutThrScaleB = 0.0
+    self.smScrewThrScaleA = 1.0
+    self.smScrewThrScaleB = 0.0
   
   def check_Data(self, ST_text, ND_text, NL_text):
     #FreeCAD.Console.PrintMessage("Data checking" + NL_text + "\n")
@@ -2334,7 +2341,7 @@ class Screw(object):
 
   # make Washer
   def makeIso7089(self,SType ='ISO7089', ThreadType ='M6'):
-    dia = self.getDia(ThreadType)
+    dia = self.getDia(ThreadType, True)
     #FreeCAD.Console.PrintMessage("die Scheibe mit dia: " + str(dia) + "\n")
     if SType == 'ISO7089':
       d1_min, d2_max, h, h_max = iso7089def[ThreadType]
@@ -2384,7 +2391,7 @@ class Screw(object):
   # make ISO 2010 Slotted raised countersunk head screws
   # make ISO 1580 Pan head slotted screw (Code is nearly identical to iso1207)
   def makeSlottedScrew(self,SType ='ISO1580', ThreadType ='M6',l=25.0):
-    dia = self.getDia(ThreadType)
+    dia = self.getDia(ThreadType, False)
     if SType == 'ISO1580':
       #FreeCAD.Console.PrintMessage("der Kopf mit l: " + str(l) + "\n")
       #P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = iso1580def[ThreadType]
@@ -2559,7 +2566,7 @@ class Screw(object):
   # ISO 7045 Pan head screws with type H or type Z cross recess
   # ISO 14583 Hexalobular socket pan head screws  
   def makeIso7045(self, SType ='ISO7045', ThreadType ='M6',l=25.0):
-    dia = self.getDia(ThreadType)
+    dia = self.getDia(ThreadType, False)
     #FreeCAD.Console.PrintMessage("der Kopf mit l: " + str(l) + "\n")
     P, a, b, dk_max,da, k, r, rf, x, cT, mH, mZ  = iso7045def[ThreadType]
     #FreeCAD.Console.PrintMessage("der Kopf mit iso: " + str(dk_max) + "\n")
@@ -2749,7 +2756,7 @@ class Screw(object):
   # ISO 7048 cross recessed screw
   # ISO 14580 Hexalobular socket cheese head screws
   def makeIso1207(self,SType ='ISO1207', ThreadType ='M6',l=25.0):
-    dia = self.getDia(ThreadType)
+    dia = self.getDia(ThreadType, False)
     '''
     if '(' in TreadType:
       threadString = ThreadType.lstrip('(M')
@@ -2951,7 +2958,7 @@ class Screw(object):
   # make the ISO 4017 Hex-head-screw
   # make the ISO 4014 Hex-head-bolt
   def makeIso4017_2(self,SType ='ISO4017', ThreadType ='M6',l=40.0):
-    dia = self.getDia(ThreadType)
+    dia = self.getDia(ThreadType, False)
     #FreeCAD.Console.PrintMessage("der Kopf mit l: " + str(l) + "\n")
     if SType == 'ISO4017':
       P, c, dw, e,k,r,s = iso4017head[ThreadType]
@@ -3093,7 +3100,7 @@ class Screw(object):
   # EN 1662 Hex-head-bolt with flange - small series
   # EN 1665 Hexagon bolts with flange, heavy series
   def makeEN1662_2(self,SType ='EN1662', ThreadType ='M8',l=25.0):
-    dia = self.getDia(ThreadType)
+    dia = self.getDia(ThreadType, False)
     #FreeCAD.Console.PrintMessage("der Kopf mit l: " + str(l) + "\n")
     if SType == 'EN1662':
        P, b0, b1, b2, b3, c, dc, dw, e, k, kw,f, r1, s = en1662def[ThreadType]
@@ -3323,7 +3330,7 @@ class Screw(object):
   # also used for ISO 14582 Hexalobular socket countersunk head screws, high head
   # also used for ISO 14584 Hexalobular socket raised countersunk head screws
   def makeIso7046(self, SType ='ISO7046', ThreadType ='M6',l=25.0):
-    dia = self.getDia(ThreadType)
+    dia = self.getDia(ThreadType, False)
     #FreeCAD.Console.PrintMessage("der 2009Kopf mit l: " + str(l) + "\n")
     if (SType == 'ISO10642'):
       P,b,dk_theo,dk_mean,da, ds_min, e, k, r, s_mean, t, w =iso10642def[ThreadType]
@@ -3579,7 +3586,7 @@ class Screw(object):
   # make ISO 4762 Allan Screw head
   # ISO 14579 Hexalobular socket head cap screws
   def makeIso4762(self, SType ='ISO4762', ThreadType ='M6',l=25.0):
-    dia = self.getDia(ThreadType)
+    dia = self.getDia(ThreadType, False)
     #FreeCAD.Console.PrintMessage("der 4762Kopf mit l: " + str(l) + "\n")
     P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = iso4762def[ThreadType]
     #FreeCAD.Console.PrintMessage("der Kopf mit iso r: " + str(r) + "\n")
@@ -3803,7 +3810,7 @@ class Screw(object):
   # make ISO 7380-2 Button head Screw with collar 
   # make DIN 967 cross recessed pan head Screw with collar 
   def makeIso7380(self, SType ='ISO7380-1', ThreadType ='M6',l=25.0):
-    dia = self.getDia(ThreadType)
+    dia = self.getDia(ThreadType, False)
     #todo: different radii for screws with thread to head or with shaft?
     sqrt2_ = 1.0/math.sqrt(2.0)
     
@@ -4565,7 +4572,7 @@ class Screw(object):
   # make the ISO 4032 Hex-nut
   # make the ISO 4033 Hex-nut
   def makeIso4032(self,SType ='ISO4032', ThreadType ='M6'):
-    dia = self.getDia(ThreadType)
+    dia = self.getDia(ThreadType, True)
     if SType == 'ISO4032':
       # P, c, damax,  dw,    e,     m,   mw,   s_nom
       P, c, da, dw, e, m, mw, s = iso4032def[ThreadType]
@@ -4657,7 +4664,7 @@ class Screw(object):
   # EN 1661 Hexagon nuts with flange
   # chamfer at top of hexagon is wrong = more than 30°
   def makeEN1661(self, ThreadType ='M8'):
-    dia = self.getDia(ThreadType)
+    dia = self.getDia(ThreadType, True)
     P, da, c, dc, dw, e, m, mw, r1, s = en1661def[ThreadType]
 
     residue, turns = math.modf(m/P)
@@ -4830,7 +4837,7 @@ class Screw(object):
   # make ISO 7380-2 Button head Screw with collar 
   # make DIN 967 cross recessed pan head Screw with collar 
   def makeScrewTap(self, ThreadType ='M6',l=25.0):
-    dia = self.getDia(ThreadType)
+    dia = self.getDia(ThreadType, True)
 
     P, tunIn, tunEx  = tuningTable[ThreadType]
 
@@ -5219,14 +5226,18 @@ class Screw(object):
   def setTuner(self, myTuner = 511):
     self.Tuner = myTuner
 
-  def getDia(self,ThreadType):
+  def getDia(self, ThreadType, isNut):
     if '(' in ThreadType:
       threadString = ThreadType.lstrip('(M')
       dia = float(threadString.rstrip(')'))
     else:
       dia=float(ThreadType.lstrip('M'))
+    if self.sm3DPrintMode:
+      if isNut:
+        dia = self.smNutThrScaleA * dia + self.smNutThrScaleB
+      else:
+        dia = self.smScrewThrScaleA * dia + self.smScrewThrScaleB
     return dia
-
     
 class ScrewMacro(object):
   d = QtGui.QWidget()

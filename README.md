@@ -21,6 +21,7 @@ Please see http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 It is now done automatically
 
 #### Release notes
+* V0.3.10  25 Jan 2019:  Added 3D printer compatible thread generation.
 * V0.3.02  14 Jan 2019:  Fix hole matching bug
 * V0.3.01  28 Dec 2018:  Fix ISO4762 M4x10 generation issue (occ7.2). 
 * V0.3.00  03 Sep 2018:  Make WB compatible with Python 3 and Qt 5

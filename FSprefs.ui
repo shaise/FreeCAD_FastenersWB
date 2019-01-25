@@ -85,6 +85,245 @@
        </layout>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Thread generation:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="Gui::PrefComboBox" name="gui::comboThread">
+          <property name="toolTip">
+           <string>Select method of thread generation</string>
+          </property>
+          <property name="prefEntry" stdset="0">
+           <string>ScrewToolbarThreadGeneration</string>
+          </property>
+          <property name="prefPath" stdset="0">
+           <string>Mod/Fasteners</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Standard</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>3D printer compatible</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_4">
+        <property name="title">
+         <string>Scale settings for 3D printing thread generation</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <layout class="QHBoxLayout" name="screwScaleLayout">
+           <item>
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>1</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="title">
+              <string>Screw Scaling</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <item>
+                 <widget class="QLabel" name="label_5">
+                  <property name="text">
+                   <string>Scale A:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="gui::spScrewScaleA">
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>0.900000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>1.100000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.010000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>0.990000000000000</double>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <string>ScrewThrScaleA</string>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <string>Mod/Fasteners</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <item>
+                 <widget class="QLabel" name="label_6">
+                  <property name="text">
+                   <string>Scale B:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="spScrewScaleB">
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>-1.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>1.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.010000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>-0.050000000000000</double>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <string>ScrewThrScaleB</string>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <string>Mod/Fasteners</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_3">
+             <property name="title">
+              <string>Nut Scaling</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <item>
+                 <widget class="QLabel" name="label_7">
+                  <property name="text">
+                   <string>Scale A:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="spNutScaleA">
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>0.900000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>1.100000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.010000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>1.030000000000000</double>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <string>NutThrScaleA</string>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <string>Mod/Fasteners</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item>
+                 <widget class="QLabel" name="label_8">
+                  <property name="text">
+                   <string>Scale B:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Gui::PrefDoubleSpinBox" name="spNutScaleB">
+                  <property name="decimals">
+                   <number>3</number>
+                  </property>
+                  <property name="minimum">
+                   <double>-1.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>1.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.010000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>0.100000000000000</double>
+                  </property>
+                  <property name="prefEntry" stdset="0">
+                   <string>NutThrScaleB</string>
+                  </property>
+                  <property name="prefPath" stdset="0">
+                   <string>Mod/Fasteners</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>* Thread's newDiam = oldDiam * A + B</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
@@ -132,6 +371,11 @@
   <customwidget>
    <class>Gui::PrefComboBox</class>
    <extends>QComboBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
  </customwidgets>

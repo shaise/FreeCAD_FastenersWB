@@ -160,6 +160,13 @@ def FSGetKey(*args):
     FreeCAD.Console.PrintLog("Using cached shape for: " + key + "\n")
     return (key, FSCache[key])
   return (key, None)
+  
+# removes all cached fasteners with real thread
+def FSCacheRemoveThreaded():
+  for key in FSCache.keys():
+    if key.endswith('|real'):
+      FreeCAD.Console.PrintLog("Removing cached shape: " + key + "\n")
+      del FSCache[key]
 
 def MToFloat(m):
     m = m.lstrip('(');

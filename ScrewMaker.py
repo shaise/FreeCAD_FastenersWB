@@ -11,7 +11,7 @@ from PySide import QtCore, QtGui
 from screw_maker import *
 import FSNuts
 from FSNuts import din557def, din562def, din985def
-
+from FastenerBase import FSParam
 
 FSCScrewHoleChart = (
   ("M1", 0.75),
@@ -242,6 +242,21 @@ class FSScrewMaker(Screw):
       if not(diam in table):
         return (0,0)
       return (table[diam][dpos], table[diam][kpos])
+      
+    def updateFastenerParameters(self):
+      global FSParam
+      oldState = str(self.sm3DPrintMode) + str(self.smNutThrScaleA) + str(self.smNutThrScaleB) + str(self.smScrewThrScaleA) + str(self.smScrewThrScaleB)
+      self.sm3DPrintMode = False
+      threadMode = FSParam.GetInt("ScrewToolbarThreadGeneration", 0) # 0 = standard, 1 = 3dprint
+      if threadMode == 1:
+        self.sm3DPrintMode = True
+      self.smNutThrScaleA = FSParam.GetFloat("NutThrScaleA", 1.03)
+      self.smNutThrScaleB = FSParam.GetFloat("NutThrScaleB", 0.1)
+      self.smScrewThrScaleA = FSParam.GetFloat("ScrewThrScaleA", 0.99)
+      self.smScrewThrScaleB = FSParam.GetFloat("ScrewThrScaleB", -0.05)
+      newState = str(self.sm3DPrintMode) + str(self.smNutThrScaleA) + str(self.smNutThrScaleB) + str(self.smScrewThrScaleA) + str(self.smScrewThrScaleB)
+      if (oldState <> newState):
+        FastenerBase.FSCacheRemoveThreaded() # thread parameters have changed, remove cached ones    
 
     def createFastener(self, type, diam, len, threadType, shapeOnly = False):
       if type in FSNutsList :

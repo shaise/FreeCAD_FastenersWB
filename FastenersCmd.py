@@ -110,6 +110,8 @@ class FSScrewObject(FSBaseObject):
     else:
       l = 1
       
+    screwMaker.updateFastenerParameters()  
+      
     threadType = 'simple'
     if hasattr(fp,'thread') and fp.thread:
       threadType = 'real'

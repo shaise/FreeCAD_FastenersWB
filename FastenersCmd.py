@@ -389,6 +389,8 @@ class FSScrewRodObject(FSBaseObject):
       l = 2.0
       fp.length = 2.0
       
+    screwMaker.updateFastenerParameters()  
+
     threadType = 'simple'
     if hasattr(fp,'thread') and fp.thread:
       threadType = 'real'
@@ -416,8 +418,8 @@ class FSScrewRodCommand:
   def GetResources(self):
     icon = os.path.join( iconPath , 'ScrewTap.svg')
     return {'Pixmap'  : icon , # the name of a svg file available in the resources
-            'MenuText': "Add Threaded Rod" ,
-            'ToolTip' : "Add arbitrary length threaded rod"}
+            'MenuText': "Add threaded rod for tapping holes" ,
+            'ToolTip' : "Add arbitrary length threaded rod for tapping holes"}
  
   def Activated(self):
     for selObj in FastenerBase.FSGetAttachableSelections():

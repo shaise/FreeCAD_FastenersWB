@@ -2287,7 +2287,7 @@ class Screw(object):
                 if hasattr(s.Curve,"Center"):
                    """
                    FreeCAD.Console.PrintMessage( "The object has a Center!\n")
-                   FreeCAD.Console.PrintMessage( "Curve attribut. "+ str(s.__getattribute__('Curve')) + "\n")
+                   FreeCAD.Console.PrintMessage( "Curve attribute. "+ str(s.__getattribute__('Curve')) + "\n")
                    FreeCAD.Console.PrintMessage( "Center: "+ str(s.Curve.Center) + "\n")
                    FreeCAD.Console.PrintMessage( "Axis: "+ str(s.Curve.Axis) + "\n")
                    """
@@ -2441,14 +2441,14 @@ class Screw(object):
       P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = iso2009def[ThreadType]
       dk_max = dk_theo
       t_min = t_mean
-      ht = 0.0 # Head heigth of flat head
+      ht = 0.0 # Head height of flat head
       if (SType == 'ISO2010'):
         rf, t_mean, cT, mH, mZ = Raised_countersunk_def[ThreadType]
         #Lengths and angles for calculation of head rounding
         beta = math.asin(dk_mean /2.0 / rf)   # angle of head edge
         tan_beta = math.tan(beta)      
         alpha = beta/2.0 # half angle
-        # heigth of raised head top
+        # height of raised head top
         ht = rf - (dk_mean/2.0) / tan_beta
         h_arc_x = rf * math.sin(alpha) 
         h_arc_z = ht - rf + rf * math.cos(alpha)
@@ -2584,7 +2584,7 @@ class Screw(object):
 
        alpha = (beta_A + beta)/2.0 # half angle
        #print 'alpha: ', math.degrees(alpha)
-       # heigth of head edge
+       # height of head edge
        he = k - A/2.0/tan_beta_A + (dk_max/2.0) / tan_beta    
        #print 'he: ', he
        h_arc_x = rf * math.sin(alpha) 
@@ -2593,7 +2593,7 @@ class Screw(object):
     else:
        alpha = beta/2.0 # half angle
        #print 'alpha: ', math.degrees(alpha)
-       # heigth of head edge
+       # height of head edge
        he = k - rf + (dk_max/2.0) / tan_beta    
        #print 'he: ', he
        h_arc_x = rf * math.sin(alpha) 
@@ -2716,7 +2716,7 @@ class Screw(object):
       #Lengths and angles for calculation of recess positioning
       beta_cr = math.asin(mH /2.0 / rf)   # angle of recess edge
       tan_beta_cr = math.tan(beta_cr)      
-      # heigth of cross recess cutting
+      # height of cross recess cutting
       hcr = k - rf + (mH/2.0) / tan_beta_cr
       #print 'hcr: ', hcr
       
@@ -3340,7 +3340,7 @@ class Screw(object):
       t_mean = t
     else: #still need the data from iso2009def, but this screw can not created here
       P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = iso2009def[ThreadType]
-      ht = 0.0 # Head heigth of flat head
+      ht = 0.0 # Head height of flat head
     if SType == 'ISO7046':
       cT, mH, mZ  = iso7046def[ThreadType]
     if (SType == 'ISO7047'):
@@ -3349,7 +3349,7 @@ class Screw(object):
       beta = math.asin(dk_mean /2.0 / rf)   # angle of head edge
       tan_beta = math.tan(beta)      
       alpha = beta/2.0 # half angle
-      # heigth of raised head top
+      # height of raised head top
       ht = rf - (dk_mean/2.0) / tan_beta
       #print 'he: ', he
       h_arc_x = rf * math.sin(alpha) 

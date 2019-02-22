@@ -4028,7 +4028,7 @@ class Screw(object):
     
     #rotations = int(rots)-1
     halfrots_int = int(halfrots)
-    rotations = (halfrots_int / 2)-1
+    rotations = (halfrots_int // 2)-1
     if halfrots_int % 2 == 1:
       #FreeCAD.Console.PrintMessage("got half turn: " + str(halfrots_int) + "\n")
       halfturn = True

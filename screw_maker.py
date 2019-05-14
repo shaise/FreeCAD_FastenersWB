@@ -18,7 +18,7 @@ fixed bool type error. (int is not anymore accepted at linux)
 fixed starting point of real thread at some screw types.
 
 Version 1.8 from July 2014
-first approch for a faster real thread
+first approach for a faster real thread
 
 Version 1.9 / 2.0 July 2015
 new calculation of starting point of thread

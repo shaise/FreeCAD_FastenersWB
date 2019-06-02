@@ -20,8 +20,8 @@ For versions prior to v0.17.9940 FreeCAD requires manual installation, learn how
 Please see http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/ for a synopsis on how to use Fasteners Workbench.
 
 ### Note for FreeCAD 0.17 Part Design:
-<s>To attach a fastener to a feature created with part design, it must be attached to the body, rather then one of its inner elements. To do so, first switch the "Display Mode" of the body from "Through" to "Tip". This can be found in the "View" tab of the Body's properties panel. To continue editing the Body, switch back to "Through"</s>
-It is now done automatically
+~~To attach a fastener to a feature created with part design, it must be attached to the body, rather then one of its inner elements. To do so, first switch the "Display Mode" of the body from "Through" to "Tip". This can be found in the "View" tab of the Body's properties panel. To continue editing the Body, switch back to "Through"~~  
+**This is now done automatically**
 
 #### Release Notes
 * V0.3.10  25 Jan 2019:  Added 3D printer compatible thread generation.  
@@ -63,9 +63,10 @@ It is now done automatically
 
 
 #### Developers
-* ScrewMaker: Ulrich Brammer <ulrich1a[at]users.sourceforge.net> [@ulrich1a](https://github.com/ulrich1a)
+* ScrewMaker: Ulrich Brammer <ulrich1a[at]users.sourceforge.net> [@ulrich1a](https://github.com/ulrich1a)  
 * Workbench wrapper:  Shai Seger [@shaise](https://github.com/shaise)
 
 ### Feedback
-For further discussion, feel free to open a forum thread on [FreeCAD Open Discussion subforum](https://forum.freecadweb.org/viewforum.php?f=8&sid=853eff68d2a09bfd39fb3508d038af97) 
-and make sure to ping user 'shaise'.   
+For further discussion, feel free to open a forum thread on [FreeCAD Open Discussion subforum](https://forum.freecadweb.org/viewforum.php?f=8&sid=853eff68d2a09bfd39fb3508d038af97) and make sure to ping user 'shaise'.  
+
+There is also an [ongoing thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=114290) discussing Fasteners Workbench that is also a place to comment on.

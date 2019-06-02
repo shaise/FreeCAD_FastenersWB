@@ -8,9 +8,12 @@ A FreeCAD Workbench to Add/Attach various Fasteners to Parts
 
 
 ### Installation
-Starting from FreeCAD v0.17.9940 an Addons Installer has been built-in to FreeCAD and can be accessed from the Tools menu. 
-You can use said Addon Installer to seamlessly install Fasteners Workbench.
-Versions before FreeCAD require manual installation, please see how via http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
+#### Addon Manager
+**Note:** Starting from FreeCAD v0.17.9940 an Addons Manager has been built-in to FreeCAD.  
+You can use said [Addon Manager](https://github.com/FreeCAD/FreeCAD-addons/#1-builtin-addon-manager) to seamlessly install Fasteners Workbench.
+
+#### Manual Installation
+For versions prior to v0.17.9940 FreeCAD requires manual installation, learn how via http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
 
 ### Usage

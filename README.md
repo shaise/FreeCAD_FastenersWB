@@ -1,5 +1,5 @@
 # FreeCAD Fasteners Workbench
-A FreeCAD workbench to add/attach various fasteners to parts  
+A FreeCAD Workbench to Add/Attach various Fasteners to Parts
 
 ![Fasteners_toolbar](https://user-images.githubusercontent.com/4140247/32561138-815cc5f8-c479-11e7-988e-3be19d3e98c3.png)
 ![image](https://user-images.githubusercontent.com/4140247/32561849-4276249a-c47b-11e7-9977-110be802d624.png)
@@ -8,61 +8,68 @@ A FreeCAD workbench to add/attach various fasteners to parts
 
 
 ### Installation
-Starting from FreeCAD v0.17.9940 an Addons Installer has been built-in to FreeCAD and can be accessed from the Tools menu. 
-You can use said Addon Installer to seamlessly install Fasteners Workbench.
-Versions before FreeCAD require manual installation, please see how via http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
+#### Addon Manager
+**Note:** Starting from FreeCAD v0.17.9940 an Addons Manager has been built-in to FreeCAD.  
+You can use said [Addon Manager](https://github.com/FreeCAD/FreeCAD-addons/#1-builtin-addon-manager) to seamlessly install Fasteners Workbench.
+
+#### Manual Installation
+For versions prior to v0.17.9940 FreeCAD requires manual installation, learn how via http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
 
 ### Usage
 Please see http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/ for a synopsis on how to use Fasteners Workbench.
 
 ### Note for FreeCAD 0.17 Part Design:
-<s>To attach a fastener to a feature created with part design, it must be attached to the body, rather then one of its inner elements. To do so, first switch the "Display Mode" of the body from "Through" to "Tip". This can be found in the "View" tab of the Body's properties panel. To continue editing the Body, switch back to "Through"</s>
-It is now done automatically
+~~To attach a fastener to a feature created with part design, it must be attached to the body, rather then one of its inner elements. To do so, first switch the "Display Mode" of the body from "Through" to "Tip". This can be found in the "View" tab of the Body's properties panel. To continue editing the Body, switch back to "Through"~~  
+**This is now done automatically**
 
-#### Release notes
-* V0.3.10  25 Jan 2019:  Added 3D printer compatible thread generation.
-* V0.3.02  14 Jan 2019:  Fix hole matching bug
-* V0.3.01  28 Dec 2018:  Fix ISO4762 M4x10 generation issue (occ7.2). 
-* V0.3.00  03 Sep 2018:  Make WB compatible with Python 3 and Qt 5
-* V0.2.19  22 Aug 2018:  Add DIN 985 - Nyloc nuts. issue #27
-* V0.2.18  13 Aug 2018:  Fix ISO10642 & ISO14584 issues on ver 0.18. issue #25
-* V0.2.17  13 Jul 2018:  Fix Bug: selecting a face to select all holes did not work.
-* V0.2.16  01 May 2018:  Attaching to Partdesign features redirect the atachment to the parent body 
-* V0.2.15  25 Apr 2018:  Add DIN 562 and DIN 557 square nuts
-* V0.2.14  19 Jun 2017:  Fix countersunk function bug. Merge Maurice's fix for screw generation
-* V0.2.13  01 Oct 2015:  Add generation of BOM
-* V0.2.11  24 Aug 2015:  Add inner/outer match attribute to screws. Fix several bugs
-* V0.2.10  23 Aug 2015:  Add new command: Batch change fasteners parameters
-* V0.2.09  23 Aug 2015:  Fixed screw creation bug when not attached to geometry
-* V0.2.08  06 Aug 2015:  Add threaded rod item. Fix loading issue 
-* V0.2.07  05 Aug 2015:  Add option to select auto crew diameter matching method: 
-                         by inner or outer thread diameter
-* V0.2.06  02 Aug 2015:  Added hole diameter calculator helper.
-* V0.2.05  01 Aug 2015:  Option to select type of screw for countersunk holes.
-* V0.2.03  30 Jul 2015:  Separate option for grouping icons as toolbars or as drop-down buttons   
-* V0.2.01  28 Jul 2015:  Update to Ulrich's V2.0 screw maker. many more screws, and nuts with threads!   
-* V0.1.04  21 Jul 2015:  Drop-down buttons can be enabled in Preferences unser Fasteners.   
-* V0.1.03  15 Jul 2015:  Disable drop-down buttons. It will be used only when screw items count will be too big.   
+#### Release Notes
+* V0.3.10  25 Jan 2019:  Added 3D printer compatible thread generation.  
+* V0.3.02  14 Jan 2019:  Fix hole matching bug  
+* V0.3.01  28 Dec 2018:  Fix ISO4762 M4x10 generation issue (occ7.2).  
+* V0.3.00  03 Sep 2018:  Make WB compatible with Python 3 and Qt 5  
+* V0.2.19  22 Aug 2018:  Add DIN 985 - Nyloc nuts. issue #27  
+* V0.2.18  13 Aug 2018:  Fix ISO10642 & ISO14584 issues on v0.18. issue #25  
+* V0.2.17  13 Jul 2018:  Fix Bug: selecting a face to select all holes did not work.  
+* V0.2.16  01 May 2018:  Attaching to PartDesign features redirect the attachment to the parent body  
+* V0.2.15  25 Apr 2018:  Add DIN 562 and DIN 557 square nuts  
+* V0.2.14  19 Jun 2017:  Fix countersunk function bug. Merge Maurice's fix for screw generation  
+* V0.2.13  01 Oct 2015:  Add generation of BOM  
+* V0.2.11  24 Aug 2015:  Add inner/outer match attribute to screws. Fix several bugs  
+* V0.2.10  23 Aug 2015:  Add new command: Batch change fasteners parameters  
+* V0.2.09  23 Aug 2015:  Fixed screw creation bug when not attached to geometry  
+* V0.2.08  06 Aug 2015:  Add threaded rod item. Fix loading issue  
+* V0.2.07  05 Aug 2015:  Add option to select auto crew diameter matching method:  
+                         by inner or outer thread diameter  
+* V0.2.06  02 Aug 2015:  Added hole diameter calculator helper.  
+* V0.2.05  01 Aug 2015:  Option to select type of screw for countersunk holes.  
+* V0.2.03  30 Jul 2015:  Separate option for grouping icons as toolbars or as drop-down buttons  
+* V0.2.01  28 Jul 2015:  Update to Ulrich's V2.0 screw maker. many more screws, and nuts with threads!  
+* V0.1.04  21 Jul 2015:  Drop-down buttons can be enabled in Preferences under Fasteners.  
+* V0.1.03  15 Jul 2015:  Disable drop-down buttons. It will be used only when screw items count will be too big.  
 * V0.1.02  14 Jul 2015:  Group screws in drop-down buttons (works for FreeCAD 0.16 and up)  
 * V0.1.01  13 Jul 2015:  Add a command to make recessed holes for countersunk screws.  
 * V0.0.10  29 Jun 2015:  Add PEM Metric Studs.  
 * V0.0.09  28 Jun 2015:  Selecting a face will put a fastener in all holes in that face.  
-                         Caching of fasteners speed up generation of same shape ones
-* V0.0.08  27 Jun 2015:  Edge selection over multiple objects when generating fasteners now works.
-* V0.0.07  26 Jun 2015:  Add PEM Standoffs
-* V0.0.06  25 Jun 2015:  Show only applicable M values and lengths, add descriptive name
-* V0.0.05  24 Jun 2015:  Add simplify object function, Change icon colors
-* V0.0.04  23 Jun 2015:  Add ISO 4032 Metric Hex Nut
-* V0.0.03  21 Jun 2015:  Add PEM Metric Press-Nut (Self clinching nut)
-* V0.0.02  18 Jun 2015:  Save/Load issue fixed
-* V0.0.01  18 Jun 2015:  Initial version
+                         Caching of fasteners speed up generation of same shape ones  
+* V0.0.08  27 Jun 2015:  Edge selection over multiple objects when generating fasteners now works.  
+* V0.0.07  26 Jun 2015:  Add PEM Standoffs  
+* V0.0.06  25 Jun 2015:  Show only applicable M values and lengths, add descriptive name  
+* V0.0.05  24 Jun 2015:  Add simplify object function, Change icon colors  
+* V0.0.04  23 Jun 2015:  Add ISO 4032 Metric Hex Nut  
+* V0.0.03  21 Jun 2015:  Add PEM Metric Press-Nut (Self clinching nut)  
+* V0.0.02  18 Jun 2015:  Save/Load issue fixed  
+* V0.0.01  18 Jun 2015:  Initial version  
 
- 
+
 #### Developers
-* ScrewMaker: Ulrich Brammer <ulrich1a[at]users.sourceforge.net> [@ulrich1a](https://github.com/ulrich1a)
+* ScrewMaker: Ulrich Brammer <ulrich1a[at]users.sourceforge.net> [@ulrich1a](https://github.com/ulrich1a)  
 * Workbench wrapper:  Shai Seger [@shaise](https://github.com/shaise)
 
 ### Feedback
-For further discussion, feel free to open a forum thread on [FreeCAD Open Discussion subforum](https://forum.freecadweb.org/viewforum.php?f=8&sid=853eff68d2a09bfd39fb3508d038af97) 
-and make sure to ping user 'shaise'.   
+For further discussion, feel free to open a forum thread on [FreeCAD Open Discussion subforum](https://forum.freecadweb.org/viewforum.php?f=8&sid=853eff68d2a09bfd39fb3508d038af97) and make sure to ping user 'shaise'.  
+
+There is also an [ongoing thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=114290) discussing Fasteners Workbench that is also a place to comment on.
+
+### License
+GPLv2

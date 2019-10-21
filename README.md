@@ -99,7 +99,7 @@ Fasteners can also be attached to features in other parts.
 **Result:** They will appear as new Shape parts in the model tree. You can then delete the original fasteners and save as a simple FCStd that can be read and used on any FreeCAD installation.
 
 
-#### Adding Fasteners via Script
+#### Adding Fasteners via Python
 
 You can create screws with a script using the `createFastener` command:
 ```python

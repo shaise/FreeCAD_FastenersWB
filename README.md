@@ -19,14 +19,14 @@ You can use said [Addon Manager](https://github.com/FreeCAD/FreeCAD-addons/#1-bu
 For versions prior to v0.17.9940 FreeCAD requires manual installation, learn how via http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
 
-### Usage
+## Usage
 
 <details>
   <summary><i>Expand this section for a synopsis on how to use this workbench</i></summary> 
 
 **Note:** this info is also available on http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
 
-#### Where to Start
+### Where to Start
 
 Usage is pretty straightforward:  
 1. Install the workbench and restart FreeCAD
@@ -47,15 +47,15 @@ Result: A series of screws will show on the toolbar:
     * generating threads takes considerable amount of time, during which, FreeCAD will not be responsive.
     * the invert and offset properties are only applicable to attached fasteners.
 
-#### Attached Fasteners
+### Attached Fasteners
 
 Fasteners can also be attached to features in other parts. 
 
-##### Attach Screw to part
+#### Attach Screw to part
 
 * To attach a screw to a part, the part must have features with circular edges, such as holes.   
 
-##### Attach Screw to hole(s)
+#### Attach Screw to hole(s)
 * To attach screws to holes, select the desired circular edge or several edges (You can also select a face if you want to select all holes in that face):
 
   ![FastenersSelect](Icons/FSSelect.png)
@@ -72,7 +72,7 @@ Fasteners can also be attached to features in other parts.
   To correct this change the “invert” property to true OR select the screw and press the Flip button:  
   ![Flip-Button](Icons/IconFlip.svg) in the toolbar.
 
-##### Attach Fastener to different feature
+#### Attach Fastener to different feature
 
 * To attach an existing fastener to a different feature, select the screw, then ctrl-select the new feature:
 
@@ -90,7 +90,7 @@ Fasteners can also be attached to features in other parts.
     * then press the move button.  
     ***Result:** the screw is now detached and can be moved individually.
 
-#### Simplifying objects
+### Simplifying objects
 
 **Important Note:** If you wish to share FCStd files that contains fasteners (or parts from other custom parametric workbenches)  with other people, they must install these workbenches as well, or else they will get errors when trying to use them.
 
@@ -99,7 +99,7 @@ Fasteners can also be attached to features in other parts.
 **Result:** They will appear as new Shape parts in the model tree. You can then delete the original fasteners and save as a simple FCStd that can be read and used on any FreeCAD installation.
 
 
-#### Adding Fasteners via Python
+### Adding Fasteners via Python
 
 You can create screws with a script using the `createFastener` command:
 ```python

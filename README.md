@@ -78,9 +78,7 @@ Fasteners can also be attached to features in other parts.
 
   ![Fasteners-Select-Move](Icons/FSSelMove.png)
 
-* Now press the Move button  
-
-  ![Move-Button](Icons/IconMove.svg) in the toolbar
+* Now press the Move button ![Move-Button](Icons/IconMove.svg) in the toolbar
 
 * **Result:** The screw will move to the new location:  
 

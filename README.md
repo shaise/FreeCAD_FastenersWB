@@ -43,9 +43,9 @@ Result: A series of screws will show on the toolbar:
   ![FS-Parameters](Icons/FSParams.png)
 
 6. Changing the “thread” property to “true” will render the screw threads as well.  
- **Please note:**   
-  * generating threads takes considerable amount of time, during which, FreeCAD will not be responsive.
-  * the invert and offset properties are only applicable to attached fasteners.
+ **Please note:**  
+    * generating threads takes considerable amount of time, during which, FreeCAD will not be responsive.
+    * the invert and offset properties are only applicable to attached fasteners.
 
 #### Attached Fasteners
 

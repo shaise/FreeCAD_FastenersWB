@@ -17,9 +17,102 @@ For versions prior to v0.17.9940 FreeCAD requires manual installation, learn how
 
 
 ### Usage
-Please see http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/ for a synopsis on how to use Fasteners Workbench.
 
-### Note for FreeCAD 0.17 Part Design:
+<details>
+  <summary><i>Expand this section for a synopsis on how to use this workbench</i></summary> 
+
+#### Where to Start
+
+Usage is pretty straightforward:  
+1. Install the workbench and restart FreeCAD
+2. Open a new document in FreeCAD 
+3. Select the Fasteners workbench from the workbench drop-down list  
+Result: A series of screws will show on the toolbar:  
+
+  ![FastenersToolbar](Icons/FSToolbar.png)  
+
+4. Clicking on any of the screws will create this screw in the origin position with https://github.com/ulrich1adefault size.  
+
+5. To change size/length: select the newly created screw, then go to the data tab in the property panel, there you can change diameter and length. (For now it is in metric standard):  
+
+  ![FS-Parameters](Icons/FSParams.png)
+
+6. Changing the “thread” property to “true” will render the screw threads as well.  
+ **Please note:**   
+  * generating threads takes considerable amount of time, during which, FreeCAD will not be responsive.
+  * the invert and offset properties are only applicable to attached fasteners.
+
+#### Attached Fasteners
+
+Fasteners can also be attached to features in other parts. 
+
+##### Attach Screw to part
+
+* To attach a screw to a part, the part must have features with circular edges, such as holes.   
+
+##### Attach Screw to hole(s)
+* To attach screws to holes, select the desired circular edge or several edges (You can also select a face if you want to select all holes in that face):
+
+  ![FastenersSelect](Icons/FSSelect.png)
+
+*  Now click on the desired screw.  
+  **Result:** A screw will be placed on each of the selected features, trying to match the screw size to the hole size:
+
+  ![FastenersCreated](Icons/FSCreated.png)
+
+* You can now, like before, change diameter and length from the properties panel. 
+
+* If you wish the screw to hover above the hole, you can set the “offset” property  to the desired distance.  
+  **Note:** Sometimes the screw does not detect the direction correctly and appears upside down.  
+  To correct this change the “invert” property to true OR select the screw and press the Flip button:  
+  ![Flip-Button](Icons/IconFlip.svg) in the toolbar.
+
+##### Attach Fastener to different feature
+
+* To attach an existing fastener to a different feature, select the screw, then ctrl-select the new feature:
+
+  ![Fasteners-Select-Move](Icons/FSSelMove.png)
+
+* Now press the Move button  
+
+  ![Move-Button](Icons/IconMove.svg) in the toolbar
+
+* **Result:** The screw will move to the new location:  
+
+  ![Fasteners-Moved](Icons/FSMoved.png)
+
+  * **Note:** An attached screw will move with the part it is attached to.  
+    **If you wish to detach the screw from the parent part**:  
+    * simply select only the screw  
+    * then press the move button.  
+    ***Result:** the screw is now detached and can be moved individually.
+
+#### Simplifying objects
+
+**Important Note:** If you wish to share FCStd files that contains fasteners (or parts from other custom parametric workbenches)  with other people, they must install these workbenches as well, or else they will get errors when trying to use them.
+
+**However**, if you just want to share the resulting parts, with no need to change object’s parameters, you can use the **Simplify** function ![Simplify-button](Icons/IconShape.svg) to convert the fasteners to simple shapes.  
+
+**Result:** They will appear as new Shape parts in the model tree. You can then delete the original fasteners and save as a simple FCStd that can be read and used on any FreeCAD installation.
+
+
+#### Adding Fasteners via Script
+
+You can create screws with a script using the `createFastener` command:
+```python
+createFastener(type, diam, len, threadType, shapeOnly = False)
+```
+`threadType` can be `'simple'` or `'real`  
+`shapeOnly` can be **True** if you just want to get the object or **False** (default) if you want it to be added to the treeView and shown.
+```python
+import ScrewMaker
+sm = ScrewMaker.Instance()
+screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
+```
+
+</details>
+
+#### Note for FreeCAD 0.17 Part Design:
 ~~To attach a fastener to a feature created with part design, it must be attached to the body, rather then one of its inner elements. To do so, first switch the "Display Mode" of the body from "Through" to "Tip". This can be found in the "View" tab of the Body's properties panel. To continue editing the Body, switch back to "Through"~~  
 **This is now done automatically**
 

@@ -1,13 +1,16 @@
 # FreeCAD Fasteners Workbench
 A FreeCAD Workbench to Add/Attach various Fasteners to Parts
 
-![Fasteners_toolbar](https://user-images.githubusercontent.com/4140247/32561138-815cc5f8-c479-11e7-988e-3be19d3e98c3.png)
-![image](https://user-images.githubusercontent.com/4140247/32561849-4276249a-c47b-11e7-9977-110be802d624.png)
+**Note:** This workbench acts as a wrapper to the `screw_maker macro` created by [@ulrich1a](https://github.com/ulrich1a)
+
+![FS-Parameters](Icons/FSParams.png)
+
 ![image](https://user-images.githubusercontent.com/4140247/32561853-466e708e-c47b-11e7-9029-923256e50650.png)![image](https://user-images.githubusercontent.com/4140247/32561890-5a563096-c47b-11e7-9026-cf81bea25834.png)![image](https://user-images.githubusercontent.com/4140247/32562381-82b2e8d0-c47c-11e7-828d-1e1b361c6f12.png)
 
 
 
 ### Installation
+
 #### Addon Manager
 **Note:** Starting from FreeCAD v0.17.9940 an Addons Manager has been built-in to FreeCAD.  
 You can use said [Addon Manager](https://github.com/FreeCAD/FreeCAD-addons/#1-builtin-addon-manager) to seamlessly install Fasteners Workbench.

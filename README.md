@@ -24,6 +24,8 @@ For versions prior to v0.17.9940 FreeCAD requires manual installation, learn how
 <details>
   <summary><i>Expand this section for a synopsis on how to use this workbench</i></summary> 
 
+**Note:** this info is also available on http://theseger.com/projects/2015/06/fasteners-workbench-for-freecad/
+
 #### Where to Start
 
 Usage is pretty straightforward:  
@@ -34,7 +36,7 @@ Result: A series of screws will show on the toolbar:
 
   ![FastenersToolbar](Icons/FSToolbar.png)  
 
-4. Clicking on any of the screws will create this screw in the origin position with https://github.com/ulrich1adefault size.  
+4. Clicking on any of the screws will create this screw in the origin position with default size.  
 
 5. To change size/length: select the newly created screw, then go to the data tab in the property panel, there you can change diameter and length. (For now it is in metric standard):  
 

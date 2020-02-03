@@ -5,7 +5,7 @@ A FreeCAD Workbench to Add/Attach various Fasteners to Parts
 
 ![FS-Parameters](Icons/FSParams.png)
 
-![image](https://user-images.githubusercontent.com/4140247/32561853-466e708e-c47b-11e7-9029-923256e50650.png)![image](https://user-images.githubusercontent.com/4140247/32561890-5a563096-c47b-11e7-9026-cf81bea25834.png)![image](https://user-images.githubusercontent.com/4140247/32562381-82b2e8d0-c47c-11e7-828d-1e1b361c6f12.png)
+![image](https://github.com/shaise/FreeCAD_FastenersWB/raw/master/Icons/FastenersScreencast.gif)
 
 
 

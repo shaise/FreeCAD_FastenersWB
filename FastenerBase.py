@@ -639,8 +639,16 @@ class FSMakeBomCommand:
     sheet.set('B1', "Qty")
     for obj in FreeCAD.ActiveDocument.Objects:
       name = FSRemoveDigits(obj.Name)
-      method = getattr(self, 'Add' + name, lambda x: "nothing")
-      method(obj)
+      #apply arrays
+      cnt = 1
+      for parent in obj.InListRecursive:
+        if hasattr(parent,'ArrayType'):
+            if parent.ArrayType == 'ortho':
+                cnt = cnt * parent.NumberX * parent.NumberY * parent.NumberZ
+            elif parent.ArrayType == 'polar':
+                cnt = cnt * parent.NumberPolar
+      method = getattr(self, 'Add' + name, lambda x,y: "nothing")
+      method(obj, cnt)
       FreeCAD.Console.PrintLog(name + "\n")
     line = 2
     for fastener in sorted(self.fastenerDB.keys()):
@@ -650,35 +658,35 @@ class FSMakeBomCommand:
     FreeCAD.ActiveDocument.recompute()
     return
     
-  def AddFastener(self, fastener):
+  def AddFastener(self, fastener, cnt):
     if fastener in self.fastenerDB:
-      self.fastenerDB[fastener] = self.fastenerDB[fastener] + 1
+      self.fastenerDB[fastener] = self.fastenerDB[fastener] + cnt
     else:
-      self.fastenerDB[fastener] = 1
+      self.fastenerDB[fastener] = cnt
       
-  def AddScrew(self, obj):
-    self.AddFastener(obj.type + " Screw " + obj.diameter + "x" + obj.length)
+  def AddScrew(self, obj, cnt):
+    self.AddFastener(obj.type + " Screw " + obj.diameter + "x" + obj.length, cnt)
     
-  def AddNut(self, obj):
+  def AddNut(self, obj, cnt):
     if hasattr(obj, 'type'):
       type = obj.type
     else:
       type = 'ISO4033'
-    self.AddFastener(type + " Nut " + obj.diameter)
+    self.AddFastener(type + " Nut " + obj.diameter, cnt)
 
-  def AddWasher(self, obj):
-    self.AddFastener(obj.type + " Washer " + obj.diameter)
+  def AddWasher(self, obj, cnt):
+    self.AddFastener(obj.type + " Washer " + obj.diameter, cnt)
     
-  def AddScrewTap(self, obj):
-    self.AddFastener("ScrewTap " + obj.diameter + "x" + str(obj.length))
+  def AddScrewTap(self, obj, cnt):
+    self.AddFastener("ScrewTap " + obj.diameter + "x" + str(obj.length), cnt)
     
-  def AddPressNut(self, obj):
-    self.AddFastener("PEM PressNut " + obj.diameter + "-" + obj.tcode)
+  def AddPressNut(self, obj, cnt):
+    self.AddFastener("PEM PressNut " + obj.diameter + "-" + obj.tcode, cnt)
     
-  def AddStandoff(self, obj):
-    self.AddFastener("PEM Standoff " + obj.diameter + "x" + obj.length)
+  def AddStandoff(self, obj, cnt):
+    self.AddFastener("PEM Standoff " + obj.diameter + "x" + obj.length, cnt)
     
-  def AddStud(self, obj):
+  def AddStud(self, obj, cnt):
     self.AddFastener("PEM Stud " + obj.diameter + "x" + obj.length)
     
     

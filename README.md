@@ -3,8 +3,6 @@ A FreeCAD Workbench to Add/Attach various Fasteners to Parts
 
 **Note:** This workbench acts as a wrapper to the `screw_maker macro` created by [@ulrich1a](https://github.com/ulrich1a)
 
-![FS-Parameters](Icons/FSParams.png)
-
 ![image](https://github.com/shaise/FreeCAD_FastenersWB/raw/master/Icons/FastenersScreencast.gif)
 
 

@@ -200,6 +200,35 @@ def FSRemoveDigits(txt):
       res += c
   return res
 
+# get number of links to this object  
+def GetNumLinks(obj):
+  cnt = 0
+  for parent in obj.InList:
+    if parent.TypeId == 'App::Link':
+      if parent.ElementCount > 0:
+        cnt = cnt + parent.ElementCount
+      else:
+        cnt = cnt + 1
+  return cnt
+
+# get total count of a selected object taking arrays/links into account  
+def GetTotalObjectRepeats(obj):
+  cnt = 0
+  for parent in obj.InList:
+    numreps = 1
+    if parent.TypeId != 'App::Link' and parent.TypeId != "App::LinkElement":
+      if hasattr(parent,'ArrayType'):
+        if parent.ArrayType == 'ortho':
+            numreps = parent.NumberX * parent.NumberY * parent.NumberZ
+        elif parent.ArrayType == 'polar':
+            numreps = parent.NumberPolar
+      #print (parent.Name + ", " + str(numreps) + ", " + str(GetTotalObjectRepeats(parent)) + ", " + str(GetNumLinks(parent)) + "\n")
+      cnt += numreps * (GetTotalObjectRepeats(parent) + GetNumLinks(parent))
+  if cnt == 0:
+    cnt = 1
+  return cnt
+
+
 class FSFaceMaker:
   '''Create a face point by point on the x,z plane'''
   def __init__(self):
@@ -640,13 +669,7 @@ class FSMakeBomCommand:
     for obj in FreeCAD.ActiveDocument.Objects:
       name = FSRemoveDigits(obj.Name)
       #apply arrays
-      cnt = 1
-      for parent in obj.InListRecursive:
-        if hasattr(parent,'ArrayType'):
-            if parent.ArrayType == 'ortho':
-                cnt = cnt * parent.NumberX * parent.NumberY * parent.NumberZ
-            elif parent.ArrayType == 'polar':
-                cnt = cnt * parent.NumberPolar
+      cnt = GetTotalObjectRepeats(obj) * (1 + GetNumLinks(obj))
       method = getattr(self, 'Add' + name, lambda x,y: "nothing")
       method(obj, cnt)
       FreeCAD.Console.PrintLog(name + "\n")

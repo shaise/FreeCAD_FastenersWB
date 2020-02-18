@@ -116,6 +116,7 @@ standard_diameters = {
   'EN1662':  ('M5',   'M16'), # EN 1662 Hexagon bolts with flange, small series
   'EN1665':  ('M5',   'M20'), # EN 1665 Hexagon bolts with flange, heavy series
   'ISO4762': ('M1.6', 'M64'), # ISO 4762 Hexagon socket head cap screws
+  'DIN7984': ('M3',   'M24'), # DIN 7984 Hexagon socket head cap screws with low head
   'ISO2009': ('M1.6', 'M10'), # ISO 2009 Slotted countersunk flat head screws
   'ISO2010': ('M1.6', 'M10'), # ISO 2010 Slotted raised countersunk head screws
   'ISO1580': ('M1.6', 'M10'), # ISO 1580 Slotted pan head screws
@@ -1098,6 +1099,66 @@ iso4762range = {
   'M64':('120','300')
   }
 
+# DIN 7984 Hexagon socket head cap screws with low head
+# DIN 7984 definitions
+#
+# P,   b,  dk_max,  da,  ds_min,   e,   k,   r,   s_mean, t,    v,   dw
+din7984def = {
+  'M3':    (0.50,   12,  5.5,  3.6,  2.86,  2.30,  2.0, 0.10,  2.0,  1.5,  0.3,  4.84),
+  'M4':    (0.70,   14,  7.0,  4.7,  3.82,  2.87,  2.8, 0.20,  2.5,  2.3,  0.4,  6.20),
+  'M5':    (0.80,   16,  8.5,  5.7,  4.82,  3.44,  3.5, 0.20,  3.0,  2.7,  0.5,  7.70),
+  'M6':    (1.00,   18, 10.0,  6.8,  5.82,  4.58,  4.0, 0.25,  4.0,  3.0,  0.6,  9.20),
+  'M8':    (1.25,   22, 13.0,  9.2,  7.70,  5.72,  5.0, 0.40,  5.0,  3.8,  0.8, 12.03),
+  'M10':   (1.50,   26, 16.0, 11.2,  9.78,  8.01,  6.0, 0.40,  7.0,  4.5,  1.0, 15.03),
+  'M12':   (1.75,   30, 18.0, 13.7, 11.73,  9.15,  7.0, 0.60,  8.0,  5.0,  1.2, 17.03),
+  '(M14)': (2.00,   34, 21.0, 15.7, 13.73, 11.43,  8.0, 0.60, 10.0,  5.3,  1.4, 19.83),
+  'M16':   (2.00,   38, 24.0, 17.7, 15.73, 13.72,  9.0, 0.60, 12.0,  5.5,  1.6, 22.83),
+  '(M18)': (2.50,   42, 27.0, 20.2, 17.73, 13.72, 10.0, 0.60, 12.0,  6.5,  1.8, 25.83),
+  'M20':   (2.50,   46, 30.0, 22.4, 19.67, 16.00, 11.0, 0.80, 14.0,  7.5,  2.0, 28.83),
+  '(M22)': (2.50,   50, 33.0, 24.4, 21.67, 16.00, 12.0, 0.80, 14.0,  8.0,  2.2, 31.61),
+  'M24':   (3.00,   54, 36.0, 26.4, 23.67, 19.44, 13.0, 0.80, 17.0,  8.0,  2.4, 34.61)
+}
+
+# range of typical screw lengths
+#    min_length,  max_length
+din7984range = {
+  'M3':  ('5', '20'),
+  'M4':  ('6', '25'),
+  'M5':  ('8', '30'),
+  'M6': ('10', '40'),
+  'M8': ('12', '60'),
+  'M10':('16', '70'),
+  'M12':('20', '80'),
+  '(M14)':('30','80'),
+  'M16':('30', '80'),
+  '(M18)':('40','100'),
+  'M20':('40','100'),
+  '(M22)':('50','100'),
+  'M24':('50','100')
+  }
+
+din7984length = {
+  '5': ( 4.76, 5.24),
+  '6': ( 5.76, 6.24),
+  '8': ( 7.71, 8.29),
+  '10':( 9.71, 10.29),
+  '12':(11.65, 12.35),
+  '16':(15.65, 16.35),
+  '20':(19.58, 20.42),
+  '25':(24.58, 25.42),
+  '30':(29.58, 30.42),
+  '35':(34.5,  35.5),
+  '40':(39.5,  40.5),
+  '45':(44.5,  45.5),
+  '50':(49.5,  50.5),
+  '55':(54.4, 55.6),
+  '60':(59.4, 60.6),
+  '65':(64.4, 65.6),
+  '70':(69.4, 70.6),
+  '80':(79.4, 80.6),
+  '90':(89.3, 90.7),
+  '100':(99.3, 100.7)
+  }
 
 # ISO 14579 Hexalobular socket head cap screws
 #   hexalobular recess;    tt = size of hexalobular recess
@@ -1710,6 +1771,7 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(29, _translate("ScrewMaker", "ISO4035: Hexagon thin nuts, chamfered", None))
     self.ScrewType.setItemText(30, _translate("ScrewMaker", "EN1661: Hexagon nuts with flange", None))
     self.ScrewType.setItemText(31, _translate("ScrewMaker", "ScrewTap: ISO Screw-Tap", None))
+    self.ScrewType.setItemText(32, _translate("ScrewMaker", "DIN7984: Hexagon socket head cap screws with low head", None))
 
     self.NominalDiameter.setItemText(0, _translate("ScrewMaker", "M1.6", None))
     self.NominalDiameter.setItemText(1, _translate("ScrewMaker", "M2", None))
@@ -2029,6 +2091,12 @@ class Screw(object):
       table = en1661def
       Type_text = 'Nut'
 
+    if ST_text == 'DIN7984':
+      table = din7984def
+      tab_len = din7984length
+      tab_range = din7984range
+      Type_text = 'Screw'
+
     if ST_text == 'ScrewTap':
       table = tuningTable
       Type_text = 'Screw-Tap'
@@ -2175,6 +2243,8 @@ class Screw(object):
            table = iso4036def
         if ST_text == 'EN1661':
            table = en1661def
+        if ST_text == 'DIN7984':
+           table = din7984def
         if ST_text == 'ScrewTap':
            table = tuningTable
         if ND_text not in table:
@@ -2200,7 +2270,7 @@ class Screw(object):
           screw = self.makeSlottedScrew(ST_text, ND_text,l)
           Type_text = 'Screw'
           done = True
-        if (ST_text == 'ISO4762') or (ST_text == 'ISO14579'):
+        if (ST_text == 'ISO4762') or (ST_text == 'ISO14579') or (ST_text == 'DIN7984'):
           screw = self.makeIso4762(ST_text, ND_text,l)
           Type_text = 'Screw'
           done = True
@@ -3584,13 +3654,14 @@ class Screw(object):
 
 
   # make ISO 4762 Allan Screw head
+  # DIN 7984 Allan Screw head
   # ISO 14579 Hexalobular socket head cap screws
   def makeIso4762(self, SType ='ISO4762', ThreadType ='M6',l=25.0):
     dia = self.getDia(ThreadType, False)
     #FreeCAD.Console.PrintMessage("der 4762Kopf mit l: " + str(l) + "\n")
-    P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = iso4762def[ThreadType]
     #FreeCAD.Console.PrintMessage("der Kopf mit iso r: " + str(r) + "\n")
     if SType == 'ISO14579':
+      P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = iso4762def[ThreadType]
       tt, A, t = iso14579def[ThreadType]
       #Head Points 30° countersunk
       # Pnt0 = Base.Vector(0.0,0.0,k-A/4.0) #Center Point for countersunk
@@ -3606,7 +3677,20 @@ class Screw(object):
       # recess and recess shell.
       PntH1 = Base.Vector(A/1.99,0.0, 2.0*k)
 
+    elif SType == 'DIN7984':
+      P, b, dk_max, da, ds_min, e, k, r, s_mean, t, v, dw = din7984def[ThreadType]
+      e_cham = 2.0 * s_mean / math.sqrt(3.0)
+      #Head Points 45° countersunk
+      Pnt0 = Base.Vector(0.0,0.0,k-e_cham/1.99/2.0) #Center Point for countersunk
+      PntFlat = Base.Vector(e_cham/1.99/2.0,0.0,k-e_cham/1.99/2.0) # End of flat part
+      Pnt1 = Base.Vector(e_cham/1.99,0.0,k)     #countersunk edge at head
+      edgeCham0 = Part.makeLine(Pnt0,PntFlat)
+      edgeCham1 = Part.makeLine(PntFlat,Pnt1)
+      edge1 = Part.Wire([edgeCham0,edgeCham1])
+      PntH1 = Base.Vector(e_cham/1.99,0.0, 2.0*k)
+
     else:
+      P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = iso4762def[ThreadType]
       e_cham = 2.0 * s_mean / math.sqrt(3.0)
       #Head Points 45° countersunk
       Pnt0 = Base.Vector(0.0,0.0,k-e_cham/1.99/2.0) #Center Point for countersunk

@@ -118,8 +118,9 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes
+* V0.3.13  20 Feb 2020:  Add DIN 7984 screws, Thank you @Berberic2 !
 * V0.3.12  16 Feb 2020:  Support multiple arrays and links when counting BOM
-* V0.3.11  02 Jan 2020:  Take arrays into account when creating BOM.  
+* V0.3.11  02 Jan 2020:  Take arrays into account when creating BOM. 
 * V0.3.10  25 Jan 2019:  Added 3D printer compatible thread generation.  
 * V0.3.02  14 Jan 2019:  Fix hole matching bug  
 * V0.3.01  28 Dec 2018:  Fix ISO4762 M4x10 generation issue (occ7.2).  

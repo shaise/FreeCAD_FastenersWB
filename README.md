@@ -1,5 +1,8 @@
 # FreeCAD Fasteners Workbench
-A FreeCAD Workbench to Add/Attach various Fasteners to Parts
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/shaise/FreeCAD_FastenersWB.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/shaise/FreeCAD_FastenersWB/alerts/) [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/shaise/FreeCAD_FastenersWB.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/shaise/FreeCAD_FastenersWB/context:python)  
+
+A FreeCAD Workbench to Add/Attach various Fasteners to Parts  
+
 
 **Note:** This workbench acts as a wrapper to the `screw_maker macro` created by [@ulrich1a](https://github.com/ulrich1a)
 

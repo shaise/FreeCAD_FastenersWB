@@ -213,6 +213,7 @@ class FSScrewMaker(Screw):
         if l >= min and l <= max:
           list.append(len)
       list.sort(key = FastenerBase.MToFloat)
+      list.append("Custom")
       return list
 
     def GetAllCountersunkTypes(self):

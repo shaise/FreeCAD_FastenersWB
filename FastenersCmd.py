@@ -40,21 +40,40 @@ class FSScrewObject(FSBaseObject):
     self.itemText = screwMaker.GetTypeName(type)
     diameters = screwMaker.GetAllDiams(type)
     diameters.insert(0, 'Auto')
+    self.type = ''
+    self.diameter = ''
+    self.matchOuter = ''
+    self.length = ''
+    self.customlen = -1
     #self.Proxy = obj.Name
     
     obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = screwMaker.GetAllTypes(self.itemText)
+    obj.type = type
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
-    self.VerifyCreateMatchOuter(obj)
-    if (self.itemText == "Screw"):
-      obj.addProperty("App::PropertyEnumeration","length","Parameters","Screw length").length = screwMaker.GetAllLengths(type, diameters[1])
+    self.VerifyMissingAttrs(obj, diameters[1])
     if (self.itemText != "Washer"):
       obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
-    obj.type = type
     obj.Proxy = self
     
-  def VerifyCreateMatchOuter(self, obj):
+  def VerifyMissingAttrs(self, obj, diameter):
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
+    if not (hasattr(obj, 'lengthCustom')):
+      slens = screwMaker.GetAllLengths(obj.type, diameter)
+      if (hasattr(obj, 'length')):
+        origLen = obj.length
+        obj.length = slens
+        obj.length = origLen
+      else:
+        obj.addProperty("App::PropertyEnumeration","length","Parameters","Screw length").length = slens
+      obj.addProperty("App::PropertyLength","lengthCustom","Parameters","Custom length").lengthCustom = slens[0]
+
+  def ActiveLength(self, obj):
+    if not hasattr(obj,'length'):
+      return '0'
+    if obj.length == 'Custom':
+      return str(float(obj.lengthCustom)).rstrip("0").rstrip('.')
+    return obj.length
  
   def execute(self, fp):
     '''"Print a short message when doing a recomputation, this method is mandatory" '''
@@ -67,9 +86,9 @@ class FSScrewObject(FSBaseObject):
       shape = None
     
     # for backward compatibility: add missing attribute if needed
-    self.VerifyCreateMatchOuter(fp)
+    self.VerifyMissingAttrs(fp, fp.diameter)
     
-    FreeCAD.Console.PrintLog("MatchOuter:" + str(fp.matchOuter) + "\n")
+    #FreeCAD.Console.PrintLog("MatchOuter:" + str(fp.matchOuter) + "\n")
     
     typechange = False
     if fp.type == "ISO7380":
@@ -98,15 +117,29 @@ class FSScrewObject(FSBaseObject):
       d = fp.diameter
     
     if hasattr(fp,'length'):
-      d , l = screwMaker.FindClosest(fp.type, d, fp.length)
+      if (fp.length !=  self.length):
+        if (fp.length != 'Custom'):
+          fp.lengthCustom = float(fp.length)
+      elif (fp.lengthCustom != self.customlen):
+        fp.length = 'Custom'
+      origLen = self.ActiveLength(fp)
+      origIsCustom = fp.length == 'Custom'
+      d , l = screwMaker.FindClosest(fp.type, d, origLen)
       if d != fp.diameter:
         diameterchange = True      
         fp.diameter = d
+
+      if (origIsCustom):
+        l = origLen
         
-      if l != fp.length or diameterchange or typechange:
+      if l != origLen or diameterchange or typechange:
         if diameterchange or typechange:
           fp.length = screwMaker.GetAllLengths(fp.type, fp.diameter)
-        fp.length = l
+        if (origIsCustom):
+          fp.length = 'Custom'
+        else:
+          fp.length = l
+          fp.lengthCustom = l
     else:
       l = 1
       
@@ -127,8 +160,9 @@ class FSScrewObject(FSBaseObject):
     self.diameter = fp.diameter
     self.matchOuter = fp.matchOuter
     if hasattr(fp,'length'):
-      self.length = fp.length
-      fp.Label = fp.diameter + 'x' + fp.length + '-' + self.itemText
+      self.length = l
+      self.customlen = fp.lengthCustom
+      fp.Label = fp.diameter + 'x' + l + '-' + self.itemText
     else:
       fp.Label = fp.diameter + '-' + self.itemText
     
@@ -357,7 +391,7 @@ class FSScrewRodObject(FSBaseObject):
     obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.Proxy = self
  
-  def VerifyCreateMatchOuter(self, obj):
+  def VerifyMissingAttrs(self, obj):
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
  
@@ -371,7 +405,7 @@ class FSScrewRodObject(FSBaseObject):
       baseobj = None
       shape = None
           
-    self.VerifyCreateMatchOuter(fp)
+    self.VerifyMissingAttrs(fp)
     diameterchange = False      
     if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
       diameterchange = True    

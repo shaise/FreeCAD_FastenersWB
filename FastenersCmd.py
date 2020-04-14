@@ -58,7 +58,7 @@ class FSScrewObject(FSBaseObject):
   def VerifyMissingAttrs(self, obj, diameter):
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
-    if not (hasattr(obj, 'lengthCustom')):
+    if (self.itemText == "Screw" and  not hasattr(obj, 'lengthCustom')):
       slens = screwMaker.GetAllLengths(obj.type, diameter)
       if (hasattr(obj, 'length')):
         origLen = obj.length
@@ -120,7 +120,7 @@ class FSScrewObject(FSBaseObject):
       if (fp.length !=  self.length):
         if (fp.length != 'Custom'):
           fp.lengthCustom = float(fp.length)
-      elif (fp.lengthCustom != self.customlen):
+      elif (hasattr(self,'customlen') and fp.lengthCustom != self.customlen):
         fp.length = 'Custom'
       origLen = self.ActiveLength(fp)
       origIsCustom = fp.length == 'Custom'

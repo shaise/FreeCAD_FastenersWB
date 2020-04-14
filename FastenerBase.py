@@ -670,6 +670,7 @@ class FSMakeBomCommand:
       name = FSRemoveDigits(obj.Name)
       #apply arrays
       cnt = GetTotalObjectRepeats(obj) * (1 + GetNumLinks(obj))
+      FreeCAD.Console.PrintLog("Using method: Add" + name + "\n")
       method = getattr(self, 'Add' + name, lambda x,y: "nothing")
       method(obj, cnt)
       FreeCAD.Console.PrintLog(name + "\n")
@@ -710,7 +711,7 @@ class FSMakeBomCommand:
     self.AddFastener("PEM Standoff " + obj.diameter + "x" + obj.length, cnt)
     
   def AddStud(self, obj, cnt):
-    self.AddFastener("PEM Stud " + obj.diameter + "x" + obj.length)
+    self.AddFastener("PEM Stud " + obj.diameter + "x" + obj.length, cnt)
     
     
   def IsActive(self):

@@ -216,14 +216,18 @@ def GetTotalObjectRepeats(obj):
   cnt = 0
   for parent in obj.InList:
     numreps = 1
-    if parent.TypeId != 'App::Link' and parent.TypeId != "App::LinkElement":
+    if parent.TypeId != 'App::Link' and parent.TypeId != "App::LinkElement" and parent.TypeId != 'App::DocumentObjectGroup':
+    #if parent.TypeId == 'Part::FeaturePython':
       if hasattr(parent,'ArrayType'):
         if parent.ArrayType == 'ortho':
             numreps = parent.NumberX * parent.NumberY * parent.NumberZ
         elif parent.ArrayType == 'polar':
             numreps = parent.NumberPolar
       #print (parent.Name + ", " + str(numreps) + ", " + str(GetTotalObjectRepeats(parent)) + ", " + str(GetNumLinks(parent)) + "\n")
-      cnt += numreps * (GetTotalObjectRepeats(parent) + GetNumLinks(parent))
+      parentreps = GetTotalObjectRepeats(parent) 
+      parentlinks = GetNumLinks(parent)
+      #FreeCAD.Console.PrintLog("Parent:" + parent.Name + "/" + parent.TypeId + ", Reps:" + str(parentreps) + ", Links:" + str(parentlinks))
+      cnt += numreps * (parentreps + parentlinks)
   if cnt == 0:
     cnt = 1
   return cnt
@@ -670,10 +674,10 @@ class FSMakeBomCommand:
       name = FSRemoveDigits(obj.Name)
       #apply arrays
       cnt = GetTotalObjectRepeats(obj) * (1 + GetNumLinks(obj))
-      FreeCAD.Console.PrintLog("Using method: Add" + name + "\n")
+      #FreeCAD.Console.PrintLog("Using method: Add" + name + "\n")
       method = getattr(self, 'Add' + name, lambda x,y: "nothing")
       method(obj, cnt)
-      FreeCAD.Console.PrintLog(name + "\n")
+      #FreeCAD.Console.PrintLog('Add ' + str(cnt) + " " + obj.Name  + "\n")
     line = 2
     for fastener in sorted(self.fastenerDB.keys()):
       sheet.set('A' + str(line), fastener)

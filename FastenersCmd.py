@@ -387,7 +387,7 @@ class FSScrewRodObject(FSBaseObject):
     
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
     obj.addProperty("App::PropertyLength","length","Parameters","Screw length").length = 20.0
-    self.VerifyCreateMatchOuter(obj)
+    self.VerifyMissingAttrs(obj)
     obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.Proxy = self
  

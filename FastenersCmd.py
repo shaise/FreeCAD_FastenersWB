@@ -120,7 +120,7 @@ class FSScrewObject(FSBaseObject):
       if (fp.length !=  self.length):
         if (fp.length != 'Custom'):
           fp.lengthCustom = float(fp.length)
-      elif (hasattr(self,'customlen') and fp.lengthCustom != self.customlen):
+      elif (hasattr(self,'customlen') and float(fp.lengthCustom) != self.customlen):
         fp.length = 'Custom'
       origLen = self.ActiveLength(fp)
       origIsCustom = fp.length == 'Custom'
@@ -161,7 +161,7 @@ class FSScrewObject(FSBaseObject):
     self.matchOuter = fp.matchOuter
     if hasattr(fp,'length'):
       self.length = l
-      self.customlen = fp.lengthCustom
+      self.customlen = float(fp.lengthCustom)
       fp.Label = fp.diameter + 'x' + l + '-' + self.itemText
     else:
       fp.Label = fp.diameter + '-' + self.itemText

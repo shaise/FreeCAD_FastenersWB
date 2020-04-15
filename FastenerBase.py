@@ -693,7 +693,10 @@ class FSMakeBomCommand:
       self.fastenerDB[fastener] = cnt
       
   def AddScrew(self, obj, cnt):
-    self.AddFastener(obj.type + " Screw " + obj.diameter + "x" + obj.length, cnt)
+    len = obj.length
+    if len == 'Custom':
+      len = str(float(obj.lengthCustom)).rstrip("0").rstrip('.')
+    self.AddFastener(obj.type + " Screw " + obj.diameter + "x" + len, cnt)
     
   def AddNut(self, obj, cnt):
     if hasattr(obj, 'type'):

@@ -719,6 +719,9 @@ class FSMakeBomCommand:
     
   def AddStud(self, obj, cnt):
     self.AddFastener("PEM Stud " + obj.diameter + "x" + obj.length, cnt)
+
+  def AddPcbStandoff(self, obj, cnt):
+    self.AddFastener("PCB Standoff " + obj.diameter + "x" + obj.width + "x" + obj.length, cnt)
     
     
   def IsActive(self):

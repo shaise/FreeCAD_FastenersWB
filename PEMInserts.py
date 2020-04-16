@@ -994,7 +994,7 @@ class FSPcbSpacerObject(FSBaseObject):
       FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
 
 
-FastenerBase.FSClassIcons[FSPcbStandOffObject] = 'PCBSpacer.svg'    
+FastenerBase.FSClassIcons[FSPcbSpacerObject] = 'PCBSpacer.svg'    
 
 class FSPcbSpacerCommand:
   """Add PCB Spacer command"""

@@ -670,9 +670,6 @@ def psMakeFace(m, sw, lo, l, id):
     p = 1
   p1 = p + id2
 
-  FreeCAD.Console.PrintLog("pars" + ' l' + str(l) + ' id2' + str(id2) + ' m2' + str(m2) + ' d2' + str(d2) + ' l1' +  ' p1' + str(p1) + "\n")
-  FreeCAD.Console.PrintLog("    " + ' dd' + str(dd) +  ' lo1' + str(lo1) +  ' lo2' + str(lo2) +  ' lo3' + str(lo3) +  ' p' + str(p) + "\n")
-  
   fm = FastenerBase.FSFaceMaker()
   fm.AddPoint(0, p)
   fm.AddPoint(id2, p1)
@@ -697,7 +694,7 @@ def psMakeStandOff(diam, len, width):
   if not(lenKey in PSLengths):
     return None
 
-  (key, shape) = FastenerBase.FSGetKey('StandOff', diam, width, len)
+  (key, shape) = FastenerBase.FSGetKey('PcbStandOff', diam, width, len)
   if shape != None:
     return shape
   
@@ -714,23 +711,23 @@ def psMakeStandOff(diam, len, width):
   FastenerBase.FSCache[key] = shape
   return shape
 
-def psFindClosest(diam, width, len):
+def psFindClosest(mtable, ltable, diam, width, len):
   ''' Find closest standard standoff to given parameters '''
-  if not(diam in PSMTable):
+  if not(diam in mtable):
     return None
   lenKey = diam + "x" + width
-  if not(lenKey in PSLengths):
+  if not(lenKey in ltable):
     return None
-  lens = PSLengths[lenKey]
+  lens = ltable[lenKey]
   for l in lens:
     if (float(len) <= float(l)):
       return l
   return lens[len(lens) - 1]
 
-def psGetAllWidths(diam):
-  if not(diam in PSMTable):
+def psGetAllWidths(mtable, diam):
+  if not(diam in mtable):
     return None
-  list = PSMTable[diam][2]
+  list = mtable[diam][2]
   try:  # py3
     import functools
     sorted(list, key = functools.cmp_to_key(FastenerBase.NumCompare))
@@ -739,13 +736,13 @@ def psGetAllWidths(diam):
   return list
 
  
-def psGetAllLengths(diam, width):
-  if not(diam in PSMTable):
+def psGetAllLengths(mtable, ltable, diam, width):
+  if not(diam in mtable):
     return None
   lenKey = diam + "x" + width
-  if not(lenKey in PSLengths):
+  if not(lenKey in ltable):
     return None
-  list = PSLengths[lenKey]
+  list = ltable[lenKey]
   try:  # py3
     import functools
     sorted(list, key = functools.cmp_to_key(FastenerBase.NumCompare))
@@ -757,15 +754,15 @@ def psGetAllLengths(diam, width):
 
 class FSPcbStandOffObject(FSBaseObject):
   def __init__(self, obj, attachTo):
-    '''"Add StandOff (self clinching) type fastener" '''
+    '''"Add PCB StandOff type fastener" '''
     FSBaseObject.__init__(self, obj, attachTo)
     self.itemText = "PcbStandOff"
     #self.Proxy = obj.Name
     
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Standoff thread diameter").diameter = PSDiameters
-    widths = psGetAllWidths(PSDiameters[1])
+    widths = psGetAllWidths(PSMTable ,PSDiameters[1])
     obj.addProperty("App::PropertyEnumeration", "width", "Parameters", "Standoff body width").width = widths
-    obj.addProperty("App::PropertyEnumeration","length","Parameters","Standoff length").length = psGetAllLengths(PSDiameters[1], widths[0])
+    obj.addProperty("App::PropertyEnumeration","length","Parameters","Standoff length").length = psGetAllLengths(PSMTable, PSLengths ,PSDiameters[1], widths[0])
     obj.invert = FastenerBase.FSLastInvert
     obj.Proxy = self
  
@@ -797,18 +794,18 @@ class FSPcbStandOffObject(FSBaseObject):
       if diameterchange or not(hasattr(self,'width')) or self.width != fp.width:
         widthchange = True
         if diameterchange:
-          allwidth = psGetAllWidths(d)
+          allwidth = psGetAllWidths(PSMTable, d)
           fp.width = allwidth
           if (len(allwidth) > 1):
             fp.width = allwidth[1]
           else:
             fp.width = allwidth[0]
 
-      l = psFindClosest(d, fp.width, fp.length)
+      l = psFindClosest(PSMTable, PSLengths ,d, fp.width, fp.length)
 
       if l != fp.length or diameterchange or widthchange:
         if diameterchange or widthchange:
-          fp.length = psGetAllLengths(fp.diameter, fp.width)
+          fp.length = psGetAllLengths(PSMTable, PSLengths ,fp.diameter, fp.width)
         fp.length = l
 
       s = psMakeStandOff(d, l, fp.width)
@@ -847,4 +844,174 @@ class FSPcbStandOffCommand:
 
 Gui.addCommand("FSPcbStandOff", FSPcbStandOffCommand())
 FastenerBase.FSCommands.append("FSPcbStandOff", "screws", "PEM Inserts")
+
+###################################################################################
+# PCB Spacers / Wurth standard WA-SSTII 
+PSPLengths = {
+  'M2.5x5' : ('5', '10', '11', '12', '15', '17', '18', '20', '22'),
+  'M3x5'   : ('5', '10', '15', '20'),
+  'M3x5.5' : ('5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '25', '27', '30', '35', '40'),
+  'M4x7'   : ('5', '8', '10', '12', '15', '20', '25', '30', '35', '40', '45', '50', '60', '70', '80'),
+  'M5x8'   : ('10', '12', '15', '20', '25', '30', '35', '40', '50'),
+  'M6x10'  : ('10', '15', '20', '25', '30', '35', '40', '45', '50', '60')
+}
+PSPDiameters = ['Auto', 'M2.5', 'M3', 'M4', 'M5', 'M6' ]
+PSPMTable = {
+#          Th,   id,   SW(s)
+  'M2.5': (18,   2.05, ('5',)),
+  'M3':   (20,   2.5,  ('5', '5.5')),
+  'M4':   (20,   3.3,  ('7',)),
+  'M5':   (20,   4.2,  ('8',)),
+  'M6':   (20,   5,    ('10',))
+  }
+
+
+def pspMakeFace(m, sw, l, id, th):
+  l = float(l)
+  id2 = id / 2.0
+  sw2 = float(sw) / 2.0
+  m2 = m / 2.0
+  d2 = 0.95 * sw2 / cos30
+  l1 = l - (d2 - sw2) / 2.0
+  dd = m2 - id2
+  p = 10
+  if (p + 0.5 > l / 2.0):
+    p = l / 2.0 - 0.5
+  p1 = p - id2
+ 
+  fm = FastenerBase.FSFaceMaker()
+  fm.AddPoint(id2, l - dd)
+  fm.AddPoint(id2 + dd, l)
+  fm.AddPoint(sw2, l)
+  fm.AddPoint(d2, l1)
+  fm.AddPoint(d2, dd)
+  fm.AddPoint(sw2, 0)
+  fm.AddPoint(id2 + dd, 0)
+  fm.AddPoint(id2, dd)
+  if (l > th):
+    # separate holes
+    fm.AddPoint(id2, p1)
+    fm.AddPoint(0, p)
+    fm.AddPoint(0, l - p)
+    fm.AddPoint(id2, l - p1)
+  return fm.GetFace()
+
+def pspMakeSpacer(diam, len, width):
+  FreeCAD.Console.PrintLog("Making PCB spacer" + diam + "x" + len + "x" + width + "\n")
+  if not(diam in PSPMTable):
+    return None
+  lenKey = diam + "x" + width
+  if not(lenKey in PSPLengths):
+    return None
+
+  (key, shape) = FastenerBase.FSGetKey('PcbSpacer', diam, width, len)
+  if shape != None:
+    return shape
+  
+  th, id, sw = PSPMTable[diam]
+
+  m = FastenerBase.MToFloat(diam)
+  f = pspMakeFace(m, width, len, id, th)
+  p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+  w = float(width)
+  l = float(len)
+  htool = screwMaker.makeHextool(w, l, w * 2)
+  htool.translate(Base.Vector(0.0,0.0,- 0.1))
+  shape = p.cut(htool)
+  FastenerBase.FSCache[key] = shape
+  return shape
+
+# h = clMakePressNut('M5','1')
+
+class FSPcbSpacerObject(FSBaseObject):
+  def __init__(self, obj, attachTo):
+    '''"Add PCB Spacer type fastener" '''
+    FSBaseObject.__init__(self, obj, attachTo)
+    self.itemText = "PcbSpacer"
+    #self.Proxy = obj.Name
+    
+    obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Standoff thread diameter").diameter = PSDiameters
+    widths = psGetAllWidths(PSPMTable ,PSDiameters[1])
+    obj.addProperty("App::PropertyEnumeration", "width", "Parameters", "Standoff body width").width = widths
+    obj.addProperty("App::PropertyEnumeration","length","Parameters","Standoff length").length = psGetAllLengths(PSPMTable, PSPLengths ,PSDiameters[1], widths[0])
+    obj.invert = FastenerBase.FSLastInvert
+    obj.Proxy = self
+ 
+  def execute(self, fp):
+    '''"Print a short message when doing a recomputation, this method is mandatory" '''
+    try:
+      baseobj = fp.baseObject[0]
+      shape = baseobj.Shape.getElement(fp.baseObject[1][0])
+    except:
+      baseobj = None
+      shape = None
+    
+    if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter or self.width != fp.width or self.length != fp.length):
+      diameterchange = False      
+      if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
+        diameterchange = True      
+      if fp.diameter == 'Auto':
+        d = FastenerBase.FSAutoDiameterM(shape, PSMTable, 1)
+        diameterchange = True      
+      else:
+        d = fp.diameter
+
+      if d != fp.diameter:
+        diameterchange = True      
+        fp.diameter = d
+
+      widthchange = False
+      if diameterchange or not(hasattr(self,'width')) or self.width != fp.width:
+        widthchange = True
+        if diameterchange:
+          allwidth = psGetAllWidths(PSPMTable, d)
+          fp.width = allwidth
+          if (len(allwidth) > 1):
+            fp.width = allwidth[1]
+          else:
+            fp.width = allwidth[0]
+
+      l = psFindClosest(PSPMTable, PSPLengths ,d, fp.width, fp.length)
+
+      if l != fp.length or diameterchange or widthchange:
+        if diameterchange or widthchange:
+          fp.length = psGetAllLengths(PSPMTable, PSPLengths, fp.diameter, fp.width)
+        fp.length = l
+
+      s = pspMakeSpacer(d, l, fp.width)
+        
+      self.diameter = fp.diameter
+      self.length = fp.length
+      self.width = fp.width
+      FastenerBase.FSLastInvert = fp.invert
+      fp.Label = fp.diameter + 'x' + fp.width + 'x' + fp.length + '-Spacer'
+      fp.Shape = s
+    else:
+      FreeCAD.Console.PrintLog("Using cached object\n")
+    if shape != None:
+      #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
+      #fp.Placement = FreeCAD.Placement() # reset placement
+      FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
+
+
+FastenerBase.FSClassIcons[FSPcbStandOffObject] = 'PCBSpacer.svg'    
+
+class FSPcbSpacerCommand:
+  """Add PCB Spacer command"""
+
+  def GetResources(self):
+    icon = os.path.join( iconPath , 'PCBSpacer.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Add PCB Spacer" ,
+            'ToolTip' : "Add PCB Metric Spacer"}
+ 
+  def Activated(self):
+    FastenerBase.FSGenerateObjects(FSPcbSpacerObject, "PcbSpacer")
+    return
+   
+  def IsActive(self):
+    return Gui.ActiveDocument != None
+
+Gui.addCommand("FSPcbSpacer", FSPcbSpacerCommand())
+FastenerBase.FSCommands.append("FSPcbSpacer", "screws", "PEM Inserts")
 

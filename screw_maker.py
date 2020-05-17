@@ -3981,7 +3981,9 @@ class Screw(object):
     edge5 = Part.Arc(point5,point6,point7).toShape()
     edge6 = Part.makeLine(point7,point8)
     edge7 = Part.makeLine(point8,point9)
-    head_shoulder_profile = Part.Wire([edge1, edge2, edge3, edge4, edge5, edge6, edge7])
+    top_face_profile = Part.Wire([edge1])
+    top_face = top_face_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+    head_shoulder_profile = Part.Wire([edge2, edge3, edge4, edge5, edge6, edge7])
     if not self.rThread:
       # if a modelled thread is not desired:
       # add a cylindrical section to represent the threads
@@ -4010,36 +4012,18 @@ class Screw(object):
         halfturns = halfturns+1
       # make the threaded section
       shell_thread = self.makeShellthread(d2,P,halfturns,True,0)
-      shell_thread = shell_thread.translate(Base.Vector(0,0,-2*P))
-      '''
-      # trim the threaded section
-      trim_p1 = Base.Vector(0,0,0)
-      trim_p2 = Base.Vector(d3,0,0)
-      trim_p3 = Base.Vector(d3,0,3*P)
-      trim_p4 = Base.Vector(0,0,3*P)
-      trim_e1 = Part.makeLine(trim_p1,trim_p2)
-      trim_e2 = Part.makeLine(trim_p2,trim_p3)
-      trim_e3 = Part.makeLine(trim_p3,trim_p4)
-      trim_profile = Part.Wire([trim_e1,trim_e2,trim_e3])
-      trim_shell = trim_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
-      trim_solid = Part.Solid(trim_shell)
-      shell_thread = shell_thread.cut(trim_solid)
-      '''
+      shell_thread.translate(Base.Vector(0,0,-2*P))
       # combine the top & threaded section
       p_faces = p_shell.Faces
-      for tFace in shell_thread.Faces:
-        p_faces.append(tFace)
+      p_faces.extend(shell_thread.Faces)
       p_shell = Part.Shell(p_faces)
-    # convert the shell to a solid
-    screw = Part.Solid(p_shell)
     # make a hole for a hex key in the head
     hex_solid, hex_shell = self.makeAllen2(SW,l3*0.4,l3+l1)
-    topFace = p_shell.Faces[0]
-    topFace = topFace.cut(hex_solid)
-    p_faces = p_shell.Faces[1:]
-    p_faces.append(topFace.Faces[0])
-    for tFace in hex_shell.Faces:
-      p_faces.append(tFace.translate(Base.Vector(0.0,0.0,-1.0)))
+    top_face = top_face.cut(hex_solid)
+    p_faces = p_shell.Faces
+    p_faces.extend(top_face.Faces)
+    hex_shell.translate(Base.Vector(0,0,-1))
+    p_faces.extend(hex_shell.Faces)
     p_shell = Part.Shell(p_faces)
     screw = Part.Solid(p_shell)
     # chamfer the hex recess

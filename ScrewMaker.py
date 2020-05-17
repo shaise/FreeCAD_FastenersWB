@@ -84,6 +84,7 @@ screwTables = {
     'ISO7047':  ("Screw",  iso2009def,   iso7045length,  iso7046range,  4, 5),
     'ISO7048':  ("Screw",  iso7048def,   iso7048length,  iso7048range,  -1, 0),
     'DIN967':   ("Screw",  din967def,    din967length,   din967range,   -1, 0),
+    'ISO7379':  ("Screw",  iso7379def,   iso7379length,  iso7379range,  2, 0),
     #'ISO7380':  ("Screw", iso7380def, iso7380length, iso7380range, -1),
     'ISO7380-1':("Screw",  iso7380def,   iso7380length,  iso7380range,  -1, 0),
     'ISO7380-2':("Screw",  iso7380_2def, iso7380length,  iso7380range,  -1, 0),

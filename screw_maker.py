@@ -125,6 +125,7 @@ standard_diameters = {
   'ISO7047': ('M1.6', 'M10'),
   'ISO1207': ('M3',   'M10'), # ISO 1207 Slotted cheese head screws
   'ISO7048': ('M2.5', 'M8'),  # ISO 7048 Cross-recessed cheese head screws with type H cross recess
+  'ISO7379': ('M3',  'M20'),  # ISO 7379 Hexagon socket head shoulder screws
   'ISO7380-1':('M3',  'M16'), # ISO 7380 Hexagon socket button head screws
   'ISO7380-2':('M3',  'M16'), # ISO 7380 Hexagon socket button head screws with collar
   'DIN967'  :('M3',   'M8'),  # DIN 967 Cross recessed pan head screws with collar
@@ -619,6 +620,60 @@ iso7048length = {
   '80':(79.05, 80.95)
   }
 
+# ISO 7379 definitions
+# see: https://i.imgur.com/ewKzYun.png 
+# l1 is the variable shoulder length
+# l2 is the threaded length - constant per thread size
+# P = pitch - threads are standard metric coarse profile
+#           P     d1    d2    d3    l2    l3    SW
+iso7379def = {
+    'M3': (0.50, 4.00, 3.00, 7.00, 7.00, 3.00, 2.00),
+    'M4': (0.70, 5.00, 4.00, 9.00, 8.00, 4.00, 2.50),
+    'M5': (0.80, 6.00, 5.00, 10.0, 9.50, 4.50, 3.00),
+    'M6': (1.00, 8.00, 6.00, 13.0, 11.0, 5.50, 4.00),
+    'M8': (1.25, 10.0, 8.00, 16.0, 13.0, 7.00, 5.00),
+    'M10': (1.50, 12.0, 10.0, 18.0, 16.0, 9.00, 6.00),
+    'M12': (1.75, 16.0, 12.0, 24.0, 18.0, 11.0, 8.00),
+    'M16': (2.00, 20.0, 16.0, 30.0, 22.0, 14.0, 10.0),
+    'M20': (2.50, 24.0, 20.0, 36.0, 27.0, 16.0, 12.0)
+}
+
+iso7379length = {
+    '4': (3.76, 4.24),
+    '5': (4.76, 5.24),
+    '6': (5.76, 6.24),
+    '8': (7.71, 8.29),
+    '10': (9.71, 10.29),
+    '12': (11.65, 12.35),
+    '16': (15.65, 16.35),
+    '20': (19.58, 20.42),
+    '25': (24.58, 25.42),
+    '30': (29.58, 30.42),
+    '35': (34.5,  35.5),
+    '40': (39.5,  40.5),
+    '45': (44.5,  45.5),
+    '50': (49.5,  50.5),
+    '55': (54.4, 55.6),
+    '60': (59.4, 60.6),
+    '65': (64.4, 65.6),
+    '70': (69.4, 70.6),
+    '80': (79.4, 80.6),
+    '90': (89.4, 90.6),
+    '100':(99.3, 100.7)
+}
+
+
+iso7379range = {
+    'M3': (4, 30),
+    'M4': (5, 40),
+    'M5': (10, 80),
+    'M6': (16, 100),
+    'M8': (16, 100),
+    'M10': (16, 100),
+    'M12': (25, 100),
+    'M16': (30, 100),
+    'M20': (50, 100)
+}
 
 # Button Head Screw
 # nom length: l_min, l_max
@@ -1657,7 +1712,7 @@ class Ui_ScrewMaker(object):
     self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
     self.ScrewType = QtGui.QComboBox(self.layoutWidget1)
     self.ScrewType.setObjectName(_fromUtf8("ScrewType"))
-    for i in range(32):
+    for i in range(33):
       self.ScrewType.addItem(_fromUtf8(""))  # 0
 
     self.verticalLayout.addWidget(self.ScrewType)
@@ -1772,6 +1827,7 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(30, _translate("ScrewMaker", "EN1661: Hexagon nuts with flange", None))
     self.ScrewType.setItemText(31, _translate("ScrewMaker", "ScrewTap: ISO Screw-Tap", None))
     self.ScrewType.setItemText(32, _translate("ScrewMaker", "DIN7984: Hexagon socket head cap screws with low head", None))
+    self.ScrewType.setItemText(33, _translate("ScrewMaker", "ISO7379: Hexagon socket head shoulder screws", None))
 
     self.NominalDiameter.setItemText(0, _translate("ScrewMaker", "M1.6", None))
     self.NominalDiameter.setItemText(1, _translate("ScrewMaker", "M2", None))
@@ -2097,6 +2153,12 @@ class Screw(object):
       tab_range = din7984range
       Type_text = 'Screw'
 
+    if ST_text == 'iso7379':
+      table = iso7379def
+      tab_len = iso7379length
+      tab_range = iso7379range
+      Type_text = 'Screw'
+
     if ST_text == 'ScrewTap':
       table = tuningTable
       Type_text = 'Screw-Tap'
@@ -2245,6 +2307,8 @@ class Screw(object):
            table = en1661def
         if ST_text == 'DIN7984':
            table = din7984def
+        if ST_text == 'ISO7379':
+           table = iso7379def
         if ST_text == 'ScrewTap':
            table = tuningTable
         if ND_text not in table:
@@ -2289,6 +2353,10 @@ class Screw(object):
           done = True
         if (ST_text == 'ISO7380-1') or (ST_text == 'ISO7380-2') or (ST_text == 'DIN967'):
           screw = self.makeIso7380(ST_text, ND_text,l)
+          Type_text = 'Screw'
+          done = True
+        if (ST_text == 'ISO7379'):
+          screw = self.makeIso7379(ST_text, ND_text,l)
           Type_text = 'Screw'
           done = True
         if (ST_text == 'ISO7089') or (ST_text == 'ISO7090') or (ST_text == 'ISO7093-1') or \
@@ -3888,6 +3956,102 @@ class Screw(object):
     return allenscrew
 
 
+  # make ISO 7379 Hexagon socket head shoulder screw
+  def makeIso7379(self, SType ='ISO7379', ThreadType ='M6',l=16):
+    if (SType =='ISO7379'):
+      P, d1, d2, d3, l2, l3, SW = iso7379def[ThreadType]
+    # the shoulder is always 0.25mm longer than nominal
+    l1 = l+0.25
+    # define the fastener head and shoulder
+    # applicable for both threaded and unthreaded versions
+    point1 = Base.Vector(0,0,l1+l3)
+    point2 = Base.Vector(d3/2-0.04*d3,0,l3+l1)
+    point3 = Base.Vector(d3/2,0,l3-0.04*d3+l1)
+    point4 = Base.Vector(d3/2,0,l1)
+    point5 = Base.Vector(d1/2,0,l1)
+    point6 = Base.Vector(d1/2-0.04*d1,0,l1-0.1*l3)
+    point7 = Base.Vector(d1/2,0,l1-0.2*l3)
+    point8 = Base.Vector(d1/2,0,0)
+    point9 = Base.Vector(d2/2,0,0)
+    edge1 = Part.makeLine(point1,point2)
+    edge2 = Part.makeLine(point2,point3)
+    edge3 = Part.makeLine(point3,point4)
+    edge4 = Part.makeLine(point4,point5)
+    edge5 = Part.Arc(point5,point6,point7).toShape()
+    edge6 = Part.makeLine(point7,point8)
+    edge7 = Part.makeLine(point8,point9)
+    head_shoulder_profile = Part.Wire([edge1, edge2, edge3, edge4, edge5, edge6, edge7])
+    if not self.rThread:
+      # if a modelled thread is not desired:
+      # add a cylindrical section to represent the threads
+      point10= Base.Vector(d2/2-0.075*d2,0,-0.075*l2)
+      point11= Base.Vector(d2/2,0,-0.15*l2)
+      point12= Base.Vector(d2/2,0,-1*l2+0.1*d2)
+      point13= Base.Vector(d2/2-0.1*d2,0,-1*l2)
+      point14= Base.Vector(0,0,-1*l2)
+      edge8 = Part.Arc(point9,point10,point11).toShape()
+      edge9 = Part.makeLine(point11,point12)
+      edge10= Part.makeLine(point12,point13)
+      edge11= Part.makeLine(point13,point14)
+      # append the wire with the added section
+      p_profile = Part.Wire([head_shoulder_profile, edge8, edge9, edge10, edge11])
+      # revolve the profile into a shell object
+      p_shell = p_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+    else:
+      # if we need a modelled thread:
+      # the revolved profile is only the head and shoulder
+      p_profile = head_shoulder_profile
+      p_shell = p_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+      # calculate the number of thread half turns
+      residue, turns = math.modf((l2)/P)
+      halfturns = 2*int(turns)
+      if residue > 0.5:
+        halfturns = halfturns+1
+      # make the threaded section
+      shell_thread = self.makeShellthread(d2,P,halfturns,True,0)
+      shell_thread = shell_thread.translate(Base.Vector(0,0,-2*P))
+      '''
+      # trim the threaded section
+      trim_p1 = Base.Vector(0,0,0)
+      trim_p2 = Base.Vector(d3,0,0)
+      trim_p3 = Base.Vector(d3,0,3*P)
+      trim_p4 = Base.Vector(0,0,3*P)
+      trim_e1 = Part.makeLine(trim_p1,trim_p2)
+      trim_e2 = Part.makeLine(trim_p2,trim_p3)
+      trim_e3 = Part.makeLine(trim_p3,trim_p4)
+      trim_profile = Part.Wire([trim_e1,trim_e2,trim_e3])
+      trim_shell = trim_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+      trim_solid = Part.Solid(trim_shell)
+      shell_thread = shell_thread.cut(trim_solid)
+      '''
+      # combine the top & threaded section
+      p_faces = p_shell.Faces
+      for tFace in shell_thread.Faces:
+        p_faces.append(tFace)
+      p_shell = Part.Shell(p_faces)
+    # convert the shell to a solid
+    screw = Part.Solid(p_shell)
+    # make a hole for a hex key in the head
+    hex_solid, hex_shell = self.makeAllen2(SW,l3*0.4,l3+l1)
+    topFace = p_shell.Faces[0]
+    topFace = topFace.cut(hex_solid)
+    p_faces = p_shell.Faces[1:]
+    p_faces.append(topFace.Faces[0])
+    for tFace in hex_shell.Faces:
+      p_faces.append(tFace.translate(Base.Vector(0.0,0.0,-1.0)))
+    p_shell = Part.Shell(p_faces)
+    screw = Part.Solid(p_shell)
+    # chamfer the hex recess
+    cham_p1 = Base.Vector(0,0,l3+l1)
+    cham_p2 = Base.Vector(SW/math.sqrt(3),0,l3+l1)
+    cham_p3 = Base.Vector(0,0,l3+l1-SW/math.sqrt(3)) #45 degree chamfer
+    cham_e1 = Part.makeLine(cham_p1,cham_p2)
+    cham_e2 = Part.makeLine(cham_p2,cham_p3)
+    cham_profile = Part.Wire([cham_e1,cham_e2])
+    cham_shell = cham_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+    cham_solid = Part.Solid(cham_shell)
+    screw = screw.cut(cham_solid)
+    return screw
 
 
   # make ISO 7380-1 Button head Screw

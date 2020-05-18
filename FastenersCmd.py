@@ -279,6 +279,7 @@ FSAddScrewCommand("ISO14580", "ISO 14580 Hexalobular socket cheese head screws",
 FSAddScrewCommand("ISO14582", "ISO 14582 Hexalobular socket countersunk head screws, high head", "Hexalobular socket")
 FSAddScrewCommand("ISO14583", "ISO 14583 Hexalobular socket pan head screws", "Hexalobular socket")
 FSAddScrewCommand("ISO14584", "ISO 14584 Hexalobular socket raised countersunk head screws", "Hexalobular socket")
+FSAddScrewCommand("ISO7379", "ISO 7379 Hexagon socket head shoulder screw", "Hexagon socket")
 FSAddScrewCommand("ISO7089", "ISO 7089 Washer", "Washer")
 FSAddScrewCommand("ISO7090", "ISO 7090 Plain Washers, chamfered - Normal series", "Washer")
 #FSAddScrewCommand("ISO7091", "ISO 7091 Plain washer - Normal series Product Grade C", "Washer")  # same as 7089??

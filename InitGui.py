@@ -30,7 +30,7 @@ fnWB_icons_path =  os.path.join( fnWBpath, 'Icons')
 global main_fnWB_Icon
 main_fnWB_Icon = os.path.join( fnWB_icons_path , 'FNLogo.svg')
 
-FASTENERSWB_VERSION = 'V0.3.16'
+FASTENERSWB_VERSION = 'V0.3.17'
 
 class FastenersWorkbench (Workbench):
  

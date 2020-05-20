@@ -142,6 +142,10 @@ standard_diameters = {
   'ISO7092': ('M1.6', 'M36'), # ISO 7092 definitions  Plain washers - Small series
   'ISO7093-1': ('M3', 'M36'), # ISO 7093-1 Plain washer - Large series
   'ISO7094': ('M5',   'M36'), # ISO 7094 definitions  Plain washers - Extra large series
+  'ISO4026': ('M1.4',   'M24'), # ISO 4026 Hexagon socket set screws with flat point
+  #'ISO4027': ('M2.5', 'M16'), # ISO 4027 Hexagon socket set screws with cone point
+  #'ISO4028': ('M3',   'M12'), # ISO 4028 Hexagon socket set screws with dog point
+  #'ISO4029': ('M1.6', 'M36'), # ISO 4029 Hexagon socket set screws with cup point
   'ISO4032': ('M1.6', 'M64'), # ISO 4032 Hexagon nuts, Style 1
   'ISO4033': ('M5',   'M36'), # ISO 4033 Hexagon nuts, Style 2
   'ISO4035': ('M1.6', 'M64'), # ISO 4035 Hexagon thin nuts, chamfered
@@ -667,7 +671,6 @@ iso7379range = {
     'M3': ('4', '30'),
     'M4': ('5', '40'),
     'M5': ('10', '80'),
-    'M6': ('10', '100'),
     'M6': ('16', '100'),
     'M8': ('16', '100'),
     'M10': ('16', '100'),
@@ -1512,6 +1515,72 @@ iso10664def = {
   'T100':(22.40,15.81, 1.73)
   }
 
+# ISO 4026 Hexagon socket set screws with flat point
+#            d,   P,    t,     dp,  df,   s
+iso4026def = {
+  'M1.4':   (1.4, 0.3,  1.0,   0.7, 1.2,  0.7),
+  'M1.6':   (1.6, 0.35, 1.1,   0.8, 1.3,  0.7),
+  '(M1.8)': (1.8, 0.35, 1.2,   0.9, 1.4,  0.7),
+  'M2':     (2,   0.4,  1.25,  1,   1.5,  0.9),
+  'M2.5':   (2.5, 0.45, 1.6,   1.5, 2,    1.3),
+  'M3':     (3,   0.5,  1.6,   2,   2.4,  1.5),
+  'M4':     (4,   0.7,  2.0,   2.5, 3.2,    2),
+  'M5':     (5,   0.8,  2.5,   3.5, 4.1,  2.5),
+  'M6':     (6,   1.0,  2.75,  4,   4.9,    3),
+  'M8':     (8,   1.25, 4,     5.5, 6.6,    4),
+  'M10':    (10,  1.5,  5,     7,   8.3,    5),
+  'M12':    (12,  1.75, 6.4,   8.5, 10.1,   6),
+  '(M14)':  (14,  2,    7.3,   10,  11.8,   6),
+  'M16':    (16,  2,    8.2,   12,  13.8,   8),
+  '(M18)':  (18,  2.5,  9.1,   13,  15,    10),
+  'M20':    (20,  2.5,  10,    15,  17.2,  10),
+  '(M22)':  (22,  2.5,  11.25, 17,  19.2,  12),
+  'M24':    (24,  3,    12.5,  18,  20.1,  12)
+}
+
+iso4026length = {
+  '2':    (1.8, 2.2),
+  '2.5':  (2.3, 2.7),
+  '3':    (2.8, 3.2),
+  '3.5':  (3.26, 3.74),
+  '4':    (3.76, 4.24),
+  '5':    (4.76, 5.24),
+  '6':    (5.76, 6.24),
+  '8':    (7.71, 8.29),
+  '10':   (9.71, 10.29),
+  '12':   (11.65, 12.35),
+  '16':   (15.65, 16.35),
+  '20':   (19.58, 20.42),
+  '25':   (24.58, 25.42), 
+  '30':   (29.58, 30.42),
+  '35':   (34.5, 35.4),
+  '40':   (39.5, 40.5),
+  '45':   (44.5, 45.5),
+  '50':   (49.5, 50.5),
+  '55':   (54.4, 55.6),
+  '60':   (59.4, 60.6)
+}
+
+iso4026range = {
+  'M1.4':   ('2', '5'),
+  'M1.6':   ('2', '5'),
+  '(M1.8)': ('2', '5'),
+  'M2':     ('3', '10'),
+  'M2.5':   ('3', '10'),
+  'M3':     ('3', '20'),
+  'M4':     ('4', '20'),
+  'M5':     ('5', '25'),
+  'M6':     ('6', '35'),
+  'M8':     ('8', '40'),
+  'M10':    ('10', '40'),
+  'M12':    ('16', '40'),
+  '(M14)':  ('16', '40'),
+  'M16':    ('20', '40'),
+  '(M18)':  ('20', '45'),
+  'M20':    ('20', '50'),
+  '(M22)':  ('20', '55'),
+  'M24':    ('25', '60')
+}
 
 
 # ISO 4032 Hex-head-nut
@@ -1713,7 +1782,7 @@ class Ui_ScrewMaker(object):
     self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
     self.ScrewType = QtGui.QComboBox(self.layoutWidget1)
     self.ScrewType.setObjectName(_fromUtf8("ScrewType"))
-    for i in range(33):
+    for i in range(36):
       self.ScrewType.addItem(_fromUtf8(""))  # 0
 
     self.verticalLayout.addWidget(self.ScrewType)
@@ -1827,8 +1896,11 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(29, _translate("ScrewMaker", "ISO4035: Hexagon thin nuts, chamfered", None))
     self.ScrewType.setItemText(30, _translate("ScrewMaker", "EN1661: Hexagon nuts with flange", None))
     self.ScrewType.setItemText(31, _translate("ScrewMaker", "ScrewTap: ISO Screw-Tap", None))
-    self.ScrewType.setItemText(32, _translate("ScrewMaker", "DIN7984: Hexagon socket head cap screws with low head", None))
-    self.ScrewType.setItemText(33, _translate("ScrewMaker", "ISO7379: Hexagon socket head shoulder screws", None))
+    self.ScrewType.setItemText(32, _translate("ScrewMaker", "ScrewDie: ISO Screw-Die", None))
+    self.ScrewType.setItemText(33, _translate("ScrewMaker", "ThreadedRod: DIN 975 Threaded Rod", None))
+    self.ScrewType.setItemText(34, _translate("ScrewMaker", "DIN7984: Hexagon socket head cap screws with low head", None))
+    self.ScrewType.setItemText(35, _translate("ScrewMaker", "ISO7379: Hexagon socket head shoulder screws", None))
+    self.ScrewType.setItemText(36, _translate("ScrewMaker", "ISO 4026 Hexagon socket set screws with flat point", None))
 
     self.NominalDiameter.setItemText(0, _translate("ScrewMaker", "M1.6", None))
     self.NominalDiameter.setItemText(1, _translate("ScrewMaker", "M2", None))
@@ -1943,7 +2015,7 @@ class Ui_ScrewMaker(object):
     ST_text = str(self.ScrewType.currentText())
     ST_text = ST_text.split(':')[0]
 
-    if ST_text == 'ScrewTap':
+    if ST_text == ('ScrewTap' or 'ScrewDie' or 'ThreadedRod'):
       if NL_text == 'User':
         textValue = self.UserLen.property("text")
         stLength = FreeCAD.Units.parseQuantity(textValue).Value
@@ -1998,11 +2070,13 @@ class Screw(object):
       tab_len = iso2009length
       tab_range = iso2009range
       Type_text = 'Screw'
+
     if ST_text == 'ISO2010':
       table = iso2009def
       tab_len = iso2009length
       tab_range = iso2009range
       Type_text = 'Screw'
+
     if ST_text == 'ISO4762':
       table = iso4762def
       tab_len = iso4762length
@@ -2026,6 +2100,7 @@ class Screw(object):
       tab_len = iso1207length
       tab_range = iso1207range
       Type_text = 'Screw'
+
     if ST_text == 'ISO1580':
       table = iso1580def
       tab_len = iso2009length
@@ -2128,6 +2203,12 @@ class Screw(object):
       table = iso7094def
       Type_text = 'Washer'
 
+    if ST_text == "ISO4026":
+      table = iso4026def
+      tab_len = iso4026length
+      tab_range = iso4026range
+      Type_text = 'Screw'
+
     if ST_text == 'ISO4032':
       table = iso4032def
       Type_text = 'Nut'
@@ -2164,6 +2245,14 @@ class Screw(object):
       table = tuningTable
       Type_text = 'Screw-Tap'
 
+    if ST_text == 'ScrewDie':
+      table = tuningTable
+      Type_text = 'Screw-Die'
+
+    if ST_text == 'ThreadedRod':
+      table = tuningTable
+      Type_text = 'Threaded-Rod'
+
     if ND_text not in table:
        ND_min, ND_max = standard_diameters[ST_text]
        M_text = ST_text+' has diameters from '+ ND_min +' to ' + ND_max + ' and not ' + ND_text +'!'
@@ -2193,7 +2282,7 @@ class Screw(object):
             self.objAvailable = True
             #set screw ok
       else: # Washers and Nuts
-        if not (Type_text == 'Screw-Tap'):
+        if not (Type_text == ('Screw-Tap' or 'Screw-Die' or 'Threaded-Rod')):
           if '(' in ND_text:
             ND_text = ND_text.lstrip('(').rstrip(')')
           M_text = ST_text+'-'+ ND_text +' is in library available! '
@@ -2296,6 +2385,8 @@ class Screw(object):
            table = iso7093def
         if ST_text == 'ISO7094':
            table = iso7094def
+        if ST_text == 'ISO4026':
+           table = iso4026def
         if ST_text == 'ISO4032':
            table = iso4032def
         if ST_text == 'ISO4033':
@@ -2311,6 +2402,10 @@ class Screw(object):
         if ST_text == 'ISO7379':
            table = iso7379def
         if ST_text == 'ScrewTap':
+           table = tuningTable
+        if ST_text == 'ScrewDie':
+           table = tuningTable
+        if ST_text == 'ThreadedRod':
            table = tuningTable
         if ND_text not in table:
            FreeCAD.Console.PrintMessage("Combination of type "+ST_text \
@@ -2365,6 +2460,10 @@ class Screw(object):
           screw = self.makeIso7089(ST_text, ND_text)
           Type_text = 'Washer'
           done = True
+        if (ST_text == 'ISO4026'):
+          screw = self.makeIso4026(ST_text, ND_text, l)
+          Type_text = 'Screw'
+          done = True
         if (ST_text == 'ISO4032') or (ST_text == 'ISO4033') or (ST_text == 'ISO4035'):
           screw = self.makeIso4032(ST_text, ND_text)
           Type_text = 'Nut'
@@ -2377,6 +2476,14 @@ class Screw(object):
           screw = self.makeScrewTap(ND_text,l)
           Type_text = 'Screw-Tap'
           done = True
+        if ST_text == 'ScrewDie':
+          screw = self.makeScrewDie(ND_text,l)
+          Type_text = 'Screw-Die'
+          done = True
+        if ST_text == 'ThreadedRod':
+          screw = self.makeThreadedRod(ND_text,l)
+          Type_text = 'Threaded-Rod'
+          done = True
         if not done:
           FreeCAD.Console.PrintMessage("No valid Screw Type!" +  "\n")
         if '(' in ND_text:
@@ -2388,7 +2495,7 @@ class Screw(object):
           if (Type_text == 'Nut'):
             label = ST_text + '-' + ND_text +'_'
           else:
-            if Type_text == 'Screw-Tap':
+            if Type_text == ('Screw-Tap' or 'Screw-Die' or 'Threaded-Rod'):
               label = ST_text + '-' + ND_text +'x'+ NL_text +'_'
             else: # washer
               label = ST_text + '-' + ND_text.lstrip('M') +'_'
@@ -4226,6 +4333,81 @@ class Screw(object):
 
     return screw
 
+  # make ISO 4026 Hexagon socket set screws with flat point
+  def makeIso4026(self, SType ='ISO4026', Threadtype ='M6',l=16):
+    if (SType == 'ISO4026'):
+      d, P, t, dp, df, s = iso4026def[Threadtype]
+    d=d*1.01
+    # generate the profile of the set-screw
+    p0 = Base.Vector(0,0,0)
+    p1 = Base.Vector(df/2,0,0)
+    p2 = Base.Vector(d/2,0,-1*((d-df)/2))
+    p3 = Base.Vector(d/2,0,-1*l+((d-dp)/2))
+    p4 = Base.Vector(dp/2,0,-1*l)
+    e1 = Part.makeLine(p0,p1)
+    e2 = Part.makeLine(p1,p2)
+    e3 = Part.makeLine(p2,p3)
+    e4 = Part.makeLine(p3,p4)
+    p_profile = Part.Wire([e2,e3,e4])
+    p_shell = p_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+    # generate the tip of the screw according to its designation
+    if (SType == 'ISO4026'):
+      # make a flat-point tip
+      p5 = Base.Vector(0,0,-1*l)
+      e5 = Part.makeLine(p4,p5)
+      tip_profile = Part.Wire([e5])
+      tip_shell = tip_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+    # generate a top face with a hex-key recess
+    top_face_profile = Part.Wire([e1])
+    top_face = top_face_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+    hex_solid, hex_shell = self.makeAllen2(s,t-1,0)
+    top_face = top_face.cut(hex_solid)
+    p_faces = p_shell.Faces
+    p_faces.extend(top_face.Faces)
+    hex_shell.translate(Base.Vector(0,0,-1))
+    p_faces.extend(hex_shell.Faces)
+    # append the screw-tip to the shell
+    p_faces.extend(tip_shell.Faces)
+    p_shell = Part.Shell(p_faces)
+    screw = Part.Solid(p_shell)
+    # chamfer the hex recess
+    cham_p1 = Base.Vector(0,0,0)
+    cham_p2 = Base.Vector(s/math.sqrt(3),0,0)
+    cham_p3 = Base.Vector(0,0,0-s/math.sqrt(3)) #45 degree chamfer
+    cham_e1 = Part.makeLine(cham_p1,cham_p2)
+    cham_e2 = Part.makeLine(cham_p2,cham_p3)
+    cham_profile = Part.Wire([cham_e1,cham_e2])
+    cham_shell = cham_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+    cham_solid = Part.Solid(cham_shell)
+    screw = screw.cut(cham_solid)
+    # produce a modelled thread if necessary
+    if self.rThread:
+      # calculate the number of thread half turns
+      residue, turns = math.modf((l)/P)
+      halfturns = 2*int(turns)
+      if residue > 0.5:
+        halfturns = halfturns+9
+      else:
+        halfturns = halfturns+8
+      # make the threaded section
+      d=d/1.01
+      shell_thread = self.makeShellthread(d,P,halfturns,False,0)
+      thr_p1 = Base.Vector(0,0,2*P)
+      thr_p2 = Base.Vector(d/2,0,2*P)
+      thr_e1 = Part.makeLine(thr_p1,thr_p2)
+      thr_cap_profile = Part.Wire([thr_e1])
+      thr_cap = thr_cap_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+      thr_faces = shell_thread.Faces
+      thr_faces.extend(thr_cap.Faces)
+      thread_shell = Part.Shell(thr_faces)
+      thread_solid = Part.Solid(thread_shell)
+      thread_solid.translate(Base.Vector(0,0,2*P))
+      #Part.show(thread_solid)
+      screw = screw.common(thread_solid)
+    return screw
+    
+
+
 
 
 
@@ -5102,11 +5284,77 @@ class Screw(object):
     return screwTap
 
 
+  def makeScrewDie(self, ThreadType = 'M6', l=25.0):
+    dia = self.getDia(ThreadType, True)
+    P, tunIn, tunEx = tuningTable[ThreadType]
+    if self.rThread:
+      cutDia = dia*0.75
+    else:
+      cutDia = dia
+    refpoint = Base.Vector(0,0,-1*l)
+    screwDie = Part.makeCylinder(dia*1.1/2,l,refpoint)
+    screwDie = screwDie.cut(Part.makeCylinder(cutDia/2,l,refpoint))
+    #screwDie = screwDie.translate(Base.Vector(0,0,-1*l))
+    if self.rThread:
+      residue, turns = math.modf((l)/P)
+      turns += 2.0
+      halfturns = 2*turns
+      shell_thread = self.makeShellthread(dia,P,halfturns,False,0)
+      thr_p1 = Base.Vector(0,0,2*P)
+      thr_p2 = Base.Vector(dia/2,0,2*P)
+      thr_e1 = Part.makeLine(thr_p1,thr_p2)
+      thr_cap_profile = Part.Wire([thr_e1])
+      thr_cap = thr_cap_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+      thr_faces = shell_thread.Faces
+      thr_faces.extend(thr_cap.Faces)
+      thread_shell = Part.Shell(thr_faces)
+      thread_solid = Part.Solid(thread_shell)
+      screwDie = screwDie.cut(thread_solid)
+    return screwDie
 
 
-
-
-
+  def makeThreadedRod(self, ThreadType = 'M6', l=25.0):
+    dia = self.getDia(ThreadType, True)
+    P, tunIn, tunEx  = tuningTable[ThreadType]
+    dia = dia*1.01
+    cham = 0.125*dia
+    p0 = Base.Vector(0,0,0)
+    p1 = Base.Vector(dia/2-cham,0,0)
+    p2 = Base.Vector(dia/2,0,0-cham)
+    p3 = Base.Vector(dia/2,0,-1*l+cham)
+    p4 = Base.Vector(dia/2-cham,0,-1*l)
+    p5 = Base.Vector(0,0,-1*l)
+    e1 = Part.makeLine(p0,p1)
+    e2 = Part.makeLine(p1,p2)
+    e3 = Part.makeLine(p2,p3)
+    e4 = Part.makeLine(p3,p4)
+    e5 = Part.makeLine(p4,p5)
+    p_profile = Part.Wire([e1,e2,e3,e4,e5])
+    p_shell = p_profile.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360.0)
+    screw = Part.Solid(p_shell)
+    if self.rThread:
+      dia = dia/1.01
+      residue, turns = math.modf((l)/P)
+      halfturns = 2*int(turns)
+      if residue > 0.5:
+        halfturns = halfturns+7
+      else:
+        halfturns = halfturns+6
+      # make the threaded section
+      shell_thread = self.makeShellthread(dia,P,halfturns,False,0)
+      thr_p1 = Base.Vector(0,0,2*P)
+      thr_p2 = Base.Vector(dia/2,0,2*P)
+      thr_e1 = Part.makeLine(thr_p1,thr_p2)
+      thr_cap_profile = Part.Wire([thr_e1])
+      thr_cap = thr_cap_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+      thr_faces = shell_thread.Faces
+      thr_faces.extend(thr_cap.Faces)
+      thread_shell = Part.Shell(thr_faces)
+      thread_solid = Part.Solid(thread_shell)
+      thread_solid.translate(Base.Vector(0,0,2*P))
+      #Part.show(thread_solid)
+      screw = screw.common(thread_solid)
+    return screw
 
 
   def cutChamfer(self, dia_cC, P_cC, l_cC):

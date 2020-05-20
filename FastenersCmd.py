@@ -220,6 +220,10 @@ class FSViewProviderTree:
       return os.path.join( iconPath , self.Object.type + '.svg')
     elif isinstance(self.Object.Proxy, FSScrewRodObject):
       return os.path.join( iconPath , 'ScrewTap.svg')
+    elif isinstance(self.Object.Proxy, FSScrewDieObject):
+      return os.path.join( iconPath , 'ScrewDie.svg')
+    elif isinstance(self.Object.Proxy, FSThreadedRodObject):
+      return os.path.join( iconPath , 'DIN975.svg')
     return os.path.join( iconPath , 'ISO4017.svg')
 
 
@@ -286,6 +290,10 @@ FSAddScrewCommand("ISO7090", "ISO 7090 Plain Washers, chamfered - Normal series"
 FSAddScrewCommand("ISO7092", "ISO 7092 Plain washers - Small series", "Washer")
 FSAddScrewCommand("ISO7093-1", "ISO 7093-1 Plain washers - Large series", "Washer")
 FSAddScrewCommand("ISO7094", "ISO 7094 Plain washers - Extra large series", "Washer")
+FSAddScrewCommand("ISO4026", "ISO 4026 Hexagon socket set screws with flat point", "Hexagon socket")
+#FSAddScrewCommand("ISO4027", "ISO 4027 Hexagon socket set screws with cone point", "Hexagon socket")
+#FSAddScrewCommand("ISO4028", "ISO 4028 Hexagon socket set screws with dog point", "Hexagon socket")
+#FSAddScrewCommand("ISO4029", "ISO 4029 Hexagon socket set screws with cup point", "Hexagon socket")
 FSAddScrewCommand("ISO4032", "ISO 4032 Hexagon nuts, Style 1", "Nut")
 FSAddScrewCommand("ISO4033", "ISO 4033 Hexagon nuts, Style 2", "Nut")
 FSAddScrewCommand("ISO4035", "ISO 4035 Hexagon thin nuts, chamfered", "Nut")
@@ -472,10 +480,210 @@ class FSScrewRodCommand:
 Gui.addCommand("FSScrewTap",FSScrewRodCommand())
 FastenerBase.FSCommands.append("FSScrewTap", "screws", "misc")
 
+
+
+class FSScrewDieObject(FSBaseObject):
+  def __init__(self, obj, attachTo):
+    '''"Add screw die" '''
+    FSBaseObject.__init__(self, obj, attachTo)
+    self.itemText = "ScrewDie"
+    self.type = 'ScrewDie'
+    diameters = screwMaker.GetAllDiams(self.type)
+    diameters.insert(0, 'Auto')
+    #self.Proxy = obj.Name
+    
+    obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
+    obj.addProperty("App::PropertyLength","length","Parameters","Screw length").length = 20.0
+    self.VerifyMissingAttrs(obj)
+    obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
+    obj.Proxy = self
+ 
+  def VerifyMissingAttrs(self, obj):
+    if not (hasattr(obj,'matchOuter')):
+      obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
+ 
+  def execute(self, fp):
+    '''"Print a short message when doing a recomputation, this method is mandatory" '''
+    
+    try:
+      baseobj = fp.baseObject[0]
+      shape = baseobj.Shape.getElement(fp.baseObject[1][0])
+    except:
+      baseobj = None
+      shape = None
+          
+    self.VerifyMissingAttrs(fp)
+    diameterchange = False      
+    if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
+      diameterchange = True    
+      
+    matchouterchange = not (hasattr(self,'matchOuter')) or self.matchOuter != fp.matchOuter
+
+    if fp.diameter == 'Auto' or matchouterchange:
+      d = screwMaker.AutoDiameter(self.type, shape, baseobj, fp.matchOuter)
+      fp.diameter = d
+      diameterchange = True      
+    else:
+      d = fp.diameter
+    
+    l = fp.length.Value
+    if l < 2.0:
+      l = 2.0
+      fp.length = 2.0
+      
+    screwMaker.updateFastenerParameters()  
+
+    threadType = 'simple'
+    if hasattr(fp,'thread') and fp.thread:
+      threadType = 'real'
+      
+    (key, s) = FastenerBase.FSGetKey(self.itemText, d, str(l), threadType)
+    if s == None:
+      s = screwMaker.createScrew(self.type, d, str(l), threadType, True)
+      FastenerBase.FSCache[key] = s
+    else:
+      FreeCAD.Console.PrintLog("Using cached object\n")
+
+    self.diameter = fp.diameter
+    self.length = l
+    self.matchOuter = fp.matchOuter
+    fp.Label = fp.diameter + 'x' + str(l) + '-' + self.itemText
+    self.realThread = fp.thread
+    fp.Shape = s
+
+    if shape != None:
+      FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
+
+class FSScrewDieCommand:
+  """Add Screw Die command"""
+
+  def GetResources(self):
+    icon = os.path.join( iconPath , 'ScrewDie.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Add object to cut external threads" ,
+            'ToolTip' : "Add arbitrary length threaded tube for cutting external threads"}
+ 
+  def Activated(self):
+    for selObj in FastenerBase.FSGetAttachableSelections():
+      a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","ScrewDie")
+      FSScrewDieObject(a, selObj)
+      a.Label = a.Proxy.itemText
+      FSViewProviderTree(a.ViewObject)
+    FreeCAD.ActiveDocument.recompute()
+    return
+   
+  def IsActive(self):
+    return Gui.ActiveDocument != None
+
+Gui.addCommand("FSScrewDie",FSScrewDieCommand())
+FastenerBase.FSCommands.append("FSScrewDie", "screws", "misc")
+
+
+
+
+class FSThreadedRodObject(FSBaseObject):
+  def __init__(self, obj, attachTo):
+    '''"Add threaded rod" '''
+    FSBaseObject.__init__(self, obj, attachTo)
+    self.itemText = "ThreadedRod"
+    self.type = 'ThreadedRod'
+    diameters = screwMaker.GetAllDiams(self.type)
+    diameters.insert(0, 'Auto')
+    #self.Proxy = obj.Name
+    
+    obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
+    obj.addProperty("App::PropertyLength","length","Parameters","Screw length").length = 20.0
+    self.VerifyMissingAttrs(obj)
+    obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
+    obj.Proxy = self
+ 
+  def VerifyMissingAttrs(self, obj):
+    if not (hasattr(obj,'matchOuter')):
+      obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
+ 
+  def execute(self, fp):
+    '''"Print a short message when doing a recomputation, this method is mandatory" '''
+    
+    try:
+      baseobj = fp.baseObject[0]
+      shape = baseobj.Shape.getElement(fp.baseObject[1][0])
+    except:
+      baseobj = None
+      shape = None
+          
+    self.VerifyMissingAttrs(fp)
+    diameterchange = False      
+    if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
+      diameterchange = True    
+      
+    matchouterchange = not (hasattr(self,'matchOuter')) or self.matchOuter != fp.matchOuter
+
+    if fp.diameter == 'Auto' or matchouterchange:
+      d = screwMaker.AutoDiameter(self.type, shape, baseobj, fp.matchOuter)
+      fp.diameter = d
+      diameterchange = True      
+    else:
+      d = fp.diameter
+    
+    l = fp.length.Value
+    if l < 2.0:
+      l = 2.0
+      fp.length = 2.0
+      
+    screwMaker.updateFastenerParameters()  
+
+    threadType = 'simple'
+    if hasattr(fp,'thread') and fp.thread:
+      threadType = 'real'
+      
+    (key, s) = FastenerBase.FSGetKey(self.itemText, d, str(l), threadType)
+    if s == None:
+      s = screwMaker.createScrew(self.type, d, str(l), threadType, True)
+      FastenerBase.FSCache[key] = s
+    else:
+      FreeCAD.Console.PrintLog("Using cached object\n")
+
+    self.diameter = fp.diameter
+    self.length = l
+    self.matchOuter = fp.matchOuter
+    fp.Label = fp.diameter + 'x' + str(l) + '-' + self.itemText
+    self.realThread = fp.thread
+    fp.Shape = s
+
+    if shape != None:
+      FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
+
+class FSThreadedRodCommand:
+  """Add Threaded Rod command"""
+
+  def GetResources(self):
+    icon = os.path.join( iconPath , 'DIN975.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Add DIN 975 threaded rod" ,
+            'ToolTip' : "Add arbitrary length threaded rod object"}
+ 
+  def Activated(self):
+    for selObj in FastenerBase.FSGetAttachableSelections():
+      a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","ThreadedRod")
+      FSThreadedRodObject(a, selObj)
+      a.Label = a.Proxy.itemText
+      FSViewProviderTree(a.ViewObject)
+    FreeCAD.ActiveDocument.recompute()
+    return
+   
+  def IsActive(self):
+    return Gui.ActiveDocument != None
+
+Gui.addCommand("FSThreadedRod",FSThreadedRodCommand())
+FastenerBase.FSCommands.append("FSThreadedRod", "screws", "misc")
+
+
 ## add fastener types
 FastenerBase.FSAddFastenerType("Screw")
 FastenerBase.FSAddFastenerType("Washer", False)
 FastenerBase.FSAddFastenerType("Nut", False)
 FastenerBase.FSAddFastenerType("ScrewTap", True, False)
+FastenerBase.FSAddFastenerType("ScrewDie", True, False)
+FastenerBase.FSAddFastenerType("ThreadedRod", True, False)
 for item in ScrewMaker.screwTables:
   FastenerBase.FSAddItemsToType(ScrewMaker.screwTables[item][0], item)

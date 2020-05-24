@@ -121,6 +121,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes
+* V0.3.20  24 May 2020:  Added ISO 4026, 4027, 4028, 4029 set screws, Die and threaded rod. Thank you @slowinternets !
 * V0.3.17  18 May 2020:  Added ISO 7379 screws. Thank you @slowinternets !
 * V0.3.16  16 Apr 2020:  Add Wurth PCB Spacers
 * V0.3.15  15 Apr 2020:  Add Wurth PCB Standoffs

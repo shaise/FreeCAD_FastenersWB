@@ -100,6 +100,10 @@ screwTables = {
     'ISO7092':  ("Washer", iso7092def,   None,          None,           -1, 0),
     'ISO7093-1':("Washer", iso7093def,   None,          None,           -1, 0),
     'ISO7094':  ("Washer", iso7094def,   None,          None,           -1, 0),
+    'ISO4026':  ("Screw",  iso4026def,   iso4026length,  iso4026range,   -1, 0),
+    'ISO4027':  ("Screw",  iso4026def,   iso4026length,  iso4026range,   -1, 0),
+    'ISO4028':  ("Screw",  iso4028def,   iso4028length,  iso4028range,   -1, 0),
+    'ISO4029':  ("Screw",  iso4026def,   iso4026length,  iso4026range,   -1, 0),
     'ISO4032':  ("Nut",    iso4032def,   None,          None,           -1, 0),
     'ISO4033':  ("Nut",    iso4033def,   None,          None,           -1, 0),
     'ISO4035':  ("Nut",    iso4035def,   None,          None,           -1, 0),
@@ -109,6 +113,8 @@ screwTables = {
     'DIN562':   ("Nut",    din562def,    None,          None,           -1, 0),
     'DIN985':   ("Nut",    din985def,    None,          None,           -1, 0),
     'ScrewTap': ("ScrewTap", tuningTable, None,         None,           -1, 0),
+    'ScrewDie': ("ScrewDie", tuningTable, None,         None,           -1, 0),
+    'ThreadedRod': ("ThreadedRod", tuningTable, None,   None,           -1, 0),
     
     # * diam pos = the position within the def table to be used for auto diameter selection, -1 = get size from Mxx
     # * K Pos = the position within the def table to be used for countersunk holes creation

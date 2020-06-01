@@ -30,7 +30,7 @@ fnWB_icons_path =  os.path.join( fnWBpath, 'Icons')
 global main_fnWB_Icon
 main_fnWB_Icon = os.path.join( fnWB_icons_path , 'FNLogo.svg')
 
-FASTENERSWB_VERSION = 'V0.3.20'
+FASTENERSWB_VERSION = 'V0.3.21'
 
 class FastenersWorkbench (Workbench):
  
@@ -48,24 +48,24 @@ class FastenersWorkbench (Workbench):
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command") 
         self.appendToolbar("FS Commands",cmdlist) 
+        self.appendMenu("Fasteners",cmdlist) # creates a new menu
         self.list.extend(cmdlist)
         screwlist1 = FastenerBase.FSGetCommands("screws") 
         screwlist = []
         for cmd in screwlist1:
-          if isinstance(cmd, tuple): # group in sub toolbars
-            #FreeCAD.Console.PrintLog("Append toolbar " + str(cmd) + "\n")
+          #FreeCAD.Console.PrintLog("Append toolbar " + str(cmd) + "\n")
+          if isinstance(cmd, tuple): # group in sub toolbars        
             self.appendToolbar(cmd[0],cmd[1]) 
             self.list.extend(cmd[1])
+            self.appendMenu(["Fasteners","Add " + cmd[2]],cmd[1])
           else:
             screwlist.append(cmd)
+            self.appendMenu(["Fasteners","Add Fasteners"],cmd)
         if len(screwlist) > 0:
           self.appendToolbar("FS Screws",screwlist) # creates main screw toolbar
           self.list.extend(screwlist)
         FreeCADGui.addIconPath(FastenerBase.iconPath)
         FreeCADGui.addPreferencePage( os.path.join( FastenerBase.__dir__, 'FSprefs.ui'),'Fasteners' )
-
-        # self.appendMenu("My New Menu",self.list) # creates a new menu
-        # self.appendMenu(["An existing Menu","My submenu"],self.list) # appends a submenu to an existing menu
  
     def Activated(self):
         "This function is executed when the workbench is activated"

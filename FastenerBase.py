@@ -89,7 +89,7 @@ class FSCommandList:
       if GroupButtonMode == 2:
         Gui.addCommand(subcommand.replace(" ", ""), FSGroupCommand(cmdsubs[subcommand], subcommand, subcommand))
       else:
-        cmdlist.append((subcommand.replace(" ", ""), cmdsubs[subcommand]))
+        cmdlist.append((subcommand.replace(" ", ""), cmdsubs[subcommand], subcommand))
     return cmdlist
   
 FSCommands = FSCommandList()

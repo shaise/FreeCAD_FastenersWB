@@ -55,6 +55,12 @@ class FSScrewObject(FSBaseObject):
       obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.Proxy = self
     
+  def inswap(self, inpstr):
+    if '″' in inpstr:
+      return inpstr.replace('″', 'in')
+    else:
+      return inpstr
+
   def VerifyMissingAttrs(self, obj, diameter):
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
@@ -66,7 +72,7 @@ class FSScrewObject(FSBaseObject):
         obj.length = origLen
       else:
         obj.addProperty("App::PropertyEnumeration","length","Parameters","Screw length").length = slens
-      obj.addProperty("App::PropertyLength","lengthCustom","Parameters","Custom length").lengthCustom = slens[0]
+      obj.addProperty("App::PropertyLength","lengthCustom","Parameters","Custom length").lengthCustom = self.inswap(slens[0])
 
   def ActiveLength(self, obj):
     if not hasattr(obj,'length'):
@@ -302,6 +308,7 @@ FSAddScrewCommand("EN1661", "EN 1661 Hexagon nuts with flange", "Nut")
 FSAddScrewCommand("DIN557", "DIN 557 Square nuts", "Nut")
 FSAddScrewCommand("DIN562", "DIN 562 Square nuts", "Nut")
 FSAddScrewCommand("DIN985", "DIN 985 Nyloc nuts", "Nut")
+FSAddScrewCommand("ASMEB18.2.1", "ASME B18.2.1 UNC Hex head screws", "Hex head")
 
 
 

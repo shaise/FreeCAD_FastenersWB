@@ -108,7 +108,7 @@ DEBUG = False # set to True to show debug messages; does not work, still todo.
 
 # import fastener data
 __dir__ = os.path.dirname(__file__)
-fsdatapath = os.path.join(__dir__, 'fsdata')
+fsdatapath = os.path.join(__dir__, 'FsData')
 
 # function to open a csv file and convert it to a dictionary
 def csv2dict(filename, fieldsnamed=True):
@@ -136,10 +136,6 @@ for item in filelist:
     itemdict = csv2dict(itempath,fieldsnamed=True)
     FsData.update({item[0:-4]: itemdict})
 
-'''
-L_iso2009length =['2.5','3','4','5','6','8','10','12','14','16','20', \
-   '25','30','35','40','45','50','55','60','65','70','75','80']
-'''
 
 try:
   _fromUtf8 = QtCore.QString.fromUtf8
@@ -181,7 +177,7 @@ class Ui_ScrewMaker(object):
     self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
     self.ScrewType = QtGui.QComboBox(self.layoutWidget1)
     self.ScrewType.setObjectName(_fromUtf8("ScrewType"))
-    for i in range(40):
+    for i in range(41):
       self.ScrewType.addItem(_fromUtf8(""))  # 0
 
     self.verticalLayout.addWidget(self.ScrewType)
@@ -299,10 +295,11 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(33, _translate("ScrewMaker", "ThreadedRod: DIN 975 Threaded Rod", None))
     self.ScrewType.setItemText(34, _translate("ScrewMaker", "DIN7984: Hexagon socket head cap screws with low head", None))
     self.ScrewType.setItemText(35, _translate("ScrewMaker", "ISO7379: Hexagon socket head shoulder screws", None))
-    self.ScrewType.setItemText(36, _translate("ScrewMaker", "ISO 4026: Hexagon socket set screws with flat point", None))
-    self.ScrewType.setItemText(37, _translate("ScrewMaker", "ISO 4027: Hexagon socket set screws with cone point", None))
-    self.ScrewType.setItemText(38, _translate("ScrewMaker", "ISO 4028: Hexagon socket set screws with dog point", None))
-    self.ScrewType.setItemText(39, _translate("ScrewMaker", "ISO 4029: Hexagon socket set screws with cup point", None))
+    self.ScrewType.setItemText(36, _translate("ScrewMaker", "ISO4026: Hexagon socket set screws with flat point", None))
+    self.ScrewType.setItemText(37, _translate("ScrewMaker", "ISO4027: Hexagon socket set screws with cone point", None))
+    self.ScrewType.setItemText(38, _translate("ScrewMaker", "ISO4028: Hexagon socket set screws with dog point", None))
+    self.ScrewType.setItemText(39, _translate("ScrewMaker", "ISO4029: Hexagon socket set screws with cup point", None))
+    self.ScrewType.setItemText(40, _translate("ScrewMaker", "ASMEB18.2.1: UNC Hexagon head screws", None))
 
     self.NominalDiameter.setItemText(0, _translate("ScrewMaker", "M1.6", None))
     self.NominalDiameter.setItemText(1, _translate("ScrewMaker", "M2", None))
@@ -648,6 +645,12 @@ class Screw(object):
       tab_range = FsData["iso7379range"]
       Type_text = 'Screw'
 
+    if ST_text == 'ASMEB18.2.1':
+      table = FsData["asmeb18.2.1def"]
+      tab_len = FsData["asmeb18.2.1length"]
+      tab_range = FsData["asmeb18.2.1range"]
+      Type_text = 'Screw'
+
     if ST_text == 'ScrewTap':
       table = FsData["tuningTable"]
       Type_text = 'Screw-Tap'
@@ -657,7 +660,7 @@ class Screw(object):
       Type_text = 'Screw-Die'
 
     if ST_text == 'ThreadedRod':
-      table = v["tuningTable"]
+      table = FsData["tuningTable"]
       Type_text = 'Threaded-Rod'
 
     if ND_text not in table:
@@ -669,13 +672,13 @@ class Screw(object):
       if Type_text == 'Screw':
         #NL_text = str(self.NominalLength.currentText())
         NL_min, NL_max = tab_range[ND_text]
-        NL_min_float = float(NL_min)
-        NL_max_float = float(NL_max)
+        NL_min_float = self.getLength(NL_min)
+        NL_max_float = self.getLength(NL_max)
         if NL_text == 'User':
           M_text = 'User length is only available for the screw-tab!'
           self.objAvailable = False
         else:
-          NL_text_float = float(NL_text)
+          NL_text_float = self.getLength(NL_text)
           if (NL_text_float<NL_min_float)or(NL_text_float>NL_max_float)or(NL_text not in tab_len):
             if '(' in ND_text:
               ND_text = ND_text.lstrip('(').rstrip(')')
@@ -735,7 +738,7 @@ class Screw(object):
         #ST_text = str(self.ScrewType.currentText())
         #ST_text = ST_text.split(':')[0]
         #dia = float(ND_text.lstrip('M'))
-        l = float(NL_text)
+        l = self.getLength(NL_text)
         if ST_text == 'ISO4017':
            table = FsData["iso4017head"]
         if ST_text == 'ISO4014':
@@ -814,6 +817,8 @@ class Screw(object):
            table = FsData["din7984def"]
         if ST_text == 'ISO7379':
            table = FsData["iso7379def"]
+        if ST_text == 'ASMEB18.2.1':
+           table = FsData["asmeb18.2.1def"]
         if (ST_text == 'ScrewTap') or (ST_text == 'ScrewDie') or (ST_text == 'ThreadedRod'):
            table = FsData["tuningTable"]
         if ND_text not in table:
@@ -827,7 +832,7 @@ class Screw(object):
       else:
         doc=FreeCAD.activeDocument()
         done = False
-        if (ST_text == 'ISO4014') or (ST_text == 'ISO4017'):
+        if (ST_text == 'ISO4014') or (ST_text == 'ISO4017') or (ST_text == 'ASMEB18.2.1'):
           screw = self.makeIso4017_2(ST_text, ND_text,l)
           Type_text = 'Screw'
           done = True
@@ -1608,7 +1613,7 @@ class Screw(object):
 
   # make the ISO 4017 Hex-head-screw
   # make the ISO 4014 Hex-head-bolt
-  def makeIso4017_2(self,SType ='ISO4017', ThreadType ='M6',l=40.0):
+  def makeIso4017_2(self,SType ='ISO4017', ThreadType ='3/8″',l=40.0):
     dia = self.getDia(ThreadType, False)
     #FreeCAD.Console.PrintMessage("der Kopf mit l: " + str(l) + "\n")
     if SType == 'ISO4017':
@@ -1627,6 +1632,15 @@ class Screw(object):
             b = b2
          else:
             b = b3
+
+      ### make the new code with math.modf(l)
+      residue, turns = math.modf((b)/P)
+      halfturns = 2*int(turns)
+
+    if SType == 'ASMEB18.2.1':
+      b, P, c, dw, e, k, r, s = FsData["asmeb18.2.1def"][ThreadType]
+      if l > 6*25.4:
+        b += 6.35
 
       ### make the new code with math.modf(l)
       residue, turns = math.modf((b)/P)
@@ -4142,17 +4156,33 @@ class Screw(object):
 
 
   def getDia(self, ThreadType, isNut):
-    if '(' in ThreadType:
-      threadString = ThreadType.lstrip('(M')
-      dia = float(threadString.rstrip(')'))
-    else:
-      dia=float(ThreadType.lstrip('M'))
+    threadstring = ThreadType.strip("()")
+    dia = FsData["DiaList"][threadstring][0]
     if self.sm3DPrintMode:
       if isNut:
         dia = self.smNutThrScaleA * dia + self.smNutThrScaleB
       else:
         dia = self.smScrewThrScaleA * dia + self.smScrewThrScaleB
     return dia
+
+
+  def getLength(self, LenStr):
+    # note the double-prime character
+    # that is NOT a double quote!
+    if '″' not in LenStr:
+      LenFloat = float(LenStr)
+    else:
+      components = LenStr.strip('″').split(' ')
+      total = 0
+      for item in components:
+        if '/' in item:
+          subcmpts = item.split('/')
+          total += float(subcmpts[0])/float(subcmpts[1])
+        else:
+          total += float(item)
+      LenFloat = total*25.4
+    return LenFloat
+
 
 class ScrewMacro(object):
   d = QtGui.QWidget()

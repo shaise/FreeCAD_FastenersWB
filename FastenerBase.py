@@ -169,14 +169,41 @@ def FSCacheRemoveThreaded():
       del FSCache[key]
 
 def MToFloat(m):
-    m = m.lstrip('(');
-    m = m.rstrip(')');
+    print("old")
+    print(m)
+    m = m.lstrip('(')
+    m = m.rstrip(')')
     return float(m.lstrip('M'))
+
+# inch tolerant version of diameter string to number converter
+def DiaStr2Num(DiaStr):
+  # metric diameters of format 'Mxyz'
+  if 'M' in DiaStr:
+    StripStr = DiaStr.strip("()")
+    DiaFloat = float(StripStr.lstrip('M'))
+  # inch diameters of format 'x y/z″'
+  elif '″' in DiaStr:
+    components = DiaStr.strip('″').split(' ')
+    total = 0
+    for item in components:
+      if '/' in item:
+        subcmpts = item.split('/')
+        total += float(subcmpts[0])/float(subcmpts[1])
+      elif '⁄' in item:
+        subcmpts = item.split('⁄')
+        total += float(subcmpts[0])/float(subcmpts[1])
+      else:
+        total += float(item)
+    DiaFloat = total*25.4
+  # if there are no idendifying unit chars, default to mm
+  else:
+    DiaFloat = float(DiaStr)
+  return DiaFloat
   
 # sort compare function for m sizes
 def MCompare(x, y):
-  x1 = MToFloat(x)
-  y1 = MToFloat(y)
+  x1 = DiaStr2Num(x)
+  y1 = DiaStr2Num(y)
   if x1 > y1:
     return 1
   if x1 < y1:
@@ -290,7 +317,7 @@ def FSAutoDiameterM(holeObj, table, tablepos):
     mindif = 10.0
     for m in table:
         if tablepos == -1:
-          dia = MToFloat(m) + 0.1
+          dia = DiaStr2Num(m) + 0.1
         else:
           dia = table[m][tablepos] + 0.1
         if (dia > d):
@@ -453,7 +480,7 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
       ScrewObj_m.Placement.move(Pnt1)
 
 
-# common actions on fateners:
+# common actions on fasteners:
 class FSFlipCommand:
   """Flip Screw command"""
 

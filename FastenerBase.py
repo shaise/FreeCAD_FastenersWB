@@ -181,9 +181,9 @@ def DiaStr2Num(DiaStr):
   if 'M' in DiaStr:
     StripStr = DiaStr.strip("()")
     DiaFloat = float(StripStr.lstrip('M'))
-  # inch diameters of format 'x y/z″'
-  elif '″' in DiaStr:
-    components = DiaStr.strip('″').split(' ')
+  # inch diameters of format 'x y/z\"'
+  elif 'in' in DiaStr:
+    components = DiaStr.strip('in').split(' ')
     total = 0
     for item in components:
       if '/' in item:

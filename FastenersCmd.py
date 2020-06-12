@@ -125,7 +125,7 @@ class FSScrewObject(FSBaseObject):
     if hasattr(fp,'length'):
       if (fp.length !=  self.length):
         if (fp.length != 'Custom'):
-          fp.lengthCustom = float(fp.length)
+          fp.lengthCustom = FastenerBase.DiaStr2Num(fp.length) #***
       elif (hasattr(self,'customlen') and float(fp.lengthCustom) != self.customlen):
         fp.length = 'Custom'
       origLen = self.ActiveLength(fp)

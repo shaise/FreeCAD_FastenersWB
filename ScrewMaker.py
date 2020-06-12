@@ -139,10 +139,10 @@ class FSScrewMaker(Screw):
 
       # auto find length
       if (len_table != None) and not (len in len_table):
-        origlen = float(len)
+        origlen = FastenerBase.DiaStr2Num(len)
         mindif = 100.0
         for l in len_table:
-          diff = abs(float(l) - origlen)
+          diff = abs(FastenerBase.DiaStr2Num(l) - origlen)
           if (diff < mindif):
             mindif = diff
             len = l
@@ -150,9 +150,9 @@ class FSScrewMaker(Screw):
       # make sure length in range
       if range_table != None:
         minl , maxl = range_table[diam]
-        if float(len) < float(minl):
+        if FastenerBase.DiaStr2Num(len) < FastenerBase.DiaStr2Num(minl):
           len = minl
-        if float(len) > float(maxl):
+        if FastenerBase.DiaStr2Num(len) > FastenerBase.DiaStr2Num(maxl):
           len = maxl
         
       return (diam, len)

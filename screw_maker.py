@@ -1613,7 +1613,7 @@ class Screw(object):
 
   # make the ISO 4017 Hex-head-screw
   # make the ISO 4014 Hex-head-bolt
-  def makeIso4017_2(self,SType ='ISO4017', ThreadType ='3/8″',l=40.0):
+  def makeIso4017_2(self,SType ='ISO4017', ThreadType ='M6',l=40.0):
     dia = self.getDia(ThreadType, False)
     #FreeCAD.Console.PrintMessage("der Kopf mit l: " + str(l) + "\n")
     if SType == 'ISO4017':
@@ -4169,10 +4169,10 @@ class Screw(object):
   def getLength(self, LenStr):
     # note the double-prime character
     # that is NOT a double quote!
-    if '″' not in LenStr:
+    if 'in' not in LenStr:
       LenFloat = float(LenStr)
     else:
-      components = LenStr.strip('″').split(' ')
+      components = LenStr.strip('in').split(' ')
       total = 0
       for item in components:
         if '/' in item:

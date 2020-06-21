@@ -169,8 +169,6 @@ def FSCacheRemoveThreaded():
       del FSCache[key]
 
 def MToFloat(m):
-    print("old")
-    print(m)
     m = m.lstrip('(')
     m = m.rstrip(')')
     return float(m.lstrip('M'))
@@ -572,7 +570,7 @@ class FSMakeSimpleCommand:
       if isinstance(obj.Shape, (Part.Solid, Part.Compound)):
         FreeCAD.Console.PrintLog("simplify shape: " + obj.Name + "\n")
         cobj = FreeCAD.ActiveDocument.addObject("Part::Feature", obj.Label + "_Copy")
-        cobj.Shape = obj.Shape;
+        cobj.Shape = obj.Shape
         Gui.ActiveDocument.getObject(obj.Name).Visibility = False
     FreeCAD.ActiveDocument.recompute()
     return
@@ -590,7 +588,7 @@ FSCommands.append('FSSimple', "command")
 FSMatchOuter = False
 FSMatchIconNeedUpdate = 0
 
-# frecad 0.15 version:
+# freecad 0.15 version:
 class FSToggleMatchTypeCommand:
   """Toggle screw matching method"""
 

@@ -110,6 +110,7 @@ screwTables = {
     'DIN562':   ("Nut",    din562def,    None,          None,           -1, 0),
     'DIN985':   ("Nut",    din985def,    None,          None,           -1, 0),
     'ASMEB18.2.1': ("Screw", FsData["asmeb18.2.1def"], FsData["asmeb18.2.1length"], FsData["asmeb18.2.1range"], -1, 0),
+    'ASMEB18.3': ("Screw", FsData["asmeb18.3def"], FsData["inch_fs_length"], FsData["asmeb18.3range"], -1, 0),
     'ScrewTap': ("ScrewTap", FsData["tuningTable"], None,         None,           -1, 0),
     'ScrewDie': ("ScrewDie", FsData["tuningTable"], None,         None,           -1, 0),
     'ThreadedRod': ("ThreadedRod", FsData["tuningTable"], None,   None,           -1, 0),
@@ -139,10 +140,10 @@ class FSScrewMaker(Screw):
 
       # auto find length
       if (len_table != None) and not (len in len_table):
-        origlen = FastenerBase.DiaStr2Num(len)
+        origlen = FastenerBase.LenStr2Num(len)
         mindif = 100.0
         for l in len_table:
-          diff = abs(FastenerBase.DiaStr2Num(l) - origlen)
+          diff = abs(FastenerBase.LenStr2Num(l) - origlen)
           if (diff < mindif):
             mindif = diff
             len = l
@@ -150,9 +151,9 @@ class FSScrewMaker(Screw):
       # make sure length in range
       if range_table != None:
         minl , maxl = range_table[diam]
-        if FastenerBase.DiaStr2Num(len) < FastenerBase.DiaStr2Num(minl):
+        if FastenerBase.LenStr2Num(len) < FastenerBase.LenStr2Num(minl):
           len = minl
-        if FastenerBase.DiaStr2Num(len) > FastenerBase.DiaStr2Num(maxl):
+        if FastenerBase.LenStr2Num(len) > FastenerBase.LenStr2Num(maxl):
           len = maxl
         
       return (diam, len)
@@ -219,13 +220,13 @@ class FSScrewMaker(Screw):
       lens = screwTables[type][2]
       range = screwTables[type][3][diam]
       list = []
-      min = FastenerBase.DiaStr2Num(range[0])
-      max = FastenerBase.DiaStr2Num(range[1])
+      min = FastenerBase.LenStr2Num(range[0])
+      max = FastenerBase.LenStr2Num(range[1])
       for len in lens:
-        l = FastenerBase.DiaStr2Num(len)
+        l = FastenerBase.LenStr2Num(len)
         if l >= min and l <= max:
           list.append(len)
-      list.sort(key = FastenerBase.DiaStr2Num) #***
+      list.sort(key = FastenerBase.LenStr2Num) #***
       list.append("Custom")
       return list
 

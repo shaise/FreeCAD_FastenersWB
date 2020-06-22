@@ -125,7 +125,7 @@ class FSScrewObject(FSBaseObject):
     if hasattr(fp,'length'):
       if (fp.length !=  self.length):
         if (fp.length != 'Custom'):
-          fp.lengthCustom = FastenerBase.DiaStr2Num(fp.length) #***
+          fp.lengthCustom = FastenerBase.LenStr2Num(fp.length) #***
       elif (hasattr(self,'customlen') and float(fp.lengthCustom) != self.customlen):
         fp.length = 'Custom'
       origLen = self.ActiveLength(fp)
@@ -309,6 +309,7 @@ FSAddScrewCommand("DIN557", "DIN 557 Square nuts", "Nut")
 FSAddScrewCommand("DIN562", "DIN 562 Square nuts", "Nut")
 FSAddScrewCommand("DIN985", "DIN 985 Nyloc nuts", "Nut")
 FSAddScrewCommand("ASMEB18.2.1", "ASME B18.2.1 UNC Hex head screws", "Hex head")
+FSAddScrewCommand("ASMEB18.3", "ASME B18.3 UNC Hex socket button head screws", "Hexagon socket")
 
 
 

@@ -177,7 +177,7 @@ class Ui_ScrewMaker(object):
     self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
     self.ScrewType = QtGui.QComboBox(self.layoutWidget1)
     self.ScrewType.setObjectName(_fromUtf8("ScrewType"))
-    for i in range(41):
+    for i in range(42):
       self.ScrewType.addItem(_fromUtf8(""))  # 0
 
     self.verticalLayout.addWidget(self.ScrewType)
@@ -300,6 +300,7 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(38, _translate("ScrewMaker", "ISO4028: Hexagon socket set screws with dog point", None))
     self.ScrewType.setItemText(39, _translate("ScrewMaker", "ISO4029: Hexagon socket set screws with cup point", None))
     self.ScrewType.setItemText(40, _translate("ScrewMaker", "ASMEB18.2.1: UNC Hexagon head screws", None))
+    self.ScrewType.setItemText(41, _translate("ScrwwMaker", "ASMEB18.3: UNC Hexagon socket button head screws", None))
 
     self.NominalDiameter.setItemText(0, _translate("ScrewMaker", "M1.6", None))
     self.NominalDiameter.setItemText(1, _translate("ScrewMaker", "M2", None))
@@ -651,6 +652,12 @@ class Screw(object):
       tab_range = FsData["asmeb18.2.1range"]
       Type_text = 'Screw'
 
+    if ST_text == 'ASMEB18.2':
+      table = FsData["asmeb18.3def"]
+      tab_len = FsData["asmeb18.3len"]
+      tab_range = FsData["inch_fs_length"]
+      Type_text = 'Screw'
+
     if ST_text == 'ScrewTap':
       table = FsData["tuningTable"]
       Type_text = 'Screw-Tap'
@@ -819,6 +826,8 @@ class Screw(object):
            table = FsData["iso7379def"]
         if ST_text == 'ASMEB18.2.1':
            table = FsData["asmeb18.2.1def"]
+        if ST_text == 'ASMEB18.3':
+           table = FsData["asmeb18.3def"]
         if (ST_text == 'ScrewTap') or (ST_text == 'ScrewDie') or (ST_text == 'ThreadedRod'):
            table = FsData["tuningTable"]
         if ND_text not in table:
@@ -861,7 +870,8 @@ class Screw(object):
           screw = self.makeIso7046(ST_text, ND_text,l)
           Type_text = 'Screw'
           done = True
-        if (ST_text == 'ISO7380-1') or (ST_text == 'ISO7380-2') or (ST_text == 'DIN967'):
+        if (ST_text == 'ISO7380-1') or (ST_text == 'ISO7380-2') or \
+          (ST_text == 'DIN967') or (ST_text == 'ASMEB18.3'):
           screw = self.makeIso7380(ST_text, ND_text,l)
           Type_text = 'Screw'
           done = True
@@ -2606,6 +2616,19 @@ class Screw(object):
         rH = math.sqrt((dk/2.0)**2 + ak**2) # radius of button arc
         alpha = (math.atan(2*(k + ak)/e_cham) + math.atan((2*ak)/dk))/2
 
+        Pnt2 = Base.Vector(rH*math.cos(alpha),0.0,-ak + rH*math.sin(alpha)) #arc-point of button
+        Pnt3 = Base.Vector(dk/2.0,0.0,0.0)   #end of fillet
+        Pnt4 = Base.Vector(dia/2.0+r,0.0,0.0)     #start of fillet between head and shank
+        edge3 = Part.makeLine(Pnt3,Pnt4)
+      
+      if (SType == 'ASMEB18.3'):
+        P, b, da, dk, s_mean, t_min, r, k = FsData["asmeb18.3def"][ThreadType]
+        # Bottom of recess
+        e_cham = 2.0 * s_mean / math.sqrt(3.0) / 0.99
+        #depth = s_mean / 3.0
+        ak = -(4*k**2 + e_cham**2 - dk**2)/(8*k) # helper value for button arc
+        rH = math.sqrt((dk/2.0)**2 + ak**2) # radius of button arc
+        alpha = (math.atan(2*(k + ak)/e_cham) + math.atan((2*ak)/dk))/2
         Pnt2 = Base.Vector(rH*math.cos(alpha),0.0,-ak + rH*math.sin(alpha)) #arc-point of button
         Pnt3 = Base.Vector(dk/2.0,0.0,0.0)   #end of fillet
         Pnt4 = Base.Vector(dia/2.0+r,0.0,0.0)     #start of fillet between head and shank

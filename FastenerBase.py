@@ -27,6 +27,7 @@ from FreeCAD import Base
 from PySide import QtGui
 import FreeCAD, FreeCADGui, Part, os, math, sys
 import DraftVecUtils
+from screw_maker import *
 
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join( __dir__, 'Icons' )
@@ -173,15 +174,20 @@ def MToFloat(m):
     m = m.rstrip(')')
     return float(m.lstrip('M'))
 
-# inch tolerant version of diameter string to number converter
 def DiaStr2Num(DiaStr):
+  DiaStr = DiaStr.strip("()")
+  return FsData["DiaList"][DiaStr]
+
+# inch tolerant version of length string to number converter
+def LenStr2Num(DiaStr):
+  # remove brackets indicating less common diameters
+  StripStr = DiaStr.strip("()")
   # metric diameters of format 'Mxyz'
-  if 'M' in DiaStr:
-    StripStr = DiaStr.strip("()")
+  if 'M' in StripStr:
     DiaFloat = float(StripStr.lstrip('M'))
   # inch diameters of format 'x y/z\"'
-  elif 'in' in DiaStr:
-    components = DiaStr.strip('in').split(' ')
+  elif 'in' in StripStr:
+    components = StripStr.strip('in').split(' ')
     total = 0
     for item in components:
       if '/' in item:
@@ -193,9 +199,9 @@ def DiaStr2Num(DiaStr):
       else:
         total += float(item)
     DiaFloat = total*25.4
-  # if there are no idendifying unit chars, default to mm
+  # if there are no identifying unit chars, default to mm
   else:
-    DiaFloat = float(DiaStr)
+    DiaFloat = float(StripStr)
   return DiaFloat
   
 # sort compare function for m sizes

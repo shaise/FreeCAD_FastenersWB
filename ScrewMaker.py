@@ -111,6 +111,7 @@ screwTables = {
     'DIN985':   ("Nut",    din985def,    None,          None,           -1, 0),
     'ASMEB18.2.1': ("Screw", FsData["asmeb18.2.1def"], FsData["asmeb18.2.1length"], FsData["asmeb18.2.1range"], -1, 0),
     'ASMEB18.3': ("Screw", FsData["asmeb18.3def"], FsData["inch_fs_length"], FsData["asmeb18.3range"], -1, 0),
+    'IFI111':   ("Screw", FsData["ifi111def"], FsData["inch_fs_length"], FsData["ifi111range"], -1, 0),
     'ScrewTap': ("ScrewTap", FsData["tuningTable"], None,         None,           -1, 0),
     'ScrewDie': ("ScrewDie", FsData["tuningTable"], None,         None,           -1, 0),
     'ThreadedRod': ("ThreadedRod", FsData["tuningTable"], None,   None,           -1, 0),

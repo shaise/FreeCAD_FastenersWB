@@ -177,7 +177,7 @@ class Ui_ScrewMaker(object):
     self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
     self.ScrewType = QtGui.QComboBox(self.layoutWidget1)
     self.ScrewType.setObjectName(_fromUtf8("ScrewType"))
-    for i in range(42):
+    for i in range(43):
       self.ScrewType.addItem(_fromUtf8(""))  # 0
 
     self.verticalLayout.addWidget(self.ScrewType)
@@ -300,7 +300,8 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(38, _translate("ScrewMaker", "ISO4028: Hexagon socket set screws with dog point", None))
     self.ScrewType.setItemText(39, _translate("ScrewMaker", "ISO4029: Hexagon socket set screws with cup point", None))
     self.ScrewType.setItemText(40, _translate("ScrewMaker", "ASMEB18.2.1: UNC Hexagon head screws", None))
-    self.ScrewType.setItemText(41, _translate("ScrwwMaker", "ASMEB18.3: UNC Hexagon socket button head screws", None))
+    self.ScrewType.setItemText(41, _translate("ScrewMaker", "ASMEB18.3: UNC Hexagon socket button head screws", None))
+    self.ScrewType.setItemText(42, _translate("ScrewMaker", "IFI111: UNC hex head bolts with flange", None))
 
     self.NominalDiameter.setItemText(0, _translate("ScrewMaker", "M1.6", None))
     self.NominalDiameter.setItemText(1, _translate("ScrewMaker", "M2", None))
@@ -658,6 +659,12 @@ class Screw(object):
       tab_range = FsData["inch_fs_length"]
       Type_text = 'Screw'
 
+    if ST_text == 'IFI111':
+      table = FsData["ifi111def"]
+      tab_len = FsData["ifi111len"]
+      tab_range = FsData["inch_fs_length"]
+      Type_text = 'Screw'
+
     if ST_text == 'ScrewTap':
       table = FsData["tuningTable"]
       Type_text = 'Screw-Tap'
@@ -828,6 +835,8 @@ class Screw(object):
            table = FsData["asmeb18.2.1def"]
         if ST_text == 'ASMEB18.3':
            table = FsData["asmeb18.3def"]
+        if ST_text == 'IFI111':
+           table = FsData["ifi111def"]
         if (ST_text == 'ScrewTap') or (ST_text == 'ScrewDie') or (ST_text == 'ThreadedRod'):
            table = FsData["tuningTable"]
         if ND_text not in table:
@@ -845,7 +854,7 @@ class Screw(object):
           screw = self.makeIso4017_2(ST_text, ND_text,l)
           Type_text = 'Screw'
           done = True
-        if (ST_text == 'EN1662') or (ST_text == 'EN1665'):
+        if (ST_text == 'EN1662') or (ST_text == 'EN1665') or (ST_text == 'IFI111'):
           screw = self.makeEN1662_2(ST_text, ND_text,l)
           Type_text = 'Screw'
           done = True
@@ -1779,11 +1788,14 @@ class Screw(object):
     #FreeCAD.Console.PrintMessage("der Kopf mit l: " + str(l) + "\n")
     if SType == 'EN1662':
        P, b0, b1, b2, b3, c, dc, dw, e, k, kw,f, r1, s = FsData["en1662def"][ThreadType]
-    else:
+    elif SType == 'EN1665':
        P, b0, b1, b2, b3, c, dc, dw, e, k, kw,f, r1, s = FsData["en1665def"][ThreadType]
+    elif SType == 'IFI111':
+       b0, P, c, dc, kw, r1, s = FsData["ifi111def"][ThreadType]
+       b = b0
     if l< b0:
        b = l - 2*P
-    else:
+    elif (SType != 'IFI111'):
        if l<= 125.0:
           b = b1
        else:

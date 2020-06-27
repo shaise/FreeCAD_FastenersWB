@@ -308,9 +308,12 @@ FSAddScrewCommand("EN1661", "EN 1661 Hexagon nuts with flange", "Nut")
 FSAddScrewCommand("DIN557", "DIN 557 Square nuts", "Nut")
 FSAddScrewCommand("DIN562", "DIN 562 Square nuts", "Nut")
 FSAddScrewCommand("DIN985", "DIN 985 Nyloc nuts", "Nut")
-FSAddScrewCommand("ASMEB18.2.1", "ASME B18.2.1 UNC Hex head screws", "Hex head")
-FSAddScrewCommand("ASMEB18.3", "ASME B18.3 UNC Hex socket button head screws", "Hexagon socket")
-FSAddScrewCommand("IFI111", "IFI 111 UNC hex head screws with flange", "Hex head")
+FSAddScrewCommand("ASMEB18.2.1.6", "ASME B18.2.1 UNC Hex head screws", "Hex head")
+FSAddScrewCommand("ASMEB18.2.1.8", "ASME B18.2.1 UNC hex head screws with flange", "Hex head")
+FSAddScrewCommand("ASMEB18.3.3A", "ASME B18.3 UNC Hex socket button head screws", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.3.3B", "ASME B18.3 UNC Hex socket button head screws with flange", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.3.4", "ASME B18.3 UNC Hexagon socket head shoulder screws", "Hexagon socket")
+
 
 
 

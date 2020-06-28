@@ -193,9 +193,6 @@ def LenStr2Num(DiaStr):
       if '/' in item:
         subcmpts = item.split('/')
         total += float(subcmpts[0])/float(subcmpts[1])
-      elif '⁄' in item:
-        subcmpts = item.split('⁄')
-        total += float(subcmpts[0])/float(subcmpts[1])
       else:
         total += float(item)
     DiaFloat = total*25.4

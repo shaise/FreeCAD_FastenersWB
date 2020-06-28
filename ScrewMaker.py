@@ -111,6 +111,7 @@ screwTables = {
     'DIN985':   ("Nut",    din985def,    None,          None,           -1, 0),
     'ASMEB18.2.1.6': ("Screw", FsData["asmeb18.2.1.6def"], FsData["asmeb18.2.1.6length"], FsData["asmeb18.2.1.6range"], -1, 0),
     'ASMEB18.2.1.8':   ("Screw", FsData["asmeb18.2.1.8def"], FsData["inch_fs_length"], FsData["asmeb18.2.1.8range"], -1, 0),
+    'ASMEB18.3.1A': ("Screw", FsData["asmeb18.3.1adef"], FsData["inch_fs_length"], FsData["asmeb18.3.1arange"], -1, 0),
     'ASMEB18.3.3A': ("Screw", FsData["asmeb18.3.3adef"], FsData["inch_fs_length"], FsData["asmeb18.3.3arange"], -1, 0),
     'ASMEB18.3.3B': ("Screw", FsData["asmeb18.3.3bdef"], FsData["inch_fs_length"], FsData["asmeb18.3.3brange"], -1, 0),
     'ASMEB18.3.4': ("Screw", FsData["asmeb18.3.4def"], FsData["inch_fs_length"], FsData["asmeb18.3.4range"], -1, 0),
@@ -169,8 +170,8 @@ class FSScrewMaker(Screw):
       # assigned depending on available diameters
       if 'M6' in self.GetAllDiams(type):
         res = 'M6'
-      elif '1⁄4in' in self.GetAllDiams(type):
-        res = '1⁄4in'
+      elif '1/4in' in self.GetAllDiams(type):
+        res = '1/4in'
       elif '#10' in self.GetAllDiams(type):
         res = '#10'
       #matchOuter = FastenerBase.FSMatchOuter

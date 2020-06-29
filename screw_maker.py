@@ -393,7 +393,6 @@ class Ui_ScrewMaker(object):
     self.MessageLabel.setProperty("OK_text", _translate("ScrewMaker", "Screw is made", None))
     self.CreateButton.setText(_translate("ScrewMaker", "create", None))
 
-
   def guiCheck_Data(self):
     ST_text = str(self.ScrewType.currentText())
     ST_text = ST_text.split(':')[0]
@@ -857,6 +856,8 @@ class Screw(object):
            table = FsData["asmeb18.2.1.6def"]
         if ST_text == 'ASMEB18.3.1A':
            table = FsData["asmeb18.3.1adef"]
+        if ST_text == 'ASMEB18.3.2':
+           table = FsData["asmeb18.3.2def"]
         if ST_text == 'ASMEB18.3.3A':
            table = FsData["asmeb18.3.3adef"]
         if ST_text == 'ASMEB18.3.3B':
@@ -904,7 +905,8 @@ class Screw(object):
           Type_text = 'Screw'
           done = True
         if (ST_text == 'ISO7046') or (ST_text == 'ISO7047') or \
-          (ST_text == 'ISO14582') or (ST_text == 'ISO14584') or (ST_text == 'ISO10642'):
+          (ST_text == 'ISO14582') or (ST_text == 'ISO14584') or \
+          (ST_text == 'ISO10642') or (ST_text == 'ASMEB18.3.2'):
           screw = self.makeIso7046(ST_text, ND_text,l)
           Type_text = 'Screw'
           done = True
@@ -2055,6 +2057,12 @@ class Screw(object):
       ht = 0.0
       a = 2*P
       t_mean = t
+    elif (SType == 'ASMEB18.3.2'):
+      P, b, dk_theo, dk_mean, k, r, s_mean, t = FsData["asmeb18.3.2def"][ThreadType]
+      ePrax = s_mean / math.sqrt(3.0) / 0.99
+      ht = 0.0
+      a = 2*P
+      t_mean = t
     else: #still need the data from iso2009def, but this screw can not created here
       P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["iso2009def"][ThreadType]
       ht = 0.0 # Head height of flat head
@@ -2125,8 +2133,8 @@ class Screw(object):
     Pnt5 = Base.Vector(dia/2.0,0.0,-k-rtan)
     Pnt6 = Base.Vector(dia/2.0,0.0,-a_point)
 
-    if (SType == 'ISO10642') or (SType == 'ISO14582'):
-      if (SType == 'ISO10642'):
+    if (SType == 'ISO10642') or (SType == 'ISO14582') or (SType == 'ASMEB18.3.2'):
+      if (SType == 'ISO10642') or (SType == 'ASMEB18.3.2'):
         recess, recessShell = self.makeAllen2(s_mean, t_mean, 0.0 )
         Pnt0 = Base.Vector(ePrax/2.0,0.0,-ePrax/2.0)
         PntCham = Base.Vector(ePrax,0.0,0.0)
@@ -2239,7 +2247,7 @@ class Screw(object):
     headFaces.extend(recessShell.Faces)
 
 
-    if (SType == 'ISO10642') or (SType == 'ISO14582'):
+    if (SType == 'ISO10642') or (SType == 'ISO14582') or (SType == 'ASMEB18.3.2'):
       if self.rThread:
         if (dia < 3.0) or (dia > 5.0):
           #if True:

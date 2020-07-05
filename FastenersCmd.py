@@ -319,6 +319,7 @@ FSAddScrewCommand("ASMEB18.3.5A", "ASME B18.3 UNC Hexagon socket set screws with
 FSAddScrewCommand("ASMEB18.3.5B", "ASME B18.3 UNC Hexagon socket set screws with cone point", "Hexagon socket")
 FSAddScrewCommand("ASMEB18.3.5C", "ASME B18.3 UNC Hexagon socket set screws with dog point", "Hexagon socket")
 FSAddScrewCommand("ASMEB18.3.5D", "ASME B18.3 UNC Hexagon socket set screws with cup point", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.6.3.1A", "ASME B18.6.3 UNC slotted countersunk flat head screws", "Slotted")
 
 
 

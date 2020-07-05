@@ -177,7 +177,7 @@ class Ui_ScrewMaker(object):
     self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
     self.ScrewType = QtGui.QComboBox(self.layoutWidget1)
     self.ScrewType.setObjectName(_fromUtf8("ScrewType"))
-    for i in range(50):
+    for i in range(51):
       self.ScrewType.addItem(_fromUtf8(""))  # 0
 
     self.verticalLayout.addWidget(self.ScrewType)
@@ -309,6 +309,7 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(47, _translate("ScrewMaker", "ASMEB18.3.5B: UNC Hexagon socket set screws with cone point", None))
     self.ScrewType.setItemText(48, _translate("ScrewMaker", "ASMEB18.3.5C: UNC Hexagon socket set screws with dog point", None))
     self.ScrewType.setItemText(49, _translate("ScrewMaker", "ASMEB18.3.5D: UNC Hexagon socket set screws with cup point", None))
+    self.ScrewType.setItemText(50, _translate("ScrewMaker", "ASMEB18.6.3.1A: UNC slotted countersunk flat head screws", None))
     
 
     self.NominalDiameter.setItemText(0, _translate("ScrewMaker", "M1.6", None))
@@ -696,6 +697,12 @@ class Screw(object):
       tab_range = FsData["asmeb18.3.5range"]
       Type_text = 'Screw'
 
+    if ST_text == 'ASMEB18.6.3.1A':
+      table = FsData["asmeb18.6.3.1adef"]
+      tab_len = FsData["inch_fs_length"]
+      tab_range = FsData["asmeb18.6.3.1arange"]
+      Type_text = 'Screw'
+
     if ST_text == 'ScrewTap':
       table = FsData["tuningTable"]
       Type_text = 'Screw-Tap'
@@ -864,6 +871,8 @@ class Screw(object):
            table = FsData["iso7379def"]
         if ST_text == 'ASMEB18.2.1.6':
            table = FsData["asmeb18.2.1.6def"]
+        if ST_text == 'ASMEB18.2.1.8':
+           table = FsData["asmeb18.2.1.8def"]
         if ST_text == 'ASMEB18.3.1A':
            table = FsData["asmeb18.3.1adef"]
         if ST_text == 'ASMEB18.3.2':
@@ -876,8 +885,8 @@ class Screw(object):
            table = FsData["asmeb18.3.4def"]
         if ST_text[:-1] == 'ASMEB18.3.5':
            table = FsData["asmeb18.3.5def"]
-        if ST_text == 'ASMEB18.2.1.8':
-           table = FsData["asmeb18.2.1.8def"]
+        if ST_text == 'ASMEB18.6.3.1A':
+           table = FsData["asmeb18.6.3.1adef"]
         if (ST_text == 'ScrewTap') or (ST_text == 'ScrewDie') or (ST_text == 'ThreadedRod'):
            table = FsData["tuningTable"]
         if ND_text not in table:
@@ -899,7 +908,8 @@ class Screw(object):
           screw = self.makeEN1662_2(ST_text, ND_text,l)
           Type_text = 'Screw'
           done = True
-        if (ST_text == 'ISO2009') or (ST_text == 'ISO2010') or (ST_text == 'ISO1580'):
+        if (ST_text == 'ISO2009') or (ST_text == 'ISO2010') or \
+          (ST_text == 'ISO1580') or (ST_text == 'ASMEB18.6.3.1A'):
           screw = self.makeSlottedScrew(ST_text, ND_text,l)
           Type_text = 'Screw'
           done = True
@@ -1162,8 +1172,11 @@ class Screw(object):
       edge5 = Part.Arc(Pnt6,Pnt7,PntR).toShape()
       headWire=Part.Wire([edge1,edge2,edge3,edge4,edge5])
 
-    if (SType == 'ISO2009') or (SType == 'ISO2010'):
-      P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["iso2009def"][ThreadType]
+    if (SType == 'ISO2009') or (SType == 'ISO2010') or (SType == 'ASMEB18.6.3.1A'):
+      if (SType == 'ISO2009') or (SType == 'ISO2010'):
+        P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["iso2009def"][ThreadType]
+      elif (SType == 'ASMEB18.6.3.1A'):
+        P, b, dk_theo, dk_mean, k, n_min, r, t_mean = FsData["asmeb18.6.3.1adef"][ThreadType]
       dk_max = dk_theo
       t_min = t_mean
       ht = 0.0 # Head height of flat head
@@ -1265,7 +1278,7 @@ class Screw(object):
       rthread.translate(Base.Vector(0.0, 0.0,-a_point -2.0*P))
       #Part.show(rthread)
       headFaces = []
-      if (SType == 'ISO2009'):
+      if (SType == 'ISO2009') or (SType == 'ASMEB18.6.3.1A'):
         for i in range(0,len(head.Faces)-2):
           headFaces.append(head.Faces[i])
         headFaces.append(head.Faces[len(head.Faces)-1])

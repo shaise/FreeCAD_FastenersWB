@@ -177,7 +177,7 @@ class Ui_ScrewMaker(object):
     self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
     self.ScrewType = QtGui.QComboBox(self.layoutWidget1)
     self.ScrewType.setObjectName(_fromUtf8("ScrewType"))
-    for i in range(46):
+    for i in range(50):
       self.ScrewType.addItem(_fromUtf8(""))  # 0
 
     self.verticalLayout.addWidget(self.ScrewType)
@@ -305,6 +305,10 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(43, _translate("ScrewMaker", "ASMEB18.3.3A: UNC Hexagon socket button head screws", None))
     self.ScrewType.setItemText(44, _translate("ScrewMaker", "ASMEB18.3.3B: UNC Hexagon socket button head screws with flange", None))
     self.ScrewType.setItemText(45, _translate("ScrewMaker", "ASMEB18.3.4: UNC Hexagon socket head shoulder screws", None))
+    self.ScrewType.setItemText(46, _translate("ScrewMaker", "ASMEB18.3.5A: UNC Hexagon socket set screws with flat point", None))
+    self.ScrewType.setItemText(47, _translate("ScrewMaker", "ASMEB18.3.5B: UNC Hexagon socket set screws with cone point", None))
+    self.ScrewType.setItemText(48, _translate("ScrewMaker", "ASMEB18.3.5C: UNC Hexagon socket set screws with dog point", None))
+    self.ScrewType.setItemText(49, _translate("ScrewMaker", "ASMEB18.3.5D: UNC Hexagon socket set screws with cup point", None))
     
 
     self.NominalDiameter.setItemText(0, _translate("ScrewMaker", "M1.6", None))
@@ -658,32 +662,38 @@ class Screw(object):
 
     if ST_text == 'ASMEB18.2.1.8':
       table = FsData["asmeb18.2.1.8def"]
-      tab_len = FsData["asmeb18.2.1.8len"]
-      tab_range = FsData["inch_fs_length"]
+      tab_len = FsData["inch_fs_length"]
+      tab_range = FsData["asmeb18.2.1.8range"]
       Type_text = 'Screw'
 
     if ST_text == 'ASMEB18.3.1A':
       table = FsData["asmeb18.3.1adef"]
-      tab_len = FsData["asmeb18.3.1alen"]
-      tab_range = FsData["inch_fs_length"]
+      tab_len = FsData["inch_fs_length"]
+      tab_range = FsData["asmeb18.3.1arange"]
       Type_text = 'Screw'
 
     if ST_text == 'ASMEB18.3.3A':
       table = FsData["asmeb18.3.3adef"]
-      tab_len = FsData["asmeb18.3.3alen"]
-      tab_range = FsData["inch_fs_length"]
+      tab_len = FsData["inch_fs_length"]
+      tab_range = FsData["asmeb18.3.3arange"]
       Type_text = 'Screw'
 
     if ST_text == 'ASMEB18.3.3B':
       table = FsData["asmeb18.3.3bdef"]
-      tab_len = FsData["asmeb18.3.3blen"]
-      tab_range = FsData["inch_fs_length"]
+      tab_len = FsData["inch_fs_length"]
+      tab_range = FsData["asmeb18.3.3brange"]
       Type_text = 'Screw'
 
     if ST_text == 'ASMEB18.3.4':
       table = FsData["asmeb18.3.4def"]
-      tab_len = FsData["asmeb18.3.4range"]
-      tab_range = FsData["inch_fs_length"]
+      tab_len = FsData["inch_fs_length"]
+      tab_range = FsData["asmeb18.3.4range"]
+      Type_text = 'Screw'
+
+    if ST_text[:-1] == 'ASMEB18.3.5':
+      table = FsData["asmeb18.3.5def"]
+      tab_len = FsData["inch_fs_length"]
+      tab_range = FsData["asmeb18.3.5range"]
       Type_text = 'Screw'
 
     if ST_text == 'ScrewTap':
@@ -864,6 +874,8 @@ class Screw(object):
            table = FsData["asmeb18.3.3bdef"]
         if ST_text == 'ASMEB18.3.4':
            table = FsData["asmeb18.3.4def"]
+        if ST_text[:-1] == 'ASMEB18.3.5':
+           table = FsData["asmeb18.3.5def"]
         if ST_text == 'ASMEB18.2.1.8':
            table = FsData["asmeb18.2.1.8def"]
         if (ST_text == 'ScrewTap') or (ST_text == 'ScrewDie') or (ST_text == 'ThreadedRod'):
@@ -926,7 +938,8 @@ class Screw(object):
           Type_text = 'Washer'
           done = True
         if (ST_text == 'ISO4026') or (ST_text == 'ISO4027') or \
-          (ST_text =='ISO4028') or (ST_text =='ISO4029'):
+          (ST_text == 'ISO4028') or (ST_text == 'ISO4029') or \
+          (ST_text[:-1] == 'ASMEB18.3.5'):
           screw = self.makeIso4026(ST_text, ND_text, l)
           Type_text = 'Screw'
           done = True
@@ -2833,13 +2846,15 @@ class Screw(object):
   # make ISO 4026 Hexagon socket set screws with flat point
   def makeIso4026(self, SType ='ISO4026', Threadtype ='M6',l=16):
     if (SType == 'ISO4026') or (SType == 'ISO4027') or (SType == 'ISO4029'):
-      d, P, t, dp, dt, df, s = FsData["iso4026def"][Threadtype]
+      P, t, dp, dt, df, s = FsData["iso4026def"][Threadtype]
     elif SType == 'ISO4028':
-      d, P, t, dp, df, z, s = FsData["iso4028def"][Threadtype]
+      P, t, dp, df, z, s = FsData["iso4028def"][Threadtype]
+    elif SType[:-1] == 'ASMEB18.3.5':
+      P, t, dp, dt, df, s, z = FsData["asmeb18.3.5def"][Threadtype]
     d = self.getDia(Threadtype, False)
     d=d*1.01
     # generate the profile of the set-screw
-    if SType == 'ISO4026':
+    if (SType == 'ISO4026') or (SType =='ASMEB18.3.5A'):
       p0 = Base.Vector(0,0,0)
       p1 = Base.Vector(df/2,0,0)
       p2 = Base.Vector(d/2,0,-1*((d-df)/2))
@@ -2852,7 +2867,7 @@ class Screw(object):
       e4 = Part.makeLine(p3,p4)
       e5 = Part.makeLine(p4,p5)
       p_profile = Part.Wire([e2,e3,e4,e5])
-    elif SType == 'ISO4027':
+    elif (SType == 'ISO4027') or (SType == 'ASMEB18.3.5B'):
       p0 = Base.Vector(0,0,0)
       p1 = Base.Vector(df/2,0,0)
       p2 = Base.Vector(d/2,0,-1*((d-df)/2))
@@ -2865,7 +2880,7 @@ class Screw(object):
       e4 = Part.makeLine(p3,p4)
       e5 = Part.makeLine(p4,p5)
       p_profile = Part.Wire([e2,e3,e4,e5])
-    elif SType == 'ISO4028':
+    elif (SType == 'ISO4028') or (SType == 'ASMEB18.3.5C'):
       # the shortest available dog-point set screws often have 
       # shorter dog-points. There  is not much hard data accessible for this
       # approximate by halving the dog length for short screws
@@ -2885,7 +2900,7 @@ class Screw(object):
       e5 = Part.makeLine(p4,p5)
       e6 = Part.makeLine(p5,p6)
       p_profile = Part.Wire([e2,e3,e4,e5,e6])
-    elif SType == 'ISO4029':
+    elif (SType == 'ISO4029') or (SType == 'ASMEB18.3.5D'):
       p0 = Base.Vector(0,0,0)
       p1 = Base.Vector(df/2,0,0)
       p2 = Base.Vector(d/2,0,-1*((d-df)/2))

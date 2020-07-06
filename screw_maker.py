@@ -3009,7 +3009,8 @@ class Screw(object):
 
     #rotations = int(rots)-1
     halfrots_int = int(halfrots)
-    rotations = (halfrots_int // 2)-1
+    rotations = int((halfrots_int / 2)-1)
+    #print ("halfrots_int: ", halfrots_int, " rotations: ", rotations)
     if halfrots_int % 2 == 1:
       #FreeCAD.Console.PrintMessage("got half turn: " + str(halfrots_int) + "\n")
       halfturn = True
@@ -3304,13 +3305,19 @@ class Screw(object):
   def makeInnerThread_2(self, d, P, rotations, da, l):
     d = float(d)
     bot_off = 0.0 # nominal length
+    
+    if d>52.0:
+      fuzzyValue = 5e-5
+    else:
+      fuzzyValue = 0.0
 
     H=P*math.cos(math.radians(30)) # Gewindetiefe H
     r=d/2.0
-
+    
+    
     helix = Part.makeHelix(P,P,d*self.Tuner/1000.0,0) # make just one turn, length is identical to pitch
     helix.translate(FreeCAD.Vector(0.0, 0.0,-P*9.0/16.0))
-
+  
     extra_rad = P
 
     # points for inner thread profile
@@ -3320,12 +3327,11 @@ class Screw(object):
     ps3 =  (r, 0.0, -P*14.0/16.0)
     ps4 = (r+H*1/24.0,0.0, -P*31.0/32.0) # Center of Arc
     ps5 = (r,0.0, -P)
+    
+    
     ps6 = (r+extra_rad,0.0, -P)
-    ps7 = (r+extra_rad,0.0, 0.0)
-
-    #ps6 = (r-extra_rad,0.0, -P)
-    #ps7 = (r-extra_rad,0.0, 0.0)
-
+    ps7 = (r+extra_rad,0.0, 0.0) 
+     
     edge0 = Part.makeLine(ps0,ps1)
     edge1 = Part.makeLine(ps1,ps2)
     edge2 = Part.makeLine(ps2,ps3)
@@ -3333,220 +3339,207 @@ class Screw(object):
     edge4 = Part.makeLine(ps5,ps6)
     edge5 = Part.makeLine(ps6,ps7)
     edge6 = Part.makeLine(ps7,ps0)
-
+     
     W0 = Part.Wire([edge0, edge1, edge2, edge3, edge4, edge5, edge6])
-    # Part.show(W0)
-
+    # Part.show(W0, 'W0')
+    
     makeSolid=True
     isFrenet=True
     pipe0 = Part.Wire(helix).makePipeShell([W0],makeSolid,isFrenet)
-    # pipe1 = pipe0.copy()
-
-    TheFaces = []
+    #pipe1 = pipe0.copy()
+  
+    TheFaces = [] 
     TheFaces.append(pipe0.Faces[0])
     TheFaces.append(pipe0.Faces[1])
     TheFaces.append(pipe0.Faces[2])
     TheFaces.append(pipe0.Faces[3])
-
+    #topHeliFaces = [pipe0.Faces[6], pipe0.Faces[8]]
+    #innerHeliFaces = [pipe0.Faces[5]]
+    #bottomFaces = [pipe0.Faces[4], pipe0.Faces[7]]
+    
     TheShell = Part.Shell(TheFaces)
+    #singleThreadShell = TheShell.copy()
     # print "Shellpoints: ", len(TheShell.Vertexes)
-
-    # Handling of the top faces
-    if da is not None:
-      TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
-      for flaeche in TheShell.Faces:
-       TheFaces.append(flaeche)
-      TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
-      for flaeche in TheShell.Faces:
-       TheFaces.append(flaeche)
-
-      cham_i_delta = da/2.0 - (r-H)
-      cham_i = cham_i_delta * math.tan(math.radians(15.0))
-
-      offSet = rotations*P - l
-      #FreeCAD.Console.PrintMessage("Der Offset: " + str(offSet/P) + "\n")
-
-      # points for chamfer: common-Method
-      pch0 =  (da/2.0-cham_i_delta, 0.0, -cham_i - offSet) # bottom chamfer
-      pch1 =  (da/2.0, 0.0, 0.0 - offSet)  #
-      pch2 =  (da/2.0, 0.0, -4.0*P - offSet)
-      pch3 =  (da/2.0-cham_i_delta, 0.0, -4.0*P - offSet)
-
-      edgech0 = Part.makeLine(pch0,pch1)
-      edgech1 = Part.makeLine(pch1,pch2)
-      edgech2 = Part.makeLine(pch2,pch3)
-      edgech3 = Part.makeLine(pch3,pch0)
-
-      Wch_wire = Part.Wire([edgech0, edgech1, edgech2, edgech3])
-      cham_Face =Part.Face(Wch_wire)
-      cham_Solid = cham_Face.revolve(Base.Vector(0.0,0.0,-(rotations-1)*P),Base.Vector(0.0,0.0,1.0),360)
-      #Part.show(cham_Solid)
-      #Part.show(Wch_wire)
-
-      rawTopShell = Part.Shell(TheFaces)
-      topShell = rawTopShell.common(cham_Solid)
-
-      # Making a Cutter for the cham face
-      commonbox = Part.makeBox(d+4.0*P, d+4.0*P, 2.0*P)
-      commonbox.translate(FreeCAD.Vector(-(d+4.0*P)/2.0, -(d+4.0*P)/2.0,-2.0*P))
-      #Part.show(commonbox)
-
-      cutterShell = rawTopShell.common(commonbox)
-      bot_edges =[]
-      bot_z =  1.0e-5 -2.0*P
-
-      for kante in cutterShell.Edges:
-         if (kante.Vertexes[0].Point.z<=bot_z) and (kante.Vertexes[1].Point.z<=bot_z):
-            bot_edges.append(kante)
-            # Part.show(kante)
-      bot_wire = Part.Wire(Part.__sortEdges__(bot_edges))
-
-      bot_face = Part.Face(bot_wire)
-      bot_face.reverse()
-      t_face = bot_face.copy()
-      t_face.translate(Base.Vector(0.0, 0.0, 2.0*P))
-      cutterFaces = cutterShell.Faces
-      cutterFaces.append(bot_face.Faces[0])
-      cutterFaces.append(t_face.Faces[0])
-      cutShell = Part.Shell(cutterFaces)
-      chamFcutter = Part.Solid(cutShell)
-
-      #Part.show(chamFcutter)
-      topCham = cham_Solid.Faces[0]
-      topCham = topCham.cut(chamFcutter)
-
-      #Part.show(topCham)
-      TheFaces = [topCham.Faces[0]]
-      TheFaces.extend(topShell.Faces)
-
-      for i in range(rotations-4):
-         TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
-         for flaeche in TheShell.Faces:
-           TheFaces.append(flaeche)
-
-
-    else:
+    if da is None:
       commonbox = Part.makeBox(d+4.0*P, d+4.0*P, 3.0*P)
       commonbox.translate(FreeCAD.Vector(-(d+4.0*P)/2.0, -(d+4.0*P)/2.0,-(3.0)*P))
       topShell = TheShell.common(commonbox)
       top_edges =[]
-      top_z =  -1.0e-5
-
+      top_z =  -1.0e-5 
+      
       for kante in topShell.Edges:
          if (kante.Vertexes[0].Point.z>=top_z) and (kante.Vertexes[1].Point.z>=top_z):
             top_edges.append(kante)
             # Part.show(kante)
       top_wire = Part.Wire(Part.__sortEdges__(top_edges))
       top_face = Part.Face(top_wire)
-
+      
       TheFaces = [top_face.Faces[0]]
       TheFaces.extend(topShell.Faces)
-
+  
       for i in range(rotations-2):
          TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
          for flaeche in TheShell.Faces:
            TheFaces.append(flaeche)
-
-    #FreeCAD.Console.PrintMessage("Base-Shell: " + str(i) + "\n")
-    # Make separate faces for the tip of the screw
-    botFaces = []
-    for i in range(rotations-2, rotations, 1):
-       TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
-
-       for flaeche in TheShell.Faces:
-         botFaces.append(flaeche)
-    #FreeCAD.Console.PrintMessage("Bottom-Shell: " + str(i) + "\n")
-
-    if da is not None:
-      # points for chamfer: common-Method
-      pch0 =  (da/2.0-cham_i_delta, 0.0, -(rotations)*P + cham_i) # bottom chamfer
-      pch1 =  (da/2.0, 0.0, -(rotations)*P)  #
-      pch2 =  (da/2.0, 0.0, -(rotations)*P + 3.0*P)
-      pch3 =  (da/2.0-cham_i_delta, 0.0, -(rotations)*P + 3.0*P)
-      #pch4 =  (r-2.0*cham_i_delta, 0.0, -(rotations)*P + 3.0*P)
-
-      edgech0 = Part.makeLine(pch0,pch1)
-      edgech1 = Part.makeLine(pch1,pch2)
-      edgech2 = Part.makeLine(pch2,pch3)
-      edgech3 = Part.makeLine(pch3,pch0)
-
-      Wch_wire = Part.Wire([edgech0, edgech1, edgech2, edgech3])
-      cham_Face =Part.Face(Wch_wire)
-      cham_Solid = cham_Face.revolve(Base.Vector(0.0,0.0,-(rotations-1)*P),Base.Vector(0.0,0.0,1.0),360)
-      #Part.show(cham_Solid)
-      #Part.show(Wch_wire)
-
-      BotShell = Part.Shell(botFaces)
-      #Part.show(BotShell)
-      chamFcutter.translate(FreeCAD.Vector(0.0, 0.0,-(rotations-1)*P))
-      #Part.show(chamFcutter)
-
-
-      BotShell = BotShell.common(cham_Solid)
-      #Part.show(BotShell)
-
-      cham_face = cham_Solid.Faces[0]
-      cham_face = cham_face.cut(chamFcutter)
-      #Part.show(cham_face)
-
-      for flaeche in BotShell.Faces:
-        TheFaces.append(flaeche)
-      if da is not None:
-        TheFaces.append(cham_face.Faces[0])
-      else:
-        TheFaces.append(bot_face)
-      TheShell = Part.Shell(TheFaces)
-
-      #print self.Tuner, " ", TheShell.ShapeType, " ", TheShell.isValid(), " hrots: ", halfrots_int, " Shellpunkte: ", len(TheShell.Vertexes)
-
-      return TheShell
-
-
-
-    else: # make of screw tap
+      
+      #FreeCAD.Console.PrintMessage("Base-Shell: " + str(i) + "\n")
+      # Make separate faces for the tip of the screw
+      botFaces = []
+      for i in range(rotations-2, rotations, 1):
+         TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
+    
+         for flaeche in TheShell.Faces:
+           botFaces.append(flaeche)
+      #FreeCAD.Console.PrintMessage("Bottom-Shell: " + str(i) + "\n")
       #FreeCAD.Console.PrintMessage("without chamfer: " + str(i) + "\n")
-
+  
       commonbox = Part.makeBox(d+4.0*P, d+4.0*P, 3.0*P)
       commonbox.translate(FreeCAD.Vector(-(d+4.0*P)/2.0, -(d+4.0*P)/2.0,-(rotations)*P+bot_off))
       #commonbox.translate(FreeCAD.Vector(-(d+4.0*P)/2.0, -(d+4.0*P)/2.0,-(rotations+3)*P+bot_off))
       #Part.show(commonbox)
-
+     
       BotShell = Part.Shell(botFaces)
       #Part.show(BotShell)
-
+    
       BotShell = BotShell.common(commonbox)
       #BotShell = BotShell.cut(commonbox)
       bot_edges =[]
       bot_z =  1.0e-5 -(rotations)*P + bot_off
-
+      
       for kante in BotShell.Edges:
          if (kante.Vertexes[0].Point.z<=bot_z) and (kante.Vertexes[1].Point.z<=bot_z):
             bot_edges.append(kante)
             # Part.show(kante)
       bot_wire = Part.Wire(Part.__sortEdges__(bot_edges))
-
+         
       bot_face = Part.Face(bot_wire)
       bot_face.reverse()
-
+    
       for flaeche in BotShell.Faces:
         TheFaces.append(flaeche)
-      if da is not None:
-        for flaeche in cham_Shell.Faces:
-          TheFaces.append(flaeche)
-      else:
-        TheFaces.append(bot_face)
+      # if da is not None:
+        # for flaeche in cham_Shell.Faces:
+          # TheFaces.append(flaeche)
+      # else:  
+      TheFaces.append(bot_face)
       TheShell = Part.Shell(TheFaces)
       TheSolid = Part.Solid(TheShell)
-
-      #print self.Tuner, " ", TheShell.ShapeType, " ", TheShell.isValid(), " hrots: ", halfrots_int, " Shellpunkte: ", len(TheShell.Vertexes)
-
+      #print self.Tuner, " ", TheShell.ShapeType, " ", TheShell.isValid(), " rotations: ", rotations, " Shellpoints: ", len(TheShell.Vertexes)
       return TheSolid
+
+    else:
+      # Try to make the inner thread shell of a nut
+      cham_i = 2* H * math.tan(math.radians(15.0)) # inner chamfer
+      
+      # points for chamfer: cut-Method
+      pch0 =  (da/2.0 - 2*H, 0.0, +cham_i) # bottom chamfer
+      pch1 =  (da/2.0, 0.0, 0.0)  #
+      pch2 =  (da/2.0, 0.0, - 2.1*P)
+      pch3 =  (da/2.0 - 2*H, 0.0, - 2.1*P) # 
+
+
+      # pch2 =  (da/2.0, 0.0, l)
+      # pch3 =  (da/2.0 - 2*H, 0.0, l - cham_i)
+    
+      edgech0 = Part.makeLine(pch0,pch1)
+      edgech1 = Part.makeLine(pch1,pch2)
+      edgech2 = Part.makeLine(pch2,pch3)
+      edgech3 = Part.makeLine(pch3,pch0)
+    
+      Wch_wire = Part.Wire([edgech0, edgech1, edgech2, edgech3])
+      bottom_Face =Part.Face(Wch_wire)
+      #bottom_Solid = bottom_Face.revolve(Base.Vector(0.0,0.0,-(rotations-1)*P),Base.Vector(0.0,0.0,1.0),360)
+      bottom_Solid = bottom_Face.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+      #Part.show(cham_Solid, 'cham_Solid')
+      #Part.show(Wch_wire)
+      bottomChamferFace = bottom_Solid.Faces[0]
+
+      # points for chamfer: cut-Method
+      pch0t =  (da/2.0 - 2*H, 0.0, l -cham_i) # top chamfer
+      pch1t =  (da/2.0, 0.0, l)  #
+      pch2t =  (da/2.0, 0.0, l + 4*P)
+      pch3t =  (da/2.0 - 2*H, 0.0, l + 4*P) # 
+    
+      edgech0t = Part.makeLine(pch0t,pch1t)
+      edgech1t = Part.makeLine(pch1t,pch2t)
+      edgech2t = Part.makeLine(pch2t,pch3t)
+      edgech3t = Part.makeLine(pch3t,pch0t)
+    
+      Wcht_wire = Part.Wire([edgech0t, edgech1t, edgech2t, edgech3t])
+      top_Face =Part.Face(Wcht_wire)
+      top_Solid = top_Face.revolve(Base.Vector(0.0,0.0,(rotations-1)*P),Base.Vector(0.0,0.0,1.0),360)
+      #Part.show(top_Solid, 'top_Solid')
+      #Part.show(Wch_wire)
+      topChamferFace = top_Solid.Faces[0]
+      
+      threeThreadFaces = TheFaces.copy()
+      for k in range(1):
+        TheShell.translate(FreeCAD.Vector(0.0, 0.0, P))
+        for threadFace in TheShell.Faces:
+          threeThreadFaces.append(threadFace)
+          
+      chamferShell = Part.Shell(threeThreadFaces)
+      #Part.show(chamferShell, 'chamferShell')
+      #Part.show(bottomChamferFace, 'bottomChamferFace')
+
+      
+      bottomPart = chamferShell.cut(bottom_Solid)
+      #Part.show(bottomPart, 'bottomPart')
+      bottomFuse, bottomMap = bottomChamferFace.generalFuse([chamferShell], fuzzyValue)
+      #print ('bottomMap: ', bottomMap)
+      #chamFuse, chamMap = chamferShell.generalFuse([bottomChamferFace])
+      #print ('chamMap: ', chamMap)
+      #Part.show(bottomFuse, 'bottomFuse')
+      #Part.show(bottomMap[0][0], 'bMap0')
+      #Part.show(bottomMap[0][1], 'bMap1')
+      innerThreadFaces = [bottomMap[0][1]]
+      for face in bottomPart.Faces:
+        innerThreadFaces.append(face)
+      #bottomShell = Part.Shell(innerThreadFaces)
+      #Part.show(bottomShell)
+      bottomFaces =[]
+      #TheShell.translate(FreeCAD.Vector(0.0, 0.0, P))
+      for k in range(1, rotations -2):
+        TheShell.translate(FreeCAD.Vector(0.0, 0.0, P))
+        for threadFace in TheShell.Faces:
+          innerThreadFaces.append(threadFace)
+      #testShell = Part.Shell(innerThreadFaces)
+      #Part.show(testShell, 'testShell')
+      
+      chamferShell.translate(FreeCAD.Vector(0.0, 0.0, (rotations - 1)*P))
+      #Part.show(chamferShell, 'chamferShell')
+      #Part.show(topChamferFace, 'topChamferFace')
+      topPart = chamferShell.cut(top_Solid)
+      #Part.show(topPart, 'topPart')
+      for face in topPart.Faces:
+        innerThreadFaces.append(face)
+           
+      topFuse, topMap = topChamferFace.generalFuse([chamferShell], fuzzyValue)
+      #print ('topMap: ', topMap)
+      #Part.show(topMap[0][0], 'tMap0')
+      #Part.show(topMap[0][1], 'tMap1')
+      #Part.show(topFuse, 'topFuse')
+      innerThreadFaces.append(topMap[0][1])
+      
+      #topFaces = []
+      #for face in topPart.Faces:
+      #  topFaces.append(face)
+      #topFaces.append(topMap[0][1])
+      #testTopShell = Part.Shell(topFaces)
+      #Part.show(testTopShell, 'testTopShell')
+
+      threadShell = Part.Shell(innerThreadFaces)
+      #Part.show(threadShell, 'threadShell')
+      
+      return threadShell
 
 
   # make the ISO 4032 Hex-nut
   # make the ISO 4033 Hex-nut
   def makeIso4032(self,SType ='ISO4032', ThreadType ='M6'):
     dia = self.getDia(ThreadType, True)
+    #         P, tunIn, tunEx   
+    #Ptun, self.tuning, tunEx = tuningTable[ThreadType]
     if SType == 'ISO4032':
       # P, c, damax,  dw,    e,     m,   mw,   s_nom
       P, c, da, dw, e, m, mw, s = FsData["iso4032def"][ThreadType]
@@ -3559,17 +3552,21 @@ class Screw(object):
 
     residue, turns = math.modf(m/P)
     #halfturns = 2*int(turns)
-
+      
     if residue > 0.0:
       turns += 1.0
-      #halfturns = halfturns +2
-    #offSet = r - a
+    if SType == 'ISO4033' and ThreadType == '(M14)':
+      turns -= 1.0
+    if SType == 'ISO4035' and ThreadType == 'M56':
+      turns -= 1.0
 
+    
+    sqrt2_ = 1.0/math.sqrt(2.0)
     cham = (e-s)*math.sin(math.radians(15)) # needed for chamfer at nut top
     H=P*math.cos(math.radians(30)) # Gewindetiefe H
     cham_i_delta = da/2.0 - (dia/2.0-H*5.0/8.0)
     cham_i = cham_i_delta * math.tan(math.radians(15.0))
-
+  
 
     if self.rThread:
       Pnt0 = Base.Vector(da/2.0-2.0*cham_i_delta,0.0,m - 2.0*cham_i)
@@ -3584,7 +3581,7 @@ class Screw(object):
     Pnt4 = Base.Vector(s/math.sqrt(3.0),0.0,cham)
     Pnt5 = Base.Vector(s/2.0,0.0,0.0)
     Pnt6 = Base.Vector(da/2.0,0.0,0.0)
-
+    
     edge0 = Part.makeLine(Pnt0,Pnt1)
     edge1 = Part.makeLine(Pnt1,Pnt2)
     edge2 = Part.makeLine(Pnt2,Pnt3)
@@ -3593,43 +3590,50 @@ class Screw(object):
     edge5 = Part.makeLine(Pnt5,Pnt6)
     edge6 = Part.makeLine(Pnt6,Pnt7)
     edge7 = Part.makeLine(Pnt7,Pnt0)
-
-    # create cutting tool for hexagon head
-    # Parameters s, k, outer circle diameter =  e/2.0+10.0
+    
+    # create cutting tool for hexagon head 
+    # Parameters s, k, outer circle diameter =  e/2.0+10.0     
     extrude = self.makeHextool(s, m, s*2.0)
 
     aWire=Part.Wire([edge0,edge1,edge2,edge3,edge4,edge5,edge6,edge7])
-    #Part.show(aWire)
+    # Part.show(aWire)
     aFace =Part.Face(aWire)
     head = aFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360.0)
     #Part.show(head)
-
-    #Part.show(extrude)
+  
+    # Part.show(extrude)
     nut = head.cut(extrude)
-    # Part.show(nut)
+    #Part.show(nut, 'withoutTread')
 
     if self.rThread:
-      '''
-      threadCutter = self.makeInnerThread(dia, P, int(turns), None, m)
-      # Part.show(threadCutter)
-      threadCutter.translate(Base.Vector(0.0, 0.0,turns*P))
-      nut = nut.cut(threadCutter)
-      '''
-      nutFaces = [nut.Faces[2]]
-      for i in range(4,25):
-        nutFaces.append(nut.Faces[i])
-
-
-      threadShell = self.makeInnerThread_2(dia, P, int(turns), da, m)
-      threadShell.translate(Base.Vector(0.0, 0.0,turns*P))
-      #Part.show(threadShell)
-      nutFaces.extend(threadShell.Faces)
-
-      nutShell = Part.Shell(nutFaces)
-      nut = Part.Solid(nutShell)
-      #Part.show(nutShell)
-
+      #if (dia < 1.6)or (dia > 52.0):
+      if (dia < 1.6)or (dia > 64.0):
+        #if (dia < 3.0):
+        threadCutter = self.makeInnerThread_2(dia, P, int(turns+1), None, m)
+        threadCutter.translate(Base.Vector(0.0, 0.0,turns*P+0.5*P))
+        #Part.show(threadCutter, 'threadCutter')
+        nut = nut.cut(threadCutter)
+        #chamFace = nut.Faces[0].cut(threadCutter)
+        #Part.show(chamFace, 'chamFace0_')
+      else:
+        nutFaces = [nut.Faces[2]]
+        for i in range(4,25):
+          nutFaces.append(nut.Faces[i])
+        # Part.show(Part.Shell(nutFaces), 'OuterNutshell')
+  
+        threadShell = self.makeInnerThread_2(dia, P, int(turns), da, m)
+        #threadShell.translate(Base.Vector(0.0, 0.0,turns*P))
+        # Part.show(threadShell, 'threadShell')
+        nutFaces.extend(threadShell.Faces)
+        
+        nutShell = Part.Shell(nutFaces)
+        nut = Part.Solid(nutShell)
+        #Part.show(nutShell)
+    
     return nut
+
+
+
 
 
   # EN 1661 Hexagon nuts with flange
@@ -3640,26 +3644,28 @@ class Screw(object):
 
     residue, turns = math.modf(m/P)
     #halfturns = 2*int(turns)
-
+      
     if residue > 0.0:
       turns += 1.0
-
+    
     #FreeCAD.Console.PrintMessage("the nut with isoEN1661: " + str(c) + "\n")
     cham = s*(2.0/math.sqrt(3.0)-1.0)*math.sin(math.radians(25)) # needed for chamfer at head top
 
+    sqrt2_ = 1.0/math.sqrt(2.0)
+ 
     # Flange is made with a radius of c
     beta = math.radians(25.0)
     tan_beta = math.tan(beta)
-
+    
     # Calculation of Arc points of flange edge using dc and c
     arc1_x = dc/2.0 - c/2.0 + (c/2.0)*math.sin(beta)
     arc1_z = c/2.0 + (c/2.0)*math.cos(beta)
-
+    
     hF = arc1_z + (arc1_x -s/2.0) * tan_beta  # height of flange at center
-
+    
     #kmean = arc1_z + (arc1_x - s/math.sqrt(3.0)) * tan_beta + mw * 1.1 + cham
     #kmean = k * 0.95
-
+    
 
     #Hex-Head Points
     #FreeCAD.Console.PrintMessage("the nut with kmean: " + str(m) + "\n")
@@ -3671,7 +3677,7 @@ class Screw(object):
     topShell = hWire.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
     #Part.show(hWire)
     #Part.show(topShell)
-
+    
     # create a cutter ring to generate the chamfer at the top of the hex
     chamHori = s/math.sqrt(3.0) - s/2.0
     PntC1 = Base.Vector(s/2.0-chamHori,0.0,m+m)
@@ -3704,9 +3710,9 @@ class Screw(object):
     #Part.show(solidHex)
     hexCham = solidHex.cut(chamCut)
     #Part.show(hexCham)
-
+    
     topFaces = topShell.Faces
-
+    
     topFaces.append(hexCham.Faces[1])
     topFaces.append(hexCham.Faces[2])
     topFaces.append(hexCham.Faces[8])
@@ -3714,7 +3720,7 @@ class Screw(object):
     topFaces.append(hexCham.Faces[14])
     topFaces.append(hexCham.Faces[12])
     topFaces.append(hexCham.Faces[6])
-
+    
     hexFaces = [hexCham.Faces[5], hexCham.Faces[11], hexCham.Faces[10]]
     hexFaces.extend([hexCham.Faces[9], hexCham.Faces[3], hexCham.Faces[0]])
     hexShell = Part.Shell(hexFaces)
@@ -3723,17 +3729,17 @@ class Screw(object):
     H=P*math.cos(math.radians(30)) # Gewindetiefe H
     cham_i_delta = da/2.0 - (dia/2.0-H*5.0/8.0)
     cham_i = cham_i_delta * math.tan(math.radians(15.0))
-
+  
     # Center of flange:
     Pnt0 = Base.Vector(0.0,0.0,hF)
     Pnt1 = Base.Vector(s/2.0,0.0,hF)
-
+    
     # arc edge of flange:
     Pnt2 = Base.Vector(arc1_x,0.0,arc1_z)
     Pnt3 = Base.Vector(dc/2.0,0.0,c/2.0)
     Pnt4 = Base.Vector((dc-c)/2.0,0.0,0.0)
     Pnt5 = Base.Vector(da/2.0,0.0,0.0)     #start of fillet between flat and thread
-
+    
     edge1 = Part.makeLine(Pnt0,Pnt1)
     edge2 = Part.makeLine(Pnt1,Pnt2)
     edge3 = Part.Arc(Pnt2,Pnt3,Pnt4).toShape()
@@ -3742,7 +3748,7 @@ class Screw(object):
     # make a cutter for the hexShell
     PntHC1 = Base.Vector(0.0,0.0,arc1_z)
     PntHC2 = Base.Vector(0.0,0.0,0.0)
-
+    
     edgeHC1 = Part.makeLine(Pnt2,PntHC1)
     edgeHC2 = Part.makeLine(PntHC1,PntHC2)
     edgeHC3 = Part.makeLine(PntHC2,Pnt0)
@@ -3750,19 +3756,24 @@ class Screw(object):
     HCWire = Part.Wire([edge2, edgeHC1, edgeHC2, edgeHC3, edge1])
     HCFace = Part.Face(HCWire)
     hex2Cut = HCFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
-
+    
     hexShell = hexShell.cut(hex2Cut)
     #Part.show(hexShell)
-
+    
     topFaces.extend(hexShell.Faces)
-
-    if self.rThread:
+    
+    if self.rThread and (dia > 4.0):
       aWire=Part.Wire([edge2,edge3,edge4])
       boltIndex = 3
-
+    
     else:
-      Pnt7 = Base.Vector(dia/2.0-H*5.0/8.0,0.0,m - cham_i)
-      Pnt6 = Base.Vector(dia/2.0-H*5.0/8.0,0.0,0.0+ cham_i)
+      if self.rThread:
+        Pnt7 = Base.Vector(dia/2.1-H*5.0/8.0,0.0,m - cham_i)
+        Pnt6 = Base.Vector(dia/2.1-H*5.0/8.0,0.0,0.0+ cham_i)
+        
+      else:
+        Pnt7 = Base.Vector(dia/2.0-H*5.0/8.0,0.0,m - cham_i)
+        Pnt6 = Base.Vector(dia/2.0-H*5.0/8.0,0.0,0.0+ cham_i)
       edge5 = Part.makeLine(Pnt5,Pnt6)
       edge6 = Part.makeLine(Pnt6,Pnt7)
       edge7 = Part.makeLine(Pnt7,PntH0)
@@ -3777,27 +3788,35 @@ class Screw(object):
     #Part.show(headShell)
     chamFace = headShell.Faces[0].cut(solidHex)
     #Part.show(chamFace)
-
+    
     topFaces.append(chamFace.Faces[0])
     for i in range(1,boltIndex):
       topFaces.append(headShell.Faces[i])
 
-
+    
     if self.rThread:
-      #rthread = self.makeShellthread(dia, P, halfturns, True, offSet)
-      #rthread.translate(Base.Vector(0.0, 0.0,-a_point-2.0*P))
-      threadShell = self.makeInnerThread_2(dia, P, int(turns), da, m)
-      threadShell.translate(Base.Vector(0.0, 0.0,turns*P))
-      #Part.show(threadShell)
-      for tFace in threadShell.Faces:
-        topFaces.append(tFace)
-      headShell = Part.Shell(topFaces)
-      screw = Part.Solid(headShell)
+      if dia < 5.0:
+        nutShell = Part.Shell(topFaces)
+        nut = Part.Solid(nutShell)
+        #Part.show(nut, 'unthreadedNut')
+        threadCutter = self.makeInnerThread_2(dia, P, int(turns+1), None, m)
+        threadCutter.translate(Base.Vector(0.0, 0.0,turns*P+0.5*P))
+        #Part.show(threadCutter, 'threadCutter')
+        nut = nut.cut(threadCutter)
+        
+      else:
+        threadShell = self.makeInnerThread_2(dia, P, int(turns), da, m)
+        #threadShell.translate(Base.Vector(0.0, 0.0,turns*P))
+        #Part.show(threadShell)
+        for tFace in threadShell.Faces:
+          topFaces.append(tFace)
+        headShell = Part.Shell(topFaces)
+        nut = Part.Solid(headShell)
     else:
-      screwShell = Part.Shell(topFaces)
-      screw = Part.Solid(screwShell)
+      nutShell = Part.Shell(topFaces)
+      nut = Part.Solid(nutShell)
 
-    return screw
+    return nut
 
 
   # make ISO 7380-1 Button head Screw

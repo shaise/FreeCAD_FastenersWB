@@ -121,6 +121,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes
+* V0.3.22  01 Jul 2020:  Fix nut thread creation, Thank you @ulrich1a !
 * V0.3.21  01 Jun 2020:  Added Drop-down menu
 * V0.3.20  24 May 2020:  Added ISO 4026, 4027, 4028, 4029 set screws, Die and threaded rod. Thank you @slowinternets !
 * V0.3.17  18 May 2020:  Added ISO 7379 screws. Thank you @slowinternets !

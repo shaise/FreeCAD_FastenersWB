@@ -177,7 +177,7 @@ class Ui_ScrewMaker(object):
     self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
     self.ScrewType = QtGui.QComboBox(self.layoutWidget1)
     self.ScrewType.setObjectName(_fromUtf8("ScrewType"))
-    for i in range(51):
+    for i in range(52):
       self.ScrewType.addItem(_fromUtf8(""))  # 0
 
     self.verticalLayout.addWidget(self.ScrewType)
@@ -301,15 +301,16 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(39, _translate("ScrewMaker", "ISO4029: Hexagon socket set screws with cup point", None))
     self.ScrewType.setItemText(40, _translate("ScrewMaker", "ASMEB18.2.1.6: UNC Hexagon head screws", None))
     self.ScrewType.setItemText(41, _translate("ScrewMaker", "ASMEB18.2.1.8: UNC hex head bolts with flange", None))
-    self.ScrewType.setItemText(42, _translate("ScrewMaker", "ASMEB18.3.1A: UNC Hexagon socket head cap screws", None))
-    self.ScrewType.setItemText(43, _translate("ScrewMaker", "ASMEB18.3.3A: UNC Hexagon socket button head screws", None))
-    self.ScrewType.setItemText(44, _translate("ScrewMaker", "ASMEB18.3.3B: UNC Hexagon socket button head screws with flange", None))
-    self.ScrewType.setItemText(45, _translate("ScrewMaker", "ASMEB18.3.4: UNC Hexagon socket head shoulder screws", None))
-    self.ScrewType.setItemText(46, _translate("ScrewMaker", "ASMEB18.3.5A: UNC Hexagon socket set screws with flat point", None))
-    self.ScrewType.setItemText(47, _translate("ScrewMaker", "ASMEB18.3.5B: UNC Hexagon socket set screws with cone point", None))
-    self.ScrewType.setItemText(48, _translate("ScrewMaker", "ASMEB18.3.5C: UNC Hexagon socket set screws with dog point", None))
-    self.ScrewType.setItemText(49, _translate("ScrewMaker", "ASMEB18.3.5D: UNC Hexagon socket set screws with cup point", None))
-    self.ScrewType.setItemText(50, _translate("ScrewMaker", "ASMEB18.6.3.1A: UNC slotted countersunk flat head screws", None))
+    self.ScrewType.setItemText(42, _translate("ScrewMaker", "ASMEB18.2print.pdf .2.1A: UNC machine screw nuts", None))
+    self.ScrewType.setItemText(43, _translate("ScrewMaker", "ASMEB18.3.1A: UNC Hexagon socket head cap screws", None))
+    self.ScrewType.setItemText(44, _translate("ScrewMaker", "ASMEB18.3.3A: UNC Hexagon socket button head screws", None))
+    self.ScrewType.setItemText(45, _translate("ScrewMaker", "ASMEB18.3.3B: UNC Hexagon socket button head screws with flange", None))
+    self.ScrewType.setItemText(46, _translate("ScrewMaker", "ASMEB18.3.4: UNC Hexagon socket head shoulder screws", None))
+    self.ScrewType.setItemText(47, _translate("ScrewMaker", "ASMEB18.3.5A: UNC Hexagon socket set screws with flat point", None))
+    self.ScrewType.setItemText(48, _translate("ScrewMaker", "ASMEB18.3.5B: UNC Hexagon socket set screws with cone point", None))
+    self.ScrewType.setItemText(49, _translate("ScrewMaker", "ASMEB18.3.5C: UNC Hexagon socket set screws with dog point", None))
+    self.ScrewType.setItemText(50, _translate("ScrewMaker", "ASMEB18.3.5D: UNC Hexagon socket set screws with cup point", None))
+    self.ScrewType.setItemText(51, _translate("ScrewMaker", "ASMEB18.6.3.1A: UNC slotted countersunk flat head screws", None))
     
 
     self.NominalDiameter.setItemText(0, _translate("ScrewMaker", "M1.6", None))
@@ -667,6 +668,10 @@ class Screw(object):
       tab_range = FsData["asmeb18.2.1.8range"]
       Type_text = 'Screw'
 
+    if ST_text == 'ASMEB18.2.2.1A':
+      table = FsData["asmeb18.2.2.1adef"]
+      Type_text = 'Nut'
+
     if ST_text == 'ASMEB18.3.1A':
       table = FsData["asmeb18.3.1adef"]
       tab_len = FsData["inch_fs_length"]
@@ -873,6 +878,8 @@ class Screw(object):
            table = FsData["asmeb18.2.1.6def"]
         if ST_text == 'ASMEB18.2.1.8':
            table = FsData["asmeb18.2.1.8def"]
+        if ST_text == 'ASMEB18.2.2.1A':
+           table = FsData["asmeb18.2.2.1adef"]
         if ST_text == 'ASMEB18.3.1A':
            table = FsData["asmeb18.3.1adef"]
         if ST_text == 'ASMEB18.3.2':
@@ -953,7 +960,8 @@ class Screw(object):
           screw = self.makeIso4026(ST_text, ND_text, l)
           Type_text = 'Screw'
           done = True
-        if (ST_text == 'ISO4032') or (ST_text == 'ISO4033') or (ST_text == 'ISO4035'):
+        if (ST_text == 'ISO4032') or (ST_text == 'ISO4033') or \
+          (ST_text == 'ISO4035') or (ST_text == 'ASMEB18.2.2.1A'):
           screw = self.makeIso4032(ST_text, ND_text)
           Type_text = 'Nut'
           done = True
@@ -3549,6 +3557,8 @@ class Screw(object):
     if SType == 'ISO4035':
       # P, c, damax,  dw,    e,     m,   mw,   s_nom
       P, c, da, dw, e, m, mw, s = FsData["iso4035def"][ThreadType]
+    if SType == 'ASMEB18.2.2.1A':
+      P, da, e, m, s = FsData["asmeb18.2.2.1adef"][ThreadType]
 
     residue, turns = math.modf(m/P)
     #halfturns = 2*int(turns)

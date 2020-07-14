@@ -177,7 +177,7 @@ class Ui_ScrewMaker(object):
     self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
     self.ScrewType = QtGui.QComboBox(self.layoutWidget1)
     self.ScrewType.setObjectName(_fromUtf8("ScrewType"))
-    for i in range(54):
+    for i in range(57):
       self.ScrewType.addItem(_fromUtf8(""))  # 0
 
     self.verticalLayout.addWidget(self.ScrewType)
@@ -313,6 +313,9 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(51, _translate("ScrewMaker", "ASMEB18.3.5C: UNC Hexagon socket set screws with dog point", None))
     self.ScrewType.setItemText(52, _translate("ScrewMaker", "ASMEB18.3.5D: UNC Hexagon socket set screws with cup point", None))
     self.ScrewType.setItemText(53, _translate("ScrewMaker", "ASMEB18.6.3.1A: UNC slotted countersunk flat head screws", None))
+    self.ScrewType.setItemText(54, _translate("ScrewMaker", "ASMEB18.21.1.12A: UN washers, narrow series", None))
+    self.ScrewType.setItemText(55, _translate("ScrewMaker", "ASMEB18.21.1.12B: UN washers, regular series", None))
+    self.ScrewType.setItemText(56, _translate("ScrewMaker", "ASMEB18.21.1.12C: UN washers, wide series", None))
     
 
     self.NominalDiameter.setItemText(0, _translate("ScrewMaker", "M1.6", None))
@@ -718,6 +721,10 @@ class Screw(object):
       tab_range = FsData["asmeb18.6.3.1arange"]
       Type_text = 'Screw'
 
+    if ST_text[:-1] == 'ASMEB18.21.1.12':
+      table = FsData["asmeb18.21.1.12def"]
+      Type_text = 'Washer'
+
     if ST_text == 'ScrewTap':
       table = FsData["tuningTable"]
       Type_text = 'Screw-Tap'
@@ -906,6 +913,8 @@ class Screw(object):
            table = FsData["asmeb18.3.5def"]
         if ST_text == 'ASMEB18.6.3.1A':
            table = FsData["asmeb18.6.3.1adef"]
+        if ST_text[:-1] == 'ASMEB18.21.1.12':
+           table = FsData["asmeb18.21.1.12def"]
         if (ST_text == 'ScrewTap') or (ST_text == 'ScrewDie') or (ST_text == 'ThreadedRod'):
            table = FsData["tuningTable"]
         if ND_text not in table:
@@ -962,7 +971,8 @@ class Screw(object):
           Type_text = 'Screw'
           done = True
         if (ST_text == 'ISO7089') or (ST_text == 'ISO7090') or (ST_text == 'ISO7093-1') or \
-          (ST_text == 'ISO7091') or (ST_text == 'ISO7092') or (ST_text == 'ISO7094'):
+          (ST_text == 'ISO7091') or (ST_text == 'ISO7092') or (ST_text == 'ISO7094') or \
+          (ST_text[:-1] == 'ASMEB18.21.1.12'):
           screw = self.makeIso7089(ST_text, ND_text)
           Type_text = 'Washer'
           done = True
@@ -1111,7 +1121,18 @@ class Screw(object):
       d1_min, d2_max, h, h_max = FsData["iso7093def"][ThreadType]
     if SType == 'ISO7094':
       d1_min, d2_max, h, h_max = FsData["iso7094def"][ThreadType]
-      #FreeCAD.Console.PrintMessage("got: " + SType + "\n")
+    if SType == 'ASMEB18.21.1.12A':
+      d1_min, d2_a, d2_b, d2_c, h_a, h_b, h_c = FsData["asmeb18.21.1.12def"][ThreadType]
+      d2_max = d2_a
+      h_max = h_a
+    if SType == 'ASMEB18.21.1.12B':
+      d1_min, d2_a, d2_b, d2_c, h_a, h_b, h_c = FsData["asmeb18.21.1.12def"][ThreadType]
+      d2_max = d2_b
+      h_max = h_b
+    if SType == 'ASMEB18.21.1.12C':
+      d1_min, d2_a, d2_b, d2_c, h_a, h_b, h_c = FsData["asmeb18.21.1.12def"][ThreadType]
+      d2_max = d2_c
+      h_max = h_c
 
     #FreeCAD.Console.PrintMessage("die Scheibe mit d1_min: " + str(d1_min) + "\n")
 

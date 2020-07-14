@@ -112,6 +112,8 @@ screwTables = {
     'ASMEB18.2.1.6': ("Screw", FsData["asmeb18.2.1.6def"], FsData["asmeb18.2.1.6length"], FsData["asmeb18.2.1.6range"], -1, 0),
     'ASMEB18.2.1.8':   ("Screw", FsData["asmeb18.2.1.8def"], FsData["inch_fs_length"], FsData["asmeb18.2.1.8range"], -1, 0),
     'ASMEB18.2.2.1A': ("Nut", FsData["asmeb18.2.2.1adef"], None, None, -1, 0),
+    'ASMEB18.2.2.4A': ("Nut", FsData["asmeb18.2.2.4def"], None, None, -1, 0),
+    'ASMEB18.2.2.4B': ("Nut", FsData["asmeb18.2.2.4def"], None, None, -1, 0),
     'ASMEB18.3.1A': ("Screw", FsData["asmeb18.3.1adef"], FsData["inch_fs_length"], FsData["asmeb18.3.1arange"], -1, 0),
     'ASMEB18.3.2': ("Screw", FsData["asmeb18.3.2def"], FsData["inch_fs_length"], FsData["asmeb18.3.2range"], -1, 0),
     'ASMEB18.3.3A': ("Screw", FsData["asmeb18.3.3adef"], FsData["inch_fs_length"], FsData["asmeb18.3.3arange"], -1, 0),

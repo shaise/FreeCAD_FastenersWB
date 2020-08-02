@@ -176,7 +176,7 @@ def MToFloat(m):
 
 def DiaStr2Num(DiaStr):
   DiaStr = DiaStr.strip("()")
-  return FsData["DiaList"][DiaStr]
+  return FsData["DiaList"][DiaStr][0]
 
 # inch tolerant version of length string to number converter
 def LenStr2Num(DiaStr):

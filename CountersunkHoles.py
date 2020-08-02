@@ -224,7 +224,7 @@ class Ui_DlgCountersunktHoles(object):
             for i in range (nedges):
                 if dm.data(dm.index(i,0)) == edge:
                     m = FastenerBase.FSAutoDiameterM(obj.Shape.getElement(edge), self.diamTable, -1)
-                    index = dm.index(i, 0);
+                    index = dm.index(i, 0)
                     dm.setData(index, QtCore.Qt.Checked, QtCore.Qt.CheckStateRole)
                     dm.setData(dm.index(i, 1), m)
                     if QTVer >= 5:
@@ -332,7 +332,7 @@ class FSDiameterDelegate(QtGui.QItemDelegate):
           editor.addItems(self.ui.diamList)
         except:
           FreeCAD.Console.PrintLog(str(sys.exc_info()) + "\n")
-        return editor;
+        return editor
     
     def setEditorData(self, editor, index):
         value = index.data(QtCore.Qt.EditRole)

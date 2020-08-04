@@ -173,11 +173,14 @@ FSCPEMStudHoleChart = (
   ("M8", 8)
 )
 
+
+
 FSCScrewTypes = (
   ("ISO7045.svg", "Metric Screw", ScrewMaker.FSCScrewHoleChart),
   ("PEMPressNut.svg", "PEM Press-nut", FSCPEMPressNutHoleChart),
   ("PEMBLStandoff.svg", "PEM Stand-off", FSCPEMStudHoleChart),
-  ("PEMStud.svg", "PEM Stud", FSCPEMStudHoleChart)
+  ("PEMStud.svg", "PEM Stud", FSCPEMStudHoleChart),
+  ("ASMEB18.2.1.6.svg", "Inch Screw", ScrewMaker.FSC_Inch_ScrewHoleChart)
 )
        
 FSScrewCalcDlg = QtGui.QDockWidget()

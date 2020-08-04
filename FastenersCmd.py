@@ -55,6 +55,12 @@ class FSScrewObject(FSBaseObject):
       obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.Proxy = self
     
+  def inswap(self, inpstr):
+    if '″' in inpstr:
+      return inpstr.replace('″', 'in')
+    else:
+      return inpstr
+
   def VerifyMissingAttrs(self, obj, diameter):
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
@@ -66,7 +72,7 @@ class FSScrewObject(FSBaseObject):
         obj.length = origLen
       else:
         obj.addProperty("App::PropertyEnumeration","length","Parameters","Screw length").length = slens
-      obj.addProperty("App::PropertyLength","lengthCustom","Parameters","Custom length").lengthCustom = slens[0]
+      obj.addProperty("App::PropertyLength","lengthCustom","Parameters","Custom length").lengthCustom = self.inswap(slens[0])
 
   def ActiveLength(self, obj):
     if not hasattr(obj,'length'):
@@ -119,7 +125,7 @@ class FSScrewObject(FSBaseObject):
     if hasattr(fp,'length'):
       if (fp.length !=  self.length):
         if (fp.length != 'Custom'):
-          fp.lengthCustom = float(fp.length)
+          fp.lengthCustom = FastenerBase.LenStr2Num(fp.length) #***
       elif (hasattr(self,'customlen') and float(fp.lengthCustom) != self.customlen):
         fp.length = 'Custom'
       origLen = self.ActiveLength(fp)
@@ -302,6 +308,25 @@ FSAddScrewCommand("EN1661", "EN 1661 Hexagon nuts with flange", "Nut")
 FSAddScrewCommand("DIN557", "DIN 557 Square nuts", "Nut")
 FSAddScrewCommand("DIN562", "DIN 562 Square nuts", "Nut")
 FSAddScrewCommand("DIN985", "DIN 985 Nyloc nuts", "Nut")
+FSAddScrewCommand("ASMEB18.2.1.6", "ASME B18.2.1 UNC Hex head screws", "Hex head")
+FSAddScrewCommand("ASMEB18.2.1.8", "ASME B18.2.1 UNC Hex head screws with flange", "Hex head")
+FSAddScrewCommand("ASMEB18.2.2.1A", "ASME B18.2.2 UNC Machine screw nuts", "Nut")
+FSAddScrewCommand("ASMEB18.2.2.4A", "ASME B18.2.2 UNC Hexagon nuts", "Nut")
+FSAddScrewCommand("ASMEB18.2.2.4B", "ASME B18.2.2 UNC Hexagon thin nuts", "Nut")
+FSAddScrewCommand("ASMEB18.3.1A", "ASME B18.3 UNC Hex socket head cap screws", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.3.2", "ASME B18.3 UNC Hex socket countersunk head screws", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.3.3A", "ASME B18.3 UNC Hex socket button head screws", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.3.3B", "ASME B18.3 UNC Hex socket button head screws with flange", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.3.4", "ASME B18.3 UNC Hexagon socket head shoulder screws", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.3.5A", "ASME B18.3 UNC Hexagon socket set screws with flat point", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.3.5B", "ASME B18.3 UNC Hexagon socket set screws with cone point", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.3.5C", "ASME B18.3 UNC Hexagon socket set screws with dog point", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.3.5D", "ASME B18.3 UNC Hexagon socket set screws with cup point", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.6.3.1A", "ASME B18.6.3 UNC slotted countersunk flat head screws", "Slotted")
+FSAddScrewCommand("ASMEB18.21.1.12A", "ASME B18.21.1 UN washers, narrow series", "Washer")
+FSAddScrewCommand("ASMEB18.21.1.12B", "ASME B18.21.1 UN washers, regular series", "Washer")
+FSAddScrewCommand("ASMEB18.21.1.12C", "ASME B18.21.1 UN washers, wide series", "Washer")
+
 
 
 

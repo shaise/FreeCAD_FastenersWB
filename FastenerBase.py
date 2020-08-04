@@ -27,6 +27,7 @@ from FreeCAD import Base
 from PySide import QtGui
 import FreeCAD, FreeCADGui, Part, os, math, sys
 import DraftVecUtils
+from screw_maker import *
 
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join( __dir__, 'Icons' )
@@ -169,14 +170,41 @@ def FSCacheRemoveThreaded():
       del FSCache[key]
 
 def MToFloat(m):
-    m = m.lstrip('(');
-    m = m.rstrip(')');
+    m = m.lstrip('(')
+    m = m.rstrip(')')
     return float(m.lstrip('M'))
+
+def DiaStr2Num(DiaStr):
+  DiaStr = DiaStr.strip("()")
+  return FsData["DiaList"][DiaStr][0]
+
+# inch tolerant version of length string to number converter
+def LenStr2Num(DiaStr):
+  # remove brackets indicating less common diameters
+  StripStr = DiaStr.strip("()")
+  # metric diameters of format 'Mxyz'
+  if 'M' in StripStr:
+    DiaFloat = float(StripStr.lstrip('M'))
+  # inch diameters of format 'x y/z\"'
+  elif 'in' in StripStr:
+    components = StripStr.strip('in').split(' ')
+    total = 0
+    for item in components:
+      if '/' in item:
+        subcmpts = item.split('/')
+        total += float(subcmpts[0])/float(subcmpts[1])
+      else:
+        total += float(item)
+    DiaFloat = total*25.4
+  # if there are no identifying unit chars, default to mm
+  else:
+    DiaFloat = float(StripStr)
+  return DiaFloat
   
 # sort compare function for m sizes
 def MCompare(x, y):
-  x1 = MToFloat(x)
-  y1 = MToFloat(y)
+  x1 = DiaStr2Num(x)
+  y1 = DiaStr2Num(y)
   if x1 > y1:
     return 1
   if x1 < y1:
@@ -290,7 +318,7 @@ def FSAutoDiameterM(holeObj, table, tablepos):
     mindif = 10.0
     for m in table:
         if tablepos == -1:
-          dia = MToFloat(m) + 0.1
+          dia = DiaStr2Num(m) + 0.1
         else:
           dia = table[m][tablepos] + 0.1
         if (dia > d):
@@ -453,7 +481,7 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
       ScrewObj_m.Placement.move(Pnt1)
 
 
-# common actions on fateners:
+# common actions on fasteners:
 class FSFlipCommand:
   """Flip Screw command"""
 
@@ -545,7 +573,7 @@ class FSMakeSimpleCommand:
       if isinstance(obj.Shape, (Part.Solid, Part.Compound)):
         FreeCAD.Console.PrintLog("simplify shape: " + obj.Name + "\n")
         cobj = FreeCAD.ActiveDocument.addObject("Part::Feature", obj.Label + "_Copy")
-        cobj.Shape = obj.Shape;
+        cobj.Shape = obj.Shape
         Gui.ActiveDocument.getObject(obj.Name).Visibility = False
     FreeCAD.ActiveDocument.recompute()
     return
@@ -563,7 +591,7 @@ FSCommands.append('FSSimple', "command")
 FSMatchOuter = False
 FSMatchIconNeedUpdate = 0
 
-# frecad 0.15 version:
+# freecad 0.15 version:
 class FSToggleMatchTypeCommand:
   """Toggle screw matching method"""
 

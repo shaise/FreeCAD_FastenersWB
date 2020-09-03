@@ -826,6 +826,9 @@ class FSPcbStandOffObject(FSBaseObject):
           else:
             fp.width = allwidth[0]
 
+      if (not lengthchange and hasattr(self,'lengthCustom') and self.lengthCustom != fp.lengthCustom):
+        fp.length = 'Custom'
+
       if fp.length == 'Custom':
         l = str(float(fp.lengthCustom)).rstrip("0").rstrip('.')
       else:

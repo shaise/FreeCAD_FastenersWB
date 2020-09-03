@@ -742,12 +742,15 @@ def psGetAllLengths(mtable, ltable, diam, width):
   lenKey = diam + "x" + width
   if not(lenKey in ltable):
     return None
-  list = ltable[lenKey]
+  list = []
+  for len in ltable[lenKey]:
+    list.append(len)
   try:  # py3
     import functools
     sorted(list, key = functools.cmp_to_key(FastenerBase.NumCompare))
   except:
     list.sort(cmp = FastenerBase.NumCompare)
+  list.append("Custom")
   return list
 
 # h = clMakePressNut('M5','1')
@@ -762,10 +765,29 @@ class FSPcbStandOffObject(FSBaseObject):
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Standoff thread diameter").diameter = PSDiameters
     widths = psGetAllWidths(PSMTable ,PSDiameters[1])
     obj.addProperty("App::PropertyEnumeration", "width", "Parameters", "Standoff body width").width = widths
-    obj.addProperty("App::PropertyEnumeration","length","Parameters","Standoff length").length = psGetAllLengths(PSMTable, PSLengths ,PSDiameters[1], widths[0])
+    self.VerifyMissingAttrs(obj, PSDiameters[1], widths[0])
+    #obj.addProperty("App::PropertyEnumeration","length","Parameters","Standoff length").length = psGetAllLengths(PSMTable, PSLengths ,PSDiameters[1], widths[0])
     obj.invert = FastenerBase.FSLastInvert
     obj.Proxy = self
- 
+
+  def VerifyMissingAttrs(self, obj, diam, width):
+    if (not hasattr(obj, 'lengthCustom')):
+      slens = psGetAllLengths(PSMTable, PSLengths ,diam, width)
+      if (hasattr(obj, 'length')):
+        origLen = obj.length
+        obj.length = slens
+        obj.length = origLen
+      else:
+        obj.addProperty("App::PropertyEnumeration","length","Parameters","Standoff length").length = slens
+      obj.addProperty("App::PropertyLength","lengthCustom","Parameters","Custom length").lengthCustom = slens[0]
+
+  def ActiveLength(self, obj):
+    if not hasattr(obj,'length'):
+      return '0'
+    if obj.length == 'Custom':
+      return str(float(obj.lengthCustom)).rstrip("0").rstrip('.')
+    return obj.length
+
   def execute(self, fp):
     '''"Print a short message when doing a recomputation, this method is mandatory" '''
     
@@ -775,11 +797,15 @@ class FSPcbStandOffObject(FSBaseObject):
     except:
       baseobj = None
       shape = None
-    
-    if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter or self.width != fp.width or self.length != fp.length):
-      diameterchange = False      
-      if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
-        diameterchange = True      
+  
+    # for backward compatibility: add missing attribute if needed
+    self.VerifyMissingAttrs(fp, fp.diameter, fp.width)
+ 
+    diameterchange = not (hasattr(self,'diameter')) or self.diameter != fp.diameter
+    widthchange = not(hasattr(self,'width')) or self.width != fp.width
+    lengthchange = not(hasattr(self,'length')) or self.length != fp.length
+    cutstlenchange = not(hasattr(self,'lengthCustom')) or self.lengthCustom != fp.lengthCustom
+    if (diameterchange or widthchange or lengthchange or cutstlenchange):
       if fp.diameter == 'Auto':
         d = FastenerBase.FSAutoDiameterM(shape, PSMTable, 1)
         diameterchange = True      
@@ -790,8 +816,7 @@ class FSPcbStandOffObject(FSBaseObject):
         diameterchange = True      
         fp.diameter = d
 
-      widthchange = False
-      if diameterchange or not(hasattr(self,'width')) or self.width != fp.width:
+      if widthchange or diameterchange:
         widthchange = True
         if diameterchange:
           allwidth = psGetAllWidths(PSMTable, d)
@@ -801,20 +826,25 @@ class FSPcbStandOffObject(FSBaseObject):
           else:
             fp.width = allwidth[0]
 
-      l = psFindClosest(PSMTable, PSLengths ,d, fp.width, fp.length)
+      if fp.length == 'Custom':
+        l = str(float(fp.lengthCustom)).rstrip("0").rstrip('.')
+      else:
+        l = psFindClosest(PSMTable, PSLengths ,d, fp.width, fp.length)
 
-      if l != fp.length or diameterchange or widthchange:
-        if diameterchange or widthchange:
-          fp.length = psGetAllLengths(PSMTable, PSLengths ,fp.diameter, fp.width)
-        fp.length = l
+        if l != fp.length or diameterchange or widthchange:
+          if diameterchange or widthchange:
+            fp.length = psGetAllLengths(PSMTable, PSLengths ,fp.diameter, fp.width)
+          fp.length = l
+        fp.lengthCustom = l
 
       s = psMakeStandOff(d, l, fp.width)
         
       self.diameter = fp.diameter
       self.length = fp.length
       self.width = fp.width
+      self.lengthCustom = fp.lengthCustom
       FastenerBase.FSLastInvert = fp.invert
-      fp.Label = fp.diameter + 'x' + fp.width + 'x' + fp.length + '-Standoff'
+      fp.Label = fp.diameter + 'x' + fp.width + 'x' + l + '-Standoff'
       fp.Shape = s
     else:
       FreeCAD.Console.PrintLog("Using cached object\n")

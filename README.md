@@ -121,6 +121,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes
+* V0.3.32  03 Sep 2020:  Added custom screw length for pcb standoffs
 * V0.3.31  03 Sep 2020:  Added custom length for pcb standoffs
 * V0.3.30  04 Aug 2020:  Added inch fasteners, Thank you @slowinternets !
 * V0.3.22  01 Jul 2020:  Fix nut thread creation, Thank you @ulrich1a !

@@ -686,27 +686,27 @@ def psMakeFace(m, sw, lo, l, id):
   fm.AddPoint(0, -lo)
   return fm.GetFace()
 
-def psMakeStandOff(diam, len, width):
-  FreeCAD.Console.PrintLog("Making PCB standof" + diam + "x" + len + "x" + width + "\n")
+def psMakeStandOff(diam, len, width, screwlen):
+  FreeCAD.Console.PrintLog("Making PCB standof" + diam + "x" + len + "x" + width + "x" + str(screwlen) + "\n")
   if not(diam in PSMTable):
     return None
   lenKey = diam + "x" + width
   if not(lenKey in PSLengths):
     return None
 
-  (key, shape) = FastenerBase.FSGetKey('PcbStandOff', diam, width, len)
+  (key, shape) = FastenerBase.FSGetKey('PcbStandOff', diam, width, len, screwlen)
   if shape != None:
     return shape
   
   tlo, id, sw = PSMTable[diam]
 
   m = FastenerBase.MToFloat(diam)
-  f = psMakeFace(m, width, tlo, len, id)
+  f = psMakeFace(m, width, screwlen, len, id)
   p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
   w = float(width)
   l = float(len)
-  htool = screwMaker.makeHextool(w, l + tlo, w * 2)
-  htool.translate(Base.Vector(0.0,0.0,-tlo - 0.1))
+  htool = screwMaker.makeHextool(w, l + screwlen, w * 2)
+  htool.translate(Base.Vector(0.0,0.0,-screwlen - 0.1))
   shape = p.cut(htool)
   FastenerBase.FSCache[key] = shape
   return shape
@@ -739,6 +739,8 @@ def psGetAllWidths(mtable, diam):
 def psGetAllLengths(mtable, ltable, diam, width):
   if not(diam in mtable):
     return None
+  if not (width in mtable[diam][2]):
+    width = mtable[diam][2][0]
   lenKey = diam + "x" + width
   if not(lenKey in ltable):
     return None
@@ -776,10 +778,15 @@ class FSPcbStandOffObject(FSBaseObject):
       if (hasattr(obj, 'length')):
         origLen = obj.length
         obj.length = slens
-        obj.length = origLen
+        if not (origLen in slens):
+          obj.length = slens[0]
+        else:
+          obj.length = origLen
       else:
         obj.addProperty("App::PropertyEnumeration","length","Parameters","Standoff length").length = slens
       obj.addProperty("App::PropertyLength","lengthCustom","Parameters","Custom length").lengthCustom = slens[0]
+    if (not hasattr(obj, 'screwLength')):
+      obj.addProperty("App::PropertyLength","screwLength","Parameters","Thread length").screwLength = PSMTable[diam][0]
 
   def ActiveLength(self, obj):
     if not hasattr(obj,'length'):
@@ -805,7 +812,8 @@ class FSPcbStandOffObject(FSBaseObject):
     widthchange = not(hasattr(self,'width')) or self.width != fp.width
     lengthchange = not(hasattr(self,'length')) or self.length != fp.length
     cutstlenchange = not(hasattr(self,'lengthCustom')) or self.lengthCustom != fp.lengthCustom
-    if (diameterchange or widthchange or lengthchange or cutstlenchange):
+    screwlenchange = not(hasattr(self,'screwLength')) or self.screwLength != fp.screwLength
+    if (diameterchange or widthchange or lengthchange or cutstlenchange or screwlenchange):
       if fp.diameter == 'Auto':
         d = FastenerBase.FSAutoDiameterM(shape, PSMTable, 1)
         diameterchange = True      
@@ -839,13 +847,19 @@ class FSPcbStandOffObject(FSBaseObject):
             fp.length = psGetAllLengths(PSMTable, PSLengths ,fp.diameter, fp.width)
           fp.length = l
         fp.lengthCustom = l
+        
+      if diameterchange:
+        fp.screwLength = PSMTable[fp.diameter][0]
+      elif fp.screwLength < 2:
+        fp.screwLength = 2
 
-      s = psMakeStandOff(d, l, fp.width)
+      s = psMakeStandOff(d, l, fp.width, float(fp.screwLength))
         
       self.diameter = fp.diameter
       self.length = fp.length
       self.width = fp.width
       self.lengthCustom = fp.lengthCustom
+      self.screwLength = fp.screwLength
       FastenerBase.FSLastInvert = fp.invert
       fp.Label = fp.diameter + 'x' + fp.width + 'x' + l + '-Standoff'
       fp.Shape = s

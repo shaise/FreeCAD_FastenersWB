@@ -177,7 +177,7 @@ class Ui_ScrewMaker(object):
     self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
     self.ScrewType = QtGui.QComboBox(self.layoutWidget1)
     self.ScrewType.setObjectName(_fromUtf8("ScrewType"))
-    for i in range(57):
+    for i in range(60):
       self.ScrewType.addItem(_fromUtf8(""))  # 0
 
     self.verticalLayout.addWidget(self.ScrewType)
@@ -290,9 +290,9 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(28, _translate("ScrewMaker", "ISO4033: Hexagon nuts, Style 2", None))
     self.ScrewType.setItemText(29, _translate("ScrewMaker", "ISO4035: Hexagon thin nuts, chamfered", None))
     self.ScrewType.setItemText(30, _translate("ScrewMaker", "EN1661: Hexagon nuts with flange", None))
-    self.ScrewType.setItemText(31, _translate("ScrewMaker", "ScrewTap: ISO Screw-Tap", None))
-    self.ScrewType.setItemText(32, _translate("ScrewMaker", "ScrewDie: ISO Screw-Die", None))
-    self.ScrewType.setItemText(33, _translate("ScrewMaker", "ThreadedRod: DIN 975 Threaded Rod", None))
+    self.ScrewType.setItemText(31, _translate("ScrewMaker", "ISOScrewTap: ISO Screw-Tap", None))
+    self.ScrewType.setItemText(32, _translate("ScrewMaker", "ISOScrewDie: ISO Screw-Die", None))
+    self.ScrewType.setItemText(33, _translate("ScrewMaker", "ISOThreadedRod: DIN 975 Threaded Rod", None))
     self.ScrewType.setItemText(34, _translate("ScrewMaker", "DIN7984: Hexagon socket head cap screws with low head", None))
     self.ScrewType.setItemText(35, _translate("ScrewMaker", "ISO7379: Hexagon socket head shoulder screws", None))
     self.ScrewType.setItemText(36, _translate("ScrewMaker", "ISO4026: Hexagon socket set screws with flat point", None))
@@ -316,6 +316,9 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(54, _translate("ScrewMaker", "ASMEB18.21.1.12A: UN washers, narrow series", None))
     self.ScrewType.setItemText(55, _translate("ScrewMaker", "ASMEB18.21.1.12B: UN washers, regular series", None))
     self.ScrewType.setItemText(56, _translate("ScrewMaker", "ASMEB18.21.1.12C: UN washers, wide series", None))
+    self.ScrewType.setItemText(57, _translate("ScrewMaker", "UNCScrewTap: UNC Screw-Tap", None))
+    self.ScrewType.setItemText(58, _translate("ScrewMaker", "UNCScrewDie: UNC Screw-Die", None))
+    self.ScrewType.setItemText(59, _translate("ScrewMaker", "UNCThreadedRod: UNC Threaded Rod", None))
     
 
     self.NominalDiameter.setItemText(0, _translate("ScrewMaker", "M1.6", None))
@@ -429,7 +432,8 @@ class Ui_ScrewMaker(object):
     ST_text = str(self.ScrewType.currentText())
     ST_text = ST_text.split(':')[0]
 
-    if ST_text == ('ScrewTap' or 'ScrewDie' or 'ThreadedRod'):
+    if ST_text == ('ISOScrewTap' or 'ISOScrewDie' or 'ISOThreadedRod' \
+                or 'UNCScrewTap' or 'UNCScrewDie' or 'UNCThreadedRod'):
       if NL_text == 'User':
         textValue = self.UserLen.property("text")
         stLength = FreeCAD.Units.parseQuantity(textValue).Value
@@ -725,16 +729,28 @@ class Screw(object):
       table = FsData["asmeb18.21.1.12def"]
       Type_text = 'Washer'
 
-    if ST_text == 'ScrewTap':
+    if ST_text == 'ISOScrewTap':
       table = FsData["tuningTable"]
       Type_text = 'Screw-Tap'
 
-    if ST_text == 'ScrewDie':
+    if ST_text == 'ISOScrewDie':
       table = FsData["tuningTable"]
       Type_text = 'Screw-Die'
 
-    if ST_text == 'ThreadedRod':
+    if ST_text == 'ISOThreadedRod':
       table = FsData["tuningTable"]
+      Type_text = 'Threaded-Rod'
+
+    if ST_text == 'UNCScrewTap':
+      table = FsData["threadPitchUNC"]
+      Type_text = 'Screw-Tap'
+
+    if ST_text == 'UNCScrewDie':
+      table = FsData["threadPitchUNC"]
+      Type_text = 'Screw-Die'
+
+    if ST_text == 'UNCThreadedRod':
+      table = FsData["threadPitchUNC"]
       Type_text = 'Threaded-Rod'
 
     if ND_text not in table:
@@ -915,8 +931,10 @@ class Screw(object):
            table = FsData["asmeb18.6.3.1adef"]
         if ST_text[:-1] == 'ASMEB18.21.1.12':
            table = FsData["asmeb18.21.1.12def"]
-        if (ST_text == 'ScrewTap') or (ST_text == 'ScrewDie') or (ST_text == 'ThreadedRod'):
+        if (ST_text == 'ISOScrewTap') or (ST_text == 'ISOScrewDie') or (ST_text == 'ISOThreadedRod'):
            table = FsData["tuningTable"]
+        if (ST_text == 'UNCScrewTap') or (ST_text == 'UNCScrewDie') or (ST_text == 'UNCThreadedRod'):
+           table = FsData["threadPitchUNC"]
         if ND_text not in table:
            FreeCAD.Console.PrintMessage("Combination of type "+ST_text \
               + " and diameter " + ND_text +" not available!" + "\n")
@@ -992,16 +1010,16 @@ class Screw(object):
           screw = self.makeEN1661(ND_text)
           Type_text = 'Nut'
           done = True
-        if ST_text == 'ScrewTap':
-          screw = self.makeScrewTap(ND_text,l)
+        if (ST_text == 'ISOScrewTap') or (ST_text == 'UNCScrewTap'):
+          screw = self.makeScrewTap(ST_text, ND_text,l)
           Type_text = 'Screw-Tap'
           done = True
-        if ST_text == 'ScrewDie':
-          screw = self.makeScrewDie(ND_text,l)
+        if (ST_text == 'ISOScrewDie') or (ST_text == 'UNCScrewDie'):
+          screw = self.makeScrewDie(ST_text, ND_text,l)
           Type_text = 'Screw-Die'
           done = True
-        if ST_text == 'ThreadedRod':
-          screw = self.makeThreadedRod(ND_text,l)
+        if (ST_text == 'ISOThreadedRod') or (ST_text == 'UNCThreadedRod'):
+          screw = self.makeThreadedRod(ST_text, ND_text,l)
           Type_text = 'Threaded-Rod'
           done = True
         if not done:
@@ -3872,10 +3890,12 @@ class Screw(object):
   # make ISO 7380-1 Button head Screw
   # make ISO 7380-2 Button head Screw with collar
   # make DIN 967 cross recessed pan head Screw with collar
-  def makeScrewTap(self, ThreadType ='M6',l=25.0):
+  def makeScrewTap(self, SType = "ISOScrewTap", ThreadType ='M6',l=25.0):
     dia = self.getDia(ThreadType, True)
-
-    P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+    if SType == "ISOScrewTap":
+      P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+    elif SType == "UNCScrewTap":
+      P = FsData["threadPitchUNC"][ThreadType][0]
 
     residue, turns = math.modf((l)/P)
     turns += 1.0
@@ -3906,9 +3926,12 @@ class Screw(object):
 
 
   # make object to cut external threads on a shaft
-  def makeScrewDie(self, ThreadType = 'M6', l=25.0):
+  def makeScrewDie(self, SType = "ISOScrewDie", ThreadType = 'M6', l=25.0):
     dia = self.getDia(ThreadType, False)
-    P, tunIn, tunEx = FsData["tuningTable"][ThreadType]
+    if SType == "ISOScrewDie":
+      P, tunIn, tunEx = FsData["tuningTable"][ThreadType]
+    elif SType == "UNCScrewDie":
+      P = FsData["threadPitchUNC"][ThreadType][0]
     if self.rThread:
       cutDia = dia*0.75
     else:
@@ -3936,9 +3959,12 @@ class Screw(object):
 
 
   # make a length of standard threaded rod
-  def makeThreadedRod(self, ThreadType = 'M6', l=25.0):
+  def makeThreadedRod(self, SType = "ISOThreadedRod", ThreadType = 'M6', l=25.0):
     dia = self.getDia(ThreadType, False)
-    P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+    if SType == "ISOThreadedRod":
+      P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+    elif SType == "UNCThreadedRod":
+      P = FsData["threadPitchUNC"][ThreadType][0]
     dia = dia*1.01
     cham = 0.125*dia
     p0 = Base.Vector(0,0,0)

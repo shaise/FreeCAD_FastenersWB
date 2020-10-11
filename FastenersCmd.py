@@ -55,6 +55,10 @@ class FSScrewObject(FSBaseObject):
       obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.Proxy = self
     
+    if (self.itemText == 'Other'):
+      obj.addProperty("App::PropertyLength", "length", "Parameters", "Object Length").length = '20 mm'
+    
+    
   def inswap(self, inpstr):
     if '″' in inpstr:
       return inpstr.replace('″', 'in')
@@ -122,7 +126,7 @@ class FSScrewObject(FSBaseObject):
     else:
       d = fp.diameter
     
-    if hasattr(fp,'length'):
+    if hasattr(fp,'length') and self.itemText != 'Other':
       if (fp.length !=  self.length):
         if (fp.length != 'Custom'):
           fp.lengthCustom = FastenerBase.LenStr2Num(fp.length) #***
@@ -146,6 +150,8 @@ class FSScrewObject(FSBaseObject):
         else:
           fp.length = l
           fp.lengthCustom = l
+    elif self.itemText == 'Other':
+      l = str(fp.length.getValueAs("mm"))
     else:
       l = 1
       
@@ -167,8 +173,12 @@ class FSScrewObject(FSBaseObject):
     self.matchOuter = fp.matchOuter
     if hasattr(fp,'length'):
       self.length = l
-      self.customlen = float(fp.lengthCustom)
-      fp.Label = fp.diameter + 'x' + l + '-' + self.itemText
+      if hasattr(fp, 'lengthcustom'):
+        self.customlen = float(fp.lengthCustom)
+      if self.itemText == "Other":
+        fp.Label = fp.diameter + 'x' + l + '-' + self.type
+      else:
+        fp.Label = fp.diameter + 'x' + l + '-' + self.itemText
     else:
       fp.Label = fp.diameter + '-' + self.itemText
     
@@ -326,6 +336,13 @@ FSAddScrewCommand("ASMEB18.6.3.1A", "ASME B18.6.3 UNC slotted countersunk flat h
 FSAddScrewCommand("ASMEB18.21.1.12A", "ASME B18.21.1 UN washers, narrow series", "Washer")
 FSAddScrewCommand("ASMEB18.21.1.12B", "ASME B18.21.1 UN washers, regular series", "Washer")
 FSAddScrewCommand("ASMEB18.21.1.12C", "ASME B18.21.1 UN washers, wide series", "Washer")
+FSAddScrewCommand("ISOScrewTap", "Object for cutting ISO standard coarse internal threads in a hole", "Other")
+FSAddScrewCommand("ISOScrewDie", "Object for cutting ISO standard coarse external threads on a shaft", "Other")
+FSAddScrewCommand("ISOThreadedRod", "Threaded rod with ISO standard coarse threads", "Other")
+FSAddScrewCommand("UNCScrewTap", "Object for cutting UN standard coarse internal threads in a hole", "Other")
+FSAddScrewCommand("UNCScrewDie", "Object for cutting UN standard coarse external threads on a shaft", "Other")
+FSAddScrewCommand("UNCThreadedRod", "Threaded rod with UN standard coarse threads", "Other")
+
 
 
 
@@ -502,8 +519,8 @@ class FSScrewRodCommand:
   def IsActive(self):
     return Gui.ActiveDocument != None
 
-Gui.addCommand("FSScrewTap",FSScrewRodCommand())
-FastenerBase.FSCommands.append("FSScrewTap", "screws", "misc")
+#Gui.addCommand("FSScrewTap",FSScrewRodCommand())
+#FastenerBase.FSCommands.append("FSScrewTap", "screws", "misc")
 
 
 
@@ -600,8 +617,8 @@ class FSScrewDieCommand:
   def IsActive(self):
     return Gui.ActiveDocument != None
 
-Gui.addCommand("FSScrewDie",FSScrewDieCommand())
-FastenerBase.FSCommands.append("FSScrewDie", "screws", "misc")
+#Gui.addCommand("FSScrewDie",FSScrewDieCommand())
+#FastenerBase.FSCommands.append("FSScrewDie", "screws", "misc")
 
 
 
@@ -699,16 +716,14 @@ class FSThreadedRodCommand:
   def IsActive(self):
     return Gui.ActiveDocument != None
 
-Gui.addCommand("FSThreadedRod",FSThreadedRodCommand())
-FastenerBase.FSCommands.append("FSThreadedRod", "screws", "misc")
+#Gui.addCommand("FSThreadedRod",FSThreadedRodCommand())
+#FastenerBase.FSCommands.append("FSThreadedRod", "screws", "misc")
 
 
 ## add fastener types
 FastenerBase.FSAddFastenerType("Screw")
 FastenerBase.FSAddFastenerType("Washer", False)
 FastenerBase.FSAddFastenerType("Nut", False)
-FastenerBase.FSAddFastenerType("ScrewTap", True, False)
-FastenerBase.FSAddFastenerType("ScrewDie", True, False)
-FastenerBase.FSAddFastenerType("ThreadedRod", True, False)
+FastenerBase.FSAddFastenerType("Other", True, False)
 for item in ScrewMaker.screwTables:
   FastenerBase.FSAddItemsToType(ScrewMaker.screwTables[item][0], item)

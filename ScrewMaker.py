@@ -168,9 +168,12 @@ screwTables = {
     'ASMEB18.21.1.12A': ("Washer", FsData["asmeb18.21.1.12def"], None, None, -1, 0),
     'ASMEB18.21.1.12B': ("Washer", FsData["asmeb18.21.1.12def"], None, None, -1, 0),
     'ASMEB18.21.1.12C': ("Washer", FsData["asmeb18.21.1.12def"], None, None, -1, 0),
-    'ScrewTap': ("ScrewTap", FsData["tuningTable"], None,         None,           -1, 0),
-    'ScrewDie': ("ScrewDie", FsData["tuningTable"], None,         None,           -1, 0),
-    'ThreadedRod': ("ThreadedRod", FsData["tuningTable"], None,   None,           -1, 0),
+    'ISOScrewTap': ("Other", FsData["tuningTable"], None,         None,           -1, 0),
+    'ISOScrewDie': ("Other", FsData["tuningTable"], None,         None,           -1, 0),
+    'ISOThreadedRod': ("Other", FsData["tuningTable"], None,   None,           -1, 0),
+    'UNCScrewTap': ("Other", FsData["threadPitchUNC"], None,         None,           -1, 0),
+    'UNCScrewDie': ("Other", FsData["threadPitchUNC"], None,         None,           -1, 0),
+    'UNCThreadedRod': ("Other", FsData["threadPitchUNC"], None,   None,           -1, 0),
     
     # * diam pos = the position within the def table to be used for auto diameter selection, -1 = get size from Mxx
     # * K Pos = the position within the def table to be used for countersunk holes creation

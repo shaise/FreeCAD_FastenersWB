@@ -164,7 +164,7 @@ def FSGetKey(*args):
   
 # removes all cached fasteners with real thread
 def FSCacheRemoveThreaded():
-  for key in FSCache.keys():
+  for key in list(FSCache.keys()):
     if key.endswith('|real'):
       FreeCAD.Console.PrintLog("Removing cached shape: " + key + "\n")
       del FSCache[key]

@@ -156,7 +156,7 @@ class FSScrewObject(FSBaseObject):
       threadType = 'real'
       
     (key, s) = FastenerBase.FSGetKey(self.itemText, fp.type, d, l, threadType)
-    if s == None:
+    if s is None:
       s = screwMaker.createFastener(fp.type, d, l, threadType, True)
       FastenerBase.FSCache[key] = s
     else:
@@ -465,7 +465,7 @@ class FSScrewRodObject(FSBaseObject):
       threadType = 'real'
       
     (key, s) = FastenerBase.FSGetKey(self.itemText, d, str(l), threadType)
-    if s == None:
+    if s is None:
       s = screwMaker.createScrew(self.type, d, str(l), threadType, True)
       FastenerBase.FSCache[key] = s
     else:
@@ -563,7 +563,7 @@ class FSScrewDieObject(FSBaseObject):
       threadType = 'real'
       
     (key, s) = FastenerBase.FSGetKey(self.itemText, d, str(l), threadType)
-    if s == None:
+    if s is None:
       s = screwMaker.createScrew(self.type, d, str(l), threadType, True)
       FastenerBase.FSCache[key] = s
     else:
@@ -662,7 +662,7 @@ class FSThreadedRodObject(FSBaseObject):
       threadType = 'real'
       
     (key, s) = FastenerBase.FSGetKey(self.itemText, d, str(l), threadType)
-    if s == None:
+    if s is None:
       s = screwMaker.createScrew(self.type, d, str(l), threadType, True)
       FastenerBase.FSCache[key] = s
     else:

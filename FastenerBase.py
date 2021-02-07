@@ -142,7 +142,7 @@ def FSGetToolbarItem(tname, iname):
     if isinstance(c, QtGui.QToolBar) and c.windowTitle() == tname:
       tb = c
       break
-  if tb == None:
+  if tb is None:
     return None
   for c in tb.children():
     if isinstance(c, QtGui.QToolButton) and c.text() == iname:
@@ -269,7 +269,7 @@ class FSFaceMaker:
     
   def AddPoint(self, x, z):
     curPoint = FreeCAD.Base.Vector(x,0,z)
-    if (self.firstPoint == None):
+    if (self.firstPoint is None):
       self.firstPoint = curPoint
     else:
       self.edges.append(Part.makeLine(self.lastPoint, curPoint))
@@ -409,7 +409,7 @@ def FSGetAttachableSelections():
         if not(hasattr(edge.Curve,"Center")):
           continue
         edgeName = GetEdgeName(obj.Shape, edge)
-        if edgeName == None or edgeName in edgestable:
+        if edgeName is None or edgeName in edgestable:
           continue
         asels.append((obj, [edgeName]))
         edgestable[edgeName] = 1
@@ -530,7 +530,7 @@ class FSMoveCommand:
  
   def Activated(self):
     selObj = self.GetSelection()
-    if selObj[0] == None:
+    if selObj[0] is None:
       return
     selObj[0].baseObject = selObj[1]
     FreeCAD.ActiveDocument.recompute()
@@ -607,7 +607,7 @@ class FSToggleMatchTypeCommand:
     global FSMatchOuter
     if not(hasattr(self, 'toolbarItem')):
       self.toolbarItem = FSGetToolbarItem("FS Commands", self.menuText)
-    if self.toolbarItem == None:
+    if self.toolbarItem is None:
       return
     FSMatchOuter = not(FSMatchOuter)
     self.UpdateIcon()

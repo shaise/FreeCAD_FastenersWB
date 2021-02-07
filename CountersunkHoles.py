@@ -278,7 +278,7 @@ class Ui_DlgCountersunktHoles(object):
         for i in range (nedges):
             diam = dm.data(dm.index(i,1))
             #FreeCAD.Console.PrintLog("Looking for diam:" + str(i) + "," + str(diam) + "\n")
-            if diam == None:
+            if diam is None:
                 continue
             diam1 = self.GetClosest(diam)
             #FreeCAD.Console.PrintLog(diam + "->" + diam1 + "\n")
@@ -384,7 +384,7 @@ class FSDiameterModel(QtGui.QStandardItemModel):
 def FSIsValidEdge(obj, edge):
   #FreeCAD.Console.PrintLog("IsValid " + str(obj) + ":" + str(edge) + "\n")
   shape = obj.Shape.getElement(edge)
-  if shape == None:
+  if shape is None:
     return False
   if not(hasattr(shape,"Curve")):
     return False
@@ -396,7 +396,7 @@ def FSIsValidEdge(obj, edge):
 class FSSelectionFilter:
   ''' A selection filter that let the user select only the edges that are circular '''
   def allow(self,doc,obj,sub):
-    if obj == None or sub == None or len(sub) == 0:
+    if obj is None or sub is None or len(sub) == 0:
       return True
     if sub[0:4] == 'Face':
       return True
@@ -445,7 +445,7 @@ import sys
 class FSTaskFilletDialog:
     def __init__(self, obj):
         self.object = obj
-        if obj == None:
+        if obj is None:
             self.baseObj = Gui.Selection.getSelection()[0]
             edgelist = []
         else:
@@ -469,7 +469,7 @@ class FSTaskFilletDialog:
         self.RefreshSelection()
         
     def accept(self):
-        if (self.object == None):
+        if (self.object is None):
           self.object = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Countersunk")
           FSCountersunkObject(self.object, self.baseObj)
           #self.object.ViewObject.Proxy = 0
@@ -504,7 +504,7 @@ class FSTaskFilletDialog:
         obj = self.baseObj
         if objname == obj.Name:
             face = obj.Shape.getElement(name)
-            if face == None:
+            if face is None:
                 return
             edges = []
             for edge in face.Edges:

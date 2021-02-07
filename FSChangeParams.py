@@ -401,7 +401,7 @@ class FSChangeParamCommand:
       #FreeCAD.Console.PrintLog(typename + "\n")
       if FastenerBase.FSRemoveDigits(sel[0].Name) == typename:
         self.type = typename
-    if self.type == None:
+    if self.type is None:
       return False
     for obj in sel:
       if FastenerBase.FSRemoveDigits(obj.Name) != self.type:

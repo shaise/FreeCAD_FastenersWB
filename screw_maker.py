@@ -4345,7 +4345,7 @@ class Screw(object):
 
   def getLength(self, LenStr):
     # washers and nuts pass an int (1), for their unused length attribute
-    # handle this circumstance if neccessary
+    # handle this circumstance if necessary
     if type(LenStr) == int:
       return LenStr
     # otherwise convert the string to a number using predefined rules

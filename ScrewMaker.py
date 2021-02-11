@@ -340,6 +340,6 @@ class FSScrewMaker(Screw):
 ScrewMakerInstance = None      
 def Instance():
   global ScrewMakerInstance
-  if ScrewMakerInstance == None:
+  if ScrewMakerInstance is None:
     ScrewMakerInstance = FSScrewMaker()
   return ScrewMakerInstance

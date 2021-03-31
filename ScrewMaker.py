@@ -1,4 +1,4 @@
-﻿# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
 # A Wrapper to Ulrich's screw_maker macro
 
@@ -134,6 +134,7 @@ screwTables = {
     'ISO14583': ("Screw",  FsData["iso14583def"],  FsData["iso7045length"],  FsData["iso7046range"],  -1, 0),
     'ISO14584': ("Screw",  FsData["iso14584def"],  FsData["iso7045length"],  FsData["iso14584range"],  3, 5),
     'DIN7984':  ("Screw",  FsData["din7984def"],   FsData["din7984length"],  FsData["din7984range"], -1, 0),
+    'DIN6912':  ("Screw",  FsData["din6912def"],   FsData["din6912length"],  FsData["din6912range"], -1, 0),
     'ISO7089':  ("Washer", FsData["iso7089def"],   None,          None,           -1, 0),
     'ISO7090':  ("Washer", FsData["iso7090def"],   None,          None,           -1, 0),
     'ISO7092':  ("Washer", FsData["iso7092def"],   None,          None,           -1, 0),

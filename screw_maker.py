@@ -294,6 +294,7 @@ class Ui_ScrewMaker(object):
     self.ScrewType.setItemText(32, _translate("ScrewMaker", "ScrewDie: ISO Screw-Die", None))
     self.ScrewType.setItemText(33, _translate("ScrewMaker", "ThreadedRod: DIN 975 Threaded Rod", None))
     self.ScrewType.setItemText(34, _translate("ScrewMaker", "DIN7984: Hexagon socket head cap screws with low head", None))
+    self.ScrewType.setItemText(34, _translate("ScrewMaker", "DIN6912: Hexagon socket head cap screws with low head, with centre", None))
     self.ScrewType.setItemText(35, _translate("ScrewMaker", "ISO7379: Hexagon socket head shoulder screws", None))
     self.ScrewType.setItemText(36, _translate("ScrewMaker", "ISO4026: Hexagon socket set screws with flat point", None))
     self.ScrewType.setItemText(37, _translate("ScrewMaker", "ISO4027: Hexagon socket set screws with cone point", None))
@@ -655,6 +656,12 @@ class Screw(object):
       tab_range = FsData["din7984range"]
       Type_text = 'Screw'
 
+    if ST_text == 'DIN6912':
+      table = FsData["din6912def"]
+      tab_len = FsData["din6912length"]
+      tab_range = FsData["din6912range"]
+      Type_text = 'Screw'
+
     if ST_text == 'iso7379':
       table = FsData["iso7379def"]
       tab_len = FsData["iso7379length"]
@@ -889,6 +896,8 @@ class Screw(object):
            table = FsData["en1661def"]
         if ST_text == 'DIN7984':
            table = FsData["din7984def"]
+        if ST_text == 'DIN6912':
+           table = FsData["din6912def"]
         if ST_text == 'ISO7379':
            table = FsData["iso7379def"]
         if ST_text == 'ASMEB18.2.1.6':
@@ -942,7 +951,7 @@ class Screw(object):
           Type_text = 'Screw'
           done = True
         if (ST_text == 'ISO4762') or (ST_text == 'ISO14579') or (ST_text == 'DIN7984') or \
-          (ST_text == 'ASMEB18.3.1A'):
+           (ST_text == 'DIN6912') or (ST_text == 'ASMEB18.3.1A'):
           screw = self.makeIso4762(ST_text, ND_text,l)
           Type_text = 'Screw'
           done = True
@@ -2408,6 +2417,18 @@ class Screw(object):
       edge1 = Part.Wire([edgeCham0,edgeCham1])
       PntH1 = Base.Vector(e_cham/1.99,0.0, 2.0*k)
 
+    elif SType == 'DIN6912':
+      P, b, dk_max, da, ds_min, e, k, r, s_mean, t, t2, v, dw = FsData["din6912def"][ThreadType]
+      e_cham = 2.0 * s_mean / math.sqrt(3.0)
+      #Head Points 45° countersunk
+      Pnt0 = Base.Vector(0.0,0.0,k-e_cham/1.99/2.0) #Center Point for countersunk
+      PntFlat = Base.Vector(e_cham/1.99/2.0,0.0,k-e_cham/1.99/2.0) # End of flat part
+      Pnt1 = Base.Vector(e_cham/1.99,0.0,k)     #countersunk edge at head
+      edgeCham0 = Part.makeLine(Pnt0,PntFlat)
+      edgeCham1 = Part.makeLine(PntFlat,Pnt1)
+      edge1 = Part.Wire([edgeCham0,edgeCham1])
+      PntH1 = Base.Vector(e_cham/1.99,0.0, 2.0*k)
+
     elif (SType == 'ISO4762') or (SType == 'ASMEB18.3.1A'):
       if SType == 'ISO4762':
         P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = FsData["iso4762def"][ThreadType]
@@ -2557,10 +2578,12 @@ class Screw(object):
     #FreeCAD.Console.PrintMessage("der Kopf mit revolve: " + str(dia) + "\n")
     headFaces = headShell.Faces
 
-
+    # Hex cutout
     if SType == 'ISO14579':
       #recess = self.makeIso10664(tt, t, k) # hexalobular recess
       recess, recessShell = self.makeIso10664_3(tt, t, k) # hexalobular recess
+    elif SType == 'DIN6912':
+      recess, recessShell = self.makeAllen2(s_mean, t, k, t2) # hex with center
     else:
       recess, recessShell = self.makeAllen2(s_mean, t, k )
 
@@ -4139,48 +4162,74 @@ class Screw(object):
 
   # Allen recess cutting tool
   # Parameters used: s_mean, k, t_min, dk
-  def makeAllen2(self, s_a = 3.0, t_a = 1.5, h_a = 2.0 ):
+  def makeAllen2(self, s_a = 3.0, t_a = 1.5, h_a = 2.0, t_2 = 0.0 ):
     # h_a  top height location of cutting tool
     # s_a hex width
     # t_a dept of the allen
-    # dk_a diameter not needed anymore
-
-    e_cham = 2.0 * s_a / math.sqrt(3.0)
-    depth = s_a / 3.0
-    #FreeCAD.Console.PrintMessage("allen tool: " + str(s_a) + "\n")
+    # t_2 depth of center-bore
 
 
-    # Points for an arc at the peak of the cone
-    rCone = e_cham/4.0
-    hyp = (depth*math.sqrt(e_cham**2/depth**2+1.0)*rCone)/e_cham
-    radAlpha = math.atan(e_cham/depth)
-    radBeta = math.pi/2.0 - radAlpha
-    zrConeCenter=hyp - depth -t_a
-    xArc1=math.sin(radBeta)*rCone
-    zArc1=zrConeCenter - math.cos(radBeta)*rCone
-    xArc2=math.sin(radBeta/2.0)*rCone
-    zArc2=zrConeCenter - math.cos(radBeta/2.0)*rCone
-    zArc3 = zrConeCenter - rCone
-
-    # The round part of the cutting tool, we need for the allen hex recess
-    PntH1 = Base.Vector(0.0,0.0,-t_a-depth-depth)
-    PntH2 = Base.Vector(e_cham,0.0,-t_a-depth-depth)
-    PntH3 = Base.Vector(e_cham,0.0,-t_a+depth)
-    PntH4 = Base.Vector(0.0,0.0,-t_a-depth)
-
-    PntA1 = Base.Vector(xArc1,0.0,zArc1)
-    PntA2 = Base.Vector(xArc2,0.0,zArc2)
-    PntA3 = Base.Vector(0.0,0.0,zArc3)
-
-    edgeA1 = Part.Arc(PntA1,PntA2,PntA3).toShape()
-
-    edgeH1 = Part.makeLine(PntH1,PntH2)
-    edgeH2 = Part.makeLine(PntH2,PntH3)
-    edgeH3 = Part.makeLine(PntH3,PntA1)
-    edgeH4 = Part.makeLine(PntA3,PntH1)
-
-    hWire=Part.Wire([edgeH1,edgeH2,edgeH3,edgeA1,edgeH4])
-    # Part.show(hWire)
+    if t_2 == 0.0:
+      depth = s_a / 3.0
+      e_cham = 2.0 * s_a / math.sqrt(3.0)
+      #FreeCAD.Console.PrintMessage("allen tool: " + str(s_a) + "\n")
+      
+      
+      # Points for an arc at the peak of the cone
+      rCone = e_cham/4.0
+      hyp = (depth*math.sqrt(e_cham**2/depth**2+1.0)*rCone)/e_cham
+      radAlpha = math.atan(e_cham/depth)
+      radBeta = math.pi/2.0 - radAlpha
+      zrConeCenter=hyp - depth -t_a
+      xArc1=math.sin(radBeta)*rCone
+      zArc1=zrConeCenter - math.cos(radBeta)*rCone
+      xArc2=math.sin(radBeta/2.0)*rCone
+      zArc2=zrConeCenter - math.cos(radBeta/2.0)*rCone
+      zArc3 = zrConeCenter - rCone
+      
+      # The round part of the cutting tool, we need for the allen hex recess
+      PntH1 = Base.Vector(0.0,0.0,-t_a-depth-depth)
+      PntH2 = Base.Vector(e_cham,0.0,-t_a-depth-depth)
+      PntH3 = Base.Vector(e_cham,0.0,-t_a+depth)
+      PntH4 = Base.Vector(0.0,0.0,-t_a-depth)
+      
+      PntA1 = Base.Vector(xArc1,0.0,zArc1)
+      PntA2 = Base.Vector(xArc2,0.0,zArc2)
+      PntA3 = Base.Vector(0.0,0.0,zArc3)
+      
+      edgeA1 = Part.Arc(PntA1,PntA2,PntA3).toShape()
+      
+      edgeH1 = Part.makeLine(PntH1,PntH2)
+      edgeH2 = Part.makeLine(PntH2,PntH3)
+      edgeH3 = Part.makeLine(PntH3,PntA1)
+      edgeH4 = Part.makeLine(PntA3,PntH1)
+      
+      hWire=Part.Wire([edgeH1,edgeH2,edgeH3,edgeA1,edgeH4])
+      hex_depth = -1.0-t_a-depth*1.1
+    else:
+      e_cham = 2.0 * s_a / math.sqrt(3.0)
+      d_cent = s_a / 3.0
+      depth_cent = d_cent * math.tan(math.pi/6.0)
+      depth_cham = (e_cham-d_cent) * math.tan(math.pi/6.0)
+      
+      Pnts = [
+        Base.Vector(0.0, 0.0, -t_2-depth_cent),
+        Base.Vector(0.0, 0.0, -t_2-depth_cent-depth_cent),
+        Base.Vector(e_cham, 0.0, -t_2-depth_cent-depth_cent),
+        Base.Vector(e_cham, 0.0, -t_a+depth_cham),
+        Base.Vector(d_cent, 0.0, -t_a),
+        Base.Vector(d_cent, 0.0, -t_2)
+      ]
+      
+      edges = []
+      for i in range(0,len(Pnts)-1):
+        edges.append(Part.makeLine(Pnts[i], Pnts[i+1]))
+      edges.append(Part.makeLine(Pnts[5], Pnts[0]))
+        
+      hWire=Part.Wire(edges)
+      hex_depth = -1.0-t_2-depth_cent*1.1
+      
+    #Part.show(hWire)
     hFace =Part.Face(hWire)
     roundtool = hFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
 
@@ -4195,16 +4244,17 @@ class Screw(object):
     polygon.append(vhex)
     hexagon = Part.makePolygon(polygon)
     hexFace = Part.Face(hexagon)
-    solidHex = hexFace.extrude(Base.Vector(0.0,0.0,-1.0-t_a-depth*1.1))
+    solidHex = hexFace.extrude(Base.Vector(0.0,0.0,hex_depth))
     allen = solidHex.cut(roundtool)
     #Part.show(allen)
 
     allenFaces = [allen.Faces[0]]
-    for i in range(2,9):
+    for i in range(2,len(allen.Faces)):
       allenFaces.append(allen.Faces[i])
     allenShell = Part.Shell(allenFaces)
     solidHex.Placement.Base = Base.Vector(0.0,0.0,h_a)
     allenShell.Placement.Base = Base.Vector(0.0,0.0,h_a)
+    
     return solidHex, allenShell
 
 

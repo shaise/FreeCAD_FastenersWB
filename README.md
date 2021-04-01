@@ -122,7 +122,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 ~~To attach a fastener to a feature created with part design, it must be attached to the body, rather then one of its inner elements. To do so, first switch the "Display Mode" of the body from "Through" to "Tip". This can be found in the "View" tab of the Body's properties panel. To continue editing the Body, switch back to "Through"~~  
 **This is now done automatically**
 
-#### Release Notes
+#### Release Notes berberic2
+* V0.3.33  01 Apr 2021:  Added DIN6912 screw. Thank you @Berberic2 !
 * V0.3.32  03 Sep 2020:  Added custom screw length for pcb standoffs
 * V0.3.31  03 Sep 2020:  Added custom length for pcb standoffs
 * V0.3.30  04 Aug 2020:  Added inch fasteners, Thank you @slowinternets !

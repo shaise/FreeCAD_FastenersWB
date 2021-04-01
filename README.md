@@ -21,7 +21,9 @@ For versions prior to v0.17.9940 FreeCAD requires manual installation, learn how
 
 
 ## Usage
-
+### Official Wiki
+https://www.freecadweb.org/wiki/Fasteners_Workbench  
+ 
 <details>
   <summary><i>Expand this section for a synopsis on how to use this workbench</i></summary> 
 

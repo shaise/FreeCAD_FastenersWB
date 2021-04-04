@@ -219,8 +219,8 @@ class FSScrewMaker(Screw):
         
     def AutoDiameter(self, type, holeObj, baseobj = None, matchOuter = FastenerBase.FSMatchOuter):
       ''' Calculate screw diameter automatically based on given hole '''
-      # this function is also used to assign the deafult screw diameter
-      # when a new fastener is created. the following deafult values are 
+      # this function is also used to assign the default screw diameter
+      # when a new fastener is created. the following default values are 
       # assigned depending on available diameters
       if 'M6' in self.GetAllDiams(type):
         res = 'M6'

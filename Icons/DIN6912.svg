@@ -8,262 +8,2491 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="48"
+   version="1.2"
+   viewBox="0 0 48 48"
    height="48"
-   viewBox="0 0 48.000001 48.000001"
-   id="svg15825"
-   version="1.1"
-   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
-   sodipodi:docname="DIN6912.svg">
-  <defs
-     id="defs15827" />
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="22.627416"
-     inkscape:cx="26.815956"
-     inkscape:cy="23.85296"
-     inkscape:document-units="px"
-     inkscape:current-layer="layer1"
-     showgrid="false"
-     units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1141"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:document-rotation="0" />
+   id="svg1905"
+   sodipodi:docname="DIN6912.svg"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
   <metadata
-     id="metadata15830">
+     id="metadata1909">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
+        <dc:title>FreeCAD SVG Export</dc:title>
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1141"
+     id="namedview1907"
+     showgrid="false"
+     inkscape:object-nodes="false"
+     units="px"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="7.9999999"
+     inkscape:cx="25.492042"
+     inkscape:cy="45.734315"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1905"
+     inkscape:document-rotation="0" />
+  <title
+     id="title2">FreeCAD SVG Export</title>
+  <desc
+     id="desc4">Drawing page: Page exported from FreeCAD document: Unbenannt</desc>
+  <defs
+     id="defs6" />
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-1004.3622)">
-    <path
-       style="opacity:1;fill:#ffaa00;fill-opacity:0.94117647;fill-rule:evenodd;stroke:none;stroke-width:3.54330707;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="path15479"
-       sodipodi:type="arc"
-       sodipodi:cx="24.155022"
-       sodipodi:cy="1020.2416"
-       sodipodi:rx="15.154697"
-       sodipodi:ry="12.577369"
-       sodipodi:start="0"
-       sodipodi:end="6.2751393"
-       sodipodi:open="true"
-       d="m 39.309719,1020.2416 a 15.154697,12.577369 0 0 1 -15.124214,12.5773 15.154697,12.577369 0 0 1 -15.1850581,-12.5267 15.154697,12.577369 0 0 1 15.0631241,-12.6278 15.154697,12.577369 0 0 1 15.245658,12.476" />
-    <path
-       style="opacity:1;fill:#ffaa00;fill-opacity:0.94117647;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 8.92433,1024.1648 c -0.35937,1.7651 -0.051335,1.5867 -0.070785,3.3836 0.13397,2.8399 2.5490486,5.3431 4.5866986,7.2391 3.26321,2.9495 6.672649,3.7734 11.056129,3.5957 4.64231,-0.1843 8.426106,-0.6795 11.109556,-4.5759 1.16508,-1.6585 2.874101,-2.4118 2.946481,-4.435 0.0917,-1.0952 0.22851,-2.1921 0.22868,-3.2914 -0.17734,-0.6296 -0.9505,-0.4095 -1.14047,0.085 -2.33347,3.716 -6.5217,6.0081 -10.81335,6.5565 -3.08582,0.3247 -6.3131,0.029 -9.21693,-1.2144 -2.79811,-1.1266 -5.26771,-3.0989 -6.9147,-5.6309 -0.43008,-0.6074 -0.61799,-1.3877 -1.1604,-1.9005 -0.26631,-0.055 -0.41986,0 -0.61091,0.188 z"
-       id="path15481"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccccccccccc" />
-    <path
-       style="opacity:1;fill:#ffaa00;fill-opacity:0.94117647;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 14.172353,1036.2058 c -0.20733,1.0359 -0.0034,4.985 0.237267,6.0211 0.83833,3.0648 3.84439,5.0239 6.82549,5.6256 3.3651,0.6311 7.24198,-0.4601 9.30718,-3.3095 0.92787,-1.3057 1.445062,-6.2182 1.252312,-7.7949 -0.54389,-0.5564 -2.639351,0.9739 -3.253101,1.0857 -3.46114,1.2181 -5.625986,0.9295 -9.166626,-0.043 -1.48153,-0.3906 -3.293092,-1.1144 -4.682522,-1.7427 -0.21964,-0.088 -0.34688,0.043 -0.52,0.1576 z"
-       id="path15483"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccccc" />
+     fill-opacity="1"
+     font-weight="400"
+     transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+     font-size="35.2778px"
+     stroke="none"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="#ffffff"
+     id="g241"
+     style="fill-rule:evenodd;stroke-width:16.2112;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     fill-opacity="1"
+     font-weight="400"
+     transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+     font-size="35.2778px"
+     stroke="none"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="#ffffff"
+     id="g273"
+     style="fill-rule:evenodd;stroke-width:16.2112;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     fill-opacity="1"
+     font-weight="400"
+     transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+     font-size="35.2778px"
+     stroke="none"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="#ffffff"
+     id="g337"
+     style="fill-rule:evenodd;stroke-width:16.2112;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     fill-opacity="1"
+     font-weight="400"
+     transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+     font-size="35.2778px"
+     stroke="none"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="#ffffff"
+     id="g385"
+     style="fill-rule:evenodd;stroke-width:16.2112;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     fill-opacity="1"
+     font-weight="400"
+     transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+     font-size="35.2778px"
+     stroke="none"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="#ffffff"
+     id="g409"
+     style="fill-rule:evenodd;stroke-width:16.2112;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     fill-opacity="1"
+     font-weight="400"
+     transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+     font-size="35.2778px"
+     stroke="none"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="#ffffff"
+     id="g425"
+     style="fill-rule:evenodd;stroke-width:16.2112;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     fill-opacity="1"
+     font-weight="400"
+     transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+     font-size="35.2778px"
+     stroke="none"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="#ffffff"
+     id="g505"
+     style="fill-rule:evenodd;stroke-width:16.2112;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     fill-opacity="1"
+     font-weight="400"
+     transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+     font-size="35.2778px"
+     stroke="none"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="#ffffff"
+     id="g513"
+     style="fill-rule:evenodd;stroke-width:16.2112;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     fill-opacity="1"
+     font-weight="400"
+     transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+     font-size="35.2778px"
+     stroke="none"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="#ffffff"
+     id="g521"
+     style="fill-rule:evenodd;stroke-width:16.2112;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     fill-opacity="1"
+     font-weight="400"
+     transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+     font-size="35.2778px"
+     stroke="none"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="#ffffff"
+     id="g537"
+     style="fill-rule:evenodd;stroke-width:16.2112;stroke-linecap:square;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     stroke-width="3.5"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+     font-size="35.2778px"
+     stroke-linecap="round"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g1809"
+     style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     id="g2151"
+     transform="translate(-0.60386101,-0.57088404)">
     <g
-       id="g3946"
-       transform="translate(-40)">
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.07227,4.2098698)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g1565-7"
+       style="fill:#ffaa00;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
       <path
-         inkscape:connector-curvature="0"
-         id="path10758"
-         d="m 72.888456,1030.638 a 15.059055,12.487393 3.5595994 0 0 6.246319,-9.3814"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path10760"
-         d="m 49.074811,1019.3864 a 15.059055,12.487393 3.5595994 0 0 23.813645,11.2516"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         sodipodi:nodetypes="cc"
-         inkscape:connector-curvature="0"
-         d="m 54.112153,1035.5362 0.01063,4.6359"
-         id="92"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         sodipodi:nodetypes="cc"
-         inkscape:connector-curvature="0"
-         d="m 71.794602,1036.7481 0.01063,4.5238"
-         id="93"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path9442"
-         d="m 79.134775,1021.2566 c 0.09992,-1.7394 -0.17185,-3.5021 -1.017,-5.3728 -0.460594,-1.009 -1.098318,-2.0434 -2.033645,-3.1121 -0.941776,-1.0643 -2.181331,-2.1631 -4.015807,-3.1763 -0.801107,-0.4344 -1.834229,-0.9078 -3.014044,-1.2761 -1.178645,-0.3718 -2.503204,-0.6386 -3.861141,-0.742 -1.356556,-0.1067 -2.745993,-0.05 -4.028067,0.1424 -1.2808,0.1896 -2.453776,0.515 -3.351863,0.8637 -2.077972,0.7881 -3.50472,1.7546 -4.608248,2.7162 -1.096759,0.9683 -1.870476,1.9313 -2.460118,2.89 -1.072063,1.758 -1.553882,3.469 -1.670031,5.1968"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         sodipodi:nodetypes="cc"
-         inkscape:connector-curvature="0"
-         d="m 49.074811,1019.3864 -0.346192,5.5591"
-         id="95"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         sodipodi:nodetypes="cc"
-         inkscape:connector-curvature="0"
-         d="m 79.134775,1021.2566 -0.346049,5.5587"
-         id="96"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         sodipodi:nodetypes="cc"
-         inkscape:connector-curvature="0"
-         id="path10555"
-         d="m 68.132453,1046.7903 c 2.18374,-1.2608 3.535582,-3.2912 3.67409,-5.5184"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         sodipodi:nodetypes="cc"
-         inkscape:connector-curvature="0"
-         id="path10557"
-         d="m 54.124094,1040.1721 c -0.382393,6.1475 7.980626,10.0986 14.008359,6.6182"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path10592"
-         d="m 72.542407,1036.1967 a 15.059055,12.487393 3.5595994 0 0 6.246319,-9.3814"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path10598"
-         d="m 48.728619,1024.9455 a 15.059055,12.487393 3.5595994 0 0 23.813788,11.2512"
-         style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-      <g
-         style="stroke-width:1.27717817"
-         transform="matrix(0.78422863,0,0,0.78172555,13.717869,222.09835)"
-         id="g3911">
-        <g
-           style="stroke-width:1.27717817"
-           id="g3890">
-          <path
-             inkscape:connector-curvature="0"
-             id="path10571"
-             d="m 67.581149,1013.1181 a 8.3056536,6.887303 3.5595994 0 0 -8.259626,0.5254"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-        </g>
-        <g
-           style="stroke-width:1.27717817"
-           id="g3887">
-          <path
-             inkscape:connector-curvature="0"
-             id="path10561"
-             d="m 69.010909,1025.0232 a 8.3056536,6.887303 3.5595994 0 0 3.41465,-6.2151"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10563"
-             d="m 72.425559,1018.8081 -0.273189,0.6463 -0.262914,0.6026 -0.2537,0.5626 -0.246614,0.5262 -0.240237,0.493 -0.235984,0.4623 -0.23315,0.4353 -0.231732,0.4103 -0.231732,0.3882 -0.232795,0.3688 -0.235276,0.3507 -0.239882,0.3357 -0.245197,0.322 -0.252283,0.3111"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10565"
-             d="m 60.75139,1025.5481 a 8.3056536,6.887303 3.5595994 0 0 8.259519,-0.5249"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10567"
-             d="m 72.425559,1018.8081 a 8.3056536,6.887303 3.5595994 0 0 -4.84441,-5.69"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10569"
-             d="m 55.906697,1019.8583 a 8.3056536,6.887303 3.5595994 0 0 4.844693,5.6898"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10573"
-             d="m 59.321523,1013.6435 a 8.3056536,6.887303 3.5595994 0 0 -3.414826,6.2148"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10575"
-             d="m 69.010909,1025.0232 -0.646653,0.208 -0.623091,0.1793 -0.603992,0.1515 -0.588295,0.1249 -0.576213,0.098 -0.567744,0.073 -0.562535,0.048 -0.561048,0.023 h -0.562819 l -0.568629,-0.026 -0.577382,-0.051 -0.589819,-0.076 -0.605799,-0.1011 -0.6255,-0.1274"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10577"
-             d="m 67.581149,1013.1181 0.362622,0.606 0.351851,0.5636 0.342992,0.5245 0.33626,0.4891 0.331653,0.4567 0.329174,0.4264 0.328818,0.3997 0.330591,0.3746 0.33378,0.3523 0.339448,0.3319 0.347599,0.3141 0.357094,0.2975 0.369248,0.2831 0.38328,0.2705"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10579"
-             d="m 60.75139,1025.5481 -0.383563,-0.2703 -0.369249,-0.2831 -0.357094,-0.2975 -0.347598,-0.3141 -0.339449,-0.3319 -0.33378,-0.3522 -0.33059,-0.3747 -0.328819,-0.3996 -0.328819,-0.4267 -0.332008,-0.4565 -0.33626,-0.489 -0.342992,-0.5246 -0.35185,-0.5635 -0.362587,-0.6061"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10581"
-             d="m 59.321523,1013.6435 0.625784,0.1272 0.605834,0.1011 0.589819,0.076 0.577382,0.05 0.568134,0.026 h 0.56328 l 0.56087,-0.023 0.562748,-0.048 0.567744,-0.073 0.576035,-0.099 0.588473,-0.1246 0.603673,-0.1513 0.623409,-0.1795 0.646441,-0.2084"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10583"
-             d="m 55.906697,1019.8583 0.252637,-0.3107 0.245197,-0.3221 0.239882,-0.3357 0.235276,-0.3509 0.232795,-0.3685 0.231732,-0.3882 0.231378,-0.4106 0.23315,-0.435 0.23563,-0.4626 0.24059,-0.4928 0.246614,-0.5261 0.253701,-0.5626 0.262914,-0.6026 0.273189,-0.6464"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             d="m 67.581149,1013.1181 -0.307204,4.9415"
-             id="610"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10586"
-             d="m 67.273909,1018.0596 0.267874,0.3923 0.261851,0.3755 0.256181,0.3602 0.25122,0.3456 0.247323,0.3326 0.244488,0.3205 0.241654,0.3093 0.240236,0.2994 0.239173,0.2903 0.239173,0.282 0.240237,0.275 0.242008,0.2687 0.244133,0.2633 0.246969,0.2587"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10588"
-             d="m 57.294327,1022.0329 0.115511,-0.2119 0.115866,-0.2158 0.116575,-0.2204 0.116929,-0.2246 0.118347,-0.2295 0.119409,-0.2347 0.120827,-0.2403 0.12189,-0.2464 0.123661,-0.2527 0.125788,-0.2591 0.127559,-0.2664 0.130039,-0.2739 0.13252,-0.2823 0.135,-0.2898"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             id="path10590"
-             d="m 59.014248,1018.585 0.630283,0.056 0.609236,0.042 0.592831,0.028 0.579756,0.014 0.570012,-6e-4 0.56413,-0.014 0.561189,-0.029 0.562429,-0.043 0.56661,-0.058 0.574441,-0.072 0.586063,-0.088 0.601016,-0.1035 0.61937,-0.1199 0.642295,-0.1376"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-          <path
-             inkscape:connector-curvature="0"
-             d="m 59.321523,1013.6435 -0.307204,4.9415"
-             id="618"
-             style="fill:none;stroke:#000000;stroke-width:1.27717817;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
-        </g>
-      </g>
-      <g
-         id="g10754"
-         transform="matrix(3.5364712,0.21999252,0.21999253,-3.5364711,-244.46436,1063.3496)"
-         style="fill:none;stroke:#000000;stroke-width:0.28222224;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none">
-        <ellipse
-           style="stroke-width:0.28222224;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
-           id="ellipse10756"
-           ry="3.1096001"
-           rx="3.75"
-           cy="17.806299"
-           cx="86.163101" />
-      </g>
+         id="path1563-6"
+         style="fill:#ffaa00;fill-opacity:1;stroke:none;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 25,508.711 c 138.071,0 250,-96.932 250,-216.505 V 217.205 C 275.007,196.23 271.594,175.258 264.93,155.179 258.277,135.096 248.374,115.905 235.673,98.3746 220.123,76.888 200.362,57.9013 177.603,42.4569 154.854,26.9979 129.106,15.0813 101.861,7.33941 66.9503,-2.61527 29.5614,-5.65961 -6.8034,-1.53196 -43.1742,2.55149 -78.5211,13.8069 -109.51,31.2581 c -30.083,16.8934 -56.061,39.6055 -75.527,66.2443 -12.9,17.6206 -22.965,36.9406 -29.727,57.1766 -6.772,20.23 -10.243,41.377 -10.236,62.526 v 75.001 c 0,119.573 111.929,216.505 250,216.505 z"
+         sodipodi:nodetypes="cccccccccccccc" />
     </g>
-    <path
-       style="fill:none;stroke:#000000;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path44"
-       sodipodi:type="arc"
-       sodipodi:cx="23.90905"
-       sodipodi:cy="1022.8074"
-       sodipodi:rx="2.367058"
-       sodipodi:ry="1.9855545"
-       sodipodi:start="2.6664177"
-       sodipodi:end="0.45372392"
-       sodipodi:arc-type="arc"
-       d="m 21.804232,1023.7158 a 2.367058,1.9855545 0 0 1 0.599667,-2.4409 2.367058,1.9855545 0 0 1 2.970771,-0.027 2.367058,1.9855545 0 0 1 0.661942,2.4295"
-       sodipodi:open="true" />
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.07227,4.2098698)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g1569-5"
+       style="fill:#ffaa00;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         id="path1567-6"
+         style="fill:#ffaa00;fill-opacity:1;stroke:none;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none"
+         d="m 175,457.58312 v 71.466 c 0,71.743 -67.157,129.903 -150,129.903 -82.8427,0 -150,-58.16 -150,-129.903 v -71.466"
+         sodipodi:nodetypes="ccscc" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g901"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="M 170.063,202.204 C 170.063,132.822 105.116,76.5772 25,76.5772 c -80.116,0 -145.063,56.2448 -145.063,125.6268 m 0,0 c 0,69.382 64.947,125.628 145.063,125.628 80.116,0 145.063,-56.246 145.063,-125.628"
+         id="path899"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g905"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m -225,292.206 c 0,119.573 111.929,216.505 250,216.505 138.071,0 250,-96.932 250,-216.505"
+         id="path903"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g909"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m 275,217.205 v 75.001"
+         id="path907"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,3.7237918)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g913"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m -125,536.876 c 0,71.743 67.1573,129.903 150,129.903 82.843,0 150,-58.16 150,-129.903"
+         id="path911"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g917"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m 175,465.41 v 71.466"
+         id="path915"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g921"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m 169.338,202.567 -5.558,10.949 -5.37,10.239 -5.215,9.59 -5.092,9.003 -5,8.469 -4.94,7.988 -4.91,7.557 -4.909,7.172 -4.94,6.831 -5.001,6.532 -5.092,6.273 -5.214,6.054 -5.37,5.871 -5.5582,5.724"
+         id="path919"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g925"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m 97.1688,310.819 -11.1158,2.613 -10.7397,2.183 -10.4297,1.769 -10.1839,1.365 -10.001,0.968 -9.8796,0.579 -9.8191,0.192 -9.8191,-0.192 -9.87961,-0.579 -10.00097,-0.968 -10.18392,-1.365 -10.4297,-1.769 -10.7397,-2.183 -11.1158,-2.613"
+         id="path923"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g929"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m -47.1688,310.819 -5.5579,-5.724 -5.3698,-5.871 -5.2149,-6.054 -5.0919,-6.273 -5.0005,-6.532 -4.9398,-6.831 -4.9096,-7.172 -4.9095,-7.557 -4.9398,-7.988 -5.0005,-8.469 -5.092,-9.003 -5.215,-9.59 -5.37,-10.239 -5.558,-10.949"
+         id="path927"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g933"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m -119.338,202.567 5.558,-5.724 5.37,-5.871 5.215,-6.054 5.092,-6.273 5.0005,-6.532 4.9398,-6.831 4.9095,-7.172 4.9096,-7.557 4.9398,-7.988 5.0005,-8.47 5.0919,-9.002 5.2149,-9.591 5.3698,-10.238 5.5579,-10.9493"
+         id="path931"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g937"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m -47.1688,94.3147 11.1158,2.6123 10.7397,2.1837 10.4297,1.7683 10.18392,1.365 10.00097,0.968 9.87961,0.579 9.8191,0.193 9.8191,-0.193 9.8796,-0.579 10.001,-0.968 10.1839,-1.365 10.4297,-1.7683 10.7397,-2.1837 11.1158,-2.6123"
+         id="path935"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g941"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m 97.1688,94.3147 5.5582,10.9493 5.37,10.238 5.214,9.591 5.092,9.002 5.001,8.47 4.94,7.988 4.909,7.557 4.91,7.172 4.94,6.831 5,6.532 5.092,6.273 5.215,6.054 5.37,5.871 5.558,5.724"
+         id="path939"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g945"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="M 97.1688,94.3147 V 138.843"
+         id="path943"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g949"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m 97.1688,138.843 4.5452,8.066 4.417,7.707 4.305,7.38 4.212,7.083 4.136,6.814 4.076,6.574 4.035,6.36 4.008,6.173 3.998,6.01 4.005,5.873 4.029,5.76 4.068,5.669 4.124,5.603 4.197,5.559"
+         id="path947"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g953"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="M -47.1688,94.3147 V 138.843"
+         id="path951"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g957"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m -47.1688,138.843 11.1158,1.508 10.7397,1.261 10.4297,1.021 10.18392,0.787 10.00097,0.56 9.87961,0.334 9.8191,0.111 9.8191,-0.111 9.8796,-0.334 10.001,-0.56 10.1839,-0.787 10.4297,-1.021 10.7397,-1.261 11.1158,-1.508"
+         id="path955"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g961"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m -105.324,229.474 4.197,-5.559 4.1245,-5.603 4.0679,-5.669 4.0284,-5.76 4.0051,-5.873 3.9985,-6.01 4.0081,-6.173 4.0341,-6.36 4.0766,-6.574 4.1358,-6.814 4.212,-7.083 4.3054,-7.38 4.4164,-7.707 4.5454,-8.066"
+         id="path959"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g965"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m 108.333,264.706 c 0,-39.858 -37.3093,-72.168 -83.333,-72.168 -46.0237,0 -83.3333,32.31 -83.3333,72.168"
+         id="path963"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g969"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m -58.3333,264.706 c 0,17.981 7.7509,35.314 21.7349,48.606"
+         id="path967"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g973"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="M 86.5984,313.312 C 100.582,300.02 108.333,282.687 108.333,264.706"
+         id="path971"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g977"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="M 100.115,295.957 C 86.2413,270.946 57.0392,255.039 25,255.039 c -32.03921,0 -61.2413,15.907 -75.1151,40.918"
+         id="path975"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g1561"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="M 275,217.205 C 275.007,196.23 271.594,175.258 264.93,155.179 258.277,135.096 248.374,115.905 235.673,98.3746 220.123,76.888 200.362,57.9013 177.603,42.4569 154.854,26.9979 129.106,15.0813 101.861,7.33941 66.9503,-2.61527 29.5614,-5.65961 -6.8034,-1.53196 -43.1742,2.55149 -78.5211,13.8069 -109.51,31.2581 c -30.083,16.8934 -56.061,39.6055 -75.527,66.2443 -12.9,17.6206 -22.965,36.9406 -29.727,57.1766 -6.772,20.23 -10.243,41.377 -10.236,62.526"
+         id="path1559"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g1565"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m -225,217.205 v 75.001"
+         id="path1563"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g1569"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m -125,465.41 v 71.466"
+         id="path1567"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g1685"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="M 245,202.204 C 245,96.9808 146.503,11.6803 25,11.6803 c -121.5026,0 -220,85.3005 -220,190.5237 m 0,0 c 0,105.224 98.4974,190.525 220,190.525 121.503,0 220,-85.301 220,-190.525"
+         id="path1683"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g1689"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m -225,217.205 c 0,119.572 111.929,216.505 250,216.505 138.071,0 250,-96.933 250,-216.505"
+         id="path1687"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       stroke-width="3.5"
+       stroke-linejoin="bevel"
+       font-weight="400"
+       transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+       font-size="35.2778px"
+       stroke-linecap="round"
+       stroke-opacity="1"
+       stroke="#000000"
+       font-family="'DejaVu Serif'"
+       font-style="normal"
+       fill="none"
+       id="g1813"
+       style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none">
+      <path
+         fill-rule="evenodd"
+         vector-effect="none"
+         d="m 169.338,202.567 0.725,-0.363"
+         id="path1811"
+         style="stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
   </g>
+  <g
+     stroke-width="3.5"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="matrix(0.06126372,0,0,0.0621111,23.072268,4.2099277)"
+     font-size="35.2778px"
+     stroke-linecap="round"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g1817"
+     style="fill-rule:evenodd;stroke-width:16.2112;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g213"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect211" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g221"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect219" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g229"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect227" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g237"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect235" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g245"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect243" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g253"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect251" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g261"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect259" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g269"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect267" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g277"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect275" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g285"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect283" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g293"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect291" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g301"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect299" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g309"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect307" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g317"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect315" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g325"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect323" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g333"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect331" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g341"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect339" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g349"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect347" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g357"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect355" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g365"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect363" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g373"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect371" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g381"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect379" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g389"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect387" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g397"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect395" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g405"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect403" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g413"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect411" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g421"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect419" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g429"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect427" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g437"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect435" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g445"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect443" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g453"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect451" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g461"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect459" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g469"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect467" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g477"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect475" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g485"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect483" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g493"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect491" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g501"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect499" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g509"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect507" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g517"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect515" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g525"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect523" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g533"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect531" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g541"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect539" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g549"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect547" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g557"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect555" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g565"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect563" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g573"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect571" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g581"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect579" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g589"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect587" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g597"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect595" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g605"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect603" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g613"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect611" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g621"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect619" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g629"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect627" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g637"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect635" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g645"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect643" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g653"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect651" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g661"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect659" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g669"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect667" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g677"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect675" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g685"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect683" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g693"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect691" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g701"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect699" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g709"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect707" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g717"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect715" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g725"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect723" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g733"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect731" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g741"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect739" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g749"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect747" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g757"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect755" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g765"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect763" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g773"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect771" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g781"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect779" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g789"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect787" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g797"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect795" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g805"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect803" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g813"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect811" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g821"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect819" />
+  </g>
+  <g
+     stroke-width="1"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="translate(-761.77808,-1072.1424)"
+     font-size="35.2778px"
+     stroke-linecap="square"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g829"
+     style="fill-rule:evenodd">
+    <rect
+       width="0"
+       x="0"
+       y="0"
+       height="0"
+       id="rect827" />
+  </g>
+  <g
+     stroke-width="3.5"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="matrix(0.15916635,0,0,0.15912905,194.80255,19.475349)"
+     font-size="35.2778px"
+     stroke-linecap="round"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g905-9"
+     style="fill-rule:evenodd;stroke-width:16.6251;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     stroke-width="3.5"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="matrix(0.15916635,0,0,0.15912905,194.80255,19.475349)"
+     font-size="35.2778px"
+     stroke-linecap="round"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g909-0"
+     style="fill-rule:evenodd;stroke-width:16.6251;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     stroke-width="3.5"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="matrix(0.15916635,0,0,0.15912905,194.80255,19.475349)"
+     font-size="35.2778px"
+     stroke-linecap="round"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g913-3"
+     style="fill-rule:evenodd;stroke-width:16.6251;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     stroke-width="3.5"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="matrix(0.15916635,0,0,0.15912905,194.80255,19.475349)"
+     font-size="35.2778px"
+     stroke-linecap="round"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g917-5"
+     style="fill-rule:evenodd;stroke-width:16.6251;stroke-miterlimit:4;stroke-dasharray:none" />
+  <g
+     stroke-width="3.5"
+     stroke-linejoin="bevel"
+     font-weight="400"
+     transform="matrix(0.15916635,0,0,0.15912905,194.80255,19.475349)"
+     font-size="35.2778px"
+     stroke-linecap="round"
+     stroke-opacity="1"
+     stroke="#000000"
+     font-family="'DejaVu Serif'"
+     font-style="normal"
+     fill="none"
+     id="g1561-5"
+     style="fill-rule:evenodd;stroke-width:16.6251;stroke-miterlimit:4;stroke-dasharray:none" />
 </svg>

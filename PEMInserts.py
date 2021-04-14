@@ -834,7 +834,7 @@ class FSPcbStandOffObject(FSBaseObject):
           else:
             fp.width = allwidth[0]
 
-      if (not lengthchange and hasattr(self,'lengthCustom') and self.lengthCustom != fp.lengthCustom):
+      if (not lengthchange and hasattr(self,'lengthCustom') and self.lengthCustom != fp.lengthCustom.Value):
         fp.length = 'Custom'
 
       if fp.length == 'Custom':
@@ -858,8 +858,8 @@ class FSPcbStandOffObject(FSBaseObject):
       self.diameter = fp.diameter
       self.length = fp.length
       self.width = fp.width
-      self.lengthCustom = fp.lengthCustom
-      self.screwLength = fp.screwLength
+      self.lengthCustom = fp.lengthCustom.Value
+      self.screwLength = fp.screwLength.Value
       FastenerBase.FSLastInvert = fp.invert
       fp.Label = fp.diameter + 'x' + fp.width + 'x' + l + '-Standoff'
       fp.Shape = s

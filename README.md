@@ -123,6 +123,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes berberic2
+* V0.3.34  14 Apr 2021:  Fix issue #93
 * V0.3.33  01 Apr 2021:  Added DIN6912 screw. Thank you @Berberic2 !
 * V0.3.32  03 Sep 2020:  Added custom screw length for pcb standoffs
 * V0.3.31  03 Sep 2020:  Added custom length for pcb standoffs

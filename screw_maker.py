@@ -1010,7 +1010,7 @@ class Screw(object):
           Type_text = 'Screw-Die'
           done = True
         if ST_text == 'ThreadedRod':
-          screw = self.makeThreadedRod(ND_text,l)
+          screw = self.makeThreadedRod(ND_text,l,pitch)
           Type_text = 'Threaded-Rod'
           done = True
         if not done:
@@ -3895,11 +3895,13 @@ class Screw(object):
   # make ISO 7380-1 Button head Screw
   # make ISO 7380-2 Button head Screw with collar
   # make DIN 967 cross recessed pan head Screw with collar
-  def makeScrewTap(self, ThreadType ='M6',l=25.0):
-    dia = self.getDia(ThreadType, True)
-
-    P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
-
+  def makeScrewTap(self, ThreadType ='M6',l=25.0, customPitch=None, customDia=None):
+    if ThreadType != "Custom":
+      dia = self.getDia(ThreadType, False)
+      P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+    else: # custom pitch and diameter
+      P = customPitch
+      dia = customDia
     residue, turns = math.modf((l)/P)
     turns += 1.0
     #FreeCAD.Console.PrintMessage("ScrewTap residue: " + str(residue) + " turns: " + str(turns) + "\n")
@@ -3929,9 +3931,13 @@ class Screw(object):
 
 
   # make object to cut external threads on a shaft
-  def makeScrewDie(self, ThreadType = 'M6', l=25.0):
-    dia = self.getDia(ThreadType, False)
-    P, tunIn, tunEx = FsData["tuningTable"][ThreadType]
+  def makeScrewDie(self, ThreadType = 'M6', l=25.0, customPitch=None, customDia=None):
+    if ThreadType != "Custom":
+      dia = self.getDia(ThreadType, False)
+      P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+    else: # custom pitch and diameter
+      P = customPitch
+      dia = customDia
     if self.rThread:
       cutDia = dia*0.75
     else:
@@ -3959,11 +3965,15 @@ class Screw(object):
 
 
   # make a length of standard threaded rod
-  def makeThreadedRod(self, ThreadType = 'M6', l=25.0):
-    dia = self.getDia(ThreadType, False)
-    P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+  def makeThreadedRod(self, ThreadType = 'M6', l=25.0, customPitch=None, customDia=None):
+    if ThreadType != "Custom":
+      dia = self.getDia(ThreadType, False)
+      P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+    else: # custom pitch and diameter
+      P = customPitch
+      dia = customDia
     dia = dia*1.01
-    cham = 0.125*dia
+    cham = P
     p0 = Base.Vector(0,0,0)
     p1 = Base.Vector(dia/2-cham,0,0)
     p2 = Base.Vector(dia/2,0,0-cham)

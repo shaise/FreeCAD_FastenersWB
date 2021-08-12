@@ -225,12 +225,9 @@ class FSViewProviderTree:
   def getIcon(self):
     if hasattr(self.Object, "type"):
       return os.path.join( iconPath , self.Object.type + '.svg')
-    elif isinstance(self.Object.Proxy, FSScrewRodObject):
-      return os.path.join( iconPath , 'ScrewTap.svg')
-    elif isinstance(self.Object.Proxy, FSScrewDieObject):
-      return os.path.join( iconPath , 'ScrewDie.svg')
-    elif isinstance(self.Object.Proxy, FSThreadedRodObject):
-      return os.path.join( iconPath , 'DIN975.svg')
+    elif hasattr(self.Object.Proxy, "type"):
+      return os.path.join( iconPath, self.Object.Proxy.type + '.svg')
+    # default to ISO4017.svg
     return os.path.join( iconPath , 'ISO4017.svg')
 
 
@@ -412,11 +409,11 @@ class FSWasherCommand:
 #FastenerBase.FSCommands.append("FSISO7089")
 
 class FSScrewRodObject(FSBaseObject):
-  def __init__(self, obj, attachTo):
+  def __init__(self, obj, attachTo, typeStr):
     '''"Add screw rod" '''
     FSBaseObject.__init__(self, obj, attachTo)
     self.itemText = "ScrewTap"
-    self.type = 'ScrewTap'
+    self.type = typeStr
     diameters = screwMaker.GetAllDiams(self.type) + ["Custom"]
     diameters.insert(0, 'Auto')
     #self.Proxy = obj.Name
@@ -480,7 +477,7 @@ class FSScrewRodObject(FSBaseObject):
     #s = screw_maker.Ui_ScrewMaker.
     s_obj = ScrewMaker.Screw()
     s_obj.setThreadType(threadType)
-    s = s_obj.makeScrewTap(d,l,p,d_custom)
+    s = s_obj.makeScrewTap(self.type,d,l,p,d_custom)
 
     self.diameter = fp.diameter
     self.length = l
@@ -505,7 +502,7 @@ class FSScrewRodCommand:
   def Activated(self):
     for selObj in FastenerBase.FSGetAttachableSelections():
       a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","ScrewTap")
-      FSScrewRodObject(a, selObj)
+      FSScrewRodObject(a, selObj, "ScrewTap")
       a.Label = a.Proxy.itemText
       FSViewProviderTree(a.ViewObject)
     FreeCAD.ActiveDocument.recompute()
@@ -518,13 +515,38 @@ Gui.addCommand("FSScrewTap",FSScrewRodCommand())
 FastenerBase.FSCommands.append("FSScrewTap", "screws", "misc")
 
 
+class FSScrewRodCommandInch:
+  """Add Screw Rod command"""
+
+  def GetResources(self):
+    icon = os.path.join( iconPath , 'ScrewTapInch.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Add inch threaded rod for tapping holes" ,
+            'ToolTip' : "Add arbitrary length threaded rod for tapping holes (inch sizes)"}
+ 
+  def Activated(self):
+    for selObj in FastenerBase.FSGetAttachableSelections():
+      a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","ScrewTap")
+      FSScrewRodObject(a, selObj, "ScrewTapInch")
+      a.Label = a.Proxy.itemText
+      FSViewProviderTree(a.ViewObject)
+    FreeCAD.ActiveDocument.recompute()
+    return
+   
+  def IsActive(self):
+    return Gui.ActiveDocument != None
+
+Gui.addCommand("FSScrewTapInch",FSScrewRodCommandInch())
+FastenerBase.FSCommands.append("FSScrewTapInch", "screws", "misc")
+
+
 
 class FSScrewDieObject(FSBaseObject):
-  def __init__(self, obj, attachTo):
+  def __init__(self, obj, attachTo, typeStr):
     '''"Add screw die" '''
     FSBaseObject.__init__(self, obj, attachTo)
     self.itemText = "ScrewDie"
-    self.type = 'ScrewDie'
+    self.type = typeStr
     diameters = screwMaker.GetAllDiams(self.type) + ["Custom"]
     diameters.insert(0, 'Auto')
     #self.Proxy = obj.Name
@@ -588,7 +610,7 @@ class FSScrewDieObject(FSBaseObject):
     #s = screw_maker.Ui_ScrewMaker.
     s_obj = ScrewMaker.Screw()
     s_obj.setThreadType(threadType)
-    s = s_obj.makeScrewDie(d,l,p,d_custom)
+    s = s_obj.makeScrewDie(self.type,d,l,p,d_custom)
 
     self.diameter = fp.diameter
     self.length = l
@@ -613,7 +635,7 @@ class FSScrewDieCommand:
   def Activated(self):
     for selObj in FastenerBase.FSGetAttachableSelections():
       a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","ScrewDie")
-      FSScrewDieObject(a, selObj)
+      FSScrewDieObject(a, selObj, "ScrewDie")
       a.Label = a.Proxy.itemText
       FSViewProviderTree(a.ViewObject)
     FreeCAD.ActiveDocument.recompute()
@@ -628,12 +650,39 @@ FastenerBase.FSCommands.append("FSScrewDie", "screws", "misc")
 
 
 
+class FSScrewDieCommandInch:
+  """Add Screw Die command"""
+
+  def GetResources(self):
+    icon = os.path.join( iconPath , 'ScrewDieInch.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Add object to cut external non-metric threads" ,
+            'ToolTip' : "Add arbitrary length threaded tube for cutting inch standard external threads"}
+ 
+  def Activated(self):
+    for selObj in FastenerBase.FSGetAttachableSelections():
+      a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","ScrewDie")
+      FSScrewDieObject(a, selObj, "ScrewDieInch")
+      a.Label = a.Proxy.itemText
+      FSViewProviderTree(a.ViewObject)
+    FreeCAD.ActiveDocument.recompute()
+    return
+   
+  def IsActive(self):
+    return Gui.ActiveDocument != None
+
+Gui.addCommand("FSScrewDieInch",FSScrewDieCommandInch())
+FastenerBase.FSCommands.append("FSScrewDieInch", "screws", "misc")
+
+
+
+
 class FSThreadedRodObject(FSBaseObject):
-  def __init__(self, obj, attachTo):
+  def __init__(self, obj, attachTo, typeStr):
     '''"Add threaded rod" '''
     FSBaseObject.__init__(self, obj, attachTo)
     self.itemText = "ThreadedRod"
-    self.type = 'ThreadedRod'
+    self.type = typeStr
     diameters = screwMaker.GetAllDiams(self.type) + ["Custom"]
     diameters.insert(0, 'Auto')
     #self.Proxy = obj.Name
@@ -697,7 +746,7 @@ class FSThreadedRodObject(FSBaseObject):
     #s = screw_maker.Ui_ScrewMaker.
     s_obj = ScrewMaker.Screw()
     s_obj.setThreadType(threadType)
-    s = s_obj.makeThreadedRod(d,l,p,d_custom)
+    s = s_obj.makeThreadedRod(self.type,d,l,p,d_custom)
 
     self.diameter = fp.diameter
     self.length = l
@@ -714,7 +763,7 @@ class FSThreadedRodCommand:
   """Add Threaded Rod command"""
 
   def GetResources(self):
-    icon = os.path.join( iconPath , 'DIN975.svg')
+    icon = os.path.join( iconPath , 'ThreadedRod.svg')
     return {'Pixmap'  : icon , # the name of a svg file available in the resources
             'MenuText': "Add DIN 975 threaded rod" ,
             'ToolTip' : "Add arbitrary length threaded rod object"}
@@ -722,7 +771,7 @@ class FSThreadedRodCommand:
   def Activated(self):
     for selObj in FastenerBase.FSGetAttachableSelections():
       a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","ThreadedRod")
-      FSThreadedRodObject(a, selObj)
+      FSThreadedRodObject(a, selObj, "ThreadedRod")
       a.Label = a.Proxy.itemText
       FSViewProviderTree(a.ViewObject)
     FreeCAD.ActiveDocument.recompute()
@@ -733,6 +782,31 @@ class FSThreadedRodCommand:
 
 Gui.addCommand("FSThreadedRod",FSThreadedRodCommand())
 FastenerBase.FSCommands.append("FSThreadedRod", "screws", "misc")
+
+
+class FSThreadedRodCommandInch:
+  """Add Threaded Rod command"""
+
+  def GetResources(self):
+    icon = os.path.join( iconPath , 'ThreadedRodInch.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Add UNC threaded rod" ,
+            'ToolTip' : "Add arbitrary length threaded rod object, inch standard coarse threads"}
+ 
+  def Activated(self):
+    for selObj in FastenerBase.FSGetAttachableSelections():
+      a=FreeCAD.ActiveDocument.addObject("Part::FeaturePython","ThreadedRod")
+      FSThreadedRodObject(a, selObj, "ThreadedRodInch")
+      a.Label = a.Proxy.itemText
+      FSViewProviderTree(a.ViewObject)
+    FreeCAD.ActiveDocument.recompute()
+    return
+   
+  def IsActive(self):
+    return Gui.ActiveDocument != None
+
+Gui.addCommand("FSThreadedRodInch",FSThreadedRodCommandInch())
+FastenerBase.FSCommands.append("FSThreadedRodInch", "screws", "misc")
 
 
 ## add fastener types

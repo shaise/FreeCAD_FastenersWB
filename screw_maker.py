@@ -3895,10 +3895,13 @@ class Screw(object):
   # make ISO 7380-1 Button head Screw
   # make ISO 7380-2 Button head Screw with collar
   # make DIN 967 cross recessed pan head Screw with collar
-  def makeScrewTap(self, ThreadType ='M6',l=25.0, customPitch=None, customDia=None):
+  def makeScrewTap(self, SType = "ScrewTap", ThreadType ='M6',l=25.0, customPitch=None, customDia=None):
     if ThreadType != "Custom":
       dia = self.getDia(ThreadType, False)
-      P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+      if SType == "ScrewTap":
+        P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+      elif SType == "ScrewTapInch":
+        P = FsData["asmeb18.3.1adef"][ThreadType][0]
     else: # custom pitch and diameter
       P = customPitch
       dia = customDia
@@ -3931,10 +3934,13 @@ class Screw(object):
 
 
   # make object to cut external threads on a shaft
-  def makeScrewDie(self, ThreadType = 'M6', l=25.0, customPitch=None, customDia=None):
+  def makeScrewDie(self, SType = "ScrewDie", ThreadType = 'M6', l=25.0, customPitch=None, customDia=None):
     if ThreadType != "Custom":
       dia = self.getDia(ThreadType, False)
-      P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+      if SType == "ScrewDie":
+        P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+      elif SType == "ScrewDieInch":
+        P = FsData["asmeb18.3.1adef"][ThreadType][0]
     else: # custom pitch and diameter
       P = customPitch
       dia = customDia
@@ -3965,10 +3971,13 @@ class Screw(object):
 
 
   # make a length of standard threaded rod
-  def makeThreadedRod(self, ThreadType = 'M6', l=25.0, customPitch=None, customDia=None):
+  def makeThreadedRod(self, SType = "ThreadedRod", ThreadType = 'M6', l=25.0, customPitch=None, customDia=None):
     if ThreadType != "Custom":
       dia = self.getDia(ThreadType, False)
-      P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+      if SType == "ThreadedRod":
+        P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
+      elif SType == "ThreadedRodInch":
+        P = FsData["asmeb18.3.1adef"][ThreadType][0]
     else: # custom pitch and diameter
       P = customPitch
       dia = customDia

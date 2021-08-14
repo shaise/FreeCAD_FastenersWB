@@ -419,8 +419,8 @@ class FSScrewRodObject(FSBaseObject):
     #self.Proxy = obj.Name
     
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
-    obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw length").diameterCustom = 6
-    obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw length").pitchCustom = 1.0
+    obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw major diameter custom").diameterCustom = 6
+    obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw pitch custom").pitchCustom = 1.0
     obj.addProperty("App::PropertyLength","length","Parameters","Screw length").length = 20.0
     self.VerifyMissingAttrs(obj)
     obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
@@ -429,6 +429,15 @@ class FSScrewRodObject(FSBaseObject):
   def VerifyMissingAttrs(self, obj):
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
+    # for old objects from before custom diameter and pitch were implimented
+    if not hasattr(obj,"pitchCustom"):
+      obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw pitch custom").pitchCustom = 1.0
+      obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw major diameter custom").diameterCustom = 6
+      dia_tmp = obj.diameter
+      self.type = "ScrewTap"
+      obj.diameter = screwMaker.GetAllDiams(self.type) + ["Custom"]
+      obj.diameter = dia_tmp
+
  
   def execute(self, fp):
     '''"Print a short message when doing a recomputation, this method is mandatory" '''
@@ -439,7 +448,6 @@ class FSScrewRodObject(FSBaseObject):
     except:
       baseobj = None
       shape = None
-          
     self.VerifyMissingAttrs(fp)
     diameterchange = False      
     if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
@@ -553,8 +561,8 @@ class FSScrewDieObject(FSBaseObject):
     
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
     obj.addProperty("App::PropertyLength","length","Parameters","Screw length").length = 20.0
-    obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw length").diameterCustom = 6
-    obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw length").pitchCustom = 1.0
+    obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw major diameter custom").diameterCustom = 6
+    obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw pitch custom").pitchCustom = 1.0
     self.VerifyMissingAttrs(obj)
     obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.Proxy = self
@@ -562,7 +570,15 @@ class FSScrewDieObject(FSBaseObject):
   def VerifyMissingAttrs(self, obj):
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
- 
+    # for old objects from before custom diameter and pitch were implimented
+    if not hasattr(obj,"pitchCustom"):
+      obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw pitch custom").pitchCustom = 1.0
+      obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw major diameter custom").diameterCustom = 6
+      dia_tmp = obj.diameter
+      self.type = "ScrewDie"
+      obj.diameter = screwMaker.GetAllDiams(self.type) + ["Custom"]
+      obj.diameter = dia_tmp
+
   def execute(self, fp):
     '''"Print a short message when doing a recomputation, this method is mandatory" '''
     
@@ -689,8 +705,8 @@ class FSThreadedRodObject(FSBaseObject):
     
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
     obj.addProperty("App::PropertyLength","length","Parameters","Screw length").length = 20.0
-    obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw length").diameterCustom = 6
-    obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw length").pitchCustom = 1.0
+    obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw major diameter custom").diameterCustom = 6
+    obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw pitch custom").pitchCustom = 1.0
     self.VerifyMissingAttrs(obj)
     obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.Proxy = self
@@ -698,7 +714,15 @@ class FSThreadedRodObject(FSBaseObject):
   def VerifyMissingAttrs(self, obj):
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
- 
+    # for old objects from before custom diameter and pitch were implimented
+    if not hasattr(obj,"pitchCustom"):
+      obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw pitch custom").pitchCustom = 1.0
+      obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw major diameter custom").diameterCustom = 6
+      dia_tmp = obj.diameter
+      self.type = "ThreadedRod"
+      obj.diameter = screwMaker.GetAllDiams(self.type) + ["Custom"]
+      obj.diameter = dia_tmp
+
   def execute(self, fp):
     '''"Print a short message when doing a recomputation, this method is mandatory" '''
     

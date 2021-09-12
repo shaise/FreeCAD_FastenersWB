@@ -107,7 +107,9 @@ We will be extending the `Screw` class to generate a new fastener.
   def makeCarriageBolt(self, SType = 'ASMEB18.5.2', Threadtype = '1/4in', l = 25.4) :
     d = self.getDia(Threadtype, False)
     if SType == 'ASMEB18.5.2':
-      _,pitch,A,H,O,P,_,_ = (25.4*x for x in FsData["asmeb18.5.2def"][Threadtype])
+      tpi,_,A,H,O,P,_,_ = FsData["asmeb18.5.2def"][Threadtype]
+      A,H,O,P = (25.4*x for x in (A,H,O,P))
+      pitch = 25.4/tpi
       if l <= 152.4:
         L_t = d*2+6.35
       else:
@@ -145,16 +147,17 @@ We will be extending the `Screw` class to generate a new fastener.
         halfturns = 2*int(turns)
         if residue > 0.5:
           halfturns = halfturns+1
-        shell_thread = self.makeShellthread(d,pitch,halfturns,True,0)
-        shell_thread.translate(Base.Vector(0,0,-pitch-P))
+        shell_thread = self.makeShellthread(d,pitch,halfturns,False,0)
+        shell_thread.translate(Base.Vector(0,0,-2*pitch-P))
       else:  # partially threaded fastener
         residue, turns = math.modf((L_t-P)/pitch)
         halfturns = 2*int(turns)
         if residue > 0.5:
           halfturns = halfturns+1
-        shell_thread = self.makeShellthread(d,pitch,halfturns,True,0)
-        shell_thread.translate(Base.Vector(0,0,-pitch-P-(l-L_t)))
-        helper_wire = Part.makeLine(p6,Base.Vector(d/2,0,-1*P-(l-L_t)))
+        shell_thread = self.makeShellthread(d,pitch,halfturns,False,0)
+        shell_thread.translate(Base.Vector(0,0,-2*pitch-P-(l-L_t)))
+        p7 = Base.Vector(d/2,0,-1*P-(l-L_t))
+        helper_wire = Part.Wire([Part.makeLine(p6,p7)])
         shank = helper_wire.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
         shell_thread = Part.Shell(shell_thread.Faces+shank.Faces)
     p_shell = Part.Shell(head_shell.Faces+shell_thread.Faces)

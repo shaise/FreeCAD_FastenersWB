@@ -722,6 +722,12 @@ class Screw(object):
       tab_range = FsData["asmeb18.3.5range"]
       Type_text = 'Screw'
 
+    if ST_text[:-1] == 'ASMEB18.5.5':
+      table = FsData["asmeb18.5.2def"]
+      tab_len = FsData["inch_fs_length"]
+      tab_range = FsData["asmeb18.5.2range"]
+      Type_text = 'Screw'
+
     if ST_text == 'ASMEB18.6.3.1A':
       table = FsData["asmeb18.6.3.1adef"]
       tab_len = FsData["inch_fs_length"]
@@ -922,6 +928,8 @@ class Screw(object):
            table = FsData["asmeb18.3.5def"]
         if ST_text == 'ASMEB18.6.3.1A':
            table = FsData["asmeb18.6.3.1adef"]
+        if ST_text == 'ASMEB18.5.2':
+           table = FsData["asmeb18.5.2def"]
         if ST_text[:-1] == 'ASMEB18.21.1.12':
            table = FsData["asmeb18.21.1.12def"]
         if (ST_text == 'ScrewTap') or (ST_text == 'ScrewDie') or (ST_text == 'ThreadedRod'):
@@ -996,6 +1004,10 @@ class Screw(object):
           (ST_text[:-1] == 'ASMEB18.2.2.4'):
           screw = self.makeIso4032(ST_text, ND_text)
           Type_text = 'Nut'
+          done = True
+        if (ST_text == 'ASMEB18.5.2'):
+          screw = self.makeCarriageBolt(ST_text, ND_text, l)
+          Type_text = 'Screw'
           done = True
         if ST_text == 'EN1661':
           screw = self.makeEN1661(ND_text)
@@ -3040,6 +3052,71 @@ class Screw(object):
       screw = screw.common(thread_solid)
     return screw
 
+
+  def makeCarriageBolt(self, SType = 'ASMEB18.5.2', Threadtype = '1/4in', l = 25.4) :
+    d = self.getDia(Threadtype, False)
+    if SType == 'ASMEB18.5.2':
+      tpi,_,A,H,O,P,_,_ = FsData["asmeb18.5.2def"][Threadtype]
+      A,H,O,P = (25.4*x for x in (A,H,O,P))
+      pitch = 25.4/tpi
+      if l <= 152.4:
+        L_t = d*2+6.35
+      else:
+        L_t = d*2+12.7
+    # lay out points for head generation
+    p1 = Base.Vector(0,0,H)
+    head_r = A/math.sqrt(2)
+    p2 = Base.Vector(head_r*math.sin(math.pi/8),0,H-head_r+head_r*math.cos(math.pi/8))
+    p3 = Base.Vector(A/2,0,0)
+    p4 = Base.Vector(math.sqrt(2)/2*O,0,0)
+    p5 = Base.Vector(math.sqrt(2)/2*O,0,-1*P+(math.sqrt(2)/2*O-d/2))
+    p6 = Base.Vector(d/2,0,-1*P)
+    # arcs must be converted to shapes in order to be merged with other line segments 
+    a1 = Part.Arc(p1,p2,p3).toShape()
+    l2 = Part.makeLine(p3,p4)
+    l3 = Part.makeLine(p4,p5)
+    l4 = Part.makeLine(p5,p6)
+    wire1 = Part.Wire([a1,l2,l3,l4])
+    head_shell = wire1.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+    if not self.rThread:
+      # simplified threaded section
+      p7 = Base.Vector(d/2,0,-1*l+d/10)
+      p8 = Base.Vector(d/2-d/10,0,-1*l)
+      p9 = Base.Vector(0,0,-1*l)
+      l5 = Part.makeLine(p6,p7)
+      l6 = Part.makeLine(p7,p8)
+      l7 = Part.makeLine(p8,p9)
+      thread_profile_wire = Part.Wire([l5,l6,l7])
+      shell_thread = thread_profile_wire.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+    else:
+      # modeled threaded section
+      # calculate the number of thread half turns
+      if l <= L_t:  # fully threaded fastener
+        residue, turns = math.modf((l-P)/pitch)
+        halfturns = 2*int(turns)
+        if residue > 0.5:
+          halfturns = halfturns+1
+        shell_thread = self.makeShellthread(d,pitch,halfturns,False,0)
+        shell_thread.translate(Base.Vector(0,0,-2*pitch-P))
+      else:  # partially threaded fastener
+        residue, turns = math.modf((L_t-P)/pitch)
+        halfturns = 2*int(turns)
+        if residue > 0.5:
+          halfturns = halfturns+1
+        shell_thread = self.makeShellthread(d,pitch,halfturns,False,0)
+        shell_thread.translate(Base.Vector(0,0,-2*pitch-P-(l-L_t)))
+        p7 = Base.Vector(d/2,0,-1*P-(l-L_t))
+        helper_wire = Part.Wire([Part.makeLine(p6,p7)])
+        shank = helper_wire.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+        shell_thread = Part.Shell(shell_thread.Faces+shank.Faces)
+    p_shell = Part.Shell(head_shell.Faces+shell_thread.Faces)
+    p_solid = Part.Solid(p_shell)
+    # cut 4 flats under the head
+    for i in range(4):
+      p_solid = p_solid.cut(Part.makeBox(d,A,P,Base.Vector(d/2,-1*A/2,-1*P)).rotate(Base.Vector(0,0,0),Base.Vector(0,0,1),i*90))
+    # removeSplitter is equivalent to the 'Refine' option for FreeCAD PartDesign objects
+    return p_solid.removeSplitter()
+    
 
   def makeHextool(self,s_hex, k_hex, cir_hex):
     # makes a cylinder with an inner hex hole, used as cutting tool

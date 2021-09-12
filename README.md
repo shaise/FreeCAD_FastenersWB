@@ -37,13 +37,13 @@ Usage is pretty straightforward:
 3. Select the Fasteners workbench from the workbench drop-down list  
 Result: A series of screws will show on the toolbar:  
 
-  ![FastenersToolbar](Icons/FSToolbar.png)  
+  ![FastenersToolbar](Resources/FSToolbar.png)  
 
 4. Clicking on any of the screws will create this screw in the origin position with default size.  
 
 5. To change size/length: select the newly created screw, then go to the data tab in the property panel, there you can change diameter and length. (For now it is in metric standard):  
 
-  ![FS-Parameters](Icons/FSParams.png)
+  ![FS-Parameters](Resources/FSParams.png)
 
 6. Changing the “thread” property to “true” will render the screw threads as well.  
  **Please note:**  
@@ -61,12 +61,12 @@ Fasteners can also be attached to features in other parts.
 #### Attach Screw to hole(s)
 * To attach screws to holes, select the desired circular edge or several edges (You can also select a face if you want to select all holes in that face):
 
-  ![FastenersSelect](Icons/FSSelect.png)
+  ![FastenersSelect](Resources/FSSelect.png)
 
 *  Now click on the desired screw.  
   **Result:** A screw will be placed on each of the selected features, trying to match the screw size to the hole size:
 
-  ![FastenersCreated](Icons/FSCreated.png)
+  ![FastenersCreated](Resources/FSCreated.png)
 
 * You can now, like before, change diameter and length from the properties panel. 
 
@@ -79,13 +79,13 @@ Fasteners can also be attached to features in other parts.
 
 * To attach an existing fastener to a different feature, select the screw, then ctrl-select the new feature:
 
-  ![Fasteners-Select-Move](Icons/FSSelMove.png)
+  ![Fasteners-Select-Move](Resources/FSSelMove.png)
 
 * Now press the Move button ![Move-Button](Icons/IconMove.svg) in the toolbar
 
 * **Result:** The screw will move to the new location:  
 
-  ![Fasteners-Moved](Icons/FSMoved.png)
+  ![Fasteners-Moved](Resources/FSMoved.png)
 
   * **Note:** An attached screw will move with the part it is attached to.  
     **If you wish to detach the screw from the parent part**:  
@@ -184,6 +184,10 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 For further discussion, feel free to open a forum thread on [FreeCAD Open Discussion subforum](https://forum.freecadweb.org/viewforum.php?f=8&sid=853eff68d2a09bfd39fb3508d038af97) and make sure to ping user 'shaise'.  
 
 There is also an [ongoing thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=114290) discussing Fasteners Workbench that is also a place to comment on.
+
+### Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ### License
 GPLv2

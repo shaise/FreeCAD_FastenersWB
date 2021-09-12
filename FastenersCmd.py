@@ -63,6 +63,7 @@ class FSScrewObject(FSBaseObject):
       return inpstr
 
   def VerifyMissingAttrs(self, obj, diameter):
+    self.updateProps(obj)
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
     if (self.itemText == "Screw" and  not hasattr(obj, 'lengthCustom')):
@@ -427,6 +428,7 @@ class FSScrewRodObject(FSBaseObject):
     obj.Proxy = self
  
   def VerifyMissingAttrs(self, obj):
+    self.updateProps(obj)
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
     # for old objects from before custom diameter and pitch were implimented
@@ -568,6 +570,7 @@ class FSScrewDieObject(FSBaseObject):
     obj.Proxy = self
  
   def VerifyMissingAttrs(self, obj):
+    self.updateProps(obj)
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
     # for old objects from before custom diameter and pitch were implimented
@@ -712,6 +715,7 @@ class FSThreadedRodObject(FSBaseObject):
     obj.Proxy = self
  
   def VerifyMissingAttrs(self, obj):
+    self.updateProps(obj)
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
     # for old objects from before custom diameter and pitch were implimented

@@ -128,7 +128,7 @@ class FSHexNutObject(FSBaseObject):
     except:
       baseobj = None
       shape = None
-   
+    self.updateProps(obj)
     if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter):
       if fp.diameter == 'Auto':
         d = FastenerBase.FSAutoDiameterM(shape, MHexNutTable, -1)

@@ -37,7 +37,14 @@ class FSBaseObject:
   def __init__(self, obj, attachTo):
     obj.addProperty("App::PropertyDistance","offset","Parameters","Offset from surface").offset = 0.0
     obj.addProperty("App::PropertyBool", "invert", "Parameters", "Invert screw direction").invert = False
-    obj.addProperty("App::PropertyLinkSub", "baseObject", "Parameters", "Base object").baseObject = attachTo
+    obj.addProperty("App::PropertyLinkSubGlobal", "baseObject", "Parameters", "Base object").baseObject = attachTo
+
+  def updateProps(self, obj):
+    if obj.getTypeIdOfProperty("baseObject") == "App::PropertyLinkSub":
+      linkedObj = obj.baseObject
+      obj.removeProperty("baseObject")
+      obj.addProperty("App::PropertyLinkSubGlobal", "baseObject", "Parameters", "Base object").baseObject = linkedObj
+
     
 class FSGroupCommand:
     def __init__(self, cmds, menuText, toolTip):

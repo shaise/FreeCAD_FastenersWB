@@ -154,7 +154,7 @@ class FSPressNutObject(FSBaseObject):
     except:
       baseobj = None
       shape = None
-   
+    self.updateProps(fp)
     if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter or self.tcode != fp.tcode):
       if fp.diameter == 'Auto':
         d = FastenerBase.FSAutoDiameterM(shape, CLSPEMTable, 1)
@@ -375,7 +375,7 @@ class FSStandOffObject(FSBaseObject):
     except:
       baseobj = None
       shape = None
-   
+    self.updateProps(fp)
     if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter or self.length != fp.length or self.blind != fp.blind):
       diameterchange = False      
       if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
@@ -548,7 +548,7 @@ class FSStudObject(FSBaseObject):
     except:
       baseobj = None
       shape = None
-   
+    self.updateProps(fp)
     if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter or self.length != fp.length):
       diameterchange = False      
       if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
@@ -773,6 +773,7 @@ class FSPcbStandOffObject(FSBaseObject):
     obj.Proxy = self
 
   def VerifyMissingAttrs(self, obj, diam, width):
+    self.updateProps(obj)
     if (not hasattr(obj, 'lengthCustom')):
       slens = psGetAllLengths(PSMTable, PSLengths ,diam, width)
       if (hasattr(obj, 'length')):
@@ -992,7 +993,7 @@ class FSPcbSpacerObject(FSBaseObject):
     except:
       baseobj = None
       shape = None
-    
+    self.updateProps(fp)
     if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter or self.width != fp.width or self.length != fp.length):
       diameterchange = False      
       if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:

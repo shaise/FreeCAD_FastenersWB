@@ -1063,3 +1063,111 @@ class FSPcbSpacerCommand:
 Gui.addCommand("FSPcbSpacer", FSPcbSpacerCommand())
 FastenerBase.FSCommands.append("FSPcbSpacer", "screws", "PEM Inserts")
 
+###################################################################################
+# Heat Staked Threaded Insert types: IUT
+
+IUTDiamCodes = ['M2', 'M2.5', 'M3', 'M3.5', 'M4', 'M5', 'M6']
+
+IUTPEMTable = {
+#            D,    A,    E,    C,   S1,   S2
+  'M2':  (1.50, 4.00, 3.73, 3.07, 0.79, 0.79),
+  'M2.5':(2.00, 5.74, 4.55, 3.86, 0.79, 0.79),
+  'M3':  (2.50, 5.74, 4.55, 3.86, 0.79, 0.79),
+  'M3.5':(3.00, 7.14, 5.33, 4.65, 0.79, 0.79),
+  'M4':  (3.30, 8.15, 6.17, 5.51, 0.79, 0.79),
+  'M5':  (4.20, 9.52, 6.93, 6.27, 1.17, 1.17),
+  'M6':  (5.00, 12.7, 8.69, 7.87, 1.17, 1.58),
+  }
+
+def iutMakeWire(D, a, E, C, s1, s2):
+  d = D / 2
+  e = E / 2
+  c = C / 2
+  ch = C / 6
+  k1 = (a - ch - s1 - s2)/2
+  k2 = k1 + s1 + k1
+  sd = (e - d)/2
+  
+  fm = FastenerBase.FSFaceMaker()
+  fm.AddPoint(d, 0)
+  fm.AddPoint(e, 0)
+  fm.AddPoint(e, -k1)
+  fm.AddPoint(e - sd, -k1)
+  fm.AddPoint(e - sd, -k1 - s1)
+  fm.AddPoint(e, -k1 - s1)
+  fm.AddPoint(e, -k2)
+  fm.AddPoint(e - sd, -k2)
+  fm.AddPoint(e - sd, -k2 - s2)
+  fm.AddPoint(c, -k2 - s2)
+  fm.AddPoint(c, -a)
+  fm.AddPoint(d, -a)
+  return fm.GetFace()
+
+def iutMakeHeatSet(diam):
+  if not(diam in IUTPEMTable):
+    return None
+  
+  (key, shape) = FastenerBase.FSGetKey('HeatSet', diam)
+  if shape != None:
+    return shape
+
+  D, A, E, C, s1, s2 = IUTPEMTable[diam]
+  D = FastenerBase.MToFloat(diam)
+  f = iutMakeWire(D, A, E, C, s1, s2)
+  p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+  FastenerBase.FSCache[key] = p
+  return p
+
+class FSHeatSetObject(FSBaseObject):
+  def __init__(self, obj, attachTo):
+    '''"Add IUT[A/B/C] Heat Set Insert fastener" '''
+    FSBaseObject.__init__(self, obj, attachTo)
+    self.itemText = "HeatSet"
+    
+    obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Heat set thread diameter").diameter = IUTDiamCodes
+    obj.invert = FastenerBase.FSLastInvert
+    obj.Proxy = self
+ 
+  def execute(self, fp):
+    '''"Print a short message when doing a recomputation, this method is mandatory" '''
+    
+    try:
+      baseobj = fp.baseObject[0]
+      shape = baseobj.Shape.getElement(fp.baseObject[1][0])
+    except:
+      baseobj = None
+      shape = None
+    self.updateProps(fp)
+    if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter):
+      d = fp.diameter
+      s = iutMakeHeatSet(d)
+      self.diameter = fp.diameter
+      FastenerBase.FSLastInvert = fp.invert
+      fp.Label = fp.diameter + '-HeatSet'
+      fp.Shape = s
+    else:
+      FreeCAD.Console.PrintLog("Using cached object\n")
+    if shape != None:
+      FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
+
+
+FastenerBase.FSClassIcons[FSHeatSetObject] = 'IUTHeatInsert.svg'    
+
+class FSHeatSetCommand:
+  """Add Heat Set Insert command"""
+
+  def GetResources(self):
+    icon = os.path.join( iconPath , 'IUTHeatInsert.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Add Heatset Insert" ,
+            'ToolTip' : "Add IUT[A/B/C] Heat Staked Metric Insert"}
+ 
+  def Activated(self):
+    FastenerBase.FSGenerateObjects(FSHeatSetObject, "HeatSet")
+    return
+   
+  def IsActive(self):
+    return Gui.ActiveDocument != None
+
+Gui.addCommand("FSHeatSet", FSHeatSetCommand())
+FastenerBase.FSCommands.append("FSHeatSet", "screws", "PEM Inserts")

@@ -432,7 +432,7 @@ class FSScrewRodObject(FSBaseObject):
     self.updateProps(obj)
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
-    # for old objects from before custom diameter and pitch were implimented
+    # for old objects from before custom diameter and pitch were implemented
     if not hasattr(obj,"pitchCustom"):
       obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw pitch custom").pitchCustom = 1.0
       obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw major diameter custom").diameterCustom = 6
@@ -574,7 +574,7 @@ class FSScrewDieObject(FSBaseObject):
     self.updateProps(obj)
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
-    # for old objects from before custom diameter and pitch were implimented
+    # for old objects from before custom diameter and pitch were implemented
     if not hasattr(obj,"pitchCustom"):
       obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw pitch custom").pitchCustom = 1.0
       obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw major diameter custom").diameterCustom = 6
@@ -719,7 +719,7 @@ class FSThreadedRodObject(FSBaseObject):
     self.updateProps(obj)
     if not (hasattr(obj,'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
-    # for old objects from before custom diameter and pitch were implimented
+    # for old objects from before custom diameter and pitch were implemented
     if not hasattr(obj,"pitchCustom"):
       obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw pitch custom").pitchCustom = 1.0
       obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw major diameter custom").diameterCustom = 6

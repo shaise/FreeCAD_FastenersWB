@@ -493,10 +493,10 @@ class FSFlipCommand:
   """Flip Screw command"""
 
   def GetResources(self):
-    icon = os.path.join( iconPath , 'IconFlip.svg')
-    return {'Pixmap'  : icon , # the name of a svg file available in the resources
-            'MenuText': "Invert fastner" ,
-            'ToolTip' : "Invert fastner orientation"}
+    icon = os.path.join(iconPath, 'IconFlip.svg')
+    return {'Pixmap'  : icon, # the name of a svg file available in the resources
+            'MenuText': "Invert fastener",
+            'ToolTip' : "Invert fastener orientation"}
  
   def Activated(self):
     selObjs = self.GetSelection()
@@ -672,7 +672,10 @@ class FSMatchTypeGroupCommand:
         return 0
 
     def GetResources(self):
-        return { 'MenuText': 'Screw diamter matching mode', 'ToolTip': 'Screw diamter matching mode (by inner or outer thread diameter)', 'DropDownMenu': False, 'Exclusive' : True }
+        return { 'MenuText': 'Screw diameter matching mode',
+                 'ToolTip': 'Screw diameter matching mode (by inner or outer thread diameter)',
+                 'DropDownMenu': False,
+                 'Exclusive': True}
        
     def IsActive(self): # optional
         return True

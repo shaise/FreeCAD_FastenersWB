@@ -468,19 +468,19 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
               normvec = Base.Vector(1.0,0.0,0.0)
               result = math.pi
           else:
-              normvec = Axis1.cross(Axis2) # Berechne Achse der Drehung = normvec
-              normvec.normalize() # Normalisieren fuer Quaternionenrechnung
+              normvec = Axis1.cross(Axis2) # Calculate axis of rotation = normvec
+              normvec.normalize() # Normalize for quaternion calculations
               #normvec_rot = normvec
-              result = DraftVecUtils.angle(Axis1, Axis2, normvec) # Winkelberechnung
+              result = DraftVecUtils.angle(Axis1, Axis2, normvec) # Angle calculation
       sin_res = math.sin(result/2.0)
       cos_res = math.cos(result/2.0)
-      normvec.multiply(-sin_res) # Berechnung der Quaternionen-Elemente
+      normvec.multiply(-sin_res) # Calculation of the quaternion elements
               
-      #FreeCAD.Console.PrintLog( "Winkel = "+ str(math.degrees(result)) + "\n")
-      #FreeCAD.Console.PrintLog("Normalvektor: "+ str(normvec) + "\n")
+      #FreeCAD.Console.PrintLog( "Angle = "+ str(math.degrees(result)) + "\n")
+      #FreeCAD.Console.PrintLog("Normal vector: "+ str(normvec) + "\n")
         
       pl = FreeCAD.Placement()
-      pl.Rotation = (normvec.x,normvec.y,normvec.z,cos_res) #Drehungs-Quaternion
+      pl.Rotation = (normvec.x,normvec.y,normvec.z,cos_res) #Rotation quaternion
       
       #FreeCAD.Console.PrintLog("pl mit Rot: "+ str(pl) + "\n")
       ScrewObj_m.Placement = FreeCAD.Placement()

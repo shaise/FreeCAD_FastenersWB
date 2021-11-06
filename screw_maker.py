@@ -1060,7 +1060,7 @@ class Screw(object):
     mylist = FreeCAD.Gui.Selection.getSelectionEx()
     if (mylist.__len__() == 1):
        # check selection
-       #FreeCAD.Console.PrintMessage("Selektionen: " + str(mylist.__len__()) + "\n")
+       #FreeCAD.Console.PrintMessage("Selections: " + str(mylist.__len__()) + "\n")
        Pnt1 = None
        Axis1 = None
        Axis2 = None
@@ -1104,15 +1104,15 @@ class Screw(object):
                 normvec = Base.Vector(1.0,0.0,0.0)
                 result = math.pi
              else:
-                normvec = Axis1.cross(Axis2) # Berechne Achse der Drehung = normvec
-                normvec.normalize() # Normalisieren fuer Quaternionenrechnung
+                normvec = Axis1.cross(Axis2) # Calculate axis of rotation = normvec
+                normvec.normalize() # Normalize for quaternion calculations
                 #normvec_rot = normvec
                 result = DraftVecUtils.angle(Axis1, Axis2, normvec) # Winkelberechnung
           sin_res = math.sin(result/2.0)
           cos_res = math.cos(result/2.0)
-          normvec.multiply(-sin_res) # Berechnung der Quaternionen-Elemente
-          #FreeCAD.Console.PrintMessage( "Winkel = "+ str(math.degrees(result)) + "\n")
-          #FreeCAD.Console.PrintMessage("Normalvektor: "+ str(normvec) + "\n")
+          normvec.multiply(-sin_res) # Calculation of the quaternion elements
+          #FreeCAD.Console.PrintMessage( "Angle = "+ str(math.degrees(result)) + "\n")
+          #FreeCAD.Console.PrintMessage("Normal vector: "+ str(normvec) + "\n")
 
           pl = FreeCAD.Placement()
           pl.Rotation = (normvec.x,normvec.y,normvec.z,cos_res) #Drehungs-Quaternion
@@ -1120,16 +1120,16 @@ class Screw(object):
           #FreeCAD.Console.PrintMessage("pl mit Rot: "+ str(pl) + "\n")
           #neuPlatz = Part2.Object.Placement.multiply(pl)
           neuPlatz = ScrewObj_m.Placement
-          #FreeCAD.Console.PrintMessage("die Position     "+ str(neuPlatz) + "\n")
+          #FreeCAD.Console.PrintMessage("the Position     "+ str(neuPlatz) + "\n")
           neuPlatz.Rotation = pl.Rotation.multiply(ScrewObj_m.Placement.Rotation)
           neuPlatz.move(Pnt1)
-          #FreeCAD.Console.PrintMessage("die rot. Position: "+ str(neuPlatz) + "\n")
+          #FreeCAD.Console.PrintMessage("the rot. Position: "+ str(neuPlatz) + "\n")
 
 
   # make Washer
   def makeIso7089(self,SType ='ISO7089', ThreadType ='M6'):
     dia = self.getDia(ThreadType, True)
-    #FreeCAD.Console.PrintMessage("die Scheibe mit dia: " + str(dia) + "\n")
+    #FreeCAD.Console.PrintMessage("the disc with dia: " + str(dia) + "\n")
     if SType == 'ISO7089':
       d1_min, d2_max, h, h_max = FsData["iso7089def"][ThreadType]
     if SType == 'ISO7090':
@@ -1155,7 +1155,7 @@ class Screw(object):
       d2_max = d2_c
       h_max = h_c
 
-    #FreeCAD.Console.PrintMessage("die Scheibe mit d1_min: " + str(d1_min) + "\n")
+    #FreeCAD.Console.PrintMessage("the disc with d1_min: " + str(d1_min) + "\n")
 
     #Washer Points
     Pnt0 = Base.Vector(d1_min/2.0,0.0,h_max)
@@ -1191,10 +1191,10 @@ class Screw(object):
   def makeSlottedScrew(self,SType ='ISO1580', ThreadType ='M6',l=25.0):
     dia = self.getDia(ThreadType, False)
     if SType == 'ISO1580':
-      #FreeCAD.Console.PrintMessage("der Kopf mit l: " + str(l) + "\n")
+      #FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
       #P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = iso1580def[ThreadType]
       P, a, b, dk_max, da, k, n_min, r, rf, t_min, x = FsData["iso1580def"][ThreadType]
-      #FreeCAD.Console.PrintMessage("der Kopf mit iso: " + str(dk_max) + "\n")
+      #FreeCAD.Console.PrintMessage("the head with iso: " + str(dk_max) + "\n")
       ht = k
       headEnd = r
 
@@ -1325,7 +1325,7 @@ class Screw(object):
 
     aFace =Part.Face(aWire)
     head = aFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
-    #FreeCAD.Console.PrintMessage("der Kopf mit revolve: " + str(dia) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
 
     #Parameter for slot-recess: dk_max, n_min, k, t_min
     slot = Part.makePlane(dk_max, n_min, \
@@ -1333,7 +1333,7 @@ class Screw(object):
     slot = slot.extrude(Base.Vector(0.0,0.0,-t_min-1.0))
     #Part.show(slot)
     head = head.cut(slot)
-    #FreeCAD.Console.PrintMessage("der Kopf geschnitten: " + str(dia) + "\n")
+    #FreeCAD.Console.PrintMessage("the head cut: " + str(dia) + "\n")
     #Part.show(head)
 
     if self.rThread:
@@ -1364,9 +1364,9 @@ class Screw(object):
   # ISO 14583 Hexalobular socket pan head screws
   def makeIso7045(self, SType ='ISO7045', ThreadType ='M6',l=25.0):
     dia = self.getDia(ThreadType, False)
-    #FreeCAD.Console.PrintMessage("der Kopf mit l: " + str(l) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
     P, a, b, dk_max,da, k, r, rf, x, cT, mH, mZ  = FsData["iso7045def"][ThreadType]
-    #FreeCAD.Console.PrintMessage("der Kopf mit iso: " + str(dk_max) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with iso: " + str(dk_max) + "\n")
 
     #Lengths and angles for calculation of head rounding
     beta = math.asin(dk_max /2.0 / rf)   # angle of head edge
@@ -1495,7 +1495,7 @@ class Screw(object):
     headShell = aWire.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
     #head = Part.Solid(headShell)
     #Part.show(aWire)
-    #FreeCAD.Console.PrintMessage("der Kopf mit revolve: " + str(dia) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
     headFaces = headShell.Faces
 
     if (SType == 'ISO14583'):
@@ -1561,7 +1561,7 @@ class Screw(object):
     else:
       dia=float(ThreadType.lstrip('M'))
     '''
-    #FreeCAD.Console.PrintMessage("der Kopf mit l: " + str(l) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
     if (SType == 'ISO1207') or (SType == 'ISO14580'):
        P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = FsData["iso1207def"][ThreadType]
     if SType == 'ISO7048':
@@ -1569,7 +1569,7 @@ class Screw(object):
     if (SType == 'ISO14580'):
        tt, k, A, t_min = FsData["iso14580def"][ThreadType]
 
-    #FreeCAD.Console.PrintMessage("der Kopf mit iso: " + str(dk) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with iso: " + str(dk) + "\n")
 
     #Length for calculation of head fillet
     r_fil = r*2.0
@@ -1668,7 +1668,7 @@ class Screw(object):
       aFace =Part.Face(aWire)
       head = aFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360.0)
       head = head.cut(recess)
-      # FreeCAD.Console.PrintMessage("der Kopf geschnitten: " + str(dia) + "\n")
+      # FreeCAD.Console.PrintMessage("the head cut: " + str(dia) + "\n")
       #Part.show(head)
       if self.rThread:
         screwFaces = []
@@ -1706,7 +1706,7 @@ class Screw(object):
 
       #aFace =Part.Face(aWire)
       headShell = aWire.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360.0)
-      #FreeCAD.Console.PrintMessage("der Kopf mit revolve: " + str(dia) + "\n")
+      #FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
 
       if SType == 'ISO7048':
         # hCut should be just a cylinder
@@ -1755,7 +1755,7 @@ class Screw(object):
   # make the ISO 4014 Hex-head-bolt
   def makeIso4017_2(self, SType, ThreadType,l=40.0):
     dia = self.getDia(ThreadType, False)
-    #FreeCAD.Console.PrintMessage("der Kopf mit l: " + str(l) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
     if SType == 'ISO4017':
       P, c, dw, e,k,r,s = FsData["iso4017head"][ThreadType]
 
@@ -1799,7 +1799,7 @@ class Screw(object):
     cham = (e-s)*math.sin(math.radians(15)) # needed for chamfer at head top
 
     #Head Points  Usage of k, s, cham, c, dw, dia, r, a
-    #FreeCAD.Console.PrintMessage("der Kopf mit halfturns: " + str(halfturns) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with halfturns: " + str(halfturns) + "\n")
     Pnt0 = Base.Vector(0.0,0.0,k)
     Pnt2 = Base.Vector(s/2.0,0.0,k)
     Pnt3 = Base.Vector(s/math.sqrt(3.0),0.0,k-cham)
@@ -1833,11 +1833,11 @@ class Screw(object):
 
       aFace =Part.Face(aWire)
       head = aFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360.0)
-      #FreeCAD.Console.PrintMessage("der Kopf mit revolve: " + str(dia) + "\n")
+      #FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
 
       # Part.show(extrude)
       head = head.cut(extrude)
-      #FreeCAD.Console.PrintMessage("der Kopf geschnitten: " + str(dia) + "\n")
+      #FreeCAD.Console.PrintMessage("the head cut: " + str(dia) + "\n")
       #Part.show(head)
 
       headFaces = []
@@ -1863,7 +1863,7 @@ class Screw(object):
         headShell = Part.Shell(headFaces)
         head = Part.Solid(headShell)
         cyl = self.cutChamfer(dia, P, l)
-        #FreeCAD.Console.PrintMessage("vor Schnitt Ende: " + str(dia) + "\n")
+        #FreeCAD.Console.PrintMessage("before the end of the cut: " + str(dia) + "\n")
         head = head.cut(cyl)
 
     else:
@@ -1893,11 +1893,11 @@ class Screw(object):
 
       aFace =Part.Face(aWire)
       head = aFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360.0)
-      #FreeCAD.Console.PrintMessage("der Kopf mit revolve: " + str(dia) + "\n")
+      #FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
 
       # Part.show(extrude)
       head = head.cut(extrude)
-      #FreeCAD.Console.PrintMessage("der Kopf geschnitten: " + str(dia) + "\n")
+      #FreeCAD.Console.PrintMessage("the head cut: " + str(dia) + "\n")
 
     return head
 
@@ -1906,7 +1906,7 @@ class Screw(object):
   # EN 1665 Hexagon bolts with flange, heavy series
   def makeEN1662_2(self,SType ='EN1662', ThreadType ='M8',l=25.0):
     dia = self.getDia(ThreadType, False)
-    #FreeCAD.Console.PrintMessage("der Kopf mit l: " + str(l) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
     if SType == 'EN1662':
        P, b0, b1, b2, b3, c, dc, dw, e, k, kw,f, r1, s = FsData["en1662def"][ThreadType]
     elif SType == 'EN1665':
@@ -1925,7 +1925,7 @@ class Screw(object):
           else:
              b = b3
 
-    #FreeCAD.Console.PrintMessage("der Kopf mit isoEN1662: " + str(c) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with isoEN1662: " + str(c) + "\n")
     cham = s*(2.0/math.sqrt(3.0)-1.0)*math.sin(math.radians(25)) # needed for chamfer at head top
 
     ### make the new code with math.modf(l)
@@ -1957,7 +1957,7 @@ class Screw(object):
 
 
     #Hex-Head Points
-    #FreeCAD.Console.PrintMessage("der Kopf mit math a: " + str(a_point) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with math a: " + str(a_point) + "\n")
     PntH0 = Base.Vector(0.0,0.0,kmean*0.9)
     PntH1 = Base.Vector(s/2.0*0.8 - r1/2.0,0.0,kmean*0.9)
     PntH1a = Base.Vector(s/2.0*0.8-r1/2.0+r1/2.0*sqrt2_,0.0,kmean*0.9 +r1/2.0 -r1/2.0*sqrt2_)
@@ -2097,7 +2097,7 @@ class Screw(object):
     #aFace =Part.Face(aWire)
     #Part.show(aWire)
     headShell = aWire.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
-    #FreeCAD.Console.PrintMessage("der Kopf mit revolve: " + str(dia) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
     #Part.show(headShell)
     chamFace = headShell.Faces[0].cut(solidHex)
     #Part.show(chamFace)
@@ -2123,7 +2123,7 @@ class Screw(object):
         headShell = Part.Shell(topFaces)
         head = Part.Solid(headShell)
         cyl = self.cutChamfer(dia, P, l)
-        #FreeCAD.Console.PrintMessage("vor Schnitt Ende: " + str(dia) + "\n")
+        #FreeCAD.Console.PrintMessage("before the end of the cut: " + str(dia) + "\n")
         screw = head.cut(cyl)
     else:
       screwShell = Part.Shell(topFaces)
@@ -2188,7 +2188,7 @@ class Screw(object):
       h_arc_z = ctp + rf * math.cos(alpha)
 
 
-    #FreeCAD.Console.PrintMessage("der Kopf mit iso r: " + str(r) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with iso r: " + str(r) + "\n")
     cham = (dk_theo - dk_mean)/2.0
     rad225 = math.radians(22.5)
     rad45 = math.radians(45.0)
@@ -2357,7 +2357,7 @@ class Screw(object):
           head = head.fuse(rthread)
           head = head.removeSplitter()
           cyl = self.cutChamfer(dia, P, l)
-          #FreeCAD.Console.PrintMessage("vor Schnitt Ende: " + str(dia) + "\n")
+          #FreeCAD.Console.PrintMessage("before the end of the cut: " + str(dia) + "\n")
           head = head.cut(cyl)
           '''
 
@@ -2399,7 +2399,7 @@ class Screw(object):
   def makeIso4762(self, SType ='ISO4762', ThreadType ='M6',l=25.0):
     dia = self.getDia(ThreadType, False)
     #FreeCAD.Console.PrintMessage("der 4762Kopf mit l: " + str(l) + "\n")
-    #FreeCAD.Console.PrintMessage("der Kopf mit iso r: " + str(r) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with iso r: " + str(r) + "\n")
     if SType == 'ISO14579':
       P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = FsData["iso4762def"][ThreadType]
       tt, A, t = FsData["iso14579def"][ThreadType]
@@ -2587,7 +2587,7 @@ class Screw(object):
     headShell = aWire.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
     #head = Part.Solid(headShell)
     #Part.show(aWire)
-    #FreeCAD.Console.PrintMessage("der Kopf mit revolve: " + str(dia) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
     headFaces = headShell.Faces
 
     # Hex cutout
@@ -2635,7 +2635,7 @@ class Screw(object):
         headShell = Part.Shell(headFaces)
         allenscrew = Part.Solid(headShell)
         cyl = self.cutChamfer(dia, P, l)
-        # FreeCAD.Console.PrintMessage("vor Schnitt Ende: " + str(dia) + "\n")
+        # FreeCAD.Console.PrintMessage("before the end of the cut: " + str(dia) + "\n")
         allenscrew = allenscrew.cut(cyl)
     else:
       headShell = Part.Shell(headFaces)
@@ -3162,7 +3162,7 @@ class Screw(object):
       halfturn = False
       bot_off = 0.0 # nominal length
 
-    H=P*math.cos(math.radians(30)) # Gewindetiefe H
+    H=P*math.cos(math.radians(30)) # Thread depth H
     r=d/2.0
 
     # helix = Part.makeHelix(P,P,d*511/1000.0,0) # make just one turn, length is identical to pitch
@@ -3453,7 +3453,7 @@ class Screw(object):
     else:
       fuzzyValue = 0.0
 
-    H=P*math.cos(math.radians(30)) # Gewindetiefe H
+    H=P*math.cos(math.radians(30)) # Thread depth H
     r=d/2.0
     
     
@@ -3876,7 +3876,7 @@ class Screw(object):
     hexShell = Part.Shell(hexFaces)
 
 
-    H=P*math.cos(math.radians(30)) # Gewindetiefe H
+    H=P*math.cos(math.radians(30)) # Thread depth H
     cham_i_delta = da/2.0 - (dia/2.0-H*5.0/8.0)
     cham_i = cham_i_delta * math.tan(math.radians(15.0))
   
@@ -3934,7 +3934,7 @@ class Screw(object):
     #aFace =Part.Face(aWire)
     #Part.show(aWire)
     headShell = aWire.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
-    #FreeCAD.Console.PrintMessage("der Kopf mit revolve: " + str(dia) + "\n")
+    #FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
     #Part.show(headShell)
     chamFace = headShell.Faces[0].cut(solidHex)
     #Part.show(chamFace)
@@ -3991,7 +3991,7 @@ class Screw(object):
       screwTap = self.makeInnerThread_2(dia, P, int(turns), None, 0.0)
       screwTap.translate(Base.Vector(0.0, 0.0,(1-residue)*P))
     else:
-      H=P*math.cos(math.radians(30)) # Gewindetiefe H
+      H=P*math.cos(math.radians(30)) # Thread depth H
       r=dia/2.0
 
       # points for inner thread profile
@@ -4194,7 +4194,7 @@ class Screw(object):
     wire_t_tot = Part.makePolygon([PntC1,PntC3,PntC7,PntC9,PntC5,PntC1])
     # Part.show(wire_t_tot)
     edgeC1 = Part.makeLine(PntC0,PntC1)
-    #FreeCAD.Console.PrintMessage("edgeC1 mit PntC9" + str(PntC9) + "\n")
+    #FreeCAD.Console.PrintMessage("edgeC1 with PntC9" + str(PntC9) + "\n")
 
     makeSolid=True
     isFrenet=False

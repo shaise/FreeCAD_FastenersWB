@@ -31,7 +31,7 @@ Let's Implement a new type of fastener - a carriage bolt:
 The advantage of using the plain text `.csv` format is that there are lots of
 tools that work well with these files e.g.:
 
-- [LibreOffice Calc]() or an equivalent spreadsheet editor.
+- [LibreOffice Calc](https://www.libreoffice.org/) or an equivalent spreadsheet editor.
 - [GImageReader](https://github.com/manisandro/gImageReader) - for reading text from pdf files
 - A text editor with [multi-cursor support](https://code.visualstudio.com/docs/editor/codebasics#_multiple-selections-multicursor)
 
@@ -196,7 +196,7 @@ of our additions to it. It should look something like this:
 ```
 
 You can review the code added to `screw_maker.py` for this example
-[HERE](add_link_when_merged).
+[HERE](https://github.com/shaise/FreeCAD_FastenersWB/commit/a60aa6a84a06ebd08072ad8e7e08d35095885f9f#diff-1714d1d791cb4949f7c3d13e84a426e4037bb68c9ed1a1da7623e6e5b97fa9b3).
 
 ### Additional changes
 
@@ -210,7 +210,7 @@ screwTables = {
 }
 ```
 
-Check out the corresponding commit [HERE](add_link_when_merged).
+Check out the corresponding commit [HERE](https://github.com/shaise/FreeCAD_FastenersWB/commit/a60aa6a84a06ebd08072ad8e7e08d35095885f9f#diff-7500edada7f01d372094af6412f7926a5f9925d65ed9fae3da8335aa493ea1a7).
 
 - `FastenersCmd.py` needs a line to initialize a new toolbar command for the workbench. 
 
@@ -218,7 +218,7 @@ Check out the corresponding commit [HERE](add_link_when_merged).
 FSAddScrewCommand("ASMEB18.5.2", "ASME B18.5 UNC Round head square neck bolts", "Other head")
 ```
 
-Check out the corresponding commit [HERE](add_link_when_merged).
+Check out the corresponding commit [HERE](https://github.com/shaise/FreeCAD_FastenersWB/commit/a60aa6a84a06ebd08072ad8e7e08d35095885f9f#diff-964aeb21792025cecf1c3e54451f5102de16b71312d66ff5d442ca5a63b82d13).
 
 ### Reusing existing code
 

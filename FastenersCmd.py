@@ -47,7 +47,6 @@ class FSScrewObject(FSBaseObject):
     self.length = ''
     self.customlen = -1
     #self.Proxy = obj.Name
-    
     obj.addProperty("App::PropertyEnumeration","type","Parameters","Screw type").type = screwMaker.GetAllTypes(self.itemText)
     obj.type = type
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
@@ -418,8 +417,6 @@ class FSScrewRodObject(FSBaseObject):
     self.type = typeStr
     diameters = screwMaker.GetAllDiams(self.type) + ["Custom"]
     diameters.insert(0, 'Auto')
-    #self.Proxy = obj.Name
-    
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
     obj.addProperty("App::PropertyLength","diameterCustom","Parameters","Screw major diameter custom").diameterCustom = 6
     obj.addProperty("App::PropertyLength","pitchCustom","Parameters","Screw pitch custom").pitchCustom = 1.0
@@ -479,16 +476,14 @@ class FSScrewRodObject(FSBaseObject):
       p = fp.pitchCustom.Value
     else:
       p = None
-      
     screwMaker.updateFastenerParameters()  
-
     threadType = 'simple'
     if hasattr(fp,'thread') and fp.thread:
       threadType = 'real'
-    #s = screw_maker.Ui_ScrewMaker.
-    s_obj = ScrewMaker.Screw()
-    s_obj.setThreadType(threadType)
-    s = s_obj.makeScrewTap(self.type,d,l,p,d_custom)
+    # since we are bypassing the createScrew() method, we must set
+    # the rThread parameter manually
+    screwMaker.rThread = (threadType == 'real')
+    s = screwMaker.makeScrewTap(self.type,d,l,p,d_custom)
 
     self.diameter = fp.diameter
     self.length = l
@@ -627,11 +622,10 @@ class FSScrewDieObject(FSBaseObject):
     threadType = 'simple'
     if hasattr(fp,'thread') and fp.thread:
       threadType = 'real'
-    #s = screw_maker.Ui_ScrewMaker.
-    s_obj = ScrewMaker.Screw()
-    s_obj.setThreadType(threadType)
-    s = s_obj.makeScrewDie(self.type,d,l,p,d_custom)
-
+    # since we are bypassing the createScrew() method, we must set
+    # the rThread parameter manually
+    screwMaker.rThread = (threadType == 'real')
+    s = screwMaker.makeScrewDie(self.type,d,l,p,d_custom)
     self.diameter = fp.diameter
     self.length = l
     self.matchOuter = fp.matchOuter
@@ -772,10 +766,10 @@ class FSThreadedRodObject(FSBaseObject):
     threadType = 'simple'
     if hasattr(fp,'thread') and fp.thread:
       threadType = 'real'
-    #s = screw_maker.Ui_ScrewMaker.
-    s_obj = ScrewMaker.Screw()
-    s_obj.setThreadType(threadType)
-    s = s_obj.makeThreadedRod(self.type,d,l,p,d_custom)
+    # since we are bypassing the createScrew() method, we must set
+    # the rThread parameter manually
+    screwMaker.rThread = (threadType == 'real')
+    s = screwMaker.makeThreadedRod(self.type,d,l,p,d_custom)
 
     self.diameter = fp.diameter
     self.length = l

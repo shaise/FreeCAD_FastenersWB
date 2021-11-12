@@ -3784,19 +3784,19 @@ class Screw(object):
   # make DIN 967 cross recessed pan head Screw with collar
   def makeScrewTap(self, SType = "ScrewTap", ThreadType ='M6',l=25.0, customPitch=None, customDia=None):
     if ThreadType != "Custom":
-      dia = self.getDia(ThreadType, False)
+      dia = self.getDia(ThreadType, True)
       if SType == "ScrewTap":
         P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
       elif SType == "ScrewTapInch":
         P = FsData["asmeb18.3.1adef"][ThreadType][0]
     else: # custom pitch and diameter
       P = customPitch
-      dia = customDia
+      if self.sm3DPrintMode:
+        dia = self.smNutThrScaleA * dia + self.smNutThrScaleB
+      else:
+        dia = customDia
     residue, turns = math.modf((l)/P)
     turns += 1.0
-    #FreeCAD.Console.PrintMessage("ScrewTap residue: " + str(residue) + " turns: " + str(turns) + "\n")
-
-
     if self.rThread:
       screwTap = self.makeInnerThread_2(dia, P, int(turns), None, 0.0)
       screwTap.translate(Base.Vector(0.0, 0.0,(1-residue)*P))
@@ -3830,7 +3830,10 @@ class Screw(object):
         P = FsData["asmeb18.3.1adef"][ThreadType][0]
     else: # custom pitch and diameter
       P = customPitch
-      dia = customDia
+      if self.sm3DPrintMode:
+         dia = self.smScrewThrScaleA * dia + self.smScrewThrScaleB
+      else:
+        dia = customDia 
     if self.rThread:
       cutDia = dia*0.75
     else:
@@ -3838,7 +3841,6 @@ class Screw(object):
     refpoint = Base.Vector(0,0,-1*l)
     screwDie = Part.makeCylinder(dia*1.1/2,l,refpoint)
     screwDie = screwDie.cut(Part.makeCylinder(cutDia/2,l,refpoint))
-    #screwDie = screwDie.translate(Base.Vector(0,0,-1*l))
     if self.rThread:
       residue, turns = math.modf((l)/P)
       turns += 2.0
@@ -3867,7 +3869,10 @@ class Screw(object):
         P = FsData["asmeb18.3.1adef"][ThreadType][0]
     else: # custom pitch and diameter
       P = customPitch
-      dia = customDia
+      if self.sm3DPrintMode:
+         dia = self.smScrewThrScaleA * dia + self.smScrewThrScaleB
+      else:
+        dia = customDia
     dia = dia*1.01
     cham = P
     p0 = Base.Vector(0,0,0)
@@ -3904,7 +3909,6 @@ class Screw(object):
       thread_shell = Part.Shell(thr_faces)
       thread_solid = Part.Solid(thread_shell)
       thread_solid.translate(Base.Vector(0,0,2*P))
-      #Part.show(thread_solid)
       screw = screw.common(thread_solid)
     return screw
 

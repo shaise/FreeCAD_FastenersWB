@@ -1916,7 +1916,7 @@ class Screw(object):
        b = b0
     if l< b0:
        b = l - 2*P
-    elif (SType != 'ASME18.2.1.8'):
+    elif (SType != 'ASMEB18.2.1.8'):
        if l<= 125.0:
           b = b1
        else:

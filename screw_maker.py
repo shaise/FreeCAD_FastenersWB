@@ -3146,301 +3146,111 @@ class Screw(object):
     return exHex
 
 
-  def makeShellthread(self, d, P, halfrots, withcham, offSet):
-    d = float(d)
-
-    #rotations = int(rots)-1
-    halfrots_int = int(halfrots)
-    rotations = int((halfrots_int / 2)-1)
-    #print ("halfrots_int: ", halfrots_int, " rotations: ", rotations)
-    if halfrots_int % 2 == 1:
-      #FreeCAD.Console.PrintMessage("got half turn: " + str(halfrots_int) + "\n")
-      halfturn = True
-      # bot_off = - P/2.0 # transition of half a turn
-      bot_off = 0.0 # nominal length
-    else:
-      halfturn = False
-      bot_off = 0.0 # nominal length
-
-    H=P*math.cos(math.radians(30)) # Thread depth H
-    r=d/2.0
-
-    # helix = Part.makeHelix(P,P,d*511/1000.0,0) # make just one turn, length is identical to pitch
-    helix = Part.makeHelix(P,P,d*self.Tuner/1000.0,0) # make just one turn, length is identical to pitch
-    helix.translate(FreeCAD.Vector(0.0, 0.0,-P*9.0/16.0))
-
-    extra_rad = P
-    # points for screw profile
-    ps0 = (r,0.0, 0.0)
-    ps1 = (r-H*5.0/8.0,0.0, -P*5.0/16.0)
-    ps2 = (r-H*17.0/24.0,0.0, -P*7.0/16.0) # Center of Arc
-    ps3 = (r-H*5.0/8.0,0.0, -P*9.0/16.0 )
-    ps4 =  (r, 0.0, -P*14.0/16.0)
-    ps5 = (r,0.0, -P)
-    ps6 = (r+extra_rad,0.0, -P)
-    ps7 = (r+extra_rad,0.0, 0.0)
-
-    edge0 = Part.makeLine(ps0,ps1)
-    edge1 = Part.Arc(FreeCAD.Vector(ps1),FreeCAD.Vector(ps2),FreeCAD.Vector(ps3)).toShape()
-    edge2 = Part.makeLine(ps3,ps4)
-    edge3 = Part.makeLine(ps4,ps5)
-    edge4 = Part.makeLine(ps5,ps6)
-    edge5 = Part.makeLine(ps6,ps7)
-    edge6 = Part.makeLine(ps7,ps0)
-
-    W0 = Part.Wire([edge0, edge1, edge2, edge3, edge4, edge5, edge6])
-
-    makeSolid=True
-    isFrenet=True
-    pipe0 = Part.Wire(helix).makePipeShell([W0],makeSolid,isFrenet)
-    # pipe1 = pipe0.copy()
-
-    TheFaces = []
-    TheFaces.append(pipe0.Faces[0])
-    #Part.show(pipe0.Faces[0])
-    TheFaces.append(pipe0.Faces[1])
-    #Part.show(pipe0.Faces[1])
-    TheFaces.append(pipe0.Faces[2])
-    #Part.show(pipe0.Faces[2])
-    TheFaces.append(pipe0.Faces[3])
-    #Part.show(pipe0.Faces[3])
-
-    TheShell = Part.Shell(TheFaces)
-    # print "Shellpoints: ", len(TheShell.Vertexes)
-
-
-    i = 1
-    for i in range(rotations-2):
-       TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
-
-       for flaeche in TheShell.Faces:
-         TheFaces.append(flaeche)
-
-    #FreeCAD.Console.PrintMessage("Base-Shell: " + str(i) + "\n")
-    # Make separate faces for the tip of the screw
-    botFaces = []
-    for i in range(rotations-2, rotations, 1):
-       TheShell.translate(FreeCAD.Vector(0.0, 0.0,- P))
-
-       for flaeche in TheShell.Faces:
-         botFaces.append(flaeche)
-    #FreeCAD.Console.PrintMessage("Bottom-Shell: " + str(i) + "\n")
-
-    # making additional faces for transition to cylinder
-
-    pc1 = (r + H/16.0,0.0,P*1/32.0)
-    pc2 = (r-H*5.0/8.0,0.0,-P*5.0/16.0 )
-    pc3 = (r-H*17.0/24.0,0.0, -P*7.0/16.0 ) # Center of Arc
-    pc4 = (r-H*5.0/8.0,0.0, -P*9.0/16.0 )
-    pc5 =  (r+ H/16.0, 0.0, -P*29.0/32.0 )
-
-    edgec0 = Part.makeLine(pc5,pc1)
-    edgec1 = Part.makeLine(pc1,pc2)
-    edgec2 = Part.Arc(FreeCAD.Vector(pc2),FreeCAD.Vector(pc3),FreeCAD.Vector(pc4)).toShape()
-    edgec3 = Part.makeLine(pc4,pc5)
-
-    cut_profile = Part.Wire([edgec1, edgec2, edgec3, edgec0 ])
-
-    alpha_rad = math.atan(2*H*17.0/24.0/P)
-    alpha = math.degrees(alpha_rad)
-    Hyp = P/math.cos(alpha_rad)
-    # tuning = 511/1000.0
-    tuning = self.Tuner/1000.0
-    angled_Helix = Part.makeHelix(Hyp,Hyp*1.002/2.0,d*tuning,alpha)
-
-    SH_faces = []
-
-    if halfturn:
-      half_Helix = Part.makeHelix(P,P/2.0,d*self.Tuner/1000.0,0) # make just half a turn
-      angled_Helix.rotate(Base.Vector(0,0,0),Base.Vector(0,0,1),180)
-      angled_Helix.translate(FreeCAD.Vector(0.0, 0.0,P/2.0))
-      # Part.show(half_Helix)
-      # Part.show(angled_Helix)
-      pipe_cut = Part.Wire([half_Helix, angled_Helix]).makePipeShell([cut_profile],True,isFrenet)
-      SH_faces.append(pipe_cut.Faces[0])
-      SH_faces.append(pipe_cut.Faces[1])
-      SH_faces.append(pipe_cut.Faces[2])
-      SH_faces.append(pipe_cut.Faces[4])
-      SH_faces.append(pipe_cut.Faces[5])
-      SH_faces.append(pipe_cut.Faces[6])
-
-    else:
-      pipe_cut = Part.Wire(angled_Helix).makePipeShell([cut_profile],True,isFrenet)
-      SH_faces.append(pipe_cut.Faces[0])
-      SH_faces.append(pipe_cut.Faces[1])
-      SH_faces.append(pipe_cut.Faces[2])
-
-    # Part.show(pipe_cut)
-
-
-    Shell_helix = Part.Shell(SH_faces)
-
-    # rect_helix_profile, needed for cutting a tube-shell
-    pr1 = (r +H/16.0, 0.0, 0.0)
-    pr2 = (r -H/16.0, 0.0, 0.0)
-    pr3 = (r -H/16.0, 0.0, P)
-    pr4 = (r +H/16.0, 0.0, P)
-
-    edge_r1 = Part.makeLine(pr1,pr2)
-    edge_r2 = Part.makeLine(pr2,pr3)
-    edge_r3 = Part.makeLine(pr3,pr4)
-    edge_r4 = Part.makeLine(pr4,pr1)
-    rect_profile = Part.Wire([edge_r1, edge_r2, edge_r3, edge_r4 ])
-    rect_helix = Part.Wire(helix).makePipeShell([rect_profile], True, isFrenet)
-    # if halfturn:
-    #   rect_helix.rotate(Base.Vector(0,0,0),Base.Vector(0,0,1),180)
-    rect_helix.translate(FreeCAD.Vector(0.0, 0.0,- P))
-    # Part.show(rect_helix)
-
-    # rect_ring, needed for cutting the Shell_helix
-    pr5 = (r +H*1.1, 0.0, P*1.1)
-    pr6 = (r, 0.0, P*1.1)
-    pr7 = (r, 0.0, -P*1.1)
-    pr8 = (r +H*1.1, 0.0, -P*1.1)
-
-    edge_r5 = Part.makeLine(pr5,pr6)
-    edge_r6 = Part.makeLine(pr6,pr7)
-    edge_r7 = Part.makeLine(pr7,pr8)
-    edge_r8 = Part.makeLine(pr8,pr5)
-    rect_profile = Part.Wire([edge_r5, edge_r6, edge_r7, edge_r8 ])
-
-    rect_Face =Part.Face(rect_profile)
-    rect_ring= rect_Face.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
-    #Part.show(rect_ring)
-
-    Shell_helix = Shell_helix.cut(rect_ring)
-    Shell_helix.translate(FreeCAD.Vector(0.0, 0.0, P))
-    # Part.show(Shell_helix)
-
-    # shell_ring, the transition to a cylinder
-    pr9 = (r, 0.0, P-offSet)
-    pr10 = (r, 0.0, -P )
-    edge_r9 = Part.makeLine(pr9,pr10)
-    shell_ring= edge_r9.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
-
-    shell_ring = shell_ring.cut(pipe_cut)
-    #Part.show(shell_ring)
-    shell_ring = shell_ring.cut(rect_helix)
-    shell_ring.translate(FreeCAD.Vector(0.0, 0.0, P))
-    #Part.show(shell_ring)
-
-    for flaeche in shell_ring.Faces:
-      TheFaces.append(flaeche)
-
-    for flaeche in Shell_helix.Faces:
-      TheFaces.append(flaeche)
-
+  def makeShellthread(self, dia, P, hrots, withcham, offset):
+    """
+    Construct a 60 degree screw thread with diameter dia,
+    pitch P, and length aproximately equal to hrots*P/2.
+    if withcham == True, the end of the thread is nicely chamfered.
+    The thread is constructed z-up, as a shell, with the top circular
+    face removed. The top of the shell is centered @ (0,0,2*P-offset)
+    """
+    # make a cylindrical solid, then cut the thread profile from it
+    H = math.sqrt(3)/2*P
+    # move the very bottom of the base up a tiny amount
+    # prevents some too-small edges from being created
+    correction = 1e-5
+    base_pnts = list(map(lambda x: Base.Vector(x),
+      [
+            [dia/2,0,2*P-offset],
+            [dia/2,0,-1*(hrots-2)*P/2+P/2],
+            [dia/2-P/2,0,-1*(hrots-2)*P/2+correction],
+            [0,0,-1*(hrots-2)*P/2+correction],
+            [0,0,2*P-offset],
+            [dia/2,0,-1*(hrots-2)*P/2+correction]
+            ]))
     if withcham:
-      #FreeCAD.Console.PrintMessage("with chamfer: " + str(i) + "\n")
-      # cutting of the bottom Faces
-      # bot_off = 0.0 # nominal length
-      cham_off = H/8.0
-      cham_t = P*math.sqrt(3.0)/2.0*17.0/24.0
-
-      # points for chamfer: common-Method
-      pch0 =  (0.0, 0.0, -(rotations)*P + bot_off) # bottom center
-      pch1 =  (r-cham_t,0.0, -(rotations)*P + bot_off)
-      pch2 =  (r+cham_off, 0.0, -(rotations)*P + cham_t +cham_off  + bot_off)
-      pch3 =  (r+cham_off, 0.0, -(rotations)*P + 3.0*P + bot_off)
-      pch4 =  (0.0, 0.0, -(rotations)*P + 3.0*P + bot_off)
-
-      edgech0 = Part.makeLine(pch0,pch1)
-      edgech1 = Part.makeLine(pch1,pch2)
-      edgech2 = Part.makeLine(pch2,pch3)
-      edgech3 = Part.makeLine(pch3,pch4)
-      edgech4 = Part.makeLine(pch4,pch0)
-
-      Wch_wire = Part.Wire([edgech0, edgech1, edgech2, edgech3, edgech4])
-      cham_Face =Part.Face(Wch_wire)
-      cham_Solid = cham_Face.revolve(Base.Vector(0.0,0.0,-(rotations-1)*P),Base.Vector(0.0,0.0,1.0),360)
-      # Part.show(cham_Solid)
-
-      BotShell = Part.Shell(botFaces)
-      BotShell = BotShell.common(cham_Solid)
-      # Part.show(BotShell)
-
-      cham_faces = []
-      cham_faces.append(cham_Solid.Faces[0])
-      cham_faces.append(cham_Solid.Faces[1])
-      cham_Shell = Part.Shell(cham_faces)
-      # Part.show(cham_Shell)
-
-      pipe0.translate(FreeCAD.Vector(0.0, 0.0, -(rotations-1)*P))
-      # Part.show(pipe0)
-
-      # Part.show(Fillet_shell)
-      cham_Shell = cham_Shell.cut(pipe0)
-      pipe0.translate(FreeCAD.Vector(0.0, 0.0, -P))
-      # Part.show(pipe0)
-      cham_Shell = cham_Shell.cut(pipe0)
-
-      '''
-      botFaces2 = []
-      for flaeche in BotShell.Faces:
-        botFaces2.append(flaeche)
-      for flaeche in cham_Shell.Faces:
-        botFaces2.append(flaeche)
-      '''
-
-    else: # tip of screw without chamfer
-      #FreeCAD.Console.PrintMessage("without chamfer: " + str(i) + "\n")
-
-      commonbox = Part.makeBox(d+4.0*P, d+4.0*P, 3.0*P)
-      commonbox.translate(FreeCAD.Vector(-(d+4.0*P)/2.0, -(d+4.0*P)/2.0,-(rotations)*P+bot_off))
-      #commonbox.translate(FreeCAD.Vector(-(d+4.0*P)/2.0, -(d+4.0*P)/2.0,-(rotations+3)*P+bot_off))
-      #Part.show(commonbox)
-
-      BotShell = Part.Shell(botFaces)
-      #Part.show(BotShell)
-
-      BotShell = BotShell.common(commonbox)
-      #BotShell = BotShell.cut(commonbox)
-      bot_edges =[]
-      bot_z =  1.0e-5 -(rotations)*P + bot_off
-
-      for kante in BotShell.Edges:
-         if (kante.Vertexes[0].Point.z<=bot_z) and (kante.Vertexes[1].Point.z<=bot_z):
-            bot_edges.append(kante)
-            # Part.show(kante)
-      bot_wire = Part.Wire(Part.__sortEdges__(bot_edges))
-
-      #botFaces2 = []
-      #for flaeche in BotShell.Faces:
-      #  botFaces2.append(flaeche)
-
-      bot_face = Part.Face(bot_wire)
-      bot_face.reverse()
-      #botFaces2.append(bot_face)
-
-    '''
-
-    BotShell2 = Part.Shell(botFaces2)
-    # Part.show(BotShell2)
-
-    TheShell2 = Part.Shell(TheFaces)
-
-    # This gives a shell
-    FaceList = []
-    for flaeche in TheShell2.Faces:
-      FaceList.append(flaeche)
-    for flaeche in BotShell2.Faces:
-      FaceList.append(flaeche)
-
-    TheShell = Part.Shell(FaceList)
-    # Part.show(TheShell)
-    '''
-    for flaeche in BotShell.Faces:
-      TheFaces.append(flaeche)
-    if withcham:
-      for flaeche in cham_Shell.Faces:
-        TheFaces.append(flaeche)
+      base_profile = Part.Wire([
+          Part.makeLine(base_pnts[0],base_pnts[1]),
+          Part.makeLine(base_pnts[1],base_pnts[2]),
+          Part.makeLine(base_pnts[2],base_pnts[3]),
+          Part.makeLine(base_pnts[3],base_pnts[4]),
+          Part.makeLine(base_pnts[4],base_pnts[0]),
+          ])
     else:
-      TheFaces.append(bot_face)
-    TheShell = Part.Shell(TheFaces)
-
-    #print self.Tuner, " ", TheShell.ShapeType, " ", TheShell.isValid(), " hrots: ", halfrots_int, " Shellpunkte: ", len(TheShell.Vertexes)
-
-    return TheShell
+      base_profile = Part.Wire([
+          Part.makeLine(base_pnts[0],base_pnts[5]),
+          Part.makeLine(base_pnts[5],base_pnts[3]),
+          Part.makeLine(base_pnts[3],base_pnts[4]),
+          Part.makeLine(base_pnts[4],base_pnts[0]),
+          ])
+    base_shell = base_profile.revolve(
+            Base.Vector(0,0,0),
+            Base.Vector(0,0,1),
+            360)
+    base_body = Part.makeSolid(base_shell)
+    # create a sketch profile of the thread
+    # ref: https://en.wikipedia.org/wiki/ISO_metric_screw_thread
+    fillet_r = P*math.sqrt(3)/12
+    helix_height = (hrots+2)*P/2
+    pnts = list(map(lambda x: Base.Vector(x), 
+        [
+            [dia/2 + math.sqrt(3)*3/80*P,0,-0.475*P],
+            [dia/2-0.625*H,0,-1*P/8],
+            [dia/2-0.625*H-0.5*fillet_r,0,0],
+            [dia/2-0.625*H,0,P/8],
+            [dia/2 + math.sqrt(3)*3/80*P,0,0.475*P]
+            ]))
+    thread_profile_wire = Part.Wire([
+        Part.makeLine(pnts[0],pnts[1]),
+        Part.Arc(pnts[3],pnts[2],pnts[1]).toShape(),
+        Part.makeLine(pnts[3],pnts[4]),
+        Part.makeLine(pnts[4],pnts[0])])
+    thread_profile_wire.translate(Base.Vector(0,0,-1*helix_height))
+    # make the helical paths to sweep along
+    # NOTE: makeLongHelix creates slightly conical
+    # helices unless the 4th parameter is set to 0!
+    main_helix = Part.makeLongHelix(P,helix_height,dia/2,0)
+    lead_out_helix = Part.makeHelix(P,P/2,dia/2+0.5*(5/8*H+0.5*fillet_r))
+    main_helix.rotate(Base.Vector(0,0,0),Base.Vector(1,0,0),180)
+    lead_out_helix.translate(Base.Vector(0.5*(-1*(5/8*H+0.5*fillet_r)),0,0))
+    sweep_path = Part.Wire([main_helix,lead_out_helix])
+    # use Part.BrepOffsetAPI to sweep the thread profile
+    # ref: https://forum.freecadweb.org/viewtopic.php?t=21636#p168339
+    sweep = Part.BRepOffsetAPI.MakePipeShell(sweep_path)
+    sweep.setFrenetMode(True)
+    sweep.setTransitionMode(1) # right corner transition
+    sweep.add(thread_profile_wire)
+    if sweep.isReady():
+      sweep.build()
+    else:
+      # geometry couldn't be generated in a useable form
+      raise RuntimeError("Failed to create shell thread: could not sweep thread")
+    sweep.makeSolid()
+    swept_solid = sweep.shape()
+    # translate swept path slightly for backwards compatibility
+    swept_solid.translate(Base.Vector(0,0,P/2+P/16))
+    # perform the actual boolean operations
+    base_body.rotate(Base.Vector(0,0,0),Base.Vector(0,0,1),90)
+    threaded_solid = base_body.cut(swept_solid)
+    if offset > P:
+        # one more component: a kind of 'cap' to improve behaviour with 
+        # large offset values
+        cap_bottom_point = Base.Vector(0,0,2*P-offset-dia/2)
+        cap_profile = Part.Wire([
+            Part.makeLine(base_pnts[4],base_pnts[0]),
+            Part.makeLine(base_pnts[0],cap_bottom_point),
+            Part.makeLine(cap_bottom_point,base_pnts[4])])
+        cap_shell = cap_profile.revolve(
+            Base.Vector(0,0,0),
+            Base.Vector(0,0,1),
+            360)
+        cap_solid = Part.makeSolid(cap_shell)
+        threaded_solid = threaded_solid.fuse(cap_solid)
+        threaded_solid.removeSplitter
+    # remove top face(s) and convert to a shell
+    result = Part.Shell([x for x in threaded_solid.Faces \
+        if not abs(x.CenterOfMass[2] - (2*P-offset)) < 1e-7]) 
+    return result
 
 
   # if da is not None: make Shell for a nut else: make a screw tap

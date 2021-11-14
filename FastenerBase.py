@@ -760,6 +760,9 @@ class FSMakeBomCommand:
 
   def AddPcbStandoff(self, obj, cnt):
     self.AddFastener("PCB Standoff " + obj.diameter + "x" + obj.width + "x" + obj.length, cnt)
+
+  def AddHeatSet(self, obj, cnt):
+    self.AddFastener("Heat Set Insert " + obj.diameter, cnt)
     
     
   def IsActive(self):

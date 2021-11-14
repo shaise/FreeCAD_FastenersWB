@@ -121,7 +121,7 @@ import FastenersCmd, PEMInserts
 def FSCPGetDiameters(type, item):
   if type == "Screw" or type == "Washer" or type == "ScrewTap" or type == "Nut":
     return screwMaker.GetAllDiams(item)
-  if type == "PressNut" or type == "StandOff" or type == "Stud":
+  if type == "PressNut" or type == "StandOff" or type == "Stud" or type == "HeatSet":
     return PEMInserts.FSPIGetAllDiameters(type)
   return []
   

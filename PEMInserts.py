@@ -611,6 +611,8 @@ FastenerBase.FSAddFastenerType("StandOff")
 FastenerBase.FSAddItemsToType("StandOff", "StandOff")
 FastenerBase.FSAddFastenerType("Stud")
 FastenerBase.FSAddItemsToType("Stud", "Stud")
+FastenerBase.FSAddFastenerType("HeatSet", False)
+FastenerBase.FSAddItemsToType("HeatSet", "HeatSet")
 
 def FSPIGetAllDiameters(type):
   if type == "PressNut":

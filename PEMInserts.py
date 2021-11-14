@@ -1066,17 +1066,17 @@ FastenerBase.FSCommands.append("FSPcbSpacer", "screws", "PEM Inserts")
 ###################################################################################
 # Heat Staked Threaded Insert types: IUT
 
-IUTDiamCodes = ['M2', 'M2.5', 'M3', 'M3.5', 'M4', 'M5', 'M6']
+IUTDiamCodes = ['Auto','M2', 'M2.5', 'M3', 'M3.5', 'M4', 'M5', 'M6']
 
 IUTPEMTable = {
 #            D,    A,    E,    C,   S1,   S2
-  'M2':  (1.50, 4.00, 3.73, 3.07, 0.79, 0.79),
-  'M2.5':(2.00, 5.74, 4.55, 3.86, 0.79, 0.79),
-  'M3':  (2.50, 5.74, 4.55, 3.86, 0.79, 0.79),
-  'M3.5':(3.00, 7.14, 5.33, 4.65, 0.79, 0.79),
-  'M4':  (3.30, 8.15, 6.17, 5.51, 0.79, 0.79),
-  'M5':  (4.20, 9.52, 6.93, 6.27, 1.17, 1.17),
-  'M6':  (5.00, 12.7, 8.69, 7.87, 1.17, 1.58),
+  'M2':  (3.23, 4.00, 3.73, 3.07, 0.79, 0.79),
+  'M2.5':(4.00, 5.74, 4.55, 3.86, 0.79, 0.79),
+  'M3':  (4.00, 5.74, 4.55, 3.86, 0.79, 0.79),
+  'M3.5':(4.80, 7.14, 5.33, 4.65, 0.79, 0.79),
+  'M4':  (5.67, 8.15, 6.17, 5.51, 0.79, 0.79),
+  'M5':  (6.43, 9.52, 6.93, 6.27, 1.17, 1.17),
+  'M6':  (8.00, 12.7, 8.69, 7.87, 1.17, 1.58),
   }
 
 def iutMakeWire(D, a, E, C, s1, s2):
@@ -1118,6 +1118,24 @@ def iutMakeHeatSet(diam):
   FastenerBase.FSCache[key] = p
   return p
 
+def iutFindClosest(diam):
+  ''' Find closest standard screw to given parameters '''
+  i = IUTDiamCodes.index(diam)
+  lens = IUTPEMTable[diam][0]
+  min = 999
+  max = len(IUTDiamCodes)
+  j = 0
+  for c in lens:
+    if c != 0 and min == 999:
+      min = j
+    if c == 0 and min != 999:
+      max = j - 1
+      break
+    j = j + 1
+  if i < min:
+    return IUTDiamCodes[min]
+  return IUTDiamCodes[max]
+
 class FSHeatSetObject(FSBaseObject):
   def __init__(self, obj, attachTo):
     '''"Add IUT[A/B/C] Heat Set Insert fastener" '''
@@ -1139,7 +1157,11 @@ class FSHeatSetObject(FSBaseObject):
       shape = None
     self.updateProps(fp)
     if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter):
-      d = fp.diameter
+      if fp.diameter == 'Auto':
+        d = FastenerBase.FSAutoDiameterM(shape, IUTPEMTable, 0)
+      else:
+        d = fp.diameter
+        
       s = iutMakeHeatSet(d)
       self.diameter = fp.diameter
       FastenerBase.FSLastInvert = fp.invert

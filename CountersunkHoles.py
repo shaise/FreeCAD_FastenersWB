@@ -416,6 +416,10 @@ class FSSelObserver:
     self.dialog = dialog
     self.disableObserver = False
     
+  def enable(self):
+    '''function for QtCore.QTimer.singleShot'''
+    self.disableObserver = False
+    
   def addSelection(self,doc,obj,sub,pnt):
     if self.disableObserver:
       return
@@ -523,8 +527,9 @@ class FSTaskFilletDialog:
         edges = self.form.ui.GetData()
         FreeCAD.Console.PrintLog("Reselect: " +str(edges) + "\n")
         for edge in edges:
-          Gui.Selection.addSelection(self.baseObj, edge)
-        self.selobserver.disableObserver = False
+          # Note: edge has this format: "Edge15:M5:0:0:Default".
+          Gui.Selection.addSelection(self.baseObj, edge.split(":")[0])
+        QtCore.QTimer.singleShot(0, self.selobserver.enable)
 
     def onItemChanged(self, item):
         #FreeCAD.Console.PrintLog("itemChanged: " "\n")

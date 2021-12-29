@@ -3831,7 +3831,7 @@ class Screw(object):
     else: # custom pitch and diameter
       P = customPitch
       if self.sm3DPrintMode:
-         dia = self.smScrewThrScaleA * dia + self.smScrewThrScaleB
+         dia = self.smScrewThrScaleA * customDia + self.smScrewThrScaleB
       else:
         dia = customDia 
     if self.rThread:
@@ -3870,7 +3870,7 @@ class Screw(object):
     else: # custom pitch and diameter
       P = customPitch
       if self.sm3DPrintMode:
-         dia = self.smScrewThrScaleA * dia + self.smScrewThrScaleB
+         dia = self.smScrewThrScaleA * customDia + self.smScrewThrScaleB
       else:
         dia = customDia
     dia = dia*1.01

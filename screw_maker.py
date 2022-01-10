@@ -3792,7 +3792,7 @@ class Screw(object):
     else: # custom pitch and diameter
       P = customPitch
       if self.sm3DPrintMode:
-        dia = self.smNutThrScaleA * dia + self.smNutThrScaleB
+        dia = self.smNutThrScaleA * customDia + self.smNutThrScaleB
       else:
         dia = customDia
     residue, turns = math.modf((l)/P)

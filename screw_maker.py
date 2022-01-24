@@ -3796,19 +3796,22 @@ class Screw(object):
       else:
         dia = customDia
     residue, turns = math.modf((l)/P)
-    turns += 1.0
+    #FreeCAD.Console.PrintMessage("turns:" + str(turns) + "res: " + str(residue) + "\n")
+    if residue > 0.00001:
+      turns += 1.0
     if self.rThread:
       screwTap = self.makeInnerThread_2(dia, P, int(turns), None, 0.0)
-      screwTap.translate(Base.Vector(0.0, 0.0,(1-residue)*P))
+      #screwTap.translate(Base.Vector(0.0, 0.0, (1-residue)*P))
     else:
       H=P*math.cos(math.radians(30)) # Thread depth H
       r=dia/2.0
 
       # points for inner thread profile
-      Pnt0 = Base.Vector(0.0,0.0,(1-residue)*P)
-      Pnt1 = Base.Vector(r-H*5.0/8.0,0.0,(1-residue)*P)
-      Pnt2 = Base.Vector(r-H*5.0/8.0,0.0,-l)
-      Pnt3 = Base.Vector(0.0,0.0,-l)
+      adjusted_l = turns * P
+      Pnt0 = Base.Vector(0.0,0.0,0)
+      Pnt1 = Base.Vector(r-H*5.0/8.0,0.0,0)
+      Pnt2 = Base.Vector(r-H*5.0/8.0,0.0,-adjusted_l)
+      Pnt3 = Base.Vector(0.0,0.0,-adjusted_l)
 
       edge1 = Part.makeLine(Pnt0,Pnt1)
       edge2 = Part.makeLine(Pnt1,Pnt2)
@@ -3816,7 +3819,7 @@ class Screw(object):
       aWire=Part.Wire([edge1,edge2,edge3])
       headShell = aWire.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360.0)
       screwTap = Part.Solid(headShell)
-
+      screwTap.translate(Base.Vector(0.0, 0.0, -12.7))
     return screwTap
 
 

@@ -123,6 +123,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes berberic2
+* V0.3.37 24 Jan 2022: Fix 'thread jump' issue #119
 * V0.3.36  29 Dec 2021:  Fix custom die with 3d printing compensation bug. Thank you @balogh-attila!
 * V0.3.35  22 Dec 2021:  Fix hang after counter sunk hole selection. Thank you @Roy_043!
 * V0.3.34  14 Apr 2021:  Fix issue #93

@@ -3149,7 +3149,7 @@ class Screw(object):
   def makeShellthread(self, dia, P, hrots, withcham, offset):
     """
     Construct a 60 degree screw thread with diameter dia,
-    pitch P, and length aproximately equal to hrots*P/2.
+    pitch P, and length approximately equal to hrots*P/2.
     if withcham == True, the end of the thread is nicely chamfered.
     The thread is constructed z-up, as a shell, with the top circular
     face removed. The top of the shell is centered @ (0,0,2*P-offset)

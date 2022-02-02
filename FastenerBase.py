@@ -532,8 +532,8 @@ class FSMoveCommand:
   def GetResources(self):
     icon = os.path.join( iconPath , 'IconMove.svg')
     return {'Pixmap'  : icon , # the name of a svg file available in the resources
-            'MenuText': "Move fastner" ,
-            'ToolTip' : "Move fastner to a new location"}
+            'MenuText': "Move fastener" ,
+            'ToolTip' : "Move fastener to a new location"}
  
   def Activated(self):
     selObj = self.GetSelection()

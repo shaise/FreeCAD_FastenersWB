@@ -63,9 +63,9 @@ class FSScrewObject(FSBaseObject):
 
   def VerifyMissingAttrs(self, obj, diameter):
     self.updateProps(obj)
-    if not (hasattr(obj,'matchOuter')):
+    if not (hasattr(obj, 'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
-    if (self.itemText == "Screw" and  not hasattr(obj, 'lengthCustom')):
+    if self.itemText == "Screw" and  not hasattr(obj, 'lengthCustom'):
       slens = screwMaker.GetAllLengths(obj.type, diameter)
       if (hasattr(obj, 'length')):
         origLen = obj.length
@@ -100,7 +100,7 @@ class FSScrewObject(FSBaseObject):
     typechange = False
     if fp.type == "ISO7380":
       fp.type = "ISO7380-1"   # backward compatibility
-    if not (hasattr(self,'type')) or fp.type != self.type:
+    if not (hasattr(self, 'type')) or fp.type != self.type:
       typechange = True
       curdiam = fp.diameter
       diameters = screwMaker.GetAllDiams(fp.type)
@@ -111,10 +111,10 @@ class FSScrewObject(FSBaseObject):
       fp.diameter = curdiam
       
     diameterchange = False      
-    if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
+    if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
       diameterchange = True      
 
-    matchouterchange = not (hasattr(self,'matchOuter')) or self.matchOuter != fp.matchOuter
+    matchouterchange = not (hasattr(self, 'matchOuter')) or self.matchOuter != fp.matchOuter
 
     if fp.diameter == 'Auto' or matchouterchange:
       d = screwMaker.AutoDiameter(fp.type, shape, baseobj, fp.matchOuter)
@@ -124,10 +124,10 @@ class FSScrewObject(FSBaseObject):
       d = fp.diameter
     
     if hasattr(fp,'length'):
-      if (fp.length !=  self.length):
-        if (fp.length != 'Custom'):
+      if fp.length !=  self.length:
+        if fp.length != 'Custom':
           fp.lengthCustom = FastenerBase.LenStr2Num(fp.length) #***
-      elif (hasattr(self,'customlen') and float(fp.lengthCustom) != self.customlen):
+      elif hasattr(self,'customlen') and float(fp.lengthCustom) != self.customlen:
         fp.length = 'Custom'
       origLen = self.ActiveLength(fp)
       origIsCustom = fp.length == 'Custom'
@@ -136,13 +136,13 @@ class FSScrewObject(FSBaseObject):
         diameterchange = True      
         fp.diameter = d
 
-      if (origIsCustom):
+      if origIsCustom:
         l = origLen
         
       if l != origLen or diameterchange or typechange:
         if diameterchange or typechange:
           fp.length = screwMaker.GetAllLengths(fp.type, fp.diameter)
-        if (origIsCustom):
+        if origIsCustom:
           fp.length = 'Custom'
         else:
           fp.length = l
@@ -178,7 +178,7 @@ class FSScrewObject(FSBaseObject):
     #self.itemText = s[1]
     fp.Shape = s
 
-    if shape != None:
+    if shape is not None:
       #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
       #fp.Placement = FreeCAD.Placement() # reset placement
       FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
@@ -256,7 +256,7 @@ class FSScrewCommand:
     return
    
   def IsActive(self):
-    return Gui.ActiveDocument != None
+    return Gui.ActiveDocument is not None
 
 def FSAddScrewCommand(type, help, dropGroup = None):
   cmd = 'FS' + type
@@ -355,7 +355,7 @@ class FSWasherObject(FSBaseObject):
       baseobj = None
       shape = None
    
-    if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter):
+    if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
       if fp.diameter == 'Auto':
         d = screwMaker.AutoDiameter(fp.type, shape)
         diameterchange = True      
@@ -372,7 +372,7 @@ class FSWasherObject(FSBaseObject):
       fp.Shape = s
     else:
       FreeCAD.Console.PrintLog("Using cached object\n")
-    if shape != None:
+    if shape is not None:
       #feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
       #fp.Placement = FreeCAD.Placement() # reset placement
       FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
@@ -404,7 +404,7 @@ class FSWasherCommand:
     return
    
   def IsActive(self):
-    return Gui.ActiveDocument != None
+    return Gui.ActiveDocument is not None
 
 #Gui.addCommand("FSISO7089",FSWasherCommand("ISO7089", "Washer"))
 #FastenerBase.FSCommands.append("FSISO7089")
@@ -427,7 +427,7 @@ class FSScrewRodObject(FSBaseObject):
  
   def VerifyMissingAttrs(self, obj):
     self.updateProps(obj)
-    if not (hasattr(obj,'matchOuter')):
+    if not (hasattr(obj, 'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
     # for old objects from before custom diameter and pitch were implemented
     if not hasattr(obj,"pitchCustom"):
@@ -450,10 +450,10 @@ class FSScrewRodObject(FSBaseObject):
       shape = None
     self.VerifyMissingAttrs(fp)
     diameterchange = False      
-    if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
+    if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
       diameterchange = True    
       
-    matchouterchange = not (hasattr(self,'matchOuter')) or self.matchOuter != fp.matchOuter
+    matchouterchange = not (hasattr(self, 'matchOuter')) or self.matchOuter != fp.matchOuter
 
     if fp.diameter == 'Auto' or matchouterchange:
       d = screwMaker.AutoDiameter(self.type, shape, baseobj, fp.matchOuter)
@@ -493,7 +493,7 @@ class FSScrewRodObject(FSBaseObject):
     self.realThread = fp.thread
     fp.Shape = s
 
-    if shape != None:
+    if shape is not None:
       FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
 
 class FSScrewRodCommand:
@@ -515,11 +515,10 @@ class FSScrewRodCommand:
     return
    
   def IsActive(self):
-    return Gui.ActiveDocument != None
+    return Gui.ActiveDocument is not None
 
 Gui.addCommand("FSScrewTap",FSScrewRodCommand())
 FastenerBase.FSCommands.append("FSScrewTap", "screws", "misc")
-
 
 class FSScrewRodCommandInch:
   """Add Screw Rod command"""
@@ -540,7 +539,7 @@ class FSScrewRodCommandInch:
     return
    
   def IsActive(self):
-    return Gui.ActiveDocument != None
+    return Gui.ActiveDocument is not None
 
 Gui.addCommand("FSScrewTapInch",FSScrewRodCommandInch())
 FastenerBase.FSCommands.append("FSScrewTapInch", "screws", "misc")
@@ -567,7 +566,7 @@ class FSScrewDieObject(FSBaseObject):
  
   def VerifyMissingAttrs(self, obj):
     self.updateProps(obj)
-    if not (hasattr(obj,'matchOuter')):
+    if not (hasattr(obj, 'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
     # for old objects from before custom diameter and pitch were implemented
     if not hasattr(obj,"pitchCustom"):
@@ -590,10 +589,10 @@ class FSScrewDieObject(FSBaseObject):
           
     self.VerifyMissingAttrs(fp)
     diameterchange = False      
-    if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
+    if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
       diameterchange = True    
       
-    matchouterchange = not (hasattr(self,'matchOuter')) or self.matchOuter != fp.matchOuter
+    matchouterchange = not (hasattr(self, 'matchOuter')) or self.matchOuter != fp.matchOuter
 
     if fp.diameter == 'Auto' or matchouterchange:
       d = screwMaker.AutoDiameter(self.type, shape, baseobj, fp.matchOuter)
@@ -634,7 +633,7 @@ class FSScrewDieObject(FSBaseObject):
     self.realThread = fp.thread
     fp.Shape = s
 
-    if shape != None:
+    if shape is not None:
       FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
 
 class FSScrewDieCommand:
@@ -656,7 +655,7 @@ class FSScrewDieCommand:
     return
    
   def IsActive(self):
-    return Gui.ActiveDocument != None
+    return Gui.ActiveDocument is not None
 
 Gui.addCommand("FSScrewDie",FSScrewDieCommand())
 FastenerBase.FSCommands.append("FSScrewDie", "screws", "misc")
@@ -683,7 +682,7 @@ class FSScrewDieCommandInch:
     return
    
   def IsActive(self):
-    return Gui.ActiveDocument != None
+    return Gui.ActiveDocument is not None
 
 Gui.addCommand("FSScrewDieInch",FSScrewDieCommandInch())
 FastenerBase.FSCommands.append("FSScrewDieInch", "screws", "misc")
@@ -711,7 +710,7 @@ class FSThreadedRodObject(FSBaseObject):
  
   def VerifyMissingAttrs(self, obj):
     self.updateProps(obj)
-    if not (hasattr(obj,'matchOuter')):
+    if not (hasattr(obj, 'matchOuter')):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
     # for old objects from before custom diameter and pitch were implemented
     if not hasattr(obj,"pitchCustom"):
@@ -734,10 +733,10 @@ class FSThreadedRodObject(FSBaseObject):
           
     self.VerifyMissingAttrs(fp)
     diameterchange = False      
-    if not (hasattr(self,'diameter')) or self.diameter != fp.diameter:
+    if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
       diameterchange = True    
       
-    matchouterchange = not (hasattr(self,'matchOuter')) or self.matchOuter != fp.matchOuter
+    matchouterchange = not (hasattr(self, 'matchOuter')) or self.matchOuter != fp.matchOuter
 
     if fp.diameter == 'Auto' or matchouterchange:
       d = screwMaker.AutoDiameter(self.type, shape, baseobj, fp.matchOuter)
@@ -779,7 +778,7 @@ class FSThreadedRodObject(FSBaseObject):
     self.realThread = fp.thread
     fp.Shape = s
 
-    if shape != None:
+    if shape is not None:
       FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
 
 class FSThreadedRodCommand:
@@ -801,7 +800,7 @@ class FSThreadedRodCommand:
     return
    
   def IsActive(self):
-    return Gui.ActiveDocument != None
+    return Gui.ActiveDocument is not None
 
 Gui.addCommand("FSThreadedRod",FSThreadedRodCommand())
 FastenerBase.FSCommands.append("FSThreadedRod", "screws", "misc")
@@ -826,7 +825,7 @@ class FSThreadedRodCommandInch:
     return
    
   def IsActive(self):
-    return Gui.ActiveDocument != None
+    return Gui.ActiveDocument is not None
 
 Gui.addCommand("FSThreadedRodInch",FSThreadedRodCommandInch())
 FastenerBase.FSCommands.append("FSThreadedRodInch", "screws", "misc")

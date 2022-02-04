@@ -186,12 +186,12 @@ FSNutsList = ['DIN562', 'DIN557', 'DIN985']
 class FSScrewMaker(Screw):
     def FindClosest(self, type, diam, len):
       ''' Find closest standard screw to given parameters '''        
-      if not (type in screwTables):
-        return (diam, len)
+      if type not in screwTables:
+        return diam, len
       name, diam_table, len_table, range_table, table_pos, k_pos = screwTables[type]
       
       # auto find diameter
-      if not (diam in diam_table):
+      if diam not in diam_table:
         origdia = FastenerBase.DiaStr2Num(diam)
         mindif = 100.0
         for m in diam_table:
@@ -201,7 +201,7 @@ class FSScrewMaker(Screw):
             diam = m
 
       # auto find length
-      if (len_table != None) and not (len in len_table):
+      if (len_table is not None) and len not in len_table:
         origlen = FastenerBase.LenStr2Num(len)
         mindif = 100.0
         for l in len_table:
@@ -211,7 +211,7 @@ class FSScrewMaker(Screw):
             len = l
               
       # make sure length in range
-      if range_table != None:
+      if range_table is not None:
         minl , maxl = range_table[diam]
         if FastenerBase.LenStr2Num(len) < FastenerBase.LenStr2Num(minl):
           len = minl
@@ -233,9 +233,9 @@ class FSScrewMaker(Screw):
       elif '#10' in self.GetAllDiams(type):
         res = '#10'
       #matchOuter = FastenerBase.FSMatchOuter
-      if baseobj != None and baseobj.Name.startswith("Washer"):
+      if baseobj is not None and baseobj.Name.startswith("Washer"):
         matchOuter = True
-      if holeObj != None and hasattr(holeObj, 'Curve') and hasattr(holeObj.Curve, 'Radius') and (type in screwTables):
+      if holeObj is not None and hasattr(holeObj, 'Curve') and hasattr(holeObj.Curve, 'Radius') and (type in screwTables):
         d = holeObj.Curve.Radius * 2
         table = screwTables[type][1]
         tablepos = screwTables[type][4]

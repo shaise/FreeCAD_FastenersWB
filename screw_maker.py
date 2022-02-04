@@ -1090,7 +1090,7 @@ class Screw(object):
                 #FreeCAD.Console.PrintMessage( "the object seems to be a vertex! "+ str(s.Point) + "\n")
                 Pnt1 = s.Point
 
-       if (Axis1 != None):
+       if Axis1 is not None:
           #FreeCAD.Console.PrintMessage( "Got Axis1: " + str(Axis1) + "\n")
           Axis2 = Base.Vector(0.0,0.0,1.0)
           Axis2_minus = Base.Vector(0.0,0.0,-1.0)
@@ -1238,12 +1238,12 @@ class Screw(object):
     if (SType == 'ISO2009') or (SType == 'ISO2010') or (SType == 'ASMEB18.6.3.1A'):
       if (SType == 'ISO2009') or (SType == 'ISO2010'):
         P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["iso2009def"][ThreadType]
-      elif (SType == 'ASMEB18.6.3.1A'):
+      elif SType == 'ASMEB18.6.3.1A':
         P, b, dk_theo, dk_mean, k, n_min, r, t_mean = FsData["asmeb18.6.3.1adef"][ThreadType]
       dk_max = dk_theo
       t_min = t_mean
       ht = 0.0 # Head height of flat head
-      if (SType == 'ISO2010'):
+      if SType == 'ISO2010':
         rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][ThreadType]
         #Lengths and angles for calculation of head rounding
         beta = math.asin(dk_mean /2.0 / rf)   # angle of head edge
@@ -1260,7 +1260,7 @@ class Screw(object):
       rtan = r*math.tan(rad225)
       headEnd = k + rtan
 
-      if (b > l - k - rtan/2.0 - 1.0*P):
+      if b > l - k - rtan/2.0 - 1.0*P:
         bmax = l-k-rtan/2.0 - 1.0*P
       else:
         bmax = b
@@ -1276,7 +1276,7 @@ class Screw(object):
       #PntA = Base.Vector(dia/2.0,0.0,-a_point)
       PntT0 = Base.Vector(0.0,0.0,-k-rtan)        # helper point for real thread
 
-      if (SType == 'ISO2010'): # make raised head rounding
+      if SType == 'ISO2010': # make raised head rounding
         Pnt0arc = Base.Vector(h_arc_x,0.0,h_arc_z)
         edge1 = Part.Arc(Pnt0,Pnt0arc,Pnt1).toShape()
       else:
@@ -1341,13 +1341,13 @@ class Screw(object):
       rthread.translate(Base.Vector(0.0, 0.0,-a_point -2.0*P))
       #Part.show(rthread)
       headFaces = []
-      if (SType == 'ISO2009') or (SType == 'ASMEB18.6.3.1A'):
+      if SType == 'ISO2009' or SType == 'ASMEB18.6.3.1A':
         for i in range(0,len(head.Faces)-2):
           headFaces.append(head.Faces[i])
         headFaces.append(head.Faces[len(head.Faces)-1])
 
-      if (SType == 'ISO1580') or (SType == 'ISO2010'):
-        for i in range(0,len(head.Faces)-1):
+      if SType == 'ISO1580' or SType == 'ISO2010':
+        for i in range(0, len(head.Faces)-1):
           headFaces.append(head.Faces[i])
 
       for threadFace in rthread.Faces:
@@ -1397,7 +1397,7 @@ class Screw(object):
        h_arc_z = k - rf + rf * math.cos(alpha)
        #FreeCAD.Console.PrintMessage("h_arc_z: " + str(h_arc_z) + "\n")
 
-    if (b > (l - 1.0*P)):
+    if b > (l - 1.0*P):
        bmax = l- 1.0*P
     else:
        bmax = b
@@ -1428,7 +1428,7 @@ class Screw(object):
     #FreeCAD.Console.PrintMessage("Points defined a_point: " + str(a_point) + "\n")
 
 
-    if (SType == 'ISO14583'):
+    if SType == 'ISO14583':
       #Pnt0 = Base.Vector(0.0,0.0,k-A/4.0)
       Pnt0 = Base.Vector(0.0,0.0,k-A/8.0)
       PntFlat = Base.Vector(A/8.0,0.0,k-A/8.0)
@@ -1498,7 +1498,7 @@ class Screw(object):
     #FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
     headFaces = headShell.Faces
 
-    if (SType == 'ISO14583'):
+    if SType == 'ISO14583':
       recess, recessShell = self.makeIso10664_3(tt, t_mean, k)
       recessShell = recessShell.cut(hCut)
       topFace = hCut.Faces[1]
@@ -1562,11 +1562,11 @@ class Screw(object):
       dia=float(ThreadType.lstrip('M'))
     '''
     #FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
-    if (SType == 'ISO1207') or (SType == 'ISO14580'):
+    if SType == 'ISO1207' or SType == 'ISO14580':
        P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = FsData["iso1207def"][ThreadType]
     if SType == 'ISO7048':
        P, a, b, dk, dk_mean, da, k, r, x, cT, mH, mZ  = FsData["iso7048def"][ThreadType]
-    if (SType == 'ISO14580'):
+    if SType == 'ISO14580':
        tt, k, A, t_min = FsData["iso14580def"][ThreadType]
 
     #FreeCAD.Console.PrintMessage("the head with iso: " + str(dk) + "\n")
@@ -1584,7 +1584,7 @@ class Screw(object):
     fillet_arc_z = fillet_center_z + r_fil * math.cos(alpha)
     #FreeCAD.Console.PrintMessage("rK_top: " + str(rK_top) + "\n")
 
-    if (b > (l - 1.0*P)):
+    if b > (l - 1.0*P):
        bmax = l- 1.0*P
     else:
        bmax = b
@@ -1614,7 +1614,7 @@ class Screw(object):
     Pnt9 = Base.Vector(dia/2.0,0.0,-a_point)        # Start of thread
     #FreeCAD.Console.PrintMessage("Points defined fillet_center_x: " + str(fillet_center_x) + "\n")
 
-    if (SType == 'ISO14580'):
+    if SType == 'ISO14580':
       # Pnt0 = Base.Vector(0.0,0.0,k-A/4.0) #Center Point for countersunk
       Pnt0 = Base.Vector(0.0,0.0,k-A/8.0) #Center Point for flat countersunk
       PntFlat = Base.Vector(A/8.0,0.0,k-A/8.0) # End of flat part
@@ -1716,7 +1716,7 @@ class Screw(object):
         topFace = headShell.Faces[0].cut(recess)
         screwFaces = [topFace.Faces[0]]
         screwFaces.extend(recessShell.Faces)
-      if (SType == 'ISO14580'):
+      if SType == 'ISO14580':
         # Ring-cutter for recess shell
         PntH2 = Base.Vector(A/8.0,0.0, 2.0*k)
         edgeH1 = Part.makeLine(Pnt1,PntH1)
@@ -1844,7 +1844,7 @@ class Screw(object):
       for i in range(18):
         headFaces.append(head.Faces[i])
 
-      if (dia < 3.0) or (dia > 5.0):
+      if dia < 3.0 or dia > 5.0:
         rthread = self.makeShellthread(dia, P, halfturns, True, offSet)
         rthread.translate(Base.Vector(0.0, 0.0,-a-2.0*P))
         #rthread.translate(Base.Vector(0.0, 0.0,-2.0*P))
@@ -1916,7 +1916,7 @@ class Screw(object):
        b = b0
     if l< b0:
        b = l - 2*P
-    elif (SType != 'ASMEB18.2.1.8'):
+    elif SType != 'ASMEB18.2.1.8':
        if l<= 125.0:
           b = b1
        else:
@@ -2108,7 +2108,7 @@ class Screw(object):
 
 
     if self.rThread:
-      if (dia < 3.0) or (dia > 5.0):
+      if dia < 3.0 or dia > 5.0:
         rthread = self.makeShellthread(dia, P, halfturns, True, offSet)
         rthread.translate(Base.Vector(0.0, 0.0,-a_point-2.0*P))
         for tFace in rthread.Faces:
@@ -2140,13 +2140,13 @@ class Screw(object):
   def makeIso7046(self, SType ='ISO7046', ThreadType ='M6',l=25.0):
     dia = self.getDia(ThreadType, False)
     #FreeCAD.Console.PrintMessage("der 2009Kopf mit l: " + str(l) + "\n")
-    if (SType == 'ISO10642'):
+    if SType == 'ISO10642':
       P,b,dk_theo,dk_mean,da, ds_min, e, k, r, s_mean, t, w = FsData["iso10642def"][ThreadType]
       ePrax = s_mean / math.sqrt(3.0) / 0.99
       ht = 0.0
       a = 2*P
       t_mean = t
-    elif (SType == 'ASMEB18.3.2'):
+    elif SType == 'ASMEB18.3.2':
       P, b, dk_theo, dk_mean, k, r, s_mean, t = FsData["asmeb18.3.2def"][ThreadType]
       ePrax = s_mean / math.sqrt(3.0) / 0.99
       ht = 0.0
@@ -2157,7 +2157,7 @@ class Screw(object):
       ht = 0.0 # Head height of flat head
     if SType == 'ISO7046':
       cT, mH, mZ  = FsData["iso7046def"][ThreadType]
-    if (SType == 'ISO7047'):
+    if SType == 'ISO7047':
       rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][ThreadType]
       #Lengths and angles for calculation of head rounding
       beta = math.asin(dk_mean /2.0 / rf)   # angle of head edge
@@ -2170,11 +2170,11 @@ class Screw(object):
       h_arc_z = ht - rf + rf * math.cos(alpha)
       #FreeCAD.Console.PrintMessage("h_arc_z: " + str(h_arc_z) + "\n")
 
-    if (SType == 'ISO14582'):
+    if SType == 'ISO14582':
       P, a, b, dk_theo, dk_mean, k, r, tt, A, t_mean = FsData["iso14582def"][ThreadType]
       ePrax = A / 2.0 / 0.99
 
-    if (SType == 'ISO14584'):
+    if SType == 'ISO14584':
       P, b, dk_theo, dk_mean, f, k, r, rf, x, tt, A, t_mean = FsData["iso14584def"][ThreadType]
       ePrax = A / 2.0 / 0.99
       #Lengths and angles for calculation of head rounding
@@ -2195,7 +2195,7 @@ class Screw(object):
     rtan = r*math.tan(rad225)
     #FreeCAD.Console.PrintMessage("Checking rtan: " + str(rtan) + "\n")
 
-    if (b > (l - k - rtan/2.0 - 1.0*P)):
+    if b > (l - k - rtan/2.0 - 1.0*P):
       bmax = l - k - rtan/2.0 - 1.0*P
     else:
       bmax = b
@@ -2213,31 +2213,31 @@ class Screw(object):
     offSet = k + rtan - a_point
 
     #Head Points
-    Pnt1 = Base.Vector(dk_mean/2.0,0.0,0.0)
-    Pnt2 = Base.Vector(dk_mean/2.0,0.0,-cham)
-    Pnt3 = Base.Vector(dia/2.0+r-r*math.cos(rad45),0.0,-k-rtan+r*math.sin(rad45))
+    Pnt1 = Base.Vector(dk_mean/2.0, 0.0, 0.0)
+    Pnt2 = Base.Vector(dk_mean/2.0, 0.0, -cham)
+    Pnt3 = Base.Vector(dia/2.0+r-r*math.cos(rad45), 0.0, -k-rtan+r*math.sin(rad45))
 
     # Arc-points
-    Pnt4 = Base.Vector(dia/2.0+r-r*(math.cos(rad225)),0.0,-k-rtan+r*math.sin(rad225))
-    Pnt5 = Base.Vector(dia/2.0,0.0,-k-rtan)
-    Pnt6 = Base.Vector(dia/2.0,0.0,-a_point)
+    Pnt4 = Base.Vector(dia/2.0+r-r*(math.cos(rad225)), 0.0, -k-rtan+r*math.sin(rad225))
+    Pnt5 = Base.Vector(dia/2.0, 0.0, -k-rtan)
+    Pnt6 = Base.Vector(dia/2.0, 0.0, -a_point)
 
-    if (SType == 'ISO10642') or (SType == 'ISO14582') or (SType == 'ASMEB18.3.2'):
-      if (SType == 'ISO10642') or (SType == 'ASMEB18.3.2'):
-        recess, recessShell = self.makeAllen2(s_mean, t_mean, 0.0 )
-        Pnt0 = Base.Vector(ePrax/2.0,0.0,-ePrax/2.0)
-        PntCham = Base.Vector(ePrax,0.0,0.0)
-        edge1 = Part.makeLine(Pnt0,PntCham)
-        edgeCham2 = Part.makeLine(PntCham,Pnt1)
-        edge2 = Part.makeLine(Pnt1,Pnt2)
-        edge2 = Part.Wire([edgeCham2,edge2])
-        PntH0 = Base.Vector(ePrax/2.0,0.0, ht + k)
-        PntH1 = Base.Vector(ePrax,0.0, ht + k)
-      if (SType == 'ISO14582'):
+    if SType == 'ISO10642' or SType == 'ISO14582' or SType == 'ASMEB18.3.2':
+      if SType == 'ISO10642' or SType == 'ASMEB18.3.2':
+        recess, recessShell = self.makeAllen2(s_mean, t_mean, 0.0)
+        Pnt0 = Base.Vector(ePrax/2.0, 0.0, -ePrax/2.0)
+        PntCham = Base.Vector(ePrax, 0.0, 0.0)
+        edge1 = Part.makeLine(Pnt0, PntCham)
+        edgeCham2 = Part.makeLine(PntCham, Pnt1)
+        edge2 = Part.makeLine(Pnt1, Pnt2)
+        edge2 = Part.Wire([edgeCham2, edge2])
+        PntH0 = Base.Vector(ePrax/2.0, 0.0, ht + k)
+        PntH1 = Base.Vector(ePrax, 0.0, ht + k)
+      if SType == 'ISO14582':
         recess, recessShell = self.makeIso10664_3(tt, t_mean, 0.0) # hexalobular recess
-        Pnt0 = Base.Vector(0.0,0.0,0.0)
-        edge1 = Part.makeLine(Pnt0,Pnt1)
-        edge2 = Part.makeLine(Pnt1,Pnt2)
+        Pnt0 = Base.Vector(0.0, 0.0, 0.0)
+        edge1 = Part.makeLine(Pnt0, Pnt1)
+        edge2 = Part.makeLine(Pnt1, Pnt2)
 
 
       # bolt points with bolt chamfer
@@ -2264,7 +2264,7 @@ class Screw(object):
         edgeB0 = Part.makeLine(Pnt6,PntB1)
       edgeB1 = Part.makeLine(PntB1,PntB2)
 
-      if (SType == 'ISO7047'): # make raised head rounding
+      if SType == 'ISO7047': # make raised head rounding
         Pnt0 = Base.Vector(0.0,0.0,ht)
         Pnt0arc = Base.Vector(h_arc_x,0.0,h_arc_z)
         edge1 = Part.Arc(Pnt0,Pnt0arc,Pnt1).toShape()
@@ -2272,14 +2272,14 @@ class Screw(object):
         PntH0 = Base.Vector(0.0,0.0, ht + k)
         PntH1 = Base.Vector(dk_mean/2.0,0.0, ht + k)
         recess, recessShell = self.makeCross_H3(cT, mH, ht)
-      if (SType == 'ISO7046'):
+      if SType == 'ISO7046':
         # ISO7046
         Pnt0 = Base.Vector(0.0,0.0,ht)
         edge1 = Part.makeLine(Pnt0,Pnt1)  # make flat head
         edge2 = Part.makeLine(Pnt1,Pnt2)
         recess, recessShell = self.makeCross_H3(cT, mH, ht)
 
-      if (SType == 'ISO14584'): # make raised head rounding with chamfer
+      if SType == 'ISO14584': # make raised head rounding with chamfer
         Pnt0 = Base.Vector(ePrax/2.0,0.0,ht-ePrax/4.0)
         PntCham = Base.Vector(ePrax,0.0,ht)
         PntArc = Base.Vector(h_arc_x,0.0,h_arc_z)
@@ -2311,7 +2311,7 @@ class Screw(object):
     headFaces = headShell.Faces
     #Part.show(headShell)
 
-    if (SType == 'ISO7046') or (SType == 'ISO14582'):
+    if SType == 'ISO7046' or SType == 'ISO14582':
       # hCut is just a cylinder for ISO7046
       hCut = Part.makeCylinder(dk_mean/2.0,k,Pnt0)
       #Part.show(hCut)
@@ -2336,9 +2336,9 @@ class Screw(object):
     headFaces.extend(recessShell.Faces)
 
 
-    if (SType == 'ISO10642') or (SType == 'ISO14582') or (SType == 'ASMEB18.3.2'):
+    if SType == 'ISO10642' or SType == 'ISO14582' or SType == 'ASMEB18.3.2':
       if self.rThread:
-        if (dia < 3.0) or (dia > 5.0):
+        if dia < 3.0 or dia > 5.0:
           #if True:
           rthread = self.makeShellthread(dia, P, halfturns, True, offSet)
           rthread.translate(Base.Vector(0.0, 0.0,-a_point -2.0*P))
@@ -2441,7 +2441,7 @@ class Screw(object):
       edge1 = Part.Wire([edgeCham0,edgeCham1])
       PntH1 = Base.Vector(e_cham/1.99,0.0, 2.0*k)
 
-    elif (SType == 'ISO4762') or (SType == 'ASMEB18.3.1A'):
+    elif SType == 'ISO4762' or SType == 'ASMEB18.3.1A':
       if SType == 'ISO4762':
         P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = FsData["iso4762def"][ThreadType]
       if SType == 'ASMEB18.3.1A':
@@ -2499,8 +2499,8 @@ class Screw(object):
     '''
 
 
-    if (b > (l - 1.0*P)):
-       bmax = l- 1.0*P
+    if b > l - 1.0*P:
+       bmax = l - 1.0*P
     else:
        bmax = b
 
@@ -2647,9 +2647,9 @@ class Screw(object):
 
   # make ISO 7379 Hexagon socket head shoulder screw
   def makeIso7379(self, SType ='ISO7379', ThreadType ='M6',l=16):
-    if (SType ==  'ISO7379'):
+    if SType ==  'ISO7379':
       P, d1, d3, l2, l3, SW = FsData["iso7379def"][ThreadType]
-    if (SType == 'ASMEB18.3.4'):
+    if SType == 'ASMEB18.3.4':
       P, d1, d3, l2, l3, SW = FsData["asmeb18.3.4def"][ThreadType]
     d2 = self.getDia(ThreadType, False)
     l1 = l
@@ -2737,7 +2737,7 @@ class Screw(object):
     #todo: different radii for screws with thread to head or with shaft?
     sqrt2_ = 1.0/math.sqrt(2.0)
 
-    if (SType == 'DIN967'):
+    if SType == 'DIN967':
       P, b, c, da, dk, r, k, rf, x, cT, mH, mZ = FsData["din967def"][ThreadType]
 
       rH = rf # radius of button arc
@@ -2762,7 +2762,7 @@ class Screw(object):
       recess, recessShell = self.makeCross_H3(cT, mH, k)
 
     else:
-      if (SType =='ISO7380-1'):
+      if SType =='ISO7380-1':
         P, b, a, da, dk, dk_mean,s_mean, t_min, r, k, e, w = FsData["iso7380def"][ThreadType]
 
         # Bottom of recess
@@ -2778,7 +2778,7 @@ class Screw(object):
         Pnt4 = Base.Vector(dia/2.0+r,0.0,0.0)     #start of fillet between head and shank
         edge3 = Part.makeLine(Pnt3,Pnt4)
       
-      if (SType == 'ASMEB18.3.3A'):
+      if SType == 'ASMEB18.3.3A':
         P, b, da, dk, s_mean, t_min, r, k = FsData["asmeb18.3.3adef"][ThreadType]
         # Bottom of recess
         e_cham = 2.0 * s_mean / math.sqrt(3.0) / 0.99
@@ -2791,10 +2791,10 @@ class Screw(object):
         Pnt4 = Base.Vector(dia/2.0+r,0.0,0.0)     #start of fillet between head and shank
         edge3 = Part.makeLine(Pnt3,Pnt4)
 
-      if (SType == 'ISO7380-2') or (SType == 'ASMEB18.3.3B'):
-        if (SType =='ISO7380-2'):
+      if SType == 'ISO7380-2' or SType == 'ASMEB18.3.3B':
+        if SType =='ISO7380-2':
           P, b, c, da, dk, dk_c,s_mean,t_min, r, k, e, w = FsData["iso7380_2def"][ThreadType]
-        if (SType == 'ASMEB18.3.3B'):
+        if SType == 'ASMEB18.3.3B':
           P, b, c, dk, dk_c, s_mean, t_min, r, k = FsData["asmeb18.3.3bdef"][ThreadType]
 
         # Bottom of recess
@@ -2828,7 +2828,7 @@ class Screw(object):
       edge2 = Part.Arc(Pnt1,Pnt2,Pnt3).toShape()
       recess, recessShell = self.makeAllen2(s_mean, t_min, k)
 
-    if (b > (l - 1.0*P)):
+    if b > l - 1.0*P:
        bmax = l- 1.0*P
     else:
        bmax = b
@@ -2852,7 +2852,7 @@ class Screw(object):
     edge4 = Part.Arc(Pnt4,Pnt5,Pnt6).toShape()
     edge5 = Part.makeLine(Pnt6,Pnt7)
 
-    if (SType =='DIN967'):
+    if SType =='DIN967':
       # bolt points
       PntB1 = Base.Vector(dia/2.0,0.0,-l)
       PntB2 = Base.Vector(0.0,0.0,-l)
@@ -2906,7 +2906,7 @@ class Screw(object):
     if self.rThread:
       #if (dia < 3.0) or (dia > 5.0):
       if True:
-        if (SType =='DIN967'):
+        if SType =='DIN967':
           rthread = self.makeShellthread(dia, P, halfturns, False, offSet)
         else:
           rthread = self.makeShellthread(dia, P, halfturns, True, offSet)
@@ -2934,8 +2934,8 @@ class Screw(object):
 
 
   # make ISO 4026 Hexagon socket set screws with flat point
-  def makeIso4026(self, SType ='ISO4026', Threadtype ='M6',l=16):
-    if (SType == 'ISO4026') or (SType == 'ISO4027') or (SType == 'ISO4029'):
+  def makeIso4026(self, SType='ISO4026', Threadtype='M6',l=16):
+    if SType == 'ISO4026' or SType == 'ISO4027' or SType == 'ISO4029':
       P, t, dp, dt, df, s = FsData["iso4026def"][Threadtype]
     elif SType == 'ISO4028':
       P, t, dp, df, z, s = FsData["iso4028def"][Threadtype]
@@ -2944,7 +2944,7 @@ class Screw(object):
     d = self.getDia(Threadtype, False)
     d=d*1.01
     # generate the profile of the set-screw
-    if (SType == 'ISO4026') or (SType =='ASMEB18.3.5A'):
+    if SType == 'ISO4026' or SType =='ASMEB18.3.5A':
       p0 = Base.Vector(0,0,0)
       p1 = Base.Vector(df/2,0,0)
       p2 = Base.Vector(d/2,0,-1*((d-df)/2))
@@ -2957,7 +2957,7 @@ class Screw(object):
       e4 = Part.makeLine(p3,p4)
       e5 = Part.makeLine(p4,p5)
       p_profile = Part.Wire([e2,e3,e4,e5])
-    elif (SType == 'ISO4027') or (SType == 'ASMEB18.3.5B'):
+    elif SType == 'ISO4027' or SType == 'ASMEB18.3.5B':
       p0 = Base.Vector(0,0,0)
       p1 = Base.Vector(df/2,0,0)
       p2 = Base.Vector(d/2,0,-1*((d-df)/2))
@@ -2970,11 +2970,11 @@ class Screw(object):
       e4 = Part.makeLine(p3,p4)
       e5 = Part.makeLine(p4,p5)
       p_profile = Part.Wire([e2,e3,e4,e5])
-    elif (SType == 'ISO4028') or (SType == 'ASMEB18.3.5C'):
+    elif SType == 'ISO4028' or SType == 'ASMEB18.3.5C':
       # the shortest available dog-point set screws often have 
       # shorter dog-points. There  is not much hard data accessible for this
       # approximate by halving the dog length for short screws
-      if (l < 1.5*d):
+      if l < 1.5*d:
         z = z*0.5
       p0 = Base.Vector(0,0,0)
       p1 = Base.Vector(df/2,0,0)
@@ -2990,7 +2990,7 @@ class Screw(object):
       e5 = Part.makeLine(p4,p5)
       e6 = Part.makeLine(p5,p6)
       p_profile = Part.Wire([e2,e3,e4,e5,e6])
-    elif (SType == 'ISO4029') or (SType == 'ASMEB18.3.5D'):
+    elif SType == 'ISO4029' or SType == 'ASMEB18.3.5D':
       p0 = Base.Vector(0,0,0)
       p1 = Base.Vector(df/2,0,0)
       p2 = Base.Vector(d/2,0,-1*((d-df)/2))
@@ -3320,7 +3320,7 @@ class Screw(object):
       top_z =  -1.0e-5 
       
       for kante in topShell.Edges:
-         if (kante.Vertexes[0].Point.z>=top_z) and (kante.Vertexes[1].Point.z>=top_z):
+         if kante.Vertexes[0].Point.z >= top_z and kante.Vertexes[1].Point.z >= top_z:
             top_edges.append(kante)
             # Part.show(kante)
       top_wire = Part.Wire(Part.__sortEdges__(top_edges))
@@ -3355,11 +3355,11 @@ class Screw(object):
     
       BotShell = BotShell.common(commonbox)
       #BotShell = BotShell.cut(commonbox)
-      bot_edges =[]
-      bot_z =  1.0e-5 -(rotations)*P + bot_off
+      bot_edges = []
+      bot_z = 1.0e-5 -(rotations)*P + bot_off
       
       for kante in BotShell.Edges:
-         if (kante.Vertexes[0].Point.z<=bot_z) and (kante.Vertexes[1].Point.z<=bot_z):
+         if kante.Vertexes[0].Point.z <= bot_z and kante.Vertexes[1].Point.z <= bot_z:
             bot_edges.append(kante)
             # Part.show(kante)
       bot_wire = Part.Wire(Part.__sortEdges__(bot_edges))
@@ -3407,15 +3407,15 @@ class Screw(object):
       bottomChamferFace = bottom_Solid.Faces[0]
 
       # points for chamfer: cut-Method
-      pch0t =  (da/2.0 - 2*H, 0.0, l -cham_i) # top chamfer
-      pch1t =  (da/2.0, 0.0, l)  #
-      pch2t =  (da/2.0, 0.0, l + 4*P)
-      pch3t =  (da/2.0 - 2*H, 0.0, l + 4*P) # 
+      pch0t = (da/2.0 - 2*H, 0.0, l -cham_i) # top chamfer
+      pch1t = (da/2.0, 0.0, l)  #
+      pch2t = (da/2.0, 0.0, l + 4*P)
+      pch3t = (da/2.0 - 2*H, 0.0, l + 4*P) #
     
-      edgech0t = Part.makeLine(pch0t,pch1t)
-      edgech1t = Part.makeLine(pch1t,pch2t)
-      edgech2t = Part.makeLine(pch2t,pch3t)
-      edgech3t = Part.makeLine(pch3t,pch0t)
+      edgech0t = Part.makeLine(pch0t, pch1t)
+      edgech1t = Part.makeLine(pch1t, pch2t)
+      edgech2t = Part.makeLine(pch2t, pch3t)
+      edgech3t = Part.makeLine(pch3t, pch0t)
     
       Wcht_wire = Part.Wire([edgech0t, edgech1t, edgech2t, edgech3t])
       top_Face =Part.Face(Wcht_wire)
@@ -3451,7 +3451,7 @@ class Screw(object):
       #Part.show(bottomShell)
       bottomFaces =[]
       #TheShell.translate(FreeCAD.Vector(0.0, 0.0, P))
-      for k in range(1, rotations -2):
+      for k in range(1, rotations - 2):
         TheShell.translate(FreeCAD.Vector(0.0, 0.0, P))
         for threadFace in TheShell.Faces:
           innerThreadFaces.append(threadFace)
@@ -3529,36 +3529,36 @@ class Screw(object):
   
 
     if self.rThread:
-      Pnt0 = Base.Vector(da/2.0-2.0*cham_i_delta,0.0,m - 2.0*cham_i)
-      Pnt7 = Base.Vector(da/2.0-2.0*cham_i_delta,0.0,0.0+ 2.0*cham_i)
+      Pnt0 = Base.Vector(da/2.0-2.0*cham_i_delta, 0.0, m - 2.0*cham_i)
+      Pnt7 = Base.Vector(da/2.0-2.0*cham_i_delta, 0.0, 0.0+ 2.0*cham_i)
     else:
-      Pnt0 = Base.Vector(dia/2.0-H*5.0/8.0,0.0,m - cham_i)
-      Pnt7 = Base.Vector(dia/2.0-H*5.0/8.0,0.0,0.0+ cham_i)
+      Pnt0 = Base.Vector(dia/2.0-H*5.0/8.0, 0.0, m - cham_i)
+      Pnt7 = Base.Vector(dia/2.0-H*5.0/8.0, 0.0, 0.0 + cham_i)
 
-    Pnt1 = Base.Vector(da/2.0,0.0,m)
-    Pnt2 = Base.Vector(s/2.0,0.0,m)
-    Pnt3 = Base.Vector(s/math.sqrt(3.0),0.0,m-cham)
-    Pnt4 = Base.Vector(s/math.sqrt(3.0),0.0,cham)
-    Pnt5 = Base.Vector(s/2.0,0.0,0.0)
-    Pnt6 = Base.Vector(da/2.0,0.0,0.0)
+    Pnt1 = Base.Vector(da/2.0, 0.0, m)
+    Pnt2 = Base.Vector(s/2.0, 0.0, m)
+    Pnt3 = Base.Vector(s/math.sqrt(3.0), 0.0, m-cham)
+    Pnt4 = Base.Vector(s/math.sqrt(3.0), 0.0, cham)
+    Pnt5 = Base.Vector(s/2.0, 0.0, 0.0)
+    Pnt6 = Base.Vector(da/2.0, 0.0, 0.0)
     
-    edge0 = Part.makeLine(Pnt0,Pnt1)
-    edge1 = Part.makeLine(Pnt1,Pnt2)
-    edge2 = Part.makeLine(Pnt2,Pnt3)
-    edge3 = Part.makeLine(Pnt3,Pnt4)
-    edge4 = Part.makeLine(Pnt4,Pnt5)
-    edge5 = Part.makeLine(Pnt5,Pnt6)
-    edge6 = Part.makeLine(Pnt6,Pnt7)
-    edge7 = Part.makeLine(Pnt7,Pnt0)
+    edge0 = Part.makeLine(Pnt0, Pnt1)
+    edge1 = Part.makeLine(Pnt1, Pnt2)
+    edge2 = Part.makeLine(Pnt2, Pnt3)
+    edge3 = Part.makeLine(Pnt3, Pnt4)
+    edge4 = Part.makeLine(Pnt4, Pnt5)
+    edge5 = Part.makeLine(Pnt5, Pnt6)
+    edge6 = Part.makeLine(Pnt6, Pnt7)
+    edge7 = Part.makeLine(Pnt7, Pnt0)
     
     # create cutting tool for hexagon head 
     # Parameters s, k, outer circle diameter =  e/2.0+10.0     
     extrude = self.makeHextool(s, m, s*2.0)
 
-    aWire=Part.Wire([edge0,edge1,edge2,edge3,edge4,edge5,edge6,edge7])
+    aWire=Part.Wire([edge0, edge1, edge2, edge3, edge4, edge5, edge6, edge7])
     # Part.show(aWire)
     aFace =Part.Face(aWire)
-    head = aFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360.0)
+    head = aFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
     #Part.show(head)
   
     # Part.show(extrude)
@@ -3570,7 +3570,7 @@ class Screw(object):
       if (dia < 1.6)or (dia > 64.0):
         #if (dia < 3.0):
         threadCutter = self.makeInnerThread_2(dia, P, int(turns+1), None, m)
-        threadCutter.translate(Base.Vector(0.0, 0.0,turns*P+0.5*P))
+        threadCutter.translate(Base.Vector(0.0, 0.0, turns*P+0.5*P))
         #Part.show(threadCutter, 'threadCutter')
         nut = nut.cut(threadCutter)
         #chamFace = nut.Faces[0].cut(threadCutter)
@@ -3629,28 +3629,28 @@ class Screw(object):
 
     #Hex-Head Points
     #FreeCAD.Console.PrintMessage("the nut with kmean: " + str(m) + "\n")
-    PntH0 = Base.Vector(da/2.0,0.0,m)
-    PntH1 = Base.Vector(s/2.0,0.0,m)
-    edgeH1 = Part.makeLine(PntH0,PntH1)
+    PntH0 = Base.Vector(da/2.0, 0.0, m)
+    PntH1 = Base.Vector(s/2.0, 0.0, m)
+    edgeH1 = Part.makeLine(PntH0, PntH1)
 
     hWire=Part.Wire([edgeH1])
-    topShell = hWire.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+    topShell = hWire.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
     #Part.show(hWire)
     #Part.show(topShell)
     
     # create a cutter ring to generate the chamfer at the top of the hex
     chamHori = s/math.sqrt(3.0) - s/2.0
-    PntC1 = Base.Vector(s/2.0-chamHori,0.0,m+m)
-    PntC2 = Base.Vector(s/math.sqrt(3.0)+chamHori,0.0,m+m)
-    PntC3 = Base.Vector(s/2.0-chamHori,0.0,m+cham)
-    PntC4 = Base.Vector(s/math.sqrt(3.0)+chamHori,0.0,m-cham-cham)   #s/math.sqrt(3.0)
+    PntC1 = Base.Vector(s/2.0-chamHori, 0.0, m+m)
+    PntC2 = Base.Vector(s/math.sqrt(3.0)+chamHori, 0.0, m+m)
+    PntC3 = Base.Vector(s/2.0-chamHori, 0.0, m+cham)
+    PntC4 = Base.Vector(s/math.sqrt(3.0)+chamHori, 0.0, m-cham-cham)   #s/math.sqrt(3.0)
     edgeC1 = Part.makeLine(PntC3, PntC1)
     edgeC2 = Part.makeLine(PntC1, PntC2)
     edgeC3 = Part.makeLine(PntC2, PntC4)
     edgeC4 = Part.makeLine(PntC4, PntC3)
     cWire = Part.Wire([edgeC4, edgeC1, edgeC2, edgeC3])
     cFace = Part.Face(cWire)
-    chamCut = cFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+    chamCut = cFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
     #Part.show(cWire)
     #Part.show(chamCut)
 
@@ -3659,14 +3659,14 @@ class Screw(object):
     mhex=Base.Matrix()
     mhex.rotateZ(math.radians(60.0))
     polygon = []
-    vhex=Base.Vector(s/math.sqrt(3.0),0.0,m)
+    vhex=Base.Vector(s/math.sqrt(3.0), 0.0, m)
     for i in range(6):
        polygon.append(vhex)
        vhex = mhex.multiply(vhex)
     polygon.append(vhex)
     hexagon = Part.makePolygon(polygon)
     hexFace = Part.Face(hexagon)
-    solidHex = hexFace.extrude(Base.Vector(0.0,0.0,c-m))
+    solidHex = hexFace.extrude(Base.Vector(0.0, 0.0, c-m))
     #Part.show(solidHex)
     hexCham = solidHex.cut(chamCut)
     #Part.show(hexCham)
@@ -3691,31 +3691,31 @@ class Screw(object):
     cham_i = cham_i_delta * math.tan(math.radians(15.0))
   
     # Center of flange:
-    Pnt0 = Base.Vector(0.0,0.0,hF)
-    Pnt1 = Base.Vector(s/2.0,0.0,hF)
+    Pnt0 = Base.Vector(0.0, 0.0, hF)
+    Pnt1 = Base.Vector(s/2.0, 0.0, hF)
     
     # arc edge of flange:
-    Pnt2 = Base.Vector(arc1_x,0.0,arc1_z)
-    Pnt3 = Base.Vector(dc/2.0,0.0,c/2.0)
-    Pnt4 = Base.Vector((dc-c)/2.0,0.0,0.0)
-    Pnt5 = Base.Vector(da/2.0,0.0,0.0)     #start of fillet between flat and thread
+    Pnt2 = Base.Vector(arc1_x, 0.0, arc1_z)
+    Pnt3 = Base.Vector(dc/2.0, 0.0, c/2.0)
+    Pnt4 = Base.Vector((dc-c)/2.0, 0.0, 0.0)
+    Pnt5 = Base.Vector(da/2.0, 0.0, 0.0)     #start of fillet between flat and thread
     
-    edge1 = Part.makeLine(Pnt0,Pnt1)
-    edge2 = Part.makeLine(Pnt1,Pnt2)
-    edge3 = Part.Arc(Pnt2,Pnt3,Pnt4).toShape()
-    edge4 = Part.makeLine(Pnt4,Pnt5)
+    edge1 = Part.makeLine(Pnt0, Pnt1)
+    edge2 = Part.makeLine(Pnt1, Pnt2)
+    edge3 = Part.Arc(Pnt2, Pnt3, Pnt4).toShape()
+    edge4 = Part.makeLine(Pnt4, Pnt5)
 
     # make a cutter for the hexShell
-    PntHC1 = Base.Vector(0.0,0.0,arc1_z)
-    PntHC2 = Base.Vector(0.0,0.0,0.0)
+    PntHC1 = Base.Vector(0.0, 0.0, arc1_z)
+    PntHC2 = Base.Vector(0.0, 0.0, 0.0)
     
-    edgeHC1 = Part.makeLine(Pnt2,PntHC1)
-    edgeHC2 = Part.makeLine(PntHC1,PntHC2)
-    edgeHC3 = Part.makeLine(PntHC2,Pnt0)
+    edgeHC1 = Part.makeLine(Pnt2, PntHC1)
+    edgeHC2 = Part.makeLine(PntHC1, PntHC2)
+    edgeHC3 = Part.makeLine(PntHC2, Pnt0)
 
     HCWire = Part.Wire([edge2, edgeHC1, edgeHC2, edgeHC3, edge1])
     HCFace = Part.Face(HCWire)
-    hex2Cut = HCFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+    hex2Cut = HCFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
     
     hexShell = hexShell.cut(hex2Cut)
     #Part.show(hexShell)
@@ -3723,27 +3723,27 @@ class Screw(object):
     topFaces.extend(hexShell.Faces)
     
     if self.rThread and (dia > 4.0):
-      aWire=Part.Wire([edge2,edge3,edge4])
+      aWire=Part.Wire([edge2, edge3, edge4])
       boltIndex = 3
     
     else:
       if self.rThread:
-        Pnt7 = Base.Vector(dia/2.1-H*5.0/8.0,0.0,m - cham_i)
-        Pnt6 = Base.Vector(dia/2.1-H*5.0/8.0,0.0,0.0+ cham_i)
+        Pnt7 = Base.Vector(dia/2.1-H*5.0/8.0, 0.0, m-cham_i)
+        Pnt6 = Base.Vector(dia/2.1-H*5.0/8.0, 0.0, 0.0+cham_i)
         
       else:
-        Pnt7 = Base.Vector(dia/2.0-H*5.0/8.0,0.0,m - cham_i)
-        Pnt6 = Base.Vector(dia/2.0-H*5.0/8.0,0.0,0.0+ cham_i)
-      edge5 = Part.makeLine(Pnt5,Pnt6)
-      edge6 = Part.makeLine(Pnt6,Pnt7)
-      edge7 = Part.makeLine(Pnt7,PntH0)
-      aWire=Part.Wire([edge2,edge3,edge4,edge5,edge6,edge7])
+        Pnt7 = Base.Vector(dia/2.0-H*5.0/8.0, 0.0, m - cham_i)
+        Pnt6 = Base.Vector(dia/2.0-H*5.0/8.0, 0.0, 0.0+ cham_i)
+      edge5 = Part.makeLine(Pnt5, Pnt6)
+      edge6 = Part.makeLine(Pnt6, Pnt7)
+      edge7 = Part.makeLine(Pnt7, PntH0)
+      aWire=Part.Wire([edge2, edge3, edge4, edge5, edge6, edge7])
       boltIndex = 6
 
 
     #aFace =Part.Face(aWire)
     #Part.show(aWire)
-    headShell = aWire.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+    headShell = aWire.revolve(Base.Vector(0.0, 0.0, 0.0),Base.Vector(0.0, 0.0, 1.0), 360)
     #FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
     #Part.show(headShell)
     chamFace = headShell.Faces[0].cut(solidHex)
@@ -3760,7 +3760,7 @@ class Screw(object):
         nut = Part.Solid(nutShell)
         #Part.show(nut, 'unthreadedNut')
         threadCutter = self.makeInnerThread_2(dia, P, int(turns+1), None, m)
-        threadCutter.translate(Base.Vector(0.0, 0.0,turns*P+0.5*P))
+        threadCutter.translate(Base.Vector(0.0, 0.0, turns*P+0.5*P))
         #Part.show(threadCutter, 'threadCutter')
         nut = nut.cut(threadCutter)
         
@@ -3782,12 +3782,12 @@ class Screw(object):
   # make ISO 7380-1 Button head Screw
   # make ISO 7380-2 Button head Screw with collar
   # make DIN 967 cross recessed pan head Screw with collar
-  def makeScrewTap(self, SType = "ScrewTap", ThreadType ='M6',l=25.0, customPitch=None, customDia=None):
-    if ThreadType != "Custom":
+  def makeScrewTap(self, SType='ScrewTap', ThreadType ='M6', l=25.0, customPitch=None, customDia=None):
+    if ThreadType != 'Custom':
       dia = self.getDia(ThreadType, True)
       if SType == "ScrewTap":
         P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
-      elif SType == "ScrewTapInch":
+      elif SType == 'ScrewTapInch':
         P = FsData["asmeb18.3.1adef"][ThreadType][0]
     else: # custom pitch and diameter
       P = customPitch
@@ -3795,7 +3795,7 @@ class Screw(object):
         dia = self.smNutThrScaleA * customDia + self.smNutThrScaleB
       else:
         dia = customDia
-    residue, turns = math.modf((l)/P)
+    residue, turns = math.modf(l/P)
     #FreeCAD.Console.PrintMessage("turns:" + str(turns) + "res: " + str(residue) + "\n")
     if residue > 0.00001:
       turns += 1.0
@@ -3803,21 +3803,21 @@ class Screw(object):
       screwTap = self.makeInnerThread_2(dia, P, int(turns), None, 0.0)
       #screwTap.translate(Base.Vector(0.0, 0.0, (1-residue)*P))
     else:
-      H=P*math.cos(math.radians(30)) # Thread depth H
-      r=dia/2.0
+      H = P*math.cos(math.radians(30)) # Thread depth H
+      r = dia/2.0
 
       # points for inner thread profile
       adjusted_l = turns * P
-      Pnt0 = Base.Vector(0.0,0.0,0)
-      Pnt1 = Base.Vector(r-H*5.0/8.0,0.0,0)
-      Pnt2 = Base.Vector(r-H*5.0/8.0,0.0,-adjusted_l)
-      Pnt3 = Base.Vector(0.0,0.0,-adjusted_l)
+      Pnt0 = Base.Vector(0.0, 0.0, 0)
+      Pnt1 = Base.Vector(r-H*5.0/8.0, 0.0, 0)
+      Pnt2 = Base.Vector(r-H*5.0/8.0, 0.0, -adjusted_l)
+      Pnt3 = Base.Vector(0.0, 0.0, -adjusted_l)
 
-      edge1 = Part.makeLine(Pnt0,Pnt1)
-      edge2 = Part.makeLine(Pnt1,Pnt2)
-      edge3 = Part.makeLine(Pnt2,Pnt3)
-      aWire=Part.Wire([edge1,edge2,edge3])
-      headShell = aWire.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360.0)
+      edge1 = Part.makeLine(Pnt0, Pnt1)
+      edge2 = Part.makeLine(Pnt1, Pnt2)
+      edge3 = Part.makeLine(Pnt2, Pnt3)
+      aWire = Part.Wire([edge1, edge2, edge3])
+      headShell = aWire.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
       screwTap = Part.Solid(headShell)
       screwTap.translate(Base.Vector(0.0, 0.0, -12.7))
     return screwTap
@@ -3841,19 +3841,19 @@ class Screw(object):
       cutDia = dia*0.75
     else:
       cutDia = dia
-    refpoint = Base.Vector(0,0,-1*l)
-    screwDie = Part.makeCylinder(dia*1.1/2,l,refpoint)
-    screwDie = screwDie.cut(Part.makeCylinder(cutDia/2,l,refpoint))
+    refpoint = Base.Vector(0, 0, -1*l)
+    screwDie = Part.makeCylinder(dia*1.1/2, l, refpoint)
+    screwDie = screwDie.cut(Part.makeCylinder(cutDia/2, l, refpoint))
     if self.rThread:
-      residue, turns = math.modf((l)/P)
+      residue, turns = math.modf(l/P)
       turns += 2.0
       halfturns = 2*turns
-      shell_thread = self.makeShellthread(dia,P,halfturns,False,0)
-      thr_p1 = Base.Vector(0,0,2*P)
-      thr_p2 = Base.Vector(dia/2,0,2*P)
-      thr_e1 = Part.makeLine(thr_p1,thr_p2)
+      shell_thread = self.makeShellthread(dia, P, halfturns, False, 0)
+      thr_p1 = Base.Vector(0, 0, 2*P)
+      thr_p2 = Base.Vector(dia/2, 0, 2*P)
+      thr_e1 = Part.makeLine(thr_p1, thr_p2)
       thr_cap_profile = Part.Wire([thr_e1])
-      thr_cap = thr_cap_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+      thr_cap = thr_cap_profile.revolve(Base.Vector(0, 0, 0),Base.Vector(0, 0, 1), 360)
       thr_faces = shell_thread.Faces
       thr_faces.extend(thr_cap.Faces)
       thread_shell = Part.Shell(thr_faces)
@@ -3863,13 +3863,13 @@ class Screw(object):
 
 
   # make a length of standard threaded rod
-  def makeThreadedRod(self, SType = "ThreadedRod", ThreadType = 'M6', l=25.0, customPitch=None, customDia=None):
-    if ThreadType != "Custom":
+  def makeThreadedRod(self, SType="ThreadedRod", ThreadType='M6', l=25.0, customPitch=None, customDia=None):
+    if ThreadType != 'Custom':
       dia = self.getDia(ThreadType, False)
-      if SType == "ThreadedRod":
-        P, tunIn, tunEx  = FsData["tuningTable"][ThreadType]
-      elif SType == "ThreadedRodInch":
-        P = FsData["asmeb18.3.1adef"][ThreadType][0]
+      if SType == 'ThreadedRod':
+        P, tunIn, tunEx  = FsData['tuningTable'][ThreadType]
+      elif SType == 'ThreadedRodInch':
+        P = FsData['asmeb18.3.1adef'][ThreadType][0]
     else: # custom pitch and diameter
       P = customPitch
       if self.sm3DPrintMode:
@@ -3878,92 +3878,92 @@ class Screw(object):
         dia = customDia
     dia = dia*1.01
     cham = P
-    p0 = Base.Vector(0,0,0)
-    p1 = Base.Vector(dia/2-cham,0,0)
-    p2 = Base.Vector(dia/2,0,0-cham)
-    p3 = Base.Vector(dia/2,0,-1*l+cham)
-    p4 = Base.Vector(dia/2-cham,0,-1*l)
-    p5 = Base.Vector(0,0,-1*l)
-    e1 = Part.makeLine(p0,p1)
-    e2 = Part.makeLine(p1,p2)
-    e3 = Part.makeLine(p2,p3)
-    e4 = Part.makeLine(p3,p4)
-    e5 = Part.makeLine(p4,p5)
-    p_profile = Part.Wire([e1,e2,e3,e4,e5])
-    p_shell = p_profile.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360.0)
+    p0 = Base.Vector(0, 0, 0)
+    p1 = Base.Vector(dia/2-cham, 0, 0)
+    p2 = Base.Vector(dia/2, 0, 0-cham)
+    p3 = Base.Vector(dia/2, 0, -1*l+cham)
+    p4 = Base.Vector(dia/2-cham, 0, -1*l)
+    p5 = Base.Vector(0, 0, -1*l)
+    e1 = Part.makeLine(p0, p1)
+    e2 = Part.makeLine(p1, p2)
+    e3 = Part.makeLine(p2, p3)
+    e4 = Part.makeLine(p3, p4)
+    e5 = Part.makeLine(p4, p5)
+    p_profile = Part.Wire([e1, e2, e3, e4, e5])
+    p_shell = p_profile.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
     screw = Part.Solid(p_shell)
     if self.rThread:
       dia = dia/1.01
-      residue, turns = math.modf((l)/P)
-      halfturns = 2*int(turns)
+      residue, turns = math.modf(l/P)
+      halfturns = 2 * int(turns)
       if residue > 0.5:
-        halfturns = halfturns+7
+        halfturns = halfturns + 7
       else:
-        halfturns = halfturns+6
+        halfturns = halfturns + 6
       # make the threaded section
-      shell_thread = self.makeShellthread(dia,P,halfturns,False,0)
-      thr_p1 = Base.Vector(0,0,2*P)
-      thr_p2 = Base.Vector(dia/2,0,2*P)
-      thr_e1 = Part.makeLine(thr_p1,thr_p2)
+      shell_thread = self.makeShellthread(dia, P, halfturns, False, 0)
+      thr_p1 = Base.Vector(0, 0, 2*P)
+      thr_p2 = Base.Vector(dia/2, 0, 2*P)
+      thr_e1 = Part.makeLine(thr_p1, thr_p2)
       thr_cap_profile = Part.Wire([thr_e1])
-      thr_cap = thr_cap_profile.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+      thr_cap = thr_cap_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
       thr_faces = shell_thread.Faces
       thr_faces.extend(thr_cap.Faces)
       thread_shell = Part.Shell(thr_faces)
       thread_solid = Part.Solid(thread_shell)
-      thread_solid.translate(Base.Vector(0,0,2*P))
+      thread_solid.translate(Base.Vector(0, 0, 2*P))
       screw = screw.common(thread_solid)
     return screw
 
 
   def cutChamfer(self, dia_cC, P_cC, l_cC):
-    cham_t = P_cC*math.sqrt(3.0)/2.0*17.0/24.0
-    PntC0 = Base.Vector(0.0,0.0,-l_cC)
-    PntC1 = Base.Vector(dia_cC/2.0-cham_t,0.0,-l_cC)
-    PntC2 = Base.Vector(dia_cC/2.0+cham_t,0.0,-l_cC+cham_t+cham_t)
-    PntC3 = Base.Vector(dia_cC/2.0+cham_t,0.0,-l_cC-P_cC-cham_t)
-    PntC4 = Base.Vector(0.0,0.0,-l_cC-P_cC-cham_t)
+    cham_t = P_cC*math.sqrt(3.0) / 2.0 * 17.0 / 24.0
+    PntC0 = Base.Vector(0.0, 0.0, -l_cC)
+    PntC1 = Base.Vector(dia_cC/2.0-cham_t, 0.0, -l_cC)
+    PntC2 = Base.Vector(dia_cC/2.0+cham_t, 0.0, -l_cC+cham_t+cham_t)
+    PntC3 = Base.Vector(dia_cC/2.0+cham_t, 0.0, -l_cC-P_cC-cham_t)
+    PntC4 = Base.Vector(0.0, 0.0, -l_cC-P_cC-cham_t)
 
-    edgeC1 = Part.makeLine(PntC0,PntC1)
-    edgeC2 = Part.makeLine(PntC1,PntC2)
-    edgeC3 = Part.makeLine(PntC2,PntC3)
-    edgeC4 = Part.makeLine(PntC3,PntC4)
-    edgeC5 = Part.makeLine(PntC4,PntC0)
-    CWire=Part.Wire([edgeC1,edgeC2,edgeC3,edgeC4,edgeC5])
+    edgeC1 = Part.makeLine(PntC0, PntC1)
+    edgeC2 = Part.makeLine(PntC1, PntC2)
+    edgeC3 = Part.makeLine(PntC2, PntC3)
+    edgeC4 = Part.makeLine(PntC3, PntC4)
+    edgeC5 = Part.makeLine(PntC4, PntC0)
+    CWire=Part.Wire([edgeC1, edgeC2, edgeC3, edgeC4, edgeC5])
     #Part.show(CWire)
     CFace =Part.Face(CWire)
-    cyl = CFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+    cyl = CFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
     return cyl
 
 
   # cross recess type H
-  def makeCross_H3(self, CrossType = '2', m = 6.9, h = 0.0):
+  def makeCross_H3(self, CrossType='2', m=6.9, h=0.0):
     # m = diameter of cross at top of screw at reference level for penetration depth
     b, e_mean, g, f_mean, r, t1, alpha, beta = FsData["iso4757def"][CrossType]
 
     rad265 = math.radians(26.5)
     rad28 = math.radians(28.0)
-    tg = (m-g)/2.0/math.tan(rad265) # depth at radius of g
-    t_tot = tg + g/2.0 * math.tan(rad28) # total depth
+    tg = (m-g)/ 2.0/ math.tan(rad265) # depth at radius of g
+    t_tot = tg + g/ 2.0 * math.tan(rad28) # total depth
 
     # print 'tg: ', tg,' t_tot: ', t_tot
     hm = m / 4.0
     hmc = m / 2.0
     rmax = m / 2.0 + hm*math.tan(rad265)
 
-    Pnt0 = Base.Vector(0.0,0.0,hm)
-    Pnt1 = Base.Vector(rmax,0.0,hm)
-    Pnt3 = Base.Vector(0.0,0.0,0.0)
-    Pnt4 = Base.Vector(g/2.0,0.0,-tg)
-    Pnt5 = Base.Vector(0.0,0.0,-t_tot)
+    Pnt0 = Base.Vector(0.0, 0.0, hm)
+    Pnt1 = Base.Vector(rmax, 0.0, hm)
+    Pnt3 = Base.Vector(0.0, 0.0, 0.0)
+    Pnt4 = Base.Vector(g/2.0, 0.0, -tg)
+    Pnt5 = Base.Vector(0.0, 0.0, -t_tot)
 
-    edge1 = Part.makeLine(Pnt0,Pnt1)
-    edge3 = Part.makeLine(Pnt1,Pnt4)
-    edge4 = Part.makeLine(Pnt4,Pnt5)
+    edge1 = Part.makeLine(Pnt0, Pnt1)
+    edge3 = Part.makeLine(Pnt1, Pnt4)
+    edge4 = Part.makeLine(Pnt4, Pnt5)
     # FreeCAD.Console.PrintMessage("Edges made Pnt2: " + str(Pnt2) + "\n")
 
-    aWire=Part.Wire([edge1,edge3,edge4])
-    crossShell = aWire.revolve(Pnt3,Base.Vector(0.0,0.0,1.0),360)
+    aWire=Part.Wire([edge1, edge3, edge4])
+    crossShell = aWire.revolve(Pnt3, Base.Vector(0.0, 0.0, 1.0), 360)
     # FreeCAD.Console.PrintMessage("Peak-wire revolved: " + str(e_mean) + "\n")
     cross = Part.Solid(crossShell)
     #Part.show(cross)
@@ -3990,42 +3990,42 @@ class Screw(object):
     dx = m/2.0 * math.cos(rad92_p)
     dy = m/2.0 * math.sin(rad92_p)
 
-    PntC0 = Base.Vector(rbtop,0.0,hmc)
-    PntC1 = Base.Vector(rbtot,0.0,-t_tot)
-    PntC2 = Base.Vector(rbtop+dre,+e_mean/2.0,hmc)
-    PntC3 = Base.Vector(rbtot+dre,+e_mean/2.0,-t_tot)
-    PntC4 = Base.Vector(rbtop+dre,-e_mean/2.0,hmc)
-    PntC5 = Base.Vector(rbtot+dre,-e_mean/2.0,-t_tot)
+    PntC0 = Base.Vector(rbtop, 0.0, hmc)
+    PntC1 = Base.Vector(rbtot, 0.0, -t_tot)
+    PntC2 = Base.Vector(rbtop+dre, +e_mean/2.0, hmc)
+    PntC3 = Base.Vector(rbtot+dre, +e_mean/2.0, -t_tot)
+    PntC4 = Base.Vector(rbtop+dre, -e_mean/2.0, hmc)
+    PntC5 = Base.Vector(rbtot+dre, -e_mean/2.0, -t_tot)
 
-    PntC6 = Base.Vector(rbtop+dre+dx,+e_mean/2.0+dy,hmc)
+    PntC6 = Base.Vector(rbtop+dre+dx, +e_mean/2.0+dy, hmc)
     #PntC7 = Base.Vector(rbtot+dre+dx,+e_mean/2.0+dy,-t_tot)
-    PntC7 = Base.Vector(rbtot+dre+2.0*dx,+e_mean+2.0*dy,-t_tot)
-    PntC8 = Base.Vector(rbtop+dre+dx,-e_mean/2.0-dy,hmc)
+    PntC7 = Base.Vector(rbtot+dre+2.0*dx, +e_mean+2.0*dy, -t_tot)
+    PntC8 = Base.Vector(rbtop+dre+dx, -e_mean/2.0-dy, hmc)
     #PntC9 = Base.Vector(rbtot+dre+dx,-e_mean/2.0-dy,-t_tot)
-    PntC9 = Base.Vector(rbtot+dre+2.0*dx,-e_mean-2.0*dy,-t_tot)
+    PntC9 = Base.Vector(rbtot+dre+2.0*dx, -e_mean-2.0*dy, -t_tot)
 
     #wire_hm = Part.makePolygon([PntC0,PntC2,PntC6,PntC8,PntC4,PntC0])
     #face_hm =Part.Face(wire_hm)
     #Part.show(face_hm)
 
-    wire_t_tot = Part.makePolygon([PntC1,PntC3,PntC7,PntC9,PntC5,PntC1])
+    wire_t_tot = Part.makePolygon([PntC1, PntC3, PntC7, PntC9, PntC5, PntC1])
     # Part.show(wire_t_tot)
     edgeC1 = Part.makeLine(PntC0,PntC1)
     #FreeCAD.Console.PrintMessage("edgeC1 with PntC9" + str(PntC9) + "\n")
 
-    makeSolid=True
-    isFrenet=False
-    corner = Part.Wire(edgeC1).makePipeShell([wire_t_tot],makeSolid,isFrenet)
+    makeSolid = True
+    isFrenet = False
+    corner = Part.Wire(edgeC1).makePipeShell([wire_t_tot], makeSolid, isFrenet)
     #Part.show(corner)
 
-    rot_axis = Base.Vector(0.,0.,1.0)
+    rot_axis = Base.Vector( 0., 0., 1.0)
     sin_res = math.sin(math.radians(90)/2.0)
     cos_res = math.cos(math.radians(90)/2.0)
     rot_axis.multiply(-sin_res) # Calculation of Quaternion-Elements
     #FreeCAD.Console.PrintMessage("Quaternion-Elements" + str(cos_res) + "\n")
 
     pl_rot = FreeCAD.Placement()
-    pl_rot.Rotation = (rot_axis.x,rot_axis.y,rot_axis.z,cos_res) #Rotation-Quaternion 90° z-Axis
+    pl_rot.Rotation = (rot_axis.x, rot_axis.y, rot_axis.z, cos_res) #Rotation-Quaternion 90° z-Axis
 
     crossShell = crossShell.cut(corner)
     #Part.show(crossShell)
@@ -4045,7 +4045,7 @@ class Screw(object):
 
     for i in range(3):
       cutplace.Rotation = pl_rot.Rotation.multiply(corner.Placement.Rotation)
-      corner.Placement=cutplace
+      corner.Placement = cutplace
       crossShell = crossShell.cut(corner)
       addPlace.Rotation = pl_rot.Rotation.multiply(cornerShell.Placement.Rotation)
       cornerShell.Placement = addPlace
@@ -4053,7 +4053,7 @@ class Screw(object):
         crossFaces.append(coFace)
 
     #Part.show(crossShell)
-    for i in range(1,6):
+    for i in range(1, 6):
       crossFaces.append(crossShell.Faces[i])
 
     crossShell0 = Part.Shell(crossFaces)
@@ -4066,8 +4066,8 @@ class Screw(object):
 
     #FreeCAD.Console.PrintMessage("Placement: " + str(pl_rot) + "\n")
 
-    cross.Placement.Base = Base.Vector(0.0,0.0,h)
-    crossShell0.Placement.Base = Base.Vector(0.0,0.0,h)
+    cross.Placement.Base = Base.Vector(0.0, 0.0, h)
+    crossShell0.Placement.Base = Base.Vector(0.0, 0.0, h)
     #Part.show(crossShell0)
     #Part.show(cross)
     return cross, crossShell0
@@ -4075,12 +4075,11 @@ class Screw(object):
 
   # Allen recess cutting tool
   # Parameters used: s_mean, k, t_min, dk
-  def makeAllen2(self, s_a = 3.0, t_a = 1.5, h_a = 2.0, t_2 = 0.0 ):
+  def makeAllen2(self, s_a=3.0, t_a=1.5, h_a=2.0, t_2=0.0):
     # h_a  top height location of cutting tool
     # s_a hex width
     # t_a dept of the allen
     # t_2 depth of center-bore
-
 
     if t_2 == 0.0:
       depth = s_a / 3.0
@@ -4093,29 +4092,29 @@ class Screw(object):
       hyp = (depth*math.sqrt(e_cham**2/depth**2+1.0)*rCone)/e_cham
       radAlpha = math.atan(e_cham/depth)
       radBeta = math.pi/2.0 - radAlpha
-      zrConeCenter=hyp - depth -t_a
-      xArc1=math.sin(radBeta)*rCone
-      zArc1=zrConeCenter - math.cos(radBeta)*rCone
-      xArc2=math.sin(radBeta/2.0)*rCone
-      zArc2=zrConeCenter - math.cos(radBeta/2.0)*rCone
+      zrConeCenter = hyp - depth -t_a
+      xArc1 = math.sin(radBeta)*rCone
+      zArc1 = zrConeCenter - math.cos(radBeta)*rCone
+      xArc2 = math.sin(radBeta/2.0)*rCone
+      zArc2 = zrConeCenter - math.cos(radBeta/2.0)*rCone
       zArc3 = zrConeCenter - rCone
       
       # The round part of the cutting tool, we need for the allen hex recess
-      PntH1 = Base.Vector(0.0,0.0,-t_a-depth-depth)
-      PntH2 = Base.Vector(e_cham,0.0,-t_a-depth-depth)
-      PntH3 = Base.Vector(e_cham,0.0,-t_a+depth)
-      PntH4 = Base.Vector(0.0,0.0,-t_a-depth)
+      PntH1 = Base.Vector(0.0, 0.0, -t_a-depth-depth)
+      PntH2 = Base.Vector(e_cham, 0.0, -t_a-depth-depth)
+      PntH3 = Base.Vector(e_cham, 0.0, -t_a+depth)
+      PntH4 = Base.Vector(0.0, 0.0, -t_a-depth)
       
-      PntA1 = Base.Vector(xArc1,0.0,zArc1)
-      PntA2 = Base.Vector(xArc2,0.0,zArc2)
-      PntA3 = Base.Vector(0.0,0.0,zArc3)
+      PntA1 = Base.Vector(xArc1, 0.0, zArc1)
+      PntA2 = Base.Vector(xArc2, 0.0, zArc2)
+      PntA3 = Base.Vector(0.0, 0.0, zArc3)
       
-      edgeA1 = Part.Arc(PntA1,PntA2,PntA3).toShape()
+      edgeA1 = Part.Arc(PntA1, PntA2, PntA3).toShape()
       
-      edgeH1 = Part.makeLine(PntH1,PntH2)
-      edgeH2 = Part.makeLine(PntH2,PntH3)
-      edgeH3 = Part.makeLine(PntH3,PntA1)
-      edgeH4 = Part.makeLine(PntA3,PntH1)
+      edgeH1 = Part.makeLine(PntH1, PntH2)
+      edgeH2 = Part.makeLine(PntH2, PntH3)
+      edgeH3 = Part.makeLine(PntH3, PntA1)
+      edgeH4 = Part.makeLine(PntA3, PntH1)
       
       hWire=Part.Wire([edgeH1,edgeH2,edgeH3,edgeA1,edgeH4])
       hex_depth = -1.0-t_a-depth*1.1
@@ -4135,7 +4134,7 @@ class Screw(object):
       ]
       
       edges = []
-      for i in range(0,len(Pnts)-1):
+      for i in range(0, len(Pnts)-1):
         edges.append(Part.makeLine(Pnts[i], Pnts[i+1]))
       edges.append(Part.makeLine(Pnts[5], Pnts[0]))
         
@@ -4144,7 +4143,7 @@ class Screw(object):
       
     #Part.show(hWire)
     hFace =Part.Face(hWire)
-    roundtool = hFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+    roundtool = hFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
 
     # create hexagon
     mhex=Base.Matrix()
@@ -4173,7 +4172,7 @@ class Screw(object):
 
 
   # ISO 10664 Hexalobular internal driving feature for bolts and screws
-  def makeIso10664_3(self,RType ='T20',t_hl=3.0, h_hl = 0):
+  def makeIso10664_3(self, RType='T20', t_hl=3.0, h_hl=0):
     # t_hl depth of the recess
     # h_hl top height location of Cutting tool
     A, B, Re = FsData["iso10664def"][RType]
@@ -4279,7 +4278,7 @@ class Screw(object):
     return Helo, hexlobShell
 
 
-  def setThreadType(self, TType = 'simple'):
+  def setThreadType(self, TType='simple'):
     self.simpThread = False
     self.symThread = False
     self.rThread = False
@@ -4291,7 +4290,7 @@ class Screw(object):
       self.rThread = True
 
 
-  def setTuner(self, myTuner = 511):
+  def setTuner(self, myTuner=511):
     self.Tuner = myTuner
 
 

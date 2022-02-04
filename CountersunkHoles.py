@@ -473,7 +473,7 @@ class FSTaskFilletDialog:
         self.RefreshSelection()
         
     def accept(self):
-        if (self.object is None):
+        if self.object is None:
           self.object = FreeCAD.ActiveDocument.addObject("Part::FeaturePython","Countersunk")
           FSCountersunkObject(self.object, self.baseObj)
           #self.object.ViewObject.Proxy = 0
@@ -489,7 +489,7 @@ class FSTaskFilletDialog:
         return True
         
     def DialogClosing(self):
-        if self.object != None:
+        if self.object is not None:
           Gui.ActiveDocument.getObject(self.object.Name).Visibility = True
           Gui.ActiveDocument.getObject(self.baseObj.Name).Visibility = False
         Gui.ActiveDocument.resetEdit()
@@ -638,7 +638,7 @@ def cshMakeCSHole(diam, type):
     return None
 
   (key, shape) = FastenerBase.FSGetKey('CSHole', diam, 0)
-  if shape != None:
+  if shape is not None:
     return shape
   
   m = FastenerBase.MToFloat(diam)

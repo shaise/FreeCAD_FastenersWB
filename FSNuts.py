@@ -95,7 +95,7 @@ def nutMakeSolid(diam):
   if not(diam in MHexNutTable):
     return None
   (key, shape) = FastenerBase.FSGetKey('Nut', diam)
-  if shape != None:
+  if shape is not None:
     return shape
   
   s, m, di = MHexNutTable[diam]
@@ -129,7 +129,7 @@ class FSHexNutObject(FSBaseObject):
       baseobj = None
       shape = None
     self.updateProps(obj)
-    if (not (hasattr(self,'diameter')) or self.diameter != fp.diameter):
+    if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
       if fp.diameter == 'Auto':
         d = FastenerBase.FSAutoDiameterM(shape, MHexNutTable, -1)
       else:
@@ -143,7 +143,7 @@ class FSHexNutObject(FSBaseObject):
       fp.Label = fp.diameter + '-Nut'
     else:
       FreeCAD.Console.PrintLog("Using cached object\n")
-    if shape != None:
+    if shape is not None:
       #fp.Placement = FreeCAD.Placement() # reset placement
       FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
 
@@ -163,7 +163,7 @@ class FSHexNutCommand:
     return
    
   def IsActive(self):
-    return Gui.ActiveDocument != None
+    return Gui.ActiveDocument is not None
 
 Gui.addCommand("FSHexNut", FSHexNutCommand())
 #FastenerBase.FSCommands.append("FSHexNut", "screws", "Nut")
@@ -234,7 +234,7 @@ def nut562MakeSolid(diam):
   if not(diam in din562def):
     return None
   (key, shape) = FastenerBase.FSGetKey('Nut562', diam)
-  if shape != None:
+  if shape is not None:
     return shape
   
   s, m, di = din562def[diam]
@@ -263,7 +263,7 @@ def nut557MakeSolid(diam):
   if not(diam in din557def):
     return None
   (key, shape) = FastenerBase.FSGetKey('Nut557', diam)
-  if shape != None:
+  if shape is not None:
     return shape
   
   s, m, di, dw = din557def[diam]
@@ -336,7 +336,7 @@ def nut985MakeSolid(diam):
   if not(diam in din985def):
     return None
   (key, shape) = FastenerBase.FSGetKey('Nut985', diam)
-  if shape != None:
+  if shape is not None:
     return shape
   
   p, da, dw, e, m, h, s = din985def[diam]
@@ -351,10 +351,10 @@ def nut985MakeSolid(diam):
  
  
 def createNut(type, diam):
-  if (type == 'DIN557'):
+  if type == 'DIN557':
     return nut557MakeSolid(diam)
-  if (type == 'DIN562'):
+  elif type == 'DIN562':
     return nut562MakeSolid(diam)
-  if (type == 'DIN985'):
+  elif type == 'DIN985':
     return nut985MakeSolid(diam)
   return None

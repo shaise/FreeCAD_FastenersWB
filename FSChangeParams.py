@@ -305,7 +305,7 @@ class FSTaskChangeParamDialog:
     def onAutoDiamChange(self, val):
         try:
             ui = self.form.ui
-            if (ui.checkAutoDiameter.isChecked()):
+            if ui.checkAutoDiameter.isChecked():
                 ui.comboDiameter.setEnabled(False)
                 ui.comboMatchType.setEnabled(True)
             else:

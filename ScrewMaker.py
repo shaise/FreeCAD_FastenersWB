@@ -206,7 +206,7 @@ class FSScrewMaker(Screw):
         mindif = 100.0
         for l in len_table:
           diff = abs(FastenerBase.LenStr2Num(l) - origlen)
-          if (diff < mindif):
+          if diff < mindif:
             mindif = diff
             len = l
               
@@ -243,10 +243,10 @@ class FSScrewMaker(Screw):
         dif = mindif
         for m in table:
             #FreeCAD.Console.PrintLog("Test M:" + m + "\n")
-            if (tablepos == -1):
+            if tablepos == -1:
               if matchOuter:
                 dia = FastenerBase.DiaStr2Num(m) - 0.01
-                if (d > dia):
+                if d > dia:
                   dif = d - dia
               else:
                 dia = FSCGetInnerThread(m)
@@ -254,7 +254,7 @@ class FSScrewMaker(Screw):
               
             else:
               dia = table[m][tablepos]
-              if (d > dia):
+              if d > dia:
                 dif = d - dia
             if dif < mindif:
               mindif = dif
@@ -333,7 +333,7 @@ class FSScrewMaker(Screw):
       self.smScrewThrScaleA = FSParam.GetFloat("ScrewThrScaleA", 0.99)
       self.smScrewThrScaleB = FSParam.GetFloat("ScrewThrScaleB", -0.05)
       newState = str(self.sm3DPrintMode) + str(self.smNutThrScaleA) + str(self.smNutThrScaleB) + str(self.smScrewThrScaleA) + str(self.smScrewThrScaleB)
-      if (oldState != newState):
+      if oldState != newState:
         FastenerBase.FSCacheRemoveThreaded() # thread parameters have changed, remove cached ones    
 
     def createFastener(self, type, diam, len, threadType, shapeOnly = False):

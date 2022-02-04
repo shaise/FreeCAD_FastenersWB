@@ -117,7 +117,7 @@ class FSFastenerType:
     self.items = []
     
 FSFasenerTypeDB = {}
-def FSAddFastenerType(typeName, hasLength = True, lengthFixed = True):
+def FSAddFastenerType(typeName, hasLength=True, lengthFixed=True):
   FSFasenerTypeDB[typeName] = FSFastenerType(typeName, hasLength, lengthFixed)
   
 def FSAddItemsToType(typeName, item):
@@ -504,7 +504,7 @@ class FSFlipCommand:
       return
     for selObj in selObjs:
       FreeCAD.Console.PrintLog("sel obj: " + str(selObj.invert) + "\n")
-      selObj.invert = not(selObj.invert)
+      selObj.invert = not selObj.invert
     FreeCAD.ActiveDocument.recompute()
     return
    
@@ -517,7 +517,7 @@ class FSFlipCommand:
     for selobj in Gui.Selection.getSelectionEx():
       obj = selobj.Object
       #FreeCAD.Console.PrintLog("sel obj: " + str(obj) + "\n")
-      if (hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSBaseObject)):
+      if hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSBaseObject):
         if obj.baseObject is not None:
           screwObj.append(obj)
     return screwObj
@@ -554,9 +554,9 @@ class FSMoveCommand:
     edgeObj = None
     for selObj in Gui.Selection.getSelectionEx():
       obj = selObj.Object
-      if (hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSBaseObject)):
+      if hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSBaseObject):
         screwObj = obj
-      elif len(selObj.SubObjects) == 1 and isinstance(selObj.SubObjects[0],Part.Edge):
+      elif len(selObj.SubObjects) == 1 and isinstance(selObj.SubObjects[0], Part.Edge):
         edgeObj = (obj, [selObj.SubElementNames[0]])
     return screwObj, edgeObj
         
@@ -616,7 +616,7 @@ class FSToggleMatchTypeCommand:
       self.toolbarItem = FSGetToolbarItem("FS Commands", self.menuText)
     if self.toolbarItem is None:
       return
-    FSMatchOuter = not(FSMatchOuter)
+    FSMatchOuter = not FSMatchOuter
     self.UpdateIcon()
     return
     

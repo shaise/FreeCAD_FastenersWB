@@ -51,7 +51,7 @@ class FSScrewObject(FSBaseObject):
     obj.type = type
     obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Screw diameter standard").diameter = diameters
     self.VerifyMissingAttrs(obj, diameters[1])
-    if (self.itemText != "Washer"):
+    if self.itemText != "Washer":
       obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
     obj.Proxy = self
     
@@ -67,7 +67,7 @@ class FSScrewObject(FSBaseObject):
       obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
     if self.itemText == "Screw" and  not hasattr(obj, 'lengthCustom'):
       slens = screwMaker.GetAllLengths(obj.type, diameter)
-      if (hasattr(obj, 'length')):
+      if hasattr(obj, 'length'):
         origLen = obj.length
         obj.length = slens
         obj.length = origLen

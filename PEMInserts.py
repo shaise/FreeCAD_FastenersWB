@@ -782,7 +782,7 @@ class FSPcbStandOffObject(FSBaseObject):
     self.updateProps(obj)
     if not hasattr(obj, 'lengthCustom'):
       slens = psGetAllLengths(PSMTable, PSLengths ,diam, width)
-      if (hasattr(obj, 'length')):
+      if hasattr(obj, 'length'):
         origLen = obj.length
         obj.length = slens
         if origLen not in slens:
@@ -841,7 +841,7 @@ class FSPcbStandOffObject(FSBaseObject):
           else:
             fp.width = allwidth[0]
 
-      if (not lengthchange and hasattr(self,'lengthCustom') and self.lengthCustom != fp.lengthCustom.Value):
+      if not lengthchange and hasattr(self,'lengthCustom') and self.lengthCustom != fp.lengthCustom.Value:
         fp.length = 'Custom'
 
       if fp.length == 'Custom':
@@ -1000,7 +1000,7 @@ class FSPcbSpacerObject(FSBaseObject):
       baseobj = None
       shape = None
     self.updateProps(fp)
-    if (not (hasattr(self, 'diameter')) or self.diameter != fp.diameter or self.width != fp.width or self.length != fp.length):
+    if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter or self.width != fp.width or self.length != fp.length:
       diameterchange = False      
       if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
         diameterchange = True      
@@ -1162,7 +1162,7 @@ class FSHeatSetObject(FSBaseObject):
       baseobj = None
       shape = None
     self.updateProps(fp)
-    if (not (hasattr(self, 'diameter')) or self.diameter != fp.diameter):
+    if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
       if fp.diameter == 'Auto':
         d = FastenerBase.FSAutoDiameterM(shape, IUTPEMTable, 0)
       else:

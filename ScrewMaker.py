@@ -57,42 +57,42 @@ FSCScrewHoleChart = (
 )
 
 FSC_Inch_ScrewHoleChart = (
-  ("#0",1.2),
-  ("#1",1.5),
-  ("#2",1.8),
-  ("#3",2.0),
-  ("#4",2.3),
-  ("#5",2.6),
-  ("#6",2.7),
-  ("#8",3.5),
-  ("#10",3.8),
-  ("#12",4.5),
-  ("1/4in",5.1),
-  ("5/16in",6.5),
-  ("3/8in",8.0),
-  ("7/16in",9.3),
-  ("1/2in",10.7),
-  ("9/16in",12.3),
-  ("5/8in",13.5),
-  ("3/4in",16.7),
-  ("7/8in",19.4),
-  ("1in",22.2),
-  ("1 1/8in",25.0),
-  ("1 1/4in",28.0),
-  ("1 3/8in",31.0),
-  ("1 1/2in",34.0),
-  ("1 5/8in",37.75),
-  ("1 3/4in",41.0),
-  ("1 7/8in",44.0),
-  ("2in",47.0),
-  ("2 1/4in",54.0),
-  ("2 1/2in",56.5),
-  ("2 3/4in",63.0),
-  ("3in",69.0),
-  ("3 1/4in",75.5),
-  ("3 1/2in",82.0),
-  ("3 3/4in",88.0),
-  ("4in",95.0)
+  ("#0", 1.2),
+  ("#1", 1.5),
+  ("#2", 1.8),
+  ("#3", 2.0),
+  ("#4", 2.3),
+  ("#5", 2.6),
+  ("#6", 2.7),
+  ("#8", 3.5),
+  ("#10", 3.8),
+  ("#12", 4.5),
+  ("1/4in", 5.1),
+  ("5/16in", 6.5),
+  ("3/8in", 8.0),
+  ("7/16in", 9.3),
+  ("1/2in", 10.7),
+  ("9/16in", 12.3),
+  ("5/8in", 13.5),
+  ("3/4in", 16.7),
+  ("7/8in", 19.4),
+  ("1in", 22.2),
+  ("1 1/8in", 25.0),
+  ("1 1/4in", 28.0),
+  ("1 3/8in", 31.0),
+  ("1 1/2in", 34.0),
+  ("1 5/8in", 37.75),
+  ("1 3/4in", 41.0),
+  ("1 7/8in", 44.0),
+  ("2in", 47.0),
+  ("2 1/4in", 54.0),
+  ("2 1/2in", 56.5),
+  ("2 3/4in", 63.0),
+  ("3in", 69.0),
+  ("3 1/4in", 75.5),
+  ("3 1/2in", 82.0),
+  ("3 3/4in", 88.0),
+  ("4in", 95.0)
 )
 
 # prepare a dictionary for fast search of FSCGetInnerThread
@@ -196,7 +196,7 @@ class FSScrewMaker(Screw):
         mindif = 100.0
         for m in diam_table:
           diff = abs(FastenerBase.DiaStr2Num(m) - origdia)
-          if (diff < mindif):
+          if diff < mindif:
             mindif = diff
             diam = m
 
@@ -218,10 +218,10 @@ class FSScrewMaker(Screw):
         if FastenerBase.LenStr2Num(len) > FastenerBase.LenStr2Num(maxl):
           len = maxl
         
-      return (diam, len)
+      return diam, len
         
         
-    def AutoDiameter(self, type, holeObj, baseobj = None, matchOuter = FastenerBase.FSMatchOuter):
+    def AutoDiameter(self, type, holeObj, baseobj=None, matchOuter=FastenerBase.FSMatchOuter):
       ''' Calculate screw diameter automatically based on given hole '''
       # this function is also used to assign the default screw diameter
       # when a new fastener is created. the following default values are 
@@ -276,7 +276,7 @@ class FSScrewMaker(Screw):
     
     def GetAllDiams(self, type):
       FreeCAD.Console.PrintLog("Get diams for type:" + str(type) + "\n")
-      return sorted(screwTables[type][1], key = FastenerBase.DiaStr2Num) #***
+      return sorted(screwTables[type][1], key=FastenerBase.DiaStr2Num) #***
 
     def GetAllLengths(self, type, diam):
       lens = screwTables[type][2]
@@ -288,14 +288,14 @@ class FSScrewMaker(Screw):
         l = FastenerBase.LenStr2Num(len)
         if l >= min and l <= max:
           list.append(len)
-      list.sort(key = FastenerBase.LenStr2Num) #***
+      list.sort(key=FastenerBase.LenStr2Num) #***
       list.append("Custom")
       return list
 
     def GetAllCountersunkTypes(self):
       list = []
       for key in screwTables:
-        if screwTables[key][0] == "Screw" and screwTables[key][4] >= 0:
+        if screwTables[key][0] == 'Screw' and screwTables[key][4] >= 0:
           list.append(key)
       list.sort()
       return list
@@ -314,12 +314,12 @@ class FSScrewMaker(Screw):
     def GetCountersunkDims(self, type, diam):
       dpos = screwTables[type][4]
       if dpos < 0:
-        return (0,0)
+        return 0, 0
       kpos = screwTables[type][5]
       table = screwTables[type][1]
       if not(diam in table):
-        return (0,0)
-      return (table[diam][dpos], table[diam][kpos])
+        return 0, 0
+      return table[diam][dpos], table[diam][kpos]
       
     def updateFastenerParameters(self):
       global FSParam
@@ -336,8 +336,8 @@ class FSScrewMaker(Screw):
       if oldState != newState:
         FastenerBase.FSCacheRemoveThreaded() # thread parameters have changed, remove cached ones    
 
-    def createFastener(self, type, diam, len, threadType, shapeOnly = False):
-      if type in FSNutsList :
+    def createFastener(self, type, diam, len, threadType, shapeOnly=False):
+      if type in FSNutsList:
         return FSNuts.createNut(type, diam)
       return self.createScrew(type, diam, len, threadType, shapeOnly)
 

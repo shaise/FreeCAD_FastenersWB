@@ -60,11 +60,11 @@ class FSGroupCommand:
         return { 'MenuText': self.menuText, 'ToolTip': self.toolTip}
  
     def IsActive(self):
-        return Gui.ActiveDocument != None
+        return Gui.ActiveDocument is not None
     #def Activated(self, index): # index is an int in the range [0, len(GetCommands)
 
-DropButtonSupported = int(float(FreeCAD.Version()[1])) > 15 # and  int(FreeCAD.Version()[2].split()[0]) >= 5165
-RadioButtonSupported = int(float(FreeCAD.Version()[1])) > 15 # and  int(FreeCAD.Version()[2].split()[0]) >= 5560   
+DropButtonSupported = int(FreeCAD.Version()[1]) > 15 # and  int(FreeCAD.Version()[2].split()[0]) >= 5165
+RadioButtonSupported = int(FreeCAD.Version()[1]) > 15 # and  int(FreeCAD.Version()[2].split()[0]) >= 5560
 FSParam = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Fasteners")
 GroupButtonMode = FSParam.GetInt("ScrewToolbarGroupMode", 0) # 0 = nine, 1 = separate toolbar 2 = drop down buttons
 if GroupButtonMode == 2 and not(DropButtonSupported):
@@ -74,7 +74,7 @@ class FSCommandList:
   def __init__(self):
     self.commands = {}
     
-  def append(self, cmd, group = "screws", subgroup = None):
+  def append(self, cmd, group="screws", subgroup=None):
     if not(group in self.commands):
       self.commands[group] = []
     self.commands[group].append((cmd, subgroup))
@@ -84,7 +84,7 @@ class FSCommandList:
     cmdsubs = {}
     for cmd in self.commands[group]:
       command, subgroup = cmd
-      if subgroup != None and GroupButtonMode > 0:
+      if subgroup is not None and GroupButtonMode > 0:
         if not(subgroup in cmdsubs):
           cmdsubs[subgroup] = []
           if GroupButtonMode == 2:
@@ -117,7 +117,7 @@ class FSFastenerType:
     self.items = []
     
 FSFasenerTypeDB = {}
-def FSAddFastenerType(typeName, hasLength = True, lengthFixed = True):
+def FSAddFastenerType(typeName, hasLength=True, lengthFixed=True):
   FSFasenerTypeDB[typeName] = FSFastenerType(typeName, hasLength, lengthFixed)
   
 def FSAddItemsToType(typeName, item):
@@ -134,7 +134,7 @@ def FSShowError():
   tb = lastErr[2]
   tbnext = tb
   x = 10
-  while tbnext != None and x > 0:
+  while tbnext is not None and x > 0:
     FreeCAD.Console.PrintError("At " + tbnext.tb_frame.f_code.co_filename + " Line " + str(tbnext.tb_lineno) + "\n")
     tbnext = tbnext.tb_next
     x = x - 1
@@ -275,8 +275,8 @@ class FSFaceMaker:
     self.firstPoint = None
     
   def AddPoint(self, x, z):
-    curPoint = FreeCAD.Base.Vector(x,0,z)
-    if (self.firstPoint is None):
+    curPoint = FreeCAD.Base.Vector(x, 0, z)
+    if self.firstPoint is None:
       self.firstPoint = curPoint
     else:
       self.edges.append(Part.makeLine(self.lastPoint, curPoint))
@@ -285,8 +285,8 @@ class FSFaceMaker:
     
     # add an arc starting at last point and going through x1,z1 and x2,z2
   def AddArc(self, x1, z1, x2, z2):
-    midPoint = FreeCAD.Base.Vector(x1,0,z1)
-    endPoint = FreeCAD.Base.Vector(x2,0,z2)
+    midPoint = FreeCAD.Base.Vector(x1, 0, z1)
+    endPoint = FreeCAD.Base.Vector(x2, 0, z2)
     self.edges.append(Part.Arc(self.lastPoint, midPoint, endPoint).toShape())
     self.lastPoint = endPoint
     
@@ -320,7 +320,7 @@ class FSFaceMaker:
     
 def FSAutoDiameterM(holeObj, table, tablepos):
   res = 'M5'
-  if holeObj != None and hasattr(holeObj, 'Curve') and hasattr(holeObj.Curve, 'Radius'):
+  if holeObj is not None and hasattr(holeObj, 'Curve') and hasattr(holeObj.Curve, 'Radius'):
     d = holeObj.Curve.Radius * 2
     mindif = 10.0
     for m in table:
@@ -328,7 +328,7 @@ def FSAutoDiameterM(holeObj, table, tablepos):
           dia = DiaStr2Num(m) + 0.1
         else:
           dia = table[m][tablepos] + 0.1
-        if (dia > d):
+        if dia > d:
           dif = dia - d
           if dif < mindif:
             mindif = dif
@@ -390,7 +390,7 @@ def FSGetAttachableSelections():
     baseObjectNames = selObj.SubElementNames
     obj = selObj.Object
     grp = obj.getParentGeoFeatureGroup()
-    if grp != None and hasattr(grp,'TypeId') and grp.TypeId == 'PartDesign::Body' :
+    if grp is not None and hasattr(grp,'TypeId') and grp.TypeId == 'PartDesign::Body' :
       obj = grp
     edgestable = {}
     # add explicitly selected edges
@@ -450,7 +450,7 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
       FreeCAD.Console.PrintLog( "the object seems to be a vertex! "+ str(s.Point) + "\n")
       Pnt1 = s.Point
             
-    if (Axis1 != None):
+    if Axis1 is not None:
       if invert:
         Axis1 = Base.Vector(0,0,0) - Axis1
       
@@ -504,7 +504,7 @@ class FSFlipCommand:
       return
     for selObj in selObjs:
       FreeCAD.Console.PrintLog("sel obj: " + str(selObj.invert) + "\n")
-      selObj.invert = not(selObj.invert)
+      selObj.invert = not selObj.invert
     FreeCAD.ActiveDocument.recompute()
     return
    
@@ -517,8 +517,8 @@ class FSFlipCommand:
     for selobj in Gui.Selection.getSelectionEx():
       obj = selobj.Object
       #FreeCAD.Console.PrintLog("sel obj: " + str(obj) + "\n")
-      if (hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSBaseObject)):
-        if obj.baseObject != None:
+      if hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSBaseObject):
+        if obj.baseObject is not None:
           screwObj.append(obj)
     return screwObj
         
@@ -545,7 +545,7 @@ class FSMoveCommand:
    
   def IsActive(self):
     selObj = self.GetSelection()
-    if selObj[0] != None:
+    if selObj[0] is not None:
       return True
     return False
 
@@ -554,14 +554,14 @@ class FSMoveCommand:
     edgeObj = None
     for selObj in Gui.Selection.getSelectionEx():
       obj = selObj.Object
-      if (hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSBaseObject)):
+      if hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSBaseObject):
         screwObj = obj
-      elif (len(selObj.SubObjects) == 1 and isinstance(selObj.SubObjects[0],Part.Edge)):
+      elif len(selObj.SubObjects) == 1 and isinstance(selObj.SubObjects[0], Part.Edge):
         edgeObj = (obj, [selObj.SubElementNames[0]])
-    return (screwObj, edgeObj)
+    return screwObj, edgeObj
         
         
-Gui.addCommand('FSMove',FSMoveCommand())
+Gui.addCommand('FSMove', FSMoveCommand())
 FSCommands.append('FSMove', "command")
  
 class FSMakeSimpleCommand:
@@ -616,7 +616,7 @@ class FSToggleMatchTypeCommand:
       self.toolbarItem = FSGetToolbarItem("FS Commands", self.menuText)
     if self.toolbarItem is None:
       return
-    FSMatchOuter = not(FSMatchOuter)
+    FSMatchOuter = not FSMatchOuter
     self.UpdateIcon()
     return
     
@@ -766,7 +766,7 @@ class FSMakeBomCommand:
     
     
   def IsActive(self):
-    return Gui.ActiveDocument != None
+    return Gui.ActiveDocument is not None
         
         
 Gui.addCommand('FSMakeBOM',FSMakeBomCommand())

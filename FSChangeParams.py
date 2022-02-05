@@ -305,7 +305,7 @@ class FSTaskChangeParamDialog:
     def onAutoDiamChange(self, val):
         try:
             ui = self.form.ui
-            if (ui.checkAutoDiameter.isChecked()):
+            if ui.checkAutoDiameter.isChecked():
                 ui.comboDiameter.setEnabled(False)
                 ui.comboMatchType.setEnabled(True)
             else:
@@ -318,7 +318,7 @@ class FSTaskChangeParamDialog:
     def onSetLengthChange(self, val):
         try:
             ui = self.form.ui
-            if (ui.checkSetLength.isChecked()):
+            if ui.checkSetLength.isChecked():
                 ui.spinLength.setEnabled(True)
             else:
                 ui.spinLength.setEnabled(False)

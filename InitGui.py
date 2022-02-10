@@ -24,22 +24,23 @@
 ###################################################################################
 
 import fnwb_locator
+
 fnWBpath = os.path.dirname(fnwb_locator.__file__)
-fnWB_icons_path =  os.path.join( fnWBpath, 'Icons')
+fnWB_icons_path = os.path.join(fnWBpath, 'Icons')
 
 global main_fnWB_Icon
-main_fnWB_Icon = os.path.join( fnWB_icons_path , 'FNLogo.svg')
+main_fnWB_Icon = os.path.join(fnWB_icons_path, 'FNLogo.svg')
 
 FASTENERSWB_VERSION = 'V0.3.37'
 
-class FastenersWorkbench (Workbench):
- 
+
+class FastenersWorkbench(Workbench):
     global main_fnWB_Icon
-    
+
     MenuText = "Fasteners"
     ToolTip = "Create ISO Fasteners"
     Icon = main_fnWB_Icon
- 
+
     def Initialize(self):
         "This function is executed when FreeCAD starts"
         import os
@@ -70,18 +71,19 @@ class FastenersWorkbench (Workbench):
     def Activated(self):
         "This function is executed when the workbench is activated"
         return
- 
+
     def Deactivated(self):
         "This function is executed when the workbench is deactivated"
         return
- 
+
     def ContextMenu(self, recipient):
         "This is executed whenever the user right-clicks on screen"
         # "recipient" will be either "view" or "tree"
-        self.appendContextMenu("Fasteners",self.list) # add commands to the context menu
- 
-    def GetClassName(self): 
+        self.appendContextMenu("Fasteners", self.list)  # add commands to the context menu
+
+    def GetClassName(self):
         # this function is mandatory if this is a full python workbench
         return "Gui::PythonWorkbench"
- 
+
+
 Gui.addWorkbench(FastenersWorkbench())

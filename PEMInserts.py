@@ -23,19 +23,15 @@
 #  
 ###################################################################################
 
-import FreeCAD
-import math
-import os
-from FreeCAD import Base
 from FreeCAD import Gui
-
+from FreeCAD import Base
+import FreeCAD, FreeCADGui, Part, os, math
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join(__dir__, 'Icons')
 
 import FastenerBase
 from FastenerBase import FSBaseObject
 import ScrewMaker
-
 screwMaker = ScrewMaker.Instance()
 
 tan30 = math.tan(math.radians(30))

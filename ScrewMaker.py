@@ -2,13 +2,16 @@
 
 # A Wrapper to Ulrich's screw_maker macro
 
-import FreeCAD, FreeCADGui
+import FreeCAD, FreeCADGui, Part, math
 from FreeCAD import Base
+import DraftVecUtils
 import FastenerBase
 
+from PySide import QtCore, QtGui
 from screw_maker import *
 import FSNuts
 from FSNuts import din557def, din562def, din985def
+from FastenerBase import FSParam
 
 FSCScrewHoleChart = (
     ("M1", 0.75),

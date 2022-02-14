@@ -26,21 +26,21 @@
 import FreeCAD
 import os
 from FreeCAD import Gui
-
+import FreeCAD, FreeCADGui, Part, os
 __dir__ = os.path.dirname(__file__)
-iconPath = os.path.join(__dir__, 'Icons')
+iconPath = os.path.join( __dir__, 'Icons' )
+import screw_maker
 
 import FastenerBase
 from FastenerBase import FSBaseObject
 import ScrewMaker
-
 screwMaker = ScrewMaker.Instance()
 
 
 class FSScrewObject(FSBaseObject):
     def __init__(self, obj, type, attachTo):
         '''"Add screw type fastener" '''
-        super().__init__(self, obj, attachTo)
+        super().__init__(obj, attachTo)
         self.itemText = screwMaker.GetTypeName(type)
         diameters = screwMaker.GetAllDiams(type)
         diameters.insert(0, 'Auto')

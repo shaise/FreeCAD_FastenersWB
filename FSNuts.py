@@ -27,21 +27,16 @@
 # NOTE!! this command is left for backward compatibility, Screw_Maker.py nuts are now used.
 
 
-import FreeCAD
-import Part
-import math
-import os
-from FreeCAD import Base
 from FreeCAD import Gui
-
+from FreeCAD import Base
+import FreeCAD, FreeCADGui, Part, os, math
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join(__dir__, 'Icons')
 
 import FastenerBase
 from FastenerBase import FSBaseObject
 import ScrewMaker
-
-# screwMaker = ScrewMaker.Instance()
+#screwMaker = ScrewMaker.Instance()
 
 
 ###################################################################################
@@ -353,9 +348,10 @@ def nylocMakeFace(do, p, da, dw, e, m, h, s):
 
 
 def nut985MakeSolid(diam):
-    if not (diam in din985def):
-        return None
-    (key, shape) = FastenerBase.FSGetKey('Nut985', diam)
+    if diam not in din985def:
+        return
+
+    key, shape = FastenerBase.FSGetKey('Nut985', diam)
     if shape is not None:
         return shape
 
@@ -364,7 +360,7 @@ def nut985MakeSolid(diam):
     f = nylocMakeFace(do, p, da, dw, e, m, h, s)
     p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
     screwMaker = ScrewMaker.Instance()
-    htool = htool = screwMaker.makeHextool(s, m, s * 2)
+    htool = screwMaker.makeHextool(s, m, s * 2)
     shape = p.cut(htool)
     FastenerBase.FSCache[key] = shape
     return shape

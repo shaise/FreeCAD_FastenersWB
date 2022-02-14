@@ -410,36 +410,41 @@ class FSSelectionFilter:
     
 FSSelectionFilterGate = FSSelectionFilter()
 
+
 class FSSelObserver:
-  ''' monitor selection changes to update the task form '''
-  def __init__(self, dialog):
-    self.dialog = dialog
-    self.disableObserver = False
-    
-  def enable(self):
-    '''function for QtCore.QTimer.singleShot'''
-    self.disableObserver = False
-    
-  def addSelection(self,doc,obj,sub,pnt):
-    if self.disableObserver:
-      return
-    FreeCAD.Console.PrintLog("FSO-AddSel:" +str(obj) + ":" + str(sub) + "\n")
-    #if len(sub) == 0 and obj == FSSelectionFilterGate.lastobj:
-    #  self.dialog.addSelection(FSSelectionFilterGate.lastedge)
-    if sub[0:4] == 'Edge':
-      self.dialog.addSelectionEdge(obj, sub)
-    elif sub[0:4] == 'Face':
-      self.dialog.addSelectionFace(obj, sub)
-    return True
-      
-  def removeSelection(self,doc,obj,sub):                # Delete the selected object
-    FreeCAD.Console.PrintLog("FSO-RemSel:" +str(obj) + ":" + str(sub) + "\n")
-    
-  def setSelection(self,doc):                           # Selection in ComboView
-    FreeCAD.Console.PrintLog("FSO-SetSel:" + "\n")
-    
-  def clearSelection(self,doc):                         # If click on the screen, clear the selection
-    FreeCAD.Console.PrintLog("FSO-ClrSel:" + "\n")
+    ''' monitor selection changes to update the task form '''
+
+    def __init__(self, dialog):
+        self.dialog = dialog
+        self.disableObserver = False
+
+    def enable(self):
+        '''function for QtCore.QTimer.singleShot'''
+        self.disableObserver = False
+
+    def addSelection(self, doc, obj, sub, pnt):
+        if self.disableObserver:
+            return
+        FreeCAD.Console.PrintLog(
+            "FSO-AddSel:" + str(obj) + ":" + str(sub) + "\n")
+        # if len(sub) == 0 and obj == FSSelectionFilterGate.lastobj:
+        #  self.dialog.addSelection(FSSelectionFilterGate.lastedge)
+        if sub[0:4] == 'Edge':
+            self.dialog.addSelectionEdge(obj, sub)
+        elif sub[0:4] == 'Face':
+            self.dialog.addSelectionFace(obj, sub)
+        return True
+
+    def removeSelection(self, doc, obj, sub):  # Delete the selected object
+        FreeCAD.Console.PrintLog(
+            "FSO-RemSel:" + str(obj) + ":" + str(sub) + "\n")
+
+    def setSelection(self, doc):  # Selection in ComboView
+        FreeCAD.Console.PrintLog("FSO-SetSel:" + "\n")
+
+    def clearSelection(self,
+                       doc):  # If click on the screen, clear the selection
+        FreeCAD.Console.PrintLog("FSO-ClrSel:" + "\n")
     
 
 import sys
@@ -536,62 +541,61 @@ class FSTaskFilletDialog:
         if not(self.form.ui.itemRefreshDisabled):
             self.RefreshSelection()
 
-        
+
 class FSViewProviderCountersunk:
-  "A View provider for countersunk holes"
-      
-  def __init__(self, obj):
-    obj.Proxy = self
-    self.Object = obj.Object
-      
-  def attach(self, obj):
-    self.Object = obj.Object
-    return
+    "A View provider for countersunk holes"
 
-  #def updateData(self, fp, prop):
-  #  return
+    def __init__(self, obj):
+        obj.Proxy = self
+        self.Object = obj.Object
 
-  def getDisplayModes(self,obj):
-    modes=[]
-    return modes
+    def attach(self, obj):
+        self.Object = obj.Object
+        return
 
-  def setDisplayMode(self,mode):
-    return mode
+    # def updateData(self, fp, prop):
+    #  return
 
-  def onChanged(self, vp, prop):
-    return
+    def getDisplayModes(self, obj):
+        modes = []
+        return modes
 
-  def __getstate__(self):
-    #        return {'ObjectName' : self.Object.Name}
-    return None
+    def setDisplayMode(self, mode):
+        return mode
 
-  def __setstate__(self,state):
-    if state is not None:
-      import FreeCAD
-      doc = FreeCAD.ActiveDocument #crap
-      self.Object = doc.getObject(state['ObjectName'])
- 
-  def claimChildren(self):
-    objs = []
-    if hasattr(self.Object,"baseObject"):
-      objs.append(self.Object.baseObject[0])
-    return objs
+    def onChanged(self, vp, prop):
+        return
 
-  def getIcon(self):
-    return os.path.join( iconPath , 'IconCSHole.svg')
-    return None
+    def __getstate__(self):
+        #        return {'ObjectName' : self.Object.Name}
+        return None
 
-  def setEdit(self,vobj,mode=0):
-    #FreeCADGui.runCommand("Draft_Edit")
-    Gui.Control.showDialog(FSTaskFilletDialog(self.Object))
-    return True
+    def __setstate__(self, state):
+        if state is not None:
+            import FreeCAD
+            doc = FreeCAD.ActiveDocument  # crap
+            self.Object = doc.getObject(state['ObjectName'])
 
-  def unsetEdit(self,vobj,mode=0):
-    #self.__vobject__.finishEditing()
-    FreeCAD.Console.PrintLog("Finish edit\n")
-    #self.finishEditing();
-    Gui.Control.closeDialog()
-    return False
+    def claimChildren(self):
+        objs = []
+        if hasattr(self.Object, "baseObject"):
+            objs.append(self.Object.baseObject[0])
+        return objs
+
+    def getIcon(self):
+        return os.path.join(iconPath, 'IconCSHole.svg')
+
+    def setEdit(self, vobj, mode=0):
+        # FreeCADGui.runCommand("Draft_Edit")
+        Gui.Control.showDialog(FSTaskFilletDialog(self.Object))
+        return True
+
+    def unsetEdit(self, vobj, mode=0):
+        # self.__vobject__.finishEditing()
+        FreeCAD.Console.PrintLog("Finish edit\n")
+        # self.finishEditing();
+        Gui.Control.closeDialog()
+        return False
 
 #FSCSHSizes = ['M1.6', 'M2', 'M2.5', 'M3', 'M3.5', 'M4', 'M5', 'M6', 'M8', 'M10', 'M12', 'M14', 'M16', 'M20']
 FSCSHTable={
@@ -611,90 +615,97 @@ FSCSHTable={
     'M16': (31.0, 8.80),
     'M20': (38.0, 10.16)}
 
+
 def cshMakeFace(m, d, k):
-  m = m / 2
-  d = (d / 2) + 0.2
-  h1 = m + k
-  h2 = k - (d - m)
-  
-  fm = FastenerBase.FSFaceMaker()
-  fm.AddPoint(0, h1)
-  fm.AddPoint(d, h2)
-  fm.AddPoint(d, -h2)
-  fm.AddPoint(0, -h1)
-  return fm.GetFace()
+    m = m / 2
+    d = (d / 2) + 0.2
+    h1 = m + k
+    h2 = k - (d - m)
+
+    fm = FastenerBase.FSFaceMaker()
+    fm.AddPoint(0, h1)
+    fm.AddPoint(d, h2)
+    fm.AddPoint(d, -h2)
+    fm.AddPoint(0, -h1)
+    return fm.GetFace()
+
 
 def cshGetTable(type):
-  if type == 'Default':
-    table = FSCSHTable
-  else:
-    table = screwMaker.GetCountersunkDiams(type)
-  return table
+    if type == 'Default':
+        table = FSCSHTable
+    else:
+        table = screwMaker.GetCountersunkDiams(type)
+    return table
 
-  
+
 def cshMakeCSHole(diam, type):
-  table = cshGetTable(type)
-  if not(diam in table):
-    return None
+    table = cshGetTable(type)
+    if not (diam in table):
+        return None
 
-  (key, shape) = FastenerBase.FSGetKey('CSHole', diam, 0)
-  if shape is not None:
-    return shape
-  
-  m = FastenerBase.MToFloat(diam)
-  d, k = table[diam]
-  
-  f = cshMakeFace(m, d, k)
-  p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
-  FastenerBase.FSCache[key] = p
-  return p
-  
+    (key, shape) = FastenerBase.FSGetKey('CSHole', diam, 0)
+    if shape is not None:
+        return shape
+
+    m = FastenerBase.MToFloat(diam)
+    d, k = table[diam]
+
+    f = cshMakeFace(m, d, k)
+    p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    FastenerBase.FSCache[key] = p
+    return p
+
+
 def cshSplitEdgeDiam(edgeParam):
-  res = edgeParam.split(':')
-  if len(res) < 5:
-    res.append('Default')
-  return res
+    res = edgeParam.split(':')
+    if len(res) < 5:
+        res.append('Default')
+    return res
 
-    
+
 class FSCountersunkObject:
-  def __init__(self, obj, attachTo):
-    '''"Add StandOff (self clinching) type fastener" '''
-    
-    obj.addProperty("App::PropertyStringList","diameters","Parameters","Countersunk diameters").diameters = []
-    #obj.addProperty("Part::PropertyFilletEdges","diameters","Parameters","Countersunk diameters").diameters = [(1,1,1), (2,1,1)]
-    obj.addProperty("App::PropertyLinkSub", "baseObject", "Parameters", "Base object").baseObject = attachTo
-    obj.setEditorMode("diameters", 2)
-    obj.Proxy = self
- 
-  def execute(self, fp):
-    '''"Print a short message when doing a recomputation, this method is mandatory" '''
-    #fp.Shape = Part.makeBox(1,1,1 + len(fp.diameters))
-    origshape = fp.baseObject[0].Shape
-    shape = origshape
-    for diam in fp.diameters:
-      FreeCAD.Console.PrintLog("Generating hole tool for: " + diam + "\n")
-      edge, m, f, o, type = cshSplitEdgeDiam(diam)
-      cshole = cshMakeCSHole(m, type)
-      FastenerBase.FSMoveToObject(cshole, origshape.getElement(edge), f == '1', float(o))
-      shape = shape.cut(cshole)
-    fp.Shape = shape
+    def __init__(self, obj, attachTo):
+        '''"Add StandOff (self clinching) type fastener" '''
+
+        obj.addProperty("App::PropertyStringList", "diameters", "Parameters",
+                        "Countersunk diameters").diameters = []
+        # obj.addProperty("Part::PropertyFilletEdges","diameters","Parameters","Countersunk diameters").diameters = [(1,1,1), (2,1,1)]
+        obj.addProperty("App::PropertyLinkSub", "baseObject", "Parameters",
+                        "Base object").baseObject = attachTo
+        obj.setEditorMode("diameters", 2)
+        obj.Proxy = self
+
+    def execute(self, fp):
+        '''"Print a short message when doing a recomputation, this method is mandatory" '''
+        # fp.Shape = Part.makeBox(1,1,1 + len(fp.diameters))
+        origshape = fp.baseObject[0].Shape
+        shape = origshape
+        for diam in fp.diameters:
+            FreeCAD.Console.PrintLog("Generating hole tool for: " + diam + "\n")
+            edge, m, f, o, type = cshSplitEdgeDiam(diam)
+            cshole = cshMakeCSHole(m, type)
+            FastenerBase.FSMoveToObject(cshole, origshape.getElement(edge),
+                                        f == '1', float(o))
+            shape = shape.cut(cshole)
+        fp.Shape = shape
 
 
 class FSFilletCommand:
-  """Make holes for countersunk screws"""
+    """Make holes for countersunk screws"""
 
-  def GetResources(self):
-    icon = os.path.join( iconPath , 'IconCSHole.svg')
-    return {'Pixmap'  : icon , # the name of a svg file available in the resources
-            'MenuText': "Make countersunk" ,
-            'ToolTip' : "Chamfer holes for countersunk screws"}
- 
-  def Activated(self):
-    Gui.Control.showDialog(FSTaskFilletDialog(None))
-    return
-   
-  def IsActive(self):
-    return len(Gui.Selection.getSelectionEx()) == 1
+    def GetResources(self):
+        icon = os.path.join(iconPath, 'IconCSHole.svg')
+        return {'Pixmap': icon,
+                # the name of a svg file available in the resources
+                'MenuText': "Make countersunk",
+                'ToolTip': "Chamfer holes for countersunk screws"}
+
+    def Activated(self):
+        Gui.Control.showDialog(FSTaskFilletDialog(None))
+        return
+
+    def IsActive(self):
+        return len(Gui.Selection.getSelectionEx()) == 1
 
 Gui.addCommand("FSFillet", FSFilletCommand())
 FastenerBase.FSCommands.append("FSFillet", "command")

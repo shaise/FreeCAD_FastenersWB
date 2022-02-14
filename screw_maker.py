@@ -83,14 +83,11 @@ check chamfer angle on hexogon heads and nuts
 
 __author__ = "Ulrich Brammer <ulrich1a@users.sourceforge.net>"
 
-import DraftVecUtils
-import FreeCAD
-import FreeCADGui
-import Part
-import csv
-import math
-import os
+
+
+import FreeCAD, FreeCADGui, Part, math, csv, os
 from FreeCAD import Base
+import DraftVecUtils
 
 try:
     from PySide import QtCore, QtGui

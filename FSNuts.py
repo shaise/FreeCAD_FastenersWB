@@ -31,11 +31,12 @@ from FreeCAD import Gui
 from FreeCAD import Base
 import FreeCAD, FreeCADGui, Part, os, math
 __dir__ = os.path.dirname(__file__)
-iconPath = os.path.join(__dir__, 'Icons')
+iconPath = os.path.join( __dir__, 'Icons' )
 
 import FastenerBase
 from FastenerBase import FSBaseObject
 import ScrewMaker
+
 #screwMaker = ScrewMaker.Instance()
 
 
@@ -61,121 +62,112 @@ MHexNutTable = {
   'M24': (36.0, 21.5, 21.0),
   'M30': (46.0, 25.6, 26.5),
   'M36': (55.0, 31.0, 32.0)
-}
-
+  }
 
 # 2D lines on the X, Z Plane
 def nutMakeLine2D(x1, z1, x2, z2):
-    return Part.makeLine(FreeCAD.Base.Vector(x1, 0, z1), FreeCAD.Base.Vector(x2, 0, z2))
-
+  return Part.makeLine(FreeCAD.Base.Vector(x1,0,z1),FreeCAD.Base.Vector(x2,0,z2))
 
 cos15 = math.cos(math.radians(15.0))
 cos30 = math.cos(math.radians(30.0))
 tan15 = math.tan(math.radians(15.0))
 tan30 = math.tan(math.radians(30.0))
 
-
 def nutMakeFace(do, di, s, m):
-    do = do / 2
-    di = di / 2
-    s = s / 2.01
-    e = s * 1.02 / cos30
-    ch1 = do - di
-    ch2 = (e - s) / cos15
-    fm = FastenerBase.FSFaceMaker()
-    fm.AddPoint(di, ch1)
-    fm.AddPoint(do, 0)
-    fm.AddPoint(s, 0)
-    fm.AddPoint(e, ch2)
-    fm.AddPoint(e, m - ch2)
-    fm.AddPoint(s, m)
-    fm.AddPoint(do, m)
-    fm.AddPoint(di, m - ch1)
-    return fm.GetFace()
+  do = do / 2
+  di = di / 2
+  s = s / 2.01
+  e = s * 1.02 / cos30
+  ch1 = do - di
+  ch2 = (e - s) / cos15
+  fm = FastenerBase.FSFaceMaker()
+  fm.AddPoint(di, ch1)
+  fm.AddPoint(do, 0)
+  fm.AddPoint(s, 0)
+  fm.AddPoint(e, ch2)
+  fm.AddPoint(e, m - ch2)
+  fm.AddPoint(s, m)
+  fm.AddPoint(do, m)
+  fm.AddPoint(di, m - ch1)
+  return fm.GetFace()
 
-
+    
 def nutMakeSolid(diam):
-    if not (diam in MHexNutTable):
-        return None
-    (key, shape) = FastenerBase.FSGetKey('Nut', diam)
-    if shape is not None:
-        return shape
-
-    s, m, di = MHexNutTable[diam]
-    do = FastenerBase.MToFloat(diam)
-    f = nutMakeFace(do, di, s, m)
-    p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
-    screwMaker = ScrewMaker.Instance()
-    htool = screwMaker.makeHextool(s, m, s * 2)
-    shape = p.cut(htool)
-    FastenerBase.FSCache[key] = shape
+  if not(diam in MHexNutTable):
+    return None
+  (key, shape) = FastenerBase.FSGetKey('Nut', diam)
+  if shape is not None:
     return shape
-
-
+  
+  s, m, di = MHexNutTable[diam]
+  do = FastenerBase.MToFloat(diam)
+  f = nutMakeFace(do, di, s, m)
+  p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+  screwMaker = ScrewMaker.Instance()
+  htool = screwMaker.makeHextool(s, m, s * 2)
+  shape = p.cut(htool)
+  FastenerBase.FSCache[key] = shape
+  return shape
+  
 # h = clMakePressNut('M5','1')
 
 class FSHexNutObject(FSBaseObject):
-    def __init__(self, obj, attachTo):
-        '''"Add Metric Hex nut" '''
-        FSBaseObject.__init__(self, obj, attachTo)
-        self.itemText = "Nut"
+  def __init__(self, obj, attachTo):
+    '''"Add Metric Hex nut" '''
+    FSBaseObject.__init__(self, obj, attachTo)
+    self.itemText = "Nut"
+    
+    obj.addProperty("App::PropertyEnumeration","diameter","Parameters","Press nut thread diameter").diameter = NutDiamCodes
+    obj.Proxy = self
+ 
+  def execute(self, fp):
+    '''"perform object creation" '''
+    
+    try:
+      baseobj = fp.baseObject[0]
+      shape = baseobj.Shape.getElement(fp.baseObject[1][0])
+    except:
+      baseobj = None
+      shape = None
+    self.updateProps(obj)
+    if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
+      if fp.diameter == 'Auto':
+        d = FastenerBase.FSAutoDiameterM(shape, MHexNutTable, -1)
+      else:
+        d = fp.diameter
+        
+      if d != fp.diameter:
+        fp.diameter = d
+      s = nutMakeSolid(d)
+      self.diameter = fp.diameter
+      fp.Shape = s
+      fp.Label = fp.diameter + '-Nut'
+    else:
+      FreeCAD.Console.PrintLog("Using cached object\n")
+    if shape is not None:
+      #fp.Placement = FreeCAD.Placement() # reset placement
+      FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
 
-        obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters", "Press nut thread diameter").diameter = NutDiamCodes
-        obj.Proxy = self
-
-    def execute(self, fp):
-        '''"perform object creation" '''
-
-        try:
-            baseobj = fp.baseObject[0]
-            shape = baseobj.Shape.getElement(fp.baseObject[1][0])
-        except:
-            baseobj = None
-            shape = None
-        self.updateProps(obj)
-        if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
-            if fp.diameter == 'Auto':
-                d = FastenerBase.FSAutoDiameterM(shape, MHexNutTable, -1)
-            else:
-                d = fp.diameter
-
-            if d != fp.diameter:
-                fp.diameter = d
-            s = nutMakeSolid(d)
-            self.diameter = fp.diameter
-            fp.Shape = s
-            fp.Label = fp.diameter + '-Nut'
-        else:
-            FreeCAD.Console.PrintLog("Using cached object\n")
-        if shape is not None:
-            # fp.Placement = FreeCAD.Placement() # reset placement
-            FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
-
-
-FastenerBase.FSClassIcons[FSHexNutObject] = 'HexNut.svg'
-
+FastenerBase.FSClassIcons[FSHexNutObject] = 'HexNut.svg'    
 
 class FSHexNutCommand:
-    """Add Preass-nut command"""
+  """Add Preass-nut command"""
 
-    def GetResources(self):
-        icon = os.path.join(iconPath, 'HexNut.svg')
-        return {
-            'Pixmap': icon,  # the name of a svg file available in the resources
-            'MenuText': "Add Hex Nut",
-            'ToolTip': "Add Metric Hexagon Nut - ISO 4032, Style 3"
-        }
-
-    def Activated(self):
-        FastenerBase.FSGenerateObjects(FSHexNutObject, "Nut")
-        return
-
-    def IsActive(self):
-        return Gui.ActiveDocument is not None
-
+  def GetResources(self):
+    icon = os.path.join( iconPath , 'HexNut.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Add Hex Nut" ,
+            'ToolTip' : "Add Metric Hexagon Nut - ISO 4032, Style 3"}
+ 
+  def Activated(self):
+    FastenerBase.FSGenerateObjects(FSHexNutObject, "Nut")
+    return
+   
+  def IsActive(self):
+    return Gui.ActiveDocument is not None
 
 Gui.addCommand("FSHexNut", FSHexNutCommand())
-# FastenerBase.FSCommands.append("FSHexNut", "screws", "Nut")
+#FastenerBase.FSCommands.append("FSHexNut", "screws", "Nut")
 
 ###################################################################################
 # Square Metric Hex nuts DIN562
@@ -192,72 +184,69 @@ din562def = {
   'M10': (17.0, 5,    8.5)
 }
 
-
 def makeSquareTool(s, m):
-    # makes a cylinder with an inner square hole, used as cutting tool
-    # create square face
-    msq = Base.Matrix()
-    msq.rotateZ(math.radians(90.0))
-    polygon = []
-    vsq = Base.Vector(s / 2.0, s / 2.0, -m * 0.1)
-    for i in range(4):
-        polygon.append(vsq)
-        vsq = msq.multiply(vsq)
-    polygon.append(vsq)
-    square = Part.makePolygon(polygon)
-    square = Part.Face(square)
+  # makes a cylinder with an inner square hole, used as cutting tool
+  # create square face
+  msq = Base.Matrix()
+  msq.rotateZ(math.radians(90.0))
+  polygon = []
+  vsq = Base.Vector(s / 2.0, s / 2.0, -m * 0.1)
+  for i in range(4):
+     polygon.append(vsq)
+     vsq = msq.multiply(vsq)
+  polygon.append(vsq)
+  square = Part.makePolygon(polygon)
+  square = Part.Face(square)
 
-    # create circle face
-    circ = Part.makeCircle(s * 3.0, Base.Vector(0.0, 0.0, -m * 0.1))
-    circ = Part.Face(Part.Wire(circ))
+  # create circle face
+  circ = Part.makeCircle(s * 3.0, Base.Vector(0.0, 0.0, -m * 0.1))
+  circ = Part.Face(Part.Wire(circ))
 
-    # Create the face with the circle as outline and the square as hole
-    face = circ.cut(square)
-
-    # Extrude in z to create the final cutting tool
-    exSquare = face.extrude(Base.Vector(0.0, 0.0, m * 1.2))
-    # Part.show(exHex)
-    return exSquare
+  # Create the face with the circle as outline and the square as hole
+  face=circ.cut(square)
+ 
+  # Extrude in z to create the final cutting tool
+  exSquare = face.extrude(Base.Vector(0.0, 0.0, m * 1.2))
+  # Part.show(exHex)
+  return exSquare
 
 
 def sqnutMakeFace(do, di, dw, s, m):
-    do = do / 2
-    dw = dw / 2
-    di = di / 2
-    ch1 = do - di
-    ch2 = (s - dw) * tan30
-
-    fm = FastenerBase.FSFaceMaker()
-    fm.AddPoint(di, ch1)
-    fm.AddPoint(do, 0)
-    fm.AddPoint(s, 0)
-    if dw > 0:
-        fm.AddPoint(s, m - ch2)
-        fm.AddPoint(dw, m)
-    else:
-        fm.AddPoint(s, m)
-    fm.AddPoint(do, m)
-    fm.AddPoint(di, m - ch1)
-    return fm.GetFace()
-
+  do = do / 2
+  dw = dw / 2
+  di = di / 2
+  ch1 = do - di
+  ch2 = (s - dw) * tan30
+  
+  fm = FastenerBase.FSFaceMaker()
+  fm.AddPoint(di, ch1)
+  fm.AddPoint(do, 0)
+  fm.AddPoint(s, 0)
+  if dw > 0:
+    fm.AddPoint(s, m - ch2)
+    fm.AddPoint(dw, m)
+  else :
+    fm.AddPoint(s, m)
+  fm.AddPoint(do, m)
+  fm.AddPoint(di, m - ch1)
+  return fm.GetFace()
 
 def nut562MakeSolid(diam):
-    if not (diam in din562def):
-        return None
-    (key, shape) = FastenerBase.FSGetKey('Nut562', diam)
-    if shape is not None:
-        return shape
-
-    s, m, di = din562def[diam]
-    do = FastenerBase.MToFloat(diam)
-    f = sqnutMakeFace(do, di, 0, s, m)
-    p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
-    htool = makeSquareTool(s, m)
-    shape = p.cut(htool)
-    FastenerBase.FSCache[key] = shape
+  if not(diam in din562def):
+    return None
+  (key, shape) = FastenerBase.FSGetKey('Nut562', diam)
+  if shape is not None:
     return shape
-
-
+  
+  s, m, di = din562def[diam]
+  do = FastenerBase.MToFloat(diam)
+  f = sqnutMakeFace(do, di, 0, s, m)
+  p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+  htool = makeSquareTool(s, m)
+  shape = p.cut(htool)
+  FastenerBase.FSCache[key] = shape
+  return shape
+    
 ###################################################################################
 # Square Metric Hex nuts DIN 557
 din557def = {
@@ -271,30 +260,28 @@ din557def = {
   'M16': (24.0, 13,   14.0, 22)
 }
 
-
 def nut557MakeSolid(diam):
-    if not (diam in din557def):
-        return None
-    (key, shape) = FastenerBase.FSGetKey('Nut557', diam)
-    if shape is not None:
-        return shape
-
-    s, m, di, dw = din557def[diam]
-    do = FastenerBase.MToFloat(diam)
-    f = sqnutMakeFace(do, di, dw, s, m)
-    p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
-    htool = makeSquareTool(s, m)
-    shape = p.cut(htool)
-    FastenerBase.FSCache[key] = shape
+  if not(diam in din557def):
+    return None
+  (key, shape) = FastenerBase.FSGetKey('Nut557', diam)
+  if shape is not None:
     return shape
-
-
+  
+  s, m, di, dw = din557def[diam]
+  do = FastenerBase.MToFloat(diam)
+  f = sqnutMakeFace(do, di, dw, s, m)
+  p = f.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
+  htool = makeSquareTool(s, m)
+  shape = p.cut(htool)
+  FastenerBase.FSCache[key] = shape
+  return shape
+  
 ###################################################################################
 # Nyloc Hex nuts DIN 985
 din985def = {
 #           P,    damax, dw,  e,     m,   h,    s_nom
   'M3':    (0.5,  3.45, 4.6,  6.1,   2.4,  4.0,  5.5),
-  'M4':    (0.7,  4.6,  5.9,  7.7,   2.9,  5.0,  7.0),
+  'M4':    (0.7,  4.6,  5.9,  7.7,   2.9,  5.0,  7.0), 
   'M5':    (0.8,  5.75, 6.9,  8.9,   3.2,  5.0,  8.0),
   'M6':    (1.0,  6.75, 8.9,  11.05, 4.0,  6.0, 10.0),
   'M7':    (1.0,  6.75, 9.6,  12.12, 4.7,  7.5, 11.0),
@@ -308,44 +295,43 @@ din985def = {
   'M22':   (2.50, 23.7, 29.5, 37.3, 15.0, 22.0,  34.0),
   'M24':   (3.00, 25.9, 33.2, 40.1, 15.0, 24.0,  36.0),
   'M27':   (3.00, 29.1, 38.0, 45.2, 17.0, 27.0,  41.0),
-  'M30':   (3.50, 32.4, 42.7, 50.9, 19.0, 30.0,  46.0),
-  'M33':   (3.50, 35.6, 46.6, 55.4, 22.0, 33.0,  50.0),
+  'M30':   (3.50, 32.4, 42.7, 50.9, 19.0, 30.0,  46.0), 
+  'M33':   (3.50, 35.6, 46.6, 55.4, 22.0, 33.0,  50.0), 
   'M36':   (4.00, 38.9, 51.1, 61.0, 25.0, 36.0,  55.0),
   'M39':   (4.00, 42.1, 55.9, 66.5, 17.0, 39.0,  60.0),
   'M42':   (4.50, 45.4, 60.6, 71.3, 29.0, 42.0,  65.0),
   'M45':   (4.50, 48.6, 64.7, 77.0, 32.0, 45.0,  70.0),
   'M48':   (5.00, 51.8, 69.4, 82.6, 36.0, 48.0,  75.0),
-  }
+  } 
 
-
+  
 def nylocMakeFace(do, p, da, dw, e, m, h, s):
-    di = (do - p) / 2
-    do = do / 2
-    dw = dw / 2
-    da = da / 2
-    e = e / 2
-    s = s / 2
-    s1 = s * 0.999
-    ch1 = do - di
-    ch2 = (e - dw) * tan30
-    ch3 = m - (e - s) * tan30
-    h1 = h * 0.9
-    r = (s - di) / 3
-
-    fm = FastenerBase.FSFaceMaker()
-    fm.AddPoint(di, ch1)
-    fm.AddPoint(da, 0)
-    fm.AddPoint(dw, 0)
-    fm.AddPoint(e, ch2)
-    fm.AddPoint(e, ch3)
-    fm.AddPoint(s1, m)
-    fm.AddPoint(s1, h - r)
-    fm.AddArc2(-r, 0, 90)
-    fm.AddPoint(di + r, h)
-    fm.AddPoint(di + r, h1)
-    fm.AddPoint(di, h1)
-    return fm.GetFace()
-
+  di = (do - p) / 2
+  do = do / 2
+  dw = dw / 2
+  da = da / 2
+  e = e / 2
+  s = s / 2
+  s1 = s * 0.999
+  ch1 = do - di
+  ch2 = (e - dw) * tan30
+  ch3 = m - (e - s) * tan30
+  h1 = h * 0.9
+  r = (s - di) / 3
+    
+  fm = FastenerBase.FSFaceMaker()
+  fm.AddPoint(di, ch1)
+  fm.AddPoint(da, 0)
+  fm.AddPoint(dw, 0)
+  fm.AddPoint(e, ch2)
+  fm.AddPoint(e, ch3)
+  fm.AddPoint(s1, m)
+  fm.AddPoint(s1, h - r)
+  fm.AddArc2(-r, 0, 90)
+  fm.AddPoint(di + r, h)
+  fm.AddPoint(di + r, h1)
+  fm.AddPoint(di, h1)
+  return fm.GetFace()
 
 def nut985MakeSolid(diam):
     if diam not in din985def:
@@ -364,13 +350,13 @@ def nut985MakeSolid(diam):
     shape = p.cut(htool)
     FastenerBase.FSCache[key] = shape
     return shape
-
-
+ 
+ 
 def createNut(type, diam):
-    if type == 'DIN557':
-        return nut557MakeSolid(diam)
-    elif type == 'DIN562':
-        return nut562MakeSolid(diam)
-    elif type == 'DIN985':
-        return nut985MakeSolid(diam)
-    return None
+  if type == 'DIN557':
+    return nut557MakeSolid(diam)
+  elif type == 'DIN562':
+    return nut562MakeSolid(diam)
+  elif type == 'DIN985':
+    return nut985MakeSolid(diam)
+  return None

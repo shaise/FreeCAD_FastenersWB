@@ -38,14 +38,11 @@ except AttributeError:
 
 try:
     _encoding = QtGui.QApplication.UnicodeUTF8
-
-
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
-
 
 class Ui_DockWidget(object):
     def setupUi(self, DockWidget):
@@ -116,75 +113,76 @@ class Ui_DockWidget(object):
         self.comboFastenerType.clear()
         for type in FSCScrewTypes:
             icon, name, table = type
-            self.comboFastenerType.addItem(QtGui.QIcon(os.path.join(iconPath, icon)), name)
-
+            self.comboFastenerType.addItem(QtGui.QIcon(os.path.join(iconPath , icon)), name)
+            
     def fillDiameters(self):
         self.comboDiameter.clear()
         idx = self.comboFastenerType.currentIndex()
         table = FSCScrewTypes[idx][2]
         for diam in table:
-            self.comboDiameter.addItem(diam[0])
-
+          self.comboDiameter.addItem(diam[0])
+ 
     def onDiameterChange(self, diamindex):
         idx = self.comboFastenerType.currentIndex()
         table = FSCScrewTypes[idx][2]
         self.textHole.setText(str(table[diamindex][1]))
-
+         
     def onTypeChange(self, typeindex):
         self.fillDiameters()
-
-
+    
 from FreeCAD import Gui
-import FreeCAD, os
-
+from FreeCAD import Base
+import FreeCAD, FreeCADGui, Part, os, math
 __dir__ = os.path.dirname(__file__)
-iconPath = os.path.join(__dir__, 'Icons')
+iconPath = os.path.join( __dir__, 'Icons' )
 
 import FastenerBase
-import ScrewMaker
-
+from FastenerBase import FSBaseObject
+import ScrewMaker  
 screwMaker = ScrewMaker.Instance()
 
 FSCPEMPressNutHoleChart = (
-    ("M2", 4.22),
-    ("M2.5", 4.22),
-    ("M3", 4.22),
-    ("M3.5", 4.75),
-    ("M4", 5.41),
-    ("M5", 6.35),
-    ("M6", 8.75),
-    ("M8", 10.5),
-    ("M10", 14),
-    ("M12", 17)
-)
+  ("M2", 4.22),
+  ("M2.5", 4.22),
+  ("M3", 4.22),
+  ("M3.5", 4.75),
+  ("M4", 5.41),
+  ("M5", 6.35),
+  ("M6", 8.75),
+  ("M8", 10.5),
+  ("M10", 14),
+  ("M12", 17)
+)        
 
 # hole size +0.08
 FSCPEMStandOffHoleChart = (
-    ("M3", 4.22),
-    ("3.5M3", 5.41),
-    ("M3.5", 5.41),
-    ("M4", 7.14),
-    ("M5", 7.14)
-)
+  ("M3", 4.22),
+  ("3.5M3", 5.41),
+  ("M3.5", 5.41),
+  ("M4", 7.14),
+  ("M5", 7.14)
+)        
 
 FSCPEMStudHoleChart = (
-    ("M2.5", 2.5),
-    ("M3", 3),
-    ("M3.5", 3.5),
-    ("M4", 4),
-    ("M5", 5),
-    ("M6", 6),
-    ("M8", 8)
+  ("M2.5", 2.5),
+  ("M3", 3),
+  ("M3.5", 3.5),
+  ("M4", 4),
+  ("M5", 5),
+  ("M6", 6),
+  ("M8", 8)
 )
+
+
 
 FSCScrewTypes = (
-    ("ISO7045.svg", "Metric Screw", ScrewMaker.FSCScrewHoleChart),
-    ("PEMPressNut.svg", "PEM Press-nut", FSCPEMPressNutHoleChart),
-    ("PEMBLStandoff.svg", "PEM Stand-off", FSCPEMStudHoleChart),
-    ("PEMStud.svg", "PEM Stud", FSCPEMStudHoleChart),
-    ("ASMEB18.2.1.6.svg", "Inch Screw", ScrewMaker.FSC_Inch_ScrewHoleChart)
+  ("ISO7045.svg", "Metric Screw", ScrewMaker.FSCScrewHoleChart),
+  ("PEMPressNut.svg", "PEM Press-nut", FSCPEMPressNutHoleChart),
+  ("PEMBLStandoff.svg", "PEM Stand-off", FSCPEMStudHoleChart),
+  ("PEMStud.svg", "PEM Stud", FSCPEMStudHoleChart),
+  ("ASMEB18.2.1.6.svg", "Inch Screw", ScrewMaker.FSC_Inch_ScrewHoleChart)
 )
-
+       
 FSScrewCalcDlg = QtGui.QDockWidget()
 FSScrewCalcDlg.ui = Ui_DockWidget()
 FSScrewCalcDlg.ui.setupUi(FSScrewCalcDlg)
@@ -192,30 +190,28 @@ FSScrewCalcDlg.ui.fillScrewTypes()
 Gui.getMainWindow().addDockWidget(QtCore.Qt.RightDockWidgetArea, FSScrewCalcDlg)
 FSScrewCalcDlg.setFloating(True)
 FSScrewCalcDlg.hide()
-
+   
 
 class FSScrewCalcCommand:
-    """Display a calculator for needed screw holes"""
+  """Display a calculator for needed screw holes"""
 
-    def GetResources(self):
-        FreeCAD.Console.PrintLog("Getting resources\n")
-        icon = os.path.join(iconPath, 'IconScrewCalc.svg')
-        return {
-            'Pixmap': icon,  # the name of a svg file available in the resources
-            'MenuText': "Screw calculator",
-            'ToolTip': "Show a screw hole calculator"
-        }
-
-    def Activated(self):
-        if FSScrewCalcDlg.isHidden():
-            FSScrewCalcDlg.show()
-        else:
-            FSScrewCalcDlg.hide()
-        return
-
-    def IsActive(self):
-        return True
-
+  def GetResources(self):
+    FreeCAD.Console.PrintLog("Getting resources\n")
+    icon = os.path.join( iconPath , 'IconScrewCalc.svg')
+    return {'Pixmap'  : icon , # the name of a svg file available in the resources
+            'MenuText': "Screw calculator" ,
+            'ToolTip' : "Show a screw hole calculator"}
+ 
+  def Activated(self):
+    if FSScrewCalcDlg.isHidden():
+      FSScrewCalcDlg.show()
+    else:
+      FSScrewCalcDlg.hide()
+    return
+   
+  def IsActive(self):
+    return True
 
 Gui.addCommand("FSScrewCalc", FSScrewCalcCommand())
 FastenerBase.FSCommands.append("FSScrewCalc", "command")
+

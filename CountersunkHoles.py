@@ -585,6 +585,7 @@ class FSViewProviderCountersunk:
     def getIcon(self):
         return os.path.join(iconPath, 'IconCSHole.svg')
 
+
     def setEdit(self, vobj, mode=0):
         # FreeCADGui.runCommand("Draft_Edit")
         Gui.Control.showDialog(FSTaskFilletDialog(self.Object))

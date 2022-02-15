@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
+  <name>Fasteners Workbench</name>
+  <description>Some common fasteners and fastener tools for FreeCAD.</description>
+  <version>0.3.38</version>
+  <date>2022-15-02</date>
+  <maintainer email="shaise@gmail.com">Shai Seger</maintainer>
+  <license file="LICENSE">GPLv2</license>
+  <url type="repository" branch="main">https://github.com/shaise/FreeCAD_FastenersWB</url>
+  <icon>Resources/Icons/FNLogo.svg</icon>
+
+  <content>
+    <workbench>
+      <classname>FastenersWorkbench</classname>
+      <subdirectory>./</subdirectory>
+      <tag>fasteners</tag>
+    </workbench>
+  </content>
+
+</package>

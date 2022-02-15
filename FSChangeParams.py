@@ -119,79 +119,85 @@ import sys
 import FastenersCmd, PEMInserts
 
 def FSCPGetDiameters(type, item):
-  if type == "Screw" or type == "Washer" or type == "ScrewTap" or type == "Nut":
-    return screwMaker.GetAllDiams(item)
-  if type == "PressNut" or type == "StandOff" or type == "Stud" or type == "HeatSet":
-    return PEMInserts.FSPIGetAllDiameters(type)
-  return []
-  
-def FSCPGetLengths(type, item, diam):
-  if type == "Screw":
-    return screwMaker.GetAllLengths(item, diam)
-  if type == "StandOff" or type == "Stud":
-    return PEMInserts.FSPIGetAllLengths(item, diam)
-  return []
-
-def FSCPGetDiametersFromSelection(sel):
-  try:
-    if len(sel) == 0:
-      return []
-    obj0 = sel[0]
-    listDiams = screwMaker.GetAllDiams(obj0.type)
-    if len(sel) == 1:
-      return listDiams
-    listTypes = [obj0.type]
-    for obj in sel:
-      if obj.type in listTypes:
-        continue
-      listTypes.append(obj.type)
-      tmpList = listDiams
-      listDiams = []
-      for diam in screwMaker.GetAllDiams(obj.type):
-        if diam in tmpList:
-          listDiams.append(diam)
-    return listDiams
-  except:
-    FastenerBase.FSShowError()
+    if type == "Screw" or type == "Washer" or type == "ScrewTap" or type == "Nut":
+        return screwMaker.GetAllDiams(item)
+    if type == "PressNut" or type == "StandOff" or type == "Stud" or type == "HeatSet":
+        return PEMInserts.FSPIGetAllDiameters(type)
     return []
 
+
+def FSCPGetLengths(type, item, diam):
+    if type == "Screw":
+        return screwMaker.GetAllLengths(item, diam)
+    if type == "StandOff" or type == "Stud":
+        return PEMInserts.FSPIGetAllLengths(item, diam)
+    return []
+
+
+def FSCPGetDiametersFromSelection(sel):
+    try:
+        if len(sel) == 0:
+            return []
+        obj0 = sel[0]
+        listDiams = screwMaker.GetAllDiams(obj0.type)
+        if len(sel) == 1:
+            return listDiams
+        listTypes = [obj0.type]
+        for obj in sel:
+            if obj.type in listTypes:
+                continue
+            listTypes.append(obj.type)
+            tmpList = listDiams
+            listDiams = []
+            for diam in screwMaker.GetAllDiams(obj.type):
+                if diam in tmpList:
+                    listDiams.append(diam)
+        return listDiams
+    except:
+        FastenerBase.FSShowError()
+        return []
+
+
 class FSCPSelectionFilter:
-  ''' Disable selection changes '''
-  def allow(self,doc,obj,sub):
-    return False
-      
+    ''' Disable selection changes '''
+
+    def allow(self, doc, obj, sub):
+        return False
+
+
 FSCPSelectionFilterGate = FSCPSelectionFilter()
 
 
 class FSCPSelObserver:
-  ''' monitor and disable selection changes '''
-  def __init__(self, curSel):
-    self.selection = curSel
-    self.disableObserver = False
-    
-  def addSelection(self,doc,obj,sub,pnt):
-    FreeCAD.Console.PrintLog("FSO-AddObj:" + "\n")
-    return True
-      
-  def removeSelection(self,doc,obj,sub):                # Delete the selected object
-    FreeCAD.Console.PrintLog("FSO-RemSel:" +str(obj) + ":" + str(sub) + "\n")
-    
-  def setSelection(self,doc):                           # Selection in ComboView
-    FreeCAD.Console.PrintLog("FSO-SetSel:" + "\n")
-    
-  def clearSelection(self,doc):                         # If click on the screen, clear the selection
-    #if self.disableObserver:
-    #  FreeCAD.Console.PrintLog("FSO-Reentering:" + "\n")
-    #  return
-    self.disableObserver = True
-    #FreeCAD.Console.PrintLog("Clearing:" + str(len(Gui.Selection.getSelection())) + "\n")
-    #Gui.Selection.clearSelection()
-    for obj in self.selection:
-      #FreeCAD.Console.PrintLog("Adding:" + str(obj) + "\n")
-      Gui.Selection.addSelection(obj)
-    FreeCAD.Console.PrintLog("FSO-ClrSel:" + "\n")
-    #self.disableObserver = False
-    return False
+    ''' monitor and disable selection changes '''
+
+    def __init__(self, curSel):
+        self.selection = curSel
+        self.disableObserver = False
+
+    def addSelection(self, doc, obj, sub, pnt):
+        FreeCAD.Console.PrintLog("FSO-AddObj:" + "\n")
+        return True
+
+    def removeSelection(self, doc, obj, sub):  # Delete the selected object
+        FreeCAD.Console.PrintLog("FSO-RemSel:" + str(obj) + ":" + str(sub) + "\n")
+
+    def setSelection(self, doc):  # Selection in ComboView
+        FreeCAD.Console.PrintLog("FSO-SetSel:" + "\n")
+
+    def clearSelection(self, doc):  # If click on the screen, clear the selection
+        # if self.disableObserver:
+        #  FreeCAD.Console.PrintLog("FSO-Reentering:" + "\n")
+        #  return
+        self.disableObserver = True
+        # FreeCAD.Console.PrintLog("Clearing:" + str(len(Gui.Selection.getSelection())) + "\n")
+        # Gui.Selection.clearSelection()
+        for obj in self.selection:
+            # FreeCAD.Console.PrintLog("Adding:" + str(obj) + "\n")
+            Gui.Selection.addSelection(obj)
+        FreeCAD.Console.PrintLog("FSO-ClrSel:" + "\n")
+        # self.disableObserver = False
+        return False
 
 
 class FSTaskChangeParamDialog:
@@ -205,13 +211,13 @@ class FSTaskChangeParamDialog:
         FSChangeParamDialog.ui = Ui_DlgChangeParams()
         FSChangeParamDialog.ui.setupUi(FSChangeParamDialog)
         ui = FSChangeParamDialog.ui
-        #FSChangeParamDialog.ui.widgetVarLength.hide()
-                
+        # FSChangeParamDialog.ui.widgetVarLength.hide()
+
         self.form = FSChangeParamDialog
         self.form.setWindowTitle("Change fastener parameters")
         Gui.Selection.addSelectionGate(FSCPSelectionFilterGate)
-        self.selobserver = FSCPSelObserver(self.selection) 
-        Gui.Selection.addObserver(self.selobserver) 
+        self.selobserver = FSCPSelObserver(self.selection)
+        Gui.Selection.addObserver(self.selobserver)
         ui.comboFastenerType.currentIndexChanged.connect(self.onFastenerChange)
         ui.comboDiameter.currentIndexChanged.connect(self.onDiameterChange)
         ui.checkAutoDiameter.stateChanged.connect(self.onAutoDiamChange)
@@ -219,58 +225,58 @@ class FSTaskChangeParamDialog:
         ui.spinLength.setEnabled(False)
         self.hatMatchOption = False
         if len(self.selection) > 0:
-          selobj = self.selection[0]
-          #FreeCAD.Console.PrintLog("selobj: " + str(selobj.Proxy) + "\n")
-          if hasattr(selobj, 'Proxy') and hasattr(selobj.Proxy, 'VerifyCreateMatchOuter'):
-            self.hatMatchOption = True
+            selobj = self.selection[0]
+            # FreeCAD.Console.PrintLog("selobj: " + str(selobj.Proxy) + "\n")
+            if hasattr(selobj, 'Proxy') and hasattr(selobj.Proxy, 'VerifyCreateMatchOuter'):
+                self.hatMatchOption = True
         if self.hatMatchOption:
-          ui.comboMatchType.addItem("No Change")
-          ui.comboMatchType.addItem(QtGui.QIcon(os.path.join(iconPath , 'IconMatchTypeInner.svg')), "Match inner thread")
-          ui.comboMatchType.addItem(QtGui.QIcon(os.path.join(iconPath , 'IconMatchTypeOuter.svg')), "Match outer thread")
-          ui.comboMatchType.setEnabled(False)
-          ui.comboMatchType.setCurrentIndex(0)
+            ui.comboMatchType.addItem("No Change")
+            ui.comboMatchType.addItem(QtGui.QIcon(os.path.join(iconPath, 'IconMatchTypeInner.svg')), "Match inner thread")
+            ui.comboMatchType.addItem(QtGui.QIcon(os.path.join(iconPath, 'IconMatchTypeOuter.svg')), "Match outer thread")
+            ui.comboMatchType.setEnabled(False)
+            ui.comboMatchType.setCurrentIndex(0)
         else:
-          ui.comboMatchType.hide()
-       
+            ui.comboMatchType.hide()
+
     def FillFields(self, fstype):
         ui = self.form.ui
         self.fstype = fstype
-        #FreeCAD.Console.PrintLog(fstype.typeName + str(fstype.hasLength) + str(fstype.lengthFixed) + "\n")
+        # FreeCAD.Console.PrintLog(fstype.typeName + str(fstype.hasLength) + str(fstype.lengthFixed) + "\n")
         ui.comboFastenerType.addItem('No Change')
-        #FreeCAD.Console.PrintLog("nitems: " + str(len(fstype.items)) + "\n")
+        # FreeCAD.Console.PrintLog("nitems: " + str(len(fstype.items)) + "\n")
         for screw in fstype.items:
-            ui.comboFastenerType.addItem(QtGui.QIcon(os.path.join(iconPath , screw + '.svg')), screw)
+            ui.comboFastenerType.addItem(QtGui.QIcon(os.path.join(iconPath, screw + '.svg')), screw)
         if len(fstype.items) == 1:
             ui.comboFastenerType.setCurrentIndex(1)
             ui.comboFastenerType.setEnabled(False)
-        #FreeCAD.Console.PrintLog("manual\n")
+        # FreeCAD.Console.PrintLog("manual\n")
         self.disableUpdate = False
         self.UpdateDiameters()
         return
-        
+
     def UpdateDiameters(self):
         if self.disableUpdate:
-          return
+            return
         try:
-          ui = self.form.ui
-          ui.comboDiameter.clear()
-          ui.comboDiameter.addItem('No Change')
-          #FreeCAD.Console.PrintLog(str(ui.comboFastenerType.currentIndex()) + " " + str(ui.comboFastenerType.count()) + "\n")
-          if ui.comboFastenerType.currentIndex() == 0 and ui.comboFastenerType.isEnabled():
-            listDiams = FSCPGetDiametersFromSelection(self.selection)
-          else:
-            listDiams = FSCPGetDiameters(self.fstype.typeName, ui.comboFastenerType.currentText())
-          for diam in listDiams:
-              ui.comboDiameter.addItem(diam)
+            ui = self.form.ui
+            ui.comboDiameter.clear()
+            ui.comboDiameter.addItem('No Change')
+            # FreeCAD.Console.PrintLog(str(ui.comboFastenerType.currentIndex()) + " " + str(ui.comboFastenerType.count()) + "\n")
+            if ui.comboFastenerType.currentIndex() == 0 and ui.comboFastenerType.isEnabled():
+                listDiams = FSCPGetDiametersFromSelection(self.selection)
+            else:
+                listDiams = FSCPGetDiameters(self.fstype.typeName, ui.comboFastenerType.currentText())
+            for diam in listDiams:
+                ui.comboDiameter.addItem(diam)
         except:
             FastenerBase.FSShowError()
         return
-        
+
     def UpdateLengths(self):
         try:
             ui = self.form.ui
             self.fixedLength = ui.comboFastenerType.currentIndex() > 0 and ui.comboDiameter.currentIndex() > 0 and self.fstype.lengthFixed
-            if not(self.fstype.hasLength):
+            if not self.fstype.hasLength:
                 ui.labelLength.hide()
                 ui.comboLength.hide()
                 ui.checkSetLength.hide()
@@ -292,16 +298,16 @@ class FSTaskChangeParamDialog:
         except:
             FastenerBase.FSShowError()
         return
-        
+
     def onFastenerChange(self, findex):
-        #FreeCAD.Console.PrintLog("fastener change\n")
+        # FreeCAD.Console.PrintLog("fastener change\n")
         self.UpdateDiameters()
         return
-        
+
     def onDiameterChange(self, dindex):
         self.UpdateLengths()
         return
-        
+
     def onAutoDiamChange(self, val):
         try:
             ui = self.form.ui
@@ -314,7 +320,7 @@ class FSTaskChangeParamDialog:
         except:
             FastenerBase.FSShowError()
         return
-        
+
     def onSetLengthChange(self, val):
         try:
             ui = self.form.ui
@@ -325,7 +331,7 @@ class FSTaskChangeParamDialog:
         except:
             FastenerBase.FSShowError()
         return
-                
+
     def accept(self):
         ui = self.form.ui
         try:
@@ -335,13 +341,13 @@ class FSTaskChangeParamDialog:
                     obj.type = str(ui.comboFastenerType.currentText())
                 if ui.checkAutoDiameter.isChecked():
                     if self.hatMatchOption and ui.comboMatchType.currentIndex() > 0:
-                      obj.Proxy.VerifyCreateMatchOuter(obj)
-                      obj.matchOuter = ui.comboMatchType.currentIndex() == 2
+                        obj.Proxy.VerifyCreateMatchOuter(obj)
+                        obj.matchOuter = ui.comboMatchType.currentIndex() == 2
                     obj.diameter = 'Auto'
                 elif ui.comboDiameter.currentIndex() > 0:
                     obj.diameter = str(ui.comboDiameter.currentText())
             FreeCAD.ActiveDocument.recompute()
-            
+
             # apply length
             for obj in self.selection:
                 if self.fstype.hasLength:
@@ -350,64 +356,65 @@ class FSTaskChangeParamDialog:
                     else:
                         if ui.checkSetLength.isChecked():
                             if isinstance(obj.Proxy, FastenersCmd.FSScrewRodObject):
-                              obj.length = ui.spinLength.value()
+                                obj.length = ui.spinLength.value()
                             else:
-                              d, l = screwMaker.FindClosest(obj.type, obj.diameter, ui.spinLength.value())
-                              obj.length = l
-            FreeCAD.ActiveDocument.recompute()            
+                                d, l = screwMaker.FindClosest(obj.type, obj.diameter, ui.spinLength.value())
+                                obj.length = l
+            FreeCAD.ActiveDocument.recompute()
         except:
             FastenerBase.FSShowError()
         self.DialogClosing()
         return True
-        
+
     def reject(self):
         self.DialogClosing()
         return True
-        
+
     def DialogClosing(self):
         Gui.Selection.removeSelectionGate()
         Gui.Selection.removeObserver(self.selobserver)
         FastenerBase.FSMatchIconNeedUpdate = 2
         return
-    
+
     def getStandardButtons(self):
         return int(QtGui.QDialogButtonBox.Ok) + int(QtGui.QDialogButtonBox.Cancel)
-        
-      
-        
-class FSChangeParamCommand:
-  """Make holes for countersunk screws"""
 
-  def GetResources(self):
-    icon = os.path.join( iconPath , 'IconChangeParam.svg')
-    return {'Pixmap'  : icon , # the name of a svg file available in the resources
-            'MenuText': "Change fastener parameters" ,
-            'ToolTip' : "Change parameters of selected fasteners"}
- 
-  def Activated(self):
-    dlg = FSTaskChangeParamDialog(None)
-    fstype = FastenerBase.FSFasenerTypeDB[self.type]
-    dlg.FillFields(fstype)
-    Gui.Control.showDialog(dlg)
-    return
-   
-  def IsActive(self):
-    sel = Gui.Selection.getSelection()
-    if len(sel) == 0:
-      return False
-    self.type = None
-    tmaxlen = 0
-    for typename in FastenerBase.FSFasenerTypeDB:
-      #FreeCAD.Console.PrintLog(typename + "\n")
-      if FastenerBase.FSRemoveDigits(sel[0].Name) == typename:
-        self.type = typename
-    if self.type is None:
-      return False
-    for obj in sel:
-      if FastenerBase.FSRemoveDigits(obj.Name) != self.type:
-        return False
-    return True
-      
+
+class FSChangeParamCommand:
+    """Make holes for countersunk screws"""
+
+    def GetResources(self):
+        icon = os.path.join(iconPath, 'IconChangeParam.svg')
+        return {
+            'Pixmap': icon,  # the name of a svg file available in the resources
+            'MenuText': "Change fastener parameters",
+            'ToolTip': "Change parameters of selected fasteners"
+        }
+
+    def Activated(self):
+        dlg = FSTaskChangeParamDialog(None)
+        fstype = FastenerBase.FSFasenerTypeDB[self.type]
+        dlg.FillFields(fstype)
+        Gui.Control.showDialog(dlg)
+        return
+
+    def IsActive(self):
+        sel = Gui.Selection.getSelection()
+        if len(sel) == 0:
+            return False
+        self.type = None
+        tmaxlen = 0
+        for typename in FastenerBase.FSFasenerTypeDB:
+            # FreeCAD.Console.PrintLog(typename + "\n")
+            if FastenerBase.FSRemoveDigits(sel[0].Name) == typename:
+                self.type = typename
+        if self.type is None:
+            return False
+        for obj in sel:
+            if FastenerBase.FSRemoveDigits(obj.Name) != self.type:
+                return False
+        return True
+
 
 Gui.addCommand("FSChangeParams", FSChangeParamCommand())
 FastenerBase.FSCommands.append("FSChangeParams", "command")

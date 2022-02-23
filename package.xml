@@ -6,7 +6,8 @@
   <date>2022-15-02</date>
   <maintainer email="shaise@gmail.com">Shai Seger</maintainer>
   <license file="LICENSE">GPLv2</license>
-  <url type="repository" branch="main">https://github.com/shaise/FreeCAD_FastenersWB</url>
+  <url type="repository" branch="master">https://github.com/shaise/FreeCAD_FastenersWB</url>
+  <url type="readme">https://github.com/shaise/FreeCAD_FastenersWB/blob/master/README.md</url>
   <icon>Resources/Icons/FNLogo.svg</icon>
 
   <content>

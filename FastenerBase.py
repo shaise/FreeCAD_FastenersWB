@@ -412,12 +412,12 @@ def GetEdgeName(obj, edge):
     return None
 
 
-def PositionDone(center, radius, list, tol=1e-6):
+def PositionDone(center, radius, done_list, tol=1e-6):
     '''Check if the `position` of an edge is already processed by comparing
     its center and radius against data in a list
     '''
 
-    for itm in list:
+    for itm in done_list:
         if center.isEqual(itm[0], tol) and math.isclose(radius, itm[1], abs_tol=tol):
             return True
     return False

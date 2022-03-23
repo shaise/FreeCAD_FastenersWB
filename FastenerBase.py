@@ -2,25 +2,25 @@
 ###################################################################################
 #
 #  FastenerBase.py
-#  
+#
 #  Copyright 2015 Shai Seger <shaise at gmail dot com>
-#  
+#
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2 of the License, or
 #  (at your option) any later version.
-#  
+#
 #  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
-#  
+#
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
-#  
-#  
+#
+#
 ###################################################################################
 from FreeCAD import Gui
 from FreeCAD import Base
@@ -412,42 +412,67 @@ def GetEdgeName(obj, edge):
     return None
 
 
+def PositionDone(center, radius, done_list, tol=1e-6):
+    '''Check if the `position` of an edge is already processed by comparing
+    its center and radius against data in a list
+    '''
+
+    for itm in done_list:
+        if center.isEqual(itm[0], tol) and math.isclose(radius, itm[1], abs_tol=tol):
+            return True
+    return False
+
+
 def FSGetAttachableSelections():
     asels = []
     for selObj in Gui.Selection.getSelectionEx():
         baseObjectNames = selObj.SubElementNames
         obj = selObj.Object
         grp = obj.getParentGeoFeatureGroup()
-        if grp is not None and hasattr(grp, 'TypeId') and grp.TypeId == 'PartDesign::Body':
+        if grp is not None and hasattr(grp, "TypeId") and grp.TypeId == "PartDesign::Body":
             obj = grp
-        edgestable = {}
-        # add explicitly selected edges
+        position_done_list = [] # list with sublists to store the center and radius
+                                # of processed edges to avoid duplicate fasteners
+
         for baseObjectName in baseObjectNames:
             shape = obj.Shape.getElement(baseObjectName)
-            if not hasattr(shape, "Curve"):
-                continue
-            if not hasattr(shape.Curve, "Center"):
-                continue
-            asels.append((obj, [baseObjectName]))
-            FreeCAD.Console.PrintLog("Linking to " + obj.Name + "[" + baseObjectName + "].\n")
-            edgestable[baseObjectName] = 1
 
-        # add all edges of a selected surface
-        for subobj in selObj.SubObjects:
-            if not isinstance(subobj, Part.Face):
-                continue
-            # FreeCAD.Console.PrintLog("Found face: " + str(subobj) + "\n")
+            # add explicitly selected edges
+            if hasattr(shape, "Curve"):
+                if not hasattr(shape.Curve, "Center"):
+                    continue
+                if not hasattr(shape.Curve, "Radius"):
+                    continue
+                if PositionDone(shape.Curve.Center, shape.Curve.Radius, position_done_list):
+                    continue
+                asels.append((obj, [baseObjectName]))
+                position_done_list.append([shape.Curve.Center, shape.Curve.Radius])
+                FreeCAD.Console.PrintLog("Linking to " + obj.Name + "[" + baseObjectName + "].\n")
 
-            for edge in subobj.Edges:
-                if not hasattr(edge, "Curve"):
-                    continue
-                if not hasattr(edge.Curve, "Center"):
-                    continue
-                edgeName = GetEdgeName(obj.Shape, edge)
-                if edgeName is None or edgeName in edgestable:
-                    continue
-                asels.append((obj, [edgeName]))
-                edgestable[edgeName] = 1
+            # add edges of selected faces
+            elif isinstance(shape, Part.Face):
+                outer_edge_list = shape.OuterWire.Edges
+                for edge in shape.Edges:
+                    if not hasattr(edge, "Curve"):
+                        continue
+                    if not hasattr(edge.Curve, "Center"):
+                        continue
+                    if not hasattr(edge.Curve, "Radius"):
+                        continue
+                    if PositionDone(edge.Curve.Center, edge.Curve.Radius, position_done_list):
+                        continue
+                    for outer_edge in outer_edge_list:
+                        if outer_edge.isSame(edge):
+                            edge = None
+                            break
+                    if edge is None:
+                        continue
+                    edgeName = GetEdgeName(obj.Shape, edge)
+                    if edgeName is None:
+                        continue
+                    asels.append((obj, [edgeName]))
+                    position_done_list.append([edge.Curve.Center, edge.Curve.Radius])
+                    FreeCAD.Console.PrintLog("Linking to " + obj.Name + "[" + edgeName + "].\n")
 
     if len(asels) == 0:
         asels.append(None)

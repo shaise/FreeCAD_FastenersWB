@@ -123,6 +123,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes berberic2
+* V0.3.39  27 Mar 2022:  Fix body face selection and duplicate fasteners by @Roy-043. Thanks!
 * V0.3.38  15 Feb 2022:  Add Package.xml issue #127. Code cleanup by @elysium31. Thanks!
 * V0.3.37  24 Jan 2022:  Fix 'thread jump' issue #119
 * V0.3.36  29 Dec 2021:  Fix custom die with 3d printing compensation bug. Thank you @balogh-attila!

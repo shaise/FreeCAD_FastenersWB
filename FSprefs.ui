@@ -59,7 +59,7 @@
           <property name="currentIndex">
            <number>1</number>
           </property>
-          <property name="prefEntry" stdset="0">
+          <property name="prefEntry" stdset="1">
            <string>ScrewToolbarGroupMode</string>
           </property>
           <property name="prefPath" stdset="0">

@@ -282,6 +282,7 @@ class Ui_ScrewMaker(object):
         self.ScrewType.setItemText(24, _translate("ScrewMaker", "ISO7092: Plain washers - Small series", None))
         self.ScrewType.setItemText(25, _translate("ScrewMaker", "ISO7093-1: Plain washer - Large series", None))
         self.ScrewType.setItemText(26, _translate("ScrewMaker", "ISO7094: Plain washers - Extra large series", None))
+        self.ScrewType.setItemText(26, _translate("ScrewMaker", "NFE27-619: Countersunk washers - Normal series", None))
         self.ScrewType.setItemText(27, _translate("ScrewMaker", "ISO4032: Hexagon nuts, Style 1", None))
         self.ScrewType.setItemText(28, _translate("ScrewMaker", "ISO4033: Hexagon nuts, Style 2", None))
         self.ScrewType.setItemText(29, _translate("ScrewMaker", "ISO4035: Hexagon thin nuts, chamfered", None))
@@ -608,6 +609,10 @@ class Screw:
             table = FsData["iso7094def"]
             Type_text = 'Washer'
 
+        if ST_text == 'NFE27-619':
+            table = FsData["NFE27-619def"]
+            Type_text = 'Washer'
+
         if (ST_text == 'ISO4026') or (ST_text == 'ISO4027') or (ST_text == 'ISO4029'):
             table = FsData["iso4026def"]
             tab_len = FsData["iso4026length"]
@@ -871,6 +876,8 @@ class Screw:
                     table = FsData["iso7093def"]
                 if ST_text == 'ISO7094':
                     table = FsData["iso7094def"]
+                if ST_text == 'NFE27-619':
+                    table = FsData["NFE27-619def"]
                 if ST_text == 'ISO4026':
                     table = FsData["iso4026def"]
                 if ST_text == 'ISO4027':
@@ -978,7 +985,7 @@ class Screw:
                     done = True
                 if ST_text == 'ISO7089' or ST_text == 'ISO7090' or ST_text == 'ISO7093-1' or \
                         ST_text == 'ISO7091' or ST_text == 'ISO7092' or ST_text == 'ISO7094' or \
-                        ST_text[:-1] == 'ASMEB18.21.1.12':
+                        ST_text[:-1] == 'ASMEB18.21.1.12' or ST_text == 'NFE27-619':
                     screw = self.makeIso7089(ST_text, ND_text)
                     Type_text = 'Washer'
                     done = True
@@ -1141,6 +1148,11 @@ class Screw:
             d1_min, d2_a, d2_b, d2_c, h_a, h_b, h_c = FsData["asmeb18.21.1.12def"][ThreadType]
             d2_max = d2_c
             h_max = h_c
+        if SType == 'NFE27-619':
+            d1_min, d2_max, d3, h1, h2 = FsData["NFE27-619def"][ThreadType]
+            h_max = h1
+            h_min = h2
+            d3 = d3
 
         # FreeCAD.Console.PrintMessage("the disc with d1_min: " + str(d1_min) + "\n")
 
@@ -1155,6 +1167,10 @@ class Screw:
             edge1 = Part.makeLine(Pnt0, Pnt1)
             edgeCham = Part.makeLine(Pnt1, Pnt2)
             edge1 = Part.Wire([edge1, edgeCham])
+        elif SType == 'NFE27-619':
+            Pnt0 = Base.Vector(d1_min / 2.0, 0.0, h_min)
+            Pnt2 = Base.Vector(d3 / 2.0, 0.0, h_max)
+            edge1 = Part.makeLine(Pnt0, Pnt2)
         else:
             edge1 = Part.makeLine(Pnt0, Pnt2)
 

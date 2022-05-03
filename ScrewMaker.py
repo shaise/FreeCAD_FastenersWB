@@ -141,6 +141,7 @@ screwTables = {
     'ISO7092':  ("Washer", FsData["iso7092def"],   None,          None,           -1, 0),
     'ISO7093-1':("Washer", FsData["iso7093def"],   None,          None,           -1, 0),
     'ISO7094':  ("Washer", FsData["iso7094def"],   None,          None,           -1, 0),
+    'NFE27-619':("Washer", FsData["NFE27-619def"], None,          None,           -1, 0),
     'ISO4026':  ("Screw",  FsData["iso4026def"],   FsData["iso4026length"],  FsData["iso4026range"],   -1, 0),
     'ISO4027':  ("Screw",  FsData["iso4026def"],   FsData["iso4026length"],  FsData["iso4026range"],   -1, 0),
     'ISO4028':  ("Screw",  FsData["iso4028def"],   FsData["iso4028length"],  FsData["iso4028range"],   -1, 0),

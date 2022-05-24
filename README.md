@@ -188,9 +188,9 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 * Workbench wrapper:  Shai Seger [@shaise](https://github.com/shaise)
 
 ### Feedback
-For further discussion, feel free to open a forum thread on [FreeCAD Open Discussion subforum](https://forum.freecadweb.org/viewforum.php?f=8&sid=853eff68d2a09bfd39fb3508d038af97) and make sure to ping user 'shaise'.  
+For further discussion, feel free to open a forum thread on [FreeCAD Open Discussion subforum](https://forum.freecadweb.org/viewforum.php?f=8) and make sure to ping user 'shaise'.  
 
-There is also an [ongoing thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=114290) discussing Fasteners Workbench that is also a place to comment on.
+There is also an [ongoing thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=11429) discussing Fasteners Workbench that is also a place to comment on.
 
 ### Contributing
 

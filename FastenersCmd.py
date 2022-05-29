@@ -174,7 +174,11 @@ class FSScrewObject(FSBaseObject):
         if hasattr(fp, 'length'):
             self.length = l
             self.customlen = float(fp.lengthCustom)
-            fp.Label = fp.diameter + 'x' + l + '-' + self.itemText
+            label = fp.diameter + 'x' + l
+            if fp.leftHanded:
+                label += 'LH'
+            label += '-' + self.itemText
+            fp.Label = label
         else:
             fp.Label = fp.diameter + '-' + self.itemText
 
@@ -508,9 +512,15 @@ class FSScrewRodObject(FSBaseObject):
         self.diameter = fp.diameter
         self.length = l
         self.matchOuter = fp.matchOuter
+
         diastr = fp.diameter if fp.diameter != 'Custom' else str(
             fp.diameterCustom)
-        fp.Label = diastr + 'x' + str(l) + '-' + self.itemText
+        label = diastr + 'x' + str(float(l)).rstrip('0').rstrip('.')
+        if fp.leftHanded:
+            label += 'LH'
+        label += '-' + self.itemText
+        fp.Label = label
+
         self.realThread = fp.thread
         fp.Shape = s
 
@@ -662,9 +672,15 @@ class FSScrewDieObject(FSBaseObject):
         self.diameter = fp.diameter
         self.length = l
         self.matchOuter = fp.matchOuter
+
         diastr = fp.diameter if fp.diameter != 'Custom' else str(
             fp.diameterCustom)
-        fp.Label = diastr + 'x' + str(l) + '-' + self.itemText
+        label = diastr + 'x' + str(float(l)).rstrip('0').rstrip('.')
+        if fp.leftHanded:
+            label += 'LH'
+        label += '-' + self.itemText
+        fp.Label = label
+
         self.realThread = fp.thread
         fp.Shape = s
 
@@ -816,9 +832,15 @@ class FSThreadedRodObject(FSBaseObject):
         self.diameter = fp.diameter
         self.length = l
         self.matchOuter = fp.matchOuter
+
         diastr = fp.diameter if fp.diameter != 'Custom' else str(
             fp.diameterCustom)
-        fp.Label = diastr + 'x' + str(l) + '-' + self.itemText
+        label = diastr + 'x' + str(float(l)).rstrip('0').rstrip('.')
+        if fp.leftHanded:
+            label += 'LH'
+        label += '-' + self.itemText
+        fp.Label = label
+
         self.realThread = fp.thread
         fp.Shape = s
 

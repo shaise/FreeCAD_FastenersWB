@@ -809,10 +809,13 @@ class FSMakeBomCommand:
             self.fastenerDB[fastener] = cnt
 
     def AddScrew(self, obj, cnt):
-        len = obj.length
-        if len == 'Custom':
-            len = str(float(obj.lengthCustom)).rstrip("0").rstrip('.')
-        self.AddFastener(obj.type + " Screw " + obj.diameter + "x" + len, cnt)
+        length = obj.length
+        if length == 'Custom':
+            length = str(float(obj.lengthCustom)).rstrip('0').rstrip('.')
+        desc = obj.type + " Screw " + obj.diameter + "x" + length
+        if obj.leftHanded:
+            desc += 'LH'
+        self.AddFastener(desc, cnt)
 
     def AddNut(self, obj, cnt):
         if hasattr(obj, 'type'):
@@ -825,8 +828,11 @@ class FSMakeBomCommand:
         self.AddFastener(obj.type + " Washer " + obj.diameter, cnt)
 
     def AddScrewTap(self, obj, cnt):
-        self.AddFastener("ScrewTap " + obj.diameter + "x" + str(obj.length),
-                         cnt)
+        length = str(float(obj.length)).rstrip('0').rstrip('.')
+        desc = "ScrewTap " + obj.diameter + "x" + length
+        if obj.leftHanded:
+            desc += 'LH'
+        self.AddFastener(desc, cnt)
 
     def AddPressNut(self, obj, cnt):
         self.AddFastener("PEM PressNut " + obj.diameter + "-" + obj.tcode, cnt)

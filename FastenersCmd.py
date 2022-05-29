@@ -159,10 +159,11 @@ class FSScrewObject(FSBaseObject):
         threadType = 'simple'
         if hasattr(fp, 'thread') and fp.thread:
             threadType = 'real'
+        leftHanded = fp.leftHanded
 
-        (key, s) = FastenerBase.FSGetKey(self.itemText, fp.type, d, l, threadType)
+        (key, s) = FastenerBase.FSGetKey(self.itemText, fp.type, d, l, threadType, leftHanded)
         if s is None:
-            s = screwMaker.createFastener(fp.type, d, l, threadType, True)
+            s = screwMaker.createFastener(fp.type, d, l, threadType, True, leftHanded)
             FastenerBase.FSCache[key] = s
         else:
             FreeCAD.Console.PrintLog("Using cached object\n")
@@ -497,9 +498,11 @@ class FSScrewRodObject(FSBaseObject):
         threadType = 'simple'
         if hasattr(fp, 'thread') and fp.thread:
             threadType = 'real'
+
         # since we are bypassing the createScrew() method, we must set
-        # the rThread parameter manually
+        # the rThread and leftHanded parameter manually
         screwMaker.rThread = (threadType == 'real')
+        screwMaker.leftHanded = fp.leftHanded
         s = screwMaker.makeScrewTap(self.type, d, l, p, d_custom)
 
         self.diameter = fp.diameter
@@ -649,10 +652,13 @@ class FSScrewDieObject(FSBaseObject):
         threadType = 'simple'
         if hasattr(fp, 'thread') and fp.thread:
             threadType = 'real'
+
         # since we are bypassing the createScrew() method, we must set
-        # the rThread parameter manually
+        # the rThread and leftHanded parameter manually
         screwMaker.rThread = (threadType == 'real')
+        screwMaker.leftHanded = fp.leftHanded
         s = screwMaker.makeScrewDie(self.type, d, l, p, d_custom)
+
         self.diameter = fp.diameter
         self.length = l
         self.matchOuter = fp.matchOuter
@@ -800,9 +806,11 @@ class FSThreadedRodObject(FSBaseObject):
         threadType = 'simple'
         if hasattr(fp, 'thread') and fp.thread:
             threadType = 'real'
+
         # since we are bypassing the createScrew() method, we must set
-        # the rThread parameter manually
+        # the rThread and leftHanded parameter manually
         screwMaker.rThread = (threadType == 'real')
+        screwMaker.leftHanded = fp.leftHanded
         s = screwMaker.makeThreadedRod(self.type, d, l, p, d_custom)
 
         self.diameter = fp.diameter

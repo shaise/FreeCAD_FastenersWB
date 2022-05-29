@@ -439,6 +439,7 @@ class Screw:
     def __init__(self):
         self.objAvailable = True
         self.Tuner = 510
+        self.leftHanded = False
         # thread scaling for 3D printers
         # scaled_diam = diam * ScaleA + ScaleB
         self.sm3DPrintMode = False
@@ -796,7 +797,7 @@ class Screw:
         # FreeCAD.Console.PrintMessage("Set Check_result into text " + str(self.objAvailable) + M_text + "\n")
         return M_text, self.objAvailable
 
-    def createScrew(self, ST_text, ND_text, NL_text, threadType, shapeOnly=False):
+    def createScrew(self, ST_text, ND_text, NL_text, threadType, shapeOnly=False, leftHanded=False):
         # self.simpThread = self.SimpleScrew.isChecked()
         # self.symThread = self.SymbolThread.isChecked()
         # self.rThread = self.RealThread.isChecked()
@@ -804,6 +805,7 @@ class Screw:
             self.rThread = True
         else:
             self.rThread = False
+        self.leftHanded = leftHanded
 
         if self.objAvailable:
             try:
@@ -3174,8 +3176,8 @@ class Screw:
         # make the helical paths to sweep along
         # NOTE: makeLongHelix creates slightly conical
         # helices unless the 4th parameter is set to 0!
-        main_helix = Part.makeLongHelix(P, helix_height, dia / 2, 0)
-        lead_out_helix = Part.makeHelix(P, P / 2, dia / 2 + 0.5 * (5 / 8 * H + 0.5 * fillet_r))
+        main_helix = Part.makeLongHelix(P, helix_height, dia / 2, 0, self.leftHanded)
+        lead_out_helix = Part.makeHelix(P, P / 2, dia / 2 + 0.5 * (5 / 8 * H + 0.5 * fillet_r), 0, self.leftHanded)
         main_helix.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
         lead_out_helix.translate(Base.Vector(0.5 * (-1 * (5 / 8 * H + 0.5 * fillet_r)), 0, 0))
         sweep_path = Part.Wire([main_helix, lead_out_helix])
@@ -3230,7 +3232,7 @@ class Screw:
         H = P * math.cos(math.radians(30))  # Thread depth H
         r = d / 2.0
 
-        helix = Part.makeHelix(P, P, d * self.Tuner / 1000.0, 0)  # make just one turn, length is identical to pitch
+        helix = Part.makeHelix(P, P, d * self.Tuner / 1000.0, 0, self.leftHanded)  # make just one turn, length is identical to pitch
         helix.translate(FreeCAD.Vector(0.0, 0.0, -P * 9.0 / 16.0))
 
         extra_rad = P

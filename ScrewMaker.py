@@ -340,10 +340,10 @@ class FSScrewMaker(Screw):
         if oldState != newState:
             FastenerBase.FSCacheRemoveThreaded()  # thread parameters have changed, remove cached ones
 
-    def createFastener(self, type, diam, len, threadType, shapeOnly=False):
+    def createFastener(self, type, diam, len, threadType, shapeOnly, leftHanded):
         if type in FSNutsList:
             return FSNuts.createNut(type, diam)
-        return self.createScrew(type, diam, len, threadType, shapeOnly)
+        return self.createScrew(type, diam, len, threadType, shapeOnly, leftHanded)
 
 
 ScrewMakerInstance = None

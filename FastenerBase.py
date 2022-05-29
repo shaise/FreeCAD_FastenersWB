@@ -38,6 +38,7 @@ class FSBaseObject:
     def __init__(self, obj, attachTo):
         obj.addProperty("App::PropertyDistance", "offset", "Parameters", "Offset from surface").offset = 0.0
         obj.addProperty("App::PropertyBool", "invert", "Parameters", "Invert screw direction").invert = False
+        obj.addProperty("App::PropertyBool", "leftHanded", "Parameters", "Left handed thread").leftHanded = False
         obj.addProperty("App::PropertyXLinkSub", "baseObject", "Parameters", "Base object").baseObject = attachTo
 
     def updateProps(self, obj):
@@ -45,6 +46,11 @@ class FSBaseObject:
             linkedObj = obj.baseObject
             obj.removeProperty("baseObject")
             obj.addProperty("App::PropertyXLinkSub", "baseObject", "Parameters", "Base object").baseObject = linkedObj
+
+    def onDocumentRestored(self, obj):
+        # upgrade properties of existing objects
+        if not hasattr(obj, 'leftHanded'):
+            obj.addProperty("App::PropertyBool", "leftHanded", "Parameters", "Left handed thread").leftHanded = False
 
 
 class FSGroupCommand:

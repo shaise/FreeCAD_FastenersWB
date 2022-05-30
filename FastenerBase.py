@@ -144,6 +144,22 @@ def FSAddItemsToType(typeName, item):
 
 # common helpers
 
+def FSScrewStr(obj):
+    '''Return the textual representation of the screw diameter x length
+    + optional handedness ([M]<dia>x<len>[LH]), also accounting for
+    custom size properties'''
+    dia = obj.diameter if obj.diameter != 'Custom' else obj.diameterCustom
+    if isinstance(dia, FreeCAD.Units.Quantity):
+        dia = str(float(dia.Value)).rstrip('0').rstrip('.')
+    length = obj.length if obj.length != 'Custom' else obj.lengthCustom
+    if isinstance(length, FreeCAD.Units.Quantity):
+        length = str(float(length.Value)).rstrip('0').rstrip('.')
+    desc = dia + "x" + length
+    if obj.leftHanded:
+        desc += 'LH'
+    return desc
+
+
 # show traceback of system error
 def FSShowError():
     global lastErr
@@ -809,12 +825,7 @@ class FSMakeBomCommand:
             self.fastenerDB[fastener] = cnt
 
     def AddScrew(self, obj, cnt):
-        length = obj.length
-        if length == 'Custom':
-            length = str(float(obj.lengthCustom)).rstrip('0').rstrip('.')
-        desc = obj.type + " Screw " + obj.diameter + "x" + length
-        if obj.leftHanded:
-            desc += 'LH'
+        desc = obj.type + " Screw " + FSScrewStr(obj)
         self.AddFastener(desc, cnt)
 
     def AddNut(self, obj, cnt):

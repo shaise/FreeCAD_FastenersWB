@@ -827,13 +827,6 @@ class FSMakeBomCommand:
     def AddWasher(self, obj, cnt):
         self.AddFastener(obj.type + " Washer " + obj.diameter, cnt)
 
-    def AddScrewTap(self, obj, cnt):
-        length = str(float(obj.length)).rstrip('0').rstrip('.')
-        desc = "ScrewTap " + obj.diameter + "x" + length
-        if obj.leftHanded:
-            desc += 'LH'
-        self.AddFastener(desc, cnt)
-
     def AddPressNut(self, obj, cnt):
         self.AddFastener("PEM PressNut " + obj.diameter + "-" + obj.tcode, cnt)
 

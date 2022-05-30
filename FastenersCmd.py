@@ -159,10 +159,11 @@ class FSScrewObject(FSBaseObject):
         threadType = 'simple'
         if hasattr(fp, 'thread') and fp.thread:
             threadType = 'real'
+        leftHanded = fp.leftHanded
 
-        (key, s) = FastenerBase.FSGetKey(self.itemText, fp.type, d, l, threadType)
+        (key, s) = FastenerBase.FSGetKey(self.itemText, fp.type, d, l, threadType, leftHanded)
         if s is None:
-            s = screwMaker.createFastener(fp.type, d, l, threadType, True)
+            s = screwMaker.createFastener(fp.type, d, l, threadType, True, leftHanded)
             FastenerBase.FSCache[key] = s
         else:
             FreeCAD.Console.PrintLog("Using cached object\n")
@@ -173,7 +174,11 @@ class FSScrewObject(FSBaseObject):
         if hasattr(fp, 'length'):
             self.length = l
             self.customlen = float(fp.lengthCustom)
-            fp.Label = fp.diameter + 'x' + l + '-' + self.itemText
+            label = fp.diameter + 'x' + l
+            if fp.leftHanded:
+                label += 'LH'
+            label += '-' + self.itemText
+            fp.Label = label
         else:
             fp.Label = fp.diameter + '-' + self.itemText
 
@@ -497,17 +502,25 @@ class FSScrewRodObject(FSBaseObject):
         threadType = 'simple'
         if hasattr(fp, 'thread') and fp.thread:
             threadType = 'real'
+
         # since we are bypassing the createScrew() method, we must set
-        # the rThread parameter manually
+        # the rThread and leftHanded parameter manually
         screwMaker.rThread = (threadType == 'real')
+        screwMaker.leftHanded = fp.leftHanded
         s = screwMaker.makeScrewTap(self.type, d, l, p, d_custom)
 
         self.diameter = fp.diameter
         self.length = l
         self.matchOuter = fp.matchOuter
+
         diastr = fp.diameter if fp.diameter != 'Custom' else str(
             fp.diameterCustom)
-        fp.Label = diastr + 'x' + str(l) + '-' + self.itemText
+        label = diastr + 'x' + str(float(l)).rstrip('0').rstrip('.')
+        if fp.leftHanded:
+            label += 'LH'
+        label += '-' + self.itemText
+        fp.Label = label
+
         self.realThread = fp.thread
         fp.Shape = s
 
@@ -649,16 +662,25 @@ class FSScrewDieObject(FSBaseObject):
         threadType = 'simple'
         if hasattr(fp, 'thread') and fp.thread:
             threadType = 'real'
+
         # since we are bypassing the createScrew() method, we must set
-        # the rThread parameter manually
+        # the rThread and leftHanded parameter manually
         screwMaker.rThread = (threadType == 'real')
+        screwMaker.leftHanded = fp.leftHanded
         s = screwMaker.makeScrewDie(self.type, d, l, p, d_custom)
+
         self.diameter = fp.diameter
         self.length = l
         self.matchOuter = fp.matchOuter
+
         diastr = fp.diameter if fp.diameter != 'Custom' else str(
             fp.diameterCustom)
-        fp.Label = diastr + 'x' + str(l) + '-' + self.itemText
+        label = diastr + 'x' + str(float(l)).rstrip('0').rstrip('.')
+        if fp.leftHanded:
+            label += 'LH'
+        label += '-' + self.itemText
+        fp.Label = label
+
         self.realThread = fp.thread
         fp.Shape = s
 
@@ -800,17 +822,25 @@ class FSThreadedRodObject(FSBaseObject):
         threadType = 'simple'
         if hasattr(fp, 'thread') and fp.thread:
             threadType = 'real'
+
         # since we are bypassing the createScrew() method, we must set
-        # the rThread parameter manually
+        # the rThread and leftHanded parameter manually
         screwMaker.rThread = (threadType == 'real')
+        screwMaker.leftHanded = fp.leftHanded
         s = screwMaker.makeThreadedRod(self.type, d, l, p, d_custom)
 
         self.diameter = fp.diameter
         self.length = l
         self.matchOuter = fp.matchOuter
+
         diastr = fp.diameter if fp.diameter != 'Custom' else str(
             fp.diameterCustom)
-        fp.Label = diastr + 'x' + str(l) + '-' + self.itemText
+        label = diastr + 'x' + str(float(l)).rstrip('0').rstrip('.')
+        if fp.leftHanded:
+            label += 'LH'
+        label += '-' + self.itemText
+        fp.Label = label
+
         self.realThread = fp.thread
         fp.Shape = s
 

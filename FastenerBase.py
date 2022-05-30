@@ -38,6 +38,7 @@ class FSBaseObject:
     def __init__(self, obj, attachTo):
         obj.addProperty("App::PropertyDistance", "offset", "Parameters", "Offset from surface").offset = 0.0
         obj.addProperty("App::PropertyBool", "invert", "Parameters", "Invert screw direction").invert = False
+        obj.addProperty("App::PropertyBool", "leftHanded", "Parameters", "Left handed thread").leftHanded = False
         obj.addProperty("App::PropertyXLinkSub", "baseObject", "Parameters", "Base object").baseObject = attachTo
 
     def updateProps(self, obj):
@@ -45,6 +46,11 @@ class FSBaseObject:
             linkedObj = obj.baseObject
             obj.removeProperty("baseObject")
             obj.addProperty("App::PropertyXLinkSub", "baseObject", "Parameters", "Base object").baseObject = linkedObj
+
+    def onDocumentRestored(self, obj):
+        # upgrade properties of existing objects
+        if not hasattr(obj, 'leftHanded'):
+            obj.addProperty("App::PropertyBool", "leftHanded", "Parameters", "Left handed thread").leftHanded = False
 
 
 class FSGroupCommand:
@@ -803,10 +809,13 @@ class FSMakeBomCommand:
             self.fastenerDB[fastener] = cnt
 
     def AddScrew(self, obj, cnt):
-        len = obj.length
-        if len == 'Custom':
-            len = str(float(obj.lengthCustom)).rstrip("0").rstrip('.')
-        self.AddFastener(obj.type + " Screw " + obj.diameter + "x" + len, cnt)
+        length = obj.length
+        if length == 'Custom':
+            length = str(float(obj.lengthCustom)).rstrip('0').rstrip('.')
+        desc = obj.type + " Screw " + obj.diameter + "x" + length
+        if obj.leftHanded:
+            desc += 'LH'
+        self.AddFastener(desc, cnt)
 
     def AddNut(self, obj, cnt):
         if hasattr(obj, 'type'):
@@ -819,8 +828,11 @@ class FSMakeBomCommand:
         self.AddFastener(obj.type + " Washer " + obj.diameter, cnt)
 
     def AddScrewTap(self, obj, cnt):
-        self.AddFastener("ScrewTap " + obj.diameter + "x" + str(obj.length),
-                         cnt)
+        length = str(float(obj.length)).rstrip('0').rstrip('.')
+        desc = "ScrewTap " + obj.diameter + "x" + length
+        if obj.leftHanded:
+            desc += 'LH'
+        self.AddFastener(desc, cnt)
 
     def AddPressNut(self, obj, cnt):
         self.AddFastener("PEM PressNut " + obj.diameter + "-" + obj.tcode, cnt)

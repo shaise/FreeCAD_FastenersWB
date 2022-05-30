@@ -85,9 +85,12 @@ __author__ = "Ulrich Brammer <ulrich1a@users.sourceforge.net>"
 
 
 
-import FreeCAD, FreeCADGui, Part, math, csv, os
+import FreeCAD, FreeCADGui, Part, math, os
 from FreeCAD import Base
 import DraftVecUtils
+from pathlib import Path
+
+from utils import csv2dict
 
 try:
   from PySide import QtCore, QtGui
@@ -111,31 +114,13 @@ __dir__ = os.path.dirname(__file__)
 fsdatapath = os.path.join(__dir__, 'FsData')
 
 # function to open a csv file and convert it to a dictionary
-def csv2dict(filename, fieldsnamed=True):
-    data = open(filename, 'r')
-    reader = csv.reader(data, skipinitialspace=True, dialect='unix', quoting=csv.QUOTE_NONNUMERIC)
-    dictvar = {}
-    if fieldsnamed:
-        # skip the first line
-        next(reader)
-    for line_list in reader:
-        thekey = str(line_list[0])
-        datavalues = line_list[1:]
-        thevalue = []
-        for item in datavalues:
-            thevalue.append(item)
-        thevalue = tuple(thevalue)
-        dictvar.update({thekey: thevalue})
-    return dictvar
 
 
 FsData = {}
-filelist = os.listdir(fsdatapath)
+filelist = Path(fsdatapath).glob('*.csv')
 for item in filelist:
-    if item[-4:] == '.csv':
-        itempath = os.path.join(fsdatapath, item)
-        itemdict = csv2dict(itempath, fieldsnamed=True)
-        FsData.update({item[0:-4]: itemdict})
+    item_dict = csv2dict(str(item), fieldsnamed=True)
+    FsData[item.stem] = item_dict
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8

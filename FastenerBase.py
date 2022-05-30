@@ -838,6 +838,10 @@ class FSMakeBomCommand:
     def AddWasher(self, obj, cnt):
         self.AddFastener(obj.type + " Washer " + obj.diameter, cnt)
 
+    def AddThreadedRod(self, obj, cnt):
+        desc = "Threaded Rod " + FSScrewStr(obj)
+        self.AddFastener(desc, cnt)
+
     def AddPressNut(self, obj, cnt):
         self.AddFastener("PEM PressNut " + obj.diameter + "-" + obj.tcode, cnt)
 

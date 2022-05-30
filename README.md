@@ -123,7 +123,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes berberic2
-* V0.3.42  30 May 2022:  Add left handed threads by @wavexx. Thanks!
+* V0.3.42  30 May 2022:  Add left handed threads by @wavexx. Rfactoring csv2dict by @elysium31. Thanks!
 * V0.3.41  05 May 2022:  Add NFE27-619 countersunk washer by @hpbmo. Thanks!
 * V0.3.40  30 Mar 2022:  Change default ScrewToolbarGroupMode by @Roy-043. Thanks!
 * V0.3.39  27 Mar 2022:  Fix body face selection and duplicate fasteners by @Roy-043. Thanks!

@@ -273,43 +273,43 @@ def FSAddScrewCommand(type, help, dropGroup=None):
     Gui.addCommand(cmd, FSScrewCommand(type, help))
     FastenerBase.FSCommands.append(cmd, "screws", dropGroup)
 
+# Metric
 
 FSAddScrewCommand("ISO4017", "ISO 4017 Hex head screw", "Hex head")
 FSAddScrewCommand("ISO4014", "ISO 4014 Hex head bolt", "Hex head")
 FSAddScrewCommand("EN1662", "EN 1662 Hexagon bolt with flange, small series", "Hex head")
 FSAddScrewCommand("EN1665", "EN 1665 Hexagon bolt with flange, heavy series", "Hex head")
+
 FSAddScrewCommand("ISO4762", "ISO4762 Hexagon socket head cap screw", "Hexagon socket")
 FSAddScrewCommand("DIN7984", "DIN 7984 Hexagon socket head cap screws with low head", "Hexagon socket")
 FSAddScrewCommand("DIN6912", "DIN 6912 Hexagon socket head cap screws with low head with centre", "Hexagon socket")
 FSAddScrewCommand("ISO7380-1", "ISO 7380 Hexagon socket button head screw", "Hexagon socket")
 FSAddScrewCommand("ISO7380-2", "ISO 7380 Hexagon socket button head screws with collar", "Hexagon socket")
 FSAddScrewCommand("ISO10642", "ISO 10642 Hexagon socket countersunk head screw", "Hexagon socket")
-FSAddScrewCommand("ISO2009", "ISO 2009 Slotted countersunk flat head screw", "Slotted")
-FSAddScrewCommand("ISO2010", "ISO 2010 Slotted raised countersunk head screw", "Slotted")
-FSAddScrewCommand("ISO1580", "ISO 1580 Slotted pan head screw", "Slotted")
-FSAddScrewCommand("ISO1207", "ISO 1207 Slotted cheese head screw", "Slotted")
-FSAddScrewCommand("DIN967", "DIN 967 Cross recessed pan head screws with collar", "H cross")
-FSAddScrewCommand("ISO7045", "ISO 7045 Pan head screws type H cross recess", "H cross")
-FSAddScrewCommand("ISO7046", "ISO 7046 Countersunk flat head screws H cross r.", "H cross")
-FSAddScrewCommand("ISO7047", "ISO 7047 Raised countersunk head screws H cross r.", "H cross")
-FSAddScrewCommand("ISO7048", "ISO 7048 Cheese head screws with type H cross r.", "H cross")
+FSAddScrewCommand("ISO7379", "ISO 7379 Hexagon socket head shoulder screw", "Hexagon socket")
+FSAddScrewCommand("ISO4026", "ISO 4026 Hexagon socket set screws with flat point", "Hexagon socket")
+FSAddScrewCommand("ISO4027", "ISO 4027 Hexagon socket set screws with cone point", "Hexagon socket")
+FSAddScrewCommand("ISO4028", "ISO 4028 Hexagon socket set screws with dog point", "Hexagon socket")
+FSAddScrewCommand("ISO4029", "ISO 4029 Hexagon socket set screws with cup point", "Hexagon socket")
+
 FSAddScrewCommand("ISO14579", "ISO 14579 Hexalobular socket head cap screws", "Hexalobular socket")
 FSAddScrewCommand("ISO14580", "ISO 14580 Hexalobular socket cheese head screws", "Hexalobular socket")
 #FSAddScrewCommand("ISO14581", "ISO 14581 Hexalobular socket countersunk flat head screws", "Hexalobular socket")
 FSAddScrewCommand("ISO14582", "ISO 14582 Hexalobular socket countersunk head screws, high head", "Hexalobular socket")
 FSAddScrewCommand("ISO14583", "ISO 14583 Hexalobular socket pan head screws", "Hexalobular socket")
 FSAddScrewCommand("ISO14584", "ISO 14584 Hexalobular socket raised countersunk head screws", "Hexalobular socket")
-FSAddScrewCommand("ISO7379", "ISO 7379 Hexagon socket head shoulder screw", "Hexagon socket")
-FSAddScrewCommand("ISO7089", "ISO 7089 Washer", "Washer")
-FSAddScrewCommand("ISO7090", "ISO 7090 Plain Washers, chamfered - Normal series", "Washer")
-#FSAddScrewCommand("ISO7091", "ISO 7091 Plain washer - Normal series Product Grade C", "Washer")  # same as 7089??
-FSAddScrewCommand("ISO7092", "ISO 7092 Plain washers - Small series", "Washer")
-FSAddScrewCommand("ISO7093-1", "ISO 7093-1 Plain washers - Large series", "Washer")
-FSAddScrewCommand("ISO7094", "ISO 7094 Plain washers - Extra large series", "Washer")
-FSAddScrewCommand("ISO4026", "ISO 4026 Hexagon socket set screws with flat point", "Hexagon socket")
-FSAddScrewCommand("ISO4027", "ISO 4027 Hexagon socket set screws with cone point", "Hexagon socket")
-FSAddScrewCommand("ISO4028", "ISO 4028 Hexagon socket set screws with dog point", "Hexagon socket")
-FSAddScrewCommand("ISO4029", "ISO 4029 Hexagon socket set screws with cup point", "Hexagon socket")
+
+FSAddScrewCommand("ISO2009", "ISO 2009 Slotted countersunk flat head screw", "Slotted")
+FSAddScrewCommand("ISO2010", "ISO 2010 Slotted raised countersunk head screw", "Slotted")
+FSAddScrewCommand("ISO1580", "ISO 1580 Slotted pan head screw", "Slotted")
+FSAddScrewCommand("ISO1207", "ISO 1207 Slotted cheese head screw", "Slotted")
+
+FSAddScrewCommand("DIN967", "DIN 967 Cross recessed pan head screws with collar", "H cross")
+FSAddScrewCommand("ISO7045", "ISO 7045 Pan head screws type H cross recess", "H cross")
+FSAddScrewCommand("ISO7046", "ISO 7046 Countersunk flat head screws H cross r.", "H cross")
+FSAddScrewCommand("ISO7047", "ISO 7047 Raised countersunk head screws H cross r.", "H cross")
+FSAddScrewCommand("ISO7048", "ISO 7048 Cheese head screws with type H cross r.", "H cross")
+
 FSAddScrewCommand("ISO4032", "ISO 4032 Hexagon nuts, Style 1", "Nut")
 FSAddScrewCommand("ISO4033", "ISO 4033 Hexagon nuts, Style 2", "Nut")
 FSAddScrewCommand("ISO4035", "ISO 4035 Hexagon thin nuts, chamfered", "Nut")
@@ -318,11 +318,20 @@ FSAddScrewCommand("EN1661", "EN 1661 Hexagon nuts with flange", "Nut")
 FSAddScrewCommand("DIN557", "DIN 557 Square nuts", "Nut")
 FSAddScrewCommand("DIN562", "DIN 562 Square nuts", "Nut")
 FSAddScrewCommand("DIN985", "DIN 985 Nyloc nuts", "Nut")
+
+FSAddScrewCommand("ISO7089", "ISO 7089 Washer", "Washer")
+FSAddScrewCommand("ISO7090", "ISO 7090 Plain Washers, chamfered - Normal series", "Washer")
+#FSAddScrewCommand("ISO7091", "ISO 7091 Plain washer - Normal series Product Grade C", "Washer")  # same as 7089??
+FSAddScrewCommand("ISO7092", "ISO 7092 Plain washers - Small series", "Washer")
+FSAddScrewCommand("ISO7093-1", "ISO 7093-1 Plain washers - Large series", "Washer")
+FSAddScrewCommand("ISO7094", "ISO 7094 Plain washers - Extra large series", "Washer")
+FSAddScrewCommand("NFE27-619", "NFE27-619 Countersunk washer", "Washer")
+
+# Inch
+
 FSAddScrewCommand("ASMEB18.2.1.6", "ASME B18.2.1 UNC Hex head screws", "Hex head")
 FSAddScrewCommand("ASMEB18.2.1.8", "ASME B18.2.1 UNC Hex head screws with flange", "Hex head")
-FSAddScrewCommand("ASMEB18.2.2.1A", "ASME B18.2.2 UNC Machine screw nuts", "Nut")
-FSAddScrewCommand("ASMEB18.2.2.4A", "ASME B18.2.2 UNC Hexagon nuts", "Nut")
-FSAddScrewCommand("ASMEB18.2.2.4B", "ASME B18.2.2 UNC Hexagon thin nuts", "Nut")
+
 FSAddScrewCommand("ASMEB18.3.1A", "ASME B18.3 UNC Hex socket head cap screws", "Hexagon socket")
 FSAddScrewCommand("ASMEB18.3.2", "ASME B18.3 UNC Hex socket countersunk head screws", "Hexagon socket")
 FSAddScrewCommand("ASMEB18.3.3A", "ASME B18.3 UNC Hex socket button head screws", "Hexagon socket")
@@ -332,13 +341,18 @@ FSAddScrewCommand("ASMEB18.3.5A", "ASME B18.3 UNC Hexagon socket set screws with
 FSAddScrewCommand("ASMEB18.3.5B", "ASME B18.3 UNC Hexagon socket set screws with cone point", "Hexagon socket")
 FSAddScrewCommand("ASMEB18.3.5C", "ASME B18.3 UNC Hexagon socket set screws with dog point", "Hexagon socket")
 FSAddScrewCommand("ASMEB18.3.5D", "ASME B18.3 UNC Hexagon socket set screws with cup point", "Hexagon socket")
-FSAddScrewCommand("ASMEB18.5.2", "ASME B18.5 UNC Round head square neck bolts", "Other head")
+
 FSAddScrewCommand("ASMEB18.6.3.1A", "ASME B18.6.3 UNC slotted countersunk flat head screws", "Slotted")
+
+FSAddScrewCommand("ASMEB18.5.2", "ASME B18.5 UNC Round head square neck bolts", "Other head")
+
+FSAddScrewCommand("ASMEB18.2.2.1A", "ASME B18.2.2 UNC Machine screw nuts", "Nut")
+FSAddScrewCommand("ASMEB18.2.2.4A", "ASME B18.2.2 UNC Hexagon nuts", "Nut")
+FSAddScrewCommand("ASMEB18.2.2.4B", "ASME B18.2.2 UNC Hexagon thin nuts", "Nut")
+
 FSAddScrewCommand("ASMEB18.21.1.12A", "ASME B18.21.1 UN washers, narrow series", "Washer")
 FSAddScrewCommand("ASMEB18.21.1.12B", "ASME B18.21.1 UN washers, regular series", "Washer")
 FSAddScrewCommand("ASMEB18.21.1.12C", "ASME B18.21.1 UN washers, wide series", "Washer")
-FSAddScrewCommand("NFE27-619", "NFE27-619 Countersunk washer", "Washer")
-
 
 
 

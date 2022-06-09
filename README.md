@@ -123,6 +123,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes berberic2
+* V0.3.44  09 Jun 2022:  Fix fasteners buttons order by @Roy-043. Thanks!
 * V0.3.43  31 May 2022:  Fix bom issue and improve fastener naming by @wavexx. Thanks!
 * V0.3.42  30 May 2022:  Add left handed threads by @wavexx. Rfactoring csv2dict by @elysium31. Thanks!
 * V0.3.41  05 May 2022:  Add NFE27-619 countersunk washer by @hpbmo. Thanks!

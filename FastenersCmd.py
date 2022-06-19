@@ -160,8 +160,12 @@ class FSScrewObject(FSBaseObject):
         if hasattr(fp, 'thread') and fp.thread:
             threadType = 'real'
         leftHanded = fp.leftHanded
-
-        (key, s) = FastenerBase.FSGetKey(self.itemText, fp.type, d, l, threadType, leftHanded)
+        
+        # Here we are generating a new key if is not present in cache. This key is also used in method 
+        # FastenerBase.FSCacheRemoveThreaded and there the key value MUST always end with threadType, 
+        # in order to remove its old value from cache if needed. This way it will allow to correctly recompute 
+        # the threaded screws and nuts in case of changing the 3D Printing settings in Fasteners Workbench.
+        (key, s) = FastenerBase.FSGetKey(self.itemText, fp.type, d, l, leftHanded, threadType)
         if s is None:
             s = screwMaker.createFastener(fp.type, d, l, threadType, True, leftHanded)
             FastenerBase.FSCache[key] = s

@@ -123,6 +123,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes berberic2
+* V0.3.46  26 Jun 2022:  Add custom length to PCB spacers, Issue #144
 * V0.3.45  19 Jun 2022:  Fix fasteners cash issue by @algtgv. Thanks!
 * V0.3.44  09 Jun 2022:  Fix fasteners buttons order by @Roy-043. Thanks!
 * V0.3.43  31 May 2022:  Fix bom issue and improve fastener naming by @wavexx. Thanks!

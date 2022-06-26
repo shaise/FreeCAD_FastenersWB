@@ -946,7 +946,8 @@ PSPLengths = {
     'M5x8': ('10', '12', '15', '20', '25', '30', '35', '40', '50'),
     'M6x10': ('10', '15', '20', '25', '30', '35', '40', '45', '50', '60')
 }
-PSPDiameters = ['Auto', 'M2.5', 'M3', 'M4', 'M5', 'M6']
+# PSPDiameters = ['Auto', 'M2.5', 'M3', 'M4', 'M5', 'M6'] # same as stand offs
+
 PSPMTable = {
     #          Th,   id,   SW(s)
     'M2.5': (18, 2.05, ('5',)),
@@ -1027,10 +1028,27 @@ class FSPcbSpacerObject(FSBaseObject):
                         "Standoff thread diameter").diameter = PSDiameters
         widths = psGetAllWidths(PSPMTable, PSDiameters[1])
         obj.addProperty("App::PropertyEnumeration", "width", "Parameters", "Standoff body width").width = widths
-        obj.addProperty("App::PropertyEnumeration", "length", "Parameters", "Standoff length").length = psGetAllLengths(
-            PSPMTable, PSPLengths, PSDiameters[1], widths[0])
+        # obj.addProperty("App::PropertyEnumeration", "length", "Parameters", "Standoff length").length = psGetAllLengths(
+        #    PSPMTable, PSPLengths, PSDiameters[1], widths[0])
+        self.VerifyMissingAttrs(obj, PSDiameters[1], widths[0])
         obj.invert = FastenerBase.FSLastInvert
         obj.Proxy = self
+
+    def VerifyMissingAttrs(self, obj, diam, width):
+        self.updateProps(obj)
+        if not hasattr(obj, 'lengthCustom'):
+            slens = psGetAllLengths(PSPMTable, PSPLengths, diam, width)
+            if hasattr(obj, 'length'):
+                origLen = obj.length
+                obj.length = slens
+                if origLen not in slens:
+                    obj.length = slens[0]
+                else:
+                    obj.length = origLen
+            else:
+                obj.addProperty("App::PropertyEnumeration", "length", "Parameters", "Standoff length").length = slens
+            obj.addProperty("App::PropertyLength", "lengthCustom", "Parameters", "Custom length").lengthCustom = slens[
+                0]
 
     def execute(self, fp):
         '''"Print a short message when doing a recomputation, this method is mandatory" '''
@@ -1040,11 +1058,17 @@ class FSPcbSpacerObject(FSBaseObject):
         except:
             baseobj = None
             shape = None
+            
+        # for backward compatibility: add missing attribute if needed
+        self.VerifyMissingAttrs(fp, fp.diameter, fp.width)
+            
+        diameterchange = not (hasattr(self, 'diameter')) or self.diameter != fp.diameter
+        widthchange = not (hasattr(self, 'width')) or self.width != fp.width
+        lengthchange = not (hasattr(self, 'length')) or self.length != fp.length
+        cutstlenchange = not (hasattr(self, 'lengthCustom')) or self.lengthCustom != fp.lengthCustom
         self.updateProps(fp)
-        if not hasattr(self, 'diameter') or self.diameter != fp.diameter or self.width != fp.width or self.length != fp.length:
-            diameterchange = False
-            if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
-                diameterchange = True
+        #if not hasattr(self, 'diameter') or self.diameter != fp.diameter or self.width != fp.width or self.length != fp.length:
+        if diameterchange or widthchange or lengthchange or cutstlenchange:
             if fp.diameter == 'Auto':
                 d = FastenerBase.FSAutoDiameterM(shape, PSMTable, 1)
                 diameterchange = True
@@ -1056,7 +1080,7 @@ class FSPcbSpacerObject(FSBaseObject):
                 fp.diameter = d
 
             widthchange = False
-            if diameterchange or not (hasattr(self, 'width')) or self.width != fp.width:
+            if diameterchange or widthchange:
                 widthchange = True
                 if diameterchange:
                     allwidth = psGetAllWidths(PSPMTable, d)
@@ -1066,12 +1090,19 @@ class FSPcbSpacerObject(FSBaseObject):
                     else:
                         fp.width = allwidth[0]
 
-            l = psFindClosest(PSPMTable, PSPLengths, d, fp.width, fp.length)
+            if not lengthchange and hasattr(self, 'lengthCustom') and self.lengthCustom != fp.lengthCustom.Value:
+                fp.length = 'Custom'
 
-            if l != fp.length or diameterchange or widthchange:
-                if diameterchange or widthchange:
-                    fp.length = psGetAllLengths(PSPMTable, PSPLengths, fp.diameter, fp.width)
-                fp.length = l
+            if fp.length == 'Custom':
+                l = str(float(fp.lengthCustom)).rstrip("0").rstrip('.')
+            else:
+              l = psFindClosest(PSPMTable, PSPLengths, d, fp.width, fp.length)
+
+              if l != fp.length or diameterchange or widthchange:
+                  if diameterchange or widthchange:
+                      fp.length = psGetAllLengths(PSPMTable, PSPLengths, fp.diameter, fp.width)
+                  fp.length = l
+              fp.lengthCustom = l
 
             s = pspMakeSpacer(d, l, fp.width)
 

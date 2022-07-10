@@ -283,6 +283,7 @@ FSAddScrewCommand("ISO4017", "ISO 4017 Hex head screw", "Hex head")
 FSAddScrewCommand("ISO4014", "ISO 4014 Hex head bolt", "Hex head")
 FSAddScrewCommand("EN1662", "EN 1662 Hexagon bolt with flange, small series", "Hex head")
 FSAddScrewCommand("EN1665", "EN 1665 Hexagon bolt with flange, heavy series", "Hex head")
+FSAddScrewCommand("DIN571", "DIN 571 Hex head wood screw", "Hex head")
 
 FSAddScrewCommand("ISO4762", "ISO4762 Hexagon socket head cap screw", "Hexagon socket")
 FSAddScrewCommand("DIN7984", "DIN 7984 Hexagon socket head cap screws with low head", "Hexagon socket")

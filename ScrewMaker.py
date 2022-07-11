@@ -164,6 +164,7 @@ screwTables = {
     'ISO4033':  ("Nut",    FsData["iso4033def"],   None,          None,           -1, 0),
     'ISO4035':  ("Nut",    FsData["iso4035def"],   None,          None,           -1, 0),
     'EN1661':   ("Nut",    FsData["en1661def"],    None,          None,           -1, 0),
+    'DIN917':   ("Nut",    FsData["din917head"],   None,          None,           -1, 0),
     'DIN557':   ("Nut",    din557def,    None,          None,           -1, 0),
     'DIN562':   ("Nut",    din562def,    None,          None,           -1, 0),
     'DIN985':   ("Nut",    din985def,    None,          None,           -1, 0),

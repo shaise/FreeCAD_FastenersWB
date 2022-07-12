@@ -272,6 +272,7 @@ class Ui_ScrewMaker(object):
         self.ScrewType.setItemText(28, _translate("ScrewMaker", "ISO4033: Hexagon nuts, Style 2", None))
         self.ScrewType.setItemText(29, _translate("ScrewMaker", "ISO4035: Hexagon thin nuts, chamfered", None))
         self.ScrewType.setItemText(30, _translate("ScrewMaker", "EN1661: Hexagon nuts with flange", None))
+        self.ScrewType.setItemText(27, _translate("ScrewMaker", "DIN917: Cap Nut thin form", None))
         self.ScrewType.setItemText(31, _translate("ScrewMaker", "ScrewTap: ISO Screw-Tap", None))
         self.ScrewType.setItemText(32, _translate("ScrewMaker", "ScrewDie: ISO Screw-Die", None))
         self.ScrewType.setItemText(33, _translate("ScrewMaker", "ThreadedRod: DIN 975 Threaded Rod", None))
@@ -299,6 +300,7 @@ class Ui_ScrewMaker(object):
         self.ScrewType.setItemText(54, _translate("ScrewMaker", "ASMEB18.21.1.12A: UN washers, narrow series", None))
         self.ScrewType.setItemText(55, _translate("ScrewMaker", "ASMEB18.21.1.12B: UN washers, regular series", None))
         self.ScrewType.setItemText(56, _translate("ScrewMaker", "ASMEB18.21.1.12C: UN washers, wide series", None))
+        self.ScrewType.setItemText(57, _translate("ScrewMaker", "DIN571: Hexagon head wood screw", None))
 
         self.NominalDiameter.setItemText(0, _translate("ScrewMaker", "M1.6", None))
         self.NominalDiameter.setItemText(1, _translate("ScrewMaker", "M2", None))
@@ -571,6 +573,12 @@ class Screw:
             tab_range = FsData["iso14582range"]
             Type_text = 'Screw'
 
+        if ST_text == 'DIN571':
+            table = FsData["din571head"]
+            tab_len = FsData["din571length"]
+            tab_range = FsData["din571range"]
+            Type_text = 'Screw'
+ 
         if ST_text == 'ISO7089':
             table = FsData["iso7089def"]
             Type_text = 'Washer'
@@ -629,6 +637,10 @@ class Screw:
 
         if ST_text == 'EN1661':
             table = FsData["en1661def"]
+            Type_text = 'Nut'
+
+        if ST_text == 'DIN917':
+            table = FsData["din917head"]
             Type_text = 'Nut'
 
         if ST_text == 'DIN7984':
@@ -883,6 +895,10 @@ class Screw:
                     table = FsData["iso4036def"]
                 if ST_text == 'EN1661':
                     table = FsData["en1661def"]
+                if ST_text == 'DIN917':
+                    table = FsData["din917head"]
+                if ST_text == 'DIN571':
+                    table = FsData["din571head"]
                 if ST_text == 'DIN7984':
                     table = FsData["din7984def"]
                 if ST_text == 'DIN6912':
@@ -982,10 +998,18 @@ class Screw:
                     screw = self.makeIso4026(ST_text, ND_text, l)
                     Type_text = 'Screw'
                     done = True
+                if ST_text == 'DIN571':
+                    screw = self.makeDin571(ST_text, ND_text, l)
+                    Type_text = 'Screw'
+                    done = True
                 if ST_text == 'ISO4032' or ST_text == 'ISO4033' or \
                         ST_text == 'ISO4035' or ST_text == 'ASMEB18.2.2.1A' or \
                         ST_text[:-1] == 'ASMEB18.2.2.4':
                     screw = self.makeIso4032(ST_text, ND_text)
+                    Type_text = 'Nut'
+                    done = True
+                if ST_text == 'DIN917':
+                    screw = self.makeDin917(ND_text)
                     Type_text = 'Nut'
                     done = True
                 if ST_text == 'ASMEB18.5.2':
@@ -1879,6 +1903,65 @@ class Screw:
 
         return head
 
+    # DIN 571 wood-screw
+    def makeDin571(self, SType, ThreadType, l=40.0):
+        dia = float(ThreadType.split()[0])
+        ds, da, d3, k, s, P = FsData["din571head"][ThreadType]
+        d = dia / 2.0
+        r = (da-ds)/2.0
+        e = s/math.cos(math.radians(30))
+        sqrt2_ = 1.0 / math.sqrt(2.0)
+        cham = (e - s) * math.sin(math.radians(15))  # needed for chamfer at head top
+        
+        Pnt0 = Base.Vector(0.0, 0.0, k)
+        Pnt2 = Base.Vector(s / 2.0, 0.0, k)
+        Pnt3 = Base.Vector(s / math.sqrt(3.0), 0.0, k - cham)
+        Pnt4 = Base.Vector(s / math.sqrt(3.0), 0.0, 0.0)
+        Pnt7 = Base.Vector(d + r, 0.0, 0.0)  # start of fillet between head and shank
+        Pnt8 = Base.Vector(d + r - r * sqrt2_, 0.0, -r + r * sqrt2_)  # arc-point of fillet
+        Pnt9 = Base.Vector(d, 0.0, -r)  # end of fillet
+
+        edge1 = Part.makeLine(Pnt0, Pnt2)
+        edge2 = Part.makeLine(Pnt2, Pnt3)
+        edge3 = Part.makeLine(Pnt3, Pnt4)
+        edge4 = Part.makeLine(Pnt4, Pnt7)
+        edge5 = Part.Arc(Pnt7, Pnt8, Pnt9).toShape()
+
+        # create cutting tool for hexagon head
+        # Parameters s, k, outer circle diameter =  e/2.0+10.0
+        extrude = self.makeHextool(s, k, s * 2.0)
+
+        #if self.rThread:
+        #  pass
+        #else:
+        angle = math.radians(20)
+        x2 = d * math.cos(angle)
+        z2 = d * math.sin(angle)
+        z3 = x2 / math.tan(angle)
+        PntB0 = Base.Vector(d, 0.0, 0.4 * (-l + z2 + z3))
+        PntB1 = Base.Vector(d, 0.0, -l + z2 + z3)
+        PntB2 = Base.Vector(d * math.cos(angle / 2.0),
+                            0.0,
+                            -l + z2 + z3 - d * math.sin(angle / 2.0))
+        PntB3 = Base.Vector(x2, 0.0, -l + z3)
+        PntB4 = Base.Vector(0.0, 0.0, -l)
+        
+        edge6 = Part.makeLine(Pnt9, PntB0)
+        edge7 = Part.makeLine(PntB0, PntB1)
+        edge8 = Part.Arc(PntB1, PntB2, PntB3).toShape()
+        edge9 = Part.makeLine(PntB3, PntB4)
+        edgeZ0 = Part.makeLine(PntB4, Pnt0)
+        
+        aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5, edge6,\
+                           edge7, edge8, edge9, edgeZ0])
+        
+        aFace = Part.Face(aWire)
+        head = aFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
+        head = head.cut(extrude)
+        
+        return head
+
+      
     # EN 1662 Hex-head-bolt with flange - small series
     # EN 1665 Hexagon bolts with flange, heavy series
     def makeEN1662_2(self, SType='EN1662', ThreadType='M8', l=25.0):
@@ -3533,7 +3616,8 @@ class Screw:
                 nutShell = Part.Shell(nutFaces)
                 nut = Part.Solid(nutShell)
                 # Part.show(nutShell)
-
+                
+        self.makeDin517(ThreadType)
         return nut
 
     # EN 1661 Hexagon nuts with flange
@@ -3713,6 +3797,52 @@ class Screw:
 
         return nut
 
+    def makeDin917(self, ThreadType='M6'):
+        dia = self.getDia(ThreadType, True)
+        P, g2, h, r, s, t, w = FsData["din917head"][ThreadType]
+
+        H = P * math.cos(math.radians(30)) * 5.0 / 8.0 # Gewindetiefe H
+        if self.rThread: H *= 1.1
+        e = s / math.sqrt(3) * 2.0
+        cham_i = H * math.tan(math.radians(15.0))
+        cham_o = (e - s) * math.tan(math.radians(15.0))
+        d = dia / 2.0
+          
+        Pnt0 = Base.Vector(d - H, 0.0, cham_i)
+        Pnt1 = Base.Vector(d, 0.0, 0.0)
+        Pnt2 = Base.Vector(s / 2.0, 0.0, 0.0)
+        Pnt3 = Base.Vector(e / 2.0, 0.0, cham_o)
+        Pnt4 = Base.Vector(e / 2.0, 0.0, h - r + math.sqrt(r * r - e * e / 4.0))
+        Pnt5 = Base.Vector(e / 4.0, 0.0, h - r + math.sqrt(r * r - e * e / 16.0))
+        Pnt6 = Base.Vector(0.0, 0.0, h)
+        Pnt7 = Base.Vector(0.0, 0.0, h-w)
+        Pnt8 = Base.Vector(d - H, 0.0, t)
+
+        edge0 = Part.makeLine(Pnt0, Pnt1)
+        edge1 = Part.makeLine(Pnt1, Pnt2)
+        edge2 = Part.makeLine(Pnt2, Pnt3)
+        edge3 = Part.makeLine(Pnt3, Pnt4)
+        edge4 = Part.Arc(Pnt4, Pnt5, Pnt6).toShape()
+        edge5 = Part.makeLine(Pnt6, Pnt7)
+        edge6 = Part.makeLine(Pnt7, Pnt8)
+        edge7 = Part.makeLine(Pnt8, Pnt0)
+
+        aWire = Part.Wire([edge0, edge1, edge2, edge3, edge4, edge5, edge6, edge7])
+        # Part.show(aWire)
+        aFace = Part.Face(aWire)
+        head = aFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
+        extrude = self.makeHextool(s, h, s * 2.0)
+        nut = head.cut(extrude)
+
+        if self.rThread:
+          turns = int(math.floor(t/P))
+          threadCutter = self.makeInnerThread_2(dia, P, turns, None, t)
+          threadCutter.translate(Base.Vector(0.0, 0.0, turns * P))
+          nut = nut.cut(threadCutter)
+
+        return nut
+
+      
     # make ISO 7380-1 Button head Screw
     # make ISO 7380-2 Button head Screw with collar
     # make DIN 967 cross recessed pan head Screw with collar

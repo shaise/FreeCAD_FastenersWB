@@ -95,11 +95,24 @@ FSC_Inch_ScrewHoleChart = (
     ("4in", 95.0)
 )
 
+FSC_DIN7998_ScrewHoleChart = (
+    ("4 mm", 2.8),
+    ("5 mm", 3.5),
+    ("6 mm", 4.2),
+    ("8 mm", 5.6),
+    ("10 mm", 7),
+    ("12 mm", 9),
+    ("16 mm", 12),
+    ("20 mm", 25)
+)
+
 # prepare a dictionary for fast search of FSCGetInnerThread
 FSCScrewHoleChartDict = {}
 for s in FSCScrewHoleChart:
     FSCScrewHoleChartDict[s[0]] = s[1]
 for s in FSC_Inch_ScrewHoleChart:
+    FSCScrewHoleChartDict[s[0]] = s[1]
+for s in FSC_DIN7998_ScrewHoleChart:
     FSCScrewHoleChartDict[s[0]] = s[1]
 
 
@@ -113,7 +126,7 @@ screwTables = {
     #            name,    def table,   length table,  range table,  diam pos*, K pos**
     'ISO4017':  ("Screw",  FsData["iso4017head"],  FsData["iso4017length"],  FsData["iso4017range"],  -1, 0),
     'ISO4014':  ("Screw",  FsData["iso4014head"],  FsData["iso4014length"],  FsData["iso4014range"],  -1, 0),
-    'EN1662':   ("Screw",  FsData["en1662def"],    FsData["en1662length"],   FsData["en1662range"],   -1, 0),            
+    'EN1662':   ("Screw",  FsData["en1662def"],    FsData["en1662length"],   FsData["en1662range"],   -1, 0),
     'EN1665':   ("Screw",  FsData["en1665def"],    FsData["en1665length"],   FsData["en1665range"],   -1, 0),
     'ISO2009':  ("Screw",  FsData["iso2009def"],   FsData["iso2009length"],  FsData["iso2009range"],  4, 5),
     'ISO2010':  ("Screw",  FsData["iso2009def"],   FsData["iso2009length"],  FsData["iso2009range"],  4, 5),
@@ -136,6 +149,7 @@ screwTables = {
     'ISO14584': ("Screw",  FsData["iso14584def"],  FsData["iso7045length"],  FsData["iso14584range"],  3, 5),
     'DIN7984':  ("Screw",  FsData["din7984def"],   FsData["din7984length"],  FsData["din7984range"], -1, 0),
     'DIN6912':  ("Screw",  FsData["din6912def"],   FsData["din6912length"],  FsData["din6912range"], -1, 0),
+    'DIN571':   ("Screw",  FsData["din571head"],   FsData["din571length"],   FsData["din571range"],  -1, 0),
     'ISO7089':  ("Washer", FsData["iso7089def"],   None,          None,           -1, 0),
     'ISO7090':  ("Washer", FsData["iso7090def"],   None,          None,           -1, 0),
     'ISO7092':  ("Washer", FsData["iso7092def"],   None,          None,           -1, 0),
@@ -150,6 +164,7 @@ screwTables = {
     'ISO4033':  ("Nut",    FsData["iso4033def"],   None,          None,           -1, 0),
     'ISO4035':  ("Nut",    FsData["iso4035def"],   None,          None,           -1, 0),
     'EN1661':   ("Nut",    FsData["en1661def"],    None,          None,           -1, 0),
+    'DIN917':   ("Nut",    FsData["din917head"],   None,          None,           -1, 0),
     'DIN557':   ("Nut",    din557def,    None,          None,           -1, 0),
     'DIN562':   ("Nut",    din562def,    None,          None,           -1, 0),
     'DIN985':   ("Nut",    din985def,    None,          None,           -1, 0),
@@ -234,6 +249,8 @@ class FSScrewMaker(Screw):
             res = '1/4in'
         elif '#10' in self.GetAllDiams(type):
             res = '#10'
+        elif '6 mm' in self.GetAllDiams(type):
+            res = '6 mm'
         # matchOuter = FastenerBase.FSMatchOuter
         if baseobj is not None and baseobj.Name.startswith("Washer"):
             matchOuter = True

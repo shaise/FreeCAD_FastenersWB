@@ -1947,7 +1947,7 @@ class Screw:
         # create helix for tip thread part
         numTurns = math.floor(tipH / p)
         #Part.show(hlx)
-        hlx = Part.makeHelix(p, numTurns * p, 5, 0, self.leftHanded)
+        hlx = Part.makeLongHelix(p, numTurns * p, 5, 0, self.leftHanded)
         sweep = Part.BRepOffsetAPI.MakePipeShell(hlx)
         sweep.setFrenetMode(True)
         sweep.setTransitionMode(1)  # right corner transition
@@ -1963,7 +1963,7 @@ class Screw:
             raise RuntimeError("Failed to create woodscrew tip thread")
 
         # create helix for body thread part
-        hlx = Part.makeHelix(p, zs - ze, 5, 0, self.leftHanded)
+        hlx = Part.makeLongHelix(p, zs - ze, 5, 0, self.leftHanded)
         hlx.translate(FreeCAD.Vector(0.0, 0.0, tipH))
         sweep = Part.BRepOffsetAPI.MakePipeShell(hlx)
         sweep.setFrenetMode(True)
@@ -1978,7 +1978,11 @@ class Screw:
         else:
             raise RuntimeError("Failed to create woodscrew body thread")
 
-        return body_solid.fuse(tip_solid)
+        thread_solid = body_solid.fuse(tip_solid)
+        # rotate the thread solid to prevent OCC errors due to cylinder seams aligning
+        thread_solid.rotate(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 180)
+        #Part.show(thread_solid, "thread_solid")
+        return thread_solid
 
 
 

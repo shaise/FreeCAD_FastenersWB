@@ -123,6 +123,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes 
+* V0.3.48  13 Jul 2022:  Add DIN7998 wood screw thread creation
 * V0.3.47  12 Jul 2022:  Add DIN571 wood screw and DIN917 nut cap by @berberic2. Thanks!
 * V0.3.46  26 Jun 2022:  Add custom length to PCB spacers, Issue #144
 * V0.3.45  19 Jun 2022:  Fix fasteners cash issue by @algtgv. Thanks!

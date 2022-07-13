@@ -85,6 +85,7 @@ __author__ = "Ulrich Brammer <ulrich1a@users.sourceforge.net>"
 
 
 
+import errno
 import FreeCAD, FreeCADGui, Part, math, os
 from FreeCAD import Base
 import DraftVecUtils
@@ -1903,11 +1904,90 @@ class Screw:
 
         return head
 
+    # DIN 7998 Wood Thread
+    # zs: z position of start of the threaded part
+    # ze: z position of end of the flat portion of screw (just where the tip starts) 
+    # zt: z position of screw tip
+    # ro: outer radius
+    # ri: inner radius
+    # p:  thread pitch
+    def makeDin7998Thread(self, zs, ze, zt, ri, ro, p):
+        epsilon = 0.075                           # epsilon needed since OCCT struggle to handle overlaps
+        tph = ro - ri                           # thread profile height
+        tphb = tph / math.tan(math.radians(60)) # thread profile half base
+        tpratio = 0.5                           # size ratio between tip start thread and standard thread 
+        tph2 = tph * tpratio
+        tphb2 = tphb * tpratio
+        tipH = ze - zt
+        # tip thread profile
+        Pnt0a = FreeCAD.Vector(0.0, 0.0, -tphb2)
+        Pnt1a = FreeCAD.Vector(0.0, 0.0, tphb2)
+        Pnt2a = FreeCAD.Vector(2.0 * tphb2, 0.0, tphb2)
+
+        edge1a = Part.makeLine(Pnt0a, Pnt1a)
+        edge2a = Part.makeLine(Pnt1a, Pnt2a)
+        edge3a = Part.makeLine(Pnt2a, Pnt0a)
+
+        aWire = Part.Wire([edge1a, edge2a, edge3a])
+        aWire.translate(FreeCAD.Vector(epsilon, 0.0, 3.0 * tphb2))
+
+        # top thread profile
+        Pnt0b = FreeCAD.Vector(0.0, 0.0, -tphb)
+        Pnt1b = FreeCAD.Vector(0.0, 0.0, tphb)
+        Pnt2b = FreeCAD.Vector(tph, 0.0, 0.0)
+
+        edge1b = Part.makeLine(Pnt0b, Pnt1b)
+        edge2b = Part.makeLine(Pnt1b, Pnt2b)
+        edge3b = Part.makeLine(Pnt2b, Pnt0b)
+
+        bWire = Part.Wire([edge1b, edge2b, edge3b])
+        #bWire.translate(FreeCAD.Vector(ri - epsilon, 0.0, ze + tphb))
+        bWire.translate(FreeCAD.Vector(ri - 3.0 * epsilon, 0.0, tphb + tipH))
+        
+        # create helix for tip thread part
+        numTurns = math.floor(tipH / p)
+        #Part.show(hlx)
+        hlx = Part.makeHelix(p, numTurns * p, 5, 0, self.leftHanded)
+        sweep = Part.BRepOffsetAPI.MakePipeShell(hlx)
+        sweep.setFrenetMode(True)
+        sweep.setTransitionMode(1)  # right corner transition
+        sweep.add(aWire)
+        sweep.add(bWire)
+        if sweep.isReady():
+            sweep.build()
+            sweep.makeSolid()
+            tip_solid = sweep.shape()
+            tip_solid.translate(FreeCAD.Vector(0.0, 0.0, zt))
+            #Part.show(tip_solid)
+        else:
+            raise RuntimeError("Failed to create woodscrew tip thread")
+
+        # create helix for body thread part
+        hlx = Part.makeHelix(p, zs - ze, 5, 0, self.leftHanded)
+        hlx.translate(FreeCAD.Vector(0.0, 0.0, tipH))
+        sweep = Part.BRepOffsetAPI.MakePipeShell(hlx)
+        sweep.setFrenetMode(True)
+        sweep.setTransitionMode(1)  # right corner transition
+        sweep.add(bWire)
+        if sweep.isReady():
+            sweep.build()
+            sweep.makeSolid()
+            body_solid = sweep.shape()
+            body_solid.translate(FreeCAD.Vector(0.0, 0.0, zt))
+            #Part.show(body_solid)
+        else:
+            raise RuntimeError("Failed to create woodscrew body thread")
+
+        return body_solid.fuse(tip_solid)
+
+
+
     # DIN 571 wood-screw
     def makeDin571(self, SType, ThreadType, l=40.0):
         dia = float(ThreadType.split()[0])
         ds, da, d3, k, s, P = FsData["din571head"][ThreadType]
         d = dia / 2.0
+        d3h = d3 / 2.0
         r = (da-ds)/2.0
         e = s/math.cos(math.radians(30))
         sqrt2_ = 1.0 / math.sqrt(2.0)
@@ -1934,30 +2014,46 @@ class Screw:
         #if self.rThread:
         #  pass
         #else:
+        if self.rThread:
+            dt = d3 / 2.0
+        else:
+            dt = d
         angle = math.radians(20)
-        x2 = d * math.cos(angle)
-        z2 = d * math.sin(angle)
+        x2 = dt * math.cos(angle)
+        z2 = dt * math.sin(angle)
         z3 = x2 / math.tan(angle)
-        PntB0 = Base.Vector(d, 0.0, 0.4 * (-l + z2 + z3))
-        PntB1 = Base.Vector(d, 0.0, -l + z2 + z3)
-        PntB2 = Base.Vector(d * math.cos(angle / 2.0),
+        ftl = l - z2 - z3 # flat part (total length - tip)
+        PntB0 = Base.Vector(d, 0.0, 0.4 * -ftl)
+        PntB1 = Base.Vector(dt, 0.0, -ftl)
+        PntB2 = Base.Vector(dt * math.cos(angle / 2.0),
                             0.0,
                             -l + z2 + z3 - d * math.sin(angle / 2.0))
         PntB3 = Base.Vector(x2, 0.0, -l + z3)
         PntB4 = Base.Vector(0.0, 0.0, -l)
         
         edge6 = Part.makeLine(Pnt9, PntB0)
-        edge7 = Part.makeLine(PntB0, PntB1)
         edge8 = Part.Arc(PntB1, PntB2, PntB3).toShape()
         edge9 = Part.makeLine(PntB3, PntB4)
         edgeZ0 = Part.makeLine(PntB4, Pnt0)
         
-        aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5, edge6,\
+        if self.rThread:
+            PntB0t = Base.Vector(dt, 0.0, 0.4 * -ftl - (d - dt))
+            edge7 = Part.makeLine(PntB0, PntB0t)
+            edge7t = Part.makeLine(PntB0t, PntB1)
+            aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5, edge6,\
+                           edge7, edge7t, edge8, edge9, edgeZ0])
+        else:
+            edge7 = Part.makeLine(PntB0, PntB1)
+            aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5, edge6,\
                            edge7, edge8, edge9, edgeZ0])
         
         aFace = Part.Face(aWire)
         head = aFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
         head = head.cut(extrude)
+        if self.rThread:
+            thread = self.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d3h, d, P)
+            #Part.show(thread)
+            head = head.fuse(thread)
         
         return head
 

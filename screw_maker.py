@@ -1912,7 +1912,7 @@ class Screw:
     # ri: inner radius
     # p:  thread pitch
     def makeDin7998Thread(self, zs, ze, zt, ri, ro, p):
-        epsilon = 0.075                           # epsilon needed since OCCT struggle to handle overlaps
+        epsilon = 0.03                          # epsilon needed since OCCT struggle to handle overlaps
         tph = ro - ri                           # thread profile height
         tphb = tph / math.tan(math.radians(60)) # thread profile half base
         tpratio = 0.5                           # size ratio between tip start thread and standard thread 
@@ -1942,7 +1942,7 @@ class Screw:
 
         bWire = Part.Wire([edge1b, edge2b, edge3b])
         #bWire.translate(FreeCAD.Vector(ri - epsilon, 0.0, ze + tphb))
-        bWire.translate(FreeCAD.Vector(ri - 3.0 * epsilon, 0.0, tphb + tipH))
+        bWire.translate(FreeCAD.Vector(ri - epsilon, 0.0, tphb + tipH))
         
         # create helix for tip thread part
         numTurns = math.floor(tipH / p)

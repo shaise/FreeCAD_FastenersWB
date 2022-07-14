@@ -644,6 +644,10 @@ class Screw:
             table = FsData["din917head"]
             Type_text = 'Nut'
 
+        if ST_text == 'DIN1587':
+            table = FsData["din1587def"]
+            Type_text = 'Nut'
+
         if ST_text == 'DIN7984':
             table = FsData["din7984def"]
             tab_len = FsData["din7984length"]
@@ -898,6 +902,8 @@ class Screw:
                     table = FsData["en1661def"]
                 if ST_text == 'DIN917':
                     table = FsData["din917head"]
+                if ST_text == 'DIN1587':
+                   table = FsData["din1587def"]
                 if ST_text == 'DIN571':
                     table = FsData["din571head"]
                 if ST_text == 'DIN7984':
@@ -1011,6 +1017,10 @@ class Screw:
                     done = True
                 if ST_text == 'DIN917':
                     screw = self.makeDin917(ND_text)
+                    Type_text = 'Nut'
+                    done = True
+                if (ST_text == 'DIN1587'):
+                    screw = self.makeDin1587(ST_text, ND_text)
                     Type_text = 'Nut'
                     done = True
                 if ST_text == 'ASMEB18.5.2':
@@ -3942,7 +3952,67 @@ class Screw:
 
         return nut
 
-      
+    def makeDin1587(self, SType="DIN1587", ThreadType="M6"):
+        """
+        Creates a cap (or 'acorn') nut.
+        Supported Types:
+          - DIN1587
+        """
+        dia = self.getDia(ThreadType, True)
+        if SType == "DIN1587":
+            P, d_k, h, m, s, t = FsData["din1587def"][ThreadType]
+        else:
+            raise RuntimeError("unknown screw type")
+        pnts = list(
+            map(
+                lambda x: Base.Vector(x),
+                [
+                    [0, 0, 1.1 * dia / 4],
+                    [1.1 * dia / 2, 0, 0],
+                    [s / 2, 0, 0],
+                    [s * math.sqrt(3) / 3, 0, 0.045 * s],
+                    [s * math.sqrt(3) / 3, 0, m - 0.045 * s],
+                    [s / 2, 0, m],
+                    [d_k / 2, 0, m],
+                    [d_k / 2 * math.sqrt(2) / 2, 0, m + d_k / 2 * math.sqrt(2) / 2],
+                    [0, 0, m + d_k / 2],
+                ],
+            )
+        )
+        profile = Part.Wire(
+            [
+                Part.makeLine(pnts[0], pnts[1]),
+                Part.makeLine(pnts[1], pnts[2]),
+                Part.makeLine(pnts[2], pnts[3]),
+                Part.makeLine(pnts[3], pnts[4]),
+                Part.makeLine(pnts[4], pnts[5]),
+                Part.makeLine(pnts[5], pnts[6]),
+                Part.Arc(pnts[6], pnts[7], pnts[8]).toShape(),
+                Part.makeLine(pnts[8], pnts[0]),
+            ]
+        )
+        shell = profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+        solid = Part.Solid(shell)
+        # create an additional solid to cut the hex flats with
+        mhex = Base.Matrix()
+        mhex.rotateZ(math.radians(60.0))
+        polygon = []
+        vhex = Base.Vector(s / math.sqrt(3), 0, 0)
+        for i in range(6):
+            polygon.append(vhex)
+            vhex = mhex.multiply(vhex)
+        polygon.append(vhex)
+        hexagon = Part.makePolygon(polygon)
+        hexFace = Part.Face(hexagon)
+        solidHex = hexFace.extrude(Base.Vector(0.0, 0.0, h * 1.1))
+        solid = solid.common(solidHex)
+        # cut the threads
+        tap_tool = self.makeScrewTap("ScrewTap", ThreadType, t)
+        tap_tool.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
+        tap_tool.translate(Base.Vector(0, 0, -1 * P))
+        solid = solid.cut(tap_tool)
+        return solid
+
     # make ISO 7380-1 Button head Screw
     # make ISO 7380-2 Button head Screw with collar
     # make DIN 967 cross recessed pan head Screw with collar
@@ -3983,7 +4053,6 @@ class Screw:
             aWire = Part.Wire([edge1, edge2, edge3])
             headShell = aWire.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
             screwTap = Part.Solid(headShell)
-            screwTap.translate(Base.Vector(0.0, 0.0, -12.7))
         return screwTap
 
     # make object to cut external threads on a shaft

@@ -3716,8 +3716,6 @@ class Screw:
                 nutShell = Part.Shell(nutFaces)
                 nut = Part.Solid(nutShell)
                 # Part.show(nutShell)
-                
-        self.makeDin517(ThreadType)
         return nut
 
     # EN 1661 Hexagon nuts with flange

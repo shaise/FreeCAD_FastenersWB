@@ -3355,7 +3355,7 @@ class Screw:
         # NOTE: makeLongHelix creates slightly conical
         # helices unless the 4th parameter is set to 0!
         main_helix = Part.makeLongHelix(P, helix_height, dia / 2, 0, self.leftHanded)
-        lead_out_helix = Part.makeHelix(P, P / 2, dia / 2 + 0.5 * (5 / 8 * H + 0.5 * fillet_r), 0, self.leftHanded)
+        lead_out_helix = Part.makeLongHelix(P, P / 2, dia / 2 + 0.5 * (5 / 8 * H + 0.5 * fillet_r), 0, self.leftHanded)
         main_helix.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
         lead_out_helix.translate(Base.Vector(0.5 * (-1 * (5 / 8 * H + 0.5 * fillet_r)), 0, 0))
         sweep_path = Part.Wire([main_helix, lead_out_helix])
@@ -3410,7 +3410,7 @@ class Screw:
         H = P * math.cos(math.radians(30))  # Thread depth H
         r = d / 2.0
 
-        helix = Part.makeHelix(P, P, d * self.Tuner / 1000.0, 0, self.leftHanded)  # make just one turn, length is identical to pitch
+        helix = Part.makeLongHelix(P, P, d * self.Tuner / 1000.0, 0, self.leftHanded)  # make just one turn, length is identical to pitch
         helix.translate(FreeCAD.Vector(0.0, 0.0, -P * 9.0 / 16.0))
 
         extra_rad = P

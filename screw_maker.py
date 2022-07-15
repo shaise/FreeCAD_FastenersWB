@@ -3971,9 +3971,10 @@ class Screw:
                     [s * math.sqrt(3) / 3, 0, 0.045 * s],
                     [s * math.sqrt(3) / 3, 0, m - 0.045 * s],
                     [s / 2, 0, m],
-                    [d_k / 2, 0, m],
-                    [d_k / 2 * math.sqrt(2) / 2, 0, m + d_k / 2 * math.sqrt(2) / 2],
-                    [0, 0, m + d_k / 2],
+                    [d_k / 2, 0, m ],
+                    [d_k / 2, 0, h - d_k / 2 ],
+                    [d_k / 2 * math.sqrt(2) / 2, 0, h - d_k / 2 + d_k / 2 * math.sqrt(2) / 2],
+                    [0, 0, h],
                 ],
             )
         )
@@ -3985,8 +3986,9 @@ class Screw:
                 Part.makeLine(pnts[3], pnts[4]),
                 Part.makeLine(pnts[4], pnts[5]),
                 Part.makeLine(pnts[5], pnts[6]),
-                Part.Arc(pnts[6], pnts[7], pnts[8]).toShape(),
-                Part.makeLine(pnts[8], pnts[0]),
+                Part.makeLine(pnts[6], pnts[7]),
+                Part.Arc(pnts[7], pnts[8], pnts[9]).toShape(),
+                Part.makeLine(pnts[9], pnts[0]),
             ]
         )
         shell = profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)

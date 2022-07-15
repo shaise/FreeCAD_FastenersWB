@@ -340,6 +340,7 @@ FSAddScrewCommand("ASMEB18.2.1.6", "ASME B18.2.1 UNC Hex head screws", "Hex head
 FSAddScrewCommand("ASMEB18.2.1.8", "ASME B18.2.1 UNC Hex head screws with flange", "Hex head")
 
 FSAddScrewCommand("ASMEB18.3.1A", "ASME B18.3 UNC Hex socket head cap screws", "Hexagon socket")
+FSAddScrewCommand("ASMEB18.3.1G", "ASME B18.3 UNC Hex socket head cap screws with low head", "Hexagon socket")
 FSAddScrewCommand("ASMEB18.3.2", "ASME B18.3 UNC Hex socket countersunk head screws", "Hexagon socket")
 FSAddScrewCommand("ASMEB18.3.3A", "ASME B18.3 UNC Hex socket button head screws", "Hexagon socket")
 FSAddScrewCommand("ASMEB18.3.3B", "ASME B18.3 UNC Hex socket button head screws with flange", "Hexagon socket")

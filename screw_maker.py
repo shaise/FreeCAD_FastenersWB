@@ -696,6 +696,12 @@ class Screw:
             tab_range = FsData["asmeb18.3.1arange"]
             Type_text = 'Screw'
 
+        if ST_text == 'ASMEB18.3.1G':
+            table = FsData["asmeb18.3.1gdef"]
+            tab_len = FsData["inch_fs_length"]
+            tab_range = FsData["asmeb18.3.1arange"]
+            Type_text = 'Screw'
+
         if ST_text == 'ASMEB18.3.3A':
             table = FsData["asmeb18.3.3adef"]
             tab_len = FsData["inch_fs_length"]
@@ -922,6 +928,8 @@ class Screw:
                     table = FsData["asmeb18.2.2.4def"]
                 if ST_text == 'ASMEB18.3.1A':
                     table = FsData["asmeb18.3.1adef"]
+                if ST_text == 'ASMEB18.3.1G':
+                    table = FsData["asmeb18.3.1gdef"]
                 if ST_text == 'ASMEB18.3.2':
                     table = FsData["asmeb18.3.2def"]
                 if ST_text == 'ASMEB18.3.3A':
@@ -964,8 +972,9 @@ class Screw:
                     screw = self.makeSlottedScrew(ST_text, ND_text, l)
                     Type_text = 'Screw'
                     done = True
-                if ST_text == 'ISO4762' or ST_text == 'ISO14579' or ST_text == 'DIN7984' or \
-                        ST_text == 'DIN6912' or ST_text == 'ASMEB18.3.1A':
+                if ST_text == 'ISO4762' or ST_text == 'ISO14579' or \
+                        ST_text == 'DIN7984' or ST_text == 'DIN6912' or \
+                        ST_text == 'ASMEB18.3.1A' or ST_text == 'ASMEB18.3.1G':
                     screw = self.makeIso4762(ST_text, ND_text, l)
                     Type_text = 'Screw'
                     done = True
@@ -2577,8 +2586,17 @@ class Screw:
             # recess and recess shell.
             PntH1 = Base.Vector(A / 1.99, 0.0, 2.0 * k)
 
-        elif SType == 'DIN7984':
-            P, b, dk_max, da, ds_min, e, k, r, s_mean, t, v, dw = FsData["din7984def"][ThreadType]
+        elif SType == 'DIN7984' or SType == 'ASMEB18.3.1G':
+            if SType == 'DIN7984':
+                P, b, dk_max, da, ds_min, e, k, r, s_mean, t, v, dw = FsData["din7984def"][ThreadType]
+            elif SType == 'ASMEB18.3.1G':
+                P, b, A, H, C_max, J, T, K, r = (x*25.4 for x in FsData["asmeb18.3.1gdef"][ThreadType])
+                dk_max = A
+                k = H
+                v = C_max
+                s_mean = J
+                t = T
+                dw = A - K
             e_cham = 2.0 * s_mean / math.sqrt(3.0)
             # Head Points 45° countersunk
             Pnt0 = Base.Vector(0.0, 0.0, k - e_cham / 1.99 / 2.0)  # Center Point for countersunk
@@ -2623,38 +2641,8 @@ class Screw:
         hWire = Part.Wire([edge1, edgeH1, edgeH2, edgeH3])  # Cutter for recess-Shell
         hFace = Part.Face(hWire)
         hCut = hFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
-        # Part.show(hWire)
-        '''
-
-
-    PntH2 = Base.Vector(A/8.0,0.0, 2.0*k)
-    edgeH1 = Part.makeLine(Pnt1,PntH1)
-    edgeH2 = Part.makeLine(PntH1,PntH2)
-    edgeH3 = Part.makeLine(PntH2,PntFlat)
-    hWire = Part.Wire([edgeCham1,edgeH1,edgeH2,edgeH3]) # Cutter for recess-Shell
-    hFace = Part.Face(hWire)
-    hCut = hFace.revolve(Base.Vector(0.0,0.0,0.0),Base.Vector(0.0,0.0,1.0),360)
-    #Part.show(hWire)
-    '''
 
         sqrt2_ = 1.0 / math.sqrt(2.0)
-        # depth = s_mean / 3.0
-
-        '''
-    if (b > l - 2*P):
-       bmax = l-2*P
-    else:
-       bmax = b
-    halfturns = round(2.0*(bmax+P)/P) # number of thread turns
-    if self.RealThread.isChecked():
-      a_real = l-(halfturns+2)*P/2.0  # point to fuse real thread
-    else:
-      a_real = l-halfturns*P/2.0  # starting point of thread
-    if a_real < r:
-      a_point = r*1.3
-    else:
-      a_point = a_real
-    '''
 
         if b > l - 1.0 * P:
             bmax = l - 1.0 * P
@@ -2693,22 +2681,6 @@ class Screw:
         edge5 = Part.makeLine(Pnt5, Pnt6)
         edge6 = Part.makeLine(Pnt6, Pnt7)
         edge7 = Part.Arc(Pnt7, Pnt8, Pnt9).toShape()
-
-        '''
-    # bolt points
-    PntB1 = Base.Vector(dia/2.0,0.0,-l-P)  # Chamfer is made with a cut later
-    PntB2 = Base.Vector(0.0,0.0,-l-P)
-    #PntB3 = Base.Vector(0.0,0.0,-l)
-
-    edgeB0 = Part.makeLine(Pnt10,PntB1)
-    edgeB1 = Part.makeLine(PntB1,PntB2)
-    #edgeB2 = Part.makeLine(PntB2,PntB3)
-    edgeZ0 = Part.makeLine(PntB2,Pnt0)
-
-
-    aWire=Part.Wire([edge1,edge2,edge3,edge4,edge5,edge6,edge7,edge8, \
-        edgeB0, edgeB1, edgeZ0])
-    '''
 
         if self.rThread:
             aWire = Part.Wire([edge2, edge3, edge4, edge5, edge6, edge7])

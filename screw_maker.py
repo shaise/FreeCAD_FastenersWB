@@ -3944,8 +3944,9 @@ class Screw:
                     [s * math.sqrt(3) / 3, 0, m - 0.045 * s],
                     [s / 2, 0, m],
                     [d_k / 2, 0, m],
-                    [d_k / 2 * math.sqrt(2) / 2, 0, m + d_k / 2 * math.sqrt(2) / 2],
-                    [0, 0, m + d_k / 2],
+                    [d_k / 2, 0, h - d_k / 2],
+                    [d_k / 2 * math.sqrt(2) / 2, 0, h - d_k / 2 + d_k / 2 * math.sqrt(2) / 2],
+                    [0, 0, h],
                 ],
             )
         )
@@ -3957,8 +3958,9 @@ class Screw:
                 Part.makeLine(pnts[3], pnts[4]),
                 Part.makeLine(pnts[4], pnts[5]),
                 Part.makeLine(pnts[5], pnts[6]),
-                Part.Arc(pnts[6], pnts[7], pnts[8]).toShape(),
-                Part.makeLine(pnts[8], pnts[0]),
+                Part.makeLine(pnts[6], pnts[7]),
+                Part.Arc(pnts[7], pnts[8], pnts[9]).toShape(),
+                Part.makeLine(pnts[9], pnts[0]),
             ]
         )
         shell = profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
@@ -3980,6 +3982,32 @@ class Screw:
         tap_tool = self.makeScrewTap("ScrewTap", ThreadType, t)
         tap_tool.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
         tap_tool.translate(Base.Vector(0, 0, -1 * P))
+        tc_points = list(
+            map(
+                lambda x: Base.Vector(x),
+                [
+                    (0, 0, t - P),
+                    (1.1 * dia / 2, 0, t - P - 1.1 * dia / 8),
+                    (1.1 * dia / 2, 0, h),
+                    (0, 0, h)
+                ]
+            )
+        )
+        thread_chamfer_profile = Part.Wire(
+            [
+                Part.makeLine(tc_points[0], tc_points[1]),
+                Part.makeLine(tc_points[1], tc_points[2]),
+                Part.makeLine(tc_points[2], tc_points[3]),
+                Part.makeLine(tc_points[3], tc_points[0]),
+            ]
+        )
+        cham_shell = thread_chamfer_profile.revolve(
+            Base.Vector(0, 0, 0),
+            Base.Vector(0, 0, 1),
+            360
+        )
+        thread_chamfer = Part.Solid(cham_shell)
+        tap_tool = tap_tool.cut(thread_chamfer)
         solid = solid.cut(tap_tool)
         return solid
 

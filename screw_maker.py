@@ -696,6 +696,12 @@ class Screw:
             tab_range = FsData["asmeb18.3.1arange"]
             Type_text = 'Screw'
 
+        if ST_text == 'ASMEB18.3.1G':
+            table = FsData["asmeb18.3.1gdef"]
+            tab_len = FsData["inch_fs_length"]
+            tab_range = FsData["asmeb18.3.1arange"]
+            Type_text = 'Screw'
+
         if ST_text == 'ASMEB18.3.3A':
             table = FsData["asmeb18.3.3adef"]
             tab_len = FsData["inch_fs_length"]
@@ -922,6 +928,8 @@ class Screw:
                     table = FsData["asmeb18.2.2.4def"]
                 if ST_text == 'ASMEB18.3.1A':
                     table = FsData["asmeb18.3.1adef"]
+                if ST_text == 'ASMEB18.3.1G':
+                    table = FsData["asmeb18.3.1gdef"]
                 if ST_text == 'ASMEB18.3.2':
                     table = FsData["asmeb18.3.2def"]
                 if ST_text == 'ASMEB18.3.3A':
@@ -964,8 +972,9 @@ class Screw:
                     screw = self.makeSlottedScrew(ST_text, ND_text, l)
                     Type_text = 'Screw'
                     done = True
-                if ST_text == 'ISO4762' or ST_text == 'ISO14579' or ST_text == 'DIN7984' or \
-                        ST_text == 'DIN6912' or ST_text == 'ASMEB18.3.1A':
+                if ST_text == 'ISO4762' or ST_text == 'ISO14579' or \
+                        ST_text == 'DIN7984' or ST_text == 'DIN6912' or \
+                        ST_text == 'ASMEB18.3.1A' or ST_text == 'ASMEB18.3.1G':
                     screw = self.makeIso4762(ST_text, ND_text, l)
                     Type_text = 'Screw'
                     done = True
@@ -2431,8 +2440,17 @@ class Screw:
             # recess and recess shell.
             PntH1 = Base.Vector(A / 1.99, 0.0, 2.0 * k)
 
-        elif SType == 'DIN7984':
-            P, b, dk_max, da, ds_min, e, k, r, s_mean, t, v, dw = FsData["din7984def"][ThreadType]
+        elif SType == 'DIN7984' or SType == 'ASMEB18.3.1G':
+            if SType == 'DIN7984':
+                P, b, dk_max, da, ds_min, e, k, r, s_mean, t, v, dw = FsData["din7984def"][ThreadType]
+            elif SType == 'ASMEB18.3.1G':
+                P, b, A, H, C_max, J, T, K, r = (x*25.4 for x in FsData["asmeb18.3.1gdef"][ThreadType])
+                dk_max = A
+                k = H
+                v = C_max
+                s_mean = J
+                t = T
+                dw = A - K
             e_cham = 2.0 * s_mean / math.sqrt(3.0)
             # Head Points 45° countersunk
             Pnt0 = Base.Vector(0.0, 0.0, k - e_cham / 1.99 / 2.0)  # Center Point for countersunk
@@ -3730,8 +3748,9 @@ class Screw:
                     [s * math.sqrt(3) / 3, 0, m - 0.045 * s],
                     [s / 2, 0, m],
                     [d_k / 2, 0, m],
-                    [d_k / 2 * math.sqrt(2) / 2, 0, m + d_k / 2 * math.sqrt(2) / 2],
-                    [0, 0, m + d_k / 2],
+                    [d_k / 2, 0, h - d_k / 2],
+                    [d_k / 2 * math.sqrt(2) / 2, 0, h - d_k / 2 + d_k / 2 * math.sqrt(2) / 2],
+                    [0, 0, h],
                 ],
             )
         )
@@ -3743,8 +3762,9 @@ class Screw:
                 Part.makeLine(pnts[3], pnts[4]),
                 Part.makeLine(pnts[4], pnts[5]),
                 Part.makeLine(pnts[5], pnts[6]),
-                Part.Arc(pnts[6], pnts[7], pnts[8]).toShape(),
-                Part.makeLine(pnts[8], pnts[0]),
+                Part.makeLine(pnts[6], pnts[7]),
+                Part.Arc(pnts[7], pnts[8], pnts[9]).toShape(),
+                Part.makeLine(pnts[9], pnts[0]),
             ]
         )
         shell = profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
@@ -3766,6 +3786,32 @@ class Screw:
         tap_tool = self.makeScrewTap("ScrewTap", ThreadType, t)
         tap_tool.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
         tap_tool.translate(Base.Vector(0, 0, -1 * P))
+        tc_points = list(
+            map(
+                lambda x: Base.Vector(x),
+                [
+                    (0, 0, t - P),
+                    (1.1 * dia / 2, 0, t - P - 1.1 * dia / 8),
+                    (1.1 * dia / 2, 0, h),
+                    (0, 0, h)
+                ]
+            )
+        )
+        thread_chamfer_profile = Part.Wire(
+            [
+                Part.makeLine(tc_points[0], tc_points[1]),
+                Part.makeLine(tc_points[1], tc_points[2]),
+                Part.makeLine(tc_points[2], tc_points[3]),
+                Part.makeLine(tc_points[3], tc_points[0]),
+            ]
+        )
+        cham_shell = thread_chamfer_profile.revolve(
+            Base.Vector(0, 0, 0),
+            Base.Vector(0, 0, 1),
+            360
+        )
+        thread_chamfer = Part.Solid(cham_shell)
+        tap_tool = tap_tool.cut(thread_chamfer)
         solid = solid.cut(tap_tool)
         return solid
 

@@ -123,6 +123,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes 
+* V0.3.51  08 Aug 2022:  Refactor MakeShellthread to simplify function interface. 
+* V0.3.50  17 Jul 2022:  Add inch socket low head cap screws by @alexneufeld. Thanks!
 * V0.3.49  14 Jul 2022:  Add DIN 1587 Cap Nuts by @alexneufeld. Thanks!
 * V0.3.48  13 Jul 2022:  Add DIN7998 wood screw thread creation. Helped by @alexneufeld. Thanks!
 * V0.3.47  12 Jul 2022:  Add DIN571 wood screw and DIN917 nut cap by @berberic2. Thanks!

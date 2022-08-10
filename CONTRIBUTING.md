@@ -180,14 +180,6 @@ We also need a few additional lines to make the rest of the class aware
 of our additions to it. It should look something like this:
 
 ```python
-  def check_Data(self, ST_text, ND_text, NL_text):
-    ...
-    if ST_text[:-1] == 'ASMEB18.5.5':
-      table = FsData["asmeb18.5.2def"]
-      tab_len = FsData["inch_fs_length"]
-      tab_range = FsData["asmeb18.5.2range"]
-      Type_text = 'Screw'
-    ...
   def createScrew(self, ST_text, ND_text, NL_text, threadType, shapeOnly = False):
     ...
         if ST_text == 'ASMEB18.5.2':

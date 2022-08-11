@@ -553,7 +553,7 @@ class FSScrewRodCommand:
         icon = os.path.join(iconPath, 'ScrewTap.svg')
         return {'Pixmap': icon,
                 # the name of a svg file available in the resources
-                'MenuText': "Add threaded rod for tapping holes",
+                'MenuText': "Add negative-threaded rod for tapping holes",
                 'ToolTip': "Add arbitrary length threaded rod for tapping holes"}
 
     def Activated(self):

@@ -190,12 +190,12 @@ screwTables = {
     'ASMEB18.21.1.12A': ("Washer", FsData["asmeb18.21.1.12adef"], None, None, -1, 0, "makeWasher"),
     'ASMEB18.21.1.12B': ("Washer", FsData["asmeb18.21.1.12bdef"], None, None, -1, 0, "makeWasher"),
     'ASMEB18.21.1.12C': ("Washer", FsData["asmeb18.21.1.12cdef"], None, None, -1, 0, "makeWasher"),
-    'ScrewTap': ("ScrewTap", FsData["tuningTable"], None,         None,           -1, 0, ""),
-    'ScrewTapInch': ("ScrewTap", FsData["asmeb18.3.1adef"], None,   None,           -1, 0, ""),
-    'ScrewDie': ("ScrewDie", FsData["tuningTable"], None,         None,           -1, 0, ""),
-    'ScrewDieInch': ("ScrewDie", FsData["asmeb18.3.1adef"], None,   None,           -1, 0, ""),
-    'ThreadedRod': ("ThreadedRod", FsData["tuningTable"], None,   None,           -1, 0, ""),
-    'ThreadedRodInch': ("ThreadedRod", FsData["asmeb18.3.1adef"], None,   None,           -1, 0, ""),
+    'ScrewTap': ("ScrewTap", FsData["tuningTable"], None,         None,           -1, 0, "makeScrewTap"),
+    'ScrewTapInch': ("ScrewTap", FsData["asmeb18.3.1adef"], None,   None,           -1, 0, "makeScrewTap"),
+    'ScrewDie': ("ScrewDie", FsData["tuningTable"], None,         None,           -1, 0, "makeScrewDie"),
+    'ScrewDieInch': ("ScrewDie", FsData["asmeb18.3.1adef"], None,   None,           -1, 0, "makeScrewDie"),
+    'ThreadedRod': ("ThreadedRod", FsData["tuningTable"], None,   None,           -1, 0, "makeThreadedRod"),
+    'ThreadedRodInch': ("ThreadedRod", FsData["asmeb18.3.1adef"], None,   None,           -1, 0, "makeThreadedRod"),
     
     # * diam pos = the position within the def table to be used for auto diameter selection, -1 = get size from Mxx
     # * K Pos = the position within the def table to be used for countersunk holes creation
@@ -360,10 +360,10 @@ class FSScrewMaker(Screw):
         if oldState != newState:
             FastenerBase.FSCacheRemoveThreaded()  # thread parameters have changed, remove cached ones
 
-    def createFastener(self, type, diam, len, threadType, shapeOnly, leftHanded):
+    def createFastener(self, type, diam, len, threadType, leftHanded, customPitch=None, customDia=None):
         if type in FSNutsList:
             return FSNuts.createNut(type, diam)
-        return self.createScrew(type, diam, len, threadType, screwTables[type], shapeOnly, leftHanded)
+        return self.createScrew(type, diam, len, threadType, screwTables[type], leftHanded, customPitch, customDia)
 
 
 ScrewMakerInstance = None

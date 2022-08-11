@@ -49,7 +49,7 @@ The following shows how to generate a screw from a python script:
 
   # creates a shape in memory
   t = screw_maker2_0.Screw.setThreadType(o,'real')
-  s = screw_maker1_9d.Screw.makeIso7046(o, 'ISO14582', threadDef, 40.0)
+  s = screw_maker1_9d.Screw.makeCountersunkHeadScrew(o, 'ISO14582', threadDef, 40.0)
   Part.show(s)
 
 
@@ -122,145 +122,63 @@ class Screw:
         self.smScrewThrScaleA = 1.0
         self.smScrewThrScaleB = 0.0
 
-    def createScrew(self, ST_text, ND_text, NL_text, threadType, shapeOnly=False, leftHanded=False):
+    def createScrew(self, ST_text, ND_text, NL_text, threadType, Type_text, function, shapeOnly=False, leftHanded=False):
         # self.simpThread = self.SimpleScrew.isChecked()
         # self.symThread = self.SymbolThread.isChecked()
         # self.rThread = self.RealThread.isChecked()
+        #FreeCAD.Console.PrintMessage(ST_text + "\n")
+        if not self.objAvailable:
+            return None
+        try:
+            l = self.getLength(NL_text)
+        except ValueError:
+            # print "Error! nom_dia and length values must be valid numbers!"
+            FreeCAD.Console.PrintMessage("Error! nom_dia and length values must be valid numbers!\n")
+            return None
+
         if threadType == 'real':
             self.rThread = True
         else:
             self.rThread = False
         self.leftHanded = leftHanded
-        FreeCAD.Console.PrintMessage(ST_text + "\n")
-        if self.objAvailable:
-            try:
-                l = self.getLength(NL_text)
-            except ValueError:
-                # print "Error! nom_dia and length values must be valid numbers!"
-                FreeCAD.Console.PrintMessage("Error! nom_dia and length values must be valid numbers!\n")
-            else:
-                doc = FreeCAD.activeDocument()
-                done = False
-                if ST_text == 'ISO4014' or ST_text == 'ISO4017' or ST_text == 'ASMEB18.2.1.6':
-                    screw = self.makeIso4017_2(ST_text, ND_text, l)
-                    Type_text = 'Screw'
-                    done = True
-                if ST_text == 'EN1662' or ST_text == 'EN1665' or ST_text == 'ASMEB18.2.1.8':
-                    screw = self.makeEN1662_2(ST_text, ND_text, l)
-                    Type_text = 'Screw'
-                    done = True
-                if ST_text == 'ISO2009' or ST_text == 'ISO2010' or \
-                        ST_text == 'ISO1580' or ST_text == 'ASMEB18.6.3.1A':
-                    screw = self.makeSlottedScrew(ST_text, ND_text, l)
-                    Type_text = 'Screw'
-                    done = True
-                if ST_text == 'ISO4762' or ST_text == 'ISO14579' or \
-                        ST_text == 'DIN7984' or ST_text == 'DIN6912' or \
-                        ST_text == 'ASMEB18.3.1A' or ST_text == 'ASMEB18.3.1G':
-                    screw = self.makeIso4762(ST_text, ND_text, l)
-                    Type_text = 'Screw'
-                    done = True
-                if ST_text == 'ISO1207' or ST_text == 'ISO14580' or ST_text == 'ISO7048':
-                    screw = self.makeIso1207(ST_text, ND_text, l)
-                    Type_text = 'Screw'
-                    done = True
-                if ST_text == 'ISO7045' or ST_text == 'ISO14583':
-                    screw = self.makeIso7045(ST_text, ND_text, l)
-                    Type_text = 'Screw'
-                    done = True
-                if ST_text == 'ISO7046' or ST_text == 'ISO7047' or \
-                        ST_text == 'ISO14582' or ST_text == 'ISO14584' or \
-                        ST_text == 'ISO10642' or ST_text == 'ASMEB18.3.2':
-                    screw = self.makeIso7046(ST_text, ND_text, l)
-                    Type_text = 'Screw'
-                    done = True
-                if ST_text == 'ISO7380-1' or ST_text == 'ISO7380-2' or \
-                        ST_text == 'DIN967' or ST_text == 'ASMEB18.3.3A' or \
-                        ST_text == 'ASMEB18.3.3B':
-                    screw = self.makeIso7380(ST_text, ND_text, l)
-                    Type_text = 'Screw'
-                    done = True
-                if ST_text == 'ISO7379' or ST_text == 'ASMEB18.3.4':
-                    screw = self.makeIso7379(ST_text, ND_text, l)
-                    Type_text = 'Screw'
-                    done = True
-                if ST_text == 'ISO7089' or ST_text == 'ISO7090' or ST_text == 'ISO7093-1' or \
-                        ST_text == 'ISO7091' or ST_text == 'ISO7092' or ST_text == 'ISO7094' or \
-                        ST_text[:-1] == 'ASMEB18.21.1.12' or ST_text == 'NFE27-619':
-                    screw = self.makeIso7089(ST_text, ND_text)
-                    Type_text = 'Washer'
-                    done = True
-                if ST_text == 'ISO4026' or ST_text == 'ISO4027' or \
-                        ST_text == 'ISO4028' or ST_text == 'ISO4029' or \
-                        ST_text[:-1] == 'ASMEB18.3.5':
-                    screw = self.makeIso4026(ST_text, ND_text, l)
-                    Type_text = 'Screw'
-                    done = True
-                if ST_text == 'DIN571':
-                    screw = self.makeDin571(ST_text, ND_text, l)
-                    Type_text = 'Screw'
-                    done = True
-                if ST_text == 'ISO4032' or ST_text == 'ISO4033' or \
-                        ST_text == 'ISO4035' or ST_text == 'ASMEB18.2.2.1A' or \
-                        ST_text[:-1] == 'ASMEB18.2.2.4':
-                    screw = self.makeIso4032(ST_text, ND_text)
-                    Type_text = 'Nut'
-                    done = True
-                if ST_text == 'DIN917':
-                    screw = self.makeDin917(ND_text)
-                    Type_text = 'Nut'
-                    done = True
-                if (ST_text == 'DIN1587'):
-                    screw = self.makeDin1587(ST_text, ND_text)
-                    Type_text = 'Nut'
-                    done = True
-                if ST_text == 'ASMEB18.5.2':
-                    screw = self.makeCarriageBolt(ST_text, ND_text, l)
-                    Type_text = 'Screw'
-                    done = True
-                if ST_text == 'EN1661':
-                    screw = self.makeEN1661(ND_text)
-                    Type_text = 'Nut'
-                    done = True
-                if ST_text == 'ScrewTap':
-                    screw = self.makeScrewTap(ND_text, l)
-                    Type_text = 'Screw-Tap'
-                    done = True
-                if ST_text == 'ScrewDie':
-                    screw = self.makeScrewDie(ND_text, l)
-                    Type_text = 'Screw-Die'
-                    done = True
-                if ST_text == 'ThreadedRod':
-                    screw = self.makeThreadedRod(ND_text, l, pitch)
-                    Type_text = 'Threaded-Rod'
-                    done = True
-                if not done:
-                    FreeCAD.Console.PrintMessage("No valid Screw Type!" + "\n")
-                if '(' in ND_text:
-                    ND_text = ND_text.lstrip('(').rstrip(')')
+        self.fastenerLen = l
+        self.fastenerType = ST_text
+        self.fastenerDiam = ND_text
+        doc = FreeCAD.activeDocument()
 
-                if Type_text == 'Screw':
-                    label = ST_text + "-" + ND_text + "x" + NL_text + "_"
-                else:
-                    if Type_text == 'Nut':
-                        label = ST_text + '-' + ND_text + '_'
-                    else:
-                        if Type_text == ('Screw-Tap' or 'Screw-Die' or 'Threaded-Rod'):
-                            label = ST_text + '-' + ND_text + 'x' + NL_text + '_'
-                        else:  # washer
-                            label = ST_text + '-' + ND_text.lstrip('M') + '_'
-                if shapeOnly:
-                    return screw
-                ScrewObj = doc.addObject("Part::Feature")
-                ScrewObj.Label = label
-                ScrewObj.Shape = screw
-                # FreeCAD.Console.PrintMessage("Placement: "+ str(ScrewObj.Placement) +"\n")
-                # FreeCAD.Console.PrintMessage("The label: "+ label +"\n")
-                self.moveScrew(ScrewObj)
-                # ScrewObj.Label = label
-                doc.recompute()
-                # Part.show(screw)
-                return ScrewObj
+        if function != "" :
+            function = "self." + function + "()"
+            screw = eval(function)
+            done = True
+            FreeCAD.Console.PrintMessage("using function\n")
+        else:
+            FreeCAD.Console.PrintMessage("No suitable function for " + ST_text + " Screw Type!\n")
+            return None
+        if '(' in ND_text:
+            ND_text = ND_text.lstrip('(').rstrip(')')
+
+        if Type_text == 'Screw':
+            label = ST_text + "-" + ND_text + "x" + NL_text + "_"
+        else:
+            if Type_text == 'Nut':
+                label = ST_text + '-' + ND_text + '_'
+            else:
+                if Type_text == ('Screw-Tap' or 'Screw-Die' or 'Threaded-Rod'):
+                    label = ST_text + '-' + ND_text + 'x' + NL_text + '_'
+                else:  # washer
+                    label = ST_text + '-' + ND_text.lstrip('M') + '_'
+        if shapeOnly:
+            return screw
+        ScrewObj = doc.addObject("Part::Feature")
+        ScrewObj.Label = label
+        ScrewObj.Shape = screw
+        # FreeCAD.Console.PrintMessage("Placement: "+ str(ScrewObj.Placement) +"\n")
+        # FreeCAD.Console.PrintMessage("The label: "+ label +"\n")
+        self.moveScrew(ScrewObj)
+        # ScrewObj.Label = label
+        doc.recompute()
+        # Part.show(screw)
+        return ScrewObj
 
     def moveScrew(self, ScrewObj_m):
         # FreeCAD.Console.PrintMessage("In Move Screw: " + str(ScrewObj_m) + "\n")
@@ -334,8 +252,9 @@ class Screw:
                 # FreeCAD.Console.PrintMessage("the rot. Position: "+ str(neuPlatz) + "\n")
 
     # make Washer
-    def makeIso7089(self, SType='ISO7089', ThreadType='M6'):
-        dia = self.getDia(ThreadType, True)
+    def makeWasher(self):
+        SType = self.fastenerType
+        ThreadType = self.fastenerDiam
         # FreeCAD.Console.PrintMessage("the disc with dia: " + str(dia) + "\n")
         if SType == 'ISO7089':
             d1_min, d2_max, h, h_max = FsData["iso7089def"][ThreadType]
@@ -404,12 +323,14 @@ class Screw:
     # make ISO 2010 Slotted raised countersunk head screws
     # make ISO 1580 Pan head slotted screw (Code is nearly identical to iso1207)
     # make ASMEB18.6.3.1A Slotted countersunk flat head screws
-    def makeSlottedScrew(self, SType='ISO1580', ThreadType='M6', l=25.0):
-        dia = self.getDia(ThreadType, False)
+    def makeSlottedScrew(self):
+        dia = self.getDia(self.fastenerDiam, False)
+        SType = self.fastenerType
+        l = self.fastenerLen
         if SType == 'ISO1580':
             # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
             # P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = iso1580def[ThreadType]
-            P, a, b, dk_max, da, k, n_min, r, rf, t_min, x = FsData["iso1580def"][ThreadType]
+            P, a, b, dk_max, da, k, n_min, r, rf, t_min, x = FsData["iso1580def"][self.fastenerDiam]
             # FreeCAD.Console.PrintMessage("the head with iso: " + str(dk_max) + "\n")
             ht = k
 
@@ -448,14 +369,14 @@ class Screw:
 
         if SType == 'ISO2009' or SType == 'ISO2010' or SType == 'ASMEB18.6.3.1A':
             if SType == 'ISO2009' or SType == 'ISO2010':
-                P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["iso2009def"][ThreadType]
+                P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["iso2009def"][self.fastenerDiam]
             elif SType == 'ASMEB18.6.3.1A':
-                P, b, dk_theo, dk_mean, k, n_min, r, t_mean = FsData["asmeb18.6.3.1adef"][ThreadType]
+                P, b, dk_theo, dk_mean, k, n_min, r, t_mean = FsData["asmeb18.6.3.1adef"][self.fastenerDiam]
             dk_max = dk_theo
             t_min = t_mean
             ht = 0.0  # Head height of flat head
             if SType == 'ISO2010':
-                rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][ThreadType]
+                rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][self.fastenerDiam]
                 # Lengths and angles for calculation of head rounding
                 beta = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
                 tan_beta = math.tan(beta)
@@ -555,7 +476,10 @@ class Screw:
 
     # ISO 7045 Pan head screws with type H or type Z cross recess
     # ISO 14583 Hexalobular socket pan head screws
-    def makeIso7045(self, SType='ISO7045', ThreadType='M6', l=25.0):
+    def makePanHeadScrew(self):
+        SType = self.fastenerType
+        l = self.fastenerLen
+        ThreadType = self.fastenerDiam
         dia = self.getDia(ThreadType, False)
         # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
         P, a, b, dk_max, da, k, r, rf, x, cT, mH, mZ = FsData["iso7045def"][ThreadType]
@@ -723,15 +647,12 @@ class Screw:
     # ISO 1207 slotted screw
     # ISO 7048 cross recessed screw
     # ISO 14580 Hexalobular socket cheese head screws
-    def makeIso1207(self, SType='ISO1207', ThreadType='M6', l=25.0):
+    def makeCheeseHeadScrew(self):
+        SType = self.fastenerType
+        l = self.fastenerLen
+        ThreadType = self.fastenerDiam
         dia = self.getDia(ThreadType, False)
-        '''
-    if '(' in TreadType:
-      threadString = ThreadType.lstrip('(M')
-      dia = float(ThreadType.rstrip(')'))
-    else:
-      dia=float(ThreadType.lstrip('M'))
-    '''
+
         # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
         if SType == 'ISO1207' or SType == 'ISO14580':
             P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = FsData["iso1207def"][ThreadType]
@@ -905,15 +826,16 @@ class Screw:
     # make the ISO 4017 Hex-head-screw
     # make the ISO 4014 Hex-head-bolt
     # make the ASMEB18.2.1.6 Hex-head-bolt
-    def makeIso4017_2(self, SType, ThreadType, l=40.0):
-        dia = self.getDia(ThreadType, False)
-        # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
-        if SType == 'ISO4017':
-            P, c, dw, e, k, r, s = FsData["iso4017head"][ThreadType]
+    def makeHexHeadBolt(self):
+        dia = self.getDia(self.fastenerDiam, False)
+        l = self.fastenerLen
+        #FreeCAD.Console.PrintMessage("the head with thread type: " + str(ThreadType) + "\n")
+        if self.fastenerType == 'ISO4017':
+            P, c, dw, e, k, r, s = FsData["iso4017head"][self.fastenerDiam]
             b = l
 
-        if SType == 'ISO4014':
-            P, b1, b2, b3, c, dw, e, k, r, s = FsData["iso4014head"][ThreadType]
+        if self.fastenerType == 'ISO4014':
+            P, b1, b2, b3, c, dw, e, k, r, s = FsData["iso4014head"][self.fastenerDiam]
             if l <= 125.0:
                 b = b1
             else:
@@ -922,8 +844,8 @@ class Screw:
                 else:
                     b = b3
 
-        if SType == 'ASMEB18.2.1.6':
-            b, P, c, dw, e, k, r, s = FsData["asmeb18.2.1.6def"][ThreadType]
+        if self.fastenerType == 'ASMEB18.2.1.6':
+            b, P, c, dw, e, k, r, s = FsData["asmeb18.2.1.6def"][self.fastenerDiam]
             if l > 6 * 25.4:
                 b += 6.35
 
@@ -1102,7 +1024,10 @@ class Screw:
 
 
     # DIN 571 wood-screw
-    def makeDin571(self, SType, ThreadType, l=40.0):
+    def makeWoodScrew(self):
+        SType = self.fastenerType
+        l = self.fastenerLen
+        ThreadType = self.fastenerDiam
         dia = float(ThreadType.split()[0])
         ds, da, d3, k, s, P = FsData["din571head"][ThreadType]
         d = dia / 2.0
@@ -1180,15 +1105,17 @@ class Screw:
     # EN 1662 Hex-head-bolt with flange - small series
     # EN 1665 Hexagon bolts with flange, heavy series
     # ASMEB18.2.1.8 Hexagon bolts with flange, heavy series
-    def makeEN1662_2(self, SType='EN1662', ThreadType='M8', l=25.0):
-        dia = self.getDia(ThreadType, False)
+    def makeHexHeadWithFlunge(self):
+        dia = self.getDia(self.fastenerDiam, False)
+        SType = self.fastenerType
+        l = self.fastenerLen
         # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
         if SType == 'EN1662':
-            P, b0, b1, b2, b3, c, dc, dw, e, k, kw, f, r1, s = FsData["en1662def"][ThreadType]
+            P, b0, b1, b2, b3, c, dc, dw, e, k, kw, f, r1, s = FsData["en1662def"][self.fastenerDiam]
         elif SType == 'EN1665':
-            P, b0, b1, b2, b3, c, dc, dw, e, k, kw, f, r1, s = FsData["en1665def"][ThreadType]
+            P, b0, b1, b2, b3, c, dc, dw, e, k, kw, f, r1, s = FsData["en1665def"][Threself.fastenerDiamadType]
         elif SType == 'ASMEB18.2.1.8':
-            b0, P, c, dc, kw, r1, s = FsData["asmeb18.2.1.8def"][ThreadType]
+            b0, P, c, dc, kw, r1, s = FsData["asmeb18.2.1.8def"][self.fastenerDiam]
             b = b0
         if l < b0:
             b = l - 2 * P
@@ -1387,7 +1314,10 @@ class Screw:
     # also used for ISO 14582 Hexalobular socket countersunk head screws, high head
     # also used for ISO 14584 Hexalobular socket raised countersunk head screws
     # also used for ASMEB18.3.2 UNC Hexagon socket countersunk head screws
-    def makeIso7046(self, SType='ISO7046', ThreadType='M6', l=25.0):
+    def makeCountersunkHeadScrew(self):
+        SType = self.fastenerType
+        l = self.fastenerLen
+        ThreadType = self.fastenerDiam
         dia = self.getDia(ThreadType, False)
         # FreeCAD.Console.PrintMessage("der 2009Kopf mit l: " + str(l) + "\n")
         if SType == 'ISO10642':
@@ -1601,7 +1531,10 @@ class Screw:
     # DIN 7984 Allan Screw head
     # ISO 14579 Hexalobular socket head cap screws
     # ASMEB18.3.1A Allan Screw head
-    def makeIso4762(self, SType='ISO4762', ThreadType='M6', l=25.0):
+    def makeCylinderHeadScrew(self):
+        SType = self.fastenerType
+        l = self.fastenerLen
+        ThreadType = self.fastenerDiam
         dia = self.getDia(ThreadType, False)
         # FreeCAD.Console.PrintMessage("der 4762Kopf mit l: " + str(l) + "\n")
         # FreeCAD.Console.PrintMessage("the head with iso r: " + str(r) + "\n")
@@ -1774,7 +1707,10 @@ class Screw:
         return allenscrew
 
     # make ISO 7379 Hexagon socket head shoulder screw
-    def makeIso7379(self, SType='ISO7379', ThreadType='M6', l=16):
+    def makeShoulderScrew(self):
+        SType = self.fastenerType
+        l = self.fastenerLen
+        ThreadType = self.fastenerDiam
         if SType == 'ISO7379':
             P, d1, d3, l2, l3, SW = FsData["iso7379def"][ThreadType]
         if SType == 'ASMEB18.3.4':
@@ -1858,7 +1794,10 @@ class Screw:
     # make DIN 967 cross recessed pan head Screw with collar
     # make ASMEB18.3.3A UNC Hex socket button head screws
     # make ASMEB18.3.3B UNC Hex socket button head screws with flange
-    def makeIso7380(self, SType='ISO7380-1', ThreadType='M6', l=25.0):
+    def makeButtonHeadScrew(self):
+        SType = self.fastenerType
+        l = self.fastenerLen
+        ThreadType = self.fastenerDiam
         dia = self.getDia(ThreadType, False)
         # todo: different radii for screws with thread to head or with shaft?
         sqrt2_ = 1.0 / math.sqrt(2.0)
@@ -2038,7 +1977,10 @@ class Screw:
     # make ASMEB18.3.5B UNC Hexagon socket set screws with cone point
     # make ASMEB18.3.5C UNC Hexagon socket set screws with dog point
     # make ASMEB18.3.5D UNC Hexagon socket set screws with cup point
-    def makeIso4026(self, SType='ISO4026', Threadtype='M6', l=16):
+    def makeSetScrew(self):
+        SType = self.fastenerType
+        l = self.fastenerLen
+        ThreadType = self.fastenerDiam
         if SType == 'ISO4026' or SType == 'ISO4027' or SType == 'ISO4029':
             P, t, dp, dt, df, s = FsData["iso4026def"][Threadtype]
         elif SType == 'ISO4028':
@@ -2150,10 +2092,13 @@ class Screw:
         return screw
 
     # ASMEB18.5.2 UNC Round head square neck bolts
-    def makeCarriageBolt(self, SType='ASMEB18.5.2', Threadtype='1/4in', l=25.4):
-        d = self.getDia(Threadtype, False)
+    def makeCarriageBolt(self):
+        SType = self.fastenerType
+        l = self.fastenerLen
+        ThreadType = self.fastenerDiam
+        d = self.getDia(ThreadType, False)
         if SType == 'ASMEB18.5.2':
-            tpi, _, A, H, O, P, _, _ = FsData["asmeb18.5.2def"][Threadtype]
+            tpi, _, A, H, O, P, _, _ = FsData["asmeb18.5.2def"][ThreadType]
             A, H, O, P = (25.4 * x for x in (A, H, O, P))
             pitch = 25.4 / tpi
             if l <= 152.4:
@@ -2585,7 +2530,9 @@ class Screw:
 
     # make the ISO 4032 Hex-nut
     # make the ISO 4033 Hex-nut
-    def makeIso4032(self, SType='ISO4032', ThreadType='M6'):
+    def makeHexNut(self):
+        SType = self.fastenerType
+        ThreadType = self.fastenerDiam
         dia = self.getDia(ThreadType, True)
         #         P, tunIn, tunEx
         # Ptun, self.tuning, tunEx = tuningTable[ThreadType]
@@ -2688,7 +2635,8 @@ class Screw:
 
     # EN 1661 Hexagon nuts with flange
     # chamfer at top of hexagon is wrong = more than 30°
-    def makeEN1661(self, ThreadType='M8'):
+    def makeHexNutWFlunge(self):
+        ThreadType = self.fastenerDiam
         dia = self.getDia(ThreadType, True)
         P, da, c, dc, dw, e, m, mw, r1, s = FsData["en1661def"][ThreadType]
 
@@ -2863,7 +2811,8 @@ class Screw:
 
         return nut
 
-    def makeDin917(self, ThreadType='M6'):
+    def makeThinCupNut(self):
+        ThreadType = self.fastenerDiam
         dia = self.getDia(ThreadType, True)
         P, g2, h, r, s, t, w = FsData["din917head"][ThreadType]
 
@@ -2908,12 +2857,14 @@ class Screw:
 
         return nut
 
-    def makeDin1587(self, SType="DIN1587", ThreadType="M6"):
+    def makeCupNut(self):
         """
         Creates a cap (or 'acorn') nut.
         Supported Types:
           - DIN1587
         """
+        SType = self.fastenerType
+        ThreadType = self.fastenerDiam
         dia = self.getDia(ThreadType, True)
         if SType == "DIN1587":
             P, d_k, h, m, s, t = FsData["din1587def"][ThreadType]

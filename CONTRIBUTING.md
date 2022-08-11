@@ -100,14 +100,18 @@ in the `def` and `length` files.
 
 ### adding functionality to screw_maker
 
-Open `screw_maker.py` in your preferred text editor.
 We will be extending the `Screw` class to generate a new fastener.
+To eliminate long `Screw` class code, all fastener generation functions are places in separate files under `FsFunction` directory.
+You may either alter existing function if it is similar to the fastener you need, or create a new function.
+To create a new function, give it a name in the form of `makeXXXXXXXXX(self)`, and place this function inside a file named `FSmakeXXXXXXXXX.py`. Place this file under `FsFunction` directory. Example:  
+
+FSmakeCarriageBolt.py:
 
 ``` python
-  def makeCarriageBolt(self, SType = 'ASMEB18.5.2', Threadtype = '1/4in', l = 25.4) :
+  def makeCarriageBolt(self) :
     d = self.getDia(Threadtype, False)
     if SType == 'ASMEB18.5.2':
-      tpi,_,A,H,O,P,_,_ = FsData["asmeb18.5.2def"][Threadtype]
+      tpi,_,A,H,O,P,_,_ = self.dimTable
       A,H,O,P = (25.4*x for x in (A,H,O,P))
       pitch = 25.4/tpi
       if l <= 152.4:

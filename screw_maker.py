@@ -90,8 +90,13 @@ import FreeCAD, FreeCADGui, Part, math, os
 from FreeCAD import Base
 import DraftVecUtils
 from pathlib import Path
+import importlib
 
 from utils import csv2dict
+
+
+#import FSmakeCountersunkHeadScrew
+#from FSmakeCountersunkHeadScrew import *
 
 DEBUG = False # set to True to show debug messages; does not work, still todo.
 
@@ -127,10 +132,15 @@ class Screw:
         # self.symThread = self.SymbolThread.isChecked()
         # self.rThread = self.RealThread.isChecked()
         #FreeCAD.Console.PrintMessage(ST_text + "\n")
+        Type_text = fastenerParams[0]
+        function = fastenerParams[6]
         if not self.objAvailable:
             return None
         try:
             l = self.getLength(NL_text)
+            if not hasattr(self, function):
+                module = "FsFunctions.FS" + function
+                setattr(Screw, function, getattr(importlib.import_module(module), function))
         except ValueError:
             # print "Error! nom_dia and length values must be valid numbers!"
             FreeCAD.Console.PrintMessage("Error! nom_dia and length values must be valid numbers!\n")
@@ -141,8 +151,6 @@ class Screw:
         else:
             self.rThread = False
 
-        Type_text = fastenerParams[0]
-        function = fastenerParams[6]
         self.dimTable = fastenerParams[1][ND_text]
         self.leftHanded = leftHanded
         self.fastenerLen = l
@@ -254,47 +262,6 @@ class Screw:
                 neuPlatz.move(Pnt1)
                 # FreeCAD.Console.PrintMessage("the rot. Position: "+ str(neuPlatz) + "\n")
 
-    # make Washer
-    def makeWasher(self):
-        SType = self.fastenerType
-        # FreeCAD.Console.PrintMessage("the disc with dia: " + str(dia) + "\n")
-        if SType[:3] == 'ISO':
-            d1_min, d2_max, h, h_max = self.dimTable
-        elif SType[:3] == 'ASM':
-            d1_min, d2_max, h_max = self.dimTable
-        elif SType[:3] == 'NFE':
-            d1_min, d2_max, d3, h_max, h_min = self.dimTable
-
-        # Washer Points
-        Pnt0 = Base.Vector(d1_min / 2.0, 0.0, h_max)
-        Pnt2 = Base.Vector(d2_max / 2.0, 0.0, h_max)
-        Pnt3 = Base.Vector(d2_max / 2.0, 0.0, 0.0)
-        Pnt4 = Base.Vector(d1_min / 2.0, 0.0, 0.0)
-        if SType == 'ISO7090':
-            Pnt1 = Base.Vector(d2_max / 2.0 - h_max / 4.0, 0.0, h_max)
-            Pnt2 = Base.Vector(d2_max / 2.0, 0.0, h_max * 0.75)
-            edge1 = Part.makeLine(Pnt0, Pnt1)
-            edgeCham = Part.makeLine(Pnt1, Pnt2)
-            edge1 = Part.Wire([edge1, edgeCham])
-        elif SType == 'NFE27-619':
-            Pnt0 = Base.Vector(d1_min / 2.0, 0.0, h_min)
-            Pnt2 = Base.Vector(d3 / 2.0, 0.0, h_max)
-            edge1 = Part.makeLine(Pnt0, Pnt2)
-        else:
-            edge1 = Part.makeLine(Pnt0, Pnt2)
-
-        edge2 = Part.makeLine(Pnt2, Pnt3)
-        edge3 = Part.makeLine(Pnt3, Pnt4)
-        edge4 = Part.makeLine(Pnt4, Pnt0)
-        # FreeCAD.Console.PrintMessage("Edges made Pnt2: " + str(Pnt2) + "\n")
-
-        aWire = Part.Wire([edge1, edge2, edge3, edge4])
-        # Part.show(aWire)
-        aFace = Part.Face(aWire)
-        head = aFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
-        # FreeCAD.Console.PrintMessage("Washer revolved: " + str(dia) + "\n")
-
-        return head
 
     # make ISO 2009 Slotted countersunk flat head screws
     # make ISO 2010 Slotted raised countersunk head screws
@@ -1280,223 +1247,6 @@ class Screw:
 
         return screw
 
-    # used for ISO 7046 countersunk flat head screws with H cross recess
-    # also used for ISO 7047 raised countersunk head screws with H cross recess
-    # also used for ISO 10642 Hexagon socket countersunk head screws
-    # also used for ISO 14582 Hexalobular socket countersunk head screws, high head
-    # also used for ISO 14584 Hexalobular socket raised countersunk head screws
-    # also used for ASMEB18.3.2 UNC Hexagon socket countersunk head screws
-    def makeCountersunkHeadScrew(self):
-        SType = self.fastenerType
-        l = self.fastenerLen
-        dia = self.getDia(self.fastenerDiam, False)
-        # FreeCAD.Console.PrintMessage("der 2009Kopf mit l: " + str(l) + "\n")
-        if SType == 'ISO10642':
-            P, b, dk_theo, dk_mean, da, ds_min, e, k, r, s_mean, t, w = self.dimTable
-            ePrax = s_mean / math.sqrt(3.0) / 0.99
-            ht = 0.0
-            a = 2 * P
-            t_mean = t
-        elif SType == 'ASMEB18.3.2':
-            P, b, dk_theo, dk_mean, k, r, s_mean, t = self.dimTable
-            ePrax = s_mean / math.sqrt(3.0) / 0.99
-            ht = 0.0
-            a = 2 * P
-            t_mean = t
-        else:  # still need the data from iso2009def, but this screw can not created here
-            P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = self.dimTable
-            ht = 0.0  # Head height of flat head
-        if SType == 'ISO7046':
-            cT, mH, mZ = FsData["iso7046def"][self.fastenerDiam]
-        if SType == 'ISO7047':
-            rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][self.fastenerDiam]
-            # Lengths and angles for calculation of head rounding
-            beta = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
-            tan_beta = math.tan(beta)
-            alpha = beta / 2.0  # half angle
-            # height of raised head top
-            ht = rf - (dk_mean / 2.0) / tan_beta
-            # print 'he: ', he
-            h_arc_x = rf * math.sin(alpha)
-            h_arc_z = ht - rf + rf * math.cos(alpha)
-            # FreeCAD.Console.PrintMessage("h_arc_z: " + str(h_arc_z) + "\n")
-
-        if SType == 'ISO14582':
-            P, a, b, dk_theo, dk_mean, k, r, tt, A, t_mean = self.dimTable
-            ePrax = A / 2.0 / 0.99
-
-        if SType == 'ISO14584':
-            P, b, dk_theo, dk_mean, f, k, r, rf, x, tt, A, t_mean = self.dimTable
-            ePrax = A / 2.0 / 0.99
-            # Lengths and angles for calculation of head rounding
-            beta = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
-            tan_beta = math.tan(beta)
-            ctp = - (dk_mean / 2.0) / tan_beta  # Center Top Edge = center for rf
-            betaA = math.asin(ePrax / rf)  # angle of head edge at start of recess
-            ht = ctp + ePrax / math.tan(betaA)
-            alpha = betaA + (beta - betaA) / 2.0  # half angle of top Arc
-            h_arc_x = rf * math.sin(alpha)
-            h_arc_z = ctp + rf * math.cos(alpha)
-
-        # FreeCAD.Console.PrintMessage("the head with iso r: " + str(r) + "\n")
-        cham = (dk_theo - dk_mean) / 2.0
-        rad225 = math.radians(22.5)
-        rad45 = math.radians(45.0)
-        rtan = r * math.tan(rad225)
-        # FreeCAD.Console.PrintMessage("Checking rtan: " + str(rtan) + "\n")
-
-        # Head Points
-        Pnt1 = Base.Vector(dk_mean / 2.0, 0.0, 0.0)
-        Pnt2 = Base.Vector(dk_mean / 2.0, 0.0, -cham)
-        Pnt3 = Base.Vector(dia / 2.0 + r - r * math.cos(rad45), 0.0, -k - rtan + r * math.sin(rad45))
-
-        # Arc-points
-        Pnt4 = Base.Vector(dia / 2.0 + r - r * (math.cos(rad225)), 0.0, -k - rtan + r * math.sin(rad225))
-        Pnt5 = Base.Vector(dia / 2.0, 0.0, -k - rtan)
-
-        flat_len = l + Pnt5.z
-        thread_start = -l + b
-        Pnt6 = Base.Vector(dia / 2.0, 0.0, thread_start)
-
-        if SType == 'ISO10642' or SType == 'ISO14582' or SType == 'ASMEB18.3.2':
-            if SType == 'ISO10642' or SType == 'ASMEB18.3.2':
-                recess, recessShell = self.makeAllen2(s_mean, t_mean, 0.0)
-                Pnt0 = Base.Vector(ePrax / 2.0, 0.0, -ePrax / 2.0)
-                PntCham = Base.Vector(ePrax, 0.0, 0.0)
-                edge1 = Part.makeLine(Pnt0, PntCham)
-                edgeCham2 = Part.makeLine(PntCham, Pnt1)
-                edge2 = Part.makeLine(Pnt1, Pnt2)
-                edge2 = Part.Wire([edgeCham2, edge2])
-                PntH0 = Base.Vector(ePrax / 2.0, 0.0, ht + k)
-                PntH1 = Base.Vector(ePrax, 0.0, ht + k)
-            if SType == 'ISO14582':
-                recess, recessShell = self.makeIso10664_3(tt, t_mean, 0.0)  # hexalobular recess
-                Pnt0 = Base.Vector(0.0, 0.0, 0.0)
-                edge1 = Part.makeLine(Pnt0, Pnt1)
-                edge2 = Part.makeLine(Pnt1, Pnt2)
-
-            # bolt points with bolt chamfer
-            cham_b = P * math.sqrt(3.0) / 2.0 * 17.0 / 24.0
-
-            PntB1 = Base.Vector(dia / 2.0, 0.0, -l + cham_b)
-            PntB2 = Base.Vector(dia / 2.0 - cham_b, 0.0, -l)
-            PntB3 = Base.Vector(0.0, 0.0, -l)
-            if thread_start >= Pnt5.z:
-                edgeB0 = Part.makeLine(Pnt5, PntB1)
-            else:
-                edgeB0 = Part.makeLine(Pnt6, PntB1)
-            edgeB2 = Part.makeLine(PntB1, PntB2)
-            edgeB3 = Part.makeLine(PntB2, PntB3)
-            edgeB1 = Part.Wire([edgeB2, edgeB3])
-
-        else:
-            # bolt points
-            PntB1 = Base.Vector(dia / 2.0, 0.0, -l)
-            PntB2 = Base.Vector(0.0, 0.0, -l)
-            if thread_start >= Pnt5.z:
-                edgeB0 = Part.makeLine(Pnt5, PntB1)
-            else:
-                edgeB0 = Part.makeLine(Pnt6, PntB1)
-            edgeB1 = Part.makeLine(PntB1, PntB2)
-
-            if SType == 'ISO7047':  # make raised head rounding
-                Pnt0 = Base.Vector(0.0, 0.0, ht)
-                Pnt0arc = Base.Vector(h_arc_x, 0.0, h_arc_z)
-                edge1 = Part.Arc(Pnt0, Pnt0arc, Pnt1).toShape()
-                edge2 = Part.makeLine(Pnt1, Pnt2)
-                PntH0 = Base.Vector(0.0, 0.0, ht + k)
-                PntH1 = Base.Vector(dk_mean / 2.0, 0.0, ht + k)
-                recess, recessShell = self.makeCross_H3(cT, mH, ht)
-            if SType == 'ISO7046':
-                # ISO7046
-                Pnt0 = Base.Vector(0.0, 0.0, ht)
-                edge1 = Part.makeLine(Pnt0, Pnt1)  # make flat head
-                edge2 = Part.makeLine(Pnt1, Pnt2)
-                recess, recessShell = self.makeCross_H3(cT, mH, ht)
-
-            if SType == 'ISO14584':  # make raised head rounding with chamfer
-                Pnt0 = Base.Vector(ePrax / 2.0, 0.0, ht - ePrax / 4.0)
-                PntCham = Base.Vector(ePrax, 0.0, ht)
-                PntArc = Base.Vector(h_arc_x, 0.0, h_arc_z)
-                edge1 = Part.makeLine(Pnt0, PntCham)
-                edgeArc = Part.Arc(PntCham, PntArc, Pnt1).toShape()
-                edge2 = Part.makeLine(Pnt1, Pnt2)
-                edge2 = Part.Wire([edgeArc, edge2])
-                PntH0 = Base.Vector(ePrax / 2.0, 0.0, ht + k)
-                PntH1 = Base.Vector(ePrax, 0.0, ht + k)
-                recess, recessShell = self.makeIso10664_3(tt, t_mean, ht)  # hexalobular recess
-
-        edge3 = Part.makeLine(Pnt2, Pnt3)
-        edgeArc = Part.Arc(Pnt3, Pnt4, Pnt5).toShape()
-        edgeArc1 = Part.makeLine(Pnt3, Pnt4)
-        edgeArc2 = Part.makeLine(Pnt4, Pnt5)
-        edge6 = Part.makeLine(Pnt5, Pnt6)
-
-        if self.rThread:
-            # aWire=Part.Wire([edge1,edge2,edge3,edgeArc])
-            aWire = Part.Wire([edge2, edge3, edgeArc])
-        else:
-            if thread_start >= Pnt5.z:
-                aWire = Part.Wire([edge2, edge3, edgeArc, edgeB0, edgeB1])
-            else:
-                aWire = Part.Wire([edge2, edge3, edgeArc, edge6, edgeB0, edgeB1])
-
-        # Part.show(aWire)
-        headShell = aWire.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
-        headFaces = headShell.Faces
-        # Part.show(headShell)
-
-        if SType == 'ISO7046' or SType == 'ISO14582':
-            # hCut is just a cylinder for ISO7046
-            hCut = Part.makeCylinder(dk_mean / 2.0, k, Pnt0)
-            # Part.show(hCut)
-            topFace = hCut.Faces[2]
-        else:
-            edgeH1 = Part.makeLine(Pnt1, PntH1)
-            edgeH2 = Part.makeLine(PntH1, PntH0)
-            edgeH3 = Part.makeLine(PntH0, Pnt0)
-            hWire = Part.Wire([edge1, edgeH3, edgeH2, edgeH1])  # Cutter for recess-Shell
-            hWire.reverse()  # a fix to work with ver 18
-            hFace = Part.Face(hWire)
-            hCut = hFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
-            # Part.show(hWire)
-            topFace = hCut.Faces[0]
-
-        recessShell = recessShell.cut(hCut)
-        topFace = topFace.cut(recess)
-        # Part.show(topFace)
-        # Part.show(recessShell)
-        # Part.show(headShell)
-        headFaces.append(topFace.Faces[0])
-        headFaces.extend(recessShell.Faces)
-
-        if SType == 'ISO10642' or SType == 'ISO14582' or SType == 'ASMEB18.3.2':
-            if self.rThread:
-                # if True:
-                rthread = self.makeShellthread(dia, P, flat_len, True, Pnt5.z, b)
-                # head = head.fuse(rthread)
-                # Part.show(rthread)
-                for threadFace in rthread.Faces:
-                    headFaces.append(threadFace)
-
-                screwShell = Part.Shell(headFaces)
-                screw = Part.Solid(screwShell)
-            else:
-                screwShell = Part.Shell(headFaces)
-                screw = Part.Solid(screwShell)
-
-        else:
-            if self.rThread:
-                rthread = self.makeShellthread(dia, P, flat_len, False, Pnt5.z, b)
-                # head = head.fuse(rthread)
-                # Part.show(rthread)
-                for threadFace in rthread.Faces:
-                    headFaces.append(threadFace)
-
-            screwShell = Part.Shell(headFaces)
-            screw = Part.Solid(screwShell)
-
-        return screw
 
     # make ISO 4762 Allan Screw head
     # DIN 7984 Allan Screw head

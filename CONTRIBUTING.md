@@ -176,16 +176,6 @@ thread as a shell. Remember that `Part.Show(object)` will show `object` in
 the current FreeCAD document. This function gives us an equivalent to print
 debugging. 
 
-We also need a few additional lines to make the rest of the class aware 
-of our additions to it. It should look something like this:
-
-```python
-  def createScrew(self, ST_text, ND_text, NL_text, threadType, shapeOnly = False):
-    ...
-        if ST_text == 'ASMEB18.5.2':
-           table = FsData["asmeb18.5.2def"]
-    ...
-```
 
 You can review the code added to `screw_maker.py` for this example
 [HERE](https://github.com/shaise/FreeCAD_FastenersWB/commit/a60aa6a84a06ebd08072ad8e7e08d35095885f9f#diff-1714d1d791cb4949f7c3d13e84a426e4037bb68c9ed1a1da7623e6e5b97fa9b3).
@@ -197,7 +187,7 @@ You can review the code added to `screw_maker.py` for this example
 ``` python
 screwTables = {
   ...
-  'ASMEB18.5.2': ("Screw", FsData["asmeb18.5.2def"], FsData["inch_fs_length"], FsData["asmeb18.5.2range"], -1, 0),
+  'ASMEB18.5.2': ("Screw", FsData["asmeb18.5.2def"], FsData["inch_fs_length"], FsData["asmeb18.5.2range"], -1, 0, "makeCarriageBolt"),
   ...
 }
 ```
@@ -224,7 +214,7 @@ multiple similar parts. See the following snippet :
   # also used for ISO 10642 Hexagon socket countersunk head screws
   # also used for ISO 14582 Hexalobular socket countersunk head screws, high head
   # also used for ISO 14584 Hexalobular socket raised countersunk head screws
-  def makeIso7046(self, SType ='ISO7046', ThreadType ='M6',l=25.0):
+  def makePanHeadScrew(self):
     ...
 ```
 

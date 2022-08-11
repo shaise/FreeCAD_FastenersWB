@@ -122,7 +122,7 @@ class Screw:
         self.smScrewThrScaleA = 1.0
         self.smScrewThrScaleB = 0.0
 
-    def createScrew(self, ST_text, ND_text, NL_text, threadType, Type_text, function, shapeOnly=False, leftHanded=False):
+    def createScrew(self, ST_text, ND_text, NL_text, threadType, fastenerParams, shapeOnly=False, leftHanded=False):
         # self.simpThread = self.SimpleScrew.isChecked()
         # self.symThread = self.SymbolThread.isChecked()
         # self.rThread = self.RealThread.isChecked()
@@ -140,6 +140,10 @@ class Screw:
             self.rThread = True
         else:
             self.rThread = False
+
+        Type_text = fastenerParams[0]
+        function = fastenerParams[6]
+        self.dimTable = fastenerParams[1][ND_text]
         self.leftHanded = leftHanded
         self.fastenerLen = l
         self.fastenerType = ST_text
@@ -150,7 +154,6 @@ class Screw:
             function = "self." + function + "()"
             screw = eval(function)
             done = True
-            FreeCAD.Console.PrintMessage("using function\n")
         else:
             FreeCAD.Console.PrintMessage("No suitable function for " + ST_text + " Screw Type!\n")
             return None
@@ -254,39 +257,13 @@ class Screw:
     # make Washer
     def makeWasher(self):
         SType = self.fastenerType
-        ThreadType = self.fastenerDiam
         # FreeCAD.Console.PrintMessage("the disc with dia: " + str(dia) + "\n")
-        if SType == 'ISO7089':
-            d1_min, d2_max, h, h_max = FsData["iso7089def"][ThreadType]
-        if SType == 'ISO7090':
-            d1_min, d2_max, h, h_max = FsData["iso7090def"][ThreadType]
-        if SType == 'ISO7091':
-            d1_min, d2_max, h, h_max = FsData["iso7091def"][ThreadType]
-        if SType == 'ISO7092':
-            d1_min, d2_max, h, h_max = FsData["iso7092def"][ThreadType]
-        if SType == 'ISO7093-1':
-            d1_min, d2_max, h, h_max = FsData["iso7093def"][ThreadType]
-        if SType == 'ISO7094':
-            d1_min, d2_max, h, h_max = FsData["iso7094def"][ThreadType]
-        if SType == 'ASMEB18.21.1.12A':
-            d1_min, d2_a, d2_b, d2_c, h_a, h_b, h_c = FsData["asmeb18.21.1.12def"][ThreadType]
-            d2_max = d2_a
-            h_max = h_a
-        if SType == 'ASMEB18.21.1.12B':
-            d1_min, d2_a, d2_b, d2_c, h_a, h_b, h_c = FsData["asmeb18.21.1.12def"][ThreadType]
-            d2_max = d2_b
-            h_max = h_b
-        if SType == 'ASMEB18.21.1.12C':
-            d1_min, d2_a, d2_b, d2_c, h_a, h_b, h_c = FsData["asmeb18.21.1.12def"][ThreadType]
-            d2_max = d2_c
-            h_max = h_c
-        if SType == 'NFE27-619':
-            d1_min, d2_max, d3, h1, h2 = FsData["NFE27-619def"][ThreadType]
-            h_max = h1
-            h_min = h2
-            d3 = d3
-
-        # FreeCAD.Console.PrintMessage("the disc with d1_min: " + str(d1_min) + "\n")
+        if SType[:3] == 'ISO':
+            d1_min, d2_max, h, h_max = self.dimTable
+        elif SType[:3] == 'ASM':
+            d1_min, d2_max, h_max = self.dimTable
+        elif SType[:3] == 'NFE':
+            d1_min, d2_max, d3, h_max, h_min = self.dimTable
 
         # Washer Points
         Pnt0 = Base.Vector(d1_min / 2.0, 0.0, h_max)
@@ -329,8 +306,7 @@ class Screw:
         l = self.fastenerLen
         if SType == 'ISO1580':
             # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
-            # P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = iso1580def[ThreadType]
-            P, a, b, dk_max, da, k, n_min, r, rf, t_min, x = FsData["iso1580def"][self.fastenerDiam]
+            P, a, b, dk_max, da, k, n_min, r, rf, t_min, x = self.dimTable
             # FreeCAD.Console.PrintMessage("the head with iso: " + str(dk_max) + "\n")
             ht = k
 
@@ -369,9 +345,9 @@ class Screw:
 
         if SType == 'ISO2009' or SType == 'ISO2010' or SType == 'ASMEB18.6.3.1A':
             if SType == 'ISO2009' or SType == 'ISO2010':
-                P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["iso2009def"][self.fastenerDiam]
+                P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = self.dimTable
             elif SType == 'ASMEB18.6.3.1A':
-                P, b, dk_theo, dk_mean, k, n_min, r, t_mean = FsData["asmeb18.6.3.1adef"][self.fastenerDiam]
+                P, b, dk_theo, dk_mean, k, n_min, r, t_mean = self.dimTable
             dk_max = dk_theo
             t_min = t_mean
             ht = 0.0  # Head height of flat head
@@ -479,10 +455,10 @@ class Screw:
     def makePanHeadScrew(self):
         SType = self.fastenerType
         l = self.fastenerLen
-        ThreadType = self.fastenerDiam
-        dia = self.getDia(ThreadType, False)
+        dia = self.getDia(self.fastenerDiam, False)
         # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
-        P, a, b, dk_max, da, k, r, rf, x, cT, mH, mZ = FsData["iso7045def"][ThreadType]
+        FreeCAD.Console.PrintMessage("the head with diam: " + str(self.fastenerDiam) + "\n")
+        P, a, b, dk_max, da, k, r, rf, x, cT, mH, mZ = FsData["iso7045def"][self.fastenerDiam]
         # FreeCAD.Console.PrintMessage("the head with iso: " + str(dk_max) + "\n")
 
         # Lengths and angles for calculation of head rounding
@@ -491,7 +467,7 @@ class Screw:
         tan_beta = math.tan(beta)
 
         if SType == 'ISO14583':
-            tt, A, t_mean = FsData["iso14583def"][ThreadType]
+            tt, A, t_mean = self.dimTable
             beta_A = math.asin(A / 2.0 / rf)  # angle of recess edge
             tan_beta_A = math.tan(beta_A)
 
@@ -650,16 +626,15 @@ class Screw:
     def makeCheeseHeadScrew(self):
         SType = self.fastenerType
         l = self.fastenerLen
-        ThreadType = self.fastenerDiam
-        dia = self.getDia(ThreadType, False)
+        dia = self.getDia(self.fastenerDiam, False)
 
         # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
         if SType == 'ISO1207' or SType == 'ISO14580':
-            P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = FsData["iso1207def"][ThreadType]
+            P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = self.dimTable
         if SType == 'ISO7048':
-            P, a, b, dk, dk_mean, da, k, r, x, cT, mH, mZ = FsData["iso7048def"][ThreadType]
+            P, a, b, dk, dk_mean, da, k, r, x, cT, mH, mZ = self.dimTable
         if SType == 'ISO14580':
-            tt, k, A, t_min = FsData["iso14580def"][ThreadType]
+            tt, k, A, t_min = self.dimTable
 
         # FreeCAD.Console.PrintMessage("the head with iso: " + str(dk) + "\n")
 
@@ -831,11 +806,11 @@ class Screw:
         l = self.fastenerLen
         #FreeCAD.Console.PrintMessage("the head with thread type: " + str(ThreadType) + "\n")
         if self.fastenerType == 'ISO4017':
-            P, c, dw, e, k, r, s = FsData["iso4017head"][self.fastenerDiam]
+            P, c, dw, e, k, r, s = self.dimTable
             b = l
 
         if self.fastenerType == 'ISO4014':
-            P, b1, b2, b3, c, dw, e, k, r, s = FsData["iso4014head"][self.fastenerDiam]
+            P, b1, b2, b3, c, dw, e, k, r, s = self.dimTable
             if l <= 125.0:
                 b = b1
             else:
@@ -845,7 +820,7 @@ class Screw:
                     b = b3
 
         if self.fastenerType == 'ASMEB18.2.1.6':
-            b, P, c, dw, e, k, r, s = FsData["asmeb18.2.1.6def"][self.fastenerDiam]
+            b, P, c, dw, e, k, r, s = self.dimTable
             if l > 6 * 25.4:
                 b += 6.35
 
@@ -1027,9 +1002,8 @@ class Screw:
     def makeWoodScrew(self):
         SType = self.fastenerType
         l = self.fastenerLen
-        ThreadType = self.fastenerDiam
-        dia = float(ThreadType.split()[0])
-        ds, da, d3, k, s, P = FsData["din571head"][ThreadType]
+        dia = float(self.fastenerDiam.split()[0])
+        ds, da, d3, k, s, P = self.dimTable
         d = dia / 2.0
         d3h = d3 / 2.0
         r = (da-ds)/2.0
@@ -1110,12 +1084,10 @@ class Screw:
         SType = self.fastenerType
         l = self.fastenerLen
         # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
-        if SType == 'EN1662':
-            P, b0, b1, b2, b3, c, dc, dw, e, k, kw, f, r1, s = FsData["en1662def"][self.fastenerDiam]
-        elif SType == 'EN1665':
-            P, b0, b1, b2, b3, c, dc, dw, e, k, kw, f, r1, s = FsData["en1665def"][Threself.fastenerDiamadType]
+        if SType == 'EN1662' or SType == 'EN1665':
+            P, b0, b1, b2, b3, c, dc, dw, e, k, kw, f, r1, s = self.dimTable
         elif SType == 'ASMEB18.2.1.8':
-            b0, P, c, dc, kw, r1, s = FsData["asmeb18.2.1.8def"][self.fastenerDiam]
+            b0, P, c, dc, kw, r1, s = self.dimTable
             b = b0
         if l < b0:
             b = l - 2 * P
@@ -1317,28 +1289,27 @@ class Screw:
     def makeCountersunkHeadScrew(self):
         SType = self.fastenerType
         l = self.fastenerLen
-        ThreadType = self.fastenerDiam
-        dia = self.getDia(ThreadType, False)
+        dia = self.getDia(self.fastenerDiam, False)
         # FreeCAD.Console.PrintMessage("der 2009Kopf mit l: " + str(l) + "\n")
         if SType == 'ISO10642':
-            P, b, dk_theo, dk_mean, da, ds_min, e, k, r, s_mean, t, w = FsData["iso10642def"][ThreadType]
+            P, b, dk_theo, dk_mean, da, ds_min, e, k, r, s_mean, t, w = self.dimTable
             ePrax = s_mean / math.sqrt(3.0) / 0.99
             ht = 0.0
             a = 2 * P
             t_mean = t
         elif SType == 'ASMEB18.3.2':
-            P, b, dk_theo, dk_mean, k, r, s_mean, t = FsData["asmeb18.3.2def"][ThreadType]
+            P, b, dk_theo, dk_mean, k, r, s_mean, t = self.dimTable
             ePrax = s_mean / math.sqrt(3.0) / 0.99
             ht = 0.0
             a = 2 * P
             t_mean = t
         else:  # still need the data from iso2009def, but this screw can not created here
-            P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["iso2009def"][ThreadType]
+            P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = self.dimTable
             ht = 0.0  # Head height of flat head
         if SType == 'ISO7046':
-            cT, mH, mZ = FsData["iso7046def"][ThreadType]
+            cT, mH, mZ = FsData["iso7046def"][self.fastenerDiam]
         if SType == 'ISO7047':
-            rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][ThreadType]
+            rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][self.fastenerDiam]
             # Lengths and angles for calculation of head rounding
             beta = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
             tan_beta = math.tan(beta)
@@ -1351,11 +1322,11 @@ class Screw:
             # FreeCAD.Console.PrintMessage("h_arc_z: " + str(h_arc_z) + "\n")
 
         if SType == 'ISO14582':
-            P, a, b, dk_theo, dk_mean, k, r, tt, A, t_mean = FsData["iso14582def"][ThreadType]
+            P, a, b, dk_theo, dk_mean, k, r, tt, A, t_mean = self.dimTable
             ePrax = A / 2.0 / 0.99
 
         if SType == 'ISO14584':
-            P, b, dk_theo, dk_mean, f, k, r, rf, x, tt, A, t_mean = FsData["iso14584def"][ThreadType]
+            P, b, dk_theo, dk_mean, f, k, r, rf, x, tt, A, t_mean = self.dimTable
             ePrax = A / 2.0 / 0.99
             # Lengths and angles for calculation of head rounding
             beta = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
@@ -1534,13 +1505,12 @@ class Screw:
     def makeCylinderHeadScrew(self):
         SType = self.fastenerType
         l = self.fastenerLen
-        ThreadType = self.fastenerDiam
-        dia = self.getDia(ThreadType, False)
+        dia = self.getDia(self.fastenerDiam, False)
         # FreeCAD.Console.PrintMessage("der 4762Kopf mit l: " + str(l) + "\n")
         # FreeCAD.Console.PrintMessage("the head with iso r: " + str(r) + "\n")
         if SType == 'ISO14579':
-            P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = FsData["iso4762def"][ThreadType]
-            tt, A, t = FsData["iso14579def"][ThreadType]
+            P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = FsData["iso4762def"][self.fastenerDiam]
+            tt, A, t = self.dimTable
             # Head Points 30° countersunk
             # Pnt0 = Base.Vector(0.0,0.0,k-A/4.0) #Center Point for countersunk
             Pnt0 = Base.Vector(0.0, 0.0, k - A / 8.0)  # Center Point for flat countersunk
@@ -1557,9 +1527,9 @@ class Screw:
 
         elif SType == 'DIN7984' or SType == 'ASMEB18.3.1G':
             if SType == 'DIN7984':
-                P, b, dk_max, da, ds_min, e, k, r, s_mean, t, v, dw = FsData["din7984def"][ThreadType]
+                P, b, dk_max, da, ds_min, e, k, r, s_mean, t, v, dw = self.dimTable
             elif SType == 'ASMEB18.3.1G':
-                P, b, A, H, C_max, J, T, K, r = (x*25.4 for x in FsData["asmeb18.3.1gdef"][ThreadType])
+                P, b, A, H, C_max, J, T, K, r = (x*25.4 for x in self.dimTable)
                 dk_max = A
                 k = H
                 v = C_max
@@ -1577,7 +1547,7 @@ class Screw:
             PntH1 = Base.Vector(e_cham / 1.99, 0.0, 2.0 * k)
 
         elif SType == 'DIN6912':
-            P, b, dk_max, da, ds_min, e, k, r, s_mean, t, t2, v, dw = FsData["din6912def"][ThreadType]
+            P, b, dk_max, da, ds_min, e, k, r, s_mean, t, t2, v, dw = self.dimTable
             e_cham = 2.0 * s_mean / math.sqrt(3.0)
             # Head Points 45° countersunk
             Pnt0 = Base.Vector(0.0, 0.0, k - e_cham / 1.99 / 2.0)  # Center Point for countersunk
@@ -1590,9 +1560,9 @@ class Screw:
 
         elif SType == 'ISO4762' or SType == 'ASMEB18.3.1A':
             if SType == 'ISO4762':
-                P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = FsData["iso4762def"][ThreadType]
+                P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = self.dimTable
             if SType == 'ASMEB18.3.1A':
-                P, b, dk_max, k, r, s_mean, t, v, dw = FsData["asmeb18.3.1adef"][ThreadType]
+                P, b, dk_max, k, r, s_mean, t, v, dw = self.dimTable
             e_cham = 2.0 * s_mean / math.sqrt(3.0)
             # Head Points 45° countersunk
             Pnt0 = Base.Vector(0.0, 0.0, k - e_cham / 1.99 / 2.0)  # Center Point for countersunk
@@ -1710,12 +1680,9 @@ class Screw:
     def makeShoulderScrew(self):
         SType = self.fastenerType
         l = self.fastenerLen
-        ThreadType = self.fastenerDiam
-        if SType == 'ISO7379':
-            P, d1, d3, l2, l3, SW = FsData["iso7379def"][ThreadType]
-        if SType == 'ASMEB18.3.4':
-            P, d1, d3, l2, l3, SW = FsData["asmeb18.3.4def"][ThreadType]
-        d2 = self.getDia(ThreadType, False)
+        #if SType == 'ISO7379' or SType == 'ASMEB18.3.4':
+        P, d1, d3, l2, l3, SW = self.dimTable
+        d2 = self.getDia(self.fastenerDiam, False)
         l1 = l
         # define the fastener head and shoulder
         # applicable for both threaded and unthreaded versions
@@ -1797,13 +1764,12 @@ class Screw:
     def makeButtonHeadScrew(self):
         SType = self.fastenerType
         l = self.fastenerLen
-        ThreadType = self.fastenerDiam
-        dia = self.getDia(ThreadType, False)
+        dia = self.getDia(self.fastenerDiam, False)
         # todo: different radii for screws with thread to head or with shaft?
         sqrt2_ = 1.0 / math.sqrt(2.0)
 
         if SType == 'DIN967':
-            P, b, c, da, dk, r, k, rf, x, cT, mH, mZ = FsData["din967def"][ThreadType]
+            P, b, c, da, dk, r, k, rf, x, cT, mH, mZ = self.dimTable
 
             rH = rf  # radius of button arc
             alpha = math.acos((rf - k + c) / rf)
@@ -1829,7 +1795,7 @@ class Screw:
 
         else:
             if SType == 'ISO7380-1':
-                P, b, a, da, dk, dk_mean, s_mean, t_min, r, k, e, w = FsData["iso7380def"][ThreadType]
+                P, b, a, da, dk, dk_mean, s_mean, t_min, r, k, e, w = self.dimTable
 
                 # Bottom of recess
                 e_cham = 2.0 * s_mean / math.sqrt(3.0) / 0.99
@@ -1845,7 +1811,7 @@ class Screw:
                 edge3 = Part.makeLine(Pnt3, Pnt4)
 
             if SType == 'ASMEB18.3.3A':
-                P, b, da, dk, s_mean, t_min, r, k = FsData["asmeb18.3.3adef"][ThreadType]
+                P, b, da, dk, s_mean, t_min, r, k = self.dimTable
                 # Bottom of recess
                 e_cham = 2.0 * s_mean / math.sqrt(3.0) / 0.99
                 # depth = s_mean / 3.0
@@ -1859,9 +1825,9 @@ class Screw:
 
             if SType == 'ISO7380-2' or SType == 'ASMEB18.3.3B':
                 if SType == 'ISO7380-2':
-                    P, b, c, da, dk, dk_c, s_mean, t_min, r, k, e, w = FsData["iso7380_2def"][ThreadType]
+                    P, b, c, da, dk, dk_c, s_mean, t_min, r, k, e, w = self.dimTable
                 if SType == 'ASMEB18.3.3B':
-                    P, b, c, dk, dk_c, s_mean, t_min, r, k = FsData["asmeb18.3.3bdef"][ThreadType]
+                    P, b, c, dk, dk_c, s_mean, t_min, r, k = self.dimTable
 
                 # Bottom of recess
                 e_cham = 2.0 * s_mean / math.sqrt(3.0) / 0.99
@@ -1980,14 +1946,13 @@ class Screw:
     def makeSetScrew(self):
         SType = self.fastenerType
         l = self.fastenerLen
-        ThreadType = self.fastenerDiam
         if SType == 'ISO4026' or SType == 'ISO4027' or SType == 'ISO4029':
-            P, t, dp, dt, df, s = FsData["iso4026def"][Threadtype]
+            P, t, dp, dt, df, s = self.dimTable
         elif SType == 'ISO4028':
-            P, t, dp, df, z, s = FsData["iso4028def"][Threadtype]
+            P, t, dp, df, z, s = self.dimTable
         elif SType[:-1] == 'ASMEB18.3.5':
-            P, t, dp, dt, df, s, z = FsData["asmeb18.3.5def"][Threadtype]
-        d = self.getDia(Threadtype, False)
+            P, t, dp, dt, df, s, z = self.dimTable
+        d = self.getDia(self.fastenerDiam, False)
         d = d * 1.01
         # generate the profile of the set-screw
         if SType == 'ISO4026' or SType == 'ASMEB18.3.5A':
@@ -2095,10 +2060,9 @@ class Screw:
     def makeCarriageBolt(self):
         SType = self.fastenerType
         l = self.fastenerLen
-        ThreadType = self.fastenerDiam
-        d = self.getDia(ThreadType, False)
+        d = self.getDia(self.fastenerDiam, False)
         if SType == 'ASMEB18.5.2':
-            tpi, _, A, H, O, P, _, _ = FsData["asmeb18.5.2def"][ThreadType]
+            tpi, _, A, H, O, P, _, _ = self.dimTable
             A, H, O, P = (25.4 * x for x in (A, H, O, P))
             pitch = 25.4 / tpi
             if l <= 152.4:
@@ -2532,26 +2496,19 @@ class Screw:
     # make the ISO 4033 Hex-nut
     def makeHexNut(self):
         SType = self.fastenerType
-        ThreadType = self.fastenerDiam
-        dia = self.getDia(ThreadType, True)
+        dia = self.getDia(self.fastenerDiam, True)
         #         P, tunIn, tunEx
         # Ptun, self.tuning, tunEx = tuningTable[ThreadType]
-        if SType == 'ISO4032':
+        if SType[:3] == 'ISO':
             # P, c, damax,  dw,    e,     m,   mw,   s_nom
-            P, c, da, dw, e, m, mw, s = FsData["iso4032def"][ThreadType]
-        if SType == 'ISO4033':
-            # P, c, damax,  dw,    e,     m,   mw,   s_nom
-            P, c, da, dw, e, m, mw, s = FsData["iso4033def"][ThreadType]
-        if SType == 'ISO4035':
-            # P, c, damax,  dw,    e,     m,   mw,   s_nom
-            P, c, da, dw, e, m, mw, s = FsData["iso4035def"][ThreadType]
-        if SType == 'ASMEB18.2.2.1A':
-            P, da, e, m, s = FsData["asmeb18.2.2.1adef"][ThreadType]
-        if SType == 'ASMEB18.2.2.4A':
-            P, da, e, m_a, m_b, s = FsData["asmeb18.2.2.4def"][ThreadType]
+            P, c, da, dw, e, m, mw, s = self.dimTable
+        elif SType == 'ASMEB18.2.2.1A':
+            P, da, e, m, s = self.dimTable
+        elif SType == 'ASMEB18.2.2.4A':
+            P, da, e, m_a, m_b, s = self.dimTable
             m = m_a
-        if SType == 'ASMEB18.2.2.4B':
-            P, da, e, m_a, m_b, s = FsData["asmeb18.2.2.4def"][ThreadType]
+        elif SType == 'ASMEB18.2.2.4B':
+            P, da, e, m_a, m_b, s = self.dimTable
             m = m_b
 
         residue, turns = math.modf(m / P)
@@ -2559,9 +2516,9 @@ class Screw:
 
         if residue > 0.0:
             turns += 1.0
-        if SType == 'ISO4033' and ThreadType == '(M14)':
+        if SType == 'ISO4033' and self.fastenerDiam == '(M14)':
             turns -= 1.0
-        if SType == 'ISO4035' and ThreadType == 'M56':
+        if SType == 'ISO4035' and self.fastenerDiam == 'M56':
             turns -= 1.0
 
         sqrt2_ = 1.0 / math.sqrt(2.0)
@@ -2636,9 +2593,8 @@ class Screw:
     # EN 1661 Hexagon nuts with flange
     # chamfer at top of hexagon is wrong = more than 30°
     def makeHexNutWFlunge(self):
-        ThreadType = self.fastenerDiam
-        dia = self.getDia(ThreadType, True)
-        P, da, c, dc, dw, e, m, mw, r1, s = FsData["en1661def"][ThreadType]
+        dia = self.getDia(self.fastenerDiam, True)
+        P, da, c, dc, dw, e, m, mw, r1, s = self.dimTable
 
         residue, turns = math.modf(m / P)
         # halfturns = 2*int(turns)
@@ -2812,9 +2768,8 @@ class Screw:
         return nut
 
     def makeThinCupNut(self):
-        ThreadType = self.fastenerDiam
-        dia = self.getDia(ThreadType, True)
-        P, g2, h, r, s, t, w = FsData["din917head"][ThreadType]
+        dia = self.getDia(self.fastenerDiam, True)
+        P, g2, h, r, s, t, w = self.dimTable
 
         H = P * math.cos(math.radians(30)) * 5.0 / 8.0 # Gewindetiefe H
         if self.rThread: H *= 1.1
@@ -2864,10 +2819,9 @@ class Screw:
           - DIN1587
         """
         SType = self.fastenerType
-        ThreadType = self.fastenerDiam
-        dia = self.getDia(ThreadType, True)
+        dia = self.getDia(self.fastenerDiam, True)
         if SType == "DIN1587":
-            P, d_k, h, m, s, t = FsData["din1587def"][ThreadType]
+            P, d_k, h, m, s, t = self.dimTable
         else:
             raise RuntimeError("unknown screw type")
         pnts = list(
@@ -2916,7 +2870,7 @@ class Screw:
         solidHex = hexFace.extrude(Base.Vector(0.0, 0.0, h * 1.1))
         solid = solid.common(solidHex)
         # cut the threads
-        tap_tool = self.makeScrewTap("ScrewTap", ThreadType, t)
+        tap_tool = self.makeScrewTap("ScrewTap", self.fastenerDiam, t)
         tap_tool.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
         tap_tool.translate(Base.Vector(0, 0, -1 * P))
         tc_points = list(

@@ -82,34 +82,36 @@ def makeCupNut(self): # dynamically loaded method of class Screw
     solidHex = hexFace.extrude(Base.Vector(0.0, 0.0, h * 1.1))
     solid = solid.common(solidHex)
     # cut the threads
-    tap_tool = self.makeScrewTap("ScrewTap", self.fastenerDiam, t)
-    tap_tool.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
-    tap_tool.translate(Base.Vector(0, 0, -1 * P))
-    tc_points = list(
-        map(
-            lambda x: Base.Vector(x),
+    if self.rThread:
+        residue, turns = math.modf(t / P)
+        tap_tool = self.makeInnerThread_2(dia, P, int(turns + 2), None, t)
+        tap_tool.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
+        tap_tool.translate(Base.Vector(0, 0, -2 * P))
+        tc_points = list(
+            map(
+                lambda x: Base.Vector(x),
+                [
+                    (0, 0, t - P),
+                    (1.1 * dia / 2, 0, t - P - 1.1 * dia / 8),
+                    (1.1 * dia / 2, 0, h),
+                    (0, 0, h)
+                ]
+            )
+        )
+        thread_chamfer_profile = Part.Wire(
             [
-                (0, 0, t - P),
-                (1.1 * dia / 2, 0, t - P - 1.1 * dia / 8),
-                (1.1 * dia / 2, 0, h),
-                (0, 0, h)
+                Part.makeLine(tc_points[0], tc_points[1]),
+                Part.makeLine(tc_points[1], tc_points[2]),
+                Part.makeLine(tc_points[2], tc_points[3]),
+                Part.makeLine(tc_points[3], tc_points[0]),
             ]
         )
-    )
-    thread_chamfer_profile = Part.Wire(
-        [
-            Part.makeLine(tc_points[0], tc_points[1]),
-            Part.makeLine(tc_points[1], tc_points[2]),
-            Part.makeLine(tc_points[2], tc_points[3]),
-            Part.makeLine(tc_points[3], tc_points[0]),
-        ]
-    )
-    cham_shell = thread_chamfer_profile.revolve(
-        Base.Vector(0, 0, 0),
-        Base.Vector(0, 0, 1),
-        360
-    )
-    thread_chamfer = Part.Solid(cham_shell)
-    tap_tool = tap_tool.cut(thread_chamfer)
-    solid = solid.cut(tap_tool)
+        cham_shell = thread_chamfer_profile.revolve(
+            Base.Vector(0, 0, 0),
+            Base.Vector(0, 0, 1),
+            360
+        )
+        thread_chamfer = Part.Solid(cham_shell)
+        tap_tool = tap_tool.cut(thread_chamfer)
+        solid = solid.cut(tap_tool)
     return solid

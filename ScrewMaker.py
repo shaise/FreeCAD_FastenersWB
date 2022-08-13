@@ -9,8 +9,6 @@ import FastenerBase
 
 from PySide import QtCore, QtGui
 from screw_maker import *
-import FSNuts
-from FSNuts import din557def, din562def, din985def
 from FastenerBase import FSParam
 
 FSCScrewHoleChart = (
@@ -167,9 +165,9 @@ screwTables = {
     'EN1661':   ("Nut",    FsData["en1661def"],    None,          None,           -1, 0, "makeHexNutWFlunge"),
     'DIN917':   ("Nut",    FsData["din917head"],   None,          None,           -1, 0, "makeThinCupNut"),
     'DIN1587':  ("Nut",    FsData["din1587def"],    None,          None,           -1, 0, "makeCupNut"),
-    'DIN557':   ("Nut",    din557def,    None,          None,           -1, 0, ""),
-    'DIN562':   ("Nut",    din562def,    None,          None,           -1, 0, ""),
-    'DIN985':   ("Nut",    din985def,    None,          None,           -1, 0, ""),
+    'DIN557':   ("Nut",    FsData["din557def"],    None,          None,           -1, 0, "makeSquareNut"),
+    'DIN562':   ("Nut",    FsData["din562def"],    None,          None,           -1, 0, "makeSquareNut"),
+    'DIN985':   ("Nut",    FsData["din985def"],    None,          None,           -1, 0, "makeNylocNut"),
     'ASMEB18.2.1.6': ("Screw", FsData["asmeb18.2.1.6def"], FsData["asmeb18.2.1.6length"], FsData["asmeb18.2.1.6range"], -1, 0, "makeHexHeadBolt"),
     'ASMEB18.2.1.8':   ("Screw", FsData["asmeb18.2.1.8def"], FsData["inch_fs_length"], FsData["asmeb18.2.1.8range"], -1, 0, "makeHexHeadWithFlunge"),
     'ASMEB18.2.2.1A': ("Nut", FsData["asmeb18.2.2.1adef"], None, None, -1, 0, "makeHexNut"),
@@ -200,9 +198,6 @@ screwTables = {
     # * diam pos = the position within the def table to be used for auto diameter selection, -1 = get size from Mxx
     # * K Pos = the position within the def table to be used for countersunk holes creation
 }
-
-FSNutsList = ['DIN562', 'DIN557', 'DIN985']
-
 
 class FSScrewMaker(Screw):
     def FindClosest(self, type, diam, len):
@@ -362,8 +357,6 @@ class FSScrewMaker(Screw):
             FastenerBase.FSCacheRemoveThreaded()  # thread parameters have changed, remove cached ones
 
     def createFastener(self, type, diam, len, threadType, leftHanded, customPitch=None, customDia=None):
-        if type in FSNutsList:
-            return FSNuts.createNut(type, diam)
         return self.createScrew(type, diam, len, threadType, screwTables[type], leftHanded, customPitch, customDia)
 
 

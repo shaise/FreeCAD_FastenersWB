@@ -110,8 +110,9 @@ fsdatapath = os.path.join(__dir__, 'FsData')
 FsData = {}
 filelist = Path(fsdatapath).glob('*.csv')
 for item in filelist:
-    item_dict = csv2dict(str(item), fieldsnamed=True)
-    FsData[item.stem] = item_dict
+    tables = csv2dict(str(item), item.stem, fieldsnamed=True)
+    for tablename in tables.keys():
+        FsData[tablename] = tables[tablename]
 
 
 class Screw:
@@ -697,131 +698,8 @@ class Screw:
 
             return threadShell
 
-    def makeScrewTap(self):
-        ThreadType = self.fastenerDiam
-        if ThreadType != 'Custom':
-            dia = self.getDia(ThreadType, True)
-            if self.fastenerType == "ScrewTap":
-                P, tunIn, tunEx = FsData["tuningTable"][ThreadType]
-            elif self.fastenerType == 'ScrewTapInch':
-                P = FsData["asmeb18.3.1adef"][ThreadType][0]
-        else:  # custom pitch and diameter
-            P = self.customPitch
-            if self.sm3DPrintMode:
-                dia = self.smNutThrScaleA * self.customDia + self.smNutThrScaleB
-            else:
-                dia = self.customDia
-        residue, turns = math.modf(self.fastenerLen / P)
-        # FreeCAD.Console.PrintMessage("turns:" + str(turns) + "res: " + str(residue) + "\n")
-        if residue > 0.00001:
-            turns += 1.0
-        if self.rThread:
-            screwTap = self.makeInnerThread_2(dia, P, int(turns), None, 0.0)
-            # screwTap.translate(Base.Vector(0.0, 0.0, (1-residue)*P))
-        else:
-            H = P * math.cos(math.radians(30))  # Thread depth H
-            r = dia / 2.0
 
-            # points for inner thread profile
-            adjusted_l = turns * P
-            Pnt0 = Base.Vector(0.0, 0.0, 0)
-            Pnt1 = Base.Vector(r - H * 5.0 / 8.0, 0.0, 0)
-            Pnt2 = Base.Vector(r - H * 5.0 / 8.0, 0.0, -adjusted_l)
-            Pnt3 = Base.Vector(0.0, 0.0, -adjusted_l)
 
-            edge1 = Part.makeLine(Pnt0, Pnt1)
-            edge2 = Part.makeLine(Pnt1, Pnt2)
-            edge3 = Part.makeLine(Pnt2, Pnt3)
-            aWire = Part.Wire([edge1, edge2, edge3])
-            headShell = aWire.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
-            screwTap = Part.Solid(headShell)
-        return screwTap
-
-    # make object to cut external threads on a shaft
-    def makeScrewDie(self):
-        ThreadType = self.fastenerDiam
-        if ThreadType != "Custom":
-            dia = self.getDia(ThreadType, False)
-            if self.fastenerType == "ScrewDie":
-                P, tunIn, tunEx = FsData["tuningTable"][ThreadType]
-            elif self.fastenerType == "ScrewDieInch":
-                P = FsData["asmeb18.3.1adef"][ThreadType][0]
-        else:  # custom pitch and diameter
-            P = self.customPitch
-            if self.sm3DPrintMode:
-                dia = self.smScrewThrScaleA * self.customDia + self.smScrewThrScaleB
-            else:
-                dia = self.customDia
-        if self.rThread:
-            cutDia = dia * 0.75
-        else:
-            cutDia = dia
-        l = self.fastenerLen
-        refpoint = Base.Vector(0, 0, -1 * l)
-        screwDie = Part.makeCylinder(dia * 1.1 / 2, l, refpoint)
-        screwDie = screwDie.cut(Part.makeCylinder(cutDia / 2, l, refpoint))
-        if self.rThread:
-            shell_thread = self.makeShellthread(dia, P, l, False, 0)
-            thr_p1 = Base.Vector(0, 0, 0)
-            thr_p2 = Base.Vector(dia / 2, 0, 0)
-            thr_e1 = Part.makeLine(thr_p1, thr_p2)
-            thr_cap_profile = Part.Wire([thr_e1])
-            thr_cap = thr_cap_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
-            #Part.show(thr_cap)
-            #Part.show(shell_thread)
-            thr_faces = shell_thread.Faces
-            thr_faces.extend(thr_cap.Faces)
-            thread_shell = Part.Shell(thr_faces)
-            thread_solid = Part.Solid(thread_shell)
-            screwDie = screwDie.cut(thread_solid)
-        return screwDie
-
-    # make a length of standard threaded rod
-    def makeThreadedRod(self):
-        ThreadType = self.fastenerDiam
-        if ThreadType != 'Custom':
-            dia = self.getDia(ThreadType, False)
-            if self.fastenerType == 'ThreadedRod':
-                P, tunIn, tunEx = FsData['tuningTable'][ThreadType]
-            elif self.fastenerType == 'ThreadedRodInch':
-                P = FsData['asmeb18.3.1adef'][ThreadType][0]
-        else:  # custom pitch and diameter
-            P = self.customPitch
-            if self.sm3DPrintMode:
-                dia = self.smScrewThrScaleA * self.customDia + self.smScrewThrScaleB
-            else:
-                dia = self.customDia
-        dia = dia * 1.01
-        cham = P
-        l = self.fastenerLen
-        p0 = Base.Vector(0, 0, 0)
-        p1 = Base.Vector(dia / 2 - cham, 0, 0)
-        p2 = Base.Vector(dia / 2, 0, 0 - cham)
-        p3 = Base.Vector(dia / 2, 0, -1 * l + cham)
-        p4 = Base.Vector(dia / 2 - cham, 0, -1 * l)
-        p5 = Base.Vector(0, 0, -1 * l)
-        e1 = Part.makeLine(p0, p1)
-        e2 = Part.makeLine(p1, p2)
-        e3 = Part.makeLine(p2, p3)
-        e4 = Part.makeLine(p3, p4)
-        e5 = Part.makeLine(p4, p5)
-        p_profile = Part.Wire([e1, e2, e3, e4, e5])
-        p_shell = p_profile.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
-        screw = Part.Solid(p_shell)
-        if self.rThread:
-            # make the threaded section
-            shell_thread = self.makeShellthread(dia, P, l, False, 0)
-            thr_p1 = Base.Vector(0, 0, 0)
-            thr_p2 = Base.Vector(dia / 2, 0, 0)
-            thr_e1 = Part.makeLine(thr_p1, thr_p2)
-            thr_cap_profile = Part.Wire([thr_e1])
-            thr_cap = thr_cap_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
-            thr_faces = shell_thread.Faces
-            thr_faces.extend(thr_cap.Faces)
-            thread_shell = Part.Shell(thr_faces)
-            thread_solid = Part.Solid(thread_shell)
-            screw = screw.common(thread_solid)
-        return screw
 
     def cutChamfer(self, dia_cC, P_cC, l_cC):
         cham_t = P_cC * math.sqrt(3.0) / 2.0 * 17.0 / 24.0

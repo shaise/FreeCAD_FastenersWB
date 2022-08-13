@@ -192,16 +192,15 @@ class FSScrewObject(FSBaseObject):
             obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
         if "leftHanded" in params and not hasattr(obj, 'leftHanded'):
             obj.addProperty("App::PropertyBool", "leftHanded", "Parameters", "Left handed thread").leftHanded = False
-
         if "matchOuter" in params and not hasattr(obj, "matchOuter"):
             obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
 
         # length parameters
         addCustomLen = "lengthCustom" in params and not hasattr(obj, "lengthCustom")
         if "length" in params:
-            if diameter == "Auto":
-                diameter = self.initialDiameter
             if not hasattr(obj, 'length'):
+                if diameter == "Auto":
+                    diameter = self.initialDiameter
                 slens = screwMaker.GetAllLengths(obj.type, diameter, addCustomLen)
                 obj.addProperty("App::PropertyEnumeration", "length", "Parameters", "Screw length").length = slens
             elif addCustomLen:

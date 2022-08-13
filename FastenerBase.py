@@ -354,7 +354,16 @@ class FSFaceMaker:
         z2 = zac + r * math.sin(sa)
         self.AddArc(x1, z1, x2, z2)
 
-    def GetFace(self):
+    def AddPoints(self, *args):
+        for arg in args:
+            if len(arg) == 2:
+                self.AddPoint(arg[0], arg[1])
+            elif len(arg) == 3:
+                self.AddArc2(arg[0], arg[1], arg[2])
+            elif len(arg) == 4:
+                self.AddArc(arg[0], arg[1], arg[2], arg[3])
+
+    def GetFace(self, pointList = None):
         self.edges.append(Part.makeLine(self.lastPoint, self.firstPoint))
         w = Part.Wire(self.edges)
         return Part.Face(w)

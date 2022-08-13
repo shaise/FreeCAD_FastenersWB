@@ -204,6 +204,11 @@ Check out the corresponding commit [HERE](https://github.com/shaise/FreeCAD_Fast
 ``` python
     "ASMEB18.5.2": ("ASME B18.5 UNC Round head square neck bolts", "Other head", ScrewParameters)
 ```
+The first arg is the fastener description  
+The second is the fastener group (fasteners in the same group are interchangeable using the `type` property)  
+The third arg is the list of propereties the fastener uses  
+
+
 
 Check out the corresponding commit [HERE](https://github.com/shaise/FreeCAD_FastenersWB/commit/a60aa6a84a06ebd08072ad8e7e08d35095885f9f#diff-964aeb21792025cecf1c3e54451f5102de16b71312d66ff5d442ca5a63b82d13).
 

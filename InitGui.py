@@ -43,7 +43,7 @@ class FastenersWorkbench (Workbench):
     def Initialize(self):
         "This function is executed when FreeCAD starts"
         import os
-        import FastenerBase, FSScrewCalc, PEMInserts, FastenersCmd, FSNuts
+        import FastenerBase, FSScrewCalc, PEMInserts, FastenersCmd
         import CountersunkHoles, FSChangeParams
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command") 

@@ -198,10 +198,11 @@ screwTables = {
 
 Check out the corresponding commit [HERE](https://github.com/shaise/FreeCAD_FastenersWB/commit/a60aa6a84a06ebd08072ad8e7e08d35095885f9f#diff-7500edada7f01d372094af6412f7926a5f9925d65ed9fae3da8335aa493ea1a7).
 
-- `FastenersCmd.py` needs a line to initialize a new toolbar command for the workbench. 
+- `FastenersCmd.py` needs a line to initialize a new toolbar command for the workbench.
+ Add a line to `FSScrewCommandTable`:
 
 ``` python
-FSAddScrewCommand("ASMEB18.5.2", "ASME B18.5 UNC Round head square neck bolts", "Other head")
+    "ASMEB18.5.2": ("ASME B18.5 UNC Round head square neck bolts", "Other head", ScrewParameters)
 ```
 
 Check out the corresponding commit [HERE](https://github.com/shaise/FreeCAD_FastenersWB/commit/a60aa6a84a06ebd08072ad8e7e08d35095885f9f#diff-964aeb21792025cecf1c3e54451f5102de16b71312d66ff5d442ca5a63b82d13).

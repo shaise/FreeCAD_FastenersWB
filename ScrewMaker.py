@@ -301,7 +301,7 @@ class FSScrewMaker(Screw):
         FreeCAD.Console.PrintLog("Get diams for type:" + str(type) + "\n")
         return sorted(screwTables[type][1], key=FastenerBase.DiaStr2Num)  # ***
 
-    def GetAllLengths(self, type, diam):
+    def GetAllLengths(self, type, diam, addCustom = True):
         lens = screwTables[type][2]
         range = screwTables[type][3][diam]
         list = []
@@ -312,7 +312,8 @@ class FSScrewMaker(Screw):
             if l >= min and l <= max:
                 list.append(len)
         list.sort(key=FastenerBase.LenStr2Num)  # ***
-        list.append("Custom")
+        if addCustom:
+            list.append("Custom")
         return list
 
     def GetAllCountersunkTypes(self):

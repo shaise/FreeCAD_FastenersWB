@@ -23,6 +23,7 @@
 #  
 ###################################################################################
 
+from urllib.response import addclosehook
 from FreeCAD import Gui
 import FreeCAD, FreeCADGui, Part, os
 
@@ -37,26 +38,126 @@ import ScrewMaker
 screwMaker = ScrewMaker.Instance()
 
 
+
+ScrewParameters = { "type", "diameter", "thread", "leftHanded", "matchOuter", "length", "lengthCustom" }
+RodParameters = { "type", "diameter", "thread", "leftHanded", "matchOuter", "lengthArbitrary",  "diameterCustom", "pitchCustom" }
+NutParameters = { "type", "diameter", "thread", "leftHanded", "matchOuter" }
+WasherParameters = { "type", "diameter", "matchOuter" }
+
+CMD_HELP = 0
+CMD_GROUP = 1
+CMD_PARAMETER_GRP = 2
+FSScrewCommandTable = {
+    # type:     help,                      group,      parameter-group
+    "ISO4017": ("ISO 4017 Hex head screw", "Hex head", ScrewParameters), 
+    "ISO4014": ("ISO 4014 Hex head bolt", "Hex head", ScrewParameters), 
+    "EN1662": ("EN 1662 Hexagon bolt with flange, small series", "Hex head", ScrewParameters), 
+    "EN1665": ("EN 1665 Hexagon bolt with flange, heavy series", "Hex head", ScrewParameters), 
+    "DIN571": ("DIN 571 Hex head wood screw", "Hex head", ScrewParameters), 
+
+    "ISO4762": ("ISO4762 Hexagon socket head cap screw", "Hexagon socket", ScrewParameters), 
+    "DIN7984": ("DIN 7984 Hexagon socket head cap screws with low head", "Hexagon socket", ScrewParameters), 
+    "DIN6912": ("DIN 6912 Hexagon socket head cap screws with low head with centre", "Hexagon socket", ScrewParameters), 
+    "ISO7380-1": ("ISO 7380 Hexagon socket button head screw", "Hexagon socket", ScrewParameters), 
+    "ISO7380-2": ("ISO 7380 Hexagon socket button head screws with collar", "Hexagon socket", ScrewParameters), 
+    "ISO10642": ("ISO 10642 Hexagon socket countersunk head screw", "Hexagon socket", ScrewParameters), 
+    "ISO7379": ("ISO 7379 Hexagon socket head shoulder screw", "Hexagon socket", ScrewParameters), 
+    "ISO4026": ("ISO 4026 Hexagon socket set screws with flat point", "Hexagon socket", ScrewParameters), 
+    "ISO4027": ("ISO 4027 Hexagon socket set screws with cone point", "Hexagon socket", ScrewParameters), 
+    "ISO4028": ("ISO 4028 Hexagon socket set screws with dog point", "Hexagon socket", ScrewParameters), 
+    "ISO4029": ("ISO 4029 Hexagon socket set screws with cup point", "Hexagon socket", ScrewParameters), 
+
+    "ISO14579": ("ISO 14579 Hexalobular socket head cap screws", "Hexalobular socket", ScrewParameters), 
+    "ISO14580": ("ISO 14580 Hexalobular socket cheese head screws", "Hexalobular socket", ScrewParameters), 
+#    "ISO14581": ("ISO 14581 Hexalobular socket countersunk flat head screws", "Hexalobular socket", ScrewParameters), 
+    "ISO14582": ("ISO 14582 Hexalobular socket countersunk head screws, high head", "Hexalobular socket", ScrewParameters), 
+    "ISO14583": ("ISO 14583 Hexalobular socket pan head screws", "Hexalobular socket", ScrewParameters), 
+    "ISO14584": ("ISO 14584 Hexalobular socket raised countersunk head screws", "Hexalobular socket", ScrewParameters), 
+
+    "ISO2009": ("ISO 2009 Slotted countersunk flat head screw", "Slotted", ScrewParameters), 
+    "ISO2010": ("ISO 2010 Slotted raised countersunk head screw", "Slotted", ScrewParameters), 
+    "ISO1580": ("ISO 1580 Slotted pan head screw", "Slotted", ScrewParameters), 
+    "ISO1207": ("ISO 1207 Slotted cheese head screw", "Slotted", ScrewParameters), 
+
+    "DIN967": ("DIN 967 Cross recessed pan head screws with collar", "H cross", ScrewParameters), 
+    "ISO7045": ("ISO 7045 Pan head screws type H cross recess", "H cross", ScrewParameters), 
+    "ISO7046": ("ISO 7046 Countersunk flat head screws H cross r.", "H cross", ScrewParameters), 
+    "ISO7047": ("ISO 7047 Raised countersunk head screws H cross r.", "H cross", ScrewParameters), 
+    "ISO7048": ("ISO 7048 Cheese head screws with type H cross r.", "H cross", ScrewParameters), 
+
+    "ISO4032": ("ISO 4032 Hexagon nuts, Style 1", "Nut", NutParameters), 
+    "ISO4033": ("ISO 4033 Hexagon nuts, Style 2", "Nut", NutParameters), 
+    "ISO4035": ("ISO 4035 Hexagon thin nuts, chamfered", "Nut", NutParameters), 
+#    "ISO4036": ("ISO 4035 Hexagon thin nuts, unchamfered", "Nut", NutParameters), 
+    "EN1661": ("EN 1661 Hexagon nuts with flange", "Nut", NutParameters), 
+    "DIN917": ("DIN917 Cap nuts, thin style", "Nut", NutParameters), 
+    "DIN1587": ("DIN 1587 Cap nuts", "Nut", NutParameters), 
+    "DIN557": ("DIN 557 Square nuts", "Nut", NutParameters), 
+    "DIN562": ("DIN 562 Square nuts", "Nut", NutParameters), 
+    "DIN985": ("DIN 985 Nyloc nuts", "Nut", NutParameters), 
+
+    "ISO7089": ("ISO 7089 Washer", "Washer", WasherParameters), 
+    "ISO7090": ("ISO 7090 Plain Washers, chamfered - Normal series", "Washer", WasherParameters), 
+#    "ISO7091": ("ISO 7091 Plain washer - Normal series Product Grade C", "Washer", WasherParameters),   # same as 7089??
+    "ISO7092": ("ISO 7092 Plain washers - Small series", "Washer", WasherParameters), 
+    "ISO7093-1": ("ISO 7093-1 Plain washers - Large series", "Washer", WasherParameters), 
+    "ISO7094": ("ISO 7094 Plain washers - Extra large series", "Washer", WasherParameters), 
+    "NFE27-619": ("NFE27-619 Countersunk washer", "Washer", WasherParameters), 
+
+# Inch
+
+    "ASMEB18.2.1.6": ("ASME B18.2.1 UNC Hex head screws", "Hex head", ScrewParameters), 
+    "ASMEB18.2.1.8": ("ASME B18.2.1 UNC Hex head screws with flange", "Hex head", ScrewParameters), 
+
+    "ASMEB18.3.1A": ("ASME B18.3 UNC Hex socket head cap screws", "Hexagon socket", ScrewParameters), 
+    "ASMEB18.3.1G": ("ASME B18.3 UNC Hex socket head cap screws with low head", "Hexagon socket", ScrewParameters), 
+    "ASMEB18.3.2": ("ASME B18.3 UNC Hex socket countersunk head screws", "Hexagon socket", ScrewParameters), 
+    "ASMEB18.3.3A": ("ASME B18.3 UNC Hex socket button head screws", "Hexagon socket", ScrewParameters), 
+    "ASMEB18.3.3B": ("ASME B18.3 UNC Hex socket button head screws with flange", "Hexagon socket", ScrewParameters), 
+    "ASMEB18.3.4": ("ASME B18.3 UNC Hexagon socket head shoulder screws", "Hexagon socket", ScrewParameters), 
+    "ASMEB18.3.5A": ("ASME B18.3 UNC Hexagon socket set screws with flat point", "Hexagon socket", ScrewParameters), 
+    "ASMEB18.3.5B": ("ASME B18.3 UNC Hexagon socket set screws with cone point", "Hexagon socket", ScrewParameters), 
+    "ASMEB18.3.5C": ("ASME B18.3 UNC Hexagon socket set screws with dog point", "Hexagon socket", ScrewParameters), 
+    "ASMEB18.3.5D": ("ASME B18.3 UNC Hexagon socket set screws with cup point", "Hexagon socket", ScrewParameters), 
+
+    "ASMEB18.6.3.1A": ("ASME B18.6.3 UNC slotted countersunk flat head screws", "Slotted", ScrewParameters), 
+
+    "ASMEB18.5.2": ("ASME B18.5 UNC Round head square neck bolts", "Other head", ScrewParameters), 
+
+    "ASMEB18.2.2.1A": ("ASME B18.2.2 UNC Machine screw nuts", "Nut", NutParameters), 
+    "ASMEB18.2.2.4A": ("ASME B18.2.2 UNC Hexagon nuts", "Nut", NutParameters), 
+    "ASMEB18.2.2.4B": ("ASME B18.2.2 UNC Hexagon thin nuts", "Nut", NutParameters), 
+
+    "ASMEB18.21.1.12A": ("ASME B18.21.1 UN washers, narrow series", "Washer", WasherParameters), 
+    "ASMEB18.21.1.12B": ("ASME B18.21.1 UN washers, regular series", "Washer", WasherParameters), 
+    "ASMEB18.21.1.12C": ("ASME B18.21.1 UN washers, wide series", "Washer", WasherParameters), 
+
+    "ScrewTap": ("Add metric threaded rod for tapping holes", "ThreadedRod", RodParameters), 
+    "ScrewTapInch": ("Add Inch threaded rod for tapping holes", "ThreadedRod", RodParameters), 
+    "ScrewDie": ("Add object to cut external metric threads", "ThreadedRod", RodParameters), 
+    "ScrewDieInch": ("Add object to cut external non-metric threads", "ThreadedRod", RodParameters), 
+    "ThreadedRod": ("Add DIN 975 metric threaded rod", "ThreadedRod", RodParameters), 
+    "ThreadedRodInch": ("Add UNC threaded rod", "ThreadedRod", RodParameters), 
+}
+
+def GetParams(type):
+    if not type in FSScrewCommandTable:
+        return {}
+    return FSScrewCommandTable[type][CMD_PARAMETER_GRP]
+
+
 class FSScrewObject(FSBaseObject):
     def __init__(self, obj, type, attachTo):
         '''"Add screw type fastener" '''
         super().__init__(obj, attachTo)
-        self.itemText = screwMaker.GetTypeName(type)
-        diameters = screwMaker.GetAllDiams(type)
-        diameters.insert(0, 'Auto')
         self.type = ''
         self.diameter = ''
         self.matchOuter = ''
         self.length = ''
         self.customlen = -1
+        # FreeCAD.Console.PrintMessage("Added: " + type + "\n")
         # self.Proxy = obj.Name
-        obj.addProperty("App::PropertyEnumeration", "type", "Parameters", "Screw type").type = screwMaker.GetAllTypes(
-            self.itemText)
-        obj.type = type
-        obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters", "Screw diameter standard").diameter = diameters
-        self.VerifyMissingAttrs(obj, diameters[1])
-        if self.itemText != "Washer":
-            obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
+        self.VerifyMissingAttrs(obj, type)
         obj.Proxy = self
 
     def inswap(self, inpstr):
@@ -65,19 +166,63 @@ class FSScrewObject(FSBaseObject):
         else:
             return inpstr
 
-    def VerifyMissingAttrs(self, obj, diameter):
+    def VerifyMissingAttrs(self, obj, type = None):
+        # basic parameters
         self.updateProps(obj)
-        if not hasattr(obj, 'matchOuter'):
+        if not hasattr(obj, "type"):
+            if type is None:
+                type = obj.Proxy.type
+            self.itemText = screwMaker.GetTypeName(type)
+            obj.addProperty("App::PropertyEnumeration", "type", "Parameters", "Screw type").type = screwMaker.GetAllTypes(self.itemText)
+            obj.type = type
+
+        if not hasattr(obj, "diameter"):
+            diameters = screwMaker.GetAllDiams(type)
+            diameters.insert(0, 'Auto')
+            if "diameterCustom" in GetParams(type):
+                diameters.append("Custom")
+            obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters", "Screw diameter standard").diameter = diameters
+            self.initialDiameter = diameter = diameters[1]
+        else:
+            diameter = obj.diameter
+        params = GetParams(obj.type)
+
+        # thread parameters
+        if "thread" in params and not hasattr(obj, "thread"):
+            obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
+        if "leftHanded" in params and not hasattr(obj, 'leftHanded'):
+            obj.addProperty("App::PropertyBool", "leftHanded", "Parameters", "Left handed thread").leftHanded = False
+
+        if "matchOuter" in params and not hasattr(obj, "matchOuter"):
             obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
-        if self.itemText == "Screw" and not hasattr(obj, 'lengthCustom'):
-            slens = screwMaker.GetAllLengths(obj.type, diameter)
-            if hasattr(obj, 'length'):
+
+        # length parameters
+        addCustomLen = "lengthCustom" in params and not hasattr(obj, "lengthCustom")
+        if "length" in params:
+            if diameter == "Auto":
+                diameter = self.initialDiameter
+            if not hasattr(obj, 'length'):
+                slens = screwMaker.GetAllLengths(obj.type, diameter, addCustomLen)
+                obj.addProperty("App::PropertyEnumeration", "length", "Parameters", "Screw length").length = slens
+            elif addCustomLen:
+                slens = screwMaker.GetAllLengths(obj.type, diameter, True)
                 origLen = obj.length
                 obj.length = slens
                 obj.length = origLen
-            else:
-                obj.addProperty("App::PropertyEnumeration", "length", "Parameters", "Screw length").length = slens
-            obj.addProperty("App::PropertyLength", "lengthCustom", "Parameters", "Custom length").lengthCustom = self.inswap(slens[0])
+            if addCustomLen:
+                obj.addProperty("App::PropertyLength", "lengthCustom", "Parameters", "Custom length").lengthCustom = self.inswap(slens[0])
+
+        # rod parameters
+        if "lengthArbitrary" in params and not hasattr(obj, "length"):
+            obj.addProperty("App::PropertyLength", "length", "Parameters", "Screw length").length = 20.0
+        if "diameterCustom" in params and not hasattr(obj, "diameterCustom"):
+            obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", "Screw major diameter custom").diameterCustom = 6
+        if "pitchCustom" in params and not hasattr(obj, "pitchCustom"):
+            obj.addProperty("App::PropertyLength", "pitchCustom", "Parameters", "Screw pitch custom").pitchCustom = 1.0
+
+    def onDocumentRestored(self, obj):
+        # for backward compatibility: add missing attribute if needed
+        self.VerifyMissingAttrs(obj)
 
     def ActiveLength(self, obj):
         if not hasattr(obj, 'length'):
@@ -97,10 +242,11 @@ class FSScrewObject(FSBaseObject):
             shape = None
 
         # for backward compatibility: add missing attribute if needed
-        self.VerifyMissingAttrs(fp, fp.diameter)
+        # self.VerifyMissingAttrs(fp, fp.diameter)
 
         # FreeCAD.Console.PrintLog("MatchOuter:" + str(fp.matchOuter) + "\n")
-
+        params = GetParams(fp.type)
+ 
         typechange = False
         if fp.type == "ISO7380":
             fp.type = "ISO7380-1"  # backward compatibility
@@ -109,6 +255,9 @@ class FSScrewObject(FSBaseObject):
             curdiam = fp.diameter
             diameters = screwMaker.GetAllDiams(fp.type)
             diameters.insert(0, 'Auto')
+            if "diameterCustom" in params:
+                diameters.append("Custom")
+
             if not (curdiam in diameters):
                 curdiam = 'Auto'
             fp.diameter = diameters
@@ -124,61 +273,87 @@ class FSScrewObject(FSBaseObject):
             d = screwMaker.AutoDiameter(fp.type, shape, baseobj, fp.matchOuter)
             fp.diameter = d
             diameterchange = True
+            d_custom = None
+        elif fp.diameter == 'Custom' and hasattr(fp, "diameterCustom"):
+            d = fp.diameter
+            d_custom = fp.diameterCustom.Value
         else:
             d = fp.diameter
+            d_custom = None
 
         if hasattr(fp, 'length'):
-            if fp.length != self.length:
-                if fp.length != 'Custom':
-                    fp.lengthCustom = FastenerBase.LenStr2Num(fp.length)  # ***
-            elif hasattr(self, 'customlen') and float(fp.lengthCustom) != self.customlen:
-                fp.length = 'Custom'
-            origLen = self.ActiveLength(fp)
-            origIsCustom = fp.length == 'Custom'
-            d, l = screwMaker.FindClosest(fp.type, d, origLen)
-            if d != fp.diameter:
-                diameterchange = True
-                fp.diameter = d
-
-            if origIsCustom:
-                l = origLen
-
-            if l != origLen or diameterchange or typechange:
-                if diameterchange or typechange:
-                    fp.length = screwMaker.GetAllLengths(fp.type, fp.diameter)
-                if origIsCustom:
+            if type(fp.length) == type(""):
+                # fixed lengths
+                if fp.length != self.length:
+                    if fp.length != 'Custom':
+                        fp.lengthCustom = FastenerBase.LenStr2Num(fp.length)  # ***
+                elif hasattr(self, 'customlen') and float(fp.lengthCustom) != self.customlen:
                     fp.length = 'Custom'
-                else:
-                    fp.length = l
-                    fp.lengthCustom = l
+                origLen = self.ActiveLength(fp)
+                origIsCustom = fp.length == 'Custom'
+                d, l = screwMaker.FindClosest(fp.type, d, origLen)
+                if d != fp.diameter:
+                    diameterchange = True
+                    fp.diameter = d
+
+                if origIsCustom:
+                    l = origLen
+
+                if l != origLen or diameterchange or typechange:
+                    if diameterchange or typechange:
+                        fp.length = screwMaker.GetAllLengths(fp.type, fp.diameter)
+                    if origIsCustom:
+                        fp.length = 'Custom'
+                    else:
+                        fp.length = l
+                        fp.lengthCustom = l
+            else:
+                # arbitrary lengths
+                l = fp.length.Value
+                if l < 2.0:
+                    l = 2.0
+                    fp.length = 2.0
+                l = str(l)
         else:
-            l = 1
+            l = "1"
+
+        if fp.diameter == 'Custom' and hasattr(fp, "pitchCustom"):
+            p = fp.pitchCustom.Value
+        else:
+            p = None
 
         screwMaker.updateFastenerParameters()
 
         threadType = 'simple'
+        leftHanded = False
         if hasattr(fp, 'thread') and fp.thread:
             threadType = 'real'
-        leftHanded = fp.leftHanded
+        if hasattr(fp, 'leftHanded'):
+            leftHanded = fp.leftHanded
         
         # Here we are generating a new key if is not present in cache. This key is also used in method 
         # FastenerBase.FSCacheRemoveThreaded and there the key value MUST always end with threadType, 
         # in order to remove its old value from cache if needed. This way it will allow to correctly recompute 
         # the threaded screws and nuts in case of changing the 3D Printing settings in Fasteners Workbench.
-        (key, s) = FastenerBase.FSGetKey(self.itemText, fp.type, d, l, leftHanded, threadType)
+        (key, s) = FastenerBase.FSGetKey(self.itemText, fp.type, d, l, leftHanded, threadType, p, d_custom)
         if s is None:
-            s = screwMaker.createFastener(fp.type, d, l, threadType, leftHanded)
+            s = screwMaker.createFastener(fp.type, d, l, threadType, leftHanded, p, d_custom)
             FastenerBase.FSCache[key] = s
         else:
             FreeCAD.Console.PrintLog("Using cached object\n")
 
         self.type = fp.type
         self.diameter = fp.diameter
-        self.matchOuter = fp.matchOuter
+        if "matchOuter" in params:
+            self.matchOuter = fp.matchOuter
         if hasattr(fp, 'length'):
             self.length = l
-            self.customlen = float(fp.lengthCustom)
-            label = fp.diameter + 'x' + l
+            if hasattr(fp, 'lengthCustom'):
+                self.customlen = float(fp.lengthCustom)
+            if fp.diameter == "Custom":
+                label = str(fp.diameterCustom) + 'x' + l
+            else:
+                label = fp.diameter + 'x' + l
             if fp.leftHanded:
                 label += 'LH'
             label += '-' + self.itemText
@@ -271,652 +446,29 @@ class FSScrewCommand:
     def IsActive(self):
         return Gui.ActiveDocument is not None
 
-
-def FSAddScrewCommand(type, help, dropGroup=None):
+def FSAddScrewCommand(type):
     cmd = 'FS' + type
-    Gui.addCommand(cmd, FSScrewCommand(type, help))
-    FastenerBase.FSCommands.append(cmd, "screws", dropGroup)
-
-# Metric
-
-FSAddScrewCommand("ISO4017", "ISO 4017 Hex head screw", "Hex head")
-FSAddScrewCommand("ISO4014", "ISO 4014 Hex head bolt", "Hex head")
-FSAddScrewCommand("EN1662", "EN 1662 Hexagon bolt with flange, small series", "Hex head")
-FSAddScrewCommand("EN1665", "EN 1665 Hexagon bolt with flange, heavy series", "Hex head")
-FSAddScrewCommand("DIN571", "DIN 571 Hex head wood screw", "Hex head")
-
-FSAddScrewCommand("ISO4762", "ISO4762 Hexagon socket head cap screw", "Hexagon socket")
-FSAddScrewCommand("DIN7984", "DIN 7984 Hexagon socket head cap screws with low head", "Hexagon socket")
-FSAddScrewCommand("DIN6912", "DIN 6912 Hexagon socket head cap screws with low head with centre", "Hexagon socket")
-FSAddScrewCommand("ISO7380-1", "ISO 7380 Hexagon socket button head screw", "Hexagon socket")
-FSAddScrewCommand("ISO7380-2", "ISO 7380 Hexagon socket button head screws with collar", "Hexagon socket")
-FSAddScrewCommand("ISO10642", "ISO 10642 Hexagon socket countersunk head screw", "Hexagon socket")
-FSAddScrewCommand("ISO7379", "ISO 7379 Hexagon socket head shoulder screw", "Hexagon socket")
-FSAddScrewCommand("ISO4026", "ISO 4026 Hexagon socket set screws with flat point", "Hexagon socket")
-FSAddScrewCommand("ISO4027", "ISO 4027 Hexagon socket set screws with cone point", "Hexagon socket")
-FSAddScrewCommand("ISO4028", "ISO 4028 Hexagon socket set screws with dog point", "Hexagon socket")
-FSAddScrewCommand("ISO4029", "ISO 4029 Hexagon socket set screws with cup point", "Hexagon socket")
-
-FSAddScrewCommand("ISO14579", "ISO 14579 Hexalobular socket head cap screws", "Hexalobular socket")
-FSAddScrewCommand("ISO14580", "ISO 14580 Hexalobular socket cheese head screws", "Hexalobular socket")
-#FSAddScrewCommand("ISO14581", "ISO 14581 Hexalobular socket countersunk flat head screws", "Hexalobular socket")
-FSAddScrewCommand("ISO14582", "ISO 14582 Hexalobular socket countersunk head screws, high head", "Hexalobular socket")
-FSAddScrewCommand("ISO14583", "ISO 14583 Hexalobular socket pan head screws", "Hexalobular socket")
-FSAddScrewCommand("ISO14584", "ISO 14584 Hexalobular socket raised countersunk head screws", "Hexalobular socket")
-
-FSAddScrewCommand("ISO2009", "ISO 2009 Slotted countersunk flat head screw", "Slotted")
-FSAddScrewCommand("ISO2010", "ISO 2010 Slotted raised countersunk head screw", "Slotted")
-FSAddScrewCommand("ISO1580", "ISO 1580 Slotted pan head screw", "Slotted")
-FSAddScrewCommand("ISO1207", "ISO 1207 Slotted cheese head screw", "Slotted")
-
-FSAddScrewCommand("DIN967", "DIN 967 Cross recessed pan head screws with collar", "H cross")
-FSAddScrewCommand("ISO7045", "ISO 7045 Pan head screws type H cross recess", "H cross")
-FSAddScrewCommand("ISO7046", "ISO 7046 Countersunk flat head screws H cross r.", "H cross")
-FSAddScrewCommand("ISO7047", "ISO 7047 Raised countersunk head screws H cross r.", "H cross")
-FSAddScrewCommand("ISO7048", "ISO 7048 Cheese head screws with type H cross r.", "H cross")
-
-FSAddScrewCommand("ISO4032", "ISO 4032 Hexagon nuts, Style 1", "Nut")
-FSAddScrewCommand("ISO4033", "ISO 4033 Hexagon nuts, Style 2", "Nut")
-FSAddScrewCommand("ISO4035", "ISO 4035 Hexagon thin nuts, chamfered", "Nut")
-#FSAddScrewCommand("ISO4036", "ISO 4035 Hexagon thin nuts, unchamfered", "Nut")
-FSAddScrewCommand("EN1661", "EN 1661 Hexagon nuts with flange", "Nut")
-FSAddScrewCommand("DIN917", "DIN917 Cap nuts, thin style", "Nut")
-FSAddScrewCommand("DIN1587", "DIN 1587 Cap nuts", "Nut")
-FSAddScrewCommand("DIN557", "DIN 557 Square nuts", "Nut")
-FSAddScrewCommand("DIN562", "DIN 562 Square nuts", "Nut")
-FSAddScrewCommand("DIN985", "DIN 985 Nyloc nuts", "Nut")
-
-FSAddScrewCommand("ISO7089", "ISO 7089 Washer", "Washer")
-FSAddScrewCommand("ISO7090", "ISO 7090 Plain Washers, chamfered - Normal series", "Washer")
-#FSAddScrewCommand("ISO7091", "ISO 7091 Plain washer - Normal series Product Grade C", "Washer")  # same as 7089??
-FSAddScrewCommand("ISO7092", "ISO 7092 Plain washers - Small series", "Washer")
-FSAddScrewCommand("ISO7093-1", "ISO 7093-1 Plain washers - Large series", "Washer")
-FSAddScrewCommand("ISO7094", "ISO 7094 Plain washers - Extra large series", "Washer")
-FSAddScrewCommand("NFE27-619", "NFE27-619 Countersunk washer", "Washer")
-
-# Inch
-
-FSAddScrewCommand("ASMEB18.2.1.6", "ASME B18.2.1 UNC Hex head screws", "Hex head")
-FSAddScrewCommand("ASMEB18.2.1.8", "ASME B18.2.1 UNC Hex head screws with flange", "Hex head")
-
-FSAddScrewCommand("ASMEB18.3.1A", "ASME B18.3 UNC Hex socket head cap screws", "Hexagon socket")
-FSAddScrewCommand("ASMEB18.3.1G", "ASME B18.3 UNC Hex socket head cap screws with low head", "Hexagon socket")
-FSAddScrewCommand("ASMEB18.3.2", "ASME B18.3 UNC Hex socket countersunk head screws", "Hexagon socket")
-FSAddScrewCommand("ASMEB18.3.3A", "ASME B18.3 UNC Hex socket button head screws", "Hexagon socket")
-FSAddScrewCommand("ASMEB18.3.3B", "ASME B18.3 UNC Hex socket button head screws with flange", "Hexagon socket")
-FSAddScrewCommand("ASMEB18.3.4", "ASME B18.3 UNC Hexagon socket head shoulder screws", "Hexagon socket")
-FSAddScrewCommand("ASMEB18.3.5A", "ASME B18.3 UNC Hexagon socket set screws with flat point", "Hexagon socket")
-FSAddScrewCommand("ASMEB18.3.5B", "ASME B18.3 UNC Hexagon socket set screws with cone point", "Hexagon socket")
-FSAddScrewCommand("ASMEB18.3.5C", "ASME B18.3 UNC Hexagon socket set screws with dog point", "Hexagon socket")
-FSAddScrewCommand("ASMEB18.3.5D", "ASME B18.3 UNC Hexagon socket set screws with cup point", "Hexagon socket")
-
-FSAddScrewCommand("ASMEB18.6.3.1A", "ASME B18.6.3 UNC slotted countersunk flat head screws", "Slotted")
-
-FSAddScrewCommand("ASMEB18.5.2", "ASME B18.5 UNC Round head square neck bolts", "Other head")
-
-FSAddScrewCommand("ASMEB18.2.2.1A", "ASME B18.2.2 UNC Machine screw nuts", "Nut")
-FSAddScrewCommand("ASMEB18.2.2.4A", "ASME B18.2.2 UNC Hexagon nuts", "Nut")
-FSAddScrewCommand("ASMEB18.2.2.4B", "ASME B18.2.2 UNC Hexagon thin nuts", "Nut")
-
-FSAddScrewCommand("ASMEB18.21.1.12A", "ASME B18.21.1 UN washers, narrow series", "Washer")
-FSAddScrewCommand("ASMEB18.21.1.12B", "ASME B18.21.1 UN washers, regular series", "Washer")
-FSAddScrewCommand("ASMEB18.21.1.12C", "ASME B18.21.1 UN washers, wide series", "Washer")
-
-
-
-# deprecated
-class FSWasherObject(FSBaseObject):
-    def __init__(self, obj, type, attachTo):
-        '''"Add washer / nut type fastener" '''
-        FSBaseObject.__init__(self, obj, attachTo)
-        self.itemText = screwMaker.GetTypeName(type)
-        diameters = screwMaker.GetAllDiams(type)
-        diameters.insert(0, 'Auto')
-        # self.Proxy = obj.Name
-
-        obj.addProperty("App::PropertyEnumeration", "type", "Parameters",
-                        "Screw type").type = screwMaker.GetAllTypes(
-            self.itemText)
-        obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters",
-                        "Screw diameter standard").diameter = diameters
-        obj.type = type
-        obj.Proxy = self
-
-    def execute(self, fp):
-        '''"Print a short message when doing a recomputation, this method is mandatory" '''
-
-        try:
-            baseobj = fp.baseObject[0]
-            shape = baseobj.Shape.getElement(fp.baseObject[1][0])
-        except:
-            baseobj = None
-            shape = None
-
-        if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
-            if fp.diameter == 'Auto':
-                d = screwMaker.AutoDiameter(fp.type, shape)
-                diameterchange = True
-            else:
-                d = fp.diameter
-
-            d, l = screwMaker.FindClosest(fp.type, d, '0')
-            if d != fp.diameter:
-                fp.diameter = d
-            s = screwMaker.createScrew(fp.type, d, l, 'simple')
-            self.diameter = fp.diameter
-            fp.Label = fp.diameter + '-' + self.itemText
-            # self.itemText = s[1]
-            fp.Shape = s
-        else:
-            FreeCAD.Console.PrintLog("Using cached object\n")
-        if shape is not None:
-            # feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
-            # fp.Placement = FreeCAD.Placement() # reset placement
-            FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
-
-    def getItemText(self):
-        return self.itemText
-
-
-# deprecated
-class FSWasherCommand:
-    """Add Screw command"""
-
-    def __init__(self, type, help):
-        self.Type = type
-        self.Help = help
-
-    def GetResources(self):
-        icon = os.path.join(iconPath, self.Type + '.svg')
-        return {'Pixmap': icon,
-                # the name of a svg file available in the resources
-                'MenuText': "Add " + self.Help,
-                'ToolTip': self.Help}
-
-    def Activated(self):
-        for selObj in FastenerBase.FSGetAttachableSelections():
-            a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython", "Washer")
-            FSWasherObject(a, self.Type, selObj)
-            a.Label = a.Proxy.itemText
-            FSViewProviderTree(a.ViewObject)
-        FreeCAD.ActiveDocument.recompute()
-        return
-
-    def IsActive(self):
-        return Gui.ActiveDocument is not None
-
-
-# Gui.addCommand("FSISO7089",FSWasherCommand("ISO7089", "Washer"))
-# FastenerBase.FSCommands.append("FSISO7089")
-
-class FSScrewRodObject(FSBaseObject):
-    def __init__(self, obj, attachTo, typeStr):
-        '''"Add screw rod" '''
-        FSBaseObject.__init__(self, obj, attachTo)
-        self.itemText = "ScrewTap"
-        self.type = typeStr
-        diameters = screwMaker.GetAllDiams(self.type) + ["Custom"]
-        diameters.insert(0, 'Auto')
-        obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters", "Screw diameter standard").diameter = diameters
-        obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", "Screw major diameter custom").diameterCustom = 6
-        obj.addProperty("App::PropertyLength", "pitchCustom", "Parameters",
-                        "Screw pitch custom").pitchCustom = 1.0
-        obj.addProperty("App::PropertyLength", "length", "Parameters",
-                        "Screw length").length = 20.0
-        self.VerifyMissingAttrs(obj)
-        obj.addProperty("App::PropertyBool", "thread", "Parameters",
-                        "Generate real thread").thread = False
-        obj.Proxy = self
-
-    def VerifyMissingAttrs(self, obj):
-        self.updateProps(obj)
-        if not (hasattr(obj, 'matchOuter')):
-            obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
-        # for old objects from before custom diameter and pitch were implemented
-        if not hasattr(obj, "pitchCustom"):
-            obj.addProperty("App::PropertyLength", "pitchCustom", "Parameters", "Screw pitch custom").pitchCustom = 1.0
-            obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", "Screw major diameter custom").diameterCustom = 6
-            dia_tmp = obj.diameter
-            self.type = "ScrewTap"
-            obj.diameter = screwMaker.GetAllDiams(self.type) + ["Custom"]
-            obj.diameter = dia_tmp
-
-    def execute(self, fp):
-        '''"Print a short message when doing a recomputation, this method is mandatory" '''
-
-        try:
-            baseobj = fp.baseObject[0]
-            shape = baseobj.Shape.getElement(fp.baseObject[1][0])
-        except:
-            baseobj = None
-            shape = None
-        self.VerifyMissingAttrs(fp)
-        diameterchange = False
-        if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
-            diameterchange = True
-
-        matchouterchange = not (
-            hasattr(self, 'matchOuter')) or self.matchOuter != fp.matchOuter
-
-        if fp.diameter == 'Auto' or matchouterchange:
-            d = screwMaker.AutoDiameter(self.type, shape, baseobj,
-                                        fp.matchOuter)
-            fp.diameter = d
-            diameterchange = True
-            d_custom = None
-        elif fp.diameter == 'Custom':
-            d = fp.diameter
-            d_custom = fp.diameterCustom.Value
-        else:
-            d = fp.diameter
-            d_custom = None
-
-        l = fp.length.Value
-        if l < 2.0:
-            l = 2.0
-            fp.length = 2.0
-
-        if fp.diameter == 'Custom':
-            p = fp.pitchCustom.Value
-        else:
-            p = None
-        screwMaker.updateFastenerParameters()
-        threadType = 'simple'
-        if hasattr(fp, 'thread') and fp.thread:
-            threadType = 'real'
-
-        s = screwMaker.createFastener(self.type, d, str(l), threadType, fp.leftHanded, p, d_custom)
-
-        self.diameter = fp.diameter
-        self.length = l
-        self.matchOuter = fp.matchOuter
-
-        diastr = fp.diameter if fp.diameter != 'Custom' else str(
-            fp.diameterCustom)
-        label = diastr + 'x' + str(float(l)).rstrip('0').rstrip('.')
-        if fp.leftHanded:
-            label += 'LH'
-        label += '-' + self.itemText
-        fp.Label = label
-
-        self.realThread = fp.thread
-        fp.Shape = s
-
-        if shape is not None:
-            FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
-
-
-class FSScrewRodCommand:
-    """Add Screw Rod command"""
-
-    def GetResources(self):
-        icon = os.path.join(iconPath, 'ScrewTap.svg')
-        return {'Pixmap': icon,
-                # the name of a svg file available in the resources
-                'MenuText': "Add negative-threaded rod for tapping holes",
-                'ToolTip': "Add arbitrary length threaded rod for tapping holes"}
-
-    def Activated(self):
-        for selObj in FastenerBase.FSGetAttachableSelections():
-            a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",
-                                                 "ScrewTap")
-            FSScrewRodObject(a, selObj, "ScrewTap")
-            a.Label = a.Proxy.itemText
-            FSViewProviderTree(a.ViewObject)
-        FreeCAD.ActiveDocument.recompute()
-        return
-
-    def IsActive(self):
-        return Gui.ActiveDocument is not None
-
-
-Gui.addCommand("FSScrewTap", FSScrewRodCommand())
-FastenerBase.FSCommands.append("FSScrewTap", "screws", "misc")
-
-
-class FSScrewRodCommandInch:
-    """Add Screw Rod command"""
-
-    def GetResources(self):
-        icon = os.path.join(iconPath, 'ScrewTapInch.svg')
-        return {'Pixmap': icon,
-                # the name of a svg file available in the resources
-                'MenuText': "Add inch threaded rod for tapping holes",
-                'ToolTip': "Add arbitrary length threaded rod for tapping holes (inch sizes)"}
-
-    def Activated(self):
-        for selObj in FastenerBase.FSGetAttachableSelections():
-            a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",
-                                                 "ScrewTap")
-            FSScrewRodObject(a, selObj, "ScrewTapInch")
-            a.Label = a.Proxy.itemText
-            FSViewProviderTree(a.ViewObject)
-        FreeCAD.ActiveDocument.recompute()
-        return
-
-    def IsActive(self):
-        return Gui.ActiveDocument is not None
-
-
-Gui.addCommand("FSScrewTapInch", FSScrewRodCommandInch())
-FastenerBase.FSCommands.append("FSScrewTapInch", "screws", "misc")
-
-
-class FSScrewDieObject(FSBaseObject):
-    def __init__(self, obj, attachTo, typeStr):
-        '''"Add screw die" '''
-        FSBaseObject.__init__(self, obj, attachTo)
-        self.itemText = "ScrewDie"
-        self.type = typeStr
-        diameters = screwMaker.GetAllDiams(self.type) + ["Custom"]
-        diameters.insert(0, 'Auto')
-        # self.Proxy = obj.Name
-
-        obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters", "Screw diameter standard").diameter = diameters
-        obj.addProperty("App::PropertyLength", "length", "Parameters", "Screw length").length = 20.0
-        obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", "Screw major diameter custom").diameterCustom = 6
-        obj.addProperty("App::PropertyLength", "pitchCustom", "Parameters", "Screw pitch custom").pitchCustom = 1.0
-        self.VerifyMissingAttrs(obj)
-        obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
-        obj.Proxy = self
-
-    def VerifyMissingAttrs(self, obj):
-        self.updateProps(obj)
-        if not (hasattr(obj, 'matchOuter')):
-            obj.addProperty("App::PropertyBool", "matchOuter", "Parameters",
-                            "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
-        # for old objects from before custom diameter and pitch were implemented
-        if not hasattr(obj, "pitchCustom"):
-            obj.addProperty("App::PropertyLength", "pitchCustom", "Parameters", "Screw pitch custom").pitchCustom = 1.0
-            obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", "Screw major diameter custom").diameterCustom = 6
-            dia_tmp = obj.diameter
-            self.type = "ScrewDie"
-            obj.diameter = screwMaker.GetAllDiams(self.type) + ["Custom"]
-            obj.diameter = dia_tmp
-
-    def execute(self, fp):
-        '''"Print a short message when doing a recomputation, this method is mandatory" '''
-
-        try:
-            baseobj = fp.baseObject[0]
-            shape = baseobj.Shape.getElement(fp.baseObject[1][0])
-        except:
-            baseobj = None
-            shape = None
-
-        self.VerifyMissingAttrs(fp)
-        diameterchange = False
-        if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
-            diameterchange = True
-
-        matchouterchange = not (
-            hasattr(self, 'matchOuter')) or self.matchOuter != fp.matchOuter
-
-        if fp.diameter == 'Auto' or matchouterchange:
-            d = screwMaker.AutoDiameter(self.type, shape, baseobj,
-                                        fp.matchOuter)
-            fp.diameter = d
-            diameterchange = True
-            d_custom = None
-        elif fp.diameter == 'Custom':
-            d = fp.diameter
-            d_custom = fp.diameterCustom.Value
-        else:
-            d = fp.diameter
-            d_custom = None
-
-        l = fp.length.Value
-        if l < 2.0:
-            l = 2.0
-            fp.length = 2.0
-
-        if fp.diameter == 'Custom':
-            p = fp.pitchCustom.Value
-        else:
-            p = None
-
-        screwMaker.updateFastenerParameters()
-        threadType = 'simple'
-        if hasattr(fp, 'thread') and fp.thread:
-            threadType = 'real'
-
-        s = screwMaker.createFastener(self.type, d, str(l), threadType, fp.leftHanded, p, d_custom)
-
-        self.diameter = fp.diameter
-        self.length = l
-        self.matchOuter = fp.matchOuter
-
-        diastr = fp.diameter if fp.diameter != 'Custom' else str(
-            fp.diameterCustom)
-        label = diastr + 'x' + str(float(l)).rstrip('0').rstrip('.')
-        if fp.leftHanded:
-            label += 'LH'
-        label += '-' + self.itemText
-        fp.Label = label
-
-        self.realThread = fp.thread
-        fp.Shape = s
-
-        if shape is not None:
-            FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
-
-
-class FSScrewDieCommand:
-    """Add Screw Die command"""
-
-    def GetResources(self):
-        icon = os.path.join(iconPath, 'ScrewDie.svg')
-        return {'Pixmap': icon,
-                # the name of a svg file available in the resources
-                'MenuText': "Add object to cut external threads",
-                'ToolTip': "Add arbitrary length threaded tube for cutting external threads"}
-
-    def Activated(self):
-        for selObj in FastenerBase.FSGetAttachableSelections():
-            a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",
-                                                 "ScrewDie")
-            FSScrewDieObject(a, selObj, "ScrewDie")
-            a.Label = a.Proxy.itemText
-            FSViewProviderTree(a.ViewObject)
-        FreeCAD.ActiveDocument.recompute()
-        return
-
-    def IsActive(self):
-        return Gui.ActiveDocument is not None
-
-
-Gui.addCommand("FSScrewDie", FSScrewDieCommand())
-FastenerBase.FSCommands.append("FSScrewDie", "screws", "misc")
-
-
-class FSScrewDieCommandInch:
-    """Add Screw Die command"""
-
-    def GetResources(self):
-        icon = os.path.join(iconPath, 'ScrewDieInch.svg')
-        return {'Pixmap': icon,
-                # the name of a svg file available in the resources
-                'MenuText': "Add object to cut external non-metric threads",
-                'ToolTip': "Add arbitrary length threaded tube for cutting inch standard external threads"}
-
-    def Activated(self):
-        for selObj in FastenerBase.FSGetAttachableSelections():
-            a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",
-                                                 "ScrewDie")
-            FSScrewDieObject(a, selObj, "ScrewDieInch")
-            a.Label = a.Proxy.itemText
-            FSViewProviderTree(a.ViewObject)
-        FreeCAD.ActiveDocument.recompute()
-        return
-
-    def IsActive(self):
-        return Gui.ActiveDocument is not None
-
-
-Gui.addCommand("FSScrewDieInch", FSScrewDieCommandInch())
-FastenerBase.FSCommands.append("FSScrewDieInch", "screws", "misc")
-
-
-class FSThreadedRodObject(FSBaseObject):
-    def __init__(self, obj, attachTo, typeStr):
-        '''"Add threaded rod" '''
-        FSBaseObject.__init__(self, obj, attachTo)
-        self.itemText = "ThreadedRod"
-        self.type = typeStr
-        diameters = screwMaker.GetAllDiams(self.type) + ["Custom"]
-        diameters.insert(0, 'Auto')
-        # self.Proxy = obj.Name
-
-        obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters", "Screw diameter standard").diameter = diameters
-        obj.addProperty("App::PropertyLength", "length", "Parameters", "Screw length").length = 20.0
-        obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", "Screw major diameter custom").diameterCustom = 6
-        obj.addProperty("App::PropertyLength", "pitchCustom", "Parameters", "Screw pitch custom").pitchCustom = 1.0
-        self.VerifyMissingAttrs(obj)
-        obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
-        obj.Proxy = self
-
-    def VerifyMissingAttrs(self, obj):
-        self.updateProps(obj)
-        if not (hasattr(obj, 'matchOuter')):
-            obj.addProperty("App::PropertyBool", "matchOuter", "Parameters",
-                            "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
-        # for old objects from before custom diameter and pitch were implemented
-        if not hasattr(obj, "pitchCustom"):
-            obj.addProperty("App::PropertyLength", "pitchCustom", "Parameters", "Screw pitch custom").pitchCustom = 1.0
-            obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", "Screw major diameter custom").diameterCustom = 6
-            dia_tmp = obj.diameter
-            self.type = "ThreadedRod"
-            obj.diameter = screwMaker.GetAllDiams(self.type) + ["Custom"]
-            obj.diameter = dia_tmp
-
-    def execute(self, fp):
-        '''"Print a short message when doing a recomputation, this method is mandatory" '''
-
-        try:
-            baseobj = fp.baseObject[0]
-            shape = baseobj.Shape.getElement(fp.baseObject[1][0])
-        except:
-            baseobj = None
-            shape = None
-
-        self.VerifyMissingAttrs(fp)
-        diameterchange = False
-        if not (hasattr(self, 'diameter')) or self.diameter != fp.diameter:
-            diameterchange = True
-
-        matchouterchange = not (
-            hasattr(self, 'matchOuter')) or self.matchOuter != fp.matchOuter
-
-        if fp.diameter == 'Auto' or matchouterchange:
-            d = screwMaker.AutoDiameter(self.type, shape, baseobj,
-                                        fp.matchOuter)
-            fp.diameter = d
-            diameterchange = True
-            d_custom = None
-        elif fp.diameter == 'Custom':
-            d = fp.diameter
-            d_custom = fp.diameterCustom.Value
-        else:
-            d = fp.diameter
-            d_custom = None
-
-        l = fp.length.Value
-        if l < 2.0:
-            l = 2.0
-            fp.length = 2.0
-
-        if fp.diameter == 'Custom':
-            p = fp.pitchCustom.Value
-        else:
-            p = None
-
-        screwMaker.updateFastenerParameters()
-
-        threadType = 'simple'
-        if hasattr(fp, 'thread') and fp.thread:
-            threadType = 'real'
-
-        s = screwMaker.createFastener(self.type, d, str(l), threadType, fp.leftHanded, p, d_custom)
-
-        self.diameter = fp.diameter
-        self.length = l
-        self.matchOuter = fp.matchOuter
-
-        diastr = fp.diameter if fp.diameter != 'Custom' else str(
-            fp.diameterCustom)
-        label = diastr + 'x' + str(float(l)).rstrip('0').rstrip('.')
-        if fp.leftHanded:
-            label += 'LH'
-        label += '-' + self.itemText
-        fp.Label = label
-
-        self.realThread = fp.thread
-        fp.Shape = s
-
-        if shape is not None:
-            FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
-
-
-class FSThreadedRodCommand:
-    """Add Threaded Rod command"""
-
-    def GetResources(self):
-        icon = os.path.join(iconPath, 'ThreadedRod.svg')
-        return {'Pixmap': icon,
-                # the name of a svg file available in the resources
-                'MenuText': "Add DIN 975 threaded rod",
-                'ToolTip': "Add arbitrary length threaded rod object"}
-
-    def Activated(self):
-        for selObj in FastenerBase.FSGetAttachableSelections():
-            a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",
-                                                 "ThreadedRod")
-            FSThreadedRodObject(a, selObj, "ThreadedRod")
-            a.Label = a.Proxy.itemText
-            FSViewProviderTree(a.ViewObject)
-        FreeCAD.ActiveDocument.recompute()
-        return
-
-    def IsActive(self):
-        return Gui.ActiveDocument is not None
-
-
-Gui.addCommand("FSThreadedRod", FSThreadedRodCommand())
-FastenerBase.FSCommands.append("FSThreadedRod", "screws", "misc")
-
-
-class FSThreadedRodCommandInch:
-    """Add Threaded Rod command"""
-
-    def GetResources(self):
-        icon = os.path.join(iconPath, 'ThreadedRodInch.svg')
-        return {'Pixmap': icon,
-                # the name of a svg file available in the resources
-                'MenuText': "Add UNC threaded rod",
-                'ToolTip': "Add arbitrary length threaded rod object, inch standard coarse threads"}
-
-    def Activated(self):
-        for selObj in FastenerBase.FSGetAttachableSelections():
-            a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython", "ThreadedRod")
-            FSThreadedRodObject(a, selObj, "ThreadedRodInch")
-            a.Label = a.Proxy.itemText
-            FSViewProviderTree(a.ViewObject)
-        FreeCAD.ActiveDocument.recompute()
-        return
-
-    def IsActive(self):
-        return Gui.ActiveDocument is not None
-
-
-Gui.addCommand("FSThreadedRodInch", FSThreadedRodCommandInch())
-FastenerBase.FSCommands.append("FSThreadedRodInch", "screws", "misc")
+    Gui.addCommand(cmd, FSScrewCommand(type, FSScrewCommandTable[type][CMD_HELP]))
+    FastenerBase.FSCommands.append(cmd, "screws", FSScrewCommandTable[type][CMD_GROUP])
+
+# generate all commands
+for key in FSScrewCommandTable:
+    FSAddScrewCommand(key)
+
+# for backward compatibility, add old objects as derivative of FSScrewObject
+class FSWasherObject(FSScrewObject):
+    pass
+class FSScrewRodObject(FSScrewObject):
+    pass
+class FSScrewDieObject(FSScrewObject):
+    pass
+class FSThreadedRodObject(FSScrewObject):
+    pass
 
 ## add fastener types
 FastenerBase.FSAddFastenerType("Screw")
 FastenerBase.FSAddFastenerType("Washer", False)
 FastenerBase.FSAddFastenerType("Nut", False)
-FastenerBase.FSAddFastenerType("ScrewTap", True, False)
-FastenerBase.FSAddFastenerType("ScrewDie", True, False)
 FastenerBase.FSAddFastenerType("ThreadedRod", True, False)
 for item in ScrewMaker.screwTables:
     FastenerBase.FSAddItemsToType(ScrewMaker.screwTables[item][0], item)

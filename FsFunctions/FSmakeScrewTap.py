@@ -31,6 +31,7 @@ from screw_maker import *
 
 def makeScrewTap(self): # dynamically loaded method of class Screw
     ThreadType = self.fastenerDiam
+    # FreeCAD.Console.PrintMessage("tt:" + ThreadType + "cdia: " + str(self.customDia) + "\n")
     if ThreadType != 'Custom':
         dia = self.getDia(ThreadType, True)
         if self.fastenerType == "ScrewTap":

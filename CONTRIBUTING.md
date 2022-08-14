@@ -48,7 +48,7 @@ An example of how this data scheme works in practice:
 
 The first 2 lines of `FsData/iso7379def.csv` are:
 
-``` csv
+```csv
 "Dia","P","d1","d3","l2","l3","SW"
 "M3",0.5,4,7,7,3,2
 ```
@@ -68,7 +68,7 @@ manufactured.
 
 E.G.: `iso7379length.csv`
 
-``` csv
+```csv
 "Nominal","Min","Max"
 "4",3.76,4.24
 "5",4.76,5.24
@@ -85,7 +85,7 @@ Finally, the `FsData/{fastenertype}range.csv` file determines which lengths defi
 in a fasteners' corresponding length file are available for each diameter.
 For example, in `iso7379range.csv`, we have:
 
-``` csv
+```csv
 "Dia","Min_L","Max_L"
 "M3","4","30"
 "M4","5","40"
@@ -107,7 +107,7 @@ To create a new function, give it a name in the form of `makeXXXXXXXXX(self)`, a
 
 FSmakeCarriageBolt.py:
 
-``` python
+```python
   def makeCarriageBolt(self) :
     d = self.getDia(Threadtype, False)
     if SType == 'ASMEB18.5.2':
@@ -188,7 +188,7 @@ You can review the code added to `screw_maker.py` for this example
 
 `ScrewMaker.py` needs an entry added to the `screwTables` variable to match our added fastener
 
-``` python
+```python
 screwTables = {
   ...
   'ASMEB18.5.2': ("Screw", FsData["asmeb18.5.2def"], FsData["inch_fs_length"], FsData["asmeb18.5.2range"], -1, 0, "makeCarriageBolt"),
@@ -201,16 +201,16 @@ Check out the corresponding commit [HERE](https://github.com/shaise/FreeCAD_Fast
 - `FastenersCmd.py` needs a line to initialize a new toolbar command for the workbench.
  Add a line to `FSScrewCommandTable`:
 
-``` python
+```python
     "ASMEB18.5.2": ("ASME B18.5 UNC Round head square neck bolts", "Other head", ScrewParameters)
 ```
-The first arg is the fastener description  
-The second is the fastener group (fasteners in the same group are interchangeable using the `type` property)  
-The third arg is the list of propereties the fastener uses  
+Explanation: 
+* 1st arg is the **fastener description**  
+* 2nd arg is the **fastener group** (fasteners in the same group are interchangeable using the `type` property)  
+* 3rd arg is the **list of properties** the fastener uses  
 
 
-
-Check out the corresponding commit [HERE](https://github.com/shaise/FreeCAD_FastenersWB/commit/a60aa6a84a06ebd08072ad8e7e08d35095885f9f#diff-964aeb21792025cecf1c3e54451f5102de16b71312d66ff5d442ca5a63b82d13).
+**Note:** For reference, check out the corresponding source code [commit](https://github.com/shaise/FreeCAD_FastenersWB/commit/a60aa6a84a06ebd08072ad8e7e08d35095885f9f#diff-964aeb21792025cecf1c3e54451f5102de16b71312d66ff5d442ca5a63b82d13).
 
 ### Reusing existing code
 
@@ -218,7 +218,7 @@ The `screw_maker.Screw` class generally has one method to create a
 particular type of fastener. That code can then be reused to create 
 multiple similar parts. See the following snippet :
 
-``` python
+```python
   # also used for ISO 7046 countersunk flat head screws with H cross recess
   # also used for ISO 7047 raised countersunk head screws with H cross recess
   # also used for ISO 10642 Hexagon socket countersunk head screws

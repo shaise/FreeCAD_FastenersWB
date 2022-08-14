@@ -46,7 +46,7 @@ We actually need three separate csv files:
 
 An example of how this data scheme works in practice:
 
-The first 2 lines of `FsData/iso7379def.csv` are:
+The first 2 lines of [`FsData/iso7379def.csv`](FsData/iso7379def.csv) are:
 
 ```csv
 "Dia","P","d1","d3","l2","l3","SW"
@@ -66,7 +66,7 @@ column is the nominal length, and the second and third columns are the minimum
 and maximum actual lengths permissible when a fastener of that length is
 manufactured. 
 
-E.G.: `iso7379length.csv`
+E.G.: [`iso7379length.csv`](FsData/iso7379length.csv)
 
 ```csv
 "Nominal","Min","Max"
@@ -77,13 +77,13 @@ E.G.: `iso7379length.csv`
 "10",9.71,10.29
 ```
 
-The files `iso888length.csv` and `inch_fs_length.csv` provide generalized
+The files [`iso888length.csv`](FsData/iso888length.csv) and [`inch_fs_length.csv`](FsData/inch_fs_length.csv) provide generalized
 length tables that you can use if they work well with the fastener you want 
 to implement.
 
 Finally, the `FsData/{fastenertype}range.csv` file determines which lengths defined
 in a fasteners' corresponding length file are available for each diameter.
-For example, in `iso7379range.csv`, we have:
+For example, in [`iso7379range.csv`](FsData/iso7379range.csv), we have:
 
 ```csv
 "Dia","Min_L","Max_L"
@@ -105,7 +105,7 @@ To eliminate long `Screw` class code, all fastener generation functions are plac
 You may either alter existing function if it is similar to the fastener you need, or create a new function.
 To create a new function, give it a name in the form of `makeXXXXXXXXX(self)`, and place this function inside a file named `FSmakeXXXXXXXXX.py`. Place this file under `FsFunction` directory. Example:  
 
-FSmakeCarriageBolt.py:
+[FSmakeCarriageBolt.py](FsFunctions/FSmakeCarriageBolt.py):
 
 ```python
   def makeCarriageBolt(self) :

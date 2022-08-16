@@ -2,7 +2,8 @@ import csv
 
 # read .csv files into dictionary tables
 # multiple tables can be put in a single file by placing the table name as a single word before the table
-def csv2dict(filename, tableMame, fieldsnamed=True):
+# several names can share the same table by placing all the names as a single word line above the table
+def csv2dict(filename, defaultTableMame, fieldsnamed=True):
     with open(filename) as fp:
         reader = csv.reader(
             fp,
@@ -11,8 +12,8 @@ def csv2dict(filename, tableMame, fieldsnamed=True):
             quoting=csv.QUOTE_NONNUMERIC,
         )
         tables = {}
-        curTableName = tableMame
-        newTable = True
+        newTable = False
+        firstTime = True
         result = {}
         #if fieldsnamed:
             # skip the first line
@@ -21,13 +22,16 @@ def csv2dict(filename, tableMame, fieldsnamed=True):
             if len(line_list) == 0:
                 continue
             elif len(line_list) == 1:
-                newTable = True
-                curTableName = line_list[0]
-                result = {}
+                if newTable == False:
+                    result = {}
+                    newTable = True
+                tables[line_list[0]] = result
                 continue
-            if newTable:
+            if newTable or firstTime:
+                if firstTime:
+                    tables[defaultTableMame] = result
+                    firstTime = False
                 newTable = False
-                tables[curTableName] = result
                 if fieldsnamed:
                     continue
             result[line_list[0]] = tuple(line_list[1:])

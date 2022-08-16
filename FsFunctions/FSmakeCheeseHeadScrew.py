@@ -43,7 +43,7 @@ def makeCheeseHeadScrew(self): # dynamically loaded method of class Screw
     if SType == 'ISO7048':
         P, a, b, dk, dk_mean, da, k, r, x, cT, mH, mZ = self.dimTable
     if SType == 'ISO14580':
-        tt, k, A, t_min = self.dimTable
+        tt, k, A, t_min = FsData["ISO14580extra"][self.fastenerDiam]
 
     # FreeCAD.Console.PrintMessage("the head with iso: " + str(dk) + "\n")
 

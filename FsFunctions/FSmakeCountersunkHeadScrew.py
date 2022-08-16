@@ -53,10 +53,10 @@ def makeCountersunkHeadScrew(self): # dynamically loaded method of class Screw
         a = 2 * P
         t_mean = t
     else:  # still need the data from iso2009def, but this screw can not created here
-        P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = self.dimTable
+        P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["ISO2009def"][self.fastenerDiam]
         ht = 0.0  # Head height of flat head
     if SType == 'ISO7046':
-        cT, mH, mZ = FsData["iso7046def"][self.fastenerDiam]
+        cT, mH, mZ = FsData["ISO7046extra"][self.fastenerDiam]
     if SType == 'ISO7047':
         rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][self.fastenerDiam]
         # Lengths and angles for calculation of head rounding

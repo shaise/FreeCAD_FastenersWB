@@ -36,7 +36,7 @@ def makePanHeadScrew(self): # dynamically loaded method of class Screw
     dia = self.getDia(self.fastenerDiam, False)
     # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
     FreeCAD.Console.PrintMessage("the head with diam: " + str(self.fastenerDiam) + "\n")
-    P, a, b, dk_max, da, k, r, rf, x, cT, mH, mZ = FsData["iso7045def"][self.fastenerDiam]
+    P, a, b, dk_max, da, k, r, rf, x, cT, mH, mZ = FsData["ISO7045def"][self.fastenerDiam]
     # FreeCAD.Console.PrintMessage("the head with iso: " + str(dk_max) + "\n")
 
     # Lengths and angles for calculation of head rounding

@@ -39,7 +39,7 @@ def makeCylinderHeadScrew(self): # dynamically loaded method of class Screw
     # FreeCAD.Console.PrintMessage("der 4762Kopf mit l: " + str(l) + "\n")
     # FreeCAD.Console.PrintMessage("the head with iso r: " + str(r) + "\n")
     if SType == 'ISO14579':
-        P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = FsData["iso4762def"][self.fastenerDiam]
+        P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = FsData["ISO4762def"][self.fastenerDiam]
         tt, A, t = self.dimTable
         # Head Points 30° countersunk
         # Pnt0 = Base.Vector(0.0,0.0,k-A/4.0) #Center Point for countersunk

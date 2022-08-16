@@ -170,8 +170,10 @@ class FSScrewObject(FSBaseObject):
         # basic parameters
         self.updateProps(obj)
         if not hasattr(obj, "type"):
-            if type is None:
-                type = obj.Proxy.type
+            if type is None: # probably pre V0.4.0 object
+                if hasattr(self,"originalType"):
+                    type = self.originalType
+                    FreeCAD.Console.PrintMessage("using original type: " + type + "\n")
             self.itemText = screwMaker.GetTypeName(type)
             obj.addProperty("App::PropertyEnumeration", "type", "Parameters", "Screw type").type = screwMaker.GetAllTypes(self.itemText)
             obj.type = type
@@ -181,7 +183,7 @@ class FSScrewObject(FSBaseObject):
             diameters.insert(0, 'Auto')
             if "diameterCustom" in GetParams(type):
                 diameters.append("Custom")
-            obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters", "Screw diameter standard").diameter = diameters
+            obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters", "Standard diameter").diameter = diameters
             self.initialDiameter = diameter = diameters[1]
         else:
             diameter = obj.diameter
@@ -198,9 +200,9 @@ class FSScrewObject(FSBaseObject):
         # length parameters
         addCustomLen = "lengthCustom" in params and not hasattr(obj, "lengthCustom")
         if "length" in params:
+            if diameter == "Auto":
+                diameter = self.initialDiameter
             if not hasattr(obj, 'length'):
-                if diameter == "Auto":
-                    diameter = self.initialDiameter
                 slens = screwMaker.GetAllLengths(obj.type, diameter, addCustomLen)
                 obj.addProperty("App::PropertyEnumeration", "length", "Parameters", "Screw length").length = slens
             elif addCustomLen:
@@ -211,13 +213,22 @@ class FSScrewObject(FSBaseObject):
             if addCustomLen:
                 obj.addProperty("App::PropertyLength", "lengthCustom", "Parameters", "Custom length").lengthCustom = self.inswap(slens[0])
 
-        # rod parameters
+        # custom size parameters
         if "lengthArbitrary" in params and not hasattr(obj, "length"):
             obj.addProperty("App::PropertyLength", "length", "Parameters", "Screw length").length = 20.0
         if "diameterCustom" in params and not hasattr(obj, "diameterCustom"):
             obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", "Screw major diameter custom").diameterCustom = 6
         if "pitchCustom" in params and not hasattr(obj, "pitchCustom"):
             obj.addProperty("App::PropertyLength", "pitchCustom", "Parameters", "Screw pitch custom").pitchCustom = 1.0
+
+        # thickness
+        if "thicknessCode" in params and not hasattr(obj, "tcode"):
+            obj.addProperty("App::PropertyEnumeration", "tcode", "Parameters", "Thickness code").tcode = screwMaker.GetAllTcodes(type)
+
+        # misc
+        if "blindness" in params and not hasattr(obj, "blind"):
+            obj.addProperty("App::PropertyBool", "blind", "Parameters", "Blind Standoff type").blind = False
+
 
     def onDocumentRestored(self, obj):
         # for backward compatibility: add missing attribute if needed
@@ -226,6 +237,8 @@ class FSScrewObject(FSBaseObject):
     def ActiveLength(self, obj):
         if not hasattr(obj, 'length'):
             return '0'
+        if type(obj.length) != type(""):
+            return str(float(obj.length)).rstrip("0").rstrip('.')
         if obj.length == 'Custom':
             return str(float(obj.lengthCustom)).rstrip("0").rstrip('.')
         return obj.length
@@ -347,12 +360,13 @@ class FSScrewObject(FSBaseObject):
             self.matchOuter = fp.matchOuter
         if hasattr(fp, 'length'):
             self.length = l
+            dispLen = self.ActiveLength(fp)
             if hasattr(fp, 'lengthCustom'):
                 self.customlen = float(fp.lengthCustom)
             if fp.diameter == "Custom":
-                label = str(fp.diameterCustom) + 'x' + l
+                label = str(fp.diameterCustom) + 'x' + dispLen
             else:
-                label = fp.diameter + 'x' + l
+                label = fp.diameter + 'x' + dispLen
             if fp.leftHanded:
                 label += 'LH'
             label += '-' + self.itemText
@@ -458,11 +472,19 @@ for key in FSScrewCommandTable:
 class FSWasherObject(FSScrewObject):
     pass
 class FSScrewRodObject(FSScrewObject):
-    pass
+    def onDocumentRestored(self, obj):
+        self.originalType=obj.Proxy.type
+        super().onDocumentRestored(obj)
+    
 class FSScrewDieObject(FSScrewObject):
-    pass
+    def onDocumentRestored(self, obj):
+        self.originalType=obj.Proxy.type
+        super().onDocumentRestored(obj)
+
 class FSThreadedRodObject(FSScrewObject):
-    pass
+    def onDocumentRestored(self, obj):
+        self.originalType=obj.Proxy.type
+        super().onDocumentRestored(obj)
 
 ## add fastener types
 FastenerBase.FSAddFastenerType("Screw")

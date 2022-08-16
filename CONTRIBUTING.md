@@ -46,14 +46,23 @@ We actually need three separate csv files:
 
 An example of how this data scheme works in practice:
 
-The first 2 lines of `FsData/iso7379def.csv` are:
+The first 3 lines of `FsData/iso7379def.csv` are:
 
 ``` csv
+"ISO7379def"
 "Dia","P","d1","d3","l2","l3","SW"
 "M3",0.5,4,7,7,3,2
 ```
 
-Note that the first line is a header (it is skipped when `screw_maker.py` reads
+Note that the line before the table is the table name. It must be the type name appended with "def", "length", etc  
+Multiple fastener types can use the same table by adding them above the table. i.e.:
+``` csv
+"ISO7046range"
+"ISO14583range"
+"Dia","Min_L","Max_L"
+...
+```
+The first line of the table is a header (it is skipped when `screw_maker.py` reads
 the file) and string values are double quoted.
 
 For each subsequent line:
@@ -69,6 +78,7 @@ manufactured.
 E.G.: `iso7379length.csv`
 
 ``` csv
+"ISO7379length"
 "Nominal","Min","Max"
 "4",3.76,4.24
 "5",4.76,5.24
@@ -86,6 +96,7 @@ in a fasteners' corresponding length file are available for each diameter.
 For example, in `iso7379range.csv`, we have:
 
 ``` csv
+"ISO7379range"
 "Dia","Min_L","Max_L"
 "M3","4","30"
 "M4","5","40"
@@ -191,7 +202,7 @@ You can review the code added to `screw_maker.py` for this example
 ``` python
 screwTables = {
   ...
-  'ASMEB18.5.2': ("Screw", FsData["asmeb18.5.2def"], FsData["inch_fs_length"], FsData["asmeb18.5.2range"], -1, 0, "makeCarriageBolt"),
+  'ASMEB18.5.2': ("Screw", -1, 0, "makeCarriageBolt"),
   ...
 }
 ```

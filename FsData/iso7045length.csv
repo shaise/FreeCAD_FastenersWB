@@ -1,3 +1,8 @@
+"ISO14584length"
+"ISO14583length"
+"ISO7047length"
+"ISO7046length"
+"ISO7045length"
 "Nominal","Min","Max"
 "3",2.8,3.2
 "4",3.76,4.24

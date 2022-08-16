@@ -128,13 +128,11 @@ class Screw:
         self.smScrewThrScaleA = 1.0
         self.smScrewThrScaleB = 0.0
 
-    def createScrew(self, ST_text, ND_text, NL_text, threadType, fastenerParams, leftHanded=False, customPitch=None, customDia=None):
+    def createScrew(self, ST_text, ND_text, NL_text, threadType, function, leftHanded=False, customPitch=None, customDia=None):
         # self.simpThread = self.SimpleScrew.isChecked()
         # self.symThread = self.SymbolThread.isChecked()
         # self.rThread = self.RealThread.isChecked()
         # FreeCAD.Console.PrintMessage(NL_text + "\n")
-        Type_text = fastenerParams[0]
-        function = fastenerParams[6]
         if not self.objAvailable:
             return None
         try:
@@ -155,7 +153,7 @@ class Screw:
         if (ND_text == "Custom"):
             self.dimTable = None
         else:
-            self.dimTable = fastenerParams[1][ND_text]
+            self.dimTable = FsData[ST_text + "def"][ND_text]
         self.leftHanded = leftHanded
         self.fastenerLen = l
         self.fastenerType = ST_text

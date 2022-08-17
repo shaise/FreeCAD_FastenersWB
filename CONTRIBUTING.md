@@ -62,10 +62,14 @@ Multiple fastener types can use the same table by adding them above the table. i
 "Dia","Min_L","Max_L"
 ...
 ```
-The first line of the table is a header (it is skipped when `screw_maker.py` reads
-the file) and string values are double quoted.
+The first line of the table is a header (it is read into a separate title table `FsTitles`) 
+and string values are double quoted. The title name can be arbitrary in most cases but some 
+keywords have special meaning
+- `csh_diam` : Countersunk-head screw head diameter. If this keyword exists, the automatic screw size detection will be done by this column in the table rather than by stem diameter. This is done because countersunk screw holes are chamfered.
+- `csh_height` : Countersunk-head screw head height. If this keyword exists it will be used along with `csh_diam` to automaticaly chamfer holes for these screw types.
+- `thr_len` : Default thread length. For fasteners with arbitrary thread lengths, this will be the default.
 
-For each subsequent line:
+For each actual table line:
 - The first column is the diameter that the line corresponds to
 - The remaining columns are dimensions needed to generate the object 
 

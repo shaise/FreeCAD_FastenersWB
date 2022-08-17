@@ -39,10 +39,12 @@ screwMaker = ScrewMaker.Instance()
 
 
 
-ScrewParameters = { "type", "diameter", "thread", "leftHanded", "matchOuter", "length", "lengthCustom" }
-RodParameters = { "type", "diameter", "thread", "leftHanded", "matchOuter", "lengthArbitrary",  "diameterCustom", "pitchCustom" }
-NutParameters = { "type", "diameter", "thread", "leftHanded", "matchOuter" }
+ScrewParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded", "length", "lengthCustom" }
+RodParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded", "lengthArbitrary",  "diameterCustom", "pitchCustom" }
+NutParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded"}
 WasherParameters = { "type", "diameter", "matchOuter" }
+PCBStandoffParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "threadLength", "lenByDiamAndWidth", "width" }
+PCBSpacerParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "lenByDiamAndWidth", "widthCode" }
 
 CMD_HELP = 0
 CMD_GROUP = 1
@@ -177,6 +179,8 @@ class FSScrewObject(FSBaseObject):
             self.itemText = screwMaker.GetTypeName(type)
             obj.addProperty("App::PropertyEnumeration", "type", "Parameters", "Screw type").type = screwMaker.GetAllTypes(self.itemText)
             obj.type = type
+        else:
+            type = obj.type
 
         if not hasattr(obj, "diameter"):
             diameters = screwMaker.GetAllDiams(type)
@@ -187,7 +191,7 @@ class FSScrewObject(FSBaseObject):
             self.initialDiameter = diameter = diameters[1]
         else:
             diameter = obj.diameter
-        params = GetParams(obj.type)
+        params = GetParams(type)
 
         # thread parameters
         if "thread" in params and not hasattr(obj, "thread"):
@@ -197,19 +201,26 @@ class FSScrewObject(FSBaseObject):
         if "matchOuter" in params and not hasattr(obj, "matchOuter"):
             obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
 
+        # width parameters
+        if "widthCode" in params and not hasattr(obj, "width"):
+            obj.addProperty("App::PropertyEnumeration", "width", "Parameters", "Body width code").width = screwMaker.GetAllWidthcodes(type, diameter)
+
         # length parameters
         addCustomLen = "lengthCustom" in params and not hasattr(obj, "lengthCustom")
-        if "length" in params:
-            if diameter == "Auto":
-                diameter = self.initialDiameter
+        if "length" in params or "lenByDiamAndWidth" in params:
+            # if diameter == "Auto":
+            #     diameter = self.initialDiameter
+            if "lenByDiamAndWidth" in params:
+                slens = screwMaker.GetAllLengthsByWidth(type, diameter, obj.width, addCustomLen)
+            else:
+                slens = screwMaker.GetAllLengths(type, diameter, addCustomLen)
             if not hasattr(obj, 'length'):
-                slens = screwMaker.GetAllLengths(obj.type, diameter, addCustomLen)
                 obj.addProperty("App::PropertyEnumeration", "length", "Parameters", "Screw length").length = slens
-            elif addCustomLen:
-                slens = screwMaker.GetAllLengths(obj.type, diameter, True)
+            elif addCustomLen :
                 origLen = obj.length
                 obj.length = slens
-                obj.length = origLen
+                if origLen in slens:
+                    obj.length = origLen
             if addCustomLen:
                 obj.addProperty("App::PropertyLength", "lengthCustom", "Parameters", "Custom length").lengthCustom = self.inswap(slens[0])
 
@@ -228,6 +239,8 @@ class FSScrewObject(FSBaseObject):
         # misc
         if "blindness" in params and not hasattr(obj, "blind"):
             obj.addProperty("App::PropertyBool", "blind", "Parameters", "Blind Standoff type").blind = False
+        if "screwLength" in params and not hasattr(obj, "screwLength"):
+            obj.addProperty("App::PropertyLength", "screwLength", "Parameters", "Thread length").screwLength = screwMaker.GetThreadLength(type)
 
 
     def onDocumentRestored(self, obj):

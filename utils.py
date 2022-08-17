@@ -12,9 +12,12 @@ def csv2dict(filename, defaultTableMame, fieldsnamed=True):
             quoting=csv.QUOTE_NONNUMERIC,
         )
         tables = {}
+        tables['titles'] = {}
         newTable = False
         firstTime = True
-        result = {}
+        cur_table = {}
+        table_names = { defaultTableMame }
+        
         #if fieldsnamed:
             # skip the first line
         #    next(reader)
@@ -22,17 +25,23 @@ def csv2dict(filename, defaultTableMame, fieldsnamed=True):
             if len(line_list) == 0:
                 continue
             elif len(line_list) == 1:
+                tablename = line_list[0]
                 if newTable == False:
-                    result = {}
+                    cur_table = {}
+                    table_names = set()
                     newTable = True
-                tables[line_list[0]] = result
+                table_names.add(tablename)                
                 continue
+            key = line_list[0]
+            data = tuple(line_list[1:])
             if newTable or firstTime:
-                if firstTime:
-                    tables[defaultTableMame] = result
-                    firstTime = False
+                firstTime = False
                 newTable = False
+                for tablename in table_names:
+                    tables[tablename] = cur_table
                 if fieldsnamed:
+                    for tablename in table_names:
+                        tables['titles'][tablename] = data
                     continue
-            result[line_list[0]] = tuple(line_list[1:])
+            cur_table[key] = data
         return tables

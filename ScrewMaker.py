@@ -120,84 +120,82 @@ def FSCGetInnerThread(diam):
     return FSCScrewHoleChartDict[diam]
 
 FASTENER_FAMILY_POS = 0
-COUNTERSUNK_DPOS = 1
-COUNTERSUNK_KPOS = 2
-FUNCTION_POS = 3
+FUNCTION_POS = 1
 
 screwTables = {
-    #            name,     diam pos*, K pos**, function
-    'ISO4017':  ("Screw",  -1, 0, "makeHexHeadBolt"),
-    'ISO4014':  ("Screw",  -1, 0, "makeHexHeadBolt"),
-    'EN1662':   ("Screw",  -1, 0, "makeHexHeadWithFlunge"),
-    'EN1665':   ("Screw",  -1, 0, "makeHexHeadWithFlunge"),
-    'ISO2009':  ("Screw",   4, 5, "makeSlottedScrew"),
-    'ISO2010':  ("Screw",   4, 5, "makeSlottedScrew"),
-    'ISO4762':  ("Screw",  -1, 0, "makeCylinderHeadScrew"),
-    'ISO10642': ("Screw",   3, 7, "makeCountersunkHeadScrew"),
-    'ISO1207':  ("Screw",  -1, 0, "makeCheeseHeadScrew"),
-    'ISO1580':  ("Screw",  -1, 0, "makeSlottedScrew"),
-    'ISO7045':  ("Screw",  -1, 0, "makePanHeadScrew"),
-    'ISO7046':  ("Screw",   4, 5, "makeCountersunkHeadScrew"),
-    'ISO7047':  ("Screw",   4, 5, "makeCountersunkHeadScrew"),
-    'ISO7048':  ("Screw",  -1, 0, "makeCheeseHeadScrew"),
-    'DIN967':   ("Screw",  -1, 0, "makeButtonHeadScrew"),
-    'ISO7379':  ("Screw",  -1, 0, "makeShoulderScrew"),
-    'ISO7380-1':("Screw",  -1, 0, "makeButtonHeadScrew"),
-    'ISO7380-2':("Screw",  -1, 0, "makeButtonHeadScrew"),
-    'ISO14579': ("Screw",  -1, 0, "makeCylinderHeadScrew"),
-    'ISO14580': ("Screw",  -1, 0, "makeCheeseHeadScrew"),
-    'ISO14582': ("Screw",   4, 5, "makeCountersunkHeadScrew"),
-    'ISO14583': ("Screw",  -1, 0, "makePanHeadScrew"),
-    'ISO14584': ("Screw",   3, 5, "makeCountersunkHeadScrew"),
-    'DIN7984':  ("Screw",  -1, 0, "makeCylinderHeadScrew"),
-    'DIN6912':  ("Screw",  -1, 0, "makeCylinderHeadScrew"),
-    'DIN571':   ("Screw",  -1, 0, "makeWoodScrew"),
-    'ISO7089':  ("Washer", -1, 0, "makeWasher"),
-    'ISO7090':  ("Washer", -1, 0, "makeWasher"),
-    'ISO7091':  ("Washer", -1, 0, "makeWasher"),
-    'ISO7092':  ("Washer", -1, 0, "makeWasher"),
-    'ISO7093-1':("Washer", -1, 0, "makeWasher"),
-    'ISO7094':  ("Washer", -1, 0, "makeWasher"),
-    'NFE27-619':("Washer", -1, 0, "makeWasher"),
-    'ISO4026':  ("Screw",  -1, 0, "makeSetScrew"),
-    'ISO4027':  ("Screw",  -1, 0, "makeSetScrew"),
-    'ISO4028':  ("Screw",  -1, 0, "makeSetScrew"),
-    'ISO4029':  ("Screw",  -1, 0, "makeSetScrew"),
-    'ISO4032':  ("Nut",    -1, 0, "makeHexNut"),
-    'ISO4033':  ("Nut",    -1, 0, "makeHexNut"),
-    'ISO4035':  ("Nut",    -1, 0, "makeHexNut"),
-    'EN1661':   ("Nut",    -1, 0, "makeHexNutWFlunge"),
-    'DIN917':   ("Nut",    -1, 0, "makeThinCupNut"),
-    'DIN1587':  ("Nut",    -1, 0, "makeCupNut"),
-    'DIN557':   ("Nut",    -1, 0, "makeSquareNut"),
-    'DIN562':   ("Nut",    -1, 0, "makeSquareNut"),
-    'DIN985':   ("Nut",    -1, 0, "makeNylocNut"),
-    'ASMEB18.2.1.6': ("Screw",   -1, 0, "makeHexHeadBolt"),
-    'ASMEB18.2.1.8':   ("Screw", -1, 0, "makeHexHeadWithFlunge"),
-    'ASMEB18.2.2.1A': ("Nut",    -1, 0, "makeHexNut"),
-    'ASMEB18.2.2.4A': ("Nut",    -1, 0, "makeHexNut"),
-    'ASMEB18.2.2.4B': ("Nut",    -1, 0, "makeHexNut"),
-    'ASMEB18.3.1A': ("Screw",    -1, 0, "makeCylinderHeadScrew"),
-    'ASMEB18.3.1G': ("Screw",    -1, 0, "makeCylinderHeadScrew"),
-    'ASMEB18.3.2': ("Screw",     -1, 0, "makeCountersunkHeadScrew"),
-    'ASMEB18.3.3A': ("Screw",    -1, 0, "makeButtonHeadScrew"),
-    'ASMEB18.3.3B': ("Screw",    -1, 0, "makeButtonHeadScrew"),
-    'ASMEB18.3.4': ("Screw",     -1, 0, "makeShoulderScrew"),
-    'ASMEB18.3.5A': ("Screw",    -1, 0, "makeSetScrew"),
-    'ASMEB18.3.5B': ("Screw",    -1, 0, "makeSetScrew"),
-    'ASMEB18.3.5C': ("Screw",    -1, 0, "makeSetScrew"),
-    'ASMEB18.3.5D': ("Screw",    -1, 0, "makeSetScrew"),
-    'ASMEB18.6.3.1A': ("Screw",  -1, 0, "makeSlottedScrew"),
-    'ASMEB18.5.2': ("Screw",     -1, 0, "makeCarriageBolt"),
-    'ASMEB18.21.1.12A': ("Washer", -1, 0, "makeWasher"),
-    'ASMEB18.21.1.12B': ("Washer", -1, 0, "makeWasher"),
-    'ASMEB18.21.1.12C': ("Washer", -1, 0, "makeWasher"),
-    'ScrewTap': ("ScrewTap",           -1, 0, "makeScrewTap"),
-    'ScrewTapInch': ("ScrewTap",       -1, 0, "makeScrewTap"),
-    'ScrewDie': ("ScrewDie",           -1, 0, "makeScrewDie"),
-    'ScrewDieInch': ("ScrewDie",       -1, 0, "makeScrewDie"),
-    'ThreadedRod': ("ThreadedRod",     -1, 0, "makeThreadedRod"),
-    'ThreadedRodInch': ("ThreadedRod", -1, 0, "makeThreadedRod"),
+    #            name,    function
+    'ISO4017':  ("Screw", "makeHexHeadBolt"),
+    'ISO4014':  ("Screw", "makeHexHeadBolt"),
+    'EN1662':   ("Screw", "makeHexHeadWithFlunge"),
+    'EN1665':   ("Screw", "makeHexHeadWithFlunge"),
+    'ISO2009':  ("Screw", "makeSlottedScrew"),#
+    'ISO2010':  ("Screw", "makeSlottedScrew"),#
+    'ISO4762':  ("Screw", "makeCylinderHeadScrew"),
+    'ISO10642': ("Screw", "makeCountersunkHeadScrew"),#
+    'ISO1207':  ("Screw", "makeCheeseHeadScrew"),
+    'ISO1580':  ("Screw", "makeSlottedScrew"),
+    'ISO7045':  ("Screw", "makePanHeadScrew"),
+    'ISO7046':  ("Screw", "makeCountersunkHeadScrew"),#
+    'ISO7047':  ("Screw", "makeCountersunkHeadScrew"),#
+    'ISO7048':  ("Screw", "makeCheeseHeadScrew"),
+    'DIN967':   ("Screw", "makeButtonHeadScrew"),
+    'ISO7379':  ("Screw", "makeShoulderScrew"),
+    'ISO7380-1':("Screw", "makeButtonHeadScrew"),
+    'ISO7380-2':("Screw", "makeButtonHeadScrew"),
+    'ISO14579': ("Screw", "makeCylinderHeadScrew"),
+    'ISO14580': ("Screw", "makeCheeseHeadScrew"),
+    'ISO14582': ("Screw", "makeCountersunkHeadScrew"),#
+    'ISO14583': ("Screw", "makePanHeadScrew"),
+    'ISO14584': ("Screw", "makeCountersunkHeadScrew"),#
+    'DIN7984':  ("Screw", "makeCylinderHeadScrew"),
+    'DIN6912':  ("Screw", "makeCylinderHeadScrew"),
+    'DIN571':   ("Screw", "makeWoodScrew"),
+    'ISO7089':  ("Washer", "makeWasher"),
+    'ISO7090':  ("Washer", "makeWasher"),
+    'ISO7091':  ("Washer", "makeWasher"),
+    'ISO7092':  ("Washer", "makeWasher"),
+    'ISO7093-1':("Washer", "makeWasher"),
+    'ISO7094':  ("Washer", "makeWasher"),
+    'NFE27-619':("Washer", "makeWasher"),
+    'ISO4026':  ("Screw", "makeSetScrew"),
+    'ISO4027':  ("Screw", "makeSetScrew"),
+    'ISO4028':  ("Screw", "makeSetScrew"),
+    'ISO4029':  ("Screw", "makeSetScrew"),
+    'ISO4032':  ("Nut",   "makeHexNut"),
+    'ISO4033':  ("Nut",   "makeHexNut"),
+    'ISO4035':  ("Nut",   "makeHexNut"),
+    'EN1661':   ("Nut",   "makeHexNutWFlunge"),
+    'DIN917':   ("Nut",   "makeThinCupNut"),
+    'DIN1587':  ("Nut",   "makeCupNut"),
+    'DIN557':   ("Nut",   "makeSquareNut"),
+    'DIN562':   ("Nut",   "makeSquareNut"),
+    'DIN985':   ("Nut",   "makeNylocNut"),
+    'ASMEB18.2.1.6': ("Screw",  "makeHexHeadBolt"),
+    'ASMEB18.2.1.8':   ("Screw", "makeHexHeadWithFlunge"),
+    'ASMEB18.2.2.1A': ("Nut",   "makeHexNut"),
+    'ASMEB18.2.2.4A': ("Nut",   "makeHexNut"),
+    'ASMEB18.2.2.4B': ("Nut",   "makeHexNut"),
+    'ASMEB18.3.1A': ("Screw",   "makeCylinderHeadScrew"),
+    'ASMEB18.3.1G': ("Screw",   "makeCylinderHeadScrew"),
+    'ASMEB18.3.2': ("Screw",    "makeCountersunkHeadScrew"),
+    'ASMEB18.3.3A': ("Screw",   "makeButtonHeadScrew"),
+    'ASMEB18.3.3B': ("Screw",   "makeButtonHeadScrew"),
+    'ASMEB18.3.4': ("Screw",    "makeShoulderScrew"),
+    'ASMEB18.3.5A': ("Screw",   "makeSetScrew"),
+    'ASMEB18.3.5B': ("Screw",   "makeSetScrew"),
+    'ASMEB18.3.5C': ("Screw",   "makeSetScrew"),
+    'ASMEB18.3.5D': ("Screw",   "makeSetScrew"),
+    'ASMEB18.6.3.1A': ("Screw", "makeSlottedScrew"),
+    'ASMEB18.5.2': ("Screw",    "makeCarriageBolt"),
+    'ASMEB18.21.1.12A': ("Washer", "makeWasher"),
+    'ASMEB18.21.1.12B': ("Washer", "makeWasher"),
+    'ASMEB18.21.1.12C': ("Washer", "makeWasher"),
+    'ScrewTap': ("ScrewTap",          "makeScrewTap"),
+    'ScrewTapInch': ("ScrewTap",      "makeScrewTap"),
+    'ScrewDie': ("ScrewDie",          "makeScrewDie"),
+    'ScrewDieInch': ("ScrewDie",      "makeScrewDie"),
+    'ThreadedRod': ("ThreadedRod",    "makeThreadedRod"),
+    'ThreadedRodInch': ("ThreadedRod", "makeThreadedRod"),
     
     # * diam pos = the position within the def table to be used for auto diameter selection, -1 = get size from Mxx
     # * K Pos = the position within the def table to be used for countersunk holes creation
@@ -262,7 +260,7 @@ class FSScrewMaker(Screw):
                 type in screwTables):
             d = holeObj.Curve.Radius * 2
             table = FsData[type + "def"]
-            tablepos = screwTables[type][COUNTERSUNK_DPOS]
+            tablepos = self.GetTablePos(type, 'csh_diam')
             mindif = 10.0
             dif = mindif
             for m in table:
@@ -303,47 +301,82 @@ class FSScrewMaker(Screw):
         return sorted(FsData[type + "def"], key=FastenerBase.DiaStr2Num)  # ***
 
     def GetAllTcodes(self, type):
-        return FsData[type + "tcode"]
+        tcodes = FsData[type + "tcode"]['Codes']
+        return list(tcodes)
+
+    def GetAllWidthcodes(self, type, diam):
+        widths = FsData[type + "width"][diam]
+        return list(widths)
 
     def GetAllLengths(self, type, diam, addCustom = True):
         lens = FsData[type + "length"]
-        range = FsData[type + "range"][diam]
         list = []
-        min = FastenerBase.LenStr2Num(range[0])
-        max = FastenerBase.LenStr2Num(range[1])
-        for len in lens:
-            l = FastenerBase.LenStr2Num(len)
-            if l >= min and l <= max:
-                list.append(len)
-        list.sort(key=FastenerBase.LenStr2Num)  # ***
+        if diam != "Auto":            
+            range = FsData[type + "range"][diam]
+            min = FastenerBase.LenStr2Num(range[0])
+            max = FastenerBase.LenStr2Num(range[1])
+            for len in lens:
+                l = FastenerBase.LenStr2Num(len)
+                if l >= min and l <= max:
+                    list.append(len)
+            list.sort(key=FastenerBase.LenStr2Num)
         if addCustom:
             list.append("Custom")
         return list
 
+    def GetAllLengthsByWidth(self, type, diam, width, addCustom = True):
+        lens = FsData[type + "length"]
+        list = []
+        if diam != "Auto":
+            list = list(lens[diam + "x" + width])            
+            list.sort(key=FastenerBase.LenStr2Num)
+        if addCustom:
+            list.append("Custom")
+        return list
+
+    def GetTablePos(self, type, name):
+        titles = FsTitles[type + 'def']
+        if not name in titles:
+            return -1
+        return titles.index(name)
+
+    def GetThreadLength(self, type, diam):
+        tablepos = self.GetTablePos(type, 'thr_len')
+        if (tablepos < 0):
+            return 10.0
+        table = FsData[type + "def"]
+        return table[diam][tablepos]
+       
+
     def GetAllCountersunkTypes(self):
         list = []
         for key in screwTables:
-            if screwTables[key][FASTENER_FAMILY_POS] == 'Screw' and screwTables[key][COUNTERSUNK_DPOS] >= 0:
+            if screwTables[key][FASTENER_FAMILY_POS] == 'Screw' and self.GetTablePos(key, 'csh_diam') >= 0:
                 list.append(key)
         list.sort()
         return list
 
     def GetCountersunkDiams(self, type):
-        dpos = screwTables[type][COUNTERSUNK_DPOS]
+        dpos = self.GetTablePos(type, 'csh_diam')
         if dpos < 0:
             return None
-        kpos = screwTables[type][COUNTERSUNK_KPOS]
+        kpos = self.GetTablePos(type, 'csh_height')
+        if kpos < 0:
+            return None
         table = FsData[type + "def"]
         res = {}
         for diam in table:
             res[diam] = (table[diam][dpos], table[diam][kpos])
+            FreeCAD.Console.PrintMessage(diam + ":" + str(res[diam][0]) + "," + str(res[diam][1]))
         return res
 
     def GetCountersunkDims(self, type, diam):
-        dpos = screwTables[type][COUNTERSUNK_DPOS]
+        dpos = self.GetTablePos(type, 'csh_diam')
         if dpos < 0:
             return 0, 0
-        kpos = screwTables[type][COUNTERSUNK_KPOS]
+        kpos = self.GetTablePos(type, 'csh_height')
+        if kpos < 0:
+            return 0, 0
         table = FsData[type + "def"]
         if not (diam in table):
             return 0, 0

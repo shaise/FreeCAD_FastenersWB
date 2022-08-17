@@ -108,12 +108,15 @@ fsdatapath = os.path.join(__dir__, 'FsData')
 
 
 FsData = {}
+FsTitles = {}
 filelist = Path(fsdatapath).glob('*.csv')
 for item in filelist:
     tables = csv2dict(str(item), item.stem, fieldsnamed=True)
     for tablename in tables.keys():
-        FsData[tablename] = tables[tablename]
-
+        if tablename == 'titles':
+            FsTitles.update(tables[tablename])
+        else:
+            FsData[tablename] = tables[tablename]
 
 class Screw:
     def __init__(self):

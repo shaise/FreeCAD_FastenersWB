@@ -32,13 +32,13 @@ from screw_maker import *
 # make ISO 1580 Pan head slotted screw (Code is nearly identical to iso1207)
 # make ASMEB18.6.3.1A Slotted countersunk flat head screws
 
-def makeSlottedScrew(self): # dynamically loaded method of class Screw
-    dia = self.getDia(self.fastenerDiam, False)
-    SType = self.fastenerType
-    l = self.fastenerLen
+def makeSlottedScrew(self, fa): # dynamically loaded method of class Screw
+    dia = self.getDia(fa.calc_diam, False)
+    SType = fa.type
+    l = fa.calc_len
     if SType == 'ISO1580':
         # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
-        P, a, b, dk_max, da, k, n_min, r, rf, t_min, x = self.dimTable
+        P, a, b, dk_max, da, k, n_min, r, rf, t_min, x = fa.dimTable
         # FreeCAD.Console.PrintMessage("the head with iso: " + str(dk_max) + "\n")
         ht = k
 
@@ -77,14 +77,14 @@ def makeSlottedScrew(self): # dynamically loaded method of class Screw
 
     if SType == 'ISO2009' or SType == 'ISO2010' or SType == 'ASMEB18.6.3.1A':
         if SType == 'ISO2009' or SType == 'ISO2010':
-            P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = self.dimTable
+            P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = fa.dimTable
         elif SType == 'ASMEB18.6.3.1A':
-            P, b, dk_theo, dk_mean, k, n_min, r, t_mean = self.dimTable
+            P, b, dk_theo, dk_mean, k, n_min, r, t_mean = fa.dimTable
         dk_max = dk_theo
         t_min = t_mean
         ht = 0.0  # Head height of flat head
         if SType == 'ISO2010':
-            rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][self.fastenerDiam]
+            rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][fa.calc_diam]
             # Lengths and angles for calculation of head rounding
             beta = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
             tan_beta = math.tan(beta)
@@ -125,7 +125,7 @@ def makeSlottedScrew(self): # dynamically loaded method of class Screw
     thread_start = -l + b
     PntA = Base.Vector(dia / 2.0, 0.0, thread_start)  # Start of thread
 
-    if self.rThread:
+    if fa.thread:
         edgeZ1 = Part.makeLine(PntR, PntT0)
         edgeZ0 = Part.makeLine(PntT0, Pnt0)
         aWire = Part.Wire([headWire, edgeZ1, edgeZ0])
@@ -160,7 +160,7 @@ def makeSlottedScrew(self): # dynamically loaded method of class Screw
     # Part.show(head)
 
     # FreeCAD.Console.PrintMessage("flatlen:" + str(flat_len) + "   b:" + str(b) + "   r:" + str(r) + "   a:" + str(a_point) + "\n")
-    if self.rThread:
+    if fa.thread:
         rthread = self.makeShellthread(dia, P, flat_len, False, PntT0.z, b)
         headFaces = []
         if SType == 'ISO2009' or SType == 'ASMEB18.6.3.1A':

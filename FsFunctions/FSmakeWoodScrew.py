@@ -29,11 +29,11 @@ from screw_maker import *
 
 # DIN 571 wood-screw
 
-def makeWoodScrew(self): # dynamically loaded method of class Screw
-    SType = self.fastenerType
-    l = self.fastenerLen
-    dia = float(self.fastenerDiam.split()[0])
-    ds, da, d3, k, s, P = self.dimTable
+def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    l = fa.calc_len
+    dia = float(fa.calc_diam.split()[0])
+    ds, da, d3, k, s, P = fa.dimTable
     d = dia / 2.0
     d3h = d3 / 2.0
     r = (da-ds)/2.0
@@ -59,10 +59,10 @@ def makeWoodScrew(self): # dynamically loaded method of class Screw
     # Parameters s, k, outer circle diameter =  e/2.0+10.0
     extrude = self.makeHextool(s, k, s * 2.0)
 
-    #if self.rThread:
+    #if fa.thread:
     #  pass
     #else:
-    if self.rThread:
+    if fa.thread:
         dt = d3 / 2.0
     else:
         dt = d
@@ -84,7 +84,7 @@ def makeWoodScrew(self): # dynamically loaded method of class Screw
     edge9 = Part.makeLine(PntB3, PntB4)
     edgeZ0 = Part.makeLine(PntB4, Pnt0)
     
-    if self.rThread:
+    if fa.thread:
         PntB0t = Base.Vector(dt, 0.0, 0.4 * -ftl - (d - dt))
         edge7 = Part.makeLine(PntB0, PntB0t)
         edge7t = Part.makeLine(PntB0t, PntB1)
@@ -98,7 +98,7 @@ def makeWoodScrew(self): # dynamically loaded method of class Screw
     aFace = Part.Face(aWire)
     head = aFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
     head = head.cut(extrude)
-    if self.rThread:
+    if fa.thread:
         thread = self.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d3h, d, P)
         #Part.show(thread)
         head = head.fuse(thread)

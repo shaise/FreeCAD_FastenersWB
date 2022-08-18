@@ -73,14 +73,18 @@ For each actual table line:
 - The first column is the diameter that the line corresponds to
 - The remaining columns are dimensions needed to generate the object 
 
-`FsData/{fastenertype}length.csv` stores a list of standard lengths that apply
-to a particular fastener. These files have a 3 column structure: The first
-column is the nominal length, and the second and third columns are the minimum
-and maximum actual lengths permissible when a fastener of that length is
-manufactured. 
-
+`FsData/{fastenertype}length.csv` stores a list of standard lengths that apply to a particular fastener.
+There are 2 ways to store this data:
+1. A single length file. First column is the diameter, next columns hold the list of allowed lengths. E.G. :
+```csv
+"Dia","len","..."
+"M2.5","5","6","7","8","9","10","12","15","17","18","20","25","30"
+"M3","10","15","20","25"
+```
+2. A combination of length file and range file. For the length file, the first column is the nominal 
+length, and the second and third columns are the minimum and maximum actual lengths permissible when 
+a fastener of that length is manufactured.  
 E.G.: [`iso7379length.csv`](FsData/iso7379length.csv)
-
 ```csv
 "ISO7379length"
 "Nominal","Min","Max"
@@ -90,15 +94,9 @@ E.G.: [`iso7379length.csv`](FsData/iso7379length.csv)
 "8",7.71,8.29
 "10",9.71,10.29
 ```
-
-The files [`iso888length.csv`](FsData/iso888length.csv) and [`inch_fs_length.csv`](FsData/inch_fs_length.csv) provide generalized
-length tables that you can use if they work well with the fastener you want 
-to implement.
-
-Finally, the `FsData/{fastenertype}range.csv` file determines which lengths defined
-in a fasteners' corresponding length file are available for each diameter.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The range file, in the form of `FsData/{fastenertype}range.csv` 
+determines which lengths defined in a fasteners' corresponding length file are available for each diameter.
 For example, in [`iso7379range.csv`](FsData/iso7379range.csv), we have:
-
 ```csv
 "ISO7379range"
 "Dia","Min_L","Max_L"
@@ -107,6 +105,12 @@ For example, in [`iso7379range.csv`](FsData/iso7379range.csv), we have:
 "M5","10","80"
 "M6","16","100"
 ```
+
+
+The files [`iso888length.csv`](FsData/iso888length.csv) and [`inch_fs_length.csv`](FsData/inch_fs_length.csv) provide generalized
+length tables that you can use if they work well with the fastener you want 
+to implement.
+
 
 Note that all values are strings, since they correspond to string values
 in the `def` and `length` files.
@@ -123,10 +127,10 @@ To create a new function, give it a name in the form of `makeXXXXXXXXX(self)`, a
 [FSmakeCarriageBolt.py](FsFunctions/FSmakeCarriageBolt.py):
 
 ```python
-  def makeCarriageBolt(self) :
+  def makeCarriageBolt(self, fa) :
     d = self.getDia(Threadtype, False)
     if SType == 'ASMEB18.5.2':
-      tpi,_,A,H,O,P,_,_ = self.dimTable
+      tpi,_,A,H,O,P,_,_ = fa.dimTable
       A,H,O,P = (25.4*x for x in (A,H,O,P))
       pitch = 25.4/tpi
       if l <= 152.4:
@@ -148,7 +152,7 @@ To create a new function, give it a name in the form of `makeXXXXXXXXX(self)`, a
     l4 = Part.makeLine(p5,p6)
     wire1 = Part.Wire([a1,l2,l3,l4])
     head_shell = wire1.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
-    if not self.rThread:
+    if not fa.thread:
       # simplified threaded section
       p7 = Base.Vector(d/2,0,-1*l+d/10)
       p8 = Base.Vector(d/2-d/10,0,-1*l)

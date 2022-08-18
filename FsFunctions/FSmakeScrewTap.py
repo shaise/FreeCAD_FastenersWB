@@ -29,26 +29,26 @@ from screw_maker import *
 
 # negative-threaded rod for tapping holes
 
-def makeScrewTap(self): # dynamically loaded method of class Screw
-    ThreadType = self.fastenerDiam
-    # FreeCAD.Console.PrintMessage("tt:" + ThreadType + "cdia: " + str(self.customDia) + "\n")
+def makeScrewTap(self, fa): # dynamically loaded method of class Screw
+    ThreadType = fa.calc_diam
+    # FreeCAD.Console.PrintMessage("tt:" + ThreadType + "cdia: " + str(fa.calc_diam) + "\n")
     if ThreadType != 'Custom':
         dia = self.getDia(ThreadType, True)
-        if self.fastenerType == "ScrewTap":
-            P, tunIn, tunEx = FsData["tuningTable"][ThreadType]
-        elif self.fastenerType == 'ScrewTapInch':
-            P = FsData["asmeb18.3.1adef"][ThreadType][0]
+        if fa.type == "ScrewTap":
+            P, tunIn, tunEx = fa.dimTable
+        elif fa.type == 'ScrewTapInch':
+            P = fa.dimTable[0]
     else:  # custom pitch and diameter
-        P = self.customPitch
+        P = fa.calc_pitch
         if self.sm3DPrintMode:
-            dia = self.smNutThrScaleA * self.customDia + self.smNutThrScaleB
+            dia = self.smNutThrScaleA * fa.calc_diam + self.smNutThrScaleB
         else:
-            dia = self.customDia
-    residue, turns = math.modf(self.fastenerLen / P)
+            dia = fa.calc_diam
+    residue, turns = math.modf(fa.calc_len / P)
     # FreeCAD.Console.PrintMessage("turns:" + str(turns) + "res: " + str(residue) + "\n")
     if residue > 0.00001:
         turns += 1.0
-    if self.rThread:
+    if fa.thread:
         screwTap = self.makeInnerThread_2(dia, P, int(turns), None, 0.0)
         # screwTap.translate(Base.Vector(0.0, 0.0, (1-residue)*P))
     else:

@@ -29,12 +29,12 @@ from screw_maker import *
 
 # ASMEB18.5.2 UNC Round head square neck bolts
 
-def makeCarriageBolt(self): # dynamically loaded method of class Screw
-    SType = self.fastenerType
-    l = self.fastenerLen
-    d = self.getDia(self.fastenerDiam, False)
+def makeCarriageBolt(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    l = fa.calc_len
+    d = self.getDia(fa.calc_diam, False)
     if SType == 'ASMEB18.5.2':
-        tpi, _, A, H, O, P, _, _ = self.dimTable
+        tpi, _, A, H, O, P, _, _ = fa.dimTable
         A, H, O, P = (25.4 * x for x in (A, H, O, P))
         pitch = 25.4 / tpi
         if l <= 152.4:
@@ -57,7 +57,7 @@ def makeCarriageBolt(self): # dynamically loaded method of class Screw
     wire1 = Part.Wire([a1, l2, l3, l4])
     head_shell = wire1.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
     flat_len = l - P
-    if not self.rThread:
+    if not fa.thread:
         # simplified threaded section
         p7 = Base.Vector(d / 2, 0, -l + d / 10)
         p7a = Base.Vector(d / 2, 0, -l + L_t)

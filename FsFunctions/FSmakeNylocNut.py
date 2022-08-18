@@ -52,14 +52,14 @@ def nylocMakeFace(do, p, da, dw, e, m, h, s):
     return fm.GetFace()
 
 
-def makeNylocNut(self):
-    P, da, dw, e, m, h, s = self.dimTable
-    dia = self.getDia(self.fastenerDiam, True)
+def makeNylocNut(self, fa):
+    P, da, dw, e, m, h, s = fa.dimTable
+    dia = self.getDia(fa.calc_diam, True)
     section = nylocMakeFace(dia, P, da, dw, e, m, h, s)
     nutSolid = section.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
     htool = htool = self.makeHextool(s, m, s * 2)
     nutSolid = nutSolid.cut(htool)
-    if self.rThread:
+    if fa.thread:
         turns = int(h / P) + 1
         threadCutter = self.makeInnerThread_2(dia, P, int(turns + 1), None, h)
         threadCutter.translate(Base.Vector(0.0, 0.0, m))

@@ -30,12 +30,12 @@ from screw_maker import *
 # ISO 7045 Pan head screws with type H or type Z cross recess
 # ISO 14583 Hexalobular socket pan head screws
 
-def makePanHeadScrew(self): # dynamically loaded method of class Screw
-    SType = self.fastenerType
-    l = self.fastenerLen
-    dia = self.getDia(self.fastenerDiam, False)
+def makePanHeadScrew(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    l = fa.calc_len
+    dia = self.getDia(fa.calc_diam, False)
     # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
-    P, a, b, dk_max, da, k, r, rf, x, cT, mH, mZ = FsData["ISO7045def"][self.fastenerDiam]
+    P, a, b, dk_max, da, k, r, rf, x, cT, mH, mZ = FsData["ISO7045def"][fa.calc_diam]
     # FreeCAD.Console.PrintMessage("the head with iso: " + str(dk_max) + "\n")
 
     # Lengths and angles for calculation of head rounding
@@ -44,7 +44,7 @@ def makePanHeadScrew(self): # dynamically loaded method of class Screw
     tan_beta = math.tan(beta)
 
     if SType == 'ISO14583':
-        tt, A, t_mean = self.dimTable
+        tt, A, t_mean = fa.dimTable
         beta_A = math.asin(A / 2.0 / rf)  # angle of recess edge
         tan_beta_A = math.tan(beta_A)
 
@@ -123,7 +123,7 @@ def makePanHeadScrew(self): # dynamically loaded method of class Screw
     # FreeCAD.Console.PrintMessage("Edges made h_arc_z: " + str(h_arc_z) + "\n")
 
     # if self.RealThread.isChecked():
-    if self.rThread:
+    if fa.thread:
         aWire = Part.Wire([edge2, edge3, edge4])
     else:
         # bolt points
@@ -182,7 +182,7 @@ def makePanHeadScrew(self): # dynamically loaded method of class Screw
     headFaces.extend(recessShell.Faces)
 
     # if self.RealThread.isChecked():
-    if self.rThread:
+    if fa.thread:
         # head = self.cutIsoThread(head, dia, P, turns, l)
         rthread = self.makeShellthread(dia, P, l - r, False, -r, b)
         # head = head.fuse(rthread)

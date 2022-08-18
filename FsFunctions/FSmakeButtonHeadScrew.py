@@ -33,15 +33,15 @@ from screw_maker import *
 # make ASMEB18.3.3A UNC Hex socket button head screws
 # make ASMEB18.3.3B UNC Hex socket button head screws with flange
 
-def makeButtonHeadScrew(self): # dynamically loaded method of class Screw
-    SType = self.fastenerType
-    l = self.fastenerLen
-    dia = self.getDia(self.fastenerDiam, False)
+def makeButtonHeadScrew(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    l = fa.calc_len
+    dia = self.getDia(fa.calc_diam, False)
     # todo: different radii for screws with thread to head or with shaft?
     sqrt2_ = 1.0 / math.sqrt(2.0)
 
     if SType == 'DIN967':
-        P, b, c, da, dk, r, k, rf, x, cT, mH, mZ = self.dimTable
+        P, b, c, da, dk, r, k, rf, x, cT, mH, mZ = fa.dimTable
 
         rH = rf  # radius of button arc
         alpha = math.acos((rf - k + c) / rf)
@@ -67,7 +67,7 @@ def makeButtonHeadScrew(self): # dynamically loaded method of class Screw
 
     else:
         if SType == 'ISO7380-1':
-            P, b, a, da, dk, dk_mean, s_mean, t_min, r, k, e, w = self.dimTable
+            P, b, a, da, dk, dk_mean, s_mean, t_min, r, k, e, w = fa.dimTable
 
             # Bottom of recess
             e_cham = 2.0 * s_mean / math.sqrt(3.0) / 0.99
@@ -83,7 +83,7 @@ def makeButtonHeadScrew(self): # dynamically loaded method of class Screw
             edge3 = Part.makeLine(Pnt3, Pnt4)
 
         if SType == 'ASMEB18.3.3A':
-            P, b, da, dk, s_mean, t_min, r, k = self.dimTable
+            P, b, da, dk, s_mean, t_min, r, k = fa.dimTable
             # Bottom of recess
             e_cham = 2.0 * s_mean / math.sqrt(3.0) / 0.99
             # depth = s_mean / 3.0
@@ -97,9 +97,9 @@ def makeButtonHeadScrew(self): # dynamically loaded method of class Screw
 
         if SType == 'ISO7380-2' or SType == 'ASMEB18.3.3B':
             if SType == 'ISO7380-2':
-                P, b, c, da, dk, dk_c, s_mean, t_min, r, k, e, w = self.dimTable
+                P, b, c, da, dk, dk_c, s_mean, t_min, r, k, e, w = fa.dimTable
             if SType == 'ASMEB18.3.3B':
-                P, b, c, dk, dk_c, s_mean, t_min, r, k = self.dimTable
+                P, b, c, dk, dk_c, s_mean, t_min, r, k = fa.dimTable
 
             # Bottom of recess
             e_cham = 2.0 * s_mean / math.sqrt(3.0) / 0.99
@@ -158,7 +158,7 @@ def makeButtonHeadScrew(self): # dynamically loaded method of class Screw
         edgeB3 = Part.makeLine(PntB2, PntB3)
         edgeB2 = Part.Wire([edgeB2, edgeB3])
 
-    if self.rThread:
+    if fa.thread:
         aWire = Part.Wire([edge2, edge3, edge4])
     else:
         if thread_start <= r:
@@ -191,7 +191,7 @@ def makeButtonHeadScrew(self): # dynamically loaded method of class Screw
     headFaces.append(topFace.Faces[0])
     headFaces.extend(recessShell.Faces)
 
-    if self.rThread:
+    if fa.thread:
         if SType == 'DIN967':
             rthread = self.makeShellthread(dia, P, l - r, False, -r, b)
         else:

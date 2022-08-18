@@ -75,21 +75,21 @@ def sqnutMakeFace(do, di, dw, s, m):
     return fm.GetFace()
 
 
-def makeSquareNut(self):
-    SType = self.fastenerType
-    dia = self.getDia(self.fastenerDiam, True)
+def makeSquareNut(self, fa):
+    SType = fa.type
+    dia = self.getDia(fa.calc_diam, True)
    
     FreeCAD.Console.PrintMessage(SType + "\n")
     if SType == 'DIN557':
-        s, m, di, dw, P = self.dimTable
+        s, m, di, dw, P = fa.dimTable
     elif SType == 'DIN562':
-        s, m, di, P = self.dimTable
+        s, m, di, P = fa.dimTable
         dw = 0
     section = sqnutMakeFace(dia, di, dw, s, m)
     nutSolid = section.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
     htool = makeSquareTool(s, m)
     nutSolid = nutSolid.cut(htool)
-    if self.rThread:
+    if fa.thread:
         turns = int(m / P) + 2
         threadCutter = self.makeInnerThread_2(dia, P, turns, None, m)
         threadCutter.translate(Base.Vector(0.0, 0.0, m + P))

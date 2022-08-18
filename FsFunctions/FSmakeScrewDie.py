@@ -28,29 +28,29 @@
 from screw_maker import *
 
 # make object to cut external threads on a shaft
-def makeScrewDie(self): # dynamically loaded method of class Screw
-    ThreadType = self.fastenerDiam
+def makeScrewDie(self, fa): # dynamically loaded method of class Screw
+    ThreadType = fa.calc_diam
     if ThreadType != "Custom":
         dia = self.getDia(ThreadType, False)
-        if self.fastenerType == "ScrewDie":
-            P, tunIn, tunEx = FsData["tuningTable"][ThreadType]
-        elif self.fastenerType == "ScrewDieInch":
-            P = FsData["asmeb18.3.1adef"][ThreadType][0]
+        if fa.type == "ScrewDie":
+            P, tunIn, tunEx = fa.dimTable
+        elif fa.type == "ScrewDieInch":
+            P = fa.dimTable[0]
     else:  # custom pitch and diameter
-        P = self.customPitch
+        P = fa.calc_pitch
         if self.sm3DPrintMode:
-            dia = self.smScrewThrScaleA * self.customDia + self.smScrewThrScaleB
+            dia = self.smScrewThrScaleA * fa.calc_diam + self.smScrewThrScaleB
         else:
-            dia = self.customDia
-    if self.rThread:
+            dia = fa.calc_diam
+    if fa.thread:
         cutDia = dia * 0.75
     else:
         cutDia = dia
-    l = self.fastenerLen
+    l = fa.calc_len
     refpoint = Base.Vector(0, 0, -1 * l)
     screwDie = Part.makeCylinder(dia * 1.1 / 2, l, refpoint)
     screwDie = screwDie.cut(Part.makeCylinder(cutDia / 2, l, refpoint))
-    if self.rThread:
+    if fa.thread:
         shell_thread = self.makeShellthread(dia, P, l, False, 0)
         thr_p1 = Base.Vector(0, 0, 0)
         thr_p2 = Base.Vector(dia / 2, 0, 0)

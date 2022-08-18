@@ -39,15 +39,15 @@ from screw_maker import *
 # ASMEB18.21.1.12B Washer
 # ASMEB18.21.1.12C Washer
 
-def makeWasher(self): # dynamically loaded method of class Screw
-    SType = self.fastenerType
+def makeWasher(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
     # FreeCAD.Console.PrintMessage("the disc with dia: " + str(dia) + "\n")
     if SType[:3] == 'ISO':
-        d1_min, d2_max, h, h_max = self.dimTable
+        d1_min, d2_max, h, h_max = fa.dimTable
     elif SType[:3] == 'ASM':
-        d1_min, d2_max, h_max = self.dimTable
+        d1_min, d2_max, h_max = fa.dimTable
     elif SType[:3] == 'NFE':
-        d1_min, d2_max, d3, h_max, h_min = self.dimTable
+        d1_min, d2_max, d3, h_max, h_min = fa.dimTable
 
     # Washer Points
     Pnt0 = Base.Vector(d1_min / 2.0, 0.0, h_max)

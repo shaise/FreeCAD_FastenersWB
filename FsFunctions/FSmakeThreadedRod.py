@@ -29,23 +29,23 @@ from screw_maker import *
 
 # make a length of standard threaded rod
 
-def makeThreadedRod(self): # dynamically loaded method of class Screw
-    ThreadType = self.fastenerDiam
+def makeThreadedRod(self, fa): # dynamically loaded method of class Screw
+    ThreadType = fa.calc_diam
     if ThreadType != 'Custom':
         dia = self.getDia(ThreadType, False)
-        if self.fastenerType == 'ThreadedRod':
-            P, tunIn, tunEx = FsData['tuningTable'][ThreadType]
-        elif self.fastenerType == 'ThreadedRodInch':
-            P = FsData['asmeb18.3.1adef'][ThreadType][0]
+        if fa.type == 'ThreadedRod':
+            P, tunIn, tunEx = fa.dimTable
+        elif fa.type == 'ThreadedRodInch':
+            P = fa.dimTable[0]
     else:  # custom pitch and diameter
-        P = self.customPitch
+        P = fa.calc_pitch
         if self.sm3DPrintMode:
-            dia = self.smScrewThrScaleA * self.customDia + self.smScrewThrScaleB
+            dia = self.smScrewThrScaleA * fa.calc_diam + self.smScrewThrScaleB
         else:
-            dia = self.customDia
+            dia = fa.calc_diam
     dia = dia * 1.01
     cham = P
-    l = self.fastenerLen
+    l = fa.calc_len
     p0 = Base.Vector(0, 0, 0)
     p1 = Base.Vector(dia / 2 - cham, 0, 0)
     p2 = Base.Vector(dia / 2, 0, 0 - cham)
@@ -60,7 +60,7 @@ def makeThreadedRod(self): # dynamically loaded method of class Screw
     p_profile = Part.Wire([e1, e2, e3, e4, e5])
     p_shell = p_profile.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
     screw = Part.Solid(p_shell)
-    if self.rThread:
+    if fa.thread:
         # make the threaded section
         shell_thread = self.makeShellthread(dia, P, l, False, 0)
         thr_p1 = Base.Vector(0, 0, 0)

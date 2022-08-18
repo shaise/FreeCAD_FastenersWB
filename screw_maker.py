@@ -93,7 +93,7 @@ from pathlib import Path
 import importlib
 
 from utils import csv2dict
-
+#from FastenersCmd import FastenerAttribs
 
 #import FSmakeCountersunkHeadScrew
 #from FSmakeCountersunkHeadScrew import *
@@ -116,6 +116,8 @@ for item in filelist:
         if tablename == 'titles':
             FsTitles.update(tables[tablename])
         else:
+            if item.stem == "tuningTable":
+                FreeCAD.Console.PrintMessage(tablename + "<<\n")
             FsData[tablename] = tables[tablename]
 
 class Screw:
@@ -131,15 +133,15 @@ class Screw:
         self.smScrewThrScaleA = 1.0
         self.smScrewThrScaleB = 0.0
 
-    def createScrew(self, ST_text, ND_text, NL_text, threadType, function, leftHanded=False, customPitch=None, customDia=None):
+    def createScrew(self, function, fastenerAttribs):
         # self.simpThread = self.SimpleScrew.isChecked()
         # self.symThread = self.SymbolThread.isChecked()
-        # self.rThread = self.RealThread.isChecked()
         # FreeCAD.Console.PrintMessage(NL_text + "\n")
         if not self.objAvailable:
             return None
         try:
-            l = self.getLength(NL_text)
+            if fastenerAttribs.calc_len is not None:
+                fastenerAttribs.calc_len = self.getLength(fastenerAttribs.calc_len)
             if not hasattr(self, function):
                 module = "FsFunctions.FS" + function
                 setattr(Screw, function, getattr(importlib.import_module(module), function))
@@ -148,29 +150,25 @@ class Screw:
             FreeCAD.Console.PrintMessage("Error! nom_dia and length values must be valid numbers!\n")
             return None
 
-        if threadType == 'real':
-            self.rThread = True
-        else:
-            self.rThread = False
 
-        if (ND_text == "Custom"):
-            self.dimTable = None
+        if (fastenerAttribs.diameter == "Custom"):
+             fastenerAttribs.dimTable = None
         else:
-            self.dimTable = FsData[ST_text + "def"][ND_text]
-        self.leftHanded = leftHanded
-        self.fastenerLen = l
-        self.fastenerType = ST_text
-        self.fastenerDiam = ND_text
-        self.customPitch = customPitch
-        self.customDia = customDia
+             fastenerAttribs.dimTable = FsData[fastenerAttribs.type + "def"][fastenerAttribs.diameter]
+        self.leftHanded = fastenerAttribs.leftHanded
+        # self.fastenerLen = l
+        # fa.type = ST_text
+        # fa.calc_diam = ND_text
+        # self.customPitch = customPitch
+        # self.customDia = customDia
         doc = FreeCAD.activeDocument()
 
         if function != "" :
-            function = "self." + function + "()"
+            function = "self." + function + "(fastenerAttribs)"
             screw = eval(function)
             done = True
         else:
-            FreeCAD.Console.PrintMessage("No suitable function for " + ST_text + " Screw Type!\n")
+            FreeCAD.Console.PrintMessage("No suitable function for " + fastenerAttribs.type + " Screw Type!\n")
             return None
         #Part.show(screw)    
         return screw
@@ -1070,9 +1068,12 @@ class Screw:
     def setTuner(self, myTuner=511):
         self.Tuner = myTuner
 
-    def getDia(self, ThreadType, isNut):
-        threadstring = ThreadType.strip("()")
-        dia = FsData["DiaList"][threadstring][0]
+    def getDia(self, ThreadDiam, isNut):
+        if type(ThreadDiam) == type(""):
+            threadstring = ThreadDiam.strip("()")
+            dia = FsData["DiaList"][threadstring][0]
+        else:
+            dia = ThreadDiam
         if self.sm3DPrintMode:
             if isNut:
                 dia = self.smNutThrScaleA * dia + self.smNutThrScaleB

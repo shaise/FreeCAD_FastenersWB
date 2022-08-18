@@ -36,16 +36,16 @@ from screw_maker import *
 # make ASMEB18.3.5C UNC Hexagon socket set screws with dog point
 # make ASMEB18.3.5D UNC Hexagon socket set screws with cup point
 
-def makeSetScrew(self): # dynamically loaded method of class Screw
-    SType = self.fastenerType
-    l = self.fastenerLen
+def makeSetScrew(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    l = fa.calc_len
     if SType == 'ISO4026' or SType == 'ISO4027' or SType == 'ISO4029':
-        P, t, dp, dt, df, s = self.dimTable
+        P, t, dp, dt, df, s = fa.dimTable
     elif SType == 'ISO4028':
-        P, t, dp, df, z, s = self.dimTable
+        P, t, dp, df, z, s = fa.dimTable
     elif SType[:-1] == 'ASMEB18.3.5':
-        P, t, dp, dt, df, s, z = self.dimTable
-    d = self.getDia(self.fastenerDiam, False)
+        P, t, dp, dt, df, s, z = fa.dimTable
+    d = self.getDia(fa.calc_diam, False)
     d = d * 1.01
     # generate the profile of the set-screw
     if SType == 'ISO4026' or SType == 'ASMEB18.3.5A':
@@ -131,7 +131,7 @@ def makeSetScrew(self): # dynamically loaded method of class Screw
     cham_solid = Part.Solid(cham_shell)
     screw = screw.cut(cham_solid)
     # produce a modelled thread if necessary
-    if self.rThread:
+    if fa.thread:
         # make the threaded section
         d = d / 1.01
         shell_thread = self.makeShellthread(d, P, l, False, 0)

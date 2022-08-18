@@ -30,9 +30,9 @@ from screw_maker import *
 # EN 1661 Hexagon nuts with flange
 # chamfer at top of hexagon is wrong = more than 30°
 
-def makeHexNutWFlunge(self): # dynamically loaded method of class Screw
-    dia = self.getDia(self.fastenerDiam, True)
-    P, da, c, dc, dw, e, m, mw, r1, s = self.dimTable
+def makeHexNutWFlunge(self, fa): # dynamically loaded method of class Screw
+    dia = self.getDia(fa.calc_diam, True)
+    P, da, c, dc, dw, e, m, mw, r1, s = fa.dimTable
 
     residue, turns = math.modf(m / P)
     # halfturns = 2*int(turns)
@@ -151,12 +151,12 @@ def makeHexNutWFlunge(self): # dynamically loaded method of class Screw
 
     topFaces.extend(hexShell.Faces)
 
-    if self.rThread and (dia > 4.0):
+    if fa.thread and (dia > 4.0):
         aWire = Part.Wire([edge2, edge3, edge4])
         boltIndex = 3
 
     else:
-        if self.rThread:
+        if fa.thread:
             Pnt7 = Base.Vector(dia / 2.1 - H * 5.0 / 8.0, 0.0, m - cham_i)
             Pnt6 = Base.Vector(dia / 2.1 - H * 5.0 / 8.0, 0.0, 0.0 + cham_i)
 
@@ -181,7 +181,7 @@ def makeHexNutWFlunge(self): # dynamically loaded method of class Screw
     for i in range(1, boltIndex):
         topFaces.append(headShell.Faces[i])
 
-    if self.rThread:
+    if fa.thread:
         if dia < 5.0:
             nutShell = Part.Shell(topFaces)
             nut = Part.Solid(nutShell)

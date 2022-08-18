@@ -31,16 +31,16 @@ from screw_maker import *
 # make the ISO 4014 Hex-head-bolt
 # make the ASMEB18.2.1.6 Hex-head-bolt
 
-def makeHexHeadBolt(self): # dynamically loaded method of class Screw
-    dia = self.getDia(self.fastenerDiam, False)
-    l = self.fastenerLen
+def makeHexHeadBolt(self, fa): # dynamically loaded method of class Screw
+    dia = self.getDia(fa.calc_diam, False)
+    l = fa.calc_len
     #FreeCAD.Console.PrintMessage("the head with thread type: " + str(ThreadType) + "\n")
-    if self.fastenerType == 'ISO4017':
-        P, c, dw, e, k, r, s = self.dimTable
+    if fa.type == 'ISO4017':
+        P, c, dw, e, k, r, s = fa.dimTable
         b = l
 
-    if self.fastenerType == 'ISO4014':
-        P, b1, b2, b3, c, dw, e, k, r, s = self.dimTable
+    if fa.type == 'ISO4014':
+        P, b1, b2, b3, c, dw, e, k, r, s = fa.dimTable
         if l <= 125.0:
             b = b1
         else:
@@ -49,8 +49,8 @@ def makeHexHeadBolt(self): # dynamically loaded method of class Screw
             else:
                 b = b3
 
-    if self.fastenerType == 'ASMEB18.2.1.6':
-        b, P, c, dw, e, k, r, s = self.dimTable
+    if fa.type == 'ASMEB18.2.1.6':
+        b, P, c, dw, e, k, r, s = fa.dimTable
         if l > 6 * 25.4:
             b += 6.35
 
@@ -84,7 +84,7 @@ def makeHexHeadBolt(self): # dynamically loaded method of class Screw
     extrude = self.makeHextool(s, k, s * 2.0)
 
     # if self.RealThread.isChecked():
-    if self.rThread:
+    if fa.thread:
         Pnt11 = Base.Vector(0.0, 0.0, -r)  # helper point for real thread
         edgeZ1 = Part.makeLine(Pnt9, Pnt11)
         edgeZ0 = Part.makeLine(Pnt11, Pnt0)

@@ -32,18 +32,18 @@ from screw_maker import *
 # ISO 7048 cross recessed screw
 # ISO 14580 Hexalobular socket cheese head screws
 
-def makeCheeseHeadScrew(self): # dynamically loaded method of class Screw
-    SType = self.fastenerType
-    l = self.fastenerLen
-    dia = self.getDia(self.fastenerDiam, False)
+def makeCheeseHeadScrew(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    l = fa.calc_len
+    dia = self.getDia(fa.calc_diam, False)
 
     # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
     if SType == 'ISO1207' or SType == 'ISO14580':
-        P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = self.dimTable
+        P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = fa.dimTable
     if SType == 'ISO7048':
-        P, a, b, dk, dk_mean, da, k, r, x, cT, mH, mZ = self.dimTable
+        P, a, b, dk, dk_mean, da, k, r, x, cT, mH, mZ = fa.dimTable
     if SType == 'ISO14580':
-        tt, k, A, t_min = FsData["ISO14580extra"][self.fastenerDiam]
+        tt, k, A, t_min = FsData["ISO14580extra"][fa.calc_diam]
 
     # FreeCAD.Console.PrintMessage("the head with iso: " + str(dk) + "\n")
 
@@ -101,7 +101,7 @@ def makeCheeseHeadScrew(self): # dynamically loaded method of class Screw
                                 Base.Vector(dk / 2.0, -n_min / 2.0, k + 1.0), Base.Vector(0.0, 0.0, -1.0))
         recess = recess.extrude(Base.Vector(0.0, 0.0, -t_min - 1.0))
 
-        if self.rThread:
+        if fa.thread:
             Pnt11 = Base.Vector(0.0, 0.0, -r)  # helper point for real thread
             edgeZ1 = Part.makeLine(Pnt8, Pnt11)
             edgeZ0 = Part.makeLine(Pnt11, Pnt0)
@@ -129,7 +129,7 @@ def makeCheeseHeadScrew(self): # dynamically loaded method of class Screw
         head = head.cut(recess)
         # FreeCAD.Console.PrintMessage("the head cut: " + str(dia) + "\n")
         # Part.show(head)
-        if self.rThread:
+        if fa.thread:
             screwFaces = []
             for i in range(0, len(head.Faces) - 1):
                 screwFaces.append(head.Faces[i])
@@ -143,7 +143,7 @@ def makeCheeseHeadScrew(self): # dynamically loaded method of class Screw
 
 
     else:
-        if self.rThread:
+        if fa.thread:
             aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5])
         else:
             # bolt points
@@ -194,7 +194,7 @@ def makeCheeseHeadScrew(self): # dynamically loaded method of class Screw
         for i in range(1, len(headShell.Faces)):
             screwFaces.append(headShell.Faces[i])
 
-        if self.rThread:
+        if fa.thread:
             # head = self.cutIsoThread(head, dia, P, turns, l)
             rthread = self.makeShellthread(dia, P, l - r, False, -r, b)
             # head = head.fuse(rthread)

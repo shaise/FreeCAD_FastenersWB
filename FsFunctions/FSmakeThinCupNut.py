@@ -29,12 +29,12 @@ from screw_maker import *
 
 # DIN917 Cap nuts, thin style
 
-def makeThinCupNut(self): # dynamically loaded method of class Screw
-    dia = self.getDia(self.fastenerDiam, True)
-    P, g2, h, r, s, t, w = self.dimTable
+def makeThinCupNut(self, fa): # dynamically loaded method of class Screw
+    dia = self.getDia(fa.calc_diam, True)
+    P, g2, h, r, s, t, w = fa.dimTable
 
     H = P * math.cos(math.radians(30)) * 5.0 / 8.0 # Gewindetiefe H
-    if self.rThread: H *= 1.1
+    if fa.thread: H *= 1.1
     e = s / math.sqrt(3) * 2.0
     cham_i = H * math.tan(math.radians(15.0))
     cham_o = (e - s) * math.tan(math.radians(15.0))
@@ -66,7 +66,7 @@ def makeThinCupNut(self): # dynamically loaded method of class Screw
     extrude = self.makeHextool(s, h, s * 2.0)
     nut = head.cut(extrude)
 
-    if self.rThread:
+    if fa.thread:
         turns = int(math.floor(t/P))
         threadCutter = self.makeInnerThread_2(dia, P, turns, None, t)
         threadCutter.translate(Base.Vector(0.0, 0.0, turns * P))

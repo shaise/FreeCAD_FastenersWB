@@ -35,30 +35,30 @@ from screw_maker import *
 # also used for ISO 14584 Hexalobular socket raised countersunk head screws
 # also used for ASMEB18.3.2 UNC Hexagon socket countersunk head screws
 
-def makeCountersunkHeadScrew(self): # dynamically loaded method of class Screw
-    SType = self.fastenerType
-    l = self.fastenerLen
-    dia = self.getDia(self.fastenerDiam, False)
+def makeCountersunkHeadScrew(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    l = fa.calc_len
+    dia = self.getDia(fa.calc_diam, False)
     # FreeCAD.Console.PrintMessage("der 2009Kopf mit l: " + str(l) + "\n")
     if SType == 'ISO10642':
-        P, b, dk_theo, dk_mean, da, ds_min, e, k, r, s_mean, t, w = self.dimTable
+        P, b, dk_theo, dk_mean, da, ds_min, e, k, r, s_mean, t, w = fa.dimTable
         ePrax = s_mean / math.sqrt(3.0) / 0.99
         ht = 0.0
         a = 2 * P
         t_mean = t
     elif SType == 'ASMEB18.3.2':
-        P, b, dk_theo, dk_mean, k, r, s_mean, t = self.dimTable
+        P, b, dk_theo, dk_mean, k, r, s_mean, t = fa.dimTable
         ePrax = s_mean / math.sqrt(3.0) / 0.99
         ht = 0.0
         a = 2 * P
         t_mean = t
     else:  # still need the data from iso2009def, but this screw can not created here
-        P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["ISO2009def"][self.fastenerDiam]
+        P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["ISO2009def"][fa.calc_diam]
         ht = 0.0  # Head height of flat head
     if SType == 'ISO7046':
-        cT, mH, mZ = FsData["ISO7046extra"][self.fastenerDiam]
+        cT, mH, mZ = FsData["ISO7046extra"][fa.calc_diam]
     if SType == 'ISO7047':
-        rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][self.fastenerDiam]
+        rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][fa.calc_diam]
         # Lengths and angles for calculation of head rounding
         beta = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
         tan_beta = math.tan(beta)
@@ -71,11 +71,11 @@ def makeCountersunkHeadScrew(self): # dynamically loaded method of class Screw
         # FreeCAD.Console.PrintMessage("h_arc_z: " + str(h_arc_z) + "\n")
 
     if SType == 'ISO14582':
-        P, a, b, dk_theo, dk_mean, k, r, tt, A, t_mean = self.dimTable
+        P, a, b, dk_theo, dk_mean, k, r, tt, A, t_mean = fa.dimTable
         ePrax = A / 2.0 / 0.99
 
     if SType == 'ISO14584':
-        P, b, dk_theo, dk_mean, f, k, r, rf, x, tt, A, t_mean = self.dimTable
+        P, b, dk_theo, dk_mean, f, k, r, rf, x, tt, A, t_mean = fa.dimTable
         ePrax = A / 2.0 / 0.99
         # Lengths and angles for calculation of head rounding
         beta = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
@@ -181,7 +181,7 @@ def makeCountersunkHeadScrew(self): # dynamically loaded method of class Screw
     edgeArc2 = Part.makeLine(Pnt4, Pnt5)
     edge6 = Part.makeLine(Pnt5, Pnt6)
 
-    if self.rThread:
+    if fa.thread:
         # aWire=Part.Wire([edge1,edge2,edge3,edgeArc])
         aWire = Part.Wire([edge2, edge3, edgeArc])
     else:
@@ -220,7 +220,7 @@ def makeCountersunkHeadScrew(self): # dynamically loaded method of class Screw
     headFaces.extend(recessShell.Faces)
 
     if SType == 'ISO10642' or SType == 'ISO14582' or SType == 'ASMEB18.3.2':
-        if self.rThread:
+        if fa.thread:
             # if True:
             rthread = self.makeShellthread(dia, P, flat_len, True, Pnt5.z, b)
             # head = head.fuse(rthread)
@@ -235,7 +235,7 @@ def makeCountersunkHeadScrew(self): # dynamically loaded method of class Screw
             screw = Part.Solid(screwShell)
 
     else:
-        if self.rThread:
+        if fa.thread:
             rthread = self.makeShellthread(dia, P, flat_len, False, Pnt5.z, b)
             # head = head.fuse(rthread)
             # Part.show(rthread)

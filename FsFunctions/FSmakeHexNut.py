@@ -30,21 +30,21 @@ from screw_maker import *
 # make the ISO 4032 Hex-nut
 # make the ISO 4033 Hex-nut
 
-def makeHexNut(self): # dynamically loaded method of class Screw
-    SType = self.fastenerType
-    dia = self.getDia(self.fastenerDiam, True)
+def makeHexNut(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    dia = self.getDia(fa.calc_diam, True)
     #         P, tunIn, tunEx
     # Ptun, self.tuning, tunEx = tuningTable[ThreadType]
     if SType[:3] == 'ISO':
         # P, c, damax,  dw,    e,     m,   mw,   s_nom
-        P, c, da, dw, e, m, mw, s = self.dimTable
+        P, c, da, dw, e, m, mw, s = fa.dimTable
     elif SType == 'ASMEB18.2.2.1A':
-        P, da, e, m, s = self.dimTable
+        P, da, e, m, s = fa.dimTable
     elif SType == 'ASMEB18.2.2.4A':
-        P, da, e, m_a, m_b, s = self.dimTable
+        P, da, e, m_a, m_b, s = fa.dimTable
         m = m_a
     elif SType == 'ASMEB18.2.2.4B':
-        P, da, e, m_a, m_b, s = self.dimTable
+        P, da, e, m_a, m_b, s = fa.dimTable
         m = m_b
 
     residue, turns = math.modf(m / P)
@@ -52,9 +52,9 @@ def makeHexNut(self): # dynamically loaded method of class Screw
 
     if residue > 0.0:
         turns += 1.0
-    if SType == 'ISO4033' and self.fastenerDiam == '(M14)':
+    if SType == 'ISO4033' and fa.calc_diam == '(M14)':
         turns -= 1.0
-    if SType == 'ISO4035' and self.fastenerDiam == 'M56':
+    if SType == 'ISO4035' and fa.calc_diam == 'M56':
         turns -= 1.0
 
     sqrt2_ = 1.0 / math.sqrt(2.0)
@@ -63,7 +63,7 @@ def makeHexNut(self): # dynamically loaded method of class Screw
     cham_i_delta = da / 2.0 - (dia / 2.0 - H * 5.0 / 8.0)
     cham_i = cham_i_delta * math.tan(math.radians(15.0))
 
-    if self.rThread:
+    if fa.thread:
         Pnt0 = Base.Vector(da / 2.0 - 2.0 * cham_i_delta, 0.0, m - 2.0 * cham_i)
         Pnt7 = Base.Vector(da / 2.0 - 2.0 * cham_i_delta, 0.0, 0.0 + 2.0 * cham_i)
     else:
@@ -100,7 +100,7 @@ def makeHexNut(self): # dynamically loaded method of class Screw
     nut = head.cut(extrude)
     # Part.show(nut, 'withoutTread')
 
-    if self.rThread:
+    if fa.thread:
         # if (dia < 1.6)or (dia > 52.0):
         if (dia < 1.6) or (dia > 64.0):
             # if (dia < 3.0):

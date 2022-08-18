@@ -32,15 +32,15 @@ from screw_maker import *
 # ISO 14579 Hexalobular socket head cap screws
 # ASMEB18.3.1A Allan Screw head
 
-def makeCylinderHeadScrew(self): # dynamically loaded method of class Screw
-    SType = self.fastenerType
-    l = self.fastenerLen
-    dia = self.getDia(self.fastenerDiam, False)
+def makeCylinderHeadScrew(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    l = fa.calc_len
+    dia = self.getDia(fa.calc_diam, False)
     # FreeCAD.Console.PrintMessage("der 4762Kopf mit l: " + str(l) + "\n")
     # FreeCAD.Console.PrintMessage("the head with iso r: " + str(r) + "\n")
     if SType == 'ISO14579':
-        P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = FsData["ISO4762def"][self.fastenerDiam]
-        tt, A, t = self.dimTable
+        P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = FsData["ISO4762def"][fa.calc_diam]
+        tt, A, t = fa.dimTable
         # Head Points 30° countersunk
         # Pnt0 = Base.Vector(0.0,0.0,k-A/4.0) #Center Point for countersunk
         Pnt0 = Base.Vector(0.0, 0.0, k - A / 8.0)  # Center Point for flat countersunk
@@ -57,9 +57,9 @@ def makeCylinderHeadScrew(self): # dynamically loaded method of class Screw
 
     elif SType == 'DIN7984' or SType == 'ASMEB18.3.1G':
         if SType == 'DIN7984':
-            P, b, dk_max, da, ds_min, e, k, r, s_mean, t, v, dw = self.dimTable
+            P, b, dk_max, da, ds_min, e, k, r, s_mean, t, v, dw = fa.dimTable
         elif SType == 'ASMEB18.3.1G':
-            P, b, A, H, C_max, J, T, K, r = (x*25.4 for x in self.dimTable)
+            P, b, A, H, C_max, J, T, K, r = (x*25.4 for x in fa.dimTable)
             dk_max = A
             k = H
             v = C_max
@@ -77,7 +77,7 @@ def makeCylinderHeadScrew(self): # dynamically loaded method of class Screw
         PntH1 = Base.Vector(e_cham / 1.99, 0.0, 2.0 * k)
 
     elif SType == 'DIN6912':
-        P, b, dk_max, da, ds_min, e, k, r, s_mean, t, t2, v, dw = self.dimTable
+        P, b, dk_max, da, ds_min, e, k, r, s_mean, t, t2, v, dw = fa.dimTable
         e_cham = 2.0 * s_mean / math.sqrt(3.0)
         # Head Points 45° countersunk
         Pnt0 = Base.Vector(0.0, 0.0, k - e_cham / 1.99 / 2.0)  # Center Point for countersunk
@@ -90,9 +90,9 @@ def makeCylinderHeadScrew(self): # dynamically loaded method of class Screw
 
     elif SType == 'ISO4762' or SType == 'ASMEB18.3.1A':
         if SType == 'ISO4762':
-            P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = self.dimTable
+            P, b, dk_max, da, ds_mean, e, lf, k, r, s_mean, t, v, dw, w = fa.dimTable
         if SType == 'ASMEB18.3.1A':
-            P, b, dk_max, k, r, s_mean, t, v, dw = self.dimTable
+            P, b, dk_max, k, r, s_mean, t, v, dw = fa.dimTable
         e_cham = 2.0 * s_mean / math.sqrt(3.0)
         # Head Points 45° countersunk
         Pnt0 = Base.Vector(0.0, 0.0, k - e_cham / 1.99 / 2.0)  # Center Point for countersunk
@@ -136,7 +136,7 @@ def makeCylinderHeadScrew(self): # dynamically loaded method of class Screw
     edge6 = Part.makeLine(Pnt6, Pnt7)
     edge7 = Part.Arc(Pnt7, Pnt8, Pnt9).toShape()
 
-    if self.rThread:
+    if fa.thread:
         aWire = Part.Wire([edge2, edge3, edge4, edge5, edge6, edge7])
 
     else:
@@ -192,7 +192,7 @@ def makeCylinderHeadScrew(self): # dynamically loaded method of class Screw
     headFaces.extend(recessShell.Faces)
 
     # if self.RealThread.isChecked():
-    if self.rThread:
+    if fa.thread:
         # head = self.cutIsoThread(head, dia, P, turns, l)
         rthread = self.makeShellthread(dia, P, l - r, True, -r, b)
         # Part.show(rthread)

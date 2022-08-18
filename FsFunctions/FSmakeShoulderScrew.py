@@ -29,12 +29,12 @@ from screw_maker import *
 
 # make ISO 7379 Hexagon socket head shoulder screw
 
-def makeShoulderScrew(self): # dynamically loaded method of class Screw
-    SType = self.fastenerType
-    l = self.fastenerLen
+def makeShoulderScrew(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    l = fa.calc_len
     #if SType == 'ISO7379' or SType == 'ASMEB18.3.4':
-    P, d1, d3, l2, l3, SW = self.dimTable
-    d2 = self.getDia(self.fastenerDiam, False)
+    P, d1, d3, l2, l3, SW = fa.dimTable
+    d2 = self.getDia(fa.calc_diam, False)
     l1 = l
     # define the fastener head and shoulder
     # applicable for both threaded and unthreaded versions
@@ -57,7 +57,7 @@ def makeShoulderScrew(self): # dynamically loaded method of class Screw
     top_face_profile = Part.Wire([edge1])
     top_face = top_face_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
     head_shoulder_profile = Part.Wire([edge2, edge3, edge4, edge5, edge6, edge7])
-    if not self.rThread:
+    if not fa.thread:
         # if a modelled thread is not desired:
         # add a cylindrical section to represent the threads
         point10 = Base.Vector(d2 / 2 - 0.075 * d2, 0, -0.075 * l2)

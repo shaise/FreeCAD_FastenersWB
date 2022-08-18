@@ -202,6 +202,9 @@ screwTables = {
 }
 
 class FSScrewMaker(Screw):
+    def __init__(self):
+        super().__init__()
+                
     def FindClosest(self, type, diam, len):
         ''' Find closest standard screw to given parameters '''
         if type not in screwTables:
@@ -310,19 +313,23 @@ class FSScrewMaker(Screw):
 
     def GetAllLengths(self, type, diam, addCustom = True):
         lens = FsData[type + "length"]
-        list = []
-        if diam != "Auto":            
-            range = FsData[type + "range"][diam]
-            min = FastenerBase.LenStr2Num(range[0])
-            max = FastenerBase.LenStr2Num(range[1])
-            for len in lens:
-                l = FastenerBase.LenStr2Num(len)
-                if l >= min and l <= max:
-                    list.append(len)
-            list.sort(key=FastenerBase.LenStr2Num)
+        lenlist = []
+        rangeTableName = type + "range"
+        if diam != "Auto":
+            if rangeTableName in FsData:
+                range = FsData[rangeTableName][diam]
+                min = FastenerBase.LenStr2Num(range[0])
+                max = FastenerBase.LenStr2Num(range[1])
+                for len in lens:
+                    l = FastenerBase.LenStr2Num(len)
+                    if l >= min and l <= max:
+                        lenlist.append(len)
+            else:
+                lenlist = list(lens[diam])         
+            lenlist.sort(key=FastenerBase.LenStr2Num)
         if addCustom:
-            list.append("Custom")
-        return list
+            lenlist.append("Custom")
+        return lenlist
 
     def GetAllLengthsByWidth(self, type, diam, width, addCustom = True):
         lens = FsData[type + "length"]
@@ -398,8 +405,8 @@ class FSScrewMaker(Screw):
         if oldState != newState:
             FastenerBase.FSCacheRemoveThreaded()  # thread parameters have changed, remove cached ones
 
-    def createFastener(self, type, diam, len, threadType, leftHanded, customPitch=None, customDia=None):
-        return self.createScrew(type, diam, len, threadType, screwTables[type][FUNCTION_POS], leftHanded, customPitch, customDia)
+    def createFastener(self, fastenerAttribs):
+        return self.createScrew(screwTables[fastenerAttribs.type][FUNCTION_POS], fastenerAttribs)
 
 
 ScrewMakerInstance = None

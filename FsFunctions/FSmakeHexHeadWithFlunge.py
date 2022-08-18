@@ -31,15 +31,15 @@ from screw_maker import *
 # EN 1665 Hexagon bolts with flange, heavy series
 # ASMEB18.2.1.8 Hexagon bolts with flange, heavy series
 
-def makeHexHeadWithFlunge(self): # dynamically loaded method of class Screw
-    dia = self.getDia(self.fastenerDiam, False)
-    SType = self.fastenerType
-    l = self.fastenerLen
+def makeHexHeadWithFlunge(self, fa): # dynamically loaded method of class Screw
+    dia = self.getDia(fa.calc_diam, False)
+    SType = fa.type
+    l = fa.calc_len
     # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
     if SType == 'EN1662' or SType == 'EN1665':
-        P, b0, b1, b2, b3, c, dc, dw, e, k, kw, f, r1, s = self.dimTable
+        P, b0, b1, b2, b3, c, dc, dw, e, k, kw, f, r1, s = fa.dimTable
     elif SType == 'ASMEB18.2.1.8':
-        b0, P, c, dc, kw, r1, s = self.dimTable
+        b0, P, c, dc, kw, r1, s = fa.dimTable
         b = b0
     if l < b0:
         b = l - 2 * P
@@ -192,7 +192,7 @@ def makeHexHeadWithFlunge(self): # dynamically loaded method of class Screw
     edgeB3 = Part.makeLine(PntB2, PntB3)
 
     # if self.RealThread.isChecked():
-    if self.rThread:
+    if fa.thread:
         aWire = Part.Wire([edge2, edge3, edge4, edge5])
         boltIndex = 4
 
@@ -220,7 +220,7 @@ def makeHexHeadWithFlunge(self): # dynamically loaded method of class Screw
     for i in range(1, boltIndex):
         topFaces.append(headShell.Faces[i])
 
-    if self.rThread:
+    if fa.thread:
         rthread = self.makeShellthread(dia, P, l - r1, True, -r1, b)
         for tFace in rthread.Faces:
             topFaces.append(tFace)

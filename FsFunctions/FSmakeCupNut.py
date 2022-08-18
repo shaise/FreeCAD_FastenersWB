@@ -29,11 +29,11 @@ from screw_maker import *
 
 # DIN1587 : cap (or 'acorn') nut
 
-def makeCupNut(self): # dynamically loaded method of class Screw
-    SType = self.fastenerType
-    dia = self.getDia(self.fastenerDiam, True)
+def makeCupNut(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    dia = self.getDia(fa.calc_diam, True)
     if SType == "DIN1587":
-        P, d_k, h, m, s, t = self.dimTable
+        P, d_k, h, m, s, t = fa.dimTable
     else:
         raise RuntimeError("unknown screw type")
     pnts = list(
@@ -82,7 +82,7 @@ def makeCupNut(self): # dynamically loaded method of class Screw
     solidHex = hexFace.extrude(Base.Vector(0.0, 0.0, h * 1.1))
     solid = solid.common(solidHex)
     # cut the threads
-    if self.rThread:
+    if fa.thread:
         residue, turns = math.modf(t / P)
         tap_tool = self.makeInnerThread_2(dia, P, int(turns + 2), None, t)
         tap_tool.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)

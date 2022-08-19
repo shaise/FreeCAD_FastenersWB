@@ -140,7 +140,8 @@ FSScrewCommandTable = {
     "ScrewDieInch": ("Tool object to cut external non-metric threads", "ThreadedRod", RodParameters), 
     "ThreadedRod": ("DIN 975 metric threaded rod", "ThreadedRod", RodParameters), 
     "ThreadedRodInch": ("UNC threaded rod", "ThreadedRod", RodParameters), 
-    "PCBStandoff": ("Metric PCB standoff", "PEM Inserts", PCBStandoffParameters), 
+    "PCBStandoff": ("Wurth WA-SSTII  PCB standoff", "PEM Inserts", PCBStandoffParameters), 
+    "PCBSpacer": ("Wurth WA-SSTII PCB spacer", "PEM Inserts", PCBSpacerParameters), 
 }
 
 def GetParams(type):
@@ -227,6 +228,9 @@ class FSScrewObject(FSBaseObject):
             obj.type = type
         else:
             type = obj.type
+        
+        if obj.type == "ISO7380":
+            obj.type = type = "ISO7380-1"  # backward compatibility - remove at FreeCAD version 0.23 
         ba.familyType = screwMaker.GetTypeName(type)
  
         if not hasattr(obj, "diameter"):
@@ -290,6 +294,8 @@ class FSScrewObject(FSBaseObject):
         if "threadLength" in params and not hasattr(obj, "screwLength"):
             obj.addProperty("App::PropertyLength", "screwLength", "Parameters", "Threaded part length").screwLength = screwMaker.GetThreadLength(type, diameter)
 
+        ba.BackupObject(obj)
+
     # get all fastener types compatible with given one (that uses same properties) 
     def GetCompatibleTypes(self, ftype):
         pargrp = GetParams(ftype)
@@ -340,8 +346,6 @@ class FSScrewObject(FSBaseObject):
  
         # handle type changes
         typechange = False
-        if fp.type == "ISO7380":
-            fp.type = "ISO7380-1"  # backward compatibility
         if fp.type != ba.type:
             typechange = True
             curdiam = fp.diameter
@@ -359,6 +363,7 @@ class FSScrewObject(FSBaseObject):
         diameterchange = ba.diameter != fp.diameter
         matchouterchange = ba.matchOuter != fp.matchOuter
         widthchange = hasattr(fp, "width") and ba.width != fp.width
+
 
         if fp.diameter == 'Auto' or matchouterchange:
             ba.calc_diam = screwMaker.AutoDiameter(fp.type, shape, baseobj, fp.matchOuter)

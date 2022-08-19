@@ -197,6 +197,7 @@ screwTables = {
     'ThreadedRod': ("ThreadedRod",    "makeThreadedRod"),
     'ThreadedRodInch': ("ThreadedRod", "makeThreadedRod"),
     'PCBStandoff': ("Standoff", "makePCBStandoff"),
+    'PCBSpacer': ("Spacer", "makePCBSpacer"),
     
     # * diam pos = the position within the def table to be used for auto diameter selection, -1 = get size from Mxx
     # * K Pos = the position within the def table to be used for countersunk holes creation
@@ -209,7 +210,7 @@ class FSScrewMaker(Screw):
     def FindClosest(self, type, diam, len, width = None):
         ''' Find closest standard screw to given parameters '''
         if type not in screwTables:
-            return diam, len
+            return diam, len, width
 
         diam_table = FsData[type + "def"]
         # auto find diameter

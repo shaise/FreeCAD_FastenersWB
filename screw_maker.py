@@ -116,8 +116,6 @@ for item in filelist:
         if tablename == 'titles':
             FsTitles.update(tables[tablename])
         else:
-            if item.stem == "tuningTable":
-                FreeCAD.Console.PrintMessage(tablename + "<<\n")
             FsData[tablename] = tables[tablename]
 
 class Screw:

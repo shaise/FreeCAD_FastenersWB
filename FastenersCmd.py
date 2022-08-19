@@ -43,8 +43,8 @@ ScrewParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded", "l
 RodParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded", "lengthArbitrary",  "diameterCustom", "pitchCustom" }
 NutParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded"}
 WasherParameters = { "type", "diameter", "matchOuter" }
-PCBStandoffParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "threadLength", "lenByDiamAndWidth", "width" }
-PCBSpacerParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "lenByDiamAndWidth", "widthCode" }
+PCBStandoffParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "threadLength", "lenByDiamAndWidth", "lengthCustom", "widthCode" }
+PCBSpacerParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "lenByDiamAndWidth", "lengthCustom", "widthCode" }
 
 CMD_HELP = 0
 CMD_GROUP = 1
@@ -134,12 +134,13 @@ FSScrewCommandTable = {
     "ASMEB18.21.1.12B": ("ASME B18.21.1 UN washers, regular series", "Washer", WasherParameters), 
     "ASMEB18.21.1.12C": ("ASME B18.21.1 UN washers, wide series", "Washer", WasherParameters), 
 
-    "ScrewTap": ("Add metric threaded rod for tapping holes", "ThreadedRod", RodParameters), 
-    "ScrewTapInch": ("Add Inch threaded rod for tapping holes", "ThreadedRod", RodParameters), 
-    "ScrewDie": ("Add object to cut external metric threads", "ThreadedRod", RodParameters), 
-    "ScrewDieInch": ("Add object to cut external non-metric threads", "ThreadedRod", RodParameters), 
-    "ThreadedRod": ("Add DIN 975 metric threaded rod", "ThreadedRod", RodParameters), 
-    "ThreadedRodInch": ("Add UNC threaded rod", "ThreadedRod", RodParameters), 
+    "ScrewTap": ("Metric threaded rod for tapping holes", "ThreadedRod", RodParameters), 
+    "ScrewTapInch": ("Inch threaded rod for tapping holes", "ThreadedRod", RodParameters), 
+    "ScrewDie": ("Tool object to cut external metric threads", "ThreadedRod", RodParameters), 
+    "ScrewDieInch": ("Tool object to cut external non-metric threads", "ThreadedRod", RodParameters), 
+    "ThreadedRod": ("DIN 975 metric threaded rod", "ThreadedRod", RodParameters), 
+    "ThreadedRodInch": ("UNC threaded rod", "ThreadedRod", RodParameters), 
+    "PCBStandoff": ("Metric PCB standoff", "PEM Inserts", PCBStandoffParameters), 
 }
 
 def GetParams(type):
@@ -216,12 +217,13 @@ class FSScrewObject(FSBaseObject):
         ba = self.backupAttrs
         
         # basic parameters
+        # all objects must have type - since they all use the same command
         if not hasattr(obj, "type"):
             if type is None: # probably pre V0.4.0 object
                 if hasattr(self,"originalType"):
                     type = self.originalType
                     FreeCAD.Console.PrintMessage("using original type: " + type + "\n")
-            obj.addProperty("App::PropertyEnumeration", "type", "Parameters", "Screw type").type = screwMaker.GetAllTypes(ba.familyType)
+            obj.addProperty("App::PropertyEnumeration", "type", "Parameters", "Screw type").type = self.GetCompatibleTypes(type)
             obj.type = type
         else:
             type = obj.type
@@ -256,7 +258,7 @@ class FSScrewObject(FSBaseObject):
             # if diameter == "Auto":
             #     diameter = self.initialDiameter
             if "lenByDiamAndWidth" in params:
-                slens = screwMaker.GetAllLengthsByWidth(type, diameter, obj.width, addCustomLen)
+                slens = screwMaker.GetAllLengths(type, diameter, addCustomLen, obj.width)
             else:
                 slens = screwMaker.GetAllLengths(type, diameter, addCustomLen)
             if not hasattr(obj, 'length'):
@@ -285,9 +287,18 @@ class FSScrewObject(FSBaseObject):
         # misc
         if "blindness" in params and not hasattr(obj, "blind"):
             obj.addProperty("App::PropertyBool", "blind", "Parameters", "Blind Standoff type").blind = False
-        if "screwLength" in params and not hasattr(obj, "screwLength"):
-            obj.addProperty("App::PropertyLength", "screwLength", "Parameters", "Thread length").screwLength = screwMaker.GetThreadLength(type)
+        if "threadLength" in params and not hasattr(obj, "screwLength"):
+            obj.addProperty("App::PropertyLength", "screwLength", "Parameters", "Threaded part length").screwLength = screwMaker.GetThreadLength(type, diameter)
 
+    # get all fastener types compatible with given one (that uses same properties) 
+    def GetCompatibleTypes(self, ftype):
+        pargrp = GetParams(ftype)
+        types = []
+        for ftype2 in FSScrewCommandTable:
+            if GetParams(ftype2) is pargrp:
+                types.append(ftype2)
+        types.sort()
+        return types
 
     def onDocumentRestored(self, obj):
         # for backward compatibility: add missing attribute if needed
@@ -331,7 +342,7 @@ class FSScrewObject(FSBaseObject):
         typechange = False
         if fp.type == "ISO7380":
             fp.type = "ISO7380-1"  # backward compatibility
-        if not (hasattr(self, 'type')) or fp.type != ba.type:
+        if fp.type != ba.type:
             typechange = True
             curdiam = fp.diameter
             diameters = screwMaker.GetAllDiams(fp.type)
@@ -347,6 +358,7 @@ class FSScrewObject(FSBaseObject):
         # handle diameter changes
         diameterchange = ba.diameter != fp.diameter
         matchouterchange = ba.matchOuter != fp.matchOuter
+        widthchange = hasattr(fp, "width") and ba.width != fp.width
 
         if fp.diameter == 'Auto' or matchouterchange:
             ba.calc_diam = screwMaker.AutoDiameter(fp.type, shape, baseobj, fp.matchOuter)
@@ -368,29 +380,39 @@ class FSScrewObject(FSBaseObject):
                 ba.calc_len = str(l)
             else:
                 # fixed lengths
+                width = None
+                if "lenByDiamAndWidth" in params:
+                    width = fp.width
                 if self.paramChanged('length', fp.length):
-                    if fp.length != 'Custom':
+                    if fp.length != 'Custom' and hasattr(fp, 'lengthCustom'):
                         fp.lengthCustom = FastenerBase.LenStr2Num(fp.length)  # ***
                 elif ba.lengthCustom is not None and fp.lengthCustom != ba.lengthCustom:
                     fp.length = 'Custom'
                 origLen = self.ActiveLength(fp)
                 origIsCustom = fp.length == 'Custom'
-                ba.calc_diam, l = screwMaker.FindClosest(fp.type, ba.calc_diam, origLen)
+                ba.calc_diam, l, auto_width = screwMaker.FindClosest(fp.type, ba.calc_diam, origLen, width)
                 if ba.calc_diam != fp.diameter:
                     diameterchange = True
                     fp.diameter = ba.calc_diam
+                if width != auto_width:
+                    widthchange = True
+                    fp.width = screwMaker.GetAllWidthcodes(fp.type, fp.diameter)
+                    fp.width = width = auto_width
 
                 if origIsCustom:
                     l = origLen
 
-                if l != origLen or diameterchange or typechange:
-                    if diameterchange or typechange:
-                        fp.length = screwMaker.GetAllLengths(fp.type, fp.diameter)
+                if l != origLen or diameterchange or typechange or widthchange:
+                    if diameterchange or typechange or widthchange:
+                        fp.length = screwMaker.GetAllLengths(fp.type, fp.diameter, hasattr(fp, 'lengthCustom'), width)
+                        if hasattr(fp, 'screwLength'):
+                            fp.screwLength = screwMaker.GetThreadLength(fp.type, fp.diameter)
                     if origIsCustom:
                         fp.length = 'Custom'
                     else:
                         fp.length = l
-                        fp.lengthCustom = l
+                        if hasattr(fp, 'lengthCustom'):
+                            fp.lengthCustom = l
                 ba.calc_len = l
         else:
             ba.calc_len = None
@@ -417,7 +439,10 @@ class FSScrewObject(FSBaseObject):
         dispDiam = self.CleanDecimals(ba.calc_diam)
         if hasattr(fp, 'length'):
             dispLen = self.ActiveLength(fp)
-            label = dispDiam + 'x' + dispLen
+            dispWidth = ""
+            if hasattr(fp, 'width'):
+                dispWidth = 'x' + fp.width
+            label = dispDiam + dispWidth + 'x' + dispLen
             if ba.leftHanded:
                 label += 'LH'
             label += '-' + ba.familyType

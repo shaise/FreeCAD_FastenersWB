@@ -196,6 +196,7 @@ screwTables = {
     'ScrewDieInch': ("ScrewDie",      "makeScrewDie"),
     'ThreadedRod': ("ThreadedRod",    "makeThreadedRod"),
     'ThreadedRodInch': ("ThreadedRod", "makeThreadedRod"),
+    'PCBStandoff': ("Standoff", "makePCBStandoff"),
     
     # * diam pos = the position within the def table to be used for auto diameter selection, -1 = get size from Mxx
     # * K Pos = the position within the def table to be used for countersunk holes creation
@@ -205,43 +206,45 @@ class FSScrewMaker(Screw):
     def __init__(self):
         super().__init__()
                 
-    def FindClosest(self, type, diam, len):
+    def FindClosest(self, type, diam, len, width = None):
         ''' Find closest standard screw to given parameters '''
         if type not in screwTables:
             return diam, len
 
         diam_table = FsData[type + "def"]
-        len_table = FsData[type + "length"]
-        range_table = FsData[type + "range"]
         # auto find diameter
         if diam not in diam_table:
             origdia = FastenerBase.DiaStr2Num(diam)
-            mindif = 100.0
+            mindif = 1000.0
             for m in diam_table:
                 diff = abs(FastenerBase.DiaStr2Num(m) - origdia)
                 if diff < mindif:
                     mindif = diff
                     diam = m
+        
+        # auto find width, if aplicable
+        if width is not None:
+            width_table = FsData[type + "width"][diam]
+            if width not in width_table:
+                origdiff = FastenerBase.LenStr2Num(width)
+                mindif = 1000.0
+                for w in width_table:
+                    diff = abs(FastenerBase.LenStr2Num(w) - origdiff)
+                    if diff < mindif:
+                        mindif = diff
+                        width = w
 
         # auto find length
-        if (len_table is not None) and len not in len_table:
-            origlen = FastenerBase.LenStr2Num(len)
-            mindif = 100.0
-            for l in len_table:
-                diff = abs(FastenerBase.LenStr2Num(l) - origlen)
-                if diff < mindif:
-                    mindif = diff
-                    len = l
+        lens = self.GetAllLengths(type, diam, False, width)
+        origlen = FastenerBase.LenStr2Num(len)
+        mindif = 1000.0
+        for l in lens:
+            diff = abs(FastenerBase.LenStr2Num(l) - origlen)
+            if diff < mindif:
+                mindif = diff
+                len = l
 
-        # make sure length in range
-        if range_table is not None:
-            minl, maxl = range_table[diam]
-            if FastenerBase.LenStr2Num(len) < FastenerBase.LenStr2Num(minl):
-                len = minl
-            if FastenerBase.LenStr2Num(len) > FastenerBase.LenStr2Num(maxl):
-                len = maxl
-
-        return diam, len
+        return diam, len, width
 
     def AutoDiameter(self, type, holeObj, baseobj=None, matchOuter=FastenerBase.FSMatchOuter):
         ''' Calculate screw diameter automatically based on given hole '''
@@ -311,11 +314,13 @@ class FSScrewMaker(Screw):
         widths = FsData[type + "width"][diam]
         return list(widths)
 
-    def GetAllLengths(self, type, diam, addCustom = True):
+    def GetAllLengths(self, type, diam, addCustom = True, width = None):
         lens = FsData[type + "length"]
         lenlist = []
         rangeTableName = type + "range"
         if diam != "Auto":
+            if width is not None:
+                diam += "x" + width
             if rangeTableName in FsData:
                 range = FsData[rangeTableName][diam]
                 min = FastenerBase.LenStr2Num(range[0])
@@ -331,15 +336,16 @@ class FSScrewMaker(Screw):
             lenlist.append("Custom")
         return lenlist
 
-    def GetAllLengthsByWidth(self, type, diam, width, addCustom = True):
-        lens = FsData[type + "length"]
-        list = []
-        if diam != "Auto":
-            list = list(lens[diam + "x" + width])            
-            list.sort(key=FastenerBase.LenStr2Num)
-        if addCustom:
-            list.append("Custom")
-        return list
+    # def GetAllLengthsByWidth(self, type, diam, width, addCustom = True):
+    #     return self.GetAllLengths(type, diam + "x" + width, addCustom)
+    #     # lens = FsData[type + "length"]
+        # lenlist = []
+        # if diam != "Auto":
+        #     lenlist = list(lens[diam + "x" + width])            
+        #     lenlist.sort(key=FastenerBase.LenStr2Num)
+        # if addCustom:
+        #     lenlist.append("Custom")
+        # return lenlist
 
     def GetTablePos(self, type, name):
         titles = FsTitles[type + 'def']

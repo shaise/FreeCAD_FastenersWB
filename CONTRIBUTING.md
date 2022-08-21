@@ -73,27 +73,39 @@ For each actual table line:
 - The first column is the diameter that the line corresponds to
 - The remaining columns are dimensions needed to generate the object 
 
-`FsData/{fastenertype}length.csv` stores a list of standard lengths that apply to a particular fastener.
-There are 2 ways to store this data:
+Most fasteners have special combinations of standard lengths vs standard diameters.
+There are 3 ways to store this data:
 1. A single length file. First column is the diameter, next columns hold the list of allowed lengths. E.G. :
-```csv
-"Dia","len","..."
-"M2.5","5","6","7","8","9","10","12","15","17","18","20","25","30"
-"M3","10","15","20","25"
-```
-2. A combination of length file and range file. For the length file, the first column is the nominal 
-length, and the second and third columns are the minimum and maximum actual lengths permissible when 
-a fastener of that length is manufactured.  
-E.G.: [`iso7379length.csv`](FsData/iso7379length.csv)
-```csv
-"ISO7379length"
-"Nominal","Min","Max"
-"4",3.76,4.24
-"5",4.76,5.24
-"6",5.76,6.24
-"8",7.71,8.29
-"10",9.71,10.29
-```
+ ```csv
+ "Dia","len","..."
+ "M2.5","5","6","7","8","9","10","12","15","17","18","20","25","30"
+ "M3","10","15","20","25"
+ ```
+2. A single range file in the form of`FsData/{fastenertype}range.csv`. The first data line in the table must
+ start with the key `all` and holds the list of all possible lengths. All other lines starts with the standard 
+ diameter followed by the minimum and maximum lengths for this diameter.
+ E.G.: [`PEMFasteners.csv`](FsData/PEMFasteners.csv)
+ ```csv
+ "PEMStudrange"
+ "Dia","Min_L","Max_L"
+ "all","6","8","10","12","15","18","20","25","30","35"
+ "M2.5","6","18"
+ "M3","6","25"
+ ...
+ ```
+3. A combination of length file and range file. The length file, in the form of `FsData/{fastenertype}length.csv`, 
+ the first column is the nominal length, and the second and third columns are the minimum and maximum actual 
+ lengths permissible when a fastener of that length is manufactured.  
+ E.G.: [`iso7379length.csv`](FsData/iso7379length.csv)
+ ```csv
+ "ISO7379length"
+ "Nominal","Min","Max"
+ "4",3.76,4.24
+ "5",4.76,5.24
+ "6",5.76,6.24
+ "8",7.71,8.29
+ "10",9.71,10.29
+ ```
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The range file, in the form of `FsData/{fastenertype}range.csv` 
 determines which lengths defined in a fasteners' corresponding length file are available for each diameter.
 For example, in [`iso7379range.csv`](FsData/iso7379range.csv), we have:

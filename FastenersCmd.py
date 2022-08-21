@@ -39,53 +39,56 @@ screwMaker = ScrewMaker.Instance()
 
 
 
-ScrewParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded", "length", "lengthCustom" }
+ScrewParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded", "length" }
+ScrewParametersLC = { "type", "diameter", "matchOuter", "thread", "leftHanded", "length", "lengthCustom" }
 RodParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded", "lengthArbitrary",  "diameterCustom", "pitchCustom" }
 NutParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded"}
 WasherParameters = { "type", "diameter", "matchOuter" }
 PCBStandoffParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "threadLength", "lenByDiamAndWidth", "lengthCustom", "widthCode" }
 PCBSpacerParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "lenByDiamAndWidth", "lengthCustom", "widthCode" }
+PEMPressNutParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "thicknessCode" }
+PEMStandoffParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "length", "blindness" }
 
 CMD_HELP = 0
 CMD_GROUP = 1
 CMD_PARAMETER_GRP = 2
 FSScrewCommandTable = {
     # type:     help,                      group,      parameter-group
-    "ISO4017": ("ISO 4017 Hex head screw", "Hex head", ScrewParameters), 
-    "ISO4014": ("ISO 4014 Hex head bolt", "Hex head", ScrewParameters), 
-    "EN1662": ("EN 1662 Hexagon bolt with flange, small series", "Hex head", ScrewParameters), 
-    "EN1665": ("EN 1665 Hexagon bolt with flange, heavy series", "Hex head", ScrewParameters), 
-    "DIN571": ("DIN 571 Hex head wood screw", "Hex head", ScrewParameters), 
+    "ISO4017": ("ISO 4017 Hex head screw", "Hex head", ScrewParametersLC), 
+    "ISO4014": ("ISO 4014 Hex head bolt", "Hex head", ScrewParametersLC), 
+    "EN1662": ("EN 1662 Hexagon bolt with flange, small series", "Hex head", ScrewParametersLC), 
+    "EN1665": ("EN 1665 Hexagon bolt with flange, heavy series", "Hex head", ScrewParametersLC), 
+    "DIN571": ("DIN 571 Hex head wood screw", "Hex head", ScrewParametersLC), 
 
-    "ISO4762": ("ISO4762 Hexagon socket head cap screw", "Hexagon socket", ScrewParameters), 
-    "DIN7984": ("DIN 7984 Hexagon socket head cap screws with low head", "Hexagon socket", ScrewParameters), 
-    "DIN6912": ("DIN 6912 Hexagon socket head cap screws with low head with centre", "Hexagon socket", ScrewParameters), 
-    "ISO7380-1": ("ISO 7380 Hexagon socket button head screw", "Hexagon socket", ScrewParameters), 
-    "ISO7380-2": ("ISO 7380 Hexagon socket button head screws with collar", "Hexagon socket", ScrewParameters), 
-    "ISO10642": ("ISO 10642 Hexagon socket countersunk head screw", "Hexagon socket", ScrewParameters), 
-    "ISO7379": ("ISO 7379 Hexagon socket head shoulder screw", "Hexagon socket", ScrewParameters), 
-    "ISO4026": ("ISO 4026 Hexagon socket set screws with flat point", "Hexagon socket", ScrewParameters), 
-    "ISO4027": ("ISO 4027 Hexagon socket set screws with cone point", "Hexagon socket", ScrewParameters), 
-    "ISO4028": ("ISO 4028 Hexagon socket set screws with dog point", "Hexagon socket", ScrewParameters), 
-    "ISO4029": ("ISO 4029 Hexagon socket set screws with cup point", "Hexagon socket", ScrewParameters), 
+    "ISO4762": ("ISO4762 Hexagon socket head cap screw", "Hexagon socket", ScrewParametersLC), 
+    "DIN7984": ("DIN 7984 Hexagon socket head cap screws with low head", "Hexagon socket", ScrewParametersLC), 
+    "DIN6912": ("DIN 6912 Hexagon socket head cap screws with low head with centre", "Hexagon socket", ScrewParametersLC), 
+    "ISO7380-1": ("ISO 7380 Hexagon socket button head screw", "Hexagon socket", ScrewParametersLC), 
+    "ISO7380-2": ("ISO 7380 Hexagon socket button head screws with collar", "Hexagon socket", ScrewParametersLC), 
+    "ISO10642": ("ISO 10642 Hexagon socket countersunk head screw", "Hexagon socket", ScrewParametersLC), 
+    "ISO7379": ("ISO 7379 Hexagon socket head shoulder screw", "Hexagon socket", ScrewParametersLC), 
+    "ISO4026": ("ISO 4026 Hexagon socket set screws with flat point", "Hexagon socket", ScrewParametersLC), 
+    "ISO4027": ("ISO 4027 Hexagon socket set screws with cone point", "Hexagon socket", ScrewParametersLC), 
+    "ISO4028": ("ISO 4028 Hexagon socket set screws with dog point", "Hexagon socket", ScrewParametersLC), 
+    "ISO4029": ("ISO 4029 Hexagon socket set screws with cup point", "Hexagon socket", ScrewParametersLC), 
 
-    "ISO14579": ("ISO 14579 Hexalobular socket head cap screws", "Hexalobular socket", ScrewParameters), 
-    "ISO14580": ("ISO 14580 Hexalobular socket cheese head screws", "Hexalobular socket", ScrewParameters), 
-#    "ISO14581": ("ISO 14581 Hexalobular socket countersunk flat head screws", "Hexalobular socket", ScrewParameters), 
-    "ISO14582": ("ISO 14582 Hexalobular socket countersunk head screws, high head", "Hexalobular socket", ScrewParameters), 
-    "ISO14583": ("ISO 14583 Hexalobular socket pan head screws", "Hexalobular socket", ScrewParameters), 
-    "ISO14584": ("ISO 14584 Hexalobular socket raised countersunk head screws", "Hexalobular socket", ScrewParameters), 
+    "ISO14579": ("ISO 14579 Hexalobular socket head cap screws", "Hexalobular socket", ScrewParametersLC), 
+    "ISO14580": ("ISO 14580 Hexalobular socket cheese head screws", "Hexalobular socket", ScrewParametersLC), 
+#    "ISO14581": ("ISO 14581 Hexalobular socket countersunk flat head screws", "Hexalobular socket", ScrewParametersLC), 
+    "ISO14582": ("ISO 14582 Hexalobular socket countersunk head screws, high head", "Hexalobular socket", ScrewParametersLC), 
+    "ISO14583": ("ISO 14583 Hexalobular socket pan head screws", "Hexalobular socket", ScrewParametersLC), 
+    "ISO14584": ("ISO 14584 Hexalobular socket raised countersunk head screws", "Hexalobular socket", ScrewParametersLC), 
 
-    "ISO2009": ("ISO 2009 Slotted countersunk flat head screw", "Slotted", ScrewParameters), 
-    "ISO2010": ("ISO 2010 Slotted raised countersunk head screw", "Slotted", ScrewParameters), 
-    "ISO1580": ("ISO 1580 Slotted pan head screw", "Slotted", ScrewParameters), 
-    "ISO1207": ("ISO 1207 Slotted cheese head screw", "Slotted", ScrewParameters), 
+    "ISO2009": ("ISO 2009 Slotted countersunk flat head screw", "Slotted", ScrewParametersLC), 
+    "ISO2010": ("ISO 2010 Slotted raised countersunk head screw", "Slotted", ScrewParametersLC), 
+    "ISO1580": ("ISO 1580 Slotted pan head screw", "Slotted", ScrewParametersLC), 
+    "ISO1207": ("ISO 1207 Slotted cheese head screw", "Slotted", ScrewParametersLC), 
 
-    "DIN967": ("DIN 967 Cross recessed pan head screws with collar", "H cross", ScrewParameters), 
-    "ISO7045": ("ISO 7045 Pan head screws type H cross recess", "H cross", ScrewParameters), 
-    "ISO7046": ("ISO 7046 Countersunk flat head screws H cross r.", "H cross", ScrewParameters), 
-    "ISO7047": ("ISO 7047 Raised countersunk head screws H cross r.", "H cross", ScrewParameters), 
-    "ISO7048": ("ISO 7048 Cheese head screws with type H cross r.", "H cross", ScrewParameters), 
+    "DIN967": ("DIN 967 Cross recessed pan head screws with collar", "H cross", ScrewParametersLC), 
+    "ISO7045": ("ISO 7045 Pan head screws type H cross recess", "H cross", ScrewParametersLC), 
+    "ISO7046": ("ISO 7046 Countersunk flat head screws H cross r.", "H cross", ScrewParametersLC), 
+    "ISO7047": ("ISO 7047 Raised countersunk head screws H cross r.", "H cross", ScrewParametersLC), 
+    "ISO7048": ("ISO 7048 Cheese head screws with type H cross r.", "H cross", ScrewParametersLC), 
 
     "ISO4032": ("ISO 4032 Hexagon nuts, Style 1", "Nut", NutParameters), 
     "ISO4033": ("ISO 4033 Hexagon nuts, Style 2", "Nut", NutParameters), 
@@ -108,23 +111,23 @@ FSScrewCommandTable = {
 
 # Inch
 
-    "ASMEB18.2.1.6": ("ASME B18.2.1 UNC Hex head screws", "Hex head", ScrewParameters), 
-    "ASMEB18.2.1.8": ("ASME B18.2.1 UNC Hex head screws with flange", "Hex head", ScrewParameters), 
+    "ASMEB18.2.1.6": ("ASME B18.2.1 UNC Hex head screws", "Hex head", ScrewParametersLC), 
+    "ASMEB18.2.1.8": ("ASME B18.2.1 UNC Hex head screws with flange", "Hex head", ScrewParametersLC), 
 
-    "ASMEB18.3.1A": ("ASME B18.3 UNC Hex socket head cap screws", "Hexagon socket", ScrewParameters), 
-    "ASMEB18.3.1G": ("ASME B18.3 UNC Hex socket head cap screws with low head", "Hexagon socket", ScrewParameters), 
-    "ASMEB18.3.2": ("ASME B18.3 UNC Hex socket countersunk head screws", "Hexagon socket", ScrewParameters), 
-    "ASMEB18.3.3A": ("ASME B18.3 UNC Hex socket button head screws", "Hexagon socket", ScrewParameters), 
-    "ASMEB18.3.3B": ("ASME B18.3 UNC Hex socket button head screws with flange", "Hexagon socket", ScrewParameters), 
-    "ASMEB18.3.4": ("ASME B18.3 UNC Hexagon socket head shoulder screws", "Hexagon socket", ScrewParameters), 
-    "ASMEB18.3.5A": ("ASME B18.3 UNC Hexagon socket set screws with flat point", "Hexagon socket", ScrewParameters), 
-    "ASMEB18.3.5B": ("ASME B18.3 UNC Hexagon socket set screws with cone point", "Hexagon socket", ScrewParameters), 
-    "ASMEB18.3.5C": ("ASME B18.3 UNC Hexagon socket set screws with dog point", "Hexagon socket", ScrewParameters), 
-    "ASMEB18.3.5D": ("ASME B18.3 UNC Hexagon socket set screws with cup point", "Hexagon socket", ScrewParameters), 
+    "ASMEB18.3.1A": ("ASME B18.3 UNC Hex socket head cap screws", "Hexagon socket", ScrewParametersLC), 
+    "ASMEB18.3.1G": ("ASME B18.3 UNC Hex socket head cap screws with low head", "Hexagon socket", ScrewParametersLC), 
+    "ASMEB18.3.2": ("ASME B18.3 UNC Hex socket countersunk head screws", "Hexagon socket", ScrewParametersLC), 
+    "ASMEB18.3.3A": ("ASME B18.3 UNC Hex socket button head screws", "Hexagon socket", ScrewParametersLC), 
+    "ASMEB18.3.3B": ("ASME B18.3 UNC Hex socket button head screws with flange", "Hexagon socket", ScrewParametersLC), 
+    "ASMEB18.3.4": ("ASME B18.3 UNC Hexagon socket head shoulder screws", "Hexagon socket", ScrewParametersLC), 
+    "ASMEB18.3.5A": ("ASME B18.3 UNC Hexagon socket set screws with flat point", "Hexagon socket", ScrewParametersLC), 
+    "ASMEB18.3.5B": ("ASME B18.3 UNC Hexagon socket set screws with cone point", "Hexagon socket", ScrewParametersLC), 
+    "ASMEB18.3.5C": ("ASME B18.3 UNC Hexagon socket set screws with dog point", "Hexagon socket", ScrewParametersLC), 
+    "ASMEB18.3.5D": ("ASME B18.3 UNC Hexagon socket set screws with cup point", "Hexagon socket", ScrewParametersLC), 
 
-    "ASMEB18.6.3.1A": ("ASME B18.6.3 UNC slotted countersunk flat head screws", "Slotted", ScrewParameters), 
+    "ASMEB18.6.3.1A": ("ASME B18.6.3 UNC slotted countersunk flat head screws", "Slotted", ScrewParametersLC), 
 
-    "ASMEB18.5.2": ("ASME B18.5 UNC Round head square neck bolts", "Other head", ScrewParameters), 
+    "ASMEB18.5.2": ("ASME B18.5 UNC Round head square neck bolts", "Other head", ScrewParametersLC), 
 
     "ASMEB18.2.2.1A": ("ASME B18.2.2 UNC Machine screw nuts", "Nut", NutParameters), 
     "ASMEB18.2.2.4A": ("ASME B18.2.2 UNC Hexagon nuts", "Nut", NutParameters), 
@@ -140,8 +143,12 @@ FSScrewCommandTable = {
     "ScrewDieInch": ("Tool object to cut external non-metric threads", "ThreadedRod", RodParameters), 
     "ThreadedRod": ("DIN 975 metric threaded rod", "ThreadedRod", RodParameters), 
     "ThreadedRodInch": ("UNC threaded rod", "ThreadedRod", RodParameters), 
+    "PEMPressNut": ("PEM Self Clinching nut", "PEM Inserts", PEMPressNutParameters), 
+    "PEMStandoff": ("PEM Self Clinching standoff", "PEM Inserts", PEMStandoffParameters), 
+    "PEMStud": ("PEM Self Clinching stud", "PEM Inserts", ScrewParameters),
     "PCBStandoff": ("Wurth WA-SSTII  PCB standoff", "PEM Inserts", PCBStandoffParameters), 
     "PCBSpacer": ("Wurth WA-SSTII PCB spacer", "PEM Inserts", PCBSpacerParameters), 
+    "IUTHeatInsert": ("IUT[A/B/C] Heat Staked Metric Insert", "PEM Inserts", NutParameters), 
 }
 
 def GetParams(type):
@@ -273,7 +280,6 @@ class FSScrewObject(FSBaseObject):
                 if origLen in slens:
                     obj.length = origLen
             if addCustomLen:
-                FreeCAD.Console.PrintMessage(str(slens[0]) + "\n")
                 obj.addProperty("App::PropertyLength", "lengthCustom", "Parameters", "Custom length").lengthCustom = self.inswap(slens[0])
 
         # custom size parameters
@@ -286,7 +292,7 @@ class FSScrewObject(FSBaseObject):
 
         # thickness
         if "thicknessCode" in params and not hasattr(obj, "tcode"):
-            obj.addProperty("App::PropertyEnumeration", "tcode", "Parameters", "Thickness code").tcode = screwMaker.GetAllTcodes(type)
+            obj.addProperty("App::PropertyEnumeration", "tcode", "Parameters", "Thickness code").tcode = screwMaker.GetAllTcodes(type, diameter)
 
         # misc
         if "blindness" in params and not hasattr(obj, "blind"):
@@ -421,6 +427,13 @@ class FSScrewObject(FSBaseObject):
                 ba.calc_len = l
         else:
             ba.calc_len = None
+
+        if diameterchange and "thicknessCode" in params:
+            tcodes = screwMaker.GetAllTcodes(fp.type, fp.diameter)
+            oldcode = fp.tcode
+            fp.tcode = tcodes
+            if oldcode in tcodes:
+                fp.tcode = oldcode
 
         if fp.diameter == 'Custom' and hasattr(fp, "pitchCustom"):
             ba.calc_pitch = fp.pitchCustom.Value
@@ -570,5 +583,9 @@ FastenerBase.FSAddFastenerType("Screw")
 FastenerBase.FSAddFastenerType("Washer", False)
 FastenerBase.FSAddFastenerType("Nut", False)
 FastenerBase.FSAddFastenerType("ThreadedRod", True, False)
+FastenerBase.FSAddFastenerType("PressNut", False)
+FastenerBase.FSAddFastenerType("Standoff")
+FastenerBase.FSAddFastenerType("Stud")
+FastenerBase.FSAddFastenerType("HeatSet", False)
 for item in ScrewMaker.screwTables:
     FastenerBase.FSAddItemsToType(ScrewMaker.screwTables[item][0], item)

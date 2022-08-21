@@ -27,6 +27,7 @@ from FreeCAD import Base
 from PySide import QtGui
 import FreeCAD, FreeCADGui, Part, os, math, sys
 import DraftVecUtils
+import re
 from screw_maker import *
 
 __dir__ = os.path.dirname(__file__)
@@ -206,28 +207,25 @@ def FSCacheRemoveThreaded():
             FreeCAD.Console.PrintLog("Removing cached shape: " + key + "\n")
             del FSCache[key]
 
+# extruct the diameter code (metric/imperial) from the given string
+def CleanM(m):
+    res = re.findall("M[\d.]+|#\d+|[\d /]+in|[\d.]+ mm", m)
+    # FreeCAD.Console.PrintMessage(m + " -> " + res[0] + "\n")
+    return res[0]
 
 def MToFloat(m):
-    m = m.lstrip('(')
-    m = m.rstrip(')')
-    return float(m.lstrip('M'))
+    return float(CleanM(m).lstrip("M"))
 
-
+# accepts formats: 'Mx', '(Mx)' 'YYYMx' 'Mx-YYY'
 def DiaStr2Num(DiaStr):
-    DiaStr = DiaStr.strip("()")
+    DiaStr = CleanM(DiaStr)
     return FsData["DiaList"][DiaStr][0]
 
-
 # inch tolerant version of length string to number converter
-def LenStr2Num(DiaStr):
-    # remove brackets indicating less common diameters
-    StripStr = DiaStr.strip("()")
-    # metric diameters of format 'Mxyz'
-    if 'M' in StripStr:
-        DiaFloat = float(StripStr.lstrip('M'))
+def LenStr2Num(LenStr):
     # inch diameters of format 'x y/z\"'
-    elif 'in' in StripStr:
-        components = StripStr.strip('in').split(' ')
+    if 'in' in LenStr:
+        components = LenStr.strip('in').split(' ')
         total = 0
         for item in components:
             if '/' in item:
@@ -238,7 +236,7 @@ def LenStr2Num(DiaStr):
         DiaFloat = total * 25.4
     # if there are no identifying unit chars, default to mm
     else:
-        DiaFloat = float(StripStr)
+        DiaFloat = float(LenStr)
     return DiaFloat
 
 

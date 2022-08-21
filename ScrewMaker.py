@@ -114,10 +114,6 @@ for s in FSC_DIN7998_ScrewHoleChart:
     FSCScrewHoleChartDict[s[0]] = s[1]
 
 
-def FSCGetInnerThread(diam):
-    diam = diam.lstrip('(')
-    diam = diam.rstrip(')')
-    return FSCScrewHoleChartDict[diam]
 
 FASTENER_FAMILY_POS = 0
 FUNCTION_POS = 1
@@ -196,11 +192,14 @@ screwTables = {
     'ScrewDieInch': ("ScrewDie",      "makeScrewDie"),
     'ThreadedRod': ("ThreadedRod",    "makeThreadedRod"),
     'ThreadedRodInch': ("ThreadedRod", "makeThreadedRod"),
+    'PEMPressNut': ("PressNut", "makePEMPressNut"),
+    'PEMStandoff': ("Standoff", "makePEMStandoff"),
+    'PEMStud': ("Stud", "makePEMStud"),
     'PCBStandoff': ("Standoff", "makePCBStandoff"),
     'PCBSpacer': ("Spacer", "makePCBSpacer"),
+    'IUTHeatInsert': ("Insert", "makeHeatInsert"),
     
-    # * diam pos = the position within the def table to be used for auto diameter selection, -1 = get size from Mxx
-    # * K Pos = the position within the def table to be used for countersunk holes creation
+    # * diam pos and K pos were moved from this table to the csv titles
 }
 
 class FSScrewMaker(Screw):
@@ -252,14 +251,6 @@ class FSScrewMaker(Screw):
         # this function is also used to assign the default screw diameter
         # when a new fastener is created. the following default values are
         # assigned depending on available diameters
-        if 'M6' in self.GetAllDiams(type):
-            res = 'M6'
-        elif '1/4in' in self.GetAllDiams(type):
-            res = '1/4in'
-        elif '#10' in self.GetAllDiams(type):
-            res = '#10'
-        elif '6 mm' in self.GetAllDiams(type):
-            res = '6 mm'
         # matchOuter = FastenerBase.FSMatchOuter
         if baseobj is not None and baseobj.Name.startswith("Washer"):
             matchOuter = True
@@ -278,7 +269,7 @@ class FSScrewMaker(Screw):
                         if d > dia:
                             dif = d - dia
                     else:
-                        dia = FSCGetInnerThread(m)
+                        dia = self.FSCGetInnerThread(m)
                         dif = math.fabs(dia - d)
 
                 else:
@@ -288,6 +279,18 @@ class FSScrewMaker(Screw):
                 if dif < mindif:
                     mindif = dif
                     res = m
+        else:
+            diams = self.GetAllDiams(type)
+            if 'M6' in diams:
+                res = 'M6'
+            elif '1/4in' in diams:
+                res = '1/4in'
+            elif '#10' in diams:
+                res = '#10'
+            elif '6 mm' in diams:
+                res = '6 mm'
+            else:
+                res = diams[0]
         return res
 
     def GetAllTypes(self, typeName):
@@ -307,23 +310,32 @@ class FSScrewMaker(Screw):
         FreeCAD.Console.PrintLog("Get diams for type:" + str(type) + "\n")
         return sorted(FsData[type + "def"], key=FastenerBase.DiaStr2Num)  # ***
 
-    def GetAllTcodes(self, type):
-        tcodes = FsData[type + "tcode"]['Codes']
-        return list(tcodes)
+    def GetAllTcodes(self, type, diam):
+        tcodes = FsTitles[type + "tcodes"]
+        tdata = FsData[type + "tcodes"][diam]
+        res = []
+        for i in range(len(tdata)):
+            if tdata[i] != 0:
+                res.append(tcodes[i])
+        return res
 
     def GetAllWidthcodes(self, type, diam):
         widths = FsData[type + "width"][diam]
         return list(widths)
 
     def GetAllLengths(self, type, diam, addCustom = True, width = None):
-        lens = FsData[type + "length"]
         lenlist = []
         rangeTableName = type + "range"
         if diam != "Auto":
             if width is not None:
                 diam += "x" + width
             if rangeTableName in FsData:
-                range = FsData[rangeTableName][diam]
+                rangeTable = FsData[rangeTableName]
+                if "all" in rangeTable:
+                    lens = rangeTable["all"]
+                else:
+                    lens = FsData[type + "length"]
+                range = rangeTable[diam]
                 min = FastenerBase.LenStr2Num(range[0])
                 max = FastenerBase.LenStr2Num(range[1])
                 for len in lens:
@@ -331,22 +343,12 @@ class FSScrewMaker(Screw):
                     if l >= min and l <= max:
                         lenlist.append(len)
             else:
+                lens = FsData[type + "length"]
                 lenlist = list(lens[diam])         
             lenlist.sort(key=FastenerBase.LenStr2Num)
         if addCustom:
             lenlist.append("Custom")
         return lenlist
-
-    # def GetAllLengthsByWidth(self, type, diam, width, addCustom = True):
-    #     return self.GetAllLengths(type, diam + "x" + width, addCustom)
-    #     # lens = FsData[type + "length"]
-        # lenlist = []
-        # if diam != "Auto":
-        #     lenlist = list(lens[diam + "x" + width])            
-        #     lenlist.sort(key=FastenerBase.LenStr2Num)
-        # if addCustom:
-        #     lenlist.append("Custom")
-        # return lenlist
 
     def GetTablePos(self, type, name):
         titles = FsTitles[type + 'def']
@@ -361,6 +363,9 @@ class FSScrewMaker(Screw):
         table = FsData[type + "def"]
         return table[diam][tablepos]
        
+    def CGetInnerThread(self, diam):
+        diam = FastenerBase.CleanM(diam)
+        return FSCScrewHoleChartDict[diam]
 
     def GetAllCountersunkTypes(self):
         list = []

@@ -26,7 +26,8 @@
 from urllib.response import addclosehook
 from FreeCAD import Gui
 import FreeCAD, FreeCADGui, Part, os
-import json
+import json, re
+
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join(__dir__, 'Icons')
 import screw_maker
@@ -312,7 +313,10 @@ class FSScrewObject(FSBaseObject):
         self.VerifyMissingAttrs(obj)
 
     def CleanDecimals(self, val):
-        return str(val).rstrip("0").rstrip('.')
+        val = str(val)
+        if len(re.findall("[.]\d*$", val)) > 0:
+            return val.rstrip('0').rstrip('.')
+        return val
 
     def ActiveLength(self, obj):
         if not hasattr(obj, 'length'):

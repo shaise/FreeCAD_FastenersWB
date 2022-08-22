@@ -309,6 +309,9 @@ class FSFaceMaker:
     '''Create a face point by point on the x,z plane'''
 
     def __init__(self):
+        self.Reset()
+        
+    def Reset(self):
         self.edges = []
         self.firstPoint = None
 

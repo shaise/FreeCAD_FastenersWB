@@ -139,69 +139,56 @@ To create a new function, give it a name in the form of `makeXXXXXXXXX(self)`, a
 [FSmakeCarriageBolt.py](FsFunctions/FSmakeCarriageBolt.py):
 
 ```python
-  def makeCarriageBolt(self, fa) :
-    d = self.getDia(Threadtype, False)
+def makeCarriageBolt(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    l = fa.calc_len
+    d = self.getDia(fa.calc_diam, False)
     if SType == 'ASMEB18.5.2':
-      tpi,_,A,H,O,P,_,_ = fa.dimTable
-      A,H,O,P = (25.4*x for x in (A,H,O,P))
-      pitch = 25.4/tpi
-      if l <= 152.4:
-        L_t = d*2+6.35
-      else:
-        L_t = d*2+12.7
-    # lay out points for head generation
-    p1 = Base.Vector(0,0,H)
-    head_r = A/math.sqrt(2)
-    p2 = Base.Vector(head_r*math.sin(math.pi/8),0,H-head_r+head_r*math.cos(math.pi/8))
-    p3 = Base.Vector(A/2,0,0)
-    p4 = Base.Vector(math.sqrt(2)/2*O,0,0)
-    p5 = Base.Vector(math.sqrt(2)/2*O,0,-1*P+(math.sqrt(2)/2*O-d/2))
-    p6 = Base.Vector(d/2,0,-1*P)
-    # arcs must be converted to shapes in order to be merged with other line segments 
-    a1 = Part.Arc(p1,p2,p3).toShape()
-    l2 = Part.makeLine(p3,p4)
-    l3 = Part.makeLine(p4,p5)
-    l4 = Part.makeLine(p5,p6)
-    wire1 = Part.Wire([a1,l2,l3,l4])
-    head_shell = wire1.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+        tpi, _, A, H, O, P, _, _ = fa.dimTable
+        A, H, O, P = (25.4 * x for x in (A, H, O, P))
+        pitch = 25.4 / tpi
+        if l <= 152.4:
+            L_t = d * 2 + 6.35
+        else:
+            L_t = d * 2 + 12.7
+        
+    head_r = A / sqrt2
+    flat_len = l - P
+
+    # create a profile for head generation. Basially when this profile revolves we get the head solid
+    # FSFaceMaker is a nice helper to build a profile from lines and arcs it make a profile on the x,z plane
+    fm = FastenerBase.FSFaceMaker()
+    fm.AddPoint(0, H)
+    # arcs are 3 point arcs where the first point is the last 
+    fm.AddArc(head_r * sin22_5, H - head_r + head_r * cos22_5, A / 2, 0) added
+    fm.AddPoint(sqrt2 / 2 * O, 0)
+    fm.AddPoint(sqrt2 / 2 * O, -1 * P + (sqrt2 / 2 * O - d / 2))
+    fm.AddPoint(d / 2, -1 * P)
+    wire1 = fm.GetWire()
+    head_shell = wire1.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
     if not fa.thread:
-      # simplified threaded section
-      p7 = Base.Vector(d/2,0,-1*l+d/10)
-      p8 = Base.Vector(d/2-d/10,0,-1*l)
-      p9 = Base.Vector(0,0,-1*l)
-      l5 = Part.makeLine(p6,p7)
-      l6 = Part.makeLine(p7,p8)
-      l7 = Part.makeLine(p8,p9)
-      thread_profile_wire = Part.Wire([l5,l6,l7])
-      shell_thread = thread_profile_wire.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
+        # simplified threaded section
+        fm.Reset()
+        fm.AddPoint(d / 2, -1 * P)
+        if (flat_len > L_t):
+            fm.AddPoint(d / 2, -l + L_t)
+        fm.AddPoint(d / 2, -l + d / 10)
+        fm.AddPoint(d / 2 - d / 10, -l)
+        fm.AddPoint(0, -l)
+        thread_profile_wire = fm.GetWire()
+        shell_thread = thread_profile_wire.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
     else:
-      # modeled threaded section
-      # calculate the number of thread half turns
-      if l <= L_t:  # fully threaded fastener
-        residue, turns = math.modf((l-P)/pitch)
-        halfturns = 2*int(turns)
-        if residue > 0.5:
-          halfturns = halfturns+1
-        shell_thread = self.makeShellthread(d,pitch,halfturns,False,0)
-        shell_thread.translate(Base.Vector(0,0,-2*pitch-P))
-      else:  # partially threaded fastener
-        residue, turns = math.modf((L_t-P)/pitch)
-        halfturns = 2*int(turns)
-        if residue > 0.5:
-          halfturns = halfturns+1
-        shell_thread = self.makeShellthread(d,pitch,halfturns,False,0)
-        shell_thread.translate(Base.Vector(0,0,-2*pitch-P-(l-L_t)))
-        p7 = Base.Vector(d/2,0,-1*P-(l-L_t))
-        helper_wire = Part.Wire([Part.makeLine(p6,p7)])
-        shank = helper_wire.revolve(Base.Vector(0,0,0),Base.Vector(0,0,1),360)
-        shell_thread = Part.Shell(shell_thread.Faces+shank.Faces)
-    p_shell = Part.Shell(head_shell.Faces+shell_thread.Faces)
+        # modeled threaded section
+        shell_thread = self.makeShellthread(d, pitch, flat_len, False, -P, L_t)
+    p_shell = Part.Shell(head_shell.Faces + shell_thread.Faces)
     p_solid = Part.Solid(p_shell)
     # cut 4 flats under the head
-    for i in range(4):
-      p_solid = p_solid.cut(Part.makeBox(d,A,P,Base.Vector(d/2,-1*A/2,-1*P)).rotate(Base.Vector(0,0,0),Base.Vector(0,0,1),i*90))
-    # removeSplitter is equivalent to the 'Refine' option for FreeCAD PartDesign objects
-    return p_solid.removeSplitter()
+    d_mod = d + 0.0002
+    outerBox = Part.makeBox(A * 4, A * 4, P + 0.0001, Base.Vector(-A * 2, -A * 2, -P + 0.0001))
+    innerBox = Part.makeBox(d_mod, d_mod, P * 3, Base.Vector(-d_mod / 2, -d_mod / 2, -P * 2))
+    tool = outerBox.cut(innerBox)
+    p_solid = p_solid.cut(tool)
+    return p_solid
 ```
 
 FreeCAD's `Part` Module works somewhat like a clunkier version of OpenCAD.

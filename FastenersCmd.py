@@ -26,7 +26,7 @@
 from urllib.response import addclosehook
 from FreeCAD import Gui
 import FreeCAD, FreeCADGui, Part, os
-
+import json
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join(__dir__, 'Icons')
 import screw_maker
@@ -48,6 +48,10 @@ PCBStandoffParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded
 PCBSpacerParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "lenByDiamAndWidth", "lengthCustom", "widthCode" }
 PEMPressNutParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "thicknessCode" }
 PEMStandoffParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "length", "blindness" }
+
+FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length', 'lengthCustom', 'width', 
+            'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength']
+
 
 CMD_HELP = 0
 CMD_GROUP = 1
@@ -154,52 +158,7 @@ FSScrewCommandTable = {
 def GetParams(type):
     if not type in FSScrewCommandTable:
         return {}
-    return FSScrewCommandTable[type][CMD_PARAMETER_GRP]
-
-class FastenerAttribs:
-    def __init__(self, *args):
-        # backup attribs - all possible object properties
-        self.type = None
-        self.diameter = None
-        self.thread = None
-        self.leftHanded = None
-        self.matchOuter = None
-        self.length = None
-        self.lengthCustom = None
-        self.width = None
-        self.diameterCustom = None
-        self.pitchCustom = None
-        self.tcode = None
-        self.blind = None
-        self.screwLength = None
-        
-        # calculated attribs
-        self.familyType = ""
-        self.calc_diam = None
-        self.calc_pitch = None
-        self.calc_len = None
-
-        # some extra params
-        self.dimTable = None
-    
-    def GetBackupAttribNames(self):
-        return ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length', 'lengthCustom', 'width', 
-            'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength']
-
-    def BackupObject(self, obj):
-        for attr in self.GetBackupAttribNames():
-            if hasattr(obj, attr):
-                setattr(self, attr, getattr(obj, attr))
-
-    # get a hash key for the params (for cashing similar objects)
-    def GetKey(self):
-        key = ""
-        for attr in self.GetBackupAttribNames():
-            val = getattr(self, attr)
-            if val is not None:
-                key += attr + ":" + str(val) + "|"
-        return key.rstrip("|")
-       
+    return FSScrewCommandTable[type][CMD_PARAMETER_GRP]       
 
 class FSScrewObject(FSBaseObject):
     def __init__(self, obj, type, attachTo):
@@ -216,13 +175,45 @@ class FSScrewObject(FSBaseObject):
         else:
             return inpstr
 
+    def InitBackupAttribs(self):
+        for attr in FastenerAttribs:
+            if not hasattr(self, 'attr'):
+                setattr(self, attr, None)
+        
+        # calculated attribs
+        self.familyType = ""
+        self.calc_diam = None
+        self.calc_pitch = None
+        self.calc_len = None
+
+        # some extra params
+        self.dimTable = None
+
+
+    def BackupObject(self, obj):
+        for attr in FastenerAttribs:
+            if hasattr(obj, attr):
+                val = getattr(obj, attr)
+                valtype = val.__class__.__name__
+                if valtype in ("str", "bool", "int", "float"):
+                    setattr(self, attr, val)
+                else:
+                    setattr(self, attr, str(val))
+
+    # get a hash key for the fastener attribs (for cashing similar objects)
+    def GetKey(self):
+        key = ""
+        for attr in FastenerAttribs:
+            val = getattr(self, attr)
+            if val is not None:
+                key += attr + ":" + str(val) + "|"
+        return key.rstrip("|")
+
     def VerifyMissingAttrs(self, obj, type = None):
         self.updateProps(obj)
         # the backup attribs holds a copy of the object attribs. It is used to detect which attrib was
         # changed when executing the command. It should hold all possible object attribs. Unused ones will be None
-        if not hasattr(self, 'backupAttrs'):
-            self.backupAttrs = FastenerAttribs()
-        ba = self.backupAttrs
+        self.InitBackupAttribs()
         
         # basic parameters
         # all objects must have type - since they all use the same command
@@ -238,7 +229,7 @@ class FSScrewObject(FSBaseObject):
         
         if obj.type == "ISO7380":
             obj.type = type = "ISO7380-1"  # backward compatibility - remove at FreeCAD version 0.23 
-        ba.familyType = screwMaker.GetTypeName(type)
+        self.familyType = screwMaker.GetTypeName(type)
  
         if not hasattr(obj, "diameter"):
             diameters = screwMaker.GetAllDiams(type)
@@ -300,7 +291,11 @@ class FSScrewObject(FSBaseObject):
         if "threadLength" in params and not hasattr(obj, "screwLength"):
             obj.addProperty("App::PropertyLength", "screwLength", "Parameters", "Threaded part length").screwLength = screwMaker.GetThreadLength(type, diameter)
 
-        ba.BackupObject(obj)
+        self.BackupObject(obj)
+        # for attr in FastenerAttribs:
+        #     atval = getattr(self, attr)
+        #     if atval is not None:
+        #         FreeCAD.Console.PrintMessage(attr + "(" + atval.__class__.__name__ + ") = " + str(atval) + "\n")
 
     # get all fastener types compatible with given one (that uses same properties) 
     def GetCompatibleTypes(self, ftype):
@@ -329,9 +324,7 @@ class FSScrewObject(FSBaseObject):
         return obj.length
 
     def paramChanged(self, param, value):
-        # if not hasattr(self.backupAttrs, param):
-        #     return True
-        return getattr(self.backupAttrs, param) != value
+        return getattr(self, param) != value
 
     def execute(self, fp):
         '''"Print a short message when doing a recomputation, this method is mandatory" '''
@@ -348,11 +341,10 @@ class FSScrewObject(FSBaseObject):
 
         # FreeCAD.Console.PrintLog("MatchOuter:" + str(fp.matchOuter) + "\n")
         params = GetParams(fp.type)
-        ba = self.backupAttrs
  
         # handle type changes
         typechange = False
-        if fp.type != ba.type:
+        if fp.type != self.type:
             typechange = True
             curdiam = fp.diameter
             diameters = screwMaker.GetAllDiams(fp.type)
@@ -366,19 +358,19 @@ class FSScrewObject(FSBaseObject):
             fp.diameter = curdiam
 
         # handle diameter changes
-        diameterchange = ba.diameter != fp.diameter
-        matchouterchange = ba.matchOuter != fp.matchOuter
-        widthchange = hasattr(fp, "width") and ba.width != fp.width
+        diameterchange = self.diameter != fp.diameter
+        matchouterchange = self.matchOuter != fp.matchOuter
+        widthchange = hasattr(fp, "width") and self.width != fp.width
 
 
         if fp.diameter == 'Auto' or matchouterchange:
-            ba.calc_diam = screwMaker.AutoDiameter(fp.type, shape, baseobj, fp.matchOuter)
-            fp.diameter = ba.calc_diam
+            self.calc_diam = screwMaker.AutoDiameter(fp.type, shape, baseobj, fp.matchOuter)
+            fp.diameter = self.calc_diam
             diameterchange = True
         elif fp.diameter == 'Custom' and hasattr(fp, "diameterCustom"):
-            ba.calc_diam = str(fp.diameterCustom.Value)
+            self.calc_diam = str(fp.diameterCustom.Value)
         else:
-            ba.calc_diam = fp.diameter
+            self.calc_diam = fp.diameter
 
         # handle length changes
         if hasattr(fp, 'length'):
@@ -388,7 +380,7 @@ class FSScrewObject(FSBaseObject):
                 if l < 2.0:
                     l = 2.0
                     fp.length = 2.0
-                ba.calc_len = str(l)
+                self.calc_len = str(l)
             else:
                 # fixed lengths
                 width = None
@@ -397,14 +389,14 @@ class FSScrewObject(FSBaseObject):
                 if self.paramChanged('length', fp.length):
                     if fp.length != 'Custom' and hasattr(fp, 'lengthCustom'):
                         fp.lengthCustom = FastenerBase.LenStr2Num(fp.length)  # ***
-                elif ba.lengthCustom is not None and fp.lengthCustom != ba.lengthCustom:
+                elif self.lengthCustom is not None and str(fp.lengthCustom) != self.lengthCustom:
                     fp.length = 'Custom'
                 origLen = self.ActiveLength(fp)
                 origIsCustom = fp.length == 'Custom'
-                ba.calc_diam, l, auto_width = screwMaker.FindClosest(fp.type, ba.calc_diam, origLen, width)
-                if ba.calc_diam != fp.diameter:
+                self.calc_diam, l, auto_width = screwMaker.FindClosest(fp.type, self.calc_diam, origLen, width)
+                if self.calc_diam != fp.diameter:
                     diameterchange = True
-                    fp.diameter = ba.calc_diam
+                    fp.diameter = self.calc_diam
                 if width != auto_width:
                     widthchange = True
                     fp.width = screwMaker.GetAllWidthcodes(fp.type, fp.diameter)
@@ -424,9 +416,9 @@ class FSScrewObject(FSBaseObject):
                         fp.length = l
                         if hasattr(fp, 'lengthCustom'):
                             fp.lengthCustom = l
-                ba.calc_len = l
+                self.calc_len = l
         else:
-            ba.calc_len = None
+            self.calc_len = None
 
         if diameterchange and "thicknessCode" in params:
             tcodes = screwMaker.GetAllTcodes(fp.type, fp.diameter)
@@ -436,48 +428,45 @@ class FSScrewObject(FSBaseObject):
                 fp.tcode = oldcode
 
         if fp.diameter == 'Custom' and hasattr(fp, "pitchCustom"):
-            ba.calc_pitch = fp.pitchCustom.Value
+            self.calc_pitch = fp.pitchCustom.Value
         else:
-            ba.calc_pitch = None
+            self.calc_pitch = None
 
         screwMaker.updateFastenerParameters()
 
-        ba.BackupObject(fp)
+        self.BackupObject(fp)
 
         # Here we are generating a new key if is not present in cache. This key is also used in method 
         # FastenerBase.FSCacheRemoveThreaded. This way it will allow to correctly recompute 
         # the threaded screws and nuts in case of changing the 3D Printing settings in Fasteners Workbench.
-        (key, s) = FastenerBase.FSGetKey(ba.GetKey())
+        (key, s) = FastenerBase.FSGetKey(self.GetKey())
         if s is None:
-            s = screwMaker.createFastener(ba)
+            s = screwMaker.createFastener(self)
             FastenerBase.FSCache[key] = s
         else:
             FreeCAD.Console.PrintLog("Using cached object\n")
 
-        dispDiam = self.CleanDecimals(ba.calc_diam)
+        dispDiam = self.CleanDecimals(self.calc_diam)
         if hasattr(fp, 'length'):
             dispLen = self.ActiveLength(fp)
             dispWidth = ""
             if hasattr(fp, 'width'):
                 dispWidth = 'x' + fp.width
             label = dispDiam + dispWidth + 'x' + dispLen
-            if ba.leftHanded:
+            if self.leftHanded:
                 label += 'LH'
-            label += '-' + ba.familyType
+            label += '-' + self.familyType
             fp.Label = label
         else:
-            fp.Label = dispDiam + '-' + ba.familyType
+            fp.Label = dispDiam + '-' + self.familyType
 
-        # ba.familyType = s[1]
+        # self.familyType = s[1]
         fp.Shape = s
 
         if shape is not None:
             # feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
             # fp.Placement = FreeCAD.Placement() # reset placement
             FastenerBase.FSMoveToObject(fp, shape, fp.invert, fp.offset.Value)
-
-    # def getItemText():
-    #  return ba.familyType
 
 
 class FSViewProviderTree:
@@ -543,7 +532,7 @@ class FSScrewCommand:
             a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",
                                                  self.TypeName)
             FSScrewObject(a, self.Type, selObj)
-            a.Label = a.Proxy.backupAttrs.familyType
+            a.Label = a.Proxy.familyType
             FSViewProviderTree(a.ViewObject)
         FreeCAD.ActiveDocument.recompute()
         return

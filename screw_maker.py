@@ -86,7 +86,7 @@ __author__ = "Ulrich Brammer <ulrich1a@users.sourceforge.net>"
 
 
 import errno
-import FreeCAD, FreeCADGui, Part, math, os
+import FreeCAD, Part, math, os
 from FreeCAD import Base
 import DraftVecUtils
 from pathlib import Path
@@ -171,77 +171,6 @@ class Screw:
         #Part.show(screw)    
         return screw
         
-    def moveScrew(self, ScrewObj_m):
-        # FreeCAD.Console.PrintMessage("In Move Screw: " + str(ScrewObj_m) + "\n")
-
-        mylist = FreeCAD.Gui.Selection.getSelectionEx()
-        if mylist.__len__() == 1:
-            # check selection
-            # FreeCAD.Console.PrintMessage("Selections: " + str(mylist.__len__()) + "\n")
-            Pnt1 = None
-            Axis1 = None
-            Axis2 = None
-
-            for o in Gui.Selection.getSelectionEx():
-                # for s in o.SubElementNames:
-                # FreeCAD.Console.PrintMessage( "name: " + str(s) + "\n")
-                for s in o.SubObjects:
-                    # FreeCAD.Console.PrintMessage( "object: "+ str(s) + "\n")
-                    if hasattr(s, "Curve"):
-                        # FreeCAD.Console.PrintMessage( "The Object is a Curve!\n")
-                        if hasattr(s.Curve, "Center"):
-                            """
-                   FreeCAD.Console.PrintMessage( "The object has a Center!\n")
-                   FreeCAD.Console.PrintMessage( "Curve attribute. "+ str(s.__getattribute__('Curve')) + "\n")
-                   FreeCAD.Console.PrintMessage( "Center: "+ str(s.Curve.Center) + "\n")
-                   FreeCAD.Console.PrintMessage( "Axis: "+ str(s.Curve.Axis) + "\n")
-                   """
-                            Pnt1 = s.Curve.Center
-                            Axis1 = s.Curve.Axis
-                    if hasattr(s, 'Surface'):
-                        # print 'the object is a face!'
-                        if hasattr(s.Surface, 'Axis'):
-                            Axis1 = s.Surface.Axis
-
-                    if hasattr(s, 'Point'):
-                        # FreeCAD.Console.PrintMessage( "the object seems to be a vertex! "+ str(s.Point) + "\n")
-                        Pnt1 = s.Point
-
-            if Axis1 is not None:
-                # FreeCAD.Console.PrintMessage( "Got Axis1: " + str(Axis1) + "\n")
-                Axis2 = Base.Vector(0.0, 0.0, 1.0)
-                Axis2_minus = Base.Vector(0.0, 0.0, -1.0)
-
-                # Calculate angle
-                if Axis1 == Axis2:
-                    normvec = Base.Vector(1.0, 0.0, 0.0)
-                    result = 0.0
-                else:
-                    if Axis1 == Axis2_minus:
-                        normvec = Base.Vector(1.0, 0.0, 0.0)
-                        result = math.pi
-                    else:
-                        normvec = Axis1.cross(Axis2)  # Calculate axis of rotation = normvec
-                        normvec.normalize()  # Normalize for quaternion calculations
-                        # normvec_rot = normvec
-                        result = DraftVecUtils.angle(Axis1, Axis2, normvec)  # Winkelberechnung
-                sin_res = math.sin(result / 2.0)
-                cos_res = math.cos(result / 2.0)
-                normvec.multiply(-sin_res)  # Calculation of the quaternion elements
-                # FreeCAD.Console.PrintMessage( "Angle = "+ str(math.degrees(result)) + "\n")
-                # FreeCAD.Console.PrintMessage("Normal vector: "+ str(normvec) + "\n")
-
-                pl = FreeCAD.Placement()
-                pl.Rotation = (normvec.x, normvec.y, normvec.z, cos_res)  # Drehungs-Quaternion
-
-                # FreeCAD.Console.PrintMessage("pl mit Rot: "+ str(pl) + "\n")
-                # neuPlatz = Part2.Object.Placement.multiply(pl)
-                neuPlatz = ScrewObj_m.Placement
-                # FreeCAD.Console.PrintMessage("the Position     "+ str(neuPlatz) + "\n")
-                neuPlatz.Rotation = pl.Rotation.multiply(ScrewObj_m.Placement.Rotation)
-                neuPlatz.move(Pnt1)
-                # FreeCAD.Console.PrintMessage("the rot. Position: "+ str(neuPlatz) + "\n")
-
     # DIN 7998 Wood Thread
     # zs: z position of start of the threaded part
     # ze: z position of end of the flat portion of screw (just where the tip starts) 
@@ -349,52 +278,11 @@ class Screw:
         # Part.show(exHex)
         return exHex
 
-    def makeShellthread(self, dia, P, blen, withcham, ztop, tlen = -1):
-        """
-    Construct a 60 degree screw thread with diameter dia,
-    pitch P. 
-    blen is the length of the shell body.
-    tlen is the length of the threaded part (-1 = same as body length).
-    if withcham == True, the end of the thread is nicely chamfered.
-    The thread is constructed z-up, as a shell, with the top circular
-    face removed. The top of the shell is centered @ (0, 0, ztop)
-    """
+    def CreateThreadCutter(self, dia, P, blen):
         # make a cylindrical solid, then cut the thread profile from it
         H = math.sqrt(3) / 2 * P
         # move the very bottom of the base up a tiny amount
         # prevents some too-small edges from being created
-        correction = 1e-5
-        if tlen < 0:
-            tlen = blen
-        base_pnts = list(map(lambda x: Base.Vector(x),
-                             [
-                                 [dia / 2, 0, 0],
-                                 [dia / 2, 0, -blen + P / 2],
-                                 [dia / 2 - P / 2, 0, -blen + correction],
-                                 [0, 0, -blen + correction],
-                                 [0, 0, 0],
-                                 [dia / 2, 0, -blen + correction]
-                             ]))
-        if withcham:
-            base_profile = Part.Wire([
-                Part.makeLine(base_pnts[0], base_pnts[1]),
-                Part.makeLine(base_pnts[1], base_pnts[2]),
-                Part.makeLine(base_pnts[2], base_pnts[3]),
-                Part.makeLine(base_pnts[3], base_pnts[4]),
-                Part.makeLine(base_pnts[4], base_pnts[0]),
-            ])
-        else:
-            base_profile = Part.Wire([
-                Part.makeLine(base_pnts[0], base_pnts[5]),
-                Part.makeLine(base_pnts[5], base_pnts[3]),
-                Part.makeLine(base_pnts[3], base_pnts[4]),
-                Part.makeLine(base_pnts[4], base_pnts[0]),
-            ])
-        base_shell = base_profile.revolve(
-            Base.Vector(0, 0, 0),
-            Base.Vector(0, 0, 1),
-            360)
-        base_body = Part.makeSolid(base_shell)
         trotations = blen // P + 1
 
         # create a sketch profile of the thread
@@ -435,7 +323,52 @@ class Screw:
             # geometry couldn't be generated in a useable form
             raise RuntimeError("Failed to create shell thread: could not sweep thread")
         sweep.makeSolid()
-        swept_solid = sweep.shape()
+        return sweep.shape()
+        
+    def makeShellthread(self, dia, P, blen, withcham, ztop, tlen = -1):
+        """
+        Construct a 60 degree screw thread with diameter dia,
+        pitch P. 
+        blen is the length of the shell body.
+        tlen is the length of the threaded part (-1 = same as body length).
+        if withcham == True, the end of the thread is nicely chamfered.
+        The thread is constructed z-up, as a shell, with the top circular
+        face removed. The top of the shell is centered @ (0, 0, ztop)
+        """
+        correction = 1e-5
+        if tlen < 0:
+            tlen = blen
+        base_pnts = list(map(lambda x: Base.Vector(x),
+                             [
+                                 [dia / 2, 0, 0],
+                                 [dia / 2, 0, -blen + P / 2],
+                                 [dia / 2 - P / 2, 0, -blen + correction],
+                                 [0, 0, -blen + correction],
+                                 [0, 0, 0],
+                                 [dia / 2, 0, -blen + correction]
+                             ]))
+        if withcham:
+            base_profile = Part.Wire([
+                Part.makeLine(base_pnts[0], base_pnts[1]),
+                Part.makeLine(base_pnts[1], base_pnts[2]),
+                Part.makeLine(base_pnts[2], base_pnts[3]),
+                Part.makeLine(base_pnts[3], base_pnts[4]),
+                Part.makeLine(base_pnts[4], base_pnts[0]),
+            ])
+        else:
+            base_profile = Part.Wire([
+                Part.makeLine(base_pnts[0], base_pnts[5]),
+                Part.makeLine(base_pnts[5], base_pnts[3]),
+                Part.makeLine(base_pnts[3], base_pnts[4]),
+                Part.makeLine(base_pnts[4], base_pnts[0]),
+            ])
+        base_shell = base_profile.revolve(
+            Base.Vector(0, 0, 0),
+            Base.Vector(0, 0, 1),
+            360)
+        base_body = Part.makeSolid(base_shell)
+
+        swept_solid = self.CreateThreadCutter(dia, P, blen)
         # translate swept path slightly for backwards compatibility
         toffset = blen - tlen + P / 2
         minoffset = 5 * P / 8
@@ -1051,17 +984,6 @@ class Screw:
         Helo.Placement.Base = Base.Vector(0.0, 0.0, h_hl)
 
         return Helo, hexlobShell
-
-    def setThreadType(self, TType='simple'):
-        self.simpThread = False
-        self.symThread = False
-        self.rThread = False
-        if TType == 'simple':
-            self.simpThread = True
-        if TType == 'symbol':
-            self.symThread = True
-        if TType == 'real':
-            self.rThread = True
 
     def setTuner(self, myTuner=511):
         self.Tuner = myTuner

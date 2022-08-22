@@ -29,7 +29,7 @@ import FastenerBase
 
 # PEM Self Clinching nuts types: S/SS/CLS/CLSS/SP
 
-def clMakeWire(do, di, a, c, e, t):
+def clMakeFace(do, di, a, c, e, t):
     do = do / 2
     di = di / 2
     ch1 = do - di
@@ -69,6 +69,15 @@ def makePEMPressNut(self, fa):
     if a == 0:
         return None
     do = FastenerBase.MToFloat(diam)
-    f = clMakeWire(do, di, a, c, e, t)
-    p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
-    return p
+    fFace = clMakeFace(do, di, a, c, e, t)
+    fSolid = fFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    if fa.thread:
+        dia = self.getDia(diam, True)
+        P = FsData["MetricPitchTable"][diam][0]
+        H = a + t
+        turns = int(H / P) + 2
+        threadCutter = self.makeInnerThread_2(dia, P, turns, None, H)
+        threadCutter.translate(Base.Vector(0.0, 0.0, t + P))
+        # Part.show(threadCutter, 'threadCutter')
+        fSolid = fSolid.cut(threadCutter)
+    return fSolid

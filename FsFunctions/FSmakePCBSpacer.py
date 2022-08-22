@@ -31,24 +31,20 @@ import FastenerBase
 
 cos30 = math.cos(math.radians(30))
 
-def pspMakeFace(m, sw, l, id, th):
-    l = float(l)
+def pspMakeFace(m, sw, l, id, thl):
     id2 = id / 2.0
-    sw2 = float(sw) / 2.0
+    sw2 = sw / 2.0
     m2 = m / 2.0
     d2 = 0.95 * sw2 / cos30
     l1 = l - (d2 - sw2) / 2.0
     dd = m2 - id2
-    p = 10
-    if p + 0.5 > l / 2.0:
-        p = l / 2.0 - 0.5
-    p1 = p - id2
+    thl1 = thl - id2
 
     fm = FastenerBase.FSFaceMaker()
     fm.AddPoints((id2, l - dd), (id2 + dd, l), (sw2, l), (d2, l1), (d2, dd), (sw2, 0), (id2 + dd, 0), (id2, dd))
-    if l > th:
+    if thl > 0:
         # separate holes
-        fm.AddPoints((id2, p1), (0, p), (0, l - p), (id2, l - p1))
+        fm.AddPoints((id2, thl1), (0, thl), (0, l - thl), (id2, l - thl1))
     return fm.GetFace()
 
 
@@ -62,11 +58,35 @@ def makePCBSpacer(self, fa):
     th, id = fa.dimTable
 
     m = FastenerBase.MToFloat(diam)
-    f = pspMakeFace(m, width, flen, id, th)
-    p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
     w = float(width)
     l = float(flen)
+    if (l > th):
+        # separate thread holes on both sides
+        thl = 10
+        if thl + 0.5 > l / 2.0:
+            thl = l / 2.0 - 0.5
+    else:
+        thl = 0
+
+    f = pspMakeFace(m, w, l, id, thl)
+    p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
     htool = self.makeHextool(w, l, w * 2)
     htool.translate(Base.Vector(0.0, 0.0, - 0.1))
-    shape = p.cut(htool)
-    return shape
+    fSolid = p.cut(htool)
+    if fa.thread:
+        dia = self.getDia(fa.calc_diam, True)
+        P = FsData["MetricPitchTable"][fa.diameter][0]
+        turns = int(th / P) + 2
+        thlen = turns * P
+        threadCutter = self.makeInnerThread_2(dia, P, turns, None, th)
+        if (thl > 0):
+            threadCutter.translate(Base.Vector(0.0, 0.0, thl - id / 2))
+            fSolid = fSolid.cut(threadCutter)
+            threadCutter.translate(Base.Vector(0.0, 0.0, thlen + l - 2 * thl + id))
+            fSolid = fSolid.cut(threadCutter)
+        else:
+            threadCutter.translate(Base.Vector(0.0, 0.0, l + P))
+            # Part.show(threadCutter, 'threadCutter')
+            fSolid = fSolid.cut(threadCutter)
+
+    return fSolid

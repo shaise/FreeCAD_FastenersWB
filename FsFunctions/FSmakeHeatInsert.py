@@ -29,7 +29,7 @@ import FastenerBase
 
 # Heat Staked Threaded Insert types: IUT
 
-def iutMakeWire(D, a, E, C, s1, s2):
+def iutMakeFace(D, a, E, C, s1, s2):
     d = D / 2
     e = E / 2
     c = C / 2
@@ -46,7 +46,17 @@ def iutMakeWire(D, a, E, C, s1, s2):
 
 def makeHeatInsert(self, fa):
     D, A, E, C, s1, s2 = fa.dimTable
-    iD = self.CGetInnerThread(fa.diameter)
-    f = iutMakeWire(iD, A, E, C, s1, s2)
-    p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
-    return p
+    iD = self.GetInnerThread(fa.diameter)
+
+    fFace = iutMakeFace(iD, A, E, C, s1, s2)
+    fSolid = fFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    if fa.thread:
+        dia = self.getDia(fa.calc_diam, True)
+        P = FsData["MetricPitchTable"][fa.diameter][0]
+        turns = int(A / P) + 2
+        threadCutter = self.makeInnerThread_2(dia, P, turns, None, A)
+        threadCutter.translate(Base.Vector(0.0, 0.0, P))
+        # Part.show(threadCutter, 'threadCutter')
+        fSolid = fSolid.cut(threadCutter)
+
+    return fSolid

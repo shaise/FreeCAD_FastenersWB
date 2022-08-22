@@ -236,6 +236,7 @@ def LenStr2Num(LenStr):
         DiaFloat = total * 25.4
     # if there are no identifying unit chars, default to mm
     else:
+        LenStr = LenStr.strip(" m")
         DiaFloat = float(LenStr)
     return DiaFloat
 
@@ -361,10 +362,13 @@ class FSFaceMaker:
             elif len(arg) == 4:
                 self.AddArc(arg[0], arg[1], arg[2], arg[3])
 
-    def GetFace(self, pointList = None):
+    def GetFace(self):            
         self.edges.append(Part.makeLine(self.lastPoint, self.firstPoint))
         w = Part.Wire(self.edges)
         return Part.Face(w)
+
+    def GetWire(self):
+        return Part.Wire(self.edges)
 
 
 def FSAutoDiameterM(holeObj, table, tablepos):

@@ -74,6 +74,18 @@ def makePEMStandoff(self, fa):
     p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
     htool = self.makeHextool(h, 3, h * 2)
     htool.translate(Base.Vector(0.0, 0.0, -2.0))
-    shape = p.cut(htool)
-    return shape
+    fSolid = p.cut(htool)
+    if fa.thread:
+        dia = self.getDia(fa.calc_diam, True)
+        P = FsData["MetricPitchTable"][fa.diameter][0]
+        turns = int(l / P) + 2
+        threadCutter = self.makeInnerThread_2(dia, P, turns, None, l)
+        if (fa.blind):
+            threadCutter.translate(Base.Vector(0.0, 0.0, -d))
+        else:
+            threadCutter.translate(Base.Vector(0.0, 0.0, P))
+        # Part.show(threadCutter, 'threadCutter')
+        fSolid = fSolid.cut(threadCutter)
+
+    return fSolid
 

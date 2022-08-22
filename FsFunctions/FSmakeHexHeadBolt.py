@@ -94,15 +94,16 @@ def makeHexHeadBolt(self, fa): # dynamically loaded method of class Screw
         aFace = Part.Face(aWire)
         head = aFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
         # FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
+        #Part.show(head1)
 
         # Part.show(extrude)
         head = head.cut(extrude)
         # FreeCAD.Console.PrintMessage("the head cut: " + str(dia) + "\n")
         # Part.show(head)
-
         headFaces = []
-        for i in range(18):
-            headFaces.append(head.Faces[i])
+        for face in head.Faces:
+            if face.CenterOfMass[2] > -r + 0.001:
+                headFaces.append(face)
 
         rthread = self.makeShellthread(dia, P, l - r, True, -r, b)
         # Part.show(rthread)

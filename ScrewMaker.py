@@ -4,10 +4,7 @@
 
 import FreeCAD, FreeCADGui, Part, math
 from FreeCAD import Base
-import DraftVecUtils
 import FastenerBase
-
-from PySide import QtCore, QtGui
 from screw_maker import *
 from FastenerBase import FSParam
 
@@ -104,7 +101,7 @@ FSC_DIN7998_ScrewHoleChart = (
     ("20 mm", 25)
 )
 
-# prepare a dictionary for fast search of FSCGetInnerThread
+# prepare a dictionary for fast search of GetInnerThread
 FSCScrewHoleChartDict = {}
 for s in FSCScrewHoleChart:
     FSCScrewHoleChartDict[s[0]] = s[1]
@@ -269,7 +266,7 @@ class FSScrewMaker(Screw):
                         if d > dia:
                             dif = d - dia
                     else:
-                        dia = self.FSCGetInnerThread(m)
+                        dia = self.GetInnerThread(m)
                         dif = math.fabs(dia - d)
 
                 else:
@@ -363,7 +360,7 @@ class FSScrewMaker(Screw):
         table = FsData[type + "def"]
         return table[diam][tablepos]
        
-    def CGetInnerThread(self, diam):
+    def GetInnerThread(self, diam):
         diam = FastenerBase.CleanM(diam)
         return FSCScrewHoleChartDict[diam]
 

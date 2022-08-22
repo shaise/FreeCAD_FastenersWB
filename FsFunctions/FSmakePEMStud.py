@@ -31,7 +31,7 @@ cos30 = math.cos(math.radians(30))
 
 # PEM Self Clinching studs types: FH/FHS/FHA
 
-def fhMakeFace(m, h, d, l):
+def fhMakeFace(m, h, d, l, rThread):
     h10 = h / 10.0
     h20 = h / 20.0
     m25 = m * 0.025
@@ -50,15 +50,25 @@ def fhMakeFace(m, h, d, l):
     fm.AddArc(h, - h20, h - h20, -h10)
     fm.AddPoints((h - h20, -(h10 + h20)), (m, -(h10 + h20)), (m, -hs), (m9, -(hs + m25)))
     fm.AddArc(mr, -(hs + m25 * 1.5), m9, -(hs + m25 * 2))
-    fm.AddPoints((m, -he), (m, -(l - ch1)), (m - ch1, -l), (0, -l))
-    return fm.GetFace()
+    fm.AddPoint(m, -he)
+    if rThread:
+        return (fm.GetWire(), -he)  
+    fm.AddPoints((m, -(l - ch1)), (m - ch1, -l), (0, -l))
+    return (fm.GetFace(), -he)
 
 
 def makePEMStud(self, fa):
     l = fa.calc_len
-    m = FastenerBase.MToFloat(fa.calc_diam)
+    dia = self.getDia(fa.calc_diam, False)
     h, s, d = fa.dimTable
 
-    f = fhMakeFace(m, h, d, l)
-    p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
-    return p
+    profile, thStart = fhMakeFace(dia, h, d, l, fa.thread)
+    rev = profile.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    if not fa.thread:
+        return rev
+    # real thread
+    P = FsData["MetricPitchTable"][fa.diameter][0]
+    rthread = self.makeShellthread(dia, P, l + thStart, True, thStart)
+    rev = rev.fuse(rthread)
+    return Part.Solid(rev)
+

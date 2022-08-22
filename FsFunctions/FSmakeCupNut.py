@@ -83,16 +83,15 @@ def makeCupNut(self, fa): # dynamically loaded method of class Screw
     solid = solid.common(solidHex)
     # cut the threads
     if fa.thread:
-        residue, turns = math.modf(t / P)
-        tap_tool = self.makeInnerThread_2(dia, P, int(turns + 2), None, t)
-        tap_tool.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
-        tap_tool.translate(Base.Vector(0, 0, -2 * P))
+        turns = math.ceil((h-w) / P)
+        tap_tool = self.makeInnerThread_2(dia, P, int(turns), None, None)
+        tap_tool.translate(Base.Vector(0, 0, h-w))
         tc_points = list(
             map(
                 lambda x: Base.Vector(x),
                 [
-                    (0, 0, t - P),
-                    (1.1 * dia / 2, 0, t - P - 1.1 * dia / 8),
+                    (0, 0, h-w),
+                    (1.1 * dia / 2, 0, t),
                     (1.1 * dia / 2, 0, h),
                     (0, 0, h)
                 ]

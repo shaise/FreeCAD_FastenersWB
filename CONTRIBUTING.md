@@ -66,7 +66,7 @@ The first line of the table is a header (it is read into a separate title table 
 and string values are double quoted. The title name can be arbitrary in most cases but some 
 keywords have special meaning
 - `csh_diam` : Countersunk-head screw head diameter. If this keyword exists, the automatic screw size detection will be done by this column in the table rather than by stem diameter. This is done because countersunk screw holes are chamfered.
-- `csh_height` : Countersunk-head screw head height. If this keyword exists it will be used along with `csh_diam` to automaticaly chamfer holes for these screw types.
+- `csh_height` : Countersunk-head screw head height. If this keyword exists it will be used along with `csh_diam` to automatically chamfer holes for these screw types.
 - `thr_len` : Default thread length. For fasteners with arbitrary thread lengths, this will be the default.
 
 For each actual table line:

@@ -123,10 +123,10 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes 
-* V0.4.03  16 Aug 2022:  Refactor FastenerWB, stage 4 (last):
-                       - Cleanup and bug fixes
-                       - Move all remaining fasteners into the new system
-                       - Add real threads to all fasterners missing it
+* V0.4.03  16 Aug 2022:  Refactor FastenerWB, stage 4 (last):  
+                       - Cleanup and bug fixes  
+                       - Move all remaining fasteners into the new system  
+                       - Add real threads to all fasterners missing it  
 * V0.4.02  16 Aug 2022:  Refactor FastenerWB, stage 3 - Change fastener tables naming and usage. 
 * V0.4.01  14 Aug 2022:  Refactor FastenerWB, stage 2 - Move rod an some nut functions to the new system. 
 * V0.4.00  12 Aug 2022:  Refactor FastenerWB, stage 1 - split screw_maker fastener creation function to seperate files. 

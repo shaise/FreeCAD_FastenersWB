@@ -159,8 +159,8 @@ def makeCarriageBolt(self, fa): # dynamically loaded method of class Screw
     # FSFaceMaker is a nice helper to build a profile from lines and arcs it make a profile on the x,z plane
     fm = FastenerBase.FSFaceMaker()
     fm.AddPoint(0, H)
-    # arcs are 3 point arcs where the first point is the last 
-    fm.AddArc(head_r * sin22_5, H - head_r + head_r * cos22_5, A / 2, 0) added
+    # arcs are 3 point arcs where the first point is the last one added 
+    fm.AddArc(head_r * sin22_5, H - head_r + head_r * cos22_5, A / 2, 0)
     fm.AddPoint(sqrt2 / 2 * O, 0)
     fm.AddPoint(sqrt2 / 2 * O, -1 * P + (sqrt2 / 2 * O - d / 2))
     fm.AddPoint(d / 2, -1 * P)

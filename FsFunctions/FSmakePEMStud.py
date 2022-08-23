@@ -63,7 +63,7 @@ def makePEMStud(self, fa):
     h, s, d = fa.dimTable
 
     profile, thStart = fhMakeFace(dia, h, d, l, fa.thread)
-    rev = profile.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    rev = self.RevolveZ(profile)
     if not fa.thread:
         return rev
     # real thread

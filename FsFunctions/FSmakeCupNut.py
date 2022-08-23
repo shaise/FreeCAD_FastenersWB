@@ -66,7 +66,7 @@ def makeCupNut(self, fa): # dynamically loaded method of class Screw
             Part.makeLine(pnts[8], pnts[0])
         ]
     )
-    shell = profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+    shell = self.RevolveZ(profile)
     solid = Part.Solid(shell)
     # create an additional solid to cut the hex flats with
     mhex = Base.Matrix()
@@ -105,11 +105,7 @@ def makeCupNut(self, fa): # dynamically loaded method of class Screw
                 Part.makeLine(tc_points[3], tc_points[0]),
             ]
         )
-        cham_shell = thread_chamfer_profile.revolve(
-            Base.Vector(0, 0, 0),
-            Base.Vector(0, 0, 1),
-            360
-        )
+        cham_shell = self.RevolveZ(thread_chamfer_profile)
         thread_chamfer = Part.Solid(cham_shell)
         tap_tool = tap_tool.cut(thread_chamfer)
         solid = solid.cut(tap_tool)
@@ -126,7 +122,6 @@ def makeCupNut(self, fa): # dynamically loaded method of class Screw
             Part.makeLine(hole_pts[2], hole_pts[3]),
             Part.makeLine(hole_pts[3], hole_pts[0])
         ] )
-        hole = Part.Solid(hole_profile.revolve(
-            Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360))
+        hole = Part.Solid(self.RevolveZ(hole_profile))
         solid = solid.cut(hole)
     return solid

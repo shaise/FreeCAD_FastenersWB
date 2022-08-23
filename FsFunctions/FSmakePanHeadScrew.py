@@ -140,10 +140,10 @@ def makePanHeadScrew(self, fa): # dynamically loaded method of class Screw
 
     hWire = Part.Wire([edge1, edgeH1, edgeH2, edgeH3])  # Cutter for recess-Shell
     hFace = Part.Face(hWire)
-    hCut = hFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    hCut = self.RevolveZ(hFace)
     # Part.show(hWire)
 
-    headShell = aWire.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    headShell = self.RevolveZ(aWire)
     # head = Part.Solid(headShell)
     # Part.show(aWire)
     # FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")

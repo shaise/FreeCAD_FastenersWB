@@ -56,7 +56,7 @@ def makeScrewDie(self, fa): # dynamically loaded method of class Screw
         thr_p2 = Base.Vector(dia / 2, 0, 0)
         thr_e1 = Part.makeLine(thr_p1, thr_p2)
         thr_cap_profile = Part.Wire([thr_e1])
-        thr_cap = thr_cap_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+        thr_cap = self.RevolveZ(thr_cap_profile)
         #Part.show(thr_cap)
         #Part.show(shell_thread)
         thr_faces = shell_thread.Faces

@@ -65,7 +65,7 @@ def makeHexNutWFlunge(self, fa): # dynamically loaded method of class Screw
     edgeH1 = Part.makeLine(PntH0, PntH1)
 
     hWire = Part.Wire([edgeH1])
-    topShell = hWire.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    topShell = self.RevolveZ(hWire)
     # Part.show(hWire)
     # Part.show(topShell)
 
@@ -81,7 +81,7 @@ def makeHexNutWFlunge(self, fa): # dynamically loaded method of class Screw
     edgeC4 = Part.makeLine(PntC4, PntC3)
     cWire = Part.Wire([edgeC4, edgeC1, edgeC2, edgeC3])
     cFace = Part.Face(cWire)
-    chamCut = cFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    chamCut = self.RevolveZ(cFace)
     # Part.show(cWire)
     # Part.show(chamCut)
 
@@ -144,7 +144,7 @@ def makeHexNutWFlunge(self, fa): # dynamically loaded method of class Screw
 
     HCWire = Part.Wire([edge2, edgeHC1, edgeHC2, edgeHC3, edge1])
     HCFace = Part.Face(HCWire)
-    hex2Cut = HCFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    hex2Cut = self.RevolveZ(HCFace)
 
     hexShell = hexShell.cut(hex2Cut)
     # Part.show(hexShell)
@@ -171,7 +171,7 @@ def makeHexNutWFlunge(self, fa): # dynamically loaded method of class Screw
 
     # aFace =Part.Face(aWire)
     # Part.show(aWire)
-    headShell = aWire.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    headShell = self.RevolveZ(aWire)
     # FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
     # Part.show(headShell)
     chamFace = headShell.Faces[0].cut(solidHex)

@@ -62,7 +62,7 @@ def makeThinCupNut(self, fa): # dynamically loaded method of class Screw
     aWire = Part.Wire([edge0, edge1, edge2, edge3, edge4, edge5, edge6, edge7])
     # Part.show(aWire)
     aFace = Part.Face(aWire)
-    head = aFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
+    head = self.RevolveZ(aFace)
     extrude = self.makeHextool(s, h, s * 2.0)
     nut = head.cut(extrude)
 

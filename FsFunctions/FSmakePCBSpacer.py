@@ -69,7 +69,7 @@ def makePCBSpacer(self, fa):
         thl = 0
 
     f = pspMakeFace(m, w, l, id, thl)
-    p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    p = self.RevolveZ(f)
     htool = self.makeHextool(w, l, w * 2)
     htool.translate(Base.Vector(0.0, 0.0, - 0.1))
     fSolid = p.cut(htool)

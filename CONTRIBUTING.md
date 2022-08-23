@@ -165,7 +165,7 @@ def makeCarriageBolt(self, fa): # dynamically loaded method of class Screw
     fm.AddPoint(sqrt2 / 2 * O, -1 * P + (sqrt2 / 2 * O - d / 2))
     fm.AddPoint(d / 2, -1 * P)
     wire1 = fm.GetWire()
-    head_shell = wire1.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+    head_shell = self.RevolveZ(wire1)
     if not fa.thread:
         # simplified threaded section
         fm.Reset()
@@ -176,7 +176,7 @@ def makeCarriageBolt(self, fa): # dynamically loaded method of class Screw
         fm.AddPoint(d / 2 - d / 10, -l)
         fm.AddPoint(0, -l)
         thread_profile_wire = fm.GetWire()
-        shell_thread = thread_profile_wire.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+        shell_thread = self.RevolveZ(thread_profile_wire)
     else:
         # modeled threaded section
         shell_thread = self.makeShellthread(d, pitch, flat_len, False, -P, L_t)

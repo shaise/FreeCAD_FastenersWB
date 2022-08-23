@@ -108,10 +108,10 @@ def makeSetScrew(self, fa): # dynamically loaded method of class Screw
         e5 = Part.makeLine(p4, p5)
         p_profile = Part.Wire([e2, e3, e4, e5])
 
-    p_shell = p_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+    p_shell = self.RevolveZ(p_profile)
     # generate a top face with a hex-key recess
     top_face_profile = Part.Wire([e1])
-    top_face = top_face_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+    top_face = self.RevolveZ(top_face_profile)
     hex_solid, hex_shell = self.makeAllen2(s, t - 1, 0)
     top_face = top_face.cut(hex_solid)
     p_faces = p_shell.Faces
@@ -127,7 +127,7 @@ def makeSetScrew(self, fa): # dynamically loaded method of class Screw
     cham_e1 = Part.makeLine(cham_p1, cham_p2)
     cham_e2 = Part.makeLine(cham_p2, cham_p3)
     cham_profile = Part.Wire([cham_e1, cham_e2])
-    cham_shell = cham_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+    cham_shell = self.RevolveZ(cham_profile)
     cham_solid = Part.Solid(cham_shell)
     screw = screw.cut(cham_solid)
     # produce a modelled thread if necessary
@@ -140,7 +140,7 @@ def makeSetScrew(self, fa): # dynamically loaded method of class Screw
         thr_p2 = Base.Vector(d / 2, 0, 0)
         thr_e1 = Part.makeLine(thr_p1, thr_p2)
         thr_cap_profile = Part.Wire([thr_e1])
-        thr_cap = thr_cap_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+        thr_cap = self.RevolveZ(thr_cap_profile)
         thr_faces = shell_thread.Faces
         thr_faces.extend(thr_cap.Faces)
         thread_shell = Part.Shell(thr_faces)

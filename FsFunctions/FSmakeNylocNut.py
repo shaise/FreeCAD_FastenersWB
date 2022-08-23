@@ -56,7 +56,7 @@ def makeNylocNut(self, fa):
     P, da, dw, e, m, h, s = fa.dimTable
     dia = self.getDia(fa.calc_diam, True)
     section = nylocMakeFace(dia, P, da, dw, e, m, h, s)
-    nutSolid = section.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    nutSolid = self.RevolveZ(section)
     htool = htool = self.makeHextool(s, m, s * 2)
     nutSolid = nutSolid.cut(htool)
     if fa.thread:

@@ -70,7 +70,7 @@ def makePEMPressNut(self, fa):
         return None
     do = FastenerBase.MToFloat(diam)
     fFace = clMakeFace(do, di, a, c, e, t)
-    fSolid = fFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    fSolid = self.RevolveZ(fFace)
     if fa.thread:
         dia = self.getDia(diam, True)
         P = FsData["MetricPitchTable"][diam][0]

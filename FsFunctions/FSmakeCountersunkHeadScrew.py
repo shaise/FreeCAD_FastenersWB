@@ -191,7 +191,7 @@ def makeCountersunkHeadScrew(self, fa): # dynamically loaded method of class Scr
             aWire = Part.Wire([edge2, edge3, edgeArc, edge6, edgeB0, edgeB1])
 
     # Part.show(aWire)
-    headShell = aWire.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    headShell = self.RevolveZ(aWire)
     headFaces = headShell.Faces
     # Part.show(headShell)
 
@@ -207,7 +207,7 @@ def makeCountersunkHeadScrew(self, fa): # dynamically loaded method of class Scr
         hWire = Part.Wire([edge1, edgeH3, edgeH2, edgeH1])  # Cutter for recess-Shell
         hWire.reverse()  # a fix to work with ver 18
         hFace = Part.Face(hWire)
-        hCut = hFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+        hCut = self.RevolveZ(hFace)
         # Part.show(hWire)
         topFace = hCut.Faces[0]
 

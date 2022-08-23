@@ -65,7 +65,7 @@ def makePCBStandoff(self, fa):
     diain = self.getDia(fa.calc_diam, True)
     diaout = self.getDia(fa.calc_diam, False)
     f, thrPos = psMakeFace(diaout, width, screwlen, flen, id)
-    p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    p = self.RevolveZ(f)
     w = float(width)
     htool = self.makeHextool(w, flen + screwlen, w * 2)
     htool.translate(Base.Vector(0.0, 0.0, -screwlen - 0.1))

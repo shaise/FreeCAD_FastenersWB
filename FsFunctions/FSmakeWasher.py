@@ -75,7 +75,7 @@ def makeWasher(self, fa): # dynamically loaded method of class Screw
     aWire = Part.Wire([edge1, edge2, edge3, edge4])
     # Part.show(aWire)
     aFace = Part.Face(aWire)
-    head = aFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    head = self.RevolveZ(aFace)
     # FreeCAD.Console.PrintMessage("Washer revolved: " + str(dia) + "\n")
 
     return head

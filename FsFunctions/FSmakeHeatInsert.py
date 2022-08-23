@@ -49,7 +49,7 @@ def makeHeatInsert(self, fa):
     iD = self.GetInnerThread(fa.diameter)
 
     fFace = iutMakeFace(iD, A, E, C, s1, s2)
-    fSolid = fFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    fSolid = self.RevolveZ(fFace)
     if fa.thread:
         dia = self.getDia(fa.calc_diam, True)
         P = FsData["MetricPitchTable"][fa.diameter][0]

@@ -58,7 +58,7 @@ def makeThreadedRod(self, fa): # dynamically loaded method of class Screw
     e4 = Part.makeLine(p3, p4)
     e5 = Part.makeLine(p4, p5)
     p_profile = Part.Wire([e1, e2, e3, e4, e5])
-    p_shell = p_profile.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
+    p_shell = self.RevolveZ(p_profile)
     screw = Part.Solid(p_shell)
     if fa.thread:
         # make the threaded section
@@ -67,7 +67,7 @@ def makeThreadedRod(self, fa): # dynamically loaded method of class Screw
         thr_p2 = Base.Vector(dia / 2, 0, 0)
         thr_e1 = Part.makeLine(thr_p1, thr_p2)
         thr_cap_profile = Part.Wire([thr_e1])
-        thr_cap = thr_cap_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+        thr_cap = self.RevolveZ(thr_cap_profile)
         thr_faces = shell_thread.Faces
         thr_faces.extend(thr_cap.Faces)
         thread_shell = Part.Shell(thr_faces)

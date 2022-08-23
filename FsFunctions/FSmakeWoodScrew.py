@@ -96,7 +96,7 @@ def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
                         edge7, edge8, edge9, edgeZ0])
     
     aFace = Part.Face(aWire)
-    head = aFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
+    head = self.RevolveZ(aFace)
     head = head.cut(extrude)
     if fa.thread:
         thread = self.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d3h, d, P)

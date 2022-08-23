@@ -71,7 +71,7 @@ def makePEMStandoff(self, fa):
 
     bl = FsData[fa.type + "length"][plen][0]
     f = soMakeFace(b, c, h, d, l, bl, fa.blind)
-    p = f.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    p = self.RevolveZ(f)
     htool = self.makeHextool(h, 3, h * 2)
     htool.translate(Base.Vector(0.0, 0.0, -2.0))
     fSolid = p.cut(htool)

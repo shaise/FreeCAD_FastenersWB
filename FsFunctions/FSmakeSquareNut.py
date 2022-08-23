@@ -84,7 +84,7 @@ def makeSquareNut(self, fa):
         s, m, di, P = fa.dimTable
         dw = 0
     section = sqnutMakeFace(dia, di, dw, s, m)
-    nutSolid = section.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    nutSolid = self.RevolveZ(section)
     htool = makeSquareTool(s, m)
     nutSolid = nutSolid.cut(htool)
     if fa.thread:

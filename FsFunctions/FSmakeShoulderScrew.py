@@ -55,7 +55,7 @@ def makeShoulderScrew(self, fa): # dynamically loaded method of class Screw
     edge6 = Part.makeLine(point7, point8)
     edge7 = Part.makeLine(point8, point9)
     top_face_profile = Part.Wire([edge1])
-    top_face = top_face_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+    top_face = self.RevolveZ(top_face_profile)
     head_shoulder_profile = Part.Wire([edge2, edge3, edge4, edge5, edge6, edge7])
     if not fa.thread:
         # if a modelled thread is not desired:
@@ -72,12 +72,12 @@ def makeShoulderScrew(self, fa): # dynamically loaded method of class Screw
         # append the wire with the added section
         p_profile = Part.Wire([head_shoulder_profile, edge8, edge9, edge10, edge11])
         # revolve the profile into a shell object
-        p_shell = p_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+        p_shell = self.RevolveZ(p_profile)
     else:
         # if we need a modelled thread:
         # the revolved profile is only the head and shoulder
         p_profile = head_shoulder_profile
-        p_shell = p_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+        p_shell = self.RevolveZ(p_profile)
         # calculate the number of thread half turns
         # make the threaded section
         shell_thread = self.makeShellthread(d2, P, l2, True, 0)
@@ -103,7 +103,7 @@ def makeShoulderScrew(self, fa): # dynamically loaded method of class Screw
     cham_e1 = Part.makeLine(cham_p1, cham_p2)
     cham_e2 = Part.makeLine(cham_p2, cham_p3)
     cham_profile = Part.Wire([cham_e1, cham_e2])
-    cham_shell = cham_profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 360)
+    cham_shell = self.RevolveZ(cham_profile)
     cham_solid = Part.Solid(cham_shell)
     screw = screw.cut(cham_solid)
     return screw

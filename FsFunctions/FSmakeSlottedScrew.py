@@ -147,7 +147,7 @@ def makeSlottedScrew(self, fa): # dynamically loaded method of class Screw
             aWire = Part.Wire([headWire, edgeRA, edgeB1, edgeB2, edgeZ0])
 
     aFace = Part.Face(aWire)
-    head = aFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+    head = self.RevolveZ(aFace)
     # FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
 
     # Parameter for slot-recess: dk_max, n_min, k, t_min

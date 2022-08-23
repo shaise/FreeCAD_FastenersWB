@@ -66,6 +66,6 @@ def makeScrewTap(self, fa): # dynamically loaded method of class Screw
         edge2 = Part.makeLine(Pnt1, Pnt2)
         edge3 = Part.makeLine(Pnt2, Pnt3)
         aWire = Part.Wire([edge1, edge2, edge3])
-        headShell = aWire.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360.0)
+        headShell = self.RevolveZ(aWire)
         screwTap = Part.Solid(headShell)
     return screwTap

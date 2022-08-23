@@ -59,6 +59,7 @@ check chamfer angle on hexogon heads and nuts
 ***************************************************************************
 *   Copyright (c) 2013, 2014, 2015                                        *
 *   Ulrich Brammer <ulrich1a[at]users.sourceforge.net>                    *
+*   Refactor by shai 2022                                                 *
 *                                                                         *
 *   This file is a supplement to the FreeCAD CAx development system.      *
 *                                                                         *
@@ -91,6 +92,7 @@ from FreeCAD import Base
 import DraftVecUtils
 from pathlib import Path
 import importlib
+import FastenerBase
 
 from utils import csv2dict
 #from FastenersCmd import FastenerAttribs
@@ -104,9 +106,11 @@ DEBUG = False # set to True to show debug messages; does not work, still todo.
 __dir__ = os.path.dirname(__file__)
 fsdatapath = os.path.join(__dir__, 'FsData')
 
+# some common constants
+sqrt3 = math.sqrt(3)
+cos30 = math.cos(math.radians(30))
+
 # function to open a csv file and convert it to a dictionary
-
-
 FsData = {}
 FsTitles = {}
 filelist = Path(fsdatapath).glob('*.csv')
@@ -186,29 +190,17 @@ class Screw:
         tph2 = tph * tpratio
         tphb2 = tphb * tpratio
         tipH = ze - zt
+
         # tip thread profile
-        Pnt0a = FreeCAD.Vector(0.0, 0.0, -tphb2)
-        Pnt1a = FreeCAD.Vector(0.0, 0.0, tphb2)
-        Pnt2a = FreeCAD.Vector(2.0 * tphb2, 0.0, tphb2)
-
-        edge1a = Part.makeLine(Pnt0a, Pnt1a)
-        edge2a = Part.makeLine(Pnt1a, Pnt2a)
-        edge3a = Part.makeLine(Pnt2a, Pnt0a)
-
-        aWire = Part.Wire([edge1a, edge2a, edge3a])
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoints((0.0, -tphb2), (0.0, tphb2), (2.0 * tphb2, tphb2))
+        aWire = fm.GetClosedWire()
         aWire.translate(FreeCAD.Vector(epsilon, 0.0, 3.0 * tphb2))
 
         # top thread profile
-        Pnt0b = FreeCAD.Vector(0.0, 0.0, -tphb)
-        Pnt1b = FreeCAD.Vector(0.0, 0.0, tphb)
-        Pnt2b = FreeCAD.Vector(tph, 0.0, 0.0)
-
-        edge1b = Part.makeLine(Pnt0b, Pnt1b)
-        edge2b = Part.makeLine(Pnt1b, Pnt2b)
-        edge3b = Part.makeLine(Pnt2b, Pnt0b)
-
-        bWire = Part.Wire([edge1b, edge2b, edge3b])
-        #bWire.translate(FreeCAD.Vector(ri - epsilon, 0.0, ze + tphb))
+        fm.Reset()
+        fm.AddPoints((0.0, -tphb), (0.0, tphb), (tph, 0.0))
+        bWire = fm.GetClosedWire()
         bWire.translate(FreeCAD.Vector(ri - epsilon, 0.0, tphb + tipH))
         
         # create helix for tip thread part
@@ -278,6 +270,34 @@ class Screw:
         # Part.show(exHex)
         return exHex
 
+    def GetInnerThreadMinDiameter(self, dia, P, addEpsilon = 0.001):
+        H = P * cos30  # Thread depth H
+        return dia - H * 5.0 / 4.0 + addEpsilon
+
+    def CreateInnerThreadCutter(self, dia, P, blen):
+        H = P * cos30  # Thread depth H
+        r = dia / 2.0
+
+        height = (blen // P) + 2
+
+        helix = Part.makeLongHelix(P, height, dia * self.Tuner / 1000.0, 0, self.leftHanded)  # make just one turn, length is identical to pitch
+        helix.translate(FreeCAD.Vector(0.0, 0.0, -P * 9.0 / 16.0))
+
+        # points for inner thread profile
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint(r - H * 5.0 / 8.0, P * 7.0 / 16.0)
+        fm.AddPoint(r, P * 2.0 / 16.0)
+        fm.AddArc(r + H * 1 / 24.0, P * 2.0 / 32.0, r, 0)
+        fm.AddPoint(r - H * 5.0 / 8.0, -P * 5.0 / 16.0)
+        W0 = fm.GetClosedWire()
+        W0.translate(Base.Vector(0,0,-P))
+
+        makeSolid = True
+        isFrenet = True
+        cutTool = Part.Wire(helix).makePipeShell([W0], makeSolid, isFrenet)
+        #Part.show(cutTool, 'cutTool')
+        return cutTool
+
     def CreateThreadCutter(self, dia, P, blen):
         # make a cylindrical solid, then cut the thread profile from it
         H = math.sqrt(3) / 2 * P
@@ -289,19 +309,14 @@ class Screw:
         # ref: https://en.wikipedia.org/wiki/ISO_metric_screw_thread
         fillet_r = P * math.sqrt(3) / 12
         helix_height = trotations * P
-        pnts = list(map(lambda x: Base.Vector(x),
-                        [
-                            [dia / 2 + math.sqrt(3) * 3 / 80 * P, 0, -0.475 * P],
-                            [dia / 2 - 0.625 * H, 0, -1 * P / 8],
-                            [dia / 2 - 0.625 * H - 0.5 * fillet_r, 0, 0],
-                            [dia / 2 - 0.625 * H, 0, P / 8],
-                            [dia / 2 + math.sqrt(3) * 3 / 80 * P, 0, 0.475 * P]
-                        ]))
-        thread_profile_wire = Part.Wire([
-            Part.makeLine(pnts[0], pnts[1]),
-            Part.Arc(pnts[3], pnts[2], pnts[1]).toShape(),
-            Part.makeLine(pnts[3], pnts[4]),
-            Part.makeLine(pnts[4], pnts[0])])
+        dia2 = dia / 2
+ 
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint(dia2 + sqrt3 * 3 / 80 * P, -0.475 * P)
+        fm.AddPoint(dia2 - 0.625 * H, -1 * P / 8)
+        fm.AddArc(dia2 - 0.625 * H - 0.5 * fillet_r, 0, dia2 - 0.625 * H, P / 8)
+        fm.AddPoint(dia2 + sqrt3 * 3 / 80 * P, 0.475 * P)
+        thread_profile_wire = fm.GetClosedWire()
         thread_profile_wire.translate(Base.Vector(0, 0, -1 * helix_height))
         # make the helical paths to sweep along
         # NOTE: makeLongHelix creates slightly conical
@@ -324,6 +339,9 @@ class Screw:
             raise RuntimeError("Failed to create shell thread: could not sweep thread")
         sweep.makeSolid()
         return sweep.shape()
+
+    def RevolveZ(self, profile, angle = 360):
+        return profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), angle)
         
     def makeShellthread(self, dia, P, blen, withcham, ztop, tlen = -1):
         """
@@ -338,34 +356,26 @@ class Screw:
         correction = 1e-5
         if tlen < 0:
             tlen = blen
-        base_pnts = list(map(lambda x: Base.Vector(x),
-                             [
-                                 [dia / 2, 0, 0],
-                                 [dia / 2, 0, -blen + P / 2],
-                                 [dia / 2 - P / 2, 0, -blen + correction],
-                                 [0, 0, -blen + correction],
-                                 [0, 0, 0],
-                                 [dia / 2, 0, -blen + correction]
-                             ]))
+        dia2 = dia / 2
+        corr_blen = blen - correction
+        
+        # create base body
+        pnt0 = (dia2, 0)
+        pnt1 = (dia2,  -blen + P / 2)
+        pnt2 = (dia2 - P / 2, -corr_blen)
+        pnt3 = (0, -corr_blen)
+        pnt4 = (0, 0)
+        pnt5 = (dia2, -corr_blen)
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoints(pnt0)
         if withcham:
-            base_profile = Part.Wire([
-                Part.makeLine(base_pnts[0], base_pnts[1]),
-                Part.makeLine(base_pnts[1], base_pnts[2]),
-                Part.makeLine(base_pnts[2], base_pnts[3]),
-                Part.makeLine(base_pnts[3], base_pnts[4]),
-                Part.makeLine(base_pnts[4], base_pnts[0]),
-            ])
+            fm.AddPoints(pnt1, pnt2)
         else:
-            base_profile = Part.Wire([
-                Part.makeLine(base_pnts[0], base_pnts[5]),
-                Part.makeLine(base_pnts[5], base_pnts[3]),
-                Part.makeLine(base_pnts[3], base_pnts[4]),
-                Part.makeLine(base_pnts[4], base_pnts[0]),
-            ])
-        base_shell = base_profile.revolve(
-            Base.Vector(0, 0, 0),
-            Base.Vector(0, 0, 1),
-            360)
+            fm.AddPoints(pnt5)
+        fm.AddPoints(pnt3, pnt4)
+
+        base_profile = fm.GetClosedWire()
+        base_shell = self.RevolveZ(base_profile)
         base_body = Part.makeSolid(base_shell)
 
         swept_solid = self.CreateThreadCutter(dia, P, blen)
@@ -380,20 +390,15 @@ class Screw:
         base_body.rotate(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 90)
         threaded_solid = base_body.cut(swept_solid)
         if toffset < 0:
-            # one more component: a kind of 'cap' to improve behaviour with
-            # large offset values
-            cap_bottom_point = Base.Vector(0, 0, - dia / 2)
-            cap_profile = Part.Wire([
-                Part.makeLine(base_pnts[4], base_pnts[0]),
-                Part.makeLine(base_pnts[0], cap_bottom_point),
-                Part.makeLine(cap_bottom_point, base_pnts[4])])
-            cap_shell = cap_profile.revolve(
-                Base.Vector(0, 0, 0),
-                Base.Vector(0, 0, 1),
-                360)
+            # one more component: a kind of 'cap' to improve behaviour with large offset values
+            # (shai: this feature in unused??)
+            fm.Reset()
+            fm.AddPoints(pnt4, pnt0, (0, -dia2))
+            cap_profile = fm.GetClosedWire()
+            cap_shell = self.RevolveZ(cap_profile)
             cap_solid = Part.makeSolid(cap_shell)
             # threaded_solid = threaded_solid.fuse(cap_solid)
-            threaded_solid.removeSplitter
+            # threaded_solid.removeSplitter
         # remove top face(s) and convert to a shell
         result = Part.Shell([x for x in threaded_solid.Faces \
                              if not abs(x.CenterOfMass[2]) < 1e-7])
@@ -410,53 +415,28 @@ class Screw:
         else:
             fuzzyValue = 0.0
 
-        H = P * math.cos(math.radians(30))  # Thread depth H
+        H = P * cos30  # Thread depth H
         r = d / 2.0
 
         helix = Part.makeLongHelix(P, P, d * self.Tuner / 1000.0, 0, self.leftHanded)  # make just one turn, length is identical to pitch
         helix.translate(FreeCAD.Vector(0.0, 0.0, -P * 9.0 / 16.0))
 
-        extra_rad = P
-
         # points for inner thread profile
-        ps0 = (r, 0.0, 0.0)
-        ps1 = (r - H * 5.0 / 8.0, 0.0, -P * 5.0 / 16.0)
-        ps2 = (r - H * 5.0 / 8.0, 0.0, -P * 9.0 / 16.0)
-        ps3 = (r, 0.0, -P * 14.0 / 16.0)
-        ps4 = (r + H * 1 / 24.0, 0.0, -P * 31.0 / 32.0)  # Center of Arc
-        ps5 = (r, 0.0, -P)
-
-        ps6 = (r + extra_rad, 0.0, -P)
-        ps7 = (r + extra_rad, 0.0, 0.0)
-
-        edge0 = Part.makeLine(ps0, ps1)
-        edge1 = Part.makeLine(ps1, ps2)
-        edge2 = Part.makeLine(ps2, ps3)
-        edge3 = Part.Arc(FreeCAD.Vector(ps3), FreeCAD.Vector(ps4), FreeCAD.Vector(ps5)).toShape()
-        edge4 = Part.makeLine(ps5, ps6)
-        edge5 = Part.makeLine(ps6, ps7)
-        edge6 = Part.makeLine(ps7, ps0)
-
-        W0 = Part.Wire([edge0, edge1, edge2, edge3, edge4, edge5, edge6])
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint(r, 0.0)
+        fm.AddPoint(r - H * 5.0 / 8.0, -P * 5.0 / 16.0)
+        fm.AddPoint(r - H * 5.0 / 8.0, -P * 9.0 / 16.0)
+        fm.AddPoint(r, -P * 14.0 / 16.0)
+        fm.AddArc(r + H * 1 / 24.0, -P * 31.0 / 32.0, r, -P)
+        W0 = fm.GetWire()
         # Part.show(W0, 'W0')
+        # self.CreateInnerThreadCutter(d, P, 5 * P)
 
-        makeSolid = True
+        makeSolid = False
         isFrenet = True
-        pipe0 = Part.Wire(helix).makePipeShell([W0], makeSolid, isFrenet)
-        # pipe1 = pipe0.copy()
+        TheShell = Part.Wire(helix).makePipeShell([W0], makeSolid, isFrenet)
+        TheFaces = TheShell.Faces
 
-        TheFaces = []
-        TheFaces.append(pipe0.Faces[0])
-        TheFaces.append(pipe0.Faces[1])
-        TheFaces.append(pipe0.Faces[2])
-        TheFaces.append(pipe0.Faces[3])
-        # topHeliFaces = [pipe0.Faces[6], pipe0.Faces[8]]
-        # innerHeliFaces = [pipe0.Faces[5]]
-        # bottomFaces = [pipe0.Faces[4], pipe0.Faces[7]]
-
-        TheShell = Part.Shell(TheFaces)
-        # singleThreadShell = TheShell.copy()
-        # print "Shellpoints: ", len(TheShell.Vertexes)
         if da is None:
             commonbox = Part.makeBox(d + 4.0 * P, d + 4.0 * P, 3.0 * P)
             commonbox.translate(FreeCAD.Vector(-(d + 4.0 * P) / 2.0, -(d + 4.0 * P) / 2.0, -(3.0) * P))
@@ -479,7 +459,7 @@ class Screw:
                 for flaeche in TheShell.Faces:
                     TheFaces.append(flaeche)
 
-            # FreeCAD.Console.PrintMessage("Base-Shell: " + str(i) + "\n")
+            FreeCAD.Console.PrintMessage("Base-Shell: " + str(i) + "\n")
             # Make separate faces for the tip of the screw
             botFaces = []
             for i in range(rotations - 2, rotations, 1):
@@ -544,8 +524,7 @@ class Screw:
 
             Wch_wire = Part.Wire([edgech0, edgech1, edgech2, edgech3])
             bottom_Face = Part.Face(Wch_wire)
-            # bottom_Solid = bottom_Face.revolve(Base.Vector(0.0,0.0,-(rotations-1)*P),Base.Vector(0.0,0.0,1.0),360)
-            bottom_Solid = bottom_Face.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+            bottom_Solid = self.RevolveZ(bottom_Face)
             # Part.show(cham_Solid, 'cham_Solid')
             # Part.show(Wch_wire)
             bottomChamferFace = bottom_Solid.Faces[0]
@@ -563,7 +542,7 @@ class Screw:
 
             Wcht_wire = Part.Wire([edgech0t, edgech1t, edgech2t, edgech3t])
             top_Face = Part.Face(Wcht_wire)
-            top_Solid = top_Face.revolve(Base.Vector(0.0, 0.0, (rotations - 1) * P), Base.Vector(0.0, 0.0, 1.0), 360)
+            top_Solid = self.RevolveZ(top_Face)
             # Part.show(top_Solid, 'top_Solid')
             # Part.show(Wch_wire)
             topChamferFace = top_Solid.Faces[0]
@@ -632,26 +611,29 @@ class Screw:
 
 
     def cutChamfer(self, dia_cC, P_cC, l_cC):
-        cham_t = P_cC * math.sqrt(3.0) / 2.0 * 17.0 / 24.0
-        PntC0 = Base.Vector(0.0, 0.0, -l_cC)
-        PntC1 = Base.Vector(dia_cC / 2.0 - cham_t, 0.0, -l_cC)
-        PntC2 = Base.Vector(dia_cC / 2.0 + cham_t, 0.0, -l_cC + cham_t + cham_t)
-        PntC3 = Base.Vector(dia_cC / 2.0 + cham_t, 0.0, -l_cC - P_cC - cham_t)
-        PntC4 = Base.Vector(0.0, 0.0, -l_cC - P_cC - cham_t)
+        key, res = FastenerBase.FSGetKey("CrhamferTool", dia_cC, P_cC, l_cC)
+        if res is not None:
+            return res
+        # FastenerBase.FSCache[key] = cyl
+        cham_t = P_cC * sqrt3 / 2.0 * 17.0 / 24.0
+        dia_cC2 = dia_cC / 2.0
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint(0.0, -l_cC)
+        fm.AddPoint(dia_cC2 - cham_t, -l_cC)
+        fm.AddPoint(dia_cC2 + cham_t, -l_cC + cham_t + cham_t)
+        fm.AddPoint(dia_cC2 + cham_t, -l_cC - P_cC - cham_t)
+        fm.AddPoint(0.0, -l_cC - P_cC - cham_t)
 
-        edgeC1 = Part.makeLine(PntC0, PntC1)
-        edgeC2 = Part.makeLine(PntC1, PntC2)
-        edgeC3 = Part.makeLine(PntC2, PntC3)
-        edgeC4 = Part.makeLine(PntC3, PntC4)
-        edgeC5 = Part.makeLine(PntC4, PntC0)
-        CWire = Part.Wire([edgeC1, edgeC2, edgeC3, edgeC4, edgeC5])
-        # Part.show(CWire)
-        CFace = Part.Face(CWire)
-        cyl = CFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+        CFace = fm.GetFace()
+        cyl = self.RevolveZ(CFace)
+        FastenerBase.FSCache[key] = cyl
         return cyl
 
     # cross recess type H
     def makeCross_H3(self, CrossType='2', m=6.9, h=0.0):
+        key, res = FastenerBase.FSGetKey("CrossRecess", CrossType, m, h)
+        if res is not None:
+            return res
         # m = diameter of cross at top of screw at reference level for penetration depth
         b, e_mean, g, f_mean, r, t1, alpha, beta = FsData["iso4757def"][CrossType]
 
@@ -665,19 +647,10 @@ class Screw:
         hmc = m / 2.0
         rmax = m / 2.0 + hm * math.tan(rad265)
 
-        Pnt0 = Base.Vector(0.0, 0.0, hm)
-        Pnt1 = Base.Vector(rmax, 0.0, hm)
-        Pnt3 = Base.Vector(0.0, 0.0, 0.0)
-        Pnt4 = Base.Vector(g / 2.0, 0.0, -tg)
-        Pnt5 = Base.Vector(0.0, 0.0, -t_tot)
-
-        edge1 = Part.makeLine(Pnt0, Pnt1)
-        edge3 = Part.makeLine(Pnt1, Pnt4)
-        edge4 = Part.makeLine(Pnt4, Pnt5)
-        # FreeCAD.Console.PrintMessage("Edges made Pnt2: " + str(Pnt2) + "\n")
-
-        aWire = Part.Wire([edge1, edge3, edge4])
-        crossShell = aWire.revolve(Pnt3, Base.Vector(0.0, 0.0, 1.0), 360)
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoints((0.0, hm), (rmax, hm), (g / 2.0, -tg), (0.0, -t_tot))
+        aWire = fm.GetWire()
+        crossShell = self.RevolveZ(aWire)
         # FreeCAD.Console.PrintMessage("Peak-wire revolved: " + str(e_mean) + "\n")
         cross = Part.Solid(crossShell)
         # Part.show(cross)
@@ -706,21 +679,10 @@ class Screw:
 
         PntC0 = Base.Vector(rbtop, 0.0, hmc)
         PntC1 = Base.Vector(rbtot, 0.0, -t_tot)
-        PntC2 = Base.Vector(rbtop + dre, +e_mean / 2.0, hmc)
         PntC3 = Base.Vector(rbtot + dre, +e_mean / 2.0, -t_tot)
-        PntC4 = Base.Vector(rbtop + dre, -e_mean / 2.0, hmc)
         PntC5 = Base.Vector(rbtot + dre, -e_mean / 2.0, -t_tot)
-
-        PntC6 = Base.Vector(rbtop + dre + dx, +e_mean / 2.0 + dy, hmc)
-        # PntC7 = Base.Vector(rbtot+dre+dx,+e_mean/2.0+dy,-t_tot)
         PntC7 = Base.Vector(rbtot + dre + 2.0 * dx, +e_mean + 2.0 * dy, -t_tot)
-        PntC8 = Base.Vector(rbtop + dre + dx, -e_mean / 2.0 - dy, hmc)
-        # PntC9 = Base.Vector(rbtot+dre+dx,-e_mean/2.0-dy,-t_tot)
         PntC9 = Base.Vector(rbtot + dre + 2.0 * dx, -e_mean - 2.0 * dy, -t_tot)
-
-        # wire_hm = Part.makePolygon([PntC0,PntC2,PntC6,PntC8,PntC4,PntC0])
-        # face_hm =Part.Face(wire_hm)
-        # Part.show(face_hm)
 
         wire_t_tot = Part.makePolygon([PntC1, PntC3, PntC7, PntC9, PntC5, PntC1])
         # Part.show(wire_t_tot)
@@ -783,6 +745,7 @@ class Screw:
         crossShell0.Placement.Base = Base.Vector(0.0, 0.0, h)
         # Part.show(crossShell0)
         # Part.show(cross)
+        FastenerBase.FSCache[key] = (cross, crossShell0)
         return cross, crossShell0
 
     # Allen recess cutting tool
@@ -793,6 +756,11 @@ class Screw:
         # t_a dept of the allen
         # t_2 depth of center-bore
 
+        key, res = FastenerBase.FSGetKey("Allen2Tool", s_a, t_a, h_a, t_2)
+        if res is not None:
+            return res
+
+        fm = FastenerBase.FSFaceMaker()
         if t_2 == 0.0:
             depth = s_a / 3.0
             e_cham = 2.0 * s_a / math.sqrt(3.0)
@@ -811,23 +779,11 @@ class Screw:
             zArc3 = zrConeCenter - rCone
 
             # The round part of the cutting tool, we need for the allen hex recess
-            PntH1 = Base.Vector(0.0, 0.0, -t_a - depth - depth)
-            PntH2 = Base.Vector(e_cham, 0.0, -t_a - depth - depth)
-            PntH3 = Base.Vector(e_cham, 0.0, -t_a + depth)
-            PntH4 = Base.Vector(0.0, 0.0, -t_a - depth)
-
-            PntA1 = Base.Vector(xArc1, 0.0, zArc1)
-            PntA2 = Base.Vector(xArc2, 0.0, zArc2)
-            PntA3 = Base.Vector(0.0, 0.0, zArc3)
-
-            edgeA1 = Part.Arc(PntA1, PntA2, PntA3).toShape()
-
-            edgeH1 = Part.makeLine(PntH1, PntH2)
-            edgeH2 = Part.makeLine(PntH2, PntH3)
-            edgeH3 = Part.makeLine(PntH3, PntA1)
-            edgeH4 = Part.makeLine(PntA3, PntH1)
-
-            hWire = Part.Wire([edgeH1, edgeH2, edgeH3, edgeA1, edgeH4])
+            fm.AddPoint(0.0, -t_a - depth - depth)
+            fm.AddPoint(e_cham, -t_a - depth - depth)
+            fm.AddPoint(e_cham, -t_a + depth)
+            fm.AddPoint(xArc1, zArc1)
+            fm.AddArc(xArc2, zArc2, 0.0, zArc3) 
             hex_depth = -1.0 - t_a - depth * 1.1
         else:
             e_cham = 2.0 * s_a / math.sqrt(3.0)
@@ -835,26 +791,16 @@ class Screw:
             depth_cent = d_cent * math.tan(math.pi / 6.0)
             depth_cham = (e_cham - d_cent) * math.tan(math.pi / 6.0)
 
-            Pnts = [
-                Base.Vector(0.0, 0.0, -t_2 - depth_cent),
-                Base.Vector(0.0, 0.0, -t_2 - depth_cent - depth_cent),
-                Base.Vector(e_cham, 0.0, -t_2 - depth_cent - depth_cent),
-                Base.Vector(e_cham, 0.0, -t_a + depth_cham),
-                Base.Vector(d_cent, 0.0, -t_a),
-                Base.Vector(d_cent, 0.0, -t_2)
-            ]
-
-            edges = []
-            for i in range(0, len(Pnts) - 1):
-                edges.append(Part.makeLine(Pnts[i], Pnts[i + 1]))
-            edges.append(Part.makeLine(Pnts[5], Pnts[0]))
-
-            hWire = Part.Wire(edges)
+            fm.AddPoint(0.0, -t_2 - depth_cent)
+            fm.AddPoint(0.0, -t_2 - depth_cent - depth_cent)
+            fm.AddPoint(e_cham, -t_2 - depth_cent - depth_cent)
+            fm.AddPoint(e_cham, -t_a + depth_cham)
+            fm.AddPoint(d_cent, -t_a)
+            fm.AddPoint(d_cent, -t_2)
             hex_depth = -1.0 - t_2 - depth_cent * 1.1
 
-        # Part.show(hWire)
-        hFace = Part.Face(hWire)
-        roundtool = hFace.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
+        hFace = fm.GetFace()
+        roundtool = self.RevolveZ(hFace)
 
         # create hexagon
         mhex = Base.Matrix()
@@ -878,25 +824,25 @@ class Screw:
         solidHex.Placement.Base = Base.Vector(0.0, 0.0, h_a)
         allenShell.Placement.Base = Base.Vector(0.0, 0.0, h_a)
 
+        FastenerBase.FSCache[key] = (solidHex, allenShell)
         return solidHex, allenShell
 
     # ISO 10664 Hexalobular internal driving feature for bolts and screws
     def makeIso10664_3(self, RType='T20', t_hl=3.0, h_hl=0):
         # t_hl depth of the recess
         # h_hl top height location of Cutting tool
+
+        key, res = FastenerBase.FSGetKey("HexalobularTool", RType, t_hl, h_hl)
+        if res is not None:
+            return res
+
         A, B, Re = FsData["iso10664def"][RType]
         sqrt_3 = math.sqrt(3.0)
         depth = A / 4.0
         offSet = 1.0
 
-        # Chamfer cutter for the hexalobular recess
-        PntH1 = Base.Vector(0.0, 0.0, -t_hl - depth - 1.0)
-        # PntH2 = Base.Vector(A/2.0*1.02,0.0,-t_hl-depth-1.0)
-        # PntH3 = Base.Vector(A/2.0*1.02,0.0,-t_hl)
-        PntH2 = Base.Vector(A, 0.0, -t_hl - depth - 1.0)
-        PntH3 = Base.Vector(A, 0.0, -t_hl + depth)
-        PntH4 = Base.Vector(0.0, 0.0, -t_hl - depth)
 
+        # Chamfer cutter for the hexalobular recess
         # Points for an arc at the peak of the cone
         rCone = A / 4.0
         hyp = (depth * math.sqrt(A ** 2 / depth ** 2 + 1.0) * rCone) / A
@@ -909,20 +855,15 @@ class Screw:
         zArc2 = zrConeCenter - math.cos(radBeta / 2.0) * rCone
         zArc3 = zrConeCenter - rCone
 
-        PntA1 = Base.Vector(xArc1, 0.0, zArc1)
-        PntA2 = Base.Vector(xArc2, 0.0, zArc2)
-        PntA3 = Base.Vector(0.0, 0.0, zArc3)
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint(0.0, -t_hl - depth - 1.0)
+        fm.AddPoint(A, -t_hl - depth - 1.0)
+        fm.AddPoint(A, -t_hl + depth)
+        fm.AddPoint(xArc1, zArc1)
+        fm.AddArc(xArc2, zArc2, 0.0, zArc3)
 
-        edgeA1 = Part.Arc(PntA1, PntA2, PntA3).toShape()
-
-        edgeH1 = Part.makeLine(PntH1, PntH2)
-        edgeH2 = Part.makeLine(PntH2, PntH3)
-        edgeH3 = Part.makeLine(PntH3, PntA1)
-        edgeH4 = Part.makeLine(PntA3, PntH1)
-
-        hWire = Part.Wire([edgeH1, edgeH2, edgeH3, edgeA1])
-        cutShell = hWire.revolve(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 0.0, 1.0), 360)
-        cutTool = Part.Solid(cutShell)
+        hFace = fm.GetFace()
+        cutTool = self.RevolveZ(hFace)
 
         Ri = -((B + sqrt_3 * (2. * Re - A)) * B + (A - 4. * Re) * A) / (4. * B - 2. * sqrt_3 * A + (4. * sqrt_3 - 8.) * Re)
         # print '2nd  Ri last solution: ', Ri
@@ -983,6 +924,7 @@ class Screw:
         hexlobShell.Placement.Base = Base.Vector(0.0, 0.0, h_hl)
         Helo.Placement.Base = Base.Vector(0.0, 0.0, h_hl)
 
+        FastenerBase.FSCache[key] = (Helo, hexlobShell)
         return Helo, hexlobShell
 
     def setTuner(self, myTuner=511):

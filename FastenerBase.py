@@ -324,8 +324,11 @@ class FSFaceMaker:
         self.lastPoint = curPoint
         # FreeCAD.Console.PrintLog("Add Point: " + str(curPoint) + "\n")
 
-        # add an arc starting at last point and going through x1,z1 and x2,z2
+    def StartPoint(self, x, z):
+        self.Reset()
+        self.AddPoint(x, y)
 
+        # add an arc starting at last point and going through x1,z1 and x2,z2
     def AddArc(self, x1, z1, x2, z2):
         midPoint = FreeCAD.Base.Vector(x1, 0, z1)
         endPoint = FreeCAD.Base.Vector(x2, 0, z2)
@@ -365,13 +368,18 @@ class FSFaceMaker:
             elif len(arg) == 4:
                 self.AddArc(arg[0], arg[1], arg[2], arg[3])
 
-    def GetFace(self):            
-        self.edges.append(Part.makeLine(self.lastPoint, self.firstPoint))
-        w = Part.Wire(self.edges)
-        return Part.Face(w)
-
     def GetWire(self):
         return Part.Wire(self.edges)
+
+    def GetClosedWire(self):            
+        self.edges.append(Part.makeLine(self.lastPoint, self.firstPoint))
+        w = Part.Wire(self.edges)
+        return w
+
+    def GetFace(self):            
+        w = self.GetClosedWire()
+        return Part.Face(w)
+
 
 
 def FSAutoDiameterM(holeObj, table, tablepos):

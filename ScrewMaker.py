@@ -2,9 +2,9 @@
 
 # A Wrapper to Ulrich's screw_maker macro
 
-import FreeCAD, FreeCADGui, Part, math
-from FreeCAD import Base
-import FastenerBase
+#import FreeCAD, FreeCADGui, Part, math
+# from FreeCAD import Base
+#import FastenerBase
 from screw_maker import *
 from FastenerBase import FSParam
 

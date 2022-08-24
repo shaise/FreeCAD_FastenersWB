@@ -56,7 +56,7 @@ def makeSquareTool(s, m):
     return exSquare
 
 
-def sqnutMakeFace(do, di, dw, s, m):
+def sqnutMakeFace(do, di, dw, s, m, shellOnly):
     do = do / 2
     dw = dw / 2
     di = di / 2
@@ -64,33 +64,56 @@ def sqnutMakeFace(do, di, dw, s, m):
     ch2 = (s - dw) * tan30
 
     fm = FastenerBase.FSFaceMaker()
-    fm.AddPoints((di, ch1), (do, 0), (s, 0))
+    if not shellOnly:
+        fm.AddPoint(di, ch1)
+    fm.AddPoints((do, 0), (s, 0))
     if dw > 0:
         fm.AddPoints((s, m - ch2), (dw, m))
     else:
         fm.AddPoint(s, m)
-    fm.AddPoints((do, m), (di, m - ch1))
+    fm.AddPoint(do, m)
+    if shellOnly:
+        return fm.GetWire()
+    fm.AddPoint(di, m - ch1)
     return fm.GetFace()
 
 
 def makeSquareNut(self, fa):
     SType = fa.type
     dia = self.getDia(fa.calc_diam, True)
-   
-    FreeCAD.Console.PrintMessage(SType + "\n")
+
+    # FreeCAD.Console.PrintMessage(SType + "\n")
     if SType == 'DIN557':
         s, m, di, dw, P = fa.dimTable
     elif SType == 'DIN562':
         s, m, di, P = fa.dimTable
         dw = 0
-    section = sqnutMakeFace(dia, di, dw, s, m)
+    do = dia * 1.1
+
+    residue, turns = math.modf(m / P)
+    if residue > 0.0:
+        turns += 1.0
+
+    if fa.thread:
+        threadShell = self.makeInnerThread_2(dia, P, int(turns), do, m)
+            
+    section = sqnutMakeFace(do, di, dw, s, m, fa.thread and threadShell is not None)
     nutSolid = self.RevolveZ(section)
+    if fa.thread:
+        if threadShell is None:
+            # thread shell method failed, use slower method
+            FreeCAD.Console.PrintLog("Revert to slow thread generation\n")
+            turns += 1
+            threadCutter = self.makeInnerThread_2(dia, P, int(turns), None, m)
+            threadCutter.translate(Base.Vector(0.0, 0.0, m + P))
+            # Part.show(threadCutter, 'threadCutter')
+            nutSolid = nutSolid.cut(threadCutter)
+        else:
+            # FreeCAD.Console.PrintMessage(str((dia, P, int(turns), do, m)) + "\n")
+            nutFaces = nutSolid.Faces
+            nutFaces.extend(threadShell.Faces)
+            nutShell = Part.Shell(nutFaces)
+            nutSolid = Part.Solid(nutShell)
     htool = makeSquareTool(s, m)
     nutSolid = nutSolid.cut(htool)
-    if fa.thread:
-        turns = int(m / P) + 2
-        threadCutter = self.makeInnerThread_2(dia, P, turns, None, m)
-        threadCutter.translate(Base.Vector(0.0, 0.0, m + P))
-        # Part.show(threadCutter, 'threadCutter')
-        nutSolid = nutSolid.cut(threadCutter)
     return nutSolid

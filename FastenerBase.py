@@ -326,7 +326,7 @@ class FSFaceMaker:
 
     def StartPoint(self, x, z):
         self.Reset()
-        self.AddPoint(x, y)
+        self.AddPoint(x, z)
 
         # add an arc starting at last point and going through x1,z1 and x2,z2
     def AddArc(self, x1, z1, x2, z2):

@@ -410,10 +410,12 @@ class Screw:
         d = float(d)
         bot_off = 0.0  # nominal length
 
-        if d > 52.0:
-            fuzzyValue = 5e-5
-        else:
-            fuzzyValue = 0.0
+        # if d > 52.0:
+        #     fuzzyValue = 5e-5
+        # else:
+        #     fuzzyValue = 0.0
+
+        fuzzyValue = 5e-4
 
         H = P * cos30  # Thread depth H
         r = d / 2.0
@@ -459,7 +461,7 @@ class Screw:
                 for flaeche in TheShell.Faces:
                     TheFaces.append(flaeche)
 
-            FreeCAD.Console.PrintMessage("Base-Shell: " + str(i) + "\n")
+            # FreeCAD.Console.PrintMessage("Base-Shell: " + str(i) + "\n")
             # Make separate faces for the tip of the screw
             botFaces = []
             for i in range(rotations - 2, rotations, 1):
@@ -509,45 +511,32 @@ class Screw:
             cham_i = 2 * H * math.tan(math.radians(15.0))  # inner chamfer
 
             # points for chamfer: cut-Method
-            pch0 = (da / 2.0 - 2 * H, 0.0, +cham_i)  # bottom chamfer
-            pch1 = (da / 2.0, 0.0, 0.0)  #
-            pch2 = (da / 2.0, 0.0, - 2.1 * P)
-            pch3 = (da / 2.0 - 2 * H, 0.0, - 2.1 * P)  #
-
-            # pch2 =  (da/2.0, 0.0, l)
-            # pch3 =  (da/2.0 - 2*H, 0.0, l - cham_i)
-
-            edgech0 = Part.makeLine(pch0, pch1)
-            edgech1 = Part.makeLine(pch1, pch2)
-            edgech2 = Part.makeLine(pch2, pch3)
-            edgech3 = Part.makeLine(pch3, pch0)
-
-            Wch_wire = Part.Wire([edgech0, edgech1, edgech2, edgech3])
-            bottom_Face = Part.Face(Wch_wire)
+            fm = FastenerBase.FSFaceMaker()
+            da2 = da / 2.0
+            fm.AddPoint(da2 - 2 * H, +cham_i)
+            fm.AddPoint(da2, 0.0)
+            fm.AddPoint(da2, - 2.1 * P)
+            fm.AddPoint(da2 - 2 * H, - 2.1 * P)
+            bottom_Face = fm.GetFace()
             bottom_Solid = self.RevolveZ(bottom_Face)
             # Part.show(cham_Solid, 'cham_Solid')
             # Part.show(Wch_wire)
             bottomChamferFace = bottom_Solid.Faces[0]
 
             # points for chamfer: cut-Method
-            pch0t = (da / 2.0 - 2 * H, 0.0, l - cham_i)  # top chamfer
-            pch1t = (da / 2.0, 0.0, l)  #
-            pch2t = (da / 2.0, 0.0, l + 4 * P)
-            pch3t = (da / 2.0 - 2 * H, 0.0, l + 4 * P)  #
+            fm.StartPoint(da / 2.0 - 2 * H, l - cham_i)
+            fm.AddPoint(da / 2.0, l)
+            fm.AddPoint(da / 2.0, l + 4 * P)
+            fm.AddPoint(da / 2.0 - 2 * H, l + 4 * P)
+            top_Face = fm.GetFace()
 
-            edgech0t = Part.makeLine(pch0t, pch1t)
-            edgech1t = Part.makeLine(pch1t, pch2t)
-            edgech2t = Part.makeLine(pch2t, pch3t)
-            edgech3t = Part.makeLine(pch3t, pch0t)
-
-            Wcht_wire = Part.Wire([edgech0t, edgech1t, edgech2t, edgech3t])
-            top_Face = Part.Face(Wcht_wire)
             top_Solid = self.RevolveZ(top_Face)
             # Part.show(top_Solid, 'top_Solid')
             # Part.show(Wch_wire)
             topChamferFace = top_Solid.Faces[0]
 
             threeThreadFaces = TheFaces.copy()
+
             for k in range(1):
                 TheShell.translate(FreeCAD.Vector(0.0, 0.0, P))
                 for threadFace in TheShell.Faces:
@@ -559,6 +548,7 @@ class Screw:
 
             bottomPart = chamferShell.cut(bottom_Solid)
             # Part.show(bottomPart, 'bottomPart')
+            # chamferShell.rotate(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 90)
             bottomFuse, bottomMap = bottomChamferFace.generalFuse([chamferShell], fuzzyValue)
             # print ('bottomMap: ', bottomMap)
             # chamFuse, chamMap = chamferShell.generalFuse([bottomChamferFace])
@@ -566,6 +556,8 @@ class Screw:
             # Part.show(bottomFuse, 'bottomFuse')
             # Part.show(bottomMap[0][0], 'bMap0')
             # Part.show(bottomMap[0][1], 'bMap1')
+            if len(bottomMap[0]) < 2:
+                return None
             innerThreadFaces = [bottomMap[0][1]]
             for face in bottomPart.Faces:
                 innerThreadFaces.append(face)
@@ -577,13 +569,17 @@ class Screw:
                 TheShell.translate(FreeCAD.Vector(0.0, 0.0, P))
                 for threadFace in TheShell.Faces:
                     innerThreadFaces.append(threadFace)
-            # testShell = Part.Shell(innerThreadFaces)
+            testShell = Part.Shell(innerThreadFaces)
             # Part.show(testShell, 'testShell')
 
             chamferShell.translate(FreeCAD.Vector(0.0, 0.0, (rotations - 1) * P))
             # Part.show(chamferShell, 'chamferShell')
             # Part.show(topChamferFace, 'topChamferFace')
-            topPart = chamferShell.cut(top_Solid)
+            topPart = chamferShell.cut(top_Solid) 
+            # FreeCAD.Console.PrintMessage("chamferShell: " + str(len(chamferShell.Faces)) + " faces, topPart: " + str(len(topPart.Faces)) + " faces\n")
+            if len(topPart.Faces) >len(chamferShell.Faces):
+                # cut operation failed
+                return None
             # Part.show(topPart, 'topPart')
             for face in topPart.Faces:
                 innerThreadFaces.append(face)
@@ -593,6 +589,8 @@ class Screw:
             # Part.show(topMap[0][0], 'tMap0')
             # Part.show(topMap[0][1], 'tMap1')
             # Part.show(topFuse, 'topFuse')
+            if len(topMap[0]) < 2:
+                return None
             innerThreadFaces.append(topMap[0][1])
 
             # topFaces = []

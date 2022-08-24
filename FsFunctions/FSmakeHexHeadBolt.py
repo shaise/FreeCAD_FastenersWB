@@ -92,7 +92,7 @@ def makeHexHeadBolt(self, fa): # dynamically loaded method of class Screw
                             edgeZ1, edgeZ0])
 
         aFace = Part.Face(aWire)
-        head = self.RevolveZ(aFace.revolve)
+        head = self.RevolveZ(aFace)
         # FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
         #Part.show(head1)
 

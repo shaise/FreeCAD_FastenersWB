@@ -32,7 +32,7 @@ from screw_maker import *
 def makeScrewTap(self, fa): # dynamically loaded method of class Screw
     ThreadType = fa.calc_diam
     # FreeCAD.Console.PrintMessage("tt:" + ThreadType + "cdia: " + str(fa.calc_diam) + "\n")
-    if ThreadType != 'Custom':
+    if fa.diameter != 'Custom':
         dia = self.getDia(ThreadType, True)
         if fa.type == "ScrewTap":
             P, tunIn, tunEx = fa.dimTable
@@ -41,9 +41,9 @@ def makeScrewTap(self, fa): # dynamically loaded method of class Screw
     else:  # custom pitch and diameter
         P = fa.calc_pitch
         if self.sm3DPrintMode:
-            dia = self.smNutThrScaleA * fa.calc_diam + self.smNutThrScaleB
+            dia = self.smNutThrScaleA * float(fa.calc_diam) + self.smNutThrScaleB
         else:
-            dia = fa.calc_diam
+            dia = float(fa.calc_diam)
     residue, turns = math.modf(fa.calc_len / P)
     # FreeCAD.Console.PrintMessage("turns:" + str(turns) + "res: " + str(residue) + "\n")
     if residue > 0.00001:

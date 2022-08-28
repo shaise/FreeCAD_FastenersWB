@@ -31,7 +31,7 @@ from screw_maker import *
 
 def makeThreadedRod(self, fa): # dynamically loaded method of class Screw
     ThreadType = fa.calc_diam
-    if ThreadType != 'Custom':
+    if fa.diameter != 'Custom':
         dia = self.getDia(ThreadType, False)
         if fa.type == 'ThreadedRod':
             P, tunIn, tunEx = fa.dimTable
@@ -40,9 +40,9 @@ def makeThreadedRod(self, fa): # dynamically loaded method of class Screw
     else:  # custom pitch and diameter
         P = fa.calc_pitch
         if self.sm3DPrintMode:
-            dia = self.smScrewThrScaleA * fa.calc_diam + self.smScrewThrScaleB
+            dia = self.smScrewThrScaleA * float(fa.calc_diam) + self.smScrewThrScaleB
         else:
-            dia = fa.calc_diam
+            dia = float(fa.calc_diam)
     dia = dia * 1.01
     cham = P
     l = fa.calc_len

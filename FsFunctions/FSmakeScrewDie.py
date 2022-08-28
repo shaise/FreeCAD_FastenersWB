@@ -30,7 +30,7 @@ from screw_maker import *
 # make object to cut external threads on a shaft
 def makeScrewDie(self, fa): # dynamically loaded method of class Screw
     ThreadType = fa.calc_diam
-    if ThreadType != "Custom":
+    if fa.diameter != "Custom":
         dia = self.getDia(ThreadType, False)
         if fa.type == "ScrewDie":
             P, tunIn, tunEx = fa.dimTable
@@ -39,9 +39,9 @@ def makeScrewDie(self, fa): # dynamically loaded method of class Screw
     else:  # custom pitch and diameter
         P = fa.calc_pitch
         if self.sm3DPrintMode:
-            dia = self.smScrewThrScaleA * fa.calc_diam + self.smScrewThrScaleB
+            dia = self.smScrewThrScaleA * float(fa.calc_diam) + self.smScrewThrScaleB
         else:
-            dia = fa.calc_diam
+            dia = float(fa.calc_diam)
     if fa.thread:
         cutDia = dia * 0.75
     else:

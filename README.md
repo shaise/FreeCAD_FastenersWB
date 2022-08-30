@@ -126,10 +126,10 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 * V0.4.03  16 Aug 2022:  Refactor FastenerWB, stage 4 (last):  
                        - Cleanup and bug fixes  
                        - Move all remaining fasteners into the new system  
-                       - Add real threads to all fasterners missing it  
+                       - Add real threads to all fasteners missing it  
 * V0.4.02  16 Aug 2022:  Refactor FastenerWB, stage 3 - Change fastener tables naming and usage. 
 * V0.4.01  14 Aug 2022:  Refactor FastenerWB, stage 2 - Move rod an some nut functions to the new system. 
-* V0.4.00  12 Aug 2022:  Refactor FastenerWB, stage 1 - split screw_maker fastener creation function to seperate files. 
+* V0.4.00  12 Aug 2022:  Refactor FastenerWB, stage 1 - split screw_maker fastener creation function to separate files. 
 * V0.3.51  08 Aug 2022:  Refactor MakeShellthread to simplify function interface. 
 * V0.3.50  17 Jul 2022:  Add inch socket low head cap screws by @alexneufeld. Thanks!
 * V0.3.49  14 Jul 2022:  Add DIN 1587 Cap Nuts by @alexneufeld. Thanks!

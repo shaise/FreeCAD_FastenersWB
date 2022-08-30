@@ -33,7 +33,7 @@ import ScrewMaker
 
 screwMaker = ScrewMaker.Instance()
 
-# functions for backward compatability. suggest to delete this file starting from FreeCAD 0.23
+# functions for backward compatibility. suggest to delete this file starting from FreeCAD 0.23
 
 
 class FSPressNutObject(FSScrewObject):

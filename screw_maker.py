@@ -335,7 +335,7 @@ class Screw:
         if sweep.isReady():
             sweep.build()
         else:
-            # geometry couldn't be generated in a useable form
+            # geometry couldn't be generated in a usable form
             raise RuntimeError("Failed to create shell thread: could not sweep thread")
         sweep.makeSolid()
         return sweep.shape()

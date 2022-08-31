@@ -271,37 +271,55 @@ def FSRemoveDigits(txt):
     return res
 
 
-# get number of links to this object
-def GetNumLinks(obj):
-    cnt = 0
-    for parent in obj.InList:
-        if parent.TypeId == 'App::Link':
-            if parent.ElementCount > 0:
-                cnt = cnt + parent.ElementCount
-            else:
-                cnt = cnt + 1
-    return cnt
-
-
 # get total count of a selected object taking arrays/links into account
 def GetTotalObjectRepeats(obj):
-    cnt = 0
+    cnt = 1 if obj.Visibility else 0
+
     for parent in obj.InList:
-        numreps = 1
-        if parent.TypeId != 'App::Link' and parent.TypeId != "App::LinkElement" and parent.TypeId != 'App::DocumentObjectGroup':
-            # if parent.TypeId == 'Part::FeaturePython':
-            if hasattr(parent, 'ArrayType'):
-                if parent.ArrayType == 'ortho':
-                    numreps = parent.NumberX * parent.NumberY * parent.NumberZ
-                elif parent.ArrayType == 'polar':
-                    numreps = parent.NumberPolar
-            # print (parent.Name + ", " + str(numreps) + ", " + str(GetTotalObjectRepeats(parent)) + ", " + str(GetNumLinks(parent)) + "\n")
+        if parent.TypeId in ('App::LinkElement', 'App::DocumentObjectGroup'):
+            continue
+
+        numreps = 0
+
+        if parent.TypeId == 'App::Part':
+            if obj.Visibility:
+                cnt -= 1 # obj has already been counted, without this we would count it twice
+                numreps = 1
+        elif parent.TypeId == 'App::Link':
+            if parent.ElementCount > 0:
+                numreps = parent.VisibilityList.count(True) # note: VisibilityList is a tuple
+            else:
+                numreps = 1
+        # Draft clones and arrays:
+        elif not hasattr(parent, 'Proxy'):
+            continue
+        elif not hasattr(parent.Proxy, 'Type'):
+            continue
+        elif parent.Proxy.Type == 'Clone':
+            numreps = 1
+        elif parent.Proxy.Type in ('Array', 'PathArray', 'PointArray'):
+            # All Link arrays (ortho, polar, circular, path and point) can be
+            # expanded to control the visibility of individual elements via its
+            # VisibilityList. A Link array that has never been expanded has an
+            # empty VisibilityList so we need to check for that.
+            if hasattr(parent, 'VisibilityList') and parent.VisibilityList:
+                numreps = parent.VisibilityList.count(True)
+            # path arrays, point arrays and all Link arrays have a Count property:
+            elif hasattr(parent, 'Count'):
+                numreps = parent.Count
+            # non-Link ortho arrays:
+            elif parent.ArrayType == 'ortho':
+                numreps = parent.NumberX * parent.NumberY * parent.NumberZ
+            # non-Link polar arrays:
+            elif parent.ArrayType == 'polar':
+                numreps = parent.NumberPolar
+            # non-Link circular arrays are not handled.
+
+        if numreps != 0:
             parentreps = GetTotalObjectRepeats(parent)
-            parentlinks = GetNumLinks(parent)
-            # FreeCAD.Console.PrintLog("Parent:" + parent.Name + "/" + parent.TypeId + ", Reps:" + str(parentreps) + ", Links:" + str(parentlinks))
-            cnt += numreps * (parentreps + parentlinks)
-    if cnt == 0:
-        cnt = 1
+            # print('Parent:' + parent.Name + '/' + parent.TypeId + ', Reps:' + str(parentreps))
+            cnt += numreps * parentreps
+
     return cnt
 
 
@@ -310,7 +328,7 @@ class FSFaceMaker:
 
     def __init__(self):
         self.Reset()
-        
+
     def Reset(self):
         self.edges = []
         self.firstPoint = None
@@ -371,12 +389,12 @@ class FSFaceMaker:
     def GetWire(self):
         return Part.Wire(self.edges)
 
-    def GetClosedWire(self):            
+    def GetClosedWire(self):
         self.edges.append(Part.makeLine(self.lastPoint, self.firstPoint))
         w = Part.Wire(self.edges)
         return w
 
-    def GetFace(self):            
+    def GetFace(self):
         w = self.GetClosedWire()
         return Part.Face(w)
 
@@ -820,8 +838,8 @@ class FSMakeBomCommand:
         sheet.set('B1', "Qty")
         for obj in FreeCAD.ActiveDocument.Objects:
             name = FSRemoveDigits(obj.Name)
-            # apply arrays
-            cnt = GetTotalObjectRepeats(obj) * (1 + GetNumLinks(obj))
+            # get total count
+            cnt = GetTotalObjectRepeats(obj)
             # FreeCAD.Console.PrintLog("Using method: Add" + name + "\n")
             method = getattr(self, 'Add' + name, lambda x, y: "nothing")
             method(obj, cnt)

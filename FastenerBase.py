@@ -552,6 +552,7 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
         if hasattr(s.Curve, "Center"):
             Pnt1 = s.Curve.Center
             Axis1 = s.Curve.Axis
+            # FreeCAD.Console.PrintMessage("center: "+ str(Pnt1) + "\n")
     if hasattr(s, 'Surface'):
         # print 'the object is a face!'
         if hasattr(s.Surface, 'Axis'):
@@ -587,13 +588,13 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
         cos_res = math.cos(result / 2.0)
         normvec.multiply(-sin_res)  # Calculation of the quaternion elements
 
-        # FreeCAD.Console.PrintLog( "Angle = "+ str(math.degrees(result)) + "\n")
-        # FreeCAD.Console.PrintLog("Normal vector: "+ str(normvec) + "\n")
+        # FreeCAD.Console.PrintMessage( "Angle = "+ str(math.degrees(result)) + "\n")
+        # FreeCAD.Console.PrintMessage("Normal vector: "+ str(normvec) + "\n")
 
         pl = FreeCAD.Placement()
         pl.Rotation = (normvec.x, normvec.y, normvec.z, cos_res)  # Rotation quaternion
 
-        # FreeCAD.Console.PrintLog("pl mit Rot: "+ str(pl) + "\n")
+        # FreeCAD.Console.PrintMessage("pl mit Rot: "+ str(pl) + "\n")
         ScrewObj_m.Placement = FreeCAD.Placement()
         ScrewObj_m.Placement.Rotation = pl.Rotation.multiply(ScrewObj_m.Placement.Rotation)
         ScrewObj_m.Placement.move(Pnt1)
@@ -672,8 +673,9 @@ class FSMoveCommand:
             obj = selObj.Object
             if hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSBaseObject):
                 screwObj = obj
-            elif len(selObj.SubObjects) == 1 and isinstance(selObj.SubObjects[0], Part.Edge):
-                edgeObj = (obj, [selObj.SubElementNames[0]])
+        aselects = FastenerBase.FSGetAttachableSelections()
+        if len(aselects) > 0:
+            edgeObj = aselects[0]
         return screwObj, edgeObj
 
 

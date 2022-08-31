@@ -30,7 +30,6 @@ fnWB_icons_path =  os.path.join( fnWBpath, 'Icons')
 global main_fnWB_Icon
 main_fnWB_Icon = os.path.join( fnWB_icons_path , 'FNLogo.svg')
 
-FASTENERSWB_VERSION = 'V0.3.40'
 
 class FastenersWorkbench (Workbench):
  
@@ -69,6 +68,8 @@ class FastenersWorkbench (Workbench):
  
     def Activated(self):
         "This function is executed when the workbench is activated"
+        import FastenerBase
+        FastenerBase.InitCheckables()
         return
  
     def Deactivated(self):

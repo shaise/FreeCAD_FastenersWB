@@ -33,6 +33,11 @@ from screw_maker import *
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join( __dir__, 'Icons' )
 
+matchOuterButton = None
+matchOuterButtonText = 'Match for pass hole'
+matchInnerButton = None
+matchInnerButtonText = 'Match for tap hole'
+
 class FSBaseObject:
     '''Base Class for all fasteners'''
 
@@ -170,7 +175,7 @@ def FSShowError():
 
 # get instance of a toolbar item
 def FSGetToolbarItem(tname, iname):
-    mw = QtGui.qApp.activeWindow()
+    mw = QtGui.QApplication.activeWindow()
     tb = None
     for c in mw.children():
         if isinstance(c, QtGui.QToolBar) and c.windowTitle() == tname:
@@ -760,26 +765,34 @@ class FSToggleMatchTypeCommand:
 
 # freecad v0.16 version:
 class FSMatchTypeInnerCommand:
-    def Activated(self, index):
-        pass
+    def Activated(self):
+        global FSMatchOuter
+        matchInnerButton.setChecked(True)
+        matchOuterButton.setChecked(False)
+        FSMatchOuter = False
+        FreeCAD.Console.PrintLog("Set auto diameter to match inner thread\n")
 
     def GetResources(self):
         return {
             'Pixmap': os.path.join(iconPath, 'IconMatchTypeInner.svg'),
-            'MenuText': 'Match screws by inner thread diameter (Tap hole)',
-            'Checkable': True
+            'MenuText': matchInnerButtonText,
+            'ToolTip': 'Match screws by inner thread diameter (Tap hole)' #,'Checkable': True
         }
 
 
 class FSMatchTypeOuterCommand:
-    def Activated(self, index):
-        pass
+    def Activated(self): #, index):
+        global FSMatchOuter
+        matchInnerButton.setChecked(False)
+        matchOuterButton.setChecked(True)
+        FSMatchOuter = True
+        FreeCAD.Console.PrintLog("Set auto diameter to match outer thread\n")
 
     def GetResources(self):
         return {
             'Pixmap': os.path.join(iconPath, 'IconMatchTypeOuter.svg'),
-            'MenuText': 'Match screws by outer thread diameter (Pass hole)',
-            'Checkable': False
+            'MenuText': matchOuterButtonText,
+            'ToolTip': 'Match screws by outer thread diameter (Pass hole)'# ,'Checkable': False
         }
 
 
@@ -811,8 +824,10 @@ class FSMatchTypeGroupCommand:
 if RadioButtonSupported:
     FreeCADGui.addCommand('FSMatchTypeInner',FSMatchTypeInnerCommand())
     FreeCADGui.addCommand('FSMatchTypeOuter',FSMatchTypeOuterCommand())
-    FreeCADGui.addCommand('FSMatchTypeGroup',FSMatchTypeGroupCommand())
-    FSCommands.append('FSMatchTypeGroup', "command")
+    FSCommands.append('FSMatchTypeInner', "command")
+    FSCommands.append('FSMatchTypeOuter', "command")
+    # FreeCADGui.addCommand('FSMatchTypeGroup',FSMatchTypeGroupCommand())
+    # FSCommands.append('FSMatchTypeGroup', "command")
 else:
     Gui.addCommand('FSToggleMatchType',FSToggleMatchTypeCommand())
     FSCommands.append('FSToggleMatchType', "command")
@@ -901,3 +916,12 @@ class FSMakeBomCommand:
 
 Gui.addCommand('FSMakeBOM', FSMakeBomCommand())
 FSCommands.append('FSMakeBOM', "command")
+
+def InitCheckables():
+    global matchOuterButton, matchInnerButton, FSMatchOuter
+    matchOuterButton = FSGetToolbarItem("FS Commands", matchOuterButtonText)
+    matchOuterButton.setCheckable(True)
+    matchOuterButton.setChecked(FSMatchOuter)
+    matchInnerButton = FSGetToolbarItem("FS Commands", matchInnerButtonText)
+    matchInnerButton.setCheckable(True)
+    matchInnerButton.setChecked(not FSMatchOuter)

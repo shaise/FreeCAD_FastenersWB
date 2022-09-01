@@ -3,7 +3,7 @@
 # A Wrapper to Ulrich's screw_maker macro
 
 from screw_maker import *
-from FastenerBase import FSParam
+from FastenerBase import FSParam, FsTitles
 
 FSCScrewHoleChart = (
     ("M1", 0.75),

@@ -90,11 +90,10 @@ import errno
 import FreeCAD, Part, math, os
 from FreeCAD import Base
 import DraftVecUtils
-from pathlib import Path
 import importlib
 import FastenerBase
+from FastenerBase import FsData
 
-from utils import csv2dict
 #from FastenersCmd import FastenerAttribs
 
 #import FSmakeCountersunkHeadScrew
@@ -102,25 +101,9 @@ from utils import csv2dict
 
 DEBUG = False # set to True to show debug messages; does not work, still todo.
 
-# import fastener data
-__dir__ = os.path.dirname(__file__)
-fsdatapath = os.path.join(__dir__, 'FsData')
-
 # some common constants
 sqrt3 = math.sqrt(3)
 cos30 = math.cos(math.radians(30))
-
-# function to open a csv file and convert it to a dictionary
-FsData = {}
-FsTitles = {}
-filelist = Path(fsdatapath).glob('*.csv')
-for item in filelist:
-    tables = csv2dict(str(item), item.stem, fieldsnamed=True)
-    for tablename in tables.keys():
-        if tablename == 'titles':
-            FsTitles.update(tables[tablename])
-        else:
-            FsData[tablename] = tables[tablename]
 
 class Screw:
     def __init__(self):

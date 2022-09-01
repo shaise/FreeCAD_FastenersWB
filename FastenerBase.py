@@ -26,17 +26,35 @@ from FreeCAD import Gui
 from FreeCAD import Base
 from PySide import QtGui
 import FreeCAD, FreeCADGui, Part, os, math, sys
+from pathlib import Path
 import DraftVecUtils
 import re
-from screw_maker import *
+from utils import csv2dict
+#from screw_maker import *
 
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join( __dir__, 'Icons' )
+# import fastener data
+fsdatapath = os.path.join(__dir__, 'FsData')
 
 matchOuterButton = None
 matchOuterButtonText = 'Match for pass hole'
 matchInnerButton = None
 matchInnerButtonText = 'Match for tap hole'
+
+
+# function to open a csv file and convert it to a dictionary
+FsData = {}
+FsTitles = {}
+filelist = Path(fsdatapath).glob('*.csv')
+for item in filelist:
+    tables = csv2dict(str(item), item.stem, fieldsnamed=True)
+    for tablename in tables.keys():
+        if tablename == 'titles':
+            FsTitles.update(tables[tablename])
+        else:
+            FsData[tablename] = tables[tablename]
+
 
 class FSBaseObject:
     '''Base Class for all fasteners'''
@@ -678,7 +696,7 @@ class FSMoveCommand:
             obj = selObj.Object
             if hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSBaseObject):
                 screwObj = obj
-        aselects = FastenerBase.FSGetAttachableSelections()
+        aselects = FSGetAttachableSelections()
         if len(aselects) > 0:
             edgeObj = aselects[0]
         return screwObj, edgeObj

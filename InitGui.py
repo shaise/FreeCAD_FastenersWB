@@ -44,6 +44,9 @@ class FastenersWorkbench (Workbench):
         import os
         import FastenerBase, FSScrewCalc, PEMInserts, FastenersCmd
         import CountersunkHoles, FSChangeParams
+        from TranslateUtils import QT_TRANSLATE_NOOP
+        from TranslateUtils import translate
+        from TranslateUtils import tr_
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command") 
         self.appendToolbar("FS Commands",cmdlist) 
@@ -65,6 +68,13 @@ class FastenersWorkbench (Workbench):
           self.list.extend(screwlist)
         FreeCADGui.addIconPath(FastenerBase.iconPath)
         FreeCADGui.addPreferencePage( os.path.join( FastenerBase.__dir__, 'FSprefs.ui'),'Fasteners' )
+        
+        # add translations path
+        LanguagePath = os.path.join(FastenerBase.__dir__,"translations")
+        FreeCADGui.addLanguagePath(LanguagePath)
+        FreeCADGui.updateLocale()
+        print("languagePath of Fasteners Workbench is: {}".format(LanguagePath))
+        print(translate("InitGui", "Translate this text"))
  
     def Activated(self):
         "This function is executed when the workbench is activated"

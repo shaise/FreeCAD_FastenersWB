@@ -4,7 +4,7 @@
 <context>
     <name>InitGui</name>
     <message>
-        <location filename="a2plib.py" line="1130"/>
+        <location filename="InitGui.py" line="77"/>
         <source>Translate this text</source>
         <translation>Texto traduzido</translation>
     </message>

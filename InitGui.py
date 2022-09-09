@@ -59,10 +59,10 @@ class FastenersWorkbench (Workbench):
           if isinstance(cmd, tuple): # group in sub toolbars        
             self.appendToolbar(cmd[0],cmd[1]) 
             self.list.extend(cmd[1])
-            self.appendMenu(["Fasteners","Add " + cmd[2]],cmd[1])
+            self.appendMenu([translate("InitGui", "Fasteners"),translate("InitGui", "Add ") + cmd[2]],cmd[1])
           else:
             screwlist.append(cmd)
-            self.appendMenu(["Fasteners","Add Fasteners"],cmd)
+            self.appendMenu([translate("InitGui", "Fasteners"),translate("InitGui", "Add Fasteners")],cmd)
         if len(screwlist) > 0:
           self.appendToolbar("FS Screws",screwlist) # creates main screw toolbar
           self.list.extend(screwlist)

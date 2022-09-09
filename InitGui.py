@@ -50,7 +50,7 @@ class FastenersWorkbench (Workbench):
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command") 
         self.appendToolbar("FS Commands",cmdlist) 
-        self.appendMenu("Fasteners",cmdlist) # creates a new menu
+        self.appendMenu(translate("InitGui", "Fasteners"),cmdlist) # creates a new menu
         self.list.extend(cmdlist)
         screwlist1 = FastenerBase.FSGetCommands("screws") 
         screwlist = []

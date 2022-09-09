@@ -123,6 +123,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes 
+* V0.4.05  09 Sep 2022:  Add support for language translations by @riqueenz  
 * V0.4.04  05 Sep 2022:  Several bug fixes after refactor  
 * V0.4.03  16 Aug 2022:  Refactor FastenerWB, stage 4 (last):  
                        - Cleanup and bug fixes  

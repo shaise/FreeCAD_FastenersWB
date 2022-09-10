@@ -47,10 +47,18 @@ class FastenersWorkbench (Workbench):
         from TranslateUtils import QT_TRANSLATE_NOOP
         from TranslateUtils import translate
         from TranslateUtils import tr_
+        
+        # add translations path
+        LanguagePath = os.path.join(FastenerBase.__dir__,"translations")
+        FreeCADGui.addLanguagePath(LanguagePath)
+        FreeCADGui.updateLocale()
+        print("languagePath of Fasteners Workbench is: {}".format(LanguagePath))
+        print(translate("InitGui", "Translate this text"))
+        
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command") 
         self.appendToolbar("FS Commands",cmdlist) 
-        self.appendMenu("Fasteners",cmdlist) # creates a new menu
+        self.appendMenu(translate("InitGui", "Fasteners"),cmdlist).toUtf8() # creates a new menu
         self.list.extend(cmdlist)
         screwlist1 = FastenerBase.FSGetCommands("screws") 
         screwlist = []
@@ -59,22 +67,15 @@ class FastenersWorkbench (Workbench):
           if isinstance(cmd, tuple): # group in sub toolbars        
             self.appendToolbar(cmd[0],cmd[1]) 
             self.list.extend(cmd[1])
-            self.appendMenu(["Fasteners","Add " + cmd[2]],cmd[1])
+            self.appendMenu([translate("InitGui", "Fasteners"),translate("InitGui", "Add ") + cmd[2]],cmd[1])
           else:
             screwlist.append(cmd)
-            self.appendMenu(["Fasteners","Add Fasteners"],cmd)
+            self.appendMenu([translate("InitGui", "Fasteners"),translate("InitGui", "Add Fasteners")],cmd)
         if len(screwlist) > 0:
           self.appendToolbar("FS Screws",screwlist) # creates main screw toolbar
           self.list.extend(screwlist)
         FreeCADGui.addIconPath(FastenerBase.iconPath)
         FreeCADGui.addPreferencePage( os.path.join( FastenerBase.__dir__, 'FSprefs.ui'),'Fasteners' )
-        
-        # add translations path
-        LanguagePath = os.path.join(FastenerBase.__dir__,"translations")
-        FreeCADGui.addLanguagePath(LanguagePath)
-        FreeCADGui.updateLocale()
-        print("languagePath of Fasteners Workbench is: {}".format(LanguagePath))
-        print(translate("InitGui", "Translate this text"))
  
     def Activated(self):
         "This function is executed when the workbench is activated"

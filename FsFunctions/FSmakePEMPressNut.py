@@ -62,7 +62,7 @@ def makePEMPressNut(self, fa):
     diam = fa.calc_diam
     code = fa.tcode
 
-    i = FsTitles[fa.type + "tcodes"].index(code)
+    i = FastenerBase.FsTitles[fa.type + "tcodes"].index(code)
 
     c, e, t, di = fa.dimTable
     a = FsData[fa.type + "tcodes"][diam][i]

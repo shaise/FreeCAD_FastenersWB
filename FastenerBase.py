@@ -33,9 +33,8 @@ from utils import csv2dict
 #from screw_maker import *
 from TranslateUtils import *
 
-# add translations path
-__dir__ = os.path.dirname(__file__)
 
+__dir__ = os.path.dirname(__file__)
 iconPath = os.path.join( __dir__, 'Icons' )
 # import fastener data
 fsdatapath = os.path.join(__dir__, 'FsData')

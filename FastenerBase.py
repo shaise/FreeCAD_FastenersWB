@@ -31,8 +31,11 @@ import DraftVecUtils
 import re
 from utils import csv2dict
 #from screw_maker import *
+from TranslateUtils import *
 
+# add translations path
 __dir__ = os.path.dirname(__file__)
+
 iconPath = os.path.join( __dir__, 'Icons' )
 # import fastener data
 fsdatapath = os.path.join(__dir__, 'FsData')
@@ -631,7 +634,7 @@ class FSFlipCommand:
         icon = os.path.join(iconPath, 'IconFlip.svg')
         return {
             'Pixmap': icon,  # the name of a svg file available in the resources
-            'MenuText': "Invert fastener",
+            'MenuText': translate("FastenerBase", "Invert fastener"),
             'ToolTip': "Invert fastener orientation"
         }
 

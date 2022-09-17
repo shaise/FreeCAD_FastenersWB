@@ -31,6 +31,8 @@ import DraftVecUtils
 import re
 from utils import csv2dict
 #from screw_maker import *
+from TranslateUtils import *
+
 
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join( __dir__, 'Icons' )
@@ -38,9 +40,9 @@ iconPath = os.path.join( __dir__, 'Icons' )
 fsdatapath = os.path.join(__dir__, 'FsData')
 
 matchOuterButton = None
-matchOuterButtonText = 'Match for pass hole'
+matchOuterButtonText = translate("FastenerBase", 'Match for pass hole')
 matchInnerButton = None
-matchInnerButtonText = 'Match for tap hole'
+matchInnerButtonText = translate("FastenerBase", 'Match for tap hole')
 
 
 # function to open a csv file and convert it to a dictionary
@@ -631,8 +633,8 @@ class FSFlipCommand:
         icon = os.path.join(iconPath, 'IconFlip.svg')
         return {
             'Pixmap': icon,  # the name of a svg file available in the resources
-            'MenuText': "Invert fastener",
-            'ToolTip': "Invert fastener orientation"
+            'MenuText': translate("FastenerBase", "Invert fastener"),
+            'ToolTip': translate("FastenerBase", "Invert fastener orientation")
         }
 
     def Activated(self):
@@ -671,8 +673,8 @@ class FSMoveCommand:
         icon = os.path.join(iconPath, 'IconMove.svg')
         return {
             'Pixmap': icon,  # the name of a svg file available in the resources
-            'MenuText': "Move fastener",
-            'ToolTip': "Move fastener to a new location"
+            'MenuText': translate("FastenerBase", "Move fastener"),
+            'ToolTip': translate("FastenerBase", "Move fastener to a new location")
         }
 
     def Activated(self):
@@ -713,8 +715,8 @@ class FSMakeSimpleCommand:
         icon = os.path.join(iconPath, 'IconShape.svg')
         return {
             'Pixmap': icon,  # the name of a svg file available in the resources
-            'MenuText': "Simplify shape",
-            'ToolTip': "Change object to simple non-parametric shape"
+            'MenuText': translate("FastenerBase", "Simplify shape"),
+            'ToolTip': translate("FastenerBase", "Change object to simple non-parametric shape")
         }
 
     def Activated(self):
@@ -747,13 +749,13 @@ class FSToggleMatchTypeCommand:
     """Toggle screw matching method"""
 
     def GetResources(self):
-        self.menuText = "Toggle Match Type"
+        self.menuText = translate("FastenerBase", "Toggle Match Type")
         self.iconInner = os.path.join(iconPath, 'IconMatchTypeInner.svg')
         self.iconOuter = os.path.join(iconPath, 'IconMatchTypeOuter.svg')
         return {
             'Pixmap': self.iconInner,  # the name of a svg file available in the resources
             'MenuText': self.menuText,
-            'ToolTip': "Toggle auto screw diameter matching inner<->outer thread"
+            'ToolTip': translate("FastenerBase", "Toggle auto screw diameter matching inner<->outer thread")
         }
 
     def Activated(self):
@@ -794,7 +796,7 @@ class FSMatchTypeInnerCommand:
         return {
             'Pixmap': os.path.join(iconPath, 'IconMatchTypeInner.svg'),
             'MenuText': matchInnerButtonText,
-            'ToolTip': 'Match screws by inner thread diameter (Tap hole)' #,'Checkable': True
+            'ToolTip': translate("FastenerBase", 'Match screws by inner thread diameter (Tap hole)') #,'Checkable': True
         }
 
 
@@ -810,7 +812,7 @@ class FSMatchTypeOuterCommand:
         return {
             'Pixmap': os.path.join(iconPath, 'IconMatchTypeOuter.svg'),
             'MenuText': matchOuterButtonText,
-            'ToolTip': 'Match screws by outer thread diameter (Pass hole)'# ,'Checkable': False
+            'ToolTip': translate("FastenerBase", 'Match screws by outer thread diameter (Pass hole)')# ,'Checkable': False
         }
 
 
@@ -831,8 +833,8 @@ class FSMatchTypeGroupCommand:
         return 0
 
     def GetResources(self):
-        return { 'MenuText': 'Screw diameter matching mode',
-                 'ToolTip': 'Screw diameter matching mode (by inner or outer thread diameter)',
+        return { 'MenuText': translate("FastenerBase", 'Screw diameter matching mode'),
+                 'ToolTip': translate("FastenerBase", 'Screw diameter matching mode (by inner or outer thread diameter)'),
                  'DropDownMenu': False,
                  'Exclusive': True}
 
@@ -861,8 +863,8 @@ class FSMakeBomCommand:
         icon = os.path.join(iconPath, 'IconBOM.svg')
         return {'Pixmap': icon,
                 # the name of a svg file available in the resources
-                'MenuText': "Generate BOM",
-                'ToolTip': "Generate fasteners bill of material"}
+                'MenuText': translate("FastenerBase", "Generate BOM"),
+                'ToolTip': translate("FastenerBase", "Generate fasteners bill of material")}
 
     def Activated(self):
         self.fastenerDB = {}

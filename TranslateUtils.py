@@ -23,8 +23,13 @@
 #*                                                                         *
 #***************************************************************************
 
-import FreeCAD
+import FreeCAD, FreeCADGui, os
 
+# add translations path
+__dir__ = os.path.dirname(__file__)
+LanguagePath = os.path.join(__dir__,"translations")
+FreeCADGui.addLanguagePath(LanguagePath)
+FreeCADGui.updateLocale()
 
 if FreeCAD.GuiUp:
     from PySide.QtCore import QT_TRANSLATE_NOOP

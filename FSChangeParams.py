@@ -6,6 +6,10 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+#Enable text translation support
+from TranslateUtils import *
+import os, FastenerBase, FreeCADGui
+
 ###################################################################################
 # replace below with generated code from pyuic4
 ###################################################################################

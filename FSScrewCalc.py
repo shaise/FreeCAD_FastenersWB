@@ -27,9 +27,6 @@
 #Enable text translation support
 from TranslateUtils import *
 import os, FastenerBase, FreeCADGui
-LanguagePath = os.path.join(FastenerBase.__dir__,"translations")
-FreeCADGui.addLanguagePath(LanguagePath)
-FreeCADGui.updateLocale()
 
 ###################################################################################
 # replace below with generated code from pyuic4

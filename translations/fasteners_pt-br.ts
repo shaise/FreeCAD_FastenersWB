@@ -119,6 +119,16 @@
         <source>Suggested Hole diameter (mm):</source>
         <translation>Diametro de furo sugerido (mm):</translation>
     </message>
+    <message>
+        <location filename="../FSScrewCalc.py" line="206"/>
+        <source>Screw calculator</source>
+        <translation>Calculadora de roscas</translation>
+    </message>
+    <message>
+        <location filename="../FSScrewCalc.py" line="207"/>
+        <source>Show a screw hole calculator</source>
+        <translation>Exibir uma calculadora de roscas</translation>
+    </message>
 </context>
 <context>
     <name>FastenerBase</name>

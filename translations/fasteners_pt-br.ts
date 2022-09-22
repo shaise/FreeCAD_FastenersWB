@@ -289,6 +289,59 @@
     </message>
 </context>
 <context>
+    <name>FastenerCmd</name>
+    <message>
+        <location filename="../FastenersCmd.py" line="121"/>
+        <source>Hex head</source>
+        <translation>Sextavado</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="132"/>
+        <source>Hexagon socket</source>
+        <translation>Allen</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="86"/>
+        <source>Hexalobular socket</source>
+        <translation>Hexalobular (Torx)</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="134"/>
+        <source>Slotted</source>
+        <translation>Fenda</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="97"/>
+        <source>H cross</source>
+        <translation>Fenda cruzada</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="140"/>
+        <source>Nut</source>
+        <translation>Porca</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="144"/>
+        <source>Washer</source>
+        <translation>Arruela</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="151"/>
+        <source>ThreadedRod</source>
+        <translation>Barra Roscada</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="157"/>
+        <source>PEM Inserts</source>
+        <translation>Insertos PEM</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="136"/>
+        <source>Other head</source>
+        <translation>Outros tipos</translation>
+    </message>
+</context>
+<context>
     <name>InitGui</name>
     <message>
         <location filename="../InitGui.py" line="49"/>

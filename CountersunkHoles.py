@@ -27,9 +27,11 @@
 # replace below with generated code from pyuic4
 ###################################################################################
 
-
 from PySide import QtCore, QtGui
 import sys
+
+#Enable text translation support
+from TranslateUtils import *
 
 QTVer = int(QtCore.qVersion().split('.')[0])
 
@@ -698,8 +700,8 @@ class FSFilletCommand:
         icon = os.path.join(iconPath, 'IconCSHole.svg')
         return {'Pixmap': icon,
                 # the name of a svg file available in the resources
-                'MenuText': "Make countersunk",
-                'ToolTip': "Chamfer holes for countersunk screws"}
+                'MenuText': _translate("DlgCountersunktHoles", "Make countersunk", None),
+                'ToolTip': _translate("DlgCountersunktHoles", "Chamfer holes for countersunk screws", None)}
 
     def Activated(self):
         Gui.Control.showDialog(FSTaskFilletDialog(None))

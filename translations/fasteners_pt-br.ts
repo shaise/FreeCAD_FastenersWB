@@ -4,7 +4,7 @@
 <context>
     <name>DlgChangeParams</name>
     <message>
-        <location filename="../FSChangeParams.py" line="99"/>
+        <location filename="../FSChangeParams.py" line="394"/>
         <source>Change fastener parameters</source>
         <translation>Alterar parâmetros dos fixadores</translation>
     </message>
@@ -37,6 +37,16 @@
         <location filename="../FSChangeParams.py" line="105"/>
         <source>Set length (mm):</source>
         <translation>Defina o comprimento (mm):</translation>
+    </message>
+    <message>
+        <location filename="../FSChangeParams.py" line="294"/>
+        <source>No Change</source>
+        <translation>Sem alteração</translation>
+    </message>
+    <message>
+        <location filename="../FSChangeParams.py" line="395"/>
+        <source>Change parameters of selected fasteners</source>
+        <translation>Alterar parâmetros dos fixadores selecionados</translation>
     </message>
 </context>
 <context>

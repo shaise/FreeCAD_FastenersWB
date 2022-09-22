@@ -871,8 +871,8 @@ class FSMakeBomCommand:
         sheet = FreeCAD.ActiveDocument.addObject('Spreadsheet::Sheet',
                                                  'Fasteners_BOM')
         sheet.setColumnWidth('A', 200)
-        sheet.set('A1', "Type")
-        sheet.set('B1', "Qty")
+        sheet.set('A1', translate("FastenerBase", "Type"))
+        sheet.set('B1', translate("FastenerBase", "Qty"))
         for obj in FreeCAD.ActiveDocument.Objects:
             name = FSRemoveDigits(obj.Name)
             # get total count
@@ -896,7 +896,7 @@ class FSMakeBomCommand:
             self.fastenerDB[fastener] = cnt
 
     def AddScrew(self, obj, cnt):
-        desc = obj.type + " Screw " + FSScrewStr(obj)
+        desc = obj.type + translate("FastenerBase", " Screw ") + FSScrewStr(obj)
         self.AddFastener(desc, cnt)
 
     def AddNut(self, obj, cnt):
@@ -904,31 +904,31 @@ class FSMakeBomCommand:
             type = obj.type
         else:
             type = 'ISO4033'
-        self.AddFastener(type + " Nut " + obj.diameter, cnt)
+        self.AddFastener(type + translate("FastenerBase", " Nut ") + obj.diameter, cnt)
 
     def AddWasher(self, obj, cnt):
-        self.AddFastener(obj.type + " Washer " + obj.diameter, cnt)
+        self.AddFastener(obj.type + translate("FastenerBase", " Washer ") + obj.diameter, cnt)
 
     def AddThreadedRod(self, obj, cnt):
-        desc = "Threaded Rod " + FSScrewStr(obj)
+        desc = translate("FastenerBase", "Threaded Rod ") + FSScrewStr(obj)
         self.AddFastener(desc, cnt)
 
     def AddPressNut(self, obj, cnt):
-        self.AddFastener("PEM PressNut " + obj.diameter + "-" + obj.tcode, cnt)
+        self.AddFastener(translate("FastenerBase", "PEM PressNut ") + obj.diameter + "-" + obj.tcode, cnt)
 
     def AddStandoff(self, obj, cnt):
-        self.AddFastener("PEM Standoff " + obj.diameter + "x" + obj.length, cnt)
+        self.AddFastener(translate("FastenerBase", "PEM Standoff ") + obj.diameter + "x" + obj.length, cnt)
 
     def AddStud(self, obj, cnt):
-        self.AddFastener("PEM Stud " + obj.diameter + "x" + obj.length, cnt)
+        self.AddFastener(translate("FastenerBase", "PEM Stud ") + obj.diameter + "x" + obj.length, cnt)
 
     def AddPcbStandoff(self, obj, cnt):
         self.AddFastener(
-            "PCB Standoff " + obj.diameter + "x" + obj.width + "x" + obj.length,
+            translate("FastenerBase", "PCB Standoff ") + obj.diameter + "x" + obj.width + "x" + obj.length,
             cnt)
 
     def AddHeatSet(self, obj, cnt):
-        self.AddFastener("Heat Set Insert " + obj.diameter, cnt)
+        self.AddFastener(translate("FastenerBase", "Heat Set Insert ") + obj.diameter, cnt)
 
     def IsActive(self):
         return Gui.ActiveDocument is not None

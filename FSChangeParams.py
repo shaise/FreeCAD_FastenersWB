@@ -218,7 +218,7 @@ class FSTaskChangeParamDialog:
         # FSChangeParamDialog.ui.widgetVarLength.hide()
 
         self.form = FSChangeParamDialog
-        self.form.setWindowTitle("Change fastener parameters")
+        self.form.setWindowTitle(_translate("DlgChangeParams", "Change fastener parameters", None))
         Gui.Selection.addSelectionGate(FSCPSelectionFilterGate)
         self.selobserver = FSCPSelObserver(self.selection)
         Gui.Selection.addObserver(self.selobserver)
@@ -246,7 +246,7 @@ class FSTaskChangeParamDialog:
         ui = self.form.ui
         self.fstype = fstype
         # FreeCAD.Console.PrintLog(fstype.typeName + str(fstype.hasLength) + str(fstype.lengthFixed) + "\n")
-        ui.comboFastenerType.addItem('No Change')
+        ui.comboFastenerType.addItem(_translate("DlgChangeParams", 'No Change', None))
         # FreeCAD.Console.PrintLog("nitems: " + str(len(fstype.items)) + "\n")
         for screw in fstype.items:
             ui.comboFastenerType.addItem(QtGui.QIcon(os.path.join(iconPath, screw + '.svg')), screw)
@@ -264,7 +264,7 @@ class FSTaskChangeParamDialog:
         try:
             ui = self.form.ui
             ui.comboDiameter.clear()
-            ui.comboDiameter.addItem('No Change')
+            ui.comboDiameter.addItem(_translate("DlgChangeParams", 'No Change', None))
             # FreeCAD.Console.PrintLog(str(ui.comboFastenerType.currentIndex()) + " " + str(ui.comboFastenerType.count()) + "\n")
             if ui.comboFastenerType.currentIndex() == 0 and ui.comboFastenerType.isEnabled():
                 listDiams = FSCPGetDiametersFromSelection(self.selection)
@@ -291,7 +291,7 @@ class FSTaskChangeParamDialog:
                 ui.checkSetLength.hide()
                 ui.spinLength.hide()
                 ui.comboLength.clear()
-                ui.comboLength.addItem('No Change')
+                ui.comboLength.addItem(_translate("DlgChangeParams", 'No Change', None))
                 for slen in FSCPGetLengths(self.fstype.typeName, ui.comboFastenerType.currentText(), ui.comboDiameter.currentText()):
                     ui.comboLength.addItem(slen)
             else:
@@ -391,8 +391,8 @@ class FSChangeParamCommand:
         icon = os.path.join(iconPath, 'IconChangeParam.svg')
         return {
             'Pixmap': icon,  # the name of a svg file available in the resources
-            'MenuText': "Change fastener parameters",
-            'ToolTip': "Change parameters of selected fasteners"
+            'MenuText': _translate("DlgChangeParams", "Change fastener parameters", None),
+            'ToolTip': _translate("DlgChangeParams", "Change parameters of selected fasteners", None)
         }
 
     def Activated(self):

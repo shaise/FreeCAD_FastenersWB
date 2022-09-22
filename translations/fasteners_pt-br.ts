@@ -42,59 +42,69 @@
 <context>
     <name>DlgCountersunktHoles</name>
     <message>
-        <location filename="../CountersunkHoles.py" line="121"/>
+        <location filename="../CountersunkHoles.py" line="123"/>
         <source>Countersunk screw holes</source>
         <translation>Furos escareados para parafuso</translation>
     </message>
     <message>
-        <location filename="../CountersunkHoles.py" line="122"/>
+        <location filename="../CountersunkHoles.py" line="124"/>
         <source>Shape</source>
         <translation>Formato</translation>
     </message>
     <message>
-        <location filename="../CountersunkHoles.py" line="123"/>
+        <location filename="../CountersunkHoles.py" line="125"/>
         <source>Base shape:</source>
         <translation>Formato base:</translation>
     </message>
     <message>
-        <location filename="../CountersunkHoles.py" line="124"/>
+        <location filename="../CountersunkHoles.py" line="126"/>
         <source>Base</source>
         <translation>Base</translation>
     </message>
     <message>
-        <location filename="../CountersunkHoles.py" line="125"/>
+        <location filename="../CountersunkHoles.py" line="127"/>
         <source>Chamfer Parameters</source>
         <translation>Parâmetros do chanfro</translation>
     </message>
     <message>
-        <location filename="../CountersunkHoles.py" line="126"/>
+        <location filename="../CountersunkHoles.py" line="128"/>
         <source>All</source>
         <translation>Todos</translation>
     </message>
     <message>
-        <location filename="../CountersunkHoles.py" line="127"/>
+        <location filename="../CountersunkHoles.py" line="129"/>
         <source>None</source>
         <translation>Nenhum</translation>
     </message>
     <message>
-        <location filename="../CountersunkHoles.py" line="128"/>
+        <location filename="../CountersunkHoles.py" line="130"/>
         <source>Diameter:</source>
         <translation>Diâmetro:</translation>
     </message>
     <message>
-        <location filename="../CountersunkHoles.py" line="129"/>
+        <location filename="../CountersunkHoles.py" line="131"/>
         <source>No selection</source>
         <translation>Nada selecionado</translation>
     </message>
     <message>
-        <location filename="../CountersunkHoles.py" line="130"/>
+        <location filename="../CountersunkHoles.py" line="132"/>
         <source>Screw type:</source>
         <translation>Tipo de rosca:</translation>
     </message>
     <message>
-        <location filename="../CountersunkHoles.py" line="131"/>
+        <location filename="../CountersunkHoles.py" line="133"/>
         <source>No Selection</source>
         <translation>Nada selecionado</translation>
+    </message>
+    <message>
+        <location filename="../CountersunkHoles.py" line="703"/>
+        <source>Make countersunk</source>
+        <translation>Escarear furo</translation>
+    </message>
+    <message>
+        <location filename="../CountersunkHoles.py" line="704"/>
+        <source>Chamfer holes for countersunk screws</source>
+        <translation>Escarear furos para esconder cabeça do parafuso</translation>
     </message>
 </context>
 <context>

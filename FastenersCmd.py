@@ -529,7 +529,7 @@ class FSScrewCommand:
         icon = os.path.join(iconPath, self.Type + '.svg')
         return {'Pixmap': icon,
                 # the name of a svg file available in the resources
-                'MenuText': "Add " + self.Help,
+                'MenuText': translate("FastenerCmd", "Add ") + self.Help,
                 'ToolTip': self.Help}
 
     def Activated(self):

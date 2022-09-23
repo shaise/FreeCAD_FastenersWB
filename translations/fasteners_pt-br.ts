@@ -725,6 +725,11 @@
         <source>IUT[A/B/C] Heat Staked Metric Insert</source>
         <translation>IUT[A/B/C] Inserto metálico para impressão 3D</translation>
     </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="532"/>
+        <source>Add </source>
+        <translation>Adicionar </translation>
+    </message>
 </context>
 <context>
     <name>InitGui</name>

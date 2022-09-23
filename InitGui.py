@@ -41,10 +41,10 @@ class FastenersWorkbench (Workbench):
  
     def Initialize(self):
         "This function is executed when FreeCAD starts"
+        from TranslateUtils import translate
         import os
         import FastenerBase, FSScrewCalc, PEMInserts, FastenersCmd
         import CountersunkHoles, FSChangeParams
-        from TranslateUtils import translate
 
         print(translate("InitGui", "Translate this text"))
         

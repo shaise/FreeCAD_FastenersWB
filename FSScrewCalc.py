@@ -203,8 +203,8 @@ class FSScrewCalcCommand:
         icon = os.path.join(iconPath, 'IconScrewCalc.svg')
         return {
             'Pixmap': icon,  # the name of a svg file available in the resources
-            'MenuText': "Screw calculator",
-            'ToolTip': "Show a screw hole calculator"
+            'MenuText': _translate("DockWidget", "Screw calculator", None),
+            'ToolTip': _translate("DockWidget", "Show a screw hole calculator", None)
         }
 
     def Activated(self):

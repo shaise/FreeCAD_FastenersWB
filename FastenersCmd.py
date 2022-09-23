@@ -27,6 +27,7 @@ from urllib.response import addclosehook
 from FreeCAD import Gui
 import FreeCAD, FreeCADGui, Part, os
 import json, re
+from TranslateUtils import *
 
 __dir__ = os.path.dirname(__file__)
 iconPath = os.path.join(__dir__, 'Icons')
@@ -59,101 +60,101 @@ CMD_GROUP = 1
 CMD_PARAMETER_GRP = 2
 FSScrewCommandTable = {
     # type:     help,                      group,      parameter-group
-    "ISO4017": ("ISO 4017 Hex head screw", "Hex head", ScrewParametersLC), 
-    "ISO4014": ("ISO 4014 Hex head bolt", "Hex head", ScrewParametersLC), 
-    "EN1662": ("EN 1662 Hexagon bolt with flange, small series", "Hex head", ScrewParametersLC), 
-    "EN1665": ("EN 1665 Hexagon bolt with flange, heavy series", "Hex head", ScrewParametersLC), 
-    "DIN571": ("DIN 571 Hex head wood screw", "Hex head", ScrewParametersLC), 
+    "ISO4017": (translate("FastenerCmd", "ISO 4017 Hex head screw"), translate("FastenerCmd", "Hex head"), ScrewParametersLC),
+    "ISO4014": (translate("FastenerCmd", "ISO 4014 Hex head bolt"), translate("FastenerCmd", "Hex head"), ScrewParametersLC),
+    "EN1662": (translate("FastenerCmd", "EN 1662 Hexagon bolt with flange, small series"), translate("FastenerCmd", "Hex head"), ScrewParametersLC),
+    "EN1665": (translate("FastenerCmd", "EN 1665 Hexagon bolt with flange, heavy series"), translate("FastenerCmd", "Hex head"), ScrewParametersLC),
+    "DIN571": (translate("FastenerCmd", "DIN 571 Hex head wood screw"), translate("FastenerCmd", "Hex head"), ScrewParametersLC),
 
-    "ISO4762": ("ISO4762 Hexagon socket head cap screw", "Hexagon socket", ScrewParametersLC), 
-    "DIN7984": ("DIN 7984 Hexagon socket head cap screws with low head", "Hexagon socket", ScrewParametersLC), 
-    "DIN6912": ("DIN 6912 Hexagon socket head cap screws with low head with centre", "Hexagon socket", ScrewParametersLC), 
-    "ISO7380-1": ("ISO 7380 Hexagon socket button head screw", "Hexagon socket", ScrewParametersLC), 
-    "ISO7380-2": ("ISO 7380 Hexagon socket button head screws with collar", "Hexagon socket", ScrewParametersLC), 
-    "ISO10642": ("ISO 10642 Hexagon socket countersunk head screw", "Hexagon socket", ScrewParametersLC), 
-    "ISO7379": ("ISO 7379 Hexagon socket head shoulder screw", "Hexagon socket", ScrewParametersLC), 
-    "ISO4026": ("ISO 4026 Hexagon socket set screws with flat point", "Hexagon socket", ScrewParametersLC), 
-    "ISO4027": ("ISO 4027 Hexagon socket set screws with cone point", "Hexagon socket", ScrewParametersLC), 
-    "ISO4028": ("ISO 4028 Hexagon socket set screws with dog point", "Hexagon socket", ScrewParametersLC), 
-    "ISO4029": ("ISO 4029 Hexagon socket set screws with cup point", "Hexagon socket", ScrewParametersLC), 
+    "ISO4762": (translate("FastenerCmd", "ISO4762 Hexagon socket head cap screw"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "DIN7984": (translate("FastenerCmd", "DIN 7984 Hexagon socket head cap screws with low head"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "DIN6912": (translate("FastenerCmd", "DIN 6912 Hexagon socket head cap screws with low head with centre"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ISO7380-1": (translate("FastenerCmd", "ISO 7380 Hexagon socket button head screw"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ISO7380-2": (translate("FastenerCmd", "ISO 7380 Hexagon socket button head screws with collar"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ISO10642": (translate("FastenerCmd", "ISO 10642 Hexagon socket countersunk head screw"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ISO7379": (translate("FastenerCmd", "ISO 7379 Hexagon socket head shoulder screw"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ISO4026": (translate("FastenerCmd", "ISO 4026 Hexagon socket set screws with flat point"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ISO4027": (translate("FastenerCmd", "ISO 4027 Hexagon socket set screws with cone point"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ISO4028": (translate("FastenerCmd", "ISO 4028 Hexagon socket set screws with dog point"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ISO4029": (translate("FastenerCmd", "ISO 4029 Hexagon socket set screws with cup point"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
 
-    "ISO14579": ("ISO 14579 Hexalobular socket head cap screws", "Hexalobular socket", ScrewParametersLC), 
-    "ISO14580": ("ISO 14580 Hexalobular socket cheese head screws", "Hexalobular socket", ScrewParametersLC), 
-#    "ISO14581": ("ISO 14581 Hexalobular socket countersunk flat head screws", "Hexalobular socket", ScrewParametersLC), 
-    "ISO14582": ("ISO 14582 Hexalobular socket countersunk head screws, high head", "Hexalobular socket", ScrewParametersLC), 
-    "ISO14583": ("ISO 14583 Hexalobular socket pan head screws", "Hexalobular socket", ScrewParametersLC), 
-    "ISO14584": ("ISO 14584 Hexalobular socket raised countersunk head screws", "Hexalobular socket", ScrewParametersLC), 
+    "ISO14579": (translate("FastenerCmd", "ISO 14579 Hexalobular socket head cap screws"), translate("FastenerCmd", "Hexalobular socket"), ScrewParametersLC),
+    "ISO14580": (translate("FastenerCmd", "ISO 14580 Hexalobular socket cheese head screws"), translate("FastenerCmd", "Hexalobular socket"), ScrewParametersLC),
+#    "ISO14581": (translate("FastenerCmd", "ISO 14581 Hexalobular socket countersunk flat head screws"), translate("FastenerCmd", "Hexalobular socket"), ScrewParametersLC),
+    "ISO14582": (translate("FastenerCmd", "ISO 14582 Hexalobular socket countersunk head screws, high head"), translate("FastenerCmd", "Hexalobular socket"), ScrewParametersLC),
+    "ISO14583": (translate("FastenerCmd", "ISO 14583 Hexalobular socket pan head screws"), translate("FastenerCmd", "Hexalobular socket"), ScrewParametersLC),
+    "ISO14584": (translate("FastenerCmd", "ISO 14584 Hexalobular socket raised countersunk head screws"), translate("FastenerCmd", "Hexalobular socket"), ScrewParametersLC),
 
-    "ISO2009": ("ISO 2009 Slotted countersunk flat head screw", "Slotted", ScrewParametersLC), 
-    "ISO2010": ("ISO 2010 Slotted raised countersunk head screw", "Slotted", ScrewParametersLC), 
-    "ISO1580": ("ISO 1580 Slotted pan head screw", "Slotted", ScrewParametersLC), 
-    "ISO1207": ("ISO 1207 Slotted cheese head screw", "Slotted", ScrewParametersLC), 
+    "ISO2009": (translate("FastenerCmd", "ISO 2009 Slotted countersunk flat head screw"), translate("FastenerCmd", "Slotted"), ScrewParametersLC),
+    "ISO2010": (translate("FastenerCmd", "ISO 2010 Slotted raised countersunk head screw"), translate("FastenerCmd", "Slotted"), ScrewParametersLC),
+    "ISO1580": (translate("FastenerCmd", "ISO 1580 Slotted pan head screw"), translate("FastenerCmd", "Slotted"), ScrewParametersLC),
+    "ISO1207": (translate("FastenerCmd", "ISO 1207 Slotted cheese head screw"), translate("FastenerCmd", "Slotted"), ScrewParametersLC),
 
-    "DIN967": ("DIN 967 Cross recessed pan head screws with collar", "H cross", ScrewParametersLC), 
-    "ISO7045": ("ISO 7045 Pan head screws type H cross recess", "H cross", ScrewParametersLC), 
-    "ISO7046": ("ISO 7046 Countersunk flat head screws H cross r.", "H cross", ScrewParametersLC), 
-    "ISO7047": ("ISO 7047 Raised countersunk head screws H cross r.", "H cross", ScrewParametersLC), 
-    "ISO7048": ("ISO 7048 Cheese head screws with type H cross r.", "H cross", ScrewParametersLC), 
+    "DIN967": (translate("FastenerCmd", "DIN 967 Cross recessed pan head screws with collar"), translate("FastenerCmd", "H cross"), ScrewParametersLC),
+    "ISO7045": (translate("FastenerCmd", "ISO 7045 Pan head screws type H cross recess"), translate("FastenerCmd", "H cross"), ScrewParametersLC),
+    "ISO7046": (translate("FastenerCmd", "ISO 7046 Countersunk flat head screws H cross r."), translate("FastenerCmd", "H cross"), ScrewParametersLC),
+    "ISO7047": (translate("FastenerCmd", "ISO 7047 Raised countersunk head screws H cross r."), translate("FastenerCmd", "H cross"), ScrewParametersLC),
+    "ISO7048": (translate("FastenerCmd", "ISO 7048 Cheese head screws with type H cross r."), translate("FastenerCmd", "H cross"), ScrewParametersLC),
 
-    "ISO4032": ("ISO 4032 Hexagon nuts, Style 1", "Nut", NutParameters), 
-    "ISO4033": ("ISO 4033 Hexagon nuts, Style 2", "Nut", NutParameters), 
-    "ISO4035": ("ISO 4035 Hexagon thin nuts, chamfered", "Nut", NutParameters), 
-#    "ISO4036": ("ISO 4035 Hexagon thin nuts, unchamfered", "Nut", NutParameters), 
-    "EN1661": ("EN 1661 Hexagon nuts with flange", "Nut", NutParameters), 
-    "DIN917": ("DIN917 Cap nuts, thin style", "Nut", NutParameters), 
-    "DIN1587": ("DIN 1587 Cap nuts", "Nut", NutParameters), 
-    "DIN557": ("DIN 557 Square nuts", "Nut", NutParameters), 
-    "DIN562": ("DIN 562 Square nuts", "Nut", NutParameters), 
-    "DIN985": ("DIN 985 Nyloc nuts", "Nut", NutParameters), 
+    "ISO4032": (translate("FastenerCmd", "ISO 4032 Hexagon nuts, Style 1"), translate("FastenerCmd", "Nut"), NutParameters),
+    "ISO4033": (translate("FastenerCmd", "ISO 4033 Hexagon nuts, Style 2"), translate("FastenerCmd", "Nut"), NutParameters),
+    "ISO4035": (translate("FastenerCmd", "ISO 4035 Hexagon thin nuts, chamfered"), translate("FastenerCmd", "Nut"), NutParameters),
+#    "ISO4036": (translate("FastenerCmd", "ISO 4035 Hexagon thin nuts, unchamfered"), translate("FastenerCmd", "Nut"), NutParameters),
+    "EN1661": (translate("FastenerCmd", "EN 1661 Hexagon nuts with flange"), translate("FastenerCmd", "Nut"), NutParameters),
+    "DIN917": (translate("FastenerCmd", "DIN917 Cap nuts, thin style"), translate("FastenerCmd", "Nut"), NutParameters),
+    "DIN1587": (translate("FastenerCmd", "DIN 1587 Cap nuts"), translate("FastenerCmd", "Nut"), NutParameters),
+    "DIN557": (translate("FastenerCmd", "DIN 557 Square nuts"), translate("FastenerCmd", "Nut"), NutParameters),
+    "DIN562": (translate("FastenerCmd", "DIN 562 Square nuts"), translate("FastenerCmd", "Nut"), NutParameters),
+    "DIN985": (translate("FastenerCmd", "DIN 985 Nyloc nuts"), translate("FastenerCmd", "Nut"), NutParameters),
 
-    "ISO7089": ("ISO 7089 Washer", "Washer", WasherParameters), 
-    "ISO7090": ("ISO 7090 Plain Washers, chamfered - Normal series", "Washer", WasherParameters), 
-#    "ISO7091": ("ISO 7091 Plain washer - Normal series Product Grade C", "Washer", WasherParameters),   # same as 7089??
-    "ISO7092": ("ISO 7092 Plain washers - Small series", "Washer", WasherParameters), 
-    "ISO7093-1": ("ISO 7093-1 Plain washers - Large series", "Washer", WasherParameters), 
-    "ISO7094": ("ISO 7094 Plain washers - Extra large series", "Washer", WasherParameters), 
-    "NFE27-619": ("NFE27-619 Countersunk washer", "Washer", WasherParameters), 
+    "ISO7089": (translate("FastenerCmd", "ISO 7089 Washer"), translate("FastenerCmd", "Washer"), WasherParameters),
+    "ISO7090": (translate("FastenerCmd", "ISO 7090 Plain Washers, chamfered - Normal series"), translate("FastenerCmd", "Washer"), WasherParameters),
+#    "ISO7091": (translate("FastenerCmd", "ISO 7091 Plain washer - Normal series Product Grade C"), translate("FastenerCmd", "Washer"), WasherParameters),   # same as 7089??
+    "ISO7092": (translate("FastenerCmd", "ISO 7092 Plain washers - Small series"), translate("FastenerCmd", "Washer"), WasherParameters),
+    "ISO7093-1": (translate("FastenerCmd", "ISO 7093-1 Plain washers - Large series"), translate("FastenerCmd", "Washer"), WasherParameters),
+    "ISO7094": (translate("FastenerCmd", "ISO 7094 Plain washers - Extra large series"), translate("FastenerCmd", "Washer"), WasherParameters),
+    "NFE27-619": (translate("FastenerCmd", "NFE27-619 Countersunk washer"), translate("FastenerCmd", "Washer"), WasherParameters),
 
 # Inch
 
-    "ASMEB18.2.1.6": ("ASME B18.2.1 UNC Hex head screws", "Hex head", ScrewParametersLC), 
-    "ASMEB18.2.1.8": ("ASME B18.2.1 UNC Hex head screws with flange", "Hex head", ScrewParametersLC), 
+    "ASMEB18.2.1.6": (translate("FastenerCmd", "ASME B18.2.1 UNC Hex head screws"), translate("FastenerCmd", "Hex head"), ScrewParametersLC),
+    "ASMEB18.2.1.8": (translate("FastenerCmd", "ASME B18.2.1 UNC Hex head screws with flange"), translate("FastenerCmd", "Hex head"), ScrewParametersLC),
 
-    "ASMEB18.3.1A": ("ASME B18.3 UNC Hex socket head cap screws", "Hexagon socket", ScrewParametersLC), 
-    "ASMEB18.3.1G": ("ASME B18.3 UNC Hex socket head cap screws with low head", "Hexagon socket", ScrewParametersLC), 
-    "ASMEB18.3.2": ("ASME B18.3 UNC Hex socket countersunk head screws", "Hexagon socket", ScrewParametersLC), 
-    "ASMEB18.3.3A": ("ASME B18.3 UNC Hex socket button head screws", "Hexagon socket", ScrewParametersLC), 
-    "ASMEB18.3.3B": ("ASME B18.3 UNC Hex socket button head screws with flange", "Hexagon socket", ScrewParametersLC), 
-    "ASMEB18.3.4": ("ASME B18.3 UNC Hexagon socket head shoulder screws", "Hexagon socket", ScrewParametersLC), 
-    "ASMEB18.3.5A": ("ASME B18.3 UNC Hexagon socket set screws with flat point", "Hexagon socket", ScrewParametersLC), 
-    "ASMEB18.3.5B": ("ASME B18.3 UNC Hexagon socket set screws with cone point", "Hexagon socket", ScrewParametersLC), 
-    "ASMEB18.3.5C": ("ASME B18.3 UNC Hexagon socket set screws with dog point", "Hexagon socket", ScrewParametersLC), 
-    "ASMEB18.3.5D": ("ASME B18.3 UNC Hexagon socket set screws with cup point", "Hexagon socket", ScrewParametersLC), 
+    "ASMEB18.3.1A": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket head cap screws"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ASMEB18.3.1G": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket head cap screws with low head"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ASMEB18.3.2": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket countersunk head screws"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ASMEB18.3.3A": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket button head screws"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ASMEB18.3.3B": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket button head screws with flange"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ASMEB18.3.4": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket head shoulder screws"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ASMEB18.3.5A": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with flat point"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ASMEB18.3.5B": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cone point"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ASMEB18.3.5C": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with dog point"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
+    "ASMEB18.3.5D": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cup point"), translate("FastenerCmd", "Hexagon socket"), ScrewParametersLC),
 
-    "ASMEB18.6.3.1A": ("ASME B18.6.3 UNC slotted countersunk flat head screws", "Slotted", ScrewParametersLC), 
+    "ASMEB18.6.3.1A": (translate("FastenerCmd", "ASME B18.6.3 UNC slotted countersunk flat head screws"), translate("FastenerCmd", "Slotted"), ScrewParametersLC),
 
-    "ASMEB18.5.2": ("ASME B18.5 UNC Round head square neck bolts", "Other head", ScrewParametersLC), 
+    "ASMEB18.5.2": (translate("FastenerCmd", "ASME B18.5 UNC Round head square neck bolts"), translate("FastenerCmd", "Other head"), ScrewParametersLC),
 
-    "ASMEB18.2.2.1A": ("ASME B18.2.2 UNC Machine screw nuts", "Nut", NutParameters), 
-    "ASMEB18.2.2.4A": ("ASME B18.2.2 UNC Hexagon nuts", "Nut", NutParameters), 
-    "ASMEB18.2.2.4B": ("ASME B18.2.2 UNC Hexagon thin nuts", "Nut", NutParameters), 
+    "ASMEB18.2.2.1A": (translate("FastenerCmd", "ASME B18.2.2 UNC Machine screw nuts"), translate("FastenerCmd", "Nut"), NutParameters),
+    "ASMEB18.2.2.4A": (translate("FastenerCmd", "ASME B18.2.2 UNC Hexagon nuts"), translate("FastenerCmd", "Nut"), NutParameters),
+    "ASMEB18.2.2.4B": (translate("FastenerCmd", "ASME B18.2.2 UNC Hexagon thin nuts"), translate("FastenerCmd", "Nut"), NutParameters),
 
-    "ASMEB18.21.1.12A": ("ASME B18.21.1 UN washers, narrow series", "Washer", WasherParameters), 
-    "ASMEB18.21.1.12B": ("ASME B18.21.1 UN washers, regular series", "Washer", WasherParameters), 
-    "ASMEB18.21.1.12C": ("ASME B18.21.1 UN washers, wide series", "Washer", WasherParameters), 
+    "ASMEB18.21.1.12A": (translate("FastenerCmd", "ASME B18.21.1 UN washers, narrow series"), translate("FastenerCmd", "Washer"), WasherParameters),
+    "ASMEB18.21.1.12B": (translate("FastenerCmd", "ASME B18.21.1 UN washers, regular series"), translate("FastenerCmd", "Washer"), WasherParameters),
+    "ASMEB18.21.1.12C": (translate("FastenerCmd", "ASME B18.21.1 UN washers, wide series"), translate("FastenerCmd", "Washer"), WasherParameters),
 
-    "ScrewTap": ("Metric threaded rod for tapping holes", "ThreadedRod", RodParameters), 
-    "ScrewTapInch": ("Inch threaded rod for tapping holes", "ThreadedRod", RodParameters), 
-    "ScrewDie": ("Tool object to cut external metric threads", "ThreadedRod", RodParameters), 
-    "ScrewDieInch": ("Tool object to cut external non-metric threads", "ThreadedRod", RodParameters), 
-    "ThreadedRod": ("DIN 975 metric threaded rod", "ThreadedRod", RodParameters), 
-    "ThreadedRodInch": ("UNC threaded rod", "ThreadedRod", RodParameters), 
-    "PEMPressNut": ("PEM Self Clinching nut", "PEM Inserts", PEMPressNutParameters), 
-    "PEMStandoff": ("PEM Self Clinching standoff", "PEM Inserts", PEMStandoffParameters), 
-    "PEMStud": ("PEM Self Clinching stud", "PEM Inserts", ScrewParameters),
-    "PCBStandoff": ("Wurth WA-SSTII  PCB standoff", "PEM Inserts", PCBStandoffParameters), 
-    "PCBSpacer": ("Wurth WA-SSTII PCB spacer", "PEM Inserts", PCBSpacerParameters), 
-    "IUTHeatInsert": ("IUT[A/B/C] Heat Staked Metric Insert", "PEM Inserts", NutParameters), 
+    "ScrewTap": (translate("FastenerCmd", "Metric threaded rod for tapping holes"), translate("FastenerCmd", "ThreadedRod"), RodParameters),
+    "ScrewTapInch": (translate("FastenerCmd", "Inch threaded rod for tapping holes"), translate("FastenerCmd", "ThreadedRod"), RodParameters),
+    "ScrewDie": (translate("FastenerCmd", "Tool object to cut external metric threads"), translate("FastenerCmd", "ThreadedRod"), RodParameters),
+    "ScrewDieInch": (translate("FastenerCmd", "Tool object to cut external non-metric threads"), translate("FastenerCmd", "ThreadedRod"), RodParameters),
+    "ThreadedRod": (translate("FastenerCmd", "DIN 975 metric threaded rod"), translate("FastenerCmd", "ThreadedRod"), RodParameters),
+    "ThreadedRodInch": (translate("FastenerCmd", "UNC threaded rod"), translate("FastenerCmd", "ThreadedRod"), RodParameters),
+    "PEMPressNut": (translate("FastenerCmd", "PEM Self Clinching nut"), translate("FastenerCmd", "PEM Inserts"), PEMPressNutParameters),
+    "PEMStandoff": (translate("FastenerCmd", "PEM Self Clinching standoff"), translate("FastenerCmd", "PEM Inserts"), PEMStandoffParameters),
+    "PEMStud": (translate("FastenerCmd", "PEM Self Clinching stud"), translate("FastenerCmd", "PEM Inserts"), ScrewParameters),
+    "PCBStandoff": (translate("FastenerCmd", "Wurth WA-SSTII  PCB standoff"), translate("FastenerCmd", "PEM Inserts"), PCBStandoffParameters),
+    "PCBSpacer": (translate("FastenerCmd", "Wurth WA-SSTII PCB spacer"), translate("FastenerCmd", "PEM Inserts"), PCBSpacerParameters),
+    "IUTHeatInsert": (translate("FastenerCmd", "IUT[A/B/C] Heat Staked Metric Insert"), translate("FastenerCmd", "PEM Inserts"), NutParameters),
 }
 
 def GetParams(type):
@@ -223,7 +224,7 @@ class FSScrewObject(FSBaseObject):
                 if hasattr(self,"originalType"):
                     type = self.originalType
                     FreeCAD.Console.PrintMessage("using original type: " + type + "\n")
-            obj.addProperty("App::PropertyEnumeration", "type", "Parameters", "Screw type").type = self.GetCompatibleTypes(type)
+            obj.addProperty("App::PropertyEnumeration", "type", "Parameters", translate("FastenerCmd", "Screw type")).type = self.GetCompatibleTypes(type)
             obj.type = type
         else:
             type = obj.type
@@ -237,7 +238,7 @@ class FSScrewObject(FSBaseObject):
             diameters.insert(0, 'Auto')
             if "diameterCustom" in GetParams(type):
                 diameters.append("Custom")
-            obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters", "Standard diameter").diameter = diameters
+            obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters", translate("FastenerCmd", "Standard diameter")).diameter = diameters
             diameter = diameters[1]
         else:
             diameter = obj.diameter
@@ -245,15 +246,15 @@ class FSScrewObject(FSBaseObject):
 
         # thread parameters
         if "thread" in params and not hasattr(obj, "thread"):
-            obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
+            obj.addProperty("App::PropertyBool", "thread", "Parameters", translate("FastenerCmd", "Generate real thread")).thread = False
         if "leftHanded" in params and not hasattr(obj, 'leftHanded'):
-            obj.addProperty("App::PropertyBool", "leftHanded", "Parameters", "Left handed thread").leftHanded = False
+            obj.addProperty("App::PropertyBool", "leftHanded", "Parameters", translate("FastenerCmd", "Left handed thread")).leftHanded = False
         if "matchOuter" in params and not hasattr(obj, "matchOuter"):
-            obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
+            obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", translate("FastenerCmd", "Match outer thread diameter")).matchOuter = FastenerBase.FSMatchOuter
 
         # width parameters
         if "widthCode" in params and not hasattr(obj, "width"):
-            obj.addProperty("App::PropertyEnumeration", "width", "Parameters", "Body width code").width = screwMaker.GetAllWidthcodes(type, diameter)
+            obj.addProperty("App::PropertyEnumeration", "width", "Parameters", translate("FastenerCmd", "Body width code")).width = screwMaker.GetAllWidthcodes(type, diameter)
 
         # length parameters
         addCustomLen = "lengthCustom" in params and not hasattr(obj, "lengthCustom")
@@ -265,32 +266,32 @@ class FSScrewObject(FSBaseObject):
             else:
                 slens = screwMaker.GetAllLengths(type, diameter, addCustomLen)
             if not hasattr(obj, 'length'):
-                obj.addProperty("App::PropertyEnumeration", "length", "Parameters", "Screw length").length = slens
+                obj.addProperty("App::PropertyEnumeration", "length", "Parameters", translate("FastenerCmd", "Screw length")).length = slens
             elif addCustomLen :
                 origLen = obj.length
                 obj.length = slens
                 if origLen in slens:
                     obj.length = origLen
             if addCustomLen:
-                obj.addProperty("App::PropertyLength", "lengthCustom", "Parameters", "Custom length").lengthCustom = self.inswap(slens[0])
+                obj.addProperty("App::PropertyLength", "lengthCustom", "Parameters", translate("FastenerCmd", "Custom length")).lengthCustom = self.inswap(slens[0])
 
         # custom size parameters
         if "lengthArbitrary" in params and not hasattr(obj, "length"):
-            obj.addProperty("App::PropertyLength", "length", "Parameters", "Screw length").length = 20.0
+            obj.addProperty("App::PropertyLength", "length", "Parameters", translate("FastenerCmd", "Screw length")).length = 20.0
         if "diameterCustom" in params and not hasattr(obj, "diameterCustom"):
-            obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", "Screw major diameter custom").diameterCustom = 6
+            obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", translate("FastenerCmd", "Screw major diameter custom")).diameterCustom = 6
         if "pitchCustom" in params and not hasattr(obj, "pitchCustom"):
-            obj.addProperty("App::PropertyLength", "pitchCustom", "Parameters", "Screw pitch custom").pitchCustom = 1.0
+            obj.addProperty("App::PropertyLength", "pitchCustom", "Parameters", translate("FastenerCmd", "Screw pitch custom")).pitchCustom = 1.0
 
         # thickness
         if "thicknessCode" in params and not hasattr(obj, "tcode"):
-            obj.addProperty("App::PropertyEnumeration", "tcode", "Parameters", "Thickness code").tcode = screwMaker.GetAllTcodes(type, diameter)
+            obj.addProperty("App::PropertyEnumeration", "tcode", "Parameters", translate("FastenerCmd", "Thickness code")).tcode = screwMaker.GetAllTcodes(type, diameter)
 
         # misc
         if "blindness" in params and not hasattr(obj, "blind"):
-            obj.addProperty("App::PropertyBool", "blind", "Parameters", "Blind Standoff type").blind = False
+            obj.addProperty("App::PropertyBool", "blind", "Parameters", translate("FastenerCmd", "Blind Standoff type")).blind = False
         if "threadLength" in params and not hasattr(obj, "screwLength"):
-            obj.addProperty("App::PropertyLength", "screwLength", "Parameters", "Threaded part length").screwLength = screwMaker.GetThreadLength(type, diameter)
+            obj.addProperty("App::PropertyLength", "screwLength", "Parameters", translate("FastenerCmd", "Threaded part length")).screwLength = screwMaker.GetThreadLength(type, diameter)
 
         self.BackupObject(obj)
         # for attr in FastenerAttribs:
@@ -528,7 +529,7 @@ class FSScrewCommand:
         icon = os.path.join(iconPath, self.Type + '.svg')
         return {'Pixmap': icon,
                 # the name of a svg file available in the resources
-                'MenuText': "Add " + self.Help,
+                'MenuText': translate("FastenerCmd", "Add ") + self.Help,
                 'ToolTip': self.Help}
 
     def Activated(self):

@@ -224,7 +224,7 @@ class FSScrewObject(FSBaseObject):
                 if hasattr(self,"originalType"):
                     type = self.originalType
                     FreeCAD.Console.PrintMessage("using original type: " + type + "\n")
-            obj.addProperty("App::PropertyEnumeration", "type", "Parameters", "Screw type").type = self.GetCompatibleTypes(type)
+            obj.addProperty("App::PropertyEnumeration", "type", "Parameters", translate("FastenerCmd", "Screw type")).type = self.GetCompatibleTypes(type)
             obj.type = type
         else:
             type = obj.type
@@ -238,7 +238,7 @@ class FSScrewObject(FSBaseObject):
             diameters.insert(0, 'Auto')
             if "diameterCustom" in GetParams(type):
                 diameters.append("Custom")
-            obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters", "Standard diameter").diameter = diameters
+            obj.addProperty("App::PropertyEnumeration", "diameter", "Parameters", translate("FastenerCmd", "Standard diameter")).diameter = diameters
             diameter = diameters[1]
         else:
             diameter = obj.diameter
@@ -246,15 +246,15 @@ class FSScrewObject(FSBaseObject):
 
         # thread parameters
         if "thread" in params and not hasattr(obj, "thread"):
-            obj.addProperty("App::PropertyBool", "thread", "Parameters", "Generate real thread").thread = False
+            obj.addProperty("App::PropertyBool", "thread", "Parameters", translate("FastenerCmd", "Generate real thread")).thread = False
         if "leftHanded" in params and not hasattr(obj, 'leftHanded'):
-            obj.addProperty("App::PropertyBool", "leftHanded", "Parameters", "Left handed thread").leftHanded = False
+            obj.addProperty("App::PropertyBool", "leftHanded", "Parameters", translate("FastenerCmd", "Left handed thread")).leftHanded = False
         if "matchOuter" in params and not hasattr(obj, "matchOuter"):
-            obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", "Match outer thread diameter").matchOuter = FastenerBase.FSMatchOuter
+            obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", translate("FastenerCmd", "Match outer thread diameter")).matchOuter = FastenerBase.FSMatchOuter
 
         # width parameters
         if "widthCode" in params and not hasattr(obj, "width"):
-            obj.addProperty("App::PropertyEnumeration", "width", "Parameters", "Body width code").width = screwMaker.GetAllWidthcodes(type, diameter)
+            obj.addProperty("App::PropertyEnumeration", "width", "Parameters", translate("FastenerCmd", "Body width code")).width = screwMaker.GetAllWidthcodes(type, diameter)
 
         # length parameters
         addCustomLen = "lengthCustom" in params and not hasattr(obj, "lengthCustom")
@@ -266,32 +266,32 @@ class FSScrewObject(FSBaseObject):
             else:
                 slens = screwMaker.GetAllLengths(type, diameter, addCustomLen)
             if not hasattr(obj, 'length'):
-                obj.addProperty("App::PropertyEnumeration", "length", "Parameters", "Screw length").length = slens
+                obj.addProperty("App::PropertyEnumeration", "length", "Parameters", translate("FastenerCmd", "Screw length")).length = slens
             elif addCustomLen :
                 origLen = obj.length
                 obj.length = slens
                 if origLen in slens:
                     obj.length = origLen
             if addCustomLen:
-                obj.addProperty("App::PropertyLength", "lengthCustom", "Parameters", "Custom length").lengthCustom = self.inswap(slens[0])
+                obj.addProperty("App::PropertyLength", "lengthCustom", "Parameters", translate("FastenerCmd", "Custom length")).lengthCustom = self.inswap(slens[0])
 
         # custom size parameters
         if "lengthArbitrary" in params and not hasattr(obj, "length"):
-            obj.addProperty("App::PropertyLength", "length", "Parameters", "Screw length").length = 20.0
+            obj.addProperty("App::PropertyLength", "length", "Parameters", translate("FastenerCmd", "Screw length")).length = 20.0
         if "diameterCustom" in params and not hasattr(obj, "diameterCustom"):
-            obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", "Screw major diameter custom").diameterCustom = 6
+            obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", translate("FastenerCmd", "Screw major diameter custom")).diameterCustom = 6
         if "pitchCustom" in params and not hasattr(obj, "pitchCustom"):
-            obj.addProperty("App::PropertyLength", "pitchCustom", "Parameters", "Screw pitch custom").pitchCustom = 1.0
+            obj.addProperty("App::PropertyLength", "pitchCustom", "Parameters", translate("FastenerCmd", "Screw pitch custom")).pitchCustom = 1.0
 
         # thickness
         if "thicknessCode" in params and not hasattr(obj, "tcode"):
-            obj.addProperty("App::PropertyEnumeration", "tcode", "Parameters", "Thickness code").tcode = screwMaker.GetAllTcodes(type, diameter)
+            obj.addProperty("App::PropertyEnumeration", "tcode", "Parameters", translate("FastenerCmd", "Thickness code")).tcode = screwMaker.GetAllTcodes(type, diameter)
 
         # misc
         if "blindness" in params and not hasattr(obj, "blind"):
-            obj.addProperty("App::PropertyBool", "blind", "Parameters", "Blind Standoff type").blind = False
+            obj.addProperty("App::PropertyBool", "blind", "Parameters", translate("FastenerCmd", "Blind Standoff type")).blind = False
         if "threadLength" in params and not hasattr(obj, "screwLength"):
-            obj.addProperty("App::PropertyLength", "screwLength", "Parameters", "Threaded part length").screwLength = screwMaker.GetThreadLength(type, diameter)
+            obj.addProperty("App::PropertyLength", "screwLength", "Parameters", translate("FastenerCmd", "Threaded part length")).screwLength = screwMaker.GetThreadLength(type, diameter)
 
         self.BackupObject(obj)
         # for attr in FastenerAttribs:

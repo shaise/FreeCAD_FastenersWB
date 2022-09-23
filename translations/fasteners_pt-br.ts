@@ -730,6 +730,71 @@
         <source>Add </source>
         <translation>Adicionar </translation>
     </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="227"/>
+        <source>Screw type</source>
+        <translation>Tipo de parafuso</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="241"/>
+        <source>Standard diameter</source>
+        <translation>Diâmetro padrão</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="249"/>
+        <source>Generate real thread</source>
+        <translation>Modelar rosca real</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="251"/>
+        <source>Left handed thread</source>
+        <translation>Rosca esquerda</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="253"/>
+        <source>Match outer thread diameter</source>
+        <translation>Acertar pelo diâmetro externo</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="257"/>
+        <source>Body width code</source>
+        <translation>Comprimento total do corpo</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="280"/>
+        <source>Screw length</source>
+        <translation>Comprimento total</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="276"/>
+        <source>Custom length</source>
+        <translation>Comprimento personalizado</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="282"/>
+        <source>Screw major diameter custom</source>
+        <translation>Diâmetro maior personalizado</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="284"/>
+        <source>Screw pitch custom</source>
+        <translation>Passo personalizado</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="288"/>
+        <source>Thickness code</source>
+        <translation>Código de espessura</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="292"/>
+        <source>Blind Standoff type</source>
+        <translation>Tipo de afastamento cego</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="294"/>
+        <source>Threaded part length</source>
+        <translation>Comprimento da rosca</translation>
+    </message>
 </context>
 <context>
     <name>InitGui</name>

@@ -338,20 +338,17 @@
     <message>
         <location filename="../FastenersCmd.py" line="136"/>
         <source>Other head</source>
-        <translatorcomment>C другими головками</translatorcomment>
-        <translation>Outros tipos</translation>
+        <translation>C другими головками</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="63"/>
         <source>ISO 4017 Hex head screw</source>
-        <translatorcomment>ISO 4017 (ГОСТ Р ИСО 4017) Винт с шестигранной головкой</translatorcomment>
-        <translation>ISO 4017 Sextavado rosca total</translation>
+        <translation>ISO 4017 (ГОСТ Р ИСО 4017) Винт с шестигранной головкой</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="64"/>
         <source>ISO 4014 Hex head bolt</source>
-        <translatorcomment>ISO 4014 (ГОСТ Р ИСО 4014) Болт с шестигранной головкой</translatorcomment>
-        <translation>ISO 4014 Sextavado rosca parcial</translation>
+        <translation>ISO 4014 (ГОСТ Р ИСО 4014) Болт с шестигранной головкой</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="65"/>

@@ -22,7 +22,6 @@
 #  
 #  
 ###################################################################################
-from TranslateUtils import translate
 import fnwb_locator
 fnWBpath = os.path.dirname(fnwb_locator.__file__)
 fnWB_icons_path =  os.path.join( fnWBpath, 'Icons')

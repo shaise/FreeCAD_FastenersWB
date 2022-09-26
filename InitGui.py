@@ -35,7 +35,7 @@ class FastenersWorkbench (Workbench):
     global main_fnWB_Icon
     from TranslateUtils import translate
 
-    MenuText = "Fasteners"
+    MenuText = translate("InitGui", "Fasteners")
     ToolTip = translate("InitGui", "Create ISO Fasteners")
     Icon = main_fnWB_Icon
  

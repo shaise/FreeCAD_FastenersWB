@@ -116,6 +116,16 @@
         <source>Chamfer holes for countersunk screws</source>
         <translation>Escarear furos para esconder cabeça do parafuso</translation>
     </message>
+    <message>
+        <location filename="../CountersunkHoles.py" line="149"/>
+        <source>Edges to chamfer</source>
+        <translation>Arestas a chanfrar</translation>
+    </message>
+    <message>
+        <location filename="../CountersunkHoles.py" line="150"/>
+        <source>Diameter</source>
+        <translation>Diâmetro</translation>
+    </message>
 </context>
 <context>
     <name>DockWidget</name>
@@ -811,7 +821,7 @@
     <message>
         <location filename="../InitGui.py" line="66"/>
         <source>Fasteners</source>
-        <translation>Elementos fixadores</translation>
+        <translation>Elementos de fixação</translation>
     </message>
     <message>
         <location filename="../InitGui.py" line="63"/>

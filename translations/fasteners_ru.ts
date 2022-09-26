@@ -116,6 +116,16 @@
         <source>Chamfer holes for countersunk screws</source>
         <translation>Создать фаску для крепёжа с потайной головкой</translation>
     </message>
+    <message>
+        <location filename="../CountersunkHoles.py" line="149"/>
+        <source>Edges to chamfer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../CountersunkHoles.py" line="150"/>
+        <source>Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DockWidget</name>

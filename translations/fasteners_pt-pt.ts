@@ -818,5 +818,10 @@
         <source>Add Fasteners</source>
         <translation>Adicionar fixadores</translation>
     </message>
+    <message>
+        <location filename="../InitGui.py" line="39"/>
+        <source>Create ISO Fasteners</source>
+        <translation>Crie elementos de fixação ISO</translation>
+    </message>
 </context>
 </TS>

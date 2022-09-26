@@ -22,7 +22,6 @@
 #  
 #  
 ###################################################################################
-
 import fnwb_locator
 fnWBpath = os.path.dirname(fnwb_locator.__file__)
 fnWB_icons_path =  os.path.join( fnWBpath, 'Icons')
@@ -34,9 +33,10 @@ main_fnWB_Icon = os.path.join( fnWB_icons_path , 'FNLogo.svg')
 class FastenersWorkbench (Workbench):
  
     global main_fnWB_Icon
-    
+    from TranslateUtils import translate
+
     MenuText = "Fasteners"
-    ToolTip = "Create ISO Fasteners"
+    ToolTip = translate("InitGui", "Create ISO Fasteners")
     Icon = main_fnWB_Icon
  
     def Initialize(self):
@@ -47,7 +47,7 @@ class FastenersWorkbench (Workbench):
         import CountersunkHoles, FSChangeParams
 
         print(translate("InitGui", "Translate this text"))
-        
+
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command") 
         self.appendToolbar("FS Commands",cmdlist) 

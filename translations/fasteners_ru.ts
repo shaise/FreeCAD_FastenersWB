@@ -233,59 +233,64 @@
         <translation>Создать спецификацию всех крепежных элементов имеющихся в документе в форме электронной таблицы</translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="874"/>
+        <location filename="../FastenerBase.py" line="875"/>
         <source>Type</source>
         <translation>Тип</translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="875"/>
+        <location filename="../FastenerBase.py" line="876"/>
         <source>Qty</source>
         <translation>Кол-во</translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="899"/>
+        <location filename="../FastenerBase.py" line="900"/>
         <source> Screw </source>
         <translation> Винт/Болт </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="907"/>
+        <location filename="../FastenerBase.py" line="908"/>
         <source> Nut </source>
         <translation> Гайка </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="910"/>
+        <location filename="../FastenerBase.py" line="911"/>
         <source> Washer </source>
         <translation> Шайба </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="913"/>
+        <location filename="../FastenerBase.py" line="914"/>
         <source>Threaded Rod </source>
         <translation>Шпилька </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="917"/>
+        <location filename="../FastenerBase.py" line="918"/>
         <source>PEM PressNut </source>
         <translation>Гайка запрессовочная </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="920"/>
+        <location filename="../FastenerBase.py" line="921"/>
         <source>PEM Standoff </source>
         <translation>Втулка запрессовочная полнопроходная резьбовая с шестигранным основанием </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="923"/>
+        <location filename="../FastenerBase.py" line="924"/>
         <source>PEM Stud </source>
         <translation>Шпилька резьбовая запрессовочная </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="926"/>
+        <location filename="../FastenerBase.py" line="927"/>
         <source>PCB Standoff </source>
         <translation>Шестигранная стойка для печатных плат </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="931"/>
+        <location filename="../FastenerBase.py" line="932"/>
         <source>Heat Set Insert </source>
         <translation>Резьбовая втулка под горячую запрессовку </translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="873"/>
+        <source>Fasteners_BOM</source>
+        <translation>Спецификация</translation>
     </message>
 </context>
 <context>

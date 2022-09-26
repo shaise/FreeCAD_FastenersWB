@@ -233,59 +233,64 @@
         <translation>Gerar lista de materiais de elementos fixadores</translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="874"/>
+        <location filename="../FastenerBase.py" line="875"/>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="875"/>
+        <location filename="../FastenerBase.py" line="876"/>
         <source>Qty</source>
         <translation>Qntd</translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="899"/>
+        <location filename="../FastenerBase.py" line="900"/>
         <source> Screw </source>
         <translation> Parafuso </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="907"/>
+        <location filename="../FastenerBase.py" line="908"/>
         <source> Nut </source>
         <translation> Porca </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="910"/>
+        <location filename="../FastenerBase.py" line="911"/>
         <source> Washer </source>
         <translation> Arruela </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="913"/>
+        <location filename="../FastenerBase.py" line="914"/>
         <source>Threaded Rod </source>
         <translation>Barra Roscada </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="917"/>
+        <location filename="../FastenerBase.py" line="918"/>
         <source>PEM PressNut </source>
         <translation>Porca de pressão PEM </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="920"/>
+        <location filename="../FastenerBase.py" line="921"/>
         <source>PEM Standoff </source>
         <translation>Espaçador PEM </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="923"/>
+        <location filename="../FastenerBase.py" line="924"/>
         <source>PEM Stud </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="926"/>
+        <location filename="../FastenerBase.py" line="927"/>
         <source>PCB Standoff </source>
         <translation>Espaçador de PCB </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="931"/>
+        <location filename="../FastenerBase.py" line="932"/>
         <source>Heat Set Insert </source>
         <translation>Inserto metálico Impressão 3d </translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="873"/>
+        <source>Fasteners_BOM</source>
+        <translation>Lista_de_elementos_fixadores</translation>
     </message>
 </context>
 <context>

@@ -119,12 +119,12 @@
     <message>
         <location filename="../CountersunkHoles.py" line="149"/>
         <source>Edges to chamfer</source>
-        <translation type="unfinished"></translation>
+        <translation>Зенкуемые грани</translation>
     </message>
     <message>
         <location filename="../CountersunkHoles.py" line="150"/>
         <source>Diameter</source>
-        <translation type="unfinished"></translation>
+        <translation>Диаметр</translation>
     </message>
 </context>
 <context>
@@ -308,52 +308,52 @@
     <message>
         <location filename="../FastenersCmd.py" line="121"/>
         <source>Hex head</source>
-        <translation>C шестигранной головкой</translation>
+        <translation>винты с шестигранной головкой</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="132"/>
         <source>Hexagon socket</source>
-        <translation>C шестигранным углублением под ключ</translation>
+        <translation>винты с шестигранным углублением под ключ</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="86"/>
         <source>Hexalobular socket</source>
-        <translation>C звездообразным углублением под ключ</translation>
+        <translation>винты с звездообразным углублением под ключ</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
         <source>Slotted</source>
-        <translation>С прямым шлицем</translation>
+        <translation>винты с прямым шлицем</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="97"/>
         <source>H cross</source>
-        <translation>C крестообразным шлицем</translation>
+        <translation>винты с крестообразным шлицем</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="140"/>
         <source>Nut</source>
-        <translation>Гайки</translation>
+        <translation>гайки</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="144"/>
         <source>Washer</source>
-        <translation>Шайбы</translation>
+        <translation>шайбы</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="151"/>
         <source>ThreadedRod</source>
-        <translation>Шпильки</translation>
+        <translation>шпильки</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="157"/>
         <source>PEM Inserts</source>
-        <translation>Запрессовочный крепёж</translation>
+        <translation>запрессовочный крепёж</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="136"/>
         <source>Other head</source>
-        <translation>C другими головками</translation>
+        <translation>винты с другими головками</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="63"/>
@@ -821,7 +821,7 @@
     <message>
         <location filename="../InitGui.py" line="66"/>
         <source>Fasteners</source>
-        <translation>Крепежные элементы</translation>
+        <translation>Стандартные изделия</translation>
     </message>
     <message>
         <location filename="../InitGui.py" line="63"/>
@@ -836,7 +836,7 @@
     <message>
         <location filename="../InitGui.py" line="39"/>
         <source>Create ISO Fasteners</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавление стандартных изделий в проект</translation>
     </message>
 </context>
 </TS>

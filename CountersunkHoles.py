@@ -146,8 +146,8 @@ class Ui_DlgCountersunktHoles(object):
         
         dm = FSDiameterModel(parent)
         dm.insertColumns(0,2);
-        dm.setHeaderData(0, QtCore.Qt.Horizontal, "Edges to chamfer", QtCore.Qt.DisplayRole)
-        dm.setHeaderData(1, QtCore.Qt.Horizontal, "Diameter", QtCore.Qt.DisplayRole)
+        dm.setHeaderData(0, QtCore.Qt.Horizontal, translate("DlgCountersunktHoles", "Edges to chamfer"), QtCore.Qt.DisplayRole)
+        dm.setHeaderData(1, QtCore.Qt.Horizontal, translate("DlgCountersunktHoles", "Diameter"), QtCore.Qt.DisplayRole)
         edges = []
         for i in range(len(baseObj.Shape.Edges)):
           edge = 'Edge' + str(i + 1)
@@ -473,7 +473,7 @@ class FSTaskFilletDialog:
         FSFilletDialog.ui.model.itemChanged.connect(self.onItemChanged)
                 
         self.form = FSFilletDialog
-        self.form.setWindowTitle("Chamfer holes for countersunk screws")
+        self.form.setWindowTitle(translate("DlgCountersunktHoles", "Chamfer holes for countersunk screws"))
         Gui.Selection.addSelectionGate(FSSelectionFilterGate)
         self.selobserver = FSSelObserver(self) 
         Gui.Selection.addObserver(self.selobserver) 

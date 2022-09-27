@@ -39,7 +39,18 @@ import ScrewMaker
 
 screwMaker = ScrewMaker.Instance()
 
-
+# These lines are required for translation by the pylupdate5 utility. Don't delete them.
+translate("FastenerCmdTreeView", "Screw")
+translate("FastenerCmdTreeView", "Washer")
+translate("FastenerCmdTreeView", "Nut")
+translate("FastenerCmdTreeView", "ThreadedRod")
+translate("FastenerCmdTreeView", "PressNut")
+translate("FastenerCmdTreeView", "Standoff")
+translate("FastenerCmdTreeView", "Spacer")
+translate("FastenerCmdTreeView", "Stud")
+translate("FastenerCmdTreeView", "ScrewTap")
+translate("FastenerCmdTreeView", "ScrewDie")
+translate("FastenerCmdTreeView", "Insert")
 
 ScrewParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded", "length" }
 ScrewParametersLC = { "type", "diameter", "matchOuter", "thread", "leftHanded", "length", "lengthCustom" }
@@ -463,33 +474,8 @@ class FSScrewObject(FSBaseObject):
         if hasattr(fp, 'leftHanded'):
             if self.leftHanded:
                 label += 'LH'
-        # Add translated type
-        '''
-        selfFamilyType=self.familyType
-        if selfFamilyType == "Screw":
-            selfFamilyType = translate("FastenerCmd", "Screw")
-        if selfFamilyType == "Washer":
-            selfFamilyType = translate("FastenerCmd", "Washer")
-        if selfFamilyType == "Nut":
-            selfFamilyType = translate("FastenerCmd", "Nut")
-        if selfFamilyType == "ThreadedRod":
-            selfFamilyType = translate("FastenerCmd", "ThreadedRod")
-        if selfFamilyType == "PressNut":
-            selfFamilyType = translate("FastenerCmd", "PressNut")
-        if selfFamilyType == "Standoff":
-            selfFamilyType = translate("FastenerCmd", "Standoff")
-        if selfFamilyType == "Spacer":
-            selfFamilyType = translate("FastenerCmd", "Spacer")
-        if selfFamilyType == "Stud":
-            selfFamilyType = translate("FastenerCmd", "Stud")
-        if selfFamilyType == "ScrewTap":
-            selfFamilyType = translate("FastenerCmd", "ScrewTap")
-        if selfFamilyType == "ScrewDie":
-            selfFamilyType = translate("FastenerCmd", "ScrewDie")
-        if selfFamilyType == "Insert":
-            selfFamilyType = translate("FastenerCmd", "Insert")
-        '''    
-        selfFamilyType = translate("FastenerCmd", self.familyType)
+        # Add translated name of fastener type  
+        selfFamilyType = translate("FastenerCmdTreeView", self.familyType)
         label += '-' + selfFamilyType
         # Set completed label
         fp.Label = label

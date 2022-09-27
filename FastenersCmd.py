@@ -464,6 +464,7 @@ class FSScrewObject(FSBaseObject):
             if self.leftHanded:
                 label += 'LH'
         # Add translated type
+        '''
         selfFamilyType=self.familyType
         if selfFamilyType == "Screw":
             selfFamilyType = translate("FastenerCmd", "Screw")
@@ -486,7 +487,9 @@ class FSScrewObject(FSBaseObject):
         if selfFamilyType == "ScrewDie":
             selfFamilyType = translate("FastenerCmd", "ScrewDie")
         if selfFamilyType == "Insert":
-            selfFamilyType = translate("FastenerCmd", "Insert")       
+            selfFamilyType = translate("FastenerCmd", "Insert")
+        '''    
+        selfFamilyType = translate("FastenerCmd", self.familyType)
         label += '-' + selfFamilyType
         # Set completed label
         fp.Label = label

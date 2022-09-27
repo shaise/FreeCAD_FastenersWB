@@ -39,7 +39,19 @@ import ScrewMaker
 
 screwMaker = ScrewMaker.Instance()
 
-
+# These strings are required for fasteners translation in treeview.
+# They are used by the pylupdate5 utility for update *.ts files. Don't delete them.
+translate("FastenerCmdTreeView", "Screw")
+translate("FastenerCmdTreeView", "Washer")
+translate("FastenerCmdTreeView", "Nut")
+translate("FastenerCmdTreeView", "ThreadedRod")
+translate("FastenerCmdTreeView", "PressNut")
+translate("FastenerCmdTreeView", "Standoff")
+translate("FastenerCmdTreeView", "Spacer")
+translate("FastenerCmdTreeView", "Stud")
+translate("FastenerCmdTreeView", "ScrewTap")
+translate("FastenerCmdTreeView", "ScrewDie")
+translate("FastenerCmdTreeView", "Insert")
 
 ScrewParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded", "length" }
 ScrewParametersLC = { "type", "diameter", "matchOuter", "thread", "leftHanded", "length", "lengthCustom" }
@@ -451,19 +463,23 @@ class FSScrewObject(FSBaseObject):
         else:
             FreeCAD.Console.PrintLog("Using cached object\n")
 
+        # Formation of fastener name: DxLxH(LH)-Type
         dispDiam = self.CleanDecimals(self.calc_diam)
+        label = dispDiam
         if hasattr(fp, 'length'):
             dispLen = self.ActiveLength(fp)
-            dispWidth = ""
+            label += 'x' + dispLen
             if hasattr(fp, 'width'):
                 dispWidth = 'x' + fp.width
-            label = dispDiam + dispWidth + 'x' + dispLen
+                label += 'x' + dispWidth
+        if hasattr(fp, 'leftHanded'):
             if self.leftHanded:
                 label += 'LH'
-            label += '-' + self.familyType
-            fp.Label = label
-        else:
-            fp.Label = dispDiam + '-' + self.familyType
+        # Add translated name of fastener type  
+        selfFamilyType = translate("FastenerCmdTreeView", self.familyType)
+        label += '-' + selfFamilyType
+        # Set completed label
+        fp.Label = label
 
         # self.familyType = s[1]
         fp.Shape = s

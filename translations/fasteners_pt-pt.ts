@@ -306,509 +306,567 @@
 <context>
     <name>FastenerCmd</name>
     <message>
-        <location filename="../FastenersCmd.py" line="121"/>
+        <location filename="../FastenersCmd.py" line="132"/>
         <source>Hex head</source>
         <translation>Sextavado</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="132"/>
+        <location filename="../FastenersCmd.py" line="143"/>
         <source>Hexagon socket</source>
         <translation>Allen</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="86"/>
+        <location filename="../FastenersCmd.py" line="97"/>
         <source>Hexalobular socket</source>
         <translation>Hexalobular (Torx)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="134"/>
+        <location filename="../FastenersCmd.py" line="145"/>
         <source>Slotted</source>
         <translation>Fenda</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="97"/>
+        <location filename="../FastenersCmd.py" line="108"/>
         <source>H cross</source>
         <translation>Fenda cruzada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="140"/>
+        <location filename="../FastenersCmd.py" line="151"/>
         <source>Nut</source>
         <translation>Porca</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="144"/>
+        <location filename="../FastenersCmd.py" line="155"/>
         <source>Washer</source>
         <translation>Arruela</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="151"/>
+        <location filename="../FastenersCmd.py" line="162"/>
         <source>ThreadedRod</source>
         <translation>Barra Roscada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="157"/>
+        <location filename="../FastenersCmd.py" line="168"/>
         <source>PEM Inserts</source>
         <translation>Insertos PEM</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="136"/>
+        <location filename="../FastenersCmd.py" line="147"/>
         <source>Other head</source>
         <translation>Outros tipos</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="63"/>
+        <location filename="../FastenersCmd.py" line="74"/>
         <source>ISO 4017 Hex head screw</source>
         <translation>ISO 4017 Sextavado rosca total</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="64"/>
+        <location filename="../FastenersCmd.py" line="75"/>
         <source>ISO 4014 Hex head bolt</source>
         <translation>ISO 4014 Sextavado rosca parcial</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="65"/>
+        <location filename="../FastenersCmd.py" line="76"/>
         <source>EN 1662 Hexagon bolt with flange, small series</source>
         <translation>EN 1662 Sextavado com flange, série leve</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="66"/>
+        <location filename="../FastenersCmd.py" line="77"/>
         <source>EN 1665 Hexagon bolt with flange, heavy series</source>
         <translation>EN 1665 Sextavado com flange, série pesada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="67"/>
+        <location filename="../FastenersCmd.py" line="78"/>
         <source>DIN 571 Hex head wood screw</source>
         <translation>DIN 571 Sextavado rosca soberba</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="69"/>
+        <location filename="../FastenersCmd.py" line="80"/>
         <source>ISO4762 Hexagon socket head cap screw</source>
         <translation>ISO 4762 Allen</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="70"/>
+        <location filename="../FastenersCmd.py" line="81"/>
         <source>DIN 7984 Hexagon socket head cap screws with low head</source>
         <translation>DIN 7984 Allen Cabeça fina</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="71"/>
+        <location filename="../FastenersCmd.py" line="82"/>
         <source>DIN 6912 Hexagon socket head cap screws with low head with centre</source>
         <translation>DIN 6912 Allen cabeça fina com centralizador</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="72"/>
+        <location filename="../FastenersCmd.py" line="83"/>
         <source>ISO 7380 Hexagon socket button head screw</source>
         <translation>ISO 7380 Allen de cabeça abaulada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="73"/>
+        <location filename="../FastenersCmd.py" line="84"/>
         <source>ISO 7380 Hexagon socket button head screws with collar</source>
         <translation>ISO 7380 Allen de cabeça abaulada com colar</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="74"/>
+        <location filename="../FastenersCmd.py" line="85"/>
         <source>ISO 10642 Hexagon socket countersunk head screw</source>
         <translation>ISO 10642 Allen cabeça escareada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="75"/>
+        <location filename="../FastenersCmd.py" line="86"/>
         <source>ISO 7379 Hexagon socket head shoulder screw</source>
         <translation>ISO 7379 Allen corpo retificado</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="76"/>
+        <location filename="../FastenersCmd.py" line="87"/>
         <source>ISO 4026 Hexagon socket set screws with flat point</source>
         <translation>ISO 4026 Allen sem cabeça</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="77"/>
+        <location filename="../FastenersCmd.py" line="88"/>
         <source>ISO 4027 Hexagon socket set screws with cone point</source>
         <translation>ISO 4027 Allen sem cabeça com ponta cônica</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="78"/>
+        <location filename="../FastenersCmd.py" line="89"/>
         <source>ISO 4028 Hexagon socket set screws with dog point</source>
         <translation>ISO 4028 Allen sem cabeça com ponta de cão</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="79"/>
+        <location filename="../FastenersCmd.py" line="90"/>
         <source>ISO 4029 Hexagon socket set screws with cup point</source>
         <translation>ISO 4029 Allen sem cabeça com ponta cônica recartilhada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="81"/>
+        <location filename="../FastenersCmd.py" line="92"/>
         <source>ISO 14579 Hexalobular socket head cap screws</source>
         <translation>ISO 14579 Hexalobular (Torx)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="82"/>
+        <location filename="../FastenersCmd.py" line="93"/>
         <source>ISO 14580 Hexalobular socket cheese head screws</source>
         <translation>ISO 14580 Hexalobular (Torx)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="84"/>
+        <location filename="../FastenersCmd.py" line="95"/>
         <source>ISO 14582 Hexalobular socket countersunk head screws, high head</source>
         <translation>ISO 14582 Hexalobular (Torx) cabeça escareada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="85"/>
+        <location filename="../FastenersCmd.py" line="96"/>
         <source>ISO 14583 Hexalobular socket pan head screws</source>
         <translation>ISO 14583 Hexalobular (Torx) cabeça abaulada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="86"/>
+        <location filename="../FastenersCmd.py" line="97"/>
         <source>ISO 14584 Hexalobular socket raised countersunk head screws</source>
         <translation>ISO 14584  Hexalobular (Torx) cabeça abaulada e escareada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="88"/>
+        <location filename="../FastenersCmd.py" line="99"/>
         <source>ISO 2009 Slotted countersunk flat head screw</source>
         <translation>ISO 2009 Fenda cabeça chata</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="89"/>
+        <location filename="../FastenersCmd.py" line="100"/>
         <source>ISO 2010 Slotted raised countersunk head screw</source>
         <translation>ISO 2010 Fenda cabeça abaulada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="90"/>
+        <location filename="../FastenersCmd.py" line="101"/>
         <source>ISO 1580 Slotted pan head screw</source>
         <translation>ISO 1580 Fenda cabeça panela</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="91"/>
+        <location filename="../FastenersCmd.py" line="102"/>
         <source>ISO 1207 Slotted cheese head screw</source>
         <translation>ISO 1207 Fenda cabeça normal</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="93"/>
+        <location filename="../FastenersCmd.py" line="104"/>
         <source>DIN 967 Cross recessed pan head screws with collar</source>
         <translation>DIN 967 Fenda cruzada cabeça abulada com colar</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="94"/>
+        <location filename="../FastenersCmd.py" line="105"/>
         <source>ISO 7045 Pan head screws type H cross recess</source>
         <translation>ISO 7045 Fenda cruzada com cabeça panela</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="95"/>
+        <location filename="../FastenersCmd.py" line="106"/>
         <source>ISO 7046 Countersunk flat head screws H cross r.</source>
         <translation>ISO 7046 Fenda cruzada com cabeça panela escareada.</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="96"/>
+        <location filename="../FastenersCmd.py" line="107"/>
         <source>ISO 7047 Raised countersunk head screws H cross r.</source>
         <translation>ISO 7047 Fenda cruzada com cabeça panela abaulada.</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="97"/>
+        <location filename="../FastenersCmd.py" line="108"/>
         <source>ISO 7048 Cheese head screws with type H cross r.</source>
         <translation>ISO 7048 Fenda cruzada com cabeça cônica invertida.</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="99"/>
+        <location filename="../FastenersCmd.py" line="110"/>
         <source>ISO 4032 Hexagon nuts, Style 1</source>
         <translation>ISO 4032 Porca sextavada, estilo 1</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="100"/>
+        <location filename="../FastenersCmd.py" line="111"/>
         <source>ISO 4033 Hexagon nuts, Style 2</source>
         <translation>ISO 4033 Porca sextavada, estilo 2</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="101"/>
+        <location filename="../FastenersCmd.py" line="112"/>
         <source>ISO 4035 Hexagon thin nuts, chamfered</source>
         <translation>ISO 4035 Porca sextavada fina</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="103"/>
+        <location filename="../FastenersCmd.py" line="114"/>
         <source>EN 1661 Hexagon nuts with flange</source>
         <translation>EN 1661 Porca sextavada com flange</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="104"/>
+        <location filename="../FastenersCmd.py" line="115"/>
         <source>DIN917 Cap nuts, thin style</source>
         <translation>DIN 917 Porca calota baixa</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="105"/>
+        <location filename="../FastenersCmd.py" line="116"/>
         <source>DIN 1587 Cap nuts</source>
         <translation>DIN 1587 Porca calota</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="106"/>
+        <location filename="../FastenersCmd.py" line="117"/>
         <source>DIN 557 Square nuts</source>
         <translation>DIN 557 Porca quadrada abaulada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="107"/>
+        <location filename="../FastenersCmd.py" line="118"/>
         <source>DIN 562 Square nuts</source>
         <translation>DIN 562 Porca quadrada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="108"/>
+        <location filename="../FastenersCmd.py" line="119"/>
         <source>DIN 985 Nyloc nuts</source>
         <translation>DIN 985 Porca sextavada auto-travante</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="110"/>
+        <location filename="../FastenersCmd.py" line="121"/>
         <source>ISO 7089 Washer</source>
         <translation>ISO 7089 Arruela lisa</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="111"/>
+        <location filename="../FastenersCmd.py" line="122"/>
         <source>ISO 7090 Plain Washers, chamfered - Normal series</source>
         <translation>ISO 7090 Arruela lisa com chanfro</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="113"/>
+        <location filename="../FastenersCmd.py" line="124"/>
         <source>ISO 7092 Plain washers - Small series</source>
         <translation>ISO 7092 Arruela lisa para parafusos de cabeça cilíndrica</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="114"/>
+        <location filename="../FastenersCmd.py" line="125"/>
         <source>ISO 7093-1 Plain washers - Large series</source>
         <translation>ISO 7093-1 Arruela lisa grande</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="115"/>
+        <location filename="../FastenersCmd.py" line="126"/>
         <source>ISO 7094 Plain washers - Extra large series</source>
         <translation>ISO 7094 Arruela lisa extra grande</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="116"/>
+        <location filename="../FastenersCmd.py" line="127"/>
         <source>NFE27-619 Countersunk washer</source>
         <translation>NFE27-619 Arruela cabeça escareada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="120"/>
+        <location filename="../FastenersCmd.py" line="131"/>
         <source>ASME B18.2.1 UNC Hex head screws</source>
         <translation>ASME B18.2.1 UNC Sextavado rosca total</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="121"/>
+        <location filename="../FastenersCmd.py" line="132"/>
         <source>ASME B18.2.1 UNC Hex head screws with flange</source>
         <translation>ASME B18.2.1 UNC sextavado com flange</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="123"/>
+        <location filename="../FastenersCmd.py" line="134"/>
         <source>ASME B18.3 UNC Hex socket head cap screws</source>
         <translation>ASME B18.3 UNC Allen</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="124"/>
+        <location filename="../FastenersCmd.py" line="135"/>
         <source>ASME B18.3 UNC Hex socket head cap screws with low head</source>
         <translation>ASME B18.3 UNC Allen cabeça fina</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="125"/>
+        <location filename="../FastenersCmd.py" line="136"/>
         <source>ASME B18.3 UNC Hex socket countersunk head screws</source>
         <translation>ASME B18.3 UNC Allen cabeça escareada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="126"/>
+        <location filename="../FastenersCmd.py" line="137"/>
         <source>ASME B18.3 UNC Hex socket button head screws</source>
         <translation>ASME B18.3 UNC Sextavado cabeça abaulada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="127"/>
+        <location filename="../FastenersCmd.py" line="138"/>
         <source>ASME B18.3 UNC Hex socket button head screws with flange</source>
         <translation>ASME B18.3 UNC Cabeça abaulada com flange</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="128"/>
+        <location filename="../FastenersCmd.py" line="139"/>
         <source>ASME B18.3 UNC Hexagon socket head shoulder screws</source>
         <translation>ASME B18.3 UNC Allen com pescoço</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="129"/>
+        <location filename="../FastenersCmd.py" line="140"/>
         <source>ASME B18.3 UNC Hexagon socket set screws with flat point</source>
         <translation>ASME B18.3 UNC Allen sem cabeça com ponta chanfrada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="130"/>
+        <location filename="../FastenersCmd.py" line="141"/>
         <source>ASME B18.3 UNC Hexagon socket set screws with cone point</source>
         <translation>ASME B18.3 UNC Allen sem cabeça com cabeça cônica</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="131"/>
+        <location filename="../FastenersCmd.py" line="142"/>
         <source>ASME B18.3 UNC Hexagon socket set screws with dog point</source>
         <translation>ASME B18.3 UNC Allen ponta cachorro</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="132"/>
+        <location filename="../FastenersCmd.py" line="143"/>
         <source>ASME B18.3 UNC Hexagon socket set screws with cup point</source>
         <translation>ASME B18.3 UNC Allen sem cabeça com ponta furada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="134"/>
+        <location filename="../FastenersCmd.py" line="145"/>
         <source>ASME B18.6.3 UNC slotted countersunk flat head screws</source>
         <translation>ASME B18.6.3 UNC fenda com cabeça escareada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="136"/>
+        <location filename="../FastenersCmd.py" line="147"/>
         <source>ASME B18.5 UNC Round head square neck bolts</source>
         <translation>ASME B18.5 UNC Parafuso francês</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="138"/>
+        <location filename="../FastenersCmd.py" line="149"/>
         <source>ASME B18.2.2 UNC Machine screw nuts</source>
         <translation>ASME B18.2.2 UNC Porca sextavada média</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="139"/>
+        <location filename="../FastenersCmd.py" line="150"/>
         <source>ASME B18.2.2 UNC Hexagon nuts</source>
         <translation>ASME B18.2.2 UNC Porca sextavada larga</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="140"/>
+        <location filename="../FastenersCmd.py" line="151"/>
         <source>ASME B18.2.2 UNC Hexagon thin nuts</source>
         <translation>ASME B18.2.2 UNC Porca sextavada fina</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="142"/>
+        <location filename="../FastenersCmd.py" line="153"/>
         <source>ASME B18.21.1 UN washers, narrow series</source>
         <translation>ASME B18.21.1 UN Arruela lisa pequena</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="143"/>
+        <location filename="../FastenersCmd.py" line="154"/>
         <source>ASME B18.21.1 UN washers, regular series</source>
         <translation>ASME B18.21.1 UN Arruela lisa normal</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="144"/>
+        <location filename="../FastenersCmd.py" line="155"/>
         <source>ASME B18.21.1 UN washers, wide series</source>
         <translation>ASME B18.21.1 UN Arruela lisa grande</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="146"/>
+        <location filename="../FastenersCmd.py" line="157"/>
         <source>Metric threaded rod for tapping holes</source>
         <translation>Macho métrico para roscar furos</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="147"/>
+        <location filename="../FastenersCmd.py" line="158"/>
         <source>Inch threaded rod for tapping holes</source>
         <translation>Macho em polegada para roscar furos</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="148"/>
+        <location filename="../FastenersCmd.py" line="159"/>
         <source>Tool object to cut external metric threads</source>
         <translation>Cocinete métrico</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="149"/>
+        <location filename="../FastenersCmd.py" line="160"/>
         <source>Tool object to cut external non-metric threads</source>
         <translation>Cocinete não métrico</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="150"/>
+        <location filename="../FastenersCmd.py" line="161"/>
         <source>DIN 975 metric threaded rod</source>
         <translation>DIN 975 barra roscada métrica</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="151"/>
+        <location filename="../FastenersCmd.py" line="162"/>
         <source>UNC threaded rod</source>
         <translation>UNC barra roscada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="152"/>
+        <location filename="../FastenersCmd.py" line="163"/>
         <source>PEM Self Clinching nut</source>
         <translation>PEM Porca auto-clinching</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="153"/>
+        <location filename="../FastenersCmd.py" line="164"/>
         <source>PEM Self Clinching standoff</source>
         <translation>PEM Porca-rebite</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="154"/>
+        <location filename="../FastenersCmd.py" line="165"/>
         <source>PEM Self Clinching stud</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="155"/>
+        <location filename="../FastenersCmd.py" line="166"/>
         <source>Wurth WA-SSTII  PCB standoff</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="156"/>
+        <location filename="../FastenersCmd.py" line="167"/>
         <source>Wurth WA-SSTII PCB spacer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="157"/>
+        <location filename="../FastenersCmd.py" line="168"/>
         <source>IUT[A/B/C] Heat Staked Metric Insert</source>
         <translation>IUT[A/B/C] Inserto metálico para impressão 3D</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="532"/>
+        <location filename="../FastenersCmd.py" line="547"/>
         <source>Add </source>
         <translation>Adicionar </translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="227"/>
+        <location filename="../FastenersCmd.py" line="238"/>
         <source>Screw type</source>
         <translation>Tipo de parafuso</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="241"/>
+        <location filename="../FastenersCmd.py" line="252"/>
         <source>Standard diameter</source>
         <translation>Diâmetro padrão</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="249"/>
+        <location filename="../FastenersCmd.py" line="260"/>
         <source>Generate real thread</source>
         <translation>Modelar rosca real</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="251"/>
+        <location filename="../FastenersCmd.py" line="262"/>
         <source>Left handed thread</source>
         <translation>Rosca esquerda</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="253"/>
+        <location filename="../FastenersCmd.py" line="264"/>
         <source>Match outer thread diameter</source>
         <translation>Acertar pelo diâmetro externo</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="257"/>
+        <location filename="../FastenersCmd.py" line="268"/>
         <source>Body width code</source>
         <translation>Comprimento total do corpo</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="280"/>
+        <location filename="../FastenersCmd.py" line="291"/>
         <source>Screw length</source>
         <translation>Comprimento total</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="276"/>
+        <location filename="../FastenersCmd.py" line="287"/>
         <source>Custom length</source>
         <translation>Comprimento personalizado</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="282"/>
+        <location filename="../FastenersCmd.py" line="293"/>
         <source>Screw major diameter custom</source>
         <translation>Diâmetro maior personalizado</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="284"/>
+        <location filename="../FastenersCmd.py" line="295"/>
         <source>Screw pitch custom</source>
         <translation>Passo personalizado</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="288"/>
+        <location filename="../FastenersCmd.py" line="299"/>
         <source>Thickness code</source>
         <translation>Código de espessura</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="292"/>
+        <location filename="../FastenersCmd.py" line="303"/>
         <source>Blind Standoff type</source>
         <translation>Tipo de afastamento cego</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="294"/>
+        <location filename="../FastenersCmd.py" line="305"/>
         <source>Threaded part length</source>
         <translation>Comprimento da rosca</translation>
+    </message>
+</context>
+<context>
+    <name>FastenerCmdTreeView</name>
+    <message>
+        <location filename="../FastenersCmd.py" line="43"/>
+        <source>Screw</source>
+        <translation type="unfinished">Parafuso</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="44"/>
+        <source>Washer</source>
+        <translation type="unfinished">Arruela</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="45"/>
+        <source>Nut</source>
+        <translation type="unfinished">Porca</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="46"/>
+        <source>ThreadedRod</source>
+        <translation type="unfinished">Barra Roscada</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="47"/>
+        <source>PressNut</source>
+        <translation type="unfinished">Porca de pressão</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="48"/>
+        <source>Standoff</source>
+        <translation type="unfinished">Espaçador</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="49"/>
+        <source>Spacer</source>
+        <translation type="unfinished">Espaçador</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="50"/>
+        <source>Stud</source>
+        <translation type="unfinished">Parafuso</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="51"/>
+        <source>ScrewTap</source>
+        <translation type="unfinished">Macho</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="52"/>
+        <source>ScrewDie</source>
+        <translation type="unfinished">Cocinete</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="53"/>
+        <source>Insert</source>
+        <translation type="unfinished">Inserto metálico</translation>
     </message>
 </context>
 <context>

@@ -810,46 +810,6 @@
         <source>Threaded part length</source>
         <translation>Comprimento da rosca</translation>
     </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="469"/>
-        <source>Screw</source>
-        <translation type="obsolete">Parafuso</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="477"/>
-        <source>PressNut</source>
-        <translation type="obsolete">Porca de pressão</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="479"/>
-        <source>Standoff</source>
-        <translation type="obsolete">Espaçador</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="481"/>
-        <source>Spacer</source>
-        <translation type="obsolete">Espaçador</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="483"/>
-        <source>Stud</source>
-        <translation type="obsolete">Parafuso</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="485"/>
-        <source>ScrewTap</source>
-        <translation type="obsolete">Macho</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="487"/>
-        <source>ScrewDie</source>
-        <translation type="obsolete">Cocinete</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="489"/>
-        <source>Insert</source>
-        <translation type="obsolete">Inserto metálico</translation>
-    </message>
 </context>
 <context>
     <name>FastenerCmdTreeView</name>

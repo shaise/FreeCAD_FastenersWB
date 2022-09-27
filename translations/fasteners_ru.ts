@@ -810,46 +810,6 @@
         <source>Threaded part length</source>
         <translation>Длинна части с резьбой</translation>
     </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="469"/>
-        <source>Screw</source>
-        <translation type="obsolete">Винт</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="477"/>
-        <source>PressNut</source>
-        <translation type="obsolete">Запрессовочная гайка</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="479"/>
-        <source>Standoff</source>
-        <translation type="obsolete">Стойка</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="481"/>
-        <source>Spacer</source>
-        <translation type="obsolete">Стойка дистанцирующая</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="483"/>
-        <source>Stud</source>
-        <translation type="obsolete">Шпилька запресовочная</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="485"/>
-        <source>ScrewTap</source>
-        <translation type="obsolete">Метчик</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="487"/>
-        <source>ScrewDie</source>
-        <translation type="obsolete">Плашка</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="489"/>
-        <source>Insert</source>
-        <translation type="obsolete">Втулка</translation>
-    </message>
 </context>
 <context>
     <name>FastenerCmdTreeView</name>

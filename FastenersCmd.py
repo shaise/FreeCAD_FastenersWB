@@ -451,19 +451,45 @@ class FSScrewObject(FSBaseObject):
         else:
             FreeCAD.Console.PrintLog("Using cached object\n")
 
+        # Formation of fastener name: DxLxH(LH)-Type
         dispDiam = self.CleanDecimals(self.calc_diam)
+        label = dispDiam
         if hasattr(fp, 'length'):
             dispLen = self.ActiveLength(fp)
-            dispWidth = ""
+            label += 'x' + dispLen
             if hasattr(fp, 'width'):
                 dispWidth = 'x' + fp.width
-            label = dispDiam + dispWidth + 'x' + dispLen
+                label += 'x' + dispWidth
+        if hasattr(fp, 'leftHanded'):
             if self.leftHanded:
                 label += 'LH'
-            label += '-' + self.familyType
-            fp.Label = label
-        else:
-            fp.Label = dispDiam + '-' + self.familyType
+        # Add translated type
+        selfFamilyType=self.familyType
+        if selfFamilyType == "Screw":
+            selfFamilyType = translate("FastenerCmd", "Screw")
+        if selfFamilyType == "Washer":
+            selfFamilyType = translate("FastenerCmd", "Washer")
+        if selfFamilyType == "Nut":
+            selfFamilyType = translate("FastenerCmd", "Nut")
+        if selfFamilyType == "ThreadedRod":
+            selfFamilyType = translate("FastenerCmd", "ThreadedRod")
+        if selfFamilyType == "PressNut":
+            selfFamilyType = translate("FastenerCmd", "PressNut")
+        if selfFamilyType == "Standoff":
+            selfFamilyType = translate("FastenerCmd", "Standoff")
+        if selfFamilyType == "Spacer":
+            selfFamilyType = translate("FastenerCmd", "Spacer")
+        if selfFamilyType == "Stud":
+            selfFamilyType = translate("FastenerCmd", "Stud")
+        if selfFamilyType == "ScrewTap":
+            selfFamilyType = translate("FastenerCmd", "ScrewTap")
+        if selfFamilyType == "ScrewDie":
+            selfFamilyType = translate("FastenerCmd", "ScrewDie")
+        if selfFamilyType == "Insert":
+            selfFamilyType = translate("FastenerCmd", "Insert")       
+        label += '-' + selfFamilyType
+        # Set completed label
+        fp.Label = label
 
         # self.familyType = s[1]
         fp.Shape = s

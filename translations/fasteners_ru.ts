@@ -879,4 +879,47 @@
         <translation>Добавление стандартных изделий в проект</translation>
     </message>
 </context>
+<context>
+    <name>FastenerCmdTreeView</name>
+    <message>
+        <location filename="../FastenersCmd.py" line="469"/>
+        <source>Screw</source>
+        <translation>Винт</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="477"/>
+        <source>PressNut</source>
+        <translation>Запрессовочная гайка</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="479"/>
+        <source>Standoff</source>
+        <translation>Стойка</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="481"/>
+        <source>Spacer</source>
+        <translation>Стойка дистанцирующая</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="483"/>
+        <source>Stud</source>
+        <translation>Шпилька запресовочная</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="485"/>
+        <source>ScrewTap</source>
+        <translation>Метчик</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="487"/>
+        <source>ScrewDie</source>
+        <translation>Плашка</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="489"/>
+        <source>Insert</source>
+        <translation>Втулка</translation>
+    </message>
+</context>
 </TS>

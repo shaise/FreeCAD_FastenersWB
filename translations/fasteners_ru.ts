@@ -333,17 +333,17 @@
     <message>
         <location filename="../FastenersCmd.py" line="473"/>
         <source>Nut</source>
-        <translation>гайки</translation>
+        <translation>Гайка</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="471"/>
         <source>Washer</source>
-        <translation>шайбы</translation>
+        <translation>Шайба</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="475"/>
         <source>ThreadedRod</source>
-        <translation>шпильки</translation>
+        <translation>Шпилька</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="157"/>
@@ -813,42 +813,42 @@
     <message>
         <location filename="../FastenersCmd.py" line="469"/>
         <source>Screw</source>
-        <translation type="unfinished"></translation>
+        <translation>Винт</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="477"/>
         <source>PressNut</source>
-        <translation type="unfinished"></translation>
+        <translation>Запрессовочная гайка</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="479"/>
         <source>Standoff</source>
-        <translation type="unfinished"></translation>
+        <translation>Стойка</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="481"/>
         <source>Spacer</source>
-        <translation type="unfinished"></translation>
+        <translation>Стойка дистанцирующая</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="483"/>
         <source>Stud</source>
-        <translation type="unfinished"></translation>
+        <translation>Шпилька запресовочная</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="485"/>
         <source>ScrewTap</source>
-        <translation type="unfinished"></translation>
+        <translation>Метчик</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="487"/>
         <source>ScrewDie</source>
-        <translation type="unfinished"></translation>
+        <translation>Плашка</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="489"/>
         <source>Insert</source>
-        <translation type="unfinished"></translation>
+        <translation>Втулка</translation>
     </message>
 </context>
 <context>

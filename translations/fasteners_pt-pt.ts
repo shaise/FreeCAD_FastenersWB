@@ -331,17 +331,17 @@
         <translation>Fenda cruzada</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="140"/>
+        <location filename="../FastenersCmd.py" line="473"/>
         <source>Nut</source>
         <translation>Porca</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="144"/>
+        <location filename="../FastenersCmd.py" line="471"/>
         <source>Washer</source>
         <translation>Arruela</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="151"/>
+        <location filename="../FastenersCmd.py" line="475"/>
         <source>ThreadedRod</source>
         <translation>Barra Roscada</translation>
     </message>
@@ -741,7 +741,7 @@
         <translation>IUT[A/B/C] Inserto metálico para impressão 3D</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="532"/>
+        <location filename="../FastenersCmd.py" line="558"/>
         <source>Add </source>
         <translation>Adicionar </translation>
     </message>
@@ -809,6 +809,46 @@
         <location filename="../FastenersCmd.py" line="294"/>
         <source>Threaded part length</source>
         <translation>Comprimento da rosca</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="469"/>
+        <source>Screw</source>
+        <translation>Parafuso</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="477"/>
+        <source>PressNut</source>
+        <translation>Porca de pressão</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="479"/>
+        <source>Standoff</source>
+        <translation>Espaçador</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="481"/>
+        <source>Spacer</source>
+        <translation>Espaçador</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="483"/>
+        <source>Stud</source>
+        <translation>Parafuso</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="485"/>
+        <source>ScrewTap</source>
+        <translation>Macho</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="487"/>
+        <source>ScrewDie</source>
+        <translation>Cocinete</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="489"/>
+        <source>Insert</source>
+        <translation>Inserto metálico</translation>
     </message>
 </context>
 <context>

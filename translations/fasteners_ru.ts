@@ -132,7 +132,7 @@
     <message>
         <location filename="../FSScrewCalc.py" line="105"/>
         <source>Screw hole calculator</source>
-        <translation>Подбор рекомендуемого диаметра отверстия под нарезание резьбы</translation>
+        <translation>Подбор диаметра отверстия под резьбу</translation>
     </message>
     <message>
         <location filename="../FSScrewCalc.py" line="106"/>
@@ -152,7 +152,7 @@
     <message>
         <location filename="../FSScrewCalc.py" line="206"/>
         <source>Screw calculator</source>
-        <translation>Калькулятор резьбы</translation>
+        <translation>Калькулятор отверстия под резьбу</translation>
     </message>
     <message>
         <location filename="../FSScrewCalc.py" line="207"/>
@@ -308,52 +308,52 @@
     <message>
         <location filename="../FastenersCmd.py" line="132"/>
         <source>Hex head</source>
-        <translation>винты с шестигранной головкой</translation>
+        <translation>Винты с шестигранной головкой</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="143"/>
         <source>Hexagon socket</source>
-        <translation>винты с шестигранным углублением под ключ</translation>
+        <translation>Винты с шестигранным углублением под ключ</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="97"/>
         <source>Hexalobular socket</source>
-        <translation>винты с звездообразным углублением под ключ</translation>
+        <translation>Винты с звездообразным углублением под ключ</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="145"/>
         <source>Slotted</source>
-        <translation>винты с прямым шлицем</translation>
+        <translation>Винты с прямым шлицем</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="108"/>
         <source>H cross</source>
-        <translation>винты с крестообразным шлицем</translation>
+        <translation>Винты с крестообразным шлицем</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="151"/>
         <source>Nut</source>
-        <translation>Гайка</translation>
+        <translation>Гайки</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="155"/>
         <source>Washer</source>
-        <translation>Шайба</translation>
+        <translation>Шайбы</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="162"/>
         <source>ThreadedRod</source>
-        <translation>Шпилька</translation>
+        <translation>Шпильки</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="168"/>
         <source>PEM Inserts</source>
-        <translation>запрессовочный крепёж</translation>
+        <translation>Запрессовочный крепёж</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="147"/>
         <source>Other head</source>
-        <translation>винты с другими головками</translation>
+        <translation>Винты с другими головками</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="74"/>

@@ -115,6 +115,7 @@ FSScrewCommandTable = {
     "EN1661": (translate("FastenerCmd", "EN 1661 Hexagon nuts with flange"), translate("FastenerCmd", "Nut"), NutParameters),
     "DIN917": (translate("FastenerCmd", "DIN917 Cap nuts, thin style"), translate("FastenerCmd", "Nut"), NutParameters),
     "DIN1587": (translate("FastenerCmd", "DIN 1587 Cap nuts"), translate("FastenerCmd", "Nut"), NutParameters),
+    "GOST11860-1": (translate("FastenerCmd", "GOST 11860 (Type 1) Cap nuts"), translate("FastenerCmd", "Nut"), NutParameters), 
     "DIN557": (translate("FastenerCmd", "DIN 557 Square nuts"), translate("FastenerCmd", "Nut"), NutParameters),
     "DIN562": (translate("FastenerCmd", "DIN 562 Square nuts"), translate("FastenerCmd", "Nut"), NutParameters),
     "DIN985": (translate("FastenerCmd", "DIN 985 Nyloc nuts"), translate("FastenerCmd", "Nut"), NutParameters),

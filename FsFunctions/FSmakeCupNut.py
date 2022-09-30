@@ -27,12 +27,12 @@
 """
 from screw_maker import *
 
-# DIN1587 : cap (or 'acorn') nut
+# DIN1587 or GOST11860-1 : cap (or 'acorn') nut
 
 def makeCupNut(self, fa): # dynamically loaded method of class Screw
     SType = fa.type
     dia = self.getDia(fa.calc_diam, True)
-    if SType == "DIN1587":
+    if SType == "DIN1587" or SType == "GOST11860-1":
         P, d_k, h, m, s, t, w = fa.dimTable
     else:
         raise RuntimeError("unknown screw type")

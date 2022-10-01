@@ -36,7 +36,7 @@ def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
 
 # DIN 571 wood-screw
 
-def makeDIN571(self, fa): # dynamically loaded method of class Screw
+def makeDIN571(screw_obj, fa):
     SType = fa.type
     l = fa.calc_len
     dia = float(fa.calc_diam.split()[0])
@@ -64,7 +64,7 @@ def makeDIN571(self, fa): # dynamically loaded method of class Screw
 
     # create cutting tool for hexagon head
     # Parameters s, k, outer circle diameter =  e/2.0+10.0
-    extrude = self.makeHextool(s, k, s * 2.0)
+    extrude = screw_obj.makeHextool(s, k, s * 2.0)
 
     #if fa.thread:
     #  pass
@@ -104,10 +104,10 @@ def makeDIN571(self, fa): # dynamically loaded method of class Screw
     
     aFace = Part.Face(aWire)
     # Part.show(aFace)
-    head = self.RevolveZ(aFace)
+    head = screw_obj.RevolveZ(aFace)
     head = head.cut(extrude)
     if fa.thread:
-        thread = self.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d3h, d, P)
+        thread = screw_obj.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d3h, d, P)
         #Part.show(thread)
         head = head.fuse(thread)
     
@@ -115,7 +115,7 @@ def makeDIN571(self, fa): # dynamically loaded method of class Screw
 
 # DIN 96 wood-screw
 
-def makeDIN96(self, fa): # dynamically loaded method of class Screw
+def makeDIN96(screw_obj, fa):
     l = fa.calc_len
     dia = float(fa.calc_diam.split()[0])
     dk, k, n, t, d3, P = fa.dimTable
@@ -153,16 +153,16 @@ def makeDIN96(self, fa): # dynamically loaded method of class Screw
     profile = fm.GetFace()
 
     # make screw body
-    screw = self.RevolveZ(profile)
+    screw = screw_obj.RevolveZ(profile)
 
     # make slot
-    slot = Part.makeBox(dk, n, t,
+    slot = Part.makeBox(dk, n, t+1,
                         Base.Vector(-dk/2, -n/2, k-t))
     screw = screw.cut(slot)
 
     # make thread
     if fa.thread:
-        thread = self.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d32, d, P)
+        thread = screw_obj.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d32, d, P)
         screw = screw.fuse(thread)
- 
+
     return screw

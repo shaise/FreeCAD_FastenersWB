@@ -27,9 +27,16 @@
 """
 from screw_maker import *
 
+def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
+    SType = fa.type
+    if SType == "DIN571":
+        return makeDIN571(self, fa)
+    elif SType == "DIN96":
+        return makeDIN96(self, fa)
+
 # DIN 571 wood-screw
 
-def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
+def makeDIN571(self, fa): # dynamically loaded method of class Screw
     SType = fa.type
     l = fa.calc_len
     dia = float(fa.calc_diam.split()[0])
@@ -96,6 +103,7 @@ def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
                         edge7, edge8, edge9, edgeZ0])
     
     aFace = Part.Face(aWire)
+    # Part.show(aFace)
     head = self.RevolveZ(aFace)
     head = head.cut(extrude)
     if fa.thread:
@@ -104,3 +112,57 @@ def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
         head = head.fuse(thread)
     
     return head
+
+# DIN 96 wood-screw
+
+def makeDIN96(self, fa): # dynamically loaded method of class Screw
+    l = fa.calc_len
+    dia = float(fa.calc_diam.split()[0])
+    dk, k, n, t, d3, P = fa.dimTable
+    d = dia / 2.0
+    d32 = d3 / 2.0
+
+    # calc head
+    r = (4*k*k+dk*dk)/(8*k)
+    zm = math.sqrt(1-dk*dk/(16*r*r))*r - (r-k)
+
+    # calc screw
+    if fa.thread:
+        dt = d3 / 2.0
+    else:
+        dt = d
+    angle = math.radians(20)
+    x2 = dt * math.cos(angle)
+    z2 = dt * math.sin(angle)
+    z3 = x2 / math.tan(angle)
+    ftl = l - z2 - z3 # flat part (total length - tip)
+
+    # make profile
+    fm = FastenerBase.FSFaceMaker()
+    fm.AddPoints(
+        (0, k),
+        (dk/4, zm, dk/2, 0),
+        (d, 0),
+        (d, -0.4*ftl))
+    if fa.thread:
+        fm.AddPoints((dt, -0.4*ftl-(d-dt)))
+    fm.AddPoints(
+        (dt, -ftl),
+        (dt*math.cos(angle/2), -l + z2 + z3 - d*math.sin(angle/2), x2, -l+z3),
+        (0, -l))
+    profile = fm.GetFace()
+
+    # make screw body
+    screw = self.RevolveZ(profile)
+
+    # make slot
+    slot = Part.makeBox(dk, n, t,
+                        Base.Vector(-dk/2, -n/2, k-t))
+    screw = screw.cut(slot)
+
+    # make thread
+    if fa.thread:
+        thread = self.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d32, d, P)
+        screw = screw.fuse(thread)
+ 
+    return screw

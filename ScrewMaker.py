@@ -88,9 +88,15 @@ FSC_Inch_ScrewHoleChart = (
 )
 
 FSC_DIN7998_ScrewHoleChart = (
+    ("2 mm", 1.4),
+    ("2.5 mm", 1.7),
+    ("3 mm", 2.1),
+    ("3.5 mm", 2.4),
     ("4 mm", 2.8),
+    ("4.5 mm", 3.1),
     ("5 mm", 3.5),
     ("6 mm", 4.2),
+    ("7 mm", 4.9),
     ("8 mm", 5.6),
     ("10 mm", 7),
     ("12 mm", 9),
@@ -140,6 +146,7 @@ screwTables = {
     'DIN7984':  ("Screw", "makeCylinderHeadScrew"),
     'DIN6912':  ("Screw", "makeCylinderHeadScrew"),
     'DIN571':   ("Screw", "makeWoodScrew"),
+    'DIN96':    ("Screw", "makeWoodScrew"),
     'ISO7089':  ("Washer", "makeWasher"),
     'ISO7090':  ("Washer", "makeWasher"),
     'ISO7091':  ("Washer", "makeWasher"),

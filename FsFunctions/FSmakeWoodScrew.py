@@ -116,11 +116,11 @@ def makeDIN571(screw_obj, fa):
 # DIN 96 or GOST1144 wood-screw
 
 def makeDIN96_GOST1144(screw_obj, fa):
-    l = fa.calc_len
     SType = fa.type
+    l = fa.calc_len
     b = 0.4
     # 2 and 4 type of GOST1144 fasteners have a thread along the entire length
-    if SType == "GOST1144-2" and l<=22 :
+    if SType == "GOST1144-2":
         b = 0.005
     dia = float(fa.calc_diam.split()[0])
     dk, k, n, t, d3, P = fa.dimTable

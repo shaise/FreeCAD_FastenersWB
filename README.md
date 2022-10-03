@@ -123,6 +123,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes 
+* V0.4.14  03 Oct 2022:  Add spanish translation by @hasecilu.
 * V0.4.13  02 Oct 2022:  Add Din 96 wood screw by @berberic2.
 * V0.4.12  30 Sep 2022:  Add GOST11860 Type 1 Cap Nut by @FreeCAD-Tools.
 * V0.4.11  25 Sep 2022:  Russian translation by @FreeCAD-Tools.

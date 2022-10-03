@@ -117,7 +117,7 @@ def makeDIN571(screw_obj, fa):
 
 def makeDIN96_GOST1144(screw_obj, fa):
     l = fa.calc_len
-        SType = fa.type
+    SType = fa.type
     b = 0.4
     # 2 and 4 type of GOST1144 fasteners have a thread along the entire length
     if SType == "GOST1144-2" and l<=22 :

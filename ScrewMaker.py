@@ -88,6 +88,7 @@ FSC_Inch_ScrewHoleChart = (
 )
 
 FSC_DIN7998_ScrewHoleChart = (
+    ("1.6 mm", 1.1),
     ("2 mm", 1.4),
     ("2.5 mm", 1.7),
     ("3 mm", 2.1),
@@ -95,6 +96,7 @@ FSC_DIN7998_ScrewHoleChart = (
     ("4 mm", 2.8),
     ("4.5 mm", 3.1),
     ("5 mm", 3.5),
+    ("5.5 mm", 3.8),
     ("6 mm", 4.2),
     ("7 mm", 4.9),
     ("8 mm", 5.6),

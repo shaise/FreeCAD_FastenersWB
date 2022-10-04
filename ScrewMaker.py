@@ -149,6 +149,8 @@ screwTables = {
     'DIN6912':  ("Screw", "makeCylinderHeadScrew"),
     'DIN571':   ("Screw", "makeWoodScrew"),
     'DIN96':    ("Screw", "makeWoodScrew"),
+    'GOST1144-1':    ("Screw", "makeWoodScrew"),
+    'GOST1144-2':    ("Screw", "makeWoodScrew"),
     'ISO7089':  ("Washer", "makeWasher"),
     'ISO7090':  ("Washer", "makeWasher"),
     'ISO7091':  ("Washer", "makeWasher"),

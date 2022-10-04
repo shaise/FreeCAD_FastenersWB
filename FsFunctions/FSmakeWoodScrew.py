@@ -31,8 +31,8 @@ def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
     SType = fa.type
     if SType == "DIN571":
         return makeDIN571(self, fa)
-    elif SType == "DIN96":
-        return makeDIN96(self, fa)
+    elif SType == "DIN96" or SType == "GOST1144-1" or SType == "GOST1144-2":
+        return makeDIN96_GOST1144(self, fa)
 
 # DIN 571 wood-screw
 
@@ -113,10 +113,15 @@ def makeDIN571(screw_obj, fa):
     
     return head
 
-# DIN 96 wood-screw
+# DIN 96 or GOST1144 wood-screw
 
-def makeDIN96(screw_obj, fa):
+def makeDIN96_GOST1144(screw_obj, fa):
+    SType = fa.type
     l = fa.calc_len
+    b = 0.4
+    # 2 and 4 type of GOST1144 fasteners have a thread along the entire length
+    if SType == "GOST1144-2":
+        b = 0.005
     dia = float(fa.calc_diam.split()[0])
     dk, k, n, t, d3, P = fa.dimTable
     d = dia / 2.0
@@ -143,9 +148,9 @@ def makeDIN96(screw_obj, fa):
         (0, k),
         (dk/4, zm, dk/2, 0),
         (d, 0),
-        (d, -0.4*ftl))
+        (d, -b*ftl))
     if fa.thread:
-        fm.AddPoints((dt, -0.4*ftl-(d-dt)))
+        fm.AddPoints((dt, -b*ftl-(d-dt)))
     fm.AddPoints(
         (dt, -ftl),
         (dt*math.cos(angle/2), -l + z2 + z3 - d*math.sin(angle/2), x2, -l+z3),
@@ -162,7 +167,7 @@ def makeDIN96(screw_obj, fa):
 
     # make thread
     if fa.thread:
-        thread = screw_obj.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d32, d, P)
+        thread = screw_obj.makeDin7998Thread(b * -ftl, -ftl, -l, d32, d, P)
         screw = screw.fuse(thread)
 
     return screw

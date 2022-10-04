@@ -285,7 +285,7 @@
     <message>
         <location filename="../FastenerBase.py" line="924"/>
         <source>PEM Stud </source>
-        <translation type="unfinished"></translation>
+        <translation>Parafuso PEM </translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="927"/>
@@ -813,22 +813,22 @@
     <message>
         <location filename="../FastenersCmd.py" line="116"/>
         <source>DIN 96 Slotted half round head wood screw</source>
-        <translation type="unfinished"></translation>
+        <translation>Parafusos de madeira de cabeça redonda com ranhura DIN 96</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="117"/>
         <source>GOST 1144 (Type 1) Half — round head wood screw</source>
-        <translation type="unfinished"></translation>
+        <translation>GOST 1144 (Tipo 1) Metade — parafuso de cabeça redonda para madeira</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="118"/>
         <source>GOST 1144 (Type 2) Half — round head wood screw</source>
-        <translation type="unfinished"></translation>
+        <translation>GOST 1144 (Tipo 2) Metade — parafuso de cabeça redonda para madeira</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="133"/>
         <source>GOST 11860 (Type 1) Cap nuts</source>
-        <translation type="unfinished"></translation>
+        <translation>GOST 11860 (Tipo 1) Porca cega</translation>
     </message>
 </context>
 <context>
@@ -836,57 +836,57 @@
     <message>
         <location filename="../FastenersCmd.py" line="44"/>
         <source>Screw</source>
-        <translation type="unfinished">Parafuso</translation>
+        <translation>Parafuso</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="45"/>
         <source>Washer</source>
-        <translation type="unfinished">Arruela</translation>
+        <translation>Arruela</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="46"/>
         <source>Nut</source>
-        <translation type="unfinished">Porca</translation>
+        <translation>Porca</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="47"/>
         <source>ThreadedRod</source>
-        <translation type="unfinished">Barra Roscada</translation>
+        <translation>Barra Roscada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="48"/>
         <source>PressNut</source>
-        <translation type="unfinished">Porca de pressão</translation>
+        <translation>Porca de pressão</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="49"/>
         <source>Standoff</source>
-        <translation type="unfinished">Espaçador</translation>
+        <translation>Espaçador</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="50"/>
         <source>Spacer</source>
-        <translation type="unfinished">Espaçador</translation>
+        <translation>Espaçador</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="51"/>
         <source>Stud</source>
-        <translation type="unfinished">Parafuso</translation>
+        <translation>Parafuso</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="52"/>
         <source>ScrewTap</source>
-        <translation type="unfinished">Macho</translation>
+        <translation>Macho</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="53"/>
         <source>ScrewDie</source>
-        <translation type="unfinished">Cocinete</translation>
+        <translation>Cocinete</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="54"/>
         <source>Insert</source>
-        <translation type="unfinished">Inserto metálico</translation>
+        <translation>Inserto metálico Impressão 3d</translation>
     </message>
 </context>
 <context>

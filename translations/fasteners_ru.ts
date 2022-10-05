@@ -306,565 +306,585 @@
 <context>
     <name>FastenerCmd</name>
     <message>
-        <location filename="../FastenersCmd.py" line="132"/>
+        <location filename="../FastenersCmd.py" line="71"/>
         <source>Hex head</source>
         <translation>Винты с шестигранной головкой</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="143"/>
+        <location filename="../FastenersCmd.py" line="72"/>
         <source>Hexagon socket</source>
         <translation>Винты с шестигранным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="97"/>
+        <location filename="../FastenersCmd.py" line="73"/>
         <source>Hexalobular socket</source>
         <translation>Винты с звездообразным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="145"/>
+        <location filename="../FastenersCmd.py" line="74"/>
         <source>Slotted</source>
         <translation>Винты с прямым шлицем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="108"/>
+        <location filename="../FastenersCmd.py" line="75"/>
         <source>H cross</source>
         <translation>Винты с крестообразным шлицем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="151"/>
+        <location filename="../FastenersCmd.py" line="76"/>
         <source>Nut</source>
         <translation>Гайки</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="155"/>
+        <location filename="../FastenersCmd.py" line="77"/>
         <source>Washer</source>
         <translation>Шайбы</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="162"/>
+        <location filename="../FastenersCmd.py" line="79"/>
         <source>ThreadedRod</source>
         <translation>Шпильки</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="168"/>
+        <location filename="../FastenersCmd.py" line="80"/>
         <source>PEM Inserts</source>
         <translation>Запрессовочный крепёж</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="147"/>
+        <location filename="../FastenersCmd.py" line="78"/>
         <source>Other head</source>
         <translation>Винты с другими головками</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="74"/>
+        <location filename="../FastenersCmd.py" line="87"/>
         <source>ISO 4017 Hex head screw</source>
         <translation>ISO 4017 (ГОСТ Р ИСО 4017) Винт с шестигранной головкой</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="75"/>
+        <location filename="../FastenersCmd.py" line="88"/>
         <source>ISO 4014 Hex head bolt</source>
         <translation>ISO 4014 (ГОСТ Р ИСО 4014) Болт с шестигранной головкой</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="76"/>
+        <location filename="../FastenersCmd.py" line="89"/>
         <source>EN 1662 Hexagon bolt with flange, small series</source>
         <translation>EN 1662 Болт с шестигранной головкой и фланцем, легкая серия</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="77"/>
+        <location filename="../FastenersCmd.py" line="90"/>
         <source>EN 1665 Hexagon bolt with flange, heavy series</source>
         <translation>EN 1665 Болт с шестигранной головкой и фланцем, тяжёлая серия</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="78"/>
+        <location filename="../FastenersCmd.py" line="91"/>
         <source>DIN 571 Hex head wood screw</source>
         <translation>DIN 571 Шуруп с шестигранной головкой</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="80"/>
+        <location filename="../FastenersCmd.py" line="93"/>
         <source>ISO4762 Hexagon socket head cap screw</source>
         <translation>ISO 4762 (ГОСТ Р ИСО 4762) Винт с цилиндрической головкой и шестигранным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="81"/>
+        <location filename="../FastenersCmd.py" line="94"/>
         <source>DIN 7984 Hexagon socket head cap screws with low head</source>
         <translation>DIN 7984 Винт с цилиндрической головкой уменьшенной высоты и шестигранным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="82"/>
+        <location filename="../FastenersCmd.py" line="95"/>
         <source>DIN 6912 Hexagon socket head cap screws with low head with centre</source>
         <translation>DIN 6912 Винт с цилиндрической головкой уменьшенной высоты и шестигранным углублением под ключ с центрирующим отверстием</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="83"/>
+        <location filename="../FastenersCmd.py" line="96"/>
         <source>ISO 7380 Hexagon socket button head screw</source>
         <translation>ISO 7380-1 (ГОСТ Р ИСО 7380-1) Винт с полукруглой головкой и шестигранным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="84"/>
+        <location filename="../FastenersCmd.py" line="97"/>
         <source>ISO 7380 Hexagon socket button head screws with collar</source>
         <translation>ISO 7380-2 (ГОСТ Р ИСО 7380-2) Винт с полукруглой головкой с буртом и шестигранным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="85"/>
+        <location filename="../FastenersCmd.py" line="98"/>
         <source>ISO 10642 Hexagon socket countersunk head screw</source>
         <translation>ISO 10642 (ГОСТ Р ИСО 10642) Винт с потайной головкой и шестигранным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="86"/>
+        <location filename="../FastenersCmd.py" line="99"/>
         <source>ISO 7379 Hexagon socket head shoulder screw</source>
         <translation>ISO 7379 Винт с внутренним шестигранником в головке и утолщенным стержнем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="87"/>
+        <location filename="../FastenersCmd.py" line="100"/>
         <source>ISO 4026 Hexagon socket set screws with flat point</source>
         <translation>ISO 4026 (ГОСТ Р ИСО 4026) Винт установочный с шестигранным углублением и плоским концом</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="88"/>
+        <location filename="../FastenersCmd.py" line="101"/>
         <source>ISO 4027 Hexagon socket set screws with cone point</source>
         <translation>ISO 4027 (ГОСТ Р ИСО 4027) Винт установочный с шестигранным углублением и коническим концом</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="89"/>
+        <location filename="../FastenersCmd.py" line="102"/>
         <source>ISO 4028 Hexagon socket set screws with dog point</source>
         <translation>ISO 4028 (ГОСТ Р ИСО 4028) Винт установочный с шестигранным углублением и цилиндрическим концом</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="90"/>
+        <location filename="../FastenersCmd.py" line="103"/>
         <source>ISO 4029 Hexagon socket set screws with cup point</source>
         <translation>ISO 4029 (ГОСТ Р ИСО 4029) Винт установочный с шестигранным углублением и концом с лункой</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="92"/>
+        <location filename="../FastenersCmd.py" line="105"/>
         <source>ISO 14579 Hexalobular socket head cap screws</source>
         <translation>ISO 14579 (ГОСТ Р ИСО 14579) Винт с цилиндрической головкой и звездообразным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="93"/>
+        <location filename="../FastenersCmd.py" line="106"/>
         <source>ISO 14580 Hexalobular socket cheese head screws</source>
         <translation>ISO 14580 (ГОСТ Р ИСО 14580) Винт с низкой цилиндрической головкой и звездообразным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="95"/>
+        <location filename="../FastenersCmd.py" line="108"/>
         <source>ISO 14582 Hexalobular socket countersunk head screws, high head</source>
         <translation>ISO 14582 (ГОСТ Р ИСО 14582) Винт с высокой потайной головкой и звездообразным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="96"/>
+        <location filename="../FastenersCmd.py" line="109"/>
         <source>ISO 14583 Hexalobular socket pan head screws</source>
         <translation>ISO 14583 (ГОСТ Р ИСО 14583) Винт со скругленной головкой и звездообразным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="97"/>
+        <location filename="../FastenersCmd.py" line="110"/>
         <source>ISO 14584 Hexalobular socket raised countersunk head screws</source>
         <translation>ISO 14584 (ГОСТ Р ИСО 14584) Винт с полупотайной головкой и звездообразным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="99"/>
+        <location filename="../FastenersCmd.py" line="112"/>
         <source>ISO 2009 Slotted countersunk flat head screw</source>
         <translation>ISO 2009 (ГОСТ Р ИСО 2009) Винт с потайной головкой и прямым шлицем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="100"/>
+        <location filename="../FastenersCmd.py" line="113"/>
         <source>ISO 2010 Slotted raised countersunk head screw</source>
         <translation>ISO 2010 (ГОСТ Р ИСО 2010) Винт с полупотайной головкой со шлицем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="101"/>
+        <location filename="../FastenersCmd.py" line="114"/>
         <source>ISO 1580 Slotted pan head screw</source>
         <translation>ISO 1580 (ГОСТ Р ИСО 1580) Винт с плоской головкой со шлицем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="102"/>
+        <location filename="../FastenersCmd.py" line="115"/>
         <source>ISO 1207 Slotted cheese head screw</source>
         <translation>ISO 1207 (ГОСТ Р ИСО 1580) Винт с низкой цилиндрической головкой со шлицем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="104"/>
+        <location filename="../FastenersCmd.py" line="120"/>
         <source>DIN 967 Cross recessed pan head screws with collar</source>
         <translation>DIN 967 Винт с полукруглой головкой, буртом и крестообразным шлицем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="105"/>
+        <location filename="../FastenersCmd.py" line="121"/>
         <source>ISO 7045 Pan head screws type H cross recess</source>
         <translation>ISO 7045 (ГОСТ Р ИСО 7045) Винт со скругленной головкой и крестообразным шлицем типа Н</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="106"/>
+        <location filename="../FastenersCmd.py" line="122"/>
         <source>ISO 7046 Countersunk flat head screws H cross r.</source>
         <translation>ISO 7046 (ГОСТ Р ИСО 7046) Винт с потайной головкой и крестообразным шлицем типа Н.</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="107"/>
+        <location filename="../FastenersCmd.py" line="123"/>
         <source>ISO 7047 Raised countersunk head screws H cross r.</source>
         <translation>ISO 7047 (ГОСТ Р ИСО 7047) Винт с полупотайной головкой и крестообразным шлицем типа H.</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="108"/>
+        <location filename="../FastenersCmd.py" line="124"/>
         <source>ISO 7048 Cheese head screws with type H cross r.</source>
         <translation>ISO 7048 (ГОСТ Р ИСО 7048) Винт с низкой цилиндрической головкой и крестообразным шлицем.</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="110"/>
+        <location filename="../FastenersCmd.py" line="126"/>
         <source>ISO 4032 Hexagon nuts, Style 1</source>
         <translation>ISO 4032 (ГОСТ Р ИСО 4032) Гайка шестигранная нормальная (тип 1)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="111"/>
+        <location filename="../FastenersCmd.py" line="127"/>
         <source>ISO 4033 Hexagon nuts, Style 2</source>
         <translation>ISO 4033 (ГОСТ Р ИСО 4033) Гайка шестигранная высокая (тип 2)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="112"/>
+        <location filename="../FastenersCmd.py" line="128"/>
         <source>ISO 4035 Hexagon thin nuts, chamfered</source>
         <translation>ISO 4035 (ГОСТ Р ИСО 4033) Гайка шестигранная низкая с фаской (тип 0)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="114"/>
+        <location filename="../FastenersCmd.py" line="130"/>
         <source>EN 1661 Hexagon nuts with flange</source>
         <translation>EN 1661 Гайка шестигранная с фланцем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="115"/>
+        <location filename="../FastenersCmd.py" line="131"/>
         <source>DIN917 Cap nuts, thin style</source>
         <translation>DIN 917 Гайка колпачковая, низкая</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="116"/>
+        <location filename="../FastenersCmd.py" line="132"/>
         <source>DIN 1587 Cap nuts</source>
         <translation>DIN 1587 Гайка колпачковая</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="117"/>
+        <location filename="../FastenersCmd.py" line="134"/>
         <source>DIN 557 Square nuts</source>
         <translation>DIN 557 Гайка квадратная с фаской</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="118"/>
+        <location filename="../FastenersCmd.py" line="135"/>
         <source>DIN 562 Square nuts</source>
         <translation>DIN 562 Гайка квадратная низкая</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="119"/>
+        <location filename="../FastenersCmd.py" line="136"/>
         <source>DIN 985 Nyloc nuts</source>
         <translation>DIN 985 Гайка самоконтрящаяся со стопорным кольцом</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="121"/>
+        <location filename="../FastenersCmd.py" line="138"/>
         <source>ISO 7089 Washer</source>
         <translation>ISO 7089 Шайба плоская - Нормальная серия</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="122"/>
+        <location filename="../FastenersCmd.py" line="139"/>
         <source>ISO 7090 Plain Washers, chamfered - Normal series</source>
         <translation>ISO 7090 Шайба плоская с фаской - Нормальная серия</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="124"/>
+        <location filename="../FastenersCmd.py" line="141"/>
         <source>ISO 7092 Plain washers - Small series</source>
         <translation>ISO 7092 (ГОСТ Р ИСО 7092) Шайба плоская - Мелкая серия</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="125"/>
+        <location filename="../FastenersCmd.py" line="142"/>
         <source>ISO 7093-1 Plain washers - Large series</source>
         <translation>ISO 7093-1 (ГОСТ Р ИСО 7093-1) Шайба плоская - Крупная серия</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="126"/>
+        <location filename="../FastenersCmd.py" line="143"/>
         <source>ISO 7094 Plain washers - Extra large series</source>
         <translation>ISO 7094 Шайба плоская - Особо крупная серия</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="127"/>
+        <location filename="../FastenersCmd.py" line="144"/>
         <source>NFE27-619 Countersunk washer</source>
         <translation>NFE27-619 Шайба-розетка полнотелая для винтов с потайной головкой</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="131"/>
+        <location filename="../FastenersCmd.py" line="148"/>
         <source>ASME B18.2.1 UNC Hex head screws</source>
         <translation>ASME B18.2.1.6 Дюймовый (UNC) Винт с шестигранной головкой</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="132"/>
+        <location filename="../FastenersCmd.py" line="149"/>
         <source>ASME B18.2.1 UNC Hex head screws with flange</source>
         <translation>ASME B18.2.1.8 Дюймовый (UNC) Винт с шестигранной головкой и фланцем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="134"/>
+        <location filename="../FastenersCmd.py" line="151"/>
         <source>ASME B18.3 UNC Hex socket head cap screws</source>
         <translation>ASME B18.3.1A Дюймовый (UNC) Винт с цилиндрической головкой и шестигранным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="135"/>
+        <location filename="../FastenersCmd.py" line="152"/>
         <source>ASME B18.3 UNC Hex socket head cap screws with low head</source>
         <translation>ASME B18.3.1G Дюймовый (UNC) Винт с цилиндрической головкой уменьшенной высоты и шестигранным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="136"/>
+        <location filename="../FastenersCmd.py" line="153"/>
         <source>ASME B18.3 UNC Hex socket countersunk head screws</source>
         <translation>ASME B18.3.2 Дюймовый (UNC) Винт с потайной головкой и шестигранным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="137"/>
+        <location filename="../FastenersCmd.py" line="154"/>
         <source>ASME B18.3 UNC Hex socket button head screws</source>
         <translation>ASME B18.3.3A Дюймовый (UNC) Винт с полукруглой головкой и шестигранным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="138"/>
+        <location filename="../FastenersCmd.py" line="155"/>
         <source>ASME B18.3 UNC Hex socket button head screws with flange</source>
         <translation>ASME B18.3.3B Дюймовый (UNC) Винт с полукруглой головкой с буртом и шестигранным углублением под ключ</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="139"/>
+        <location filename="../FastenersCmd.py" line="156"/>
         <source>ASME B18.3 UNC Hexagon socket head shoulder screws</source>
         <translation>ASME B18.3.4 Дюймовый (UNC) Винт с внутренним шестигранником в головке и утолщенным стержнем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="140"/>
+        <location filename="../FastenersCmd.py" line="157"/>
         <source>ASME B18.3 UNC Hexagon socket set screws with flat point</source>
         <translation>ASME B18.3.5A Дюймовый (UNC) Винт установочный с шестигранным углублением и плоским концом</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="141"/>
+        <location filename="../FastenersCmd.py" line="158"/>
         <source>ASME B18.3 UNC Hexagon socket set screws with cone point</source>
         <translation>ASME B18.3.5B Дюймовый (UNC) Винт установочный с шестигранным углублением и коническим концом</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="142"/>
+        <location filename="../FastenersCmd.py" line="159"/>
         <source>ASME B18.3 UNC Hexagon socket set screws with dog point</source>
         <translation>ASME B18.3.5C Дюймовый (UNC) Винт установочный с шестигранным углублением и цилиндрическим концом</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="143"/>
+        <location filename="../FastenersCmd.py" line="160"/>
         <source>ASME B18.3 UNC Hexagon socket set screws with cup point</source>
         <translation>ASME B18.3.5D Дюймовый (UNC) Винт установочный с шестигранным углублением и концом с лункой</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="145"/>
+        <location filename="../FastenersCmd.py" line="162"/>
         <source>ASME B18.6.3 UNC slotted countersunk flat head screws</source>
         <translation>ASME B18.6.3.1A Дюймовый (UNC) Винт с потайной головкой и прямым шлицем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="147"/>
+        <location filename="../FastenersCmd.py" line="164"/>
         <source>ASME B18.5 UNC Round head square neck bolts</source>
         <translation>ASME B18.5 Дюймовый (UNC) Болт с полукруглой головкой и квадратным подголовком</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="149"/>
+        <location filename="../FastenersCmd.py" line="166"/>
         <source>ASME B18.2.2 UNC Machine screw nuts</source>
         <translation>ASME B18.2.2.1A Дюймовая (UNC) Гайка шестигранная общего назначения</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="150"/>
+        <location filename="../FastenersCmd.py" line="167"/>
         <source>ASME B18.2.2 UNC Hexagon nuts</source>
         <translation>ASME B18.2.2.4A Дюймовая (UNC) Гайка шестигранная</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="151"/>
+        <location filename="../FastenersCmd.py" line="168"/>
         <source>ASME B18.2.2 UNC Hexagon thin nuts</source>
         <translation>ASME B18.2.2.4B Дюймовая (UNC) Гайка шестигранная низкая</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="153"/>
+        <location filename="../FastenersCmd.py" line="170"/>
         <source>ASME B18.21.1 UN washers, narrow series</source>
         <translation>ASME B18.21.1.12A Дюймовая (UN) Шайба, уменьшенная серия</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="154"/>
+        <location filename="../FastenersCmd.py" line="171"/>
         <source>ASME B18.21.1 UN washers, regular series</source>
         <translation>ASME B18.21.1.12B Дюймовая (UN) Шайба, нормальная серия</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="155"/>
+        <location filename="../FastenersCmd.py" line="172"/>
         <source>ASME B18.21.1 UN washers, wide series</source>
         <translation>ASME B18.21.1.12C Дюймовая (UN) Шайба, увеличенная серия</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="157"/>
+        <location filename="../FastenersCmd.py" line="174"/>
         <source>Metric threaded rod for tapping holes</source>
         <translation>Метчик произвольного диаметра (с метрической резьбой)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="158"/>
+        <location filename="../FastenersCmd.py" line="175"/>
         <source>Inch threaded rod for tapping holes</source>
         <translation>Метчик произвольного диаметра (с дюймовой резьбой)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="159"/>
+        <location filename="../FastenersCmd.py" line="176"/>
         <source>Tool object to cut external metric threads</source>
         <translation>Плашка произвольного диаметра (с метрической резьбой)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="160"/>
+        <location filename="../FastenersCmd.py" line="177"/>
         <source>Tool object to cut external non-metric threads</source>
         <translation>Плашка произвольного диаметра (с дюймовой резьбой)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="161"/>
+        <location filename="../FastenersCmd.py" line="178"/>
         <source>DIN 975 metric threaded rod</source>
         <translation>DIN 975 шпилька произвольной длины (с метрической резьбой)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="162"/>
+        <location filename="../FastenersCmd.py" line="179"/>
         <source>UNC threaded rod</source>
         <translation>Дюймовая (UNC) шпилька</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="163"/>
+        <location filename="../FastenersCmd.py" line="180"/>
         <source>PEM Self Clinching nut</source>
         <translation>Гайка запрессовочная</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="164"/>
+        <location filename="../FastenersCmd.py" line="181"/>
         <source>PEM Self Clinching standoff</source>
         <translation>Втулка запрессовочная полнопроходная резьбовая с шестигранным основанием</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="165"/>
+        <location filename="../FastenersCmd.py" line="182"/>
         <source>PEM Self Clinching stud</source>
         <translation>Шпилька резьбовая запрессовочная</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="166"/>
+        <location filename="../FastenersCmd.py" line="183"/>
         <source>Wurth WA-SSTII  PCB standoff</source>
         <translation>Шестигранная стойка для печатных плат (WA-SSTII)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="167"/>
+        <location filename="../FastenersCmd.py" line="184"/>
         <source>Wurth WA-SSTII PCB spacer</source>
         <translation>Дистанцирующая стойка для печатных плат (WA-SSTII)</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="168"/>
+        <location filename="../FastenersCmd.py" line="185"/>
         <source>IUT[A/B/C] Heat Staked Metric Insert</source>
         <translation>Резьбовая втулка под горячую запрессовку (IUT[A/B/C])</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="547"/>
+        <location filename="../FastenersCmd.py" line="564"/>
         <source>Add </source>
         <translation>Добавить </translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="238"/>
+        <location filename="../FastenersCmd.py" line="255"/>
         <source>Screw type</source>
         <translation>Тип крепежного элемента</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="252"/>
+        <location filename="../FastenersCmd.py" line="269"/>
         <source>Standard diameter</source>
         <translation>Диаметр допускаемый по стандарту</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="260"/>
+        <location filename="../FastenersCmd.py" line="277"/>
         <source>Generate real thread</source>
         <translation>Генерировать реалистичную резьбу</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="262"/>
+        <location filename="../FastenersCmd.py" line="279"/>
         <source>Left handed thread</source>
         <translation>Левостороняя резьба</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="264"/>
+        <location filename="../FastenersCmd.py" line="281"/>
         <source>Match outer thread diameter</source>
         <translation>Подбор по внешнему или наружному диаметру резьбы</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="268"/>
+        <location filename="../FastenersCmd.py" line="285"/>
         <source>Body width code</source>
         <translation>Код длины тела</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="291"/>
+        <location filename="../FastenersCmd.py" line="308"/>
         <source>Screw length</source>
         <translation>Длина резьбы</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="287"/>
+        <location filename="../FastenersCmd.py" line="304"/>
         <source>Custom length</source>
         <translation>Длина указанная пользователем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="293"/>
+        <location filename="../FastenersCmd.py" line="310"/>
         <source>Screw major diameter custom</source>
         <translation>Диаметр резьбы указанный пользователем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="295"/>
+        <location filename="../FastenersCmd.py" line="312"/>
         <source>Screw pitch custom</source>
         <translation>Шаг резьбы указанный пользователем</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="299"/>
+        <location filename="../FastenersCmd.py" line="316"/>
         <source>Thickness code</source>
         <translation>Код толщины</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="303"/>
+        <location filename="../FastenersCmd.py" line="320"/>
         <source>Blind Standoff type</source>
         <translation>Тип втулки глухая или нет</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="305"/>
+        <location filename="../FastenersCmd.py" line="322"/>
         <source>Threaded part length</source>
         <translation>Длинна части с резьбой</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="116"/>
+        <source>DIN 96 Slotted half round head wood screw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="117"/>
+        <source>GOST 1144 (Type 1) Half — round head wood screw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="118"/>
+        <source>GOST 1144 (Type 2) Half — round head wood screw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="133"/>
+        <source>GOST 11860 (Type 1) Cap nuts</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>FastenerCmdTreeView</name>
     <message>
-        <location filename="../FastenersCmd.py" line="43"/>
+        <location filename="../FastenersCmd.py" line="44"/>
         <source>Screw</source>
         <translation>Винт</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="44"/>
+        <location filename="../FastenersCmd.py" line="45"/>
         <source>Washer</source>
         <translation>Шайба</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="45"/>
+        <location filename="../FastenersCmd.py" line="46"/>
         <source>Nut</source>
         <translation>Гайка</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="46"/>
+        <location filename="../FastenersCmd.py" line="47"/>
         <source>ThreadedRod</source>
         <translation>Шпилька</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="47"/>
+        <location filename="../FastenersCmd.py" line="48"/>
         <source>PressNut</source>
         <translation>Запрессовочная гайка</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="48"/>
+        <location filename="../FastenersCmd.py" line="49"/>
         <source>Standoff</source>
         <translation>Стойка</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="49"/>
+        <location filename="../FastenersCmd.py" line="50"/>
         <source>Spacer</source>
         <translation>Стойка дистанцирующая</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="50"/>
+        <location filename="../FastenersCmd.py" line="51"/>
         <source>Stud</source>
         <translation>Шпилька запресовочная</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="51"/>
+        <location filename="../FastenersCmd.py" line="52"/>
         <source>ScrewTap</source>
         <translation>Метчик</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="52"/>
+        <location filename="../FastenersCmd.py" line="53"/>
         <source>ScrewDie</source>
         <translation>Плашка</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="53"/>
+        <location filename="../FastenersCmd.py" line="54"/>
         <source>Insert</source>
         <translation>Втулка</translation>
     </message>

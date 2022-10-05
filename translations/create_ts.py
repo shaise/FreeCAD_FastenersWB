@@ -34,7 +34,11 @@ import glob
 print("1. Scan UI files for strings")
 os.system(
     """
-    lupdate ../*.ui -ts uifiles.ts
+    lupdate ../*.ui -ts fasteners_uifiles_es-ar.ts
+    lupdate ../*.ui -ts fasteners_uifiles_es-es.ts
+    lupdate ../*.ui -ts fasteners_uifiles_pt-br.ts
+    lupdate ../*.ui -ts fasteners_uifiles_pt-pt.ts
+    lupdate ../*.ui -ts fasteners_uifiles_ru.ts
     """
     )
 
@@ -42,30 +46,11 @@ os.system(
 print("2. Scan .py files for strings")
 os.system(
     """
-    pylupdate5 ../*.py -ts pyfiles.ts -verbose
+    pylupdate5 ../*.py -ts fasteners_es-ar.ts -verbose
+    pylupdate5 ../*.py -ts fasteners_es-es.ts -verbose
+    pylupdate5 ../*.py -ts fasteners_pt-br.ts -verbose
+    pylupdate5 ../*.py -ts fasteners_pt-pt.ts -verbose
+    pylupdate5 ../*.py -ts fasteners_ru.ts -verbose
     """
     )
-
-# 3) Combine both scans above
-print("3. Combine both scans above")
-os.system(
-    """
-    lconvert -i uifiles.ts pyfiles.ts -o fasteners.ts
-    """
-    )
-
-# 4) Remove temporary files
-print("4. Remove temporary files")
-os.system(
-    """
-    rm uifiles.ts
-    """
-    )
-print("                          uifiles.ts")
-os.system(
-    """
-    rm pyfiles.ts
-    """
-    )
-print("                          pyfiles.ts")
 

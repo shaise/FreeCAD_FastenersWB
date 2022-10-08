@@ -27,7 +27,7 @@
 from screw_maker import *
 import FastenerBase
 
-# ASMEB18.5.2 UNC Round head square neck bolts
+# DIN985 Nyloc Nuts
 
 tan30 = math.tan(math.radians(30.0))
 

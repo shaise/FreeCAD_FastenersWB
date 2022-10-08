@@ -29,6 +29,7 @@ from screw_maker import *
 import FastenerBase
 
 # ASMEB18.5.2 UNC Round head square neck bolts
+# DIN603 Mushroom head square neck bolts
 cos22_5 = math.cos(math.radians(22.5))
 sin22_5 = math.sin(math.radians(22.5))
 sqrt2 = math.sqrt(2)
@@ -45,7 +46,19 @@ def makeCarriageBolt(self, fa): # dynamically loaded method of class Screw
             L_t = d * 2 + 6.35
         else:
             L_t = d * 2 + 12.7
-        
+    elif SType == 'DIN603':
+        pitch, b1, b2, b3, dk_max, dk_min, ds_max, ds_min, f_max, f_min, \
+            k_max, k_min, r1_approx, r2_max, r2_max, v_max, v_min = fa.dimTable
+        A = (dk_max+dk_min)/2
+        H = k_max
+        O = v_max
+        P = f_max
+        if l <= 125:
+            L_t = b1
+        elif (125 < l) and (l <= 200):
+            L_t = b2
+        else:  # l > 200
+            L_t = b3
     head_r = A / sqrt2
     flat_len = l - P
 
@@ -72,7 +85,7 @@ def makeCarriageBolt(self, fa): # dynamically loaded method of class Screw
         shell_thread = self.RevolveZ(thread_profile_wire)
     else:
         # modeled threaded section
-        shell_thread = self.makeShellthread(d, pitch, flat_len, False, -P, L_t)
+        shell_thread = self.makeShellthread(d, pitch, flat_len, True, -P, L_t)
     p_shell = Part.Shell(head_shell.Faces + shell_thread.Faces)
     p_solid = Part.Solid(p_shell)
     # cut 4 flats under the head

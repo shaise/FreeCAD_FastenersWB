@@ -191,7 +191,7 @@ def makeCarriageBolt(self, fa): # dynamically loaded method of class Screw
     return p_solid
 ```
 
-FreeCAD's `Part` Module works somewhat like a clunkier version of OpenCAD.
+FreeCAD's `Part` Module works somewhat like a clunkier version of OpenSCAD.
 We lay out points and build them up into 3D shells, then merge them together
 to return a solid object. The call to `makeShellthread` returns a modelled 
 thread as a shell. Remember that `Part.Show(object)` will show `object` in 

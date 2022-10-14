@@ -10,8 +10,8 @@ languages=(es-ar es-es es_mx pt-br pt-pt ru)
 for lang in ${languages[*]}
 do
    # Create uifiles.ts from ../*.ui files
-   #lupdate ../*.ui -ts uifiles.ts -source-language $lang -target-language en_US
-   lupdate ../*.ui -ts uifiles.ts
+   lupdate ../*.ui -ts uifiles.ts -source-language en_US -target-language $lang
+   # lupdate ../*.ui -ts uifiles.ts
    # Create pyfiles.ts from ../*.py files
    pylupdate5 ../*.py -ts pyfiles.ts -verbose
    # Join uifiles.ts pyfiles.ts files to fasteners.ts

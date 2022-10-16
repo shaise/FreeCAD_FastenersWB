@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pt_PT" sourcelanguage="en_US">
+<TS version="2.1" language="pt-pt" sourcelanguage="en_US">
 <context>
     <name>DlgChangeParams</name>
     <message>
@@ -107,16 +107,6 @@
         <translation>Nada selecionado</translation>
     </message>
     <message>
-        <location filename="../CountersunkHoles.py" line="703"/>
-        <source>Make countersunk</source>
-        <translation>Escarear furo</translation>
-    </message>
-    <message>
-        <location filename="../CountersunkHoles.py" line="704"/>
-        <source>Chamfer holes for countersunk screws</source>
-        <translation>Escarear furos para esconder cabeça do parafuso</translation>
-    </message>
-    <message>
         <location filename="../CountersunkHoles.py" line="149"/>
         <source>Edges to chamfer</source>
         <translation>Arestas a chanfrar</translation>
@@ -125,6 +115,16 @@
         <location filename="../CountersunkHoles.py" line="150"/>
         <source>Diameter</source>
         <translation>Diâmetro</translation>
+    </message>
+    <message>
+        <location filename="../CountersunkHoles.py" line="703"/>
+        <source>Make countersunk</source>
+        <translation>Escarear furo</translation>
+    </message>
+    <message>
+        <location filename="../CountersunkHoles.py" line="704"/>
+        <source>Chamfer holes for countersunk screws</source>
+        <translation>Escarear furos para esconder cabeça do parafuso</translation>
     </message>
 </context>
 <context>
@@ -161,7 +161,152 @@
     </message>
 </context>
 <context>
+    <name>Gui::Dialog::DlgSettingsDraft</name>
+    <message>
+        <location filename="../FSprefs.ui" line="14"/>
+        <source>General settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="26"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="37"/>
+        <source>Toolbar screw icons grouping:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="57"/>
+        <source>Method of icon grouping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="63"/>
+        <source>ScrewToolbarGroupMode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="66"/>
+        <location filename="../FSprefs.ui" line="118"/>
+        <location filename="../FSprefs.ui" line="184"/>
+        <location filename="../FSprefs.ui" line="220"/>
+        <location filename="../FSprefs.ui" line="265"/>
+        <location filename="../FSprefs.ui" line="301"/>
+        <source>Mod/Fasteners</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="70"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="75"/>
+        <source>Separate toolbars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="80"/>
+        <source>Drop down buttons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="92"/>
+        <source>Thread generation:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="112"/>
+        <source>Select method of thread generation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="115"/>
+        <source>ScrewToolbarThreadGeneration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="122"/>
+        <source>Standard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="127"/>
+        <source>3D printer compatible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="137"/>
+        <source>Scale settings for 3D printing thread generation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="151"/>
+        <source>Screw Scaling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="159"/>
+        <location filename="../FSprefs.ui" line="240"/>
+        <source>Scale A:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="181"/>
+        <source>ScrewThrScaleA</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="195"/>
+        <location filename="../FSprefs.ui" line="276"/>
+        <source>Scale B:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="217"/>
+        <source>ScrewThrScaleB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="232"/>
+        <source>Nut Scaling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="262"/>
+        <source>NutThrScaleA</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="298"/>
+        <source>NutThrScaleB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="317"/>
+        <source>* Thread&apos;s newDiam = oldDiam * A + B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="362"/>
+        <source>Preferences for the Fasteners Workbench</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FastenerBase</name>
+    <message>
+        <location filename="../FastenerBase.py" line="43"/>
+        <source>Match for pass hole</source>
+        <translation>Acertar pelo diâmetro externo</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="45"/>
+        <source>Match for tap hole</source>
+        <translation>Acertar pelo diâmetro interno</translation>
+    </message>
     <message>
         <location filename="../FastenerBase.py" line="636"/>
         <source>Invert fastener</source>
@@ -181,16 +326,6 @@
         <location filename="../FastenerBase.py" line="677"/>
         <source>Move fastener to a new location</source>
         <translation>Move o elemento fixador para um novo local</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="43"/>
-        <source>Match for pass hole</source>
-        <translation>Acertar pelo diâmetro externo</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="45"/>
-        <source>Match for tap hole</source>
-        <translation>Acertar pelo diâmetro interno</translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="718"/>
@@ -241,6 +376,11 @@
         <location filename="../FastenerBase.py" line="867"/>
         <source>Generate fasteners bill of material</source>
         <translation>Gerar lista de materiais de elementos fixadores</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="873"/>
+        <source>Fasteners_BOM</source>
+        <translation>Lista_de_elementos_fixadores</translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="875"/>
@@ -297,11 +437,6 @@
         <source>Heat Set Insert </source>
         <translation>Inserto metálico Impressão 3d </translation>
     </message>
-    <message>
-        <location filename="../FastenerBase.py" line="873"/>
-        <source>Fasteners_BOM</source>
-        <translation>Lista_de_elementos_fixadores</translation>
-    </message>
 </context>
 <context>
     <name>FastenerCmd</name>
@@ -341,6 +476,11 @@
         <translation>Arruela</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="78"/>
+        <source>Other head</source>
+        <translation>Outros tipos</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="79"/>
         <source>ThreadedRod</source>
         <translation>Barra Roscada</translation>
@@ -349,11 +489,6 @@
         <location filename="../FastenersCmd.py" line="80"/>
         <source>PEM Inserts</source>
         <translation>Insertos PEM</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="78"/>
-        <source>Other head</source>
-        <translation>Outros tipos</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="87"/>
@@ -481,6 +616,21 @@
         <translation>ISO 1207 Fenda cabeça normal</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="116"/>
+        <source>DIN 96 Slotted half round head wood screw</source>
+        <translation>Parafusos de madeira de cabeça redonda com ranhura DIN 96</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="117"/>
+        <source>GOST 1144 (Type 1) Half — round head wood screw</source>
+        <translation>GOST 1144 (Tipo 1) Metade — parafuso de cabeça redonda para madeira</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="118"/>
+        <source>GOST 1144 (Type 2) Half — round head wood screw</source>
+        <translation>GOST 1144 (Tipo 2) Metade — parafuso de cabeça redonda para madeira</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="120"/>
         <source>DIN 967 Cross recessed pan head screws with collar</source>
         <translation>DIN 967 Fenda cruzada cabeça abulada com colar</translation>
@@ -534,6 +684,16 @@
         <location filename="../FastenersCmd.py" line="132"/>
         <source>DIN 1587 Cap nuts</source>
         <translation>DIN 1587 Porca calota</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="133"/>
+        <source>GOST 11860 (Type 1) Cap nuts</source>
+        <translation>GOST 11860 (Tipo 1) Porca cega</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="134"/>
+        <source>DIN 508 T-Slot nuts</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
@@ -741,11 +901,6 @@
         <translation>IUT[A/B/C] Inserto metálico para impressão 3D</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="564"/>
-        <source>Add </source>
-        <translation>Adicionar </translation>
-    </message>
-    <message>
         <location filename="../FastenersCmd.py" line="255"/>
         <source>Screw type</source>
         <translation>Tipo de parafuso</translation>
@@ -776,14 +931,14 @@
         <translation>Comprimento total do corpo</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="308"/>
-        <source>Screw length</source>
-        <translation>Comprimento total</translation>
-    </message>
-    <message>
         <location filename="../FastenersCmd.py" line="304"/>
         <source>Custom length</source>
         <translation>Comprimento personalizado</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="308"/>
+        <source>Screw length</source>
+        <translation>Comprimento total</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="310"/>
@@ -811,24 +966,9 @@
         <translation>Comprimento da rosca</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="116"/>
-        <source>DIN 96 Slotted half round head wood screw</source>
-        <translation>Parafusos de madeira de cabeça redonda com ranhura DIN 96</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="117"/>
-        <source>GOST 1144 (Type 1) Half — round head wood screw</source>
-        <translation>GOST 1144 (Tipo 1) Metade — parafuso de cabeça redonda para madeira</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="118"/>
-        <source>GOST 1144 (Type 2) Half — round head wood screw</source>
-        <translation>GOST 1144 (Tipo 2) Metade — parafuso de cabeça redonda para madeira</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="133"/>
-        <source>GOST 11860 (Type 1) Cap nuts</source>
-        <translation>GOST 11860 (Tipo 1) Porca cega</translation>
+        <location filename="../FastenersCmd.py" line="564"/>
+        <source>Add </source>
+        <translation>Adicionar </translation>
     </message>
 </context>
 <context>
@@ -892,14 +1032,14 @@
 <context>
     <name>InitGui</name>
     <message>
+        <location filename="../InitGui.py" line="39"/>
+        <source>Create ISO Fasteners</source>
+        <translation>Crie elementos de fixação ISO</translation>
+    </message>
+    <message>
         <location filename="../InitGui.py" line="49"/>
         <source>Translate this text</source>
         <translation>Traduza este texto</translation>
-    </message>
-    <message>
-        <location filename="../InitGui.py" line="66"/>
-        <source>Fasteners</source>
-        <translation>Elementos de fixação</translation>
     </message>
     <message>
         <location filename="../InitGui.py" line="63"/>
@@ -908,13 +1048,13 @@
     </message>
     <message>
         <location filename="../InitGui.py" line="66"/>
-        <source>Add Fasteners</source>
-        <translation>Adicionar fixadores</translation>
+        <source>Fasteners</source>
+        <translation>Elementos de fixação</translation>
     </message>
     <message>
-        <location filename="../InitGui.py" line="39"/>
-        <source>Create ISO Fasteners</source>
-        <translation>Crie elementos de fixação ISO</translation>
+        <location filename="../InitGui.py" line="66"/>
+        <source>Add Fasteners</source>
+        <translation>Adicionar fixadores</translation>
     </message>
 </context>
 </TS>

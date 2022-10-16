@@ -73,28 +73,14 @@ def makeTSlotNut(self, fa): # dynamically loaded method of class Screw
         turns += 1.0
     
     if fa.thread:
-        threadShell = self.makeInnerThread_2(dia, P, int(turns), None, h)
+        turns += 2
+        threadCutter = self.makeInnerThread_2(dia, P, int(turns), None, h)
+        threadCutter.translate(Base.Vector(0.0, 0.0, P))
+        #Part.show(threadCutter, 'threadCutter')
+        nut = nut.cut(threadCutter)
     else:
         myCyl = Part.makeCylinder(dia/2, h)
         myCyl.translate(Base.Vector(0, 0, -h))
         nut = nut.cut(myCyl)
     
-    # Ulices' comment: I'm a little confused about the next lines
-    if fa.thread:
-        if threadShell is None:
-            # thread shell method failed, use slower method
-            FreeCAD.Console.PrintLog("Revert to slow thread generation\n")
-            turns += 1
-            threadCutter = self.makeInnerThread_2(dia, P, int(turns), None, h)
-            threadCutter.translate(Base.Vector(0.0, 0.0, h + P))
-            # Part.show(threadCutter, 'threadCutter')
-            nut = nut.cut(threadCutter)
-        else:
-            # # FreeCAD.Console.PrintMessage(str((dia, P, int(turns), None, h)) + "\n")
-            # nutFaces = nut.Faces
-            # nutFaces.extend(threadShell.Faces)
-            # nutShell = Part.Shell(nutFaces)
-            # nut = Part.Solid(nutShell)
-            nut = nut.cut(threadShell)
-
     return nut

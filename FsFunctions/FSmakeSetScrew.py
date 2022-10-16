@@ -109,15 +109,21 @@ def makeSetScrew(self, fa): # dynamically loaded method of class Screw
         p_profile = Part.Wire([e2, e3, e4, e5])
 
     p_shell = self.RevolveZ(p_profile)
+    #Part.show(p_shell)
+    #Part.show(p_profile)
     # generate a top face with a hex-key recess
     top_face_profile = Part.Wire([e1])
+    
     top_face = self.RevolveZ(top_face_profile)
     hex_solid, hex_shell = self.makeAllen2(s, t - 1, 0)
     top_face = top_face.cut(hex_solid)
     p_faces = p_shell.Faces
     p_faces.extend(top_face.Faces)
+    # Part.show(p_faces)
+    
     hex_shell.translate(Base.Vector(0, 0, -1))
     p_faces.extend(hex_shell.Faces)
+    #Part.show(p_faces)
     p_shell = Part.Shell(p_faces)
     screw = Part.Solid(p_shell)
     # chamfer the hex recess

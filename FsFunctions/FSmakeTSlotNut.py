@@ -74,6 +74,10 @@ def makeTSlotNut(self, fa): # dynamically loaded method of class Screw
     
     if fa.thread:
         threadShell = self.makeInnerThread_2(dia, P, int(turns), None, h)
+    else:
+        myCyl = Part.makeCylinder(dia/2, h)
+        myCyl.translate(Base.Vector(0, 0, -h))
+        nut = nut.cut(myCyl)
     
     # Ulices' comment: I'm a little confused about the next lines
     if fa.thread:

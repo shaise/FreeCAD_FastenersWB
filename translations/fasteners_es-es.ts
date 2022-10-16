@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es-es" sourcelanguage="en_US">
+<TS version="2.1" language="es_ES" sourcelanguage="en_US">
 <context>
     <name>DlgChangeParams</name>
     <message>
@@ -165,27 +165,27 @@
     <message>
         <location filename="../FSprefs.ui" line="14"/>
         <source>General settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración general</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="26"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>General</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="37"/>
         <source>Toolbar screw icons grouping:</source>
-        <translation type="unfinished"></translation>
+        <translation>Agrupamiento de iconos de tornillos en barra de herramientas:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="57"/>
         <source>Method of icon grouping</source>
-        <translation type="unfinished"></translation>
+        <translation>Método de agrupamiento de iconos</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="63"/>
         <source>ScrewToolbarGroupMode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ScrewToolbarGroupMode</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="66"/>
@@ -195,104 +195,104 @@
         <location filename="../FSprefs.ui" line="265"/>
         <location filename="../FSprefs.ui" line="301"/>
         <source>Mod/Fasteners</source>
-        <translation type="unfinished"></translation>
+        <translation>Mod/Elementos de sujeción</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="70"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Ninguno</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="75"/>
         <source>Separate toolbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Separar barras de herramientas</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="80"/>
         <source>Drop down buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Botones desplegables</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="92"/>
         <source>Thread generation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Generación de cuerda:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="112"/>
         <source>Select method of thread generation</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar método de generación de cuerda</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="115"/>
         <source>ScrewToolbarThreadGeneration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ScrewToolbarThreadGeneration</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="122"/>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Estándar</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="127"/>
         <source>3D printer compatible</source>
-        <translation type="unfinished"></translation>
+        <translation>Compatible con impresora 3D</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="137"/>
         <source>Scale settings for 3D printing thread generation</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración de escala para la generación de cuerdas para impresión 3D</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="151"/>
         <source>Screw Scaling</source>
-        <translation type="unfinished"></translation>
+        <translation>Escala de tornillos</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="159"/>
         <location filename="../FSprefs.ui" line="240"/>
         <source>Scale A:</source>
-        <translation type="unfinished"></translation>
+        <translation>Escala A:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="181"/>
         <source>ScrewThrScaleA</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ScrewThrScaleA</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="195"/>
         <location filename="../FSprefs.ui" line="276"/>
         <source>Scale B:</source>
-        <translation type="unfinished"></translation>
+        <translation>Escala B:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="217"/>
         <source>ScrewThrScaleB</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ScrewThrScaleB</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="232"/>
         <source>Nut Scaling</source>
-        <translation type="unfinished"></translation>
+        <translation>Escala de tuercas</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="262"/>
         <source>NutThrScaleA</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">NutThrScaleA</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="298"/>
         <source>NutThrScaleB</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">NutThrScaleB</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="317"/>
         <source>* Thread&apos;s newDiam = oldDiam * A + B</source>
-        <translation type="unfinished"></translation>
+        <translation>* diámetro nuevo de cuerda= diámetroViejo* A + B</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="362"/>
         <source>Preferences for the Fasteners Workbench</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencias para el ambiente de trabajo Fasteners</translation>
     </message>
 </context>
 <context>
@@ -458,7 +458,7 @@
     <message>
         <location filename="../FastenersCmd.py" line="74"/>
         <source>Slotted</source>
-        <translation>Con slot</translation>
+        <translation>Ranurado</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="75"/>
@@ -618,17 +618,17 @@
     <message>
         <location filename="../FastenersCmd.py" line="116"/>
         <source>DIN 96 Slotted half round head wood screw</source>
-        <translation type="unfinished"></translation>
+        <translation>DIN 96 Tornillo para madera ranurado cabeza mitad redonda</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="117"/>
         <source>GOST 1144 (Type 1) Half — round head wood screw</source>
-        <translation type="unfinished"></translation>
+        <translation>GOST 1144 (Tipo 1) Mitad — tornillo para madera cabeza redonda</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="118"/>
         <source>GOST 1144 (Type 2) Half — round head wood screw</source>
-        <translation type="unfinished"></translation>
+        <translation>GOST 1144 (Tipo 2) Mitad — tornillo para madera cabeza redonda</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="120"/>
@@ -688,12 +688,12 @@
     <message>
         <location filename="../FastenersCmd.py" line="133"/>
         <source>GOST 11860 (Type 1) Cap nuts</source>
-        <translation type="unfinished"></translation>
+        <translation>GOST 11860 (Tipo 1) Tuercas bellota</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
         <source>DIN 508 T-Slot nuts</source>
-        <translation type="unfinished"></translation>
+        <translation>DIN 508 Tuercas de ranura en T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>

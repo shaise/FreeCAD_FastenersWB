@@ -116,6 +116,8 @@ FSScrewCommandTable = {
     "DIN96":   (translate("FastenerCmd", "DIN 96 Slotted half round head wood screw"), SlottedGroup, ScrewParametersLC),
     "GOST1144-1": (translate("FastenerCmd", "GOST 1144 (Type 1) Half — round head wood screw"), SlottedGroup, ScrewParametersLC),
     "GOST1144-2": (translate("FastenerCmd", "GOST 1144 (Type 2) Half — round head wood screw"), SlottedGroup, ScrewParametersLC),
+    "GOST1144-3": (translate("FastenerCmd", "GOST 1144 (Type 3) Half — round head wood screw"), SlottedGroup, ScrewParametersLC),
+    "GOST1144-4": (translate("FastenerCmd", "GOST 1144 (Type 4) Half — round head wood screw"), SlottedGroup, ScrewParametersLC),
             
     "DIN967": (translate("FastenerCmd", "DIN 967 Cross recessed pan head screws with collar"), HCrossGroup, ScrewParametersLC),
     "ISO7045": (translate("FastenerCmd", "ISO 7045 Pan head screws type H cross recess"), HCrossGroup, ScrewParametersLC),

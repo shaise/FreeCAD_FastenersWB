@@ -31,8 +31,10 @@ def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
     SType = fa.type
     if SType == "DIN571":
         return makeDIN571(self, fa)
-    elif SType == "DIN96" or SType == "GOST1144-1" or SType == "GOST1144-2":
-        return makeDIN96_GOST1144(self, fa)
+    elif SType == "DIN96":
+        return makeDIN96(self, fa)
+    elif SType == "GOST1144-1" or SType == "GOST1144-2" or SType == "GOST1144-3" or SType == "GOST1144-4":
+        return makeGOST1144(self, fa)
 
 # DIN 571 wood-screw
 
@@ -113,15 +115,10 @@ def makeDIN571(screw_obj, fa):
     
     return head
 
-# DIN 96 or GOST1144 wood-screw
+# DIN 96 wood-screw
 
-def makeDIN96_GOST1144(screw_obj, fa):
-    SType = fa.type
+def makeDIN96(screw_obj, fa):
     l = fa.calc_len
-    b = 0.4
-    # 2 and 4 type of GOST1144 fasteners have a thread along the entire length
-    if SType == "GOST1144-2":
-        b = 0.005
     dia = float(fa.calc_diam.split()[0])
     dk, k, n, t, d3, P = fa.dimTable
     d = dia / 2.0
@@ -148,9 +145,9 @@ def makeDIN96_GOST1144(screw_obj, fa):
         (0, k),
         (dk/4, zm, dk/2, 0),
         (d, 0),
-        (d, -b*ftl))
+        (d, -0.4*ftl))
     if fa.thread:
-        fm.AddPoints((dt, -b*ftl-(d-dt)))
+        fm.AddPoints((dt, -0.4*ftl-(d-dt)))
     fm.AddPoints(
         (dt, -ftl),
         (dt*math.cos(angle/2), -l + z2 + z3 - d*math.sin(angle/2), x2, -l+z3),
@@ -167,7 +164,80 @@ def makeDIN96_GOST1144(screw_obj, fa):
 
     # make thread
     if fa.thread:
-        thread = screw_obj.makeDin7998Thread(b * -ftl, -ftl, -l, d32, d, P)
+        thread = screw_obj.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d32, d, P)
+        screw = screw.fuse(thread)
+
+    return screw
+
+# GOST 1144 wood-screw
+
+def makeGOST1144(self, fa):
+    SType = fa.type
+    l = fa.calc_len
+    b = 0.4
+    # 2 and 4 type of GOST1144 fasteners have a thread along the entire length
+    if SType == "GOST1144-2" or SType == "GOST1144-4":
+        b = 0.005
+    dia = float(fa.calc_diam.split()[0])
+
+    if SType == "GOST1144-1" or SType == "GOST1144-2":
+        d2, P, D, K, sb, h = fa.dimTable
+    elif SType == "GOST1144-3" or SType == "GOST1144-4":
+        d2, P, D, K, PH, m, h = fa.dimTable
+    d = dia / 2.0
+    d32 = d2 / 2.0
+
+    # calc head
+    r = (4*K*K+D*D)/(8*K)
+    zm = math.sqrt(1-D*D/(16*r*r))*r - (r-K)
+
+    # calc screw
+    if fa.thread:
+        dt = d2 / 2.0
+    else:
+        dt = d
+    angle = math.radians(40) # 40 degrees end cone
+    x2 = dt * math.cos(angle/2)
+    z2 = dt * math.sin(angle/2)
+    z3 = x2 / math.tan(angle/2)
+    ftl = l - z2 - z3 # flat part (total length - tip)
+
+    ###########################
+    # Make full screw profile #
+    ###########################
+    
+    # start from head
+    fm = FastenerBase.FSFaceMaker()
+    fm.AddPoint(0, K)
+    fm.AddArc(D/4, zm, D/2, 0)
+    fm.AddPoint(d, 0)
+    fm.AddPoint(d, -b*ftl)
+
+    # thread cylinder profile
+    if fa.thread:
+        fm.AddPoint(dt, -b*ftl-(d-dt))
+
+    # sharp end (cone shape)
+    fm.AddPoint(dt, -ftl)
+    fm.AddArc(dt*math.cos(angle/4), -l + z2 + z3 - d*math.sin(angle/4), x2, -l+z3)
+    fm.AddPoint(0, -l)
+
+    # make profile from points (lines and arcs)  
+    profile = fm.GetFace()
+
+    # make screw solid body by revolve a profile
+    screw = self.RevolveZ(profile)
+
+    # make slot in screw head
+    if SType == "GOST1144-1" or SType == "GOST1144-2":
+        recess = Part.makeBox(D, sb, h+1, Base.Vector(-D/2, -sb/2, K-h))
+    elif SType == "GOST1144-3" or SType == "GOST1144-4":
+        recess, recessShell = self.makeCross_H3(PH, m, h)
+    screw = screw.cut(recess)
+
+    # make thread
+    if fa.thread:
+        thread = self.makeDin7998Thread(b * -ftl, -ftl, -l, d32, d, P)
         screw = screw.fuse(thread)
 
     return screw

@@ -1,4 +1,5 @@
 "GOST1144-1range"
+"GOST1144-3range"
 "Dia","Min_L","Max_L"
 "1.6 mm","7","13"
 "2 mm","7","16"
@@ -11,6 +12,7 @@
 "8 mm","50","100"
 "10 mm","80","100"
 "GOST1144-2range"
+"GOST1144-4range"
 "Dia","Min_L","Max_L"
 "1.6 mm","7","13"
 "2 mm","7","16"

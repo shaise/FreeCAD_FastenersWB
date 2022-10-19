@@ -740,8 +740,8 @@ class Screw:
         key, res = FastenerBase.FSGetKey("Allen2Tool", s_a, t_a, h_a, t_2)
         if res is not None:
             # reset placement should original objects were moved
-            res[0].Placement = FreeCAD.Placement(FreeCAD.Vector(0,0,0),FreeCAD.Rotation(0,0,0,1))
-            res[1].Placement = FreeCAD.Placement(FreeCAD.Vector(0,0,0),FreeCAD.Rotation(0,0,0,1))
+            res[0].Placement = FreeCAD.Placement(FreeCAD.Vector(0,0,h_a),FreeCAD.Rotation(0,0,0,1))
+            res[1].Placement = FreeCAD.Placement(FreeCAD.Vector(0,0,h_a),FreeCAD.Rotation(0,0,0,1))
             return res
 
         fm = FastenerBase.FSFaceMaker()

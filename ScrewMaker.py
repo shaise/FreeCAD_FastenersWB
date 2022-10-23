@@ -207,7 +207,9 @@ screwTables = {
     'PCBStandoff': ("Standoff", "makePCBStandoff"),
     'PCBSpacer': ("Spacer", "makePCBSpacer"),
     'IUTHeatInsert': ("Insert", "makeHeatInsert"),
-    
+    "DIN471": ("RetainingRing", "makeExternalRetainingRing"),
+    "DIN472": ("RetainingRing", "makeInternalRetainingRing"),
+    "DIN6799": ("RetainingRing", "makeEClip"),
     # * diam pos and K pos were moved from this table to the csv titles
 }
 
@@ -258,13 +260,16 @@ class FSScrewMaker(Screw):
     def AutoDiameter(self, type, holeObj, baseobj=None, matchOuter=FastenerBase.FSMatchOuter):
         ''' Calculate screw diameter automatically based on given hole '''
         # this function is also used to assign the default screw diameter
-        # when a new fastener is created. the following default values are
-        # assigned depending on available diameters
         # matchOuter = FastenerBase.FSMatchOuter
         if baseobj is not None and baseobj.Name.startswith("Washer"):
             matchOuter = True
-        if holeObj is not None and hasattr(holeObj, 'Curve') and hasattr(holeObj.Curve, 'Radius') and (
-                type in screwTables):
+        is_attached = (
+            holeObj is not None and hasattr(holeObj, 'Curve') and
+            hasattr(holeObj.Curve, 'Radius') and
+            (type in screwTables)
+        )
+        is_retaining_ring = type in ["DIN471", "DIN472", "DIN6799"]
+        if is_attached and not is_retaining_ring:
             d = holeObj.Curve.Radius * 2
             table = FsData[type + "def"]
             tablepos = self.GetTablePos(type, 'csh_diam')
@@ -288,6 +293,35 @@ class FSScrewMaker(Screw):
                 if dif < mindif:
                     mindif = dif
                     res = m
+        elif is_attached and is_retaining_ring:
+            d = holeObj.Curve.Radius * 2
+            table = FsData[type + "def"]
+            is_external_ring = type in ["DIN471", "DIN6799"]
+            mindif = 10.0
+            dif = mindif
+            tablepos = self.GetTablePos(type, 'groove_dia')
+            if matchOuter ^ is_external_ring:
+                # use the groove diameter
+                for m in table:
+                    dif = abs(table[m][tablepos] - d)
+                    if dif < mindif:
+                        mindif = dif
+                        res = m
+            else:
+                # use the nominal shaft diameter
+                for m in table:
+                    if type != "DIN6799":
+                        dia = float(m.split()[0])
+                    else:
+                        p1 = self.GetTablePos(type, "shaft_dia_min")
+                        p2 = self.GetTablePos(type, "shaft_dia_max")
+                        dia = table[m][p1] + 0.5*(table[m][p2] - table[m][p1])
+                    dif = abs(dia - d)
+                    if dif < mindif:
+                        mindif = dif
+                        res = m
+        # when a new fastener is created. the following default values are
+        # assigned depending on available diameters
         else:
             diams = self.GetAllDiams(type)
             if 'M6' in diams:
@@ -298,6 +332,10 @@ class FSScrewMaker(Screw):
                 res = '#10'
             elif '6 mm' in diams:
                 res = '6 mm'
+            elif '25 mm' in diams:
+                res = '25 mm'
+            elif '10-14 mm' in diams:
+                res = '10-14 mm'
             else:
                 res = diams[0]
         return res
@@ -316,8 +354,7 @@ class FSScrewMaker(Screw):
         return screwTables[type][FASTENER_FAMILY_POS]
 
     def GetAllDiams(self, type):
-        FreeCAD.Console.PrintLog("Get diams for type:" + str(type) + "\n")
-        return sorted(FsData[type + "def"], key=FastenerBase.DiaStr2Num)  # ***
+        return list(FsData[type + "def"].keys())
 
     def GetAllTcodes(self, type, diam):
         tcodes = FsTitles[type + "tcodes"]

@@ -931,6 +931,9 @@ class FSMakeBomCommand:
     def AddHeatSet(self, obj, cnt):
         self.AddFastener(translate("FastenerBase", "Heat Set Insert ") + obj.diameter, cnt)
 
+    def AddRetainingRing(self, obj, cnt):
+        self.AddFastener(obj.type + translate("FastenerBase", " Retaining Ring ") + obj.diameter, cnt)
+
     def IsActive(self):
         return Gui.ActiveDocument is not None
 

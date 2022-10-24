@@ -52,6 +52,7 @@ translate("FastenerCmdTreeView", "Stud")
 translate("FastenerCmdTreeView", "ScrewTap")
 translate("FastenerCmdTreeView", "ScrewDie")
 translate("FastenerCmdTreeView", "Insert")
+translate("FastenerCmdTreeView", "RetainingRing")
 
 ScrewParameters = { "type", "diameter", "matchOuter", "thread", "leftHanded", "length" }
 ScrewParametersLC = { "type", "diameter", "matchOuter", "thread", "leftHanded", "length", "lengthCustom" }
@@ -62,7 +63,7 @@ PCBStandoffParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded
 PCBSpacerParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "lenByDiamAndWidth", "lengthCustom", "widthCode" }
 PEMPressNutParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "thicknessCode" }
 PEMStandoffParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded", "length", "blindness" }
-
+RetainingRingParameters = {"type", "diameter", "matchOuter"}
 FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length', 'lengthCustom', 'width', 
             'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength']
 
@@ -78,6 +79,7 @@ WasherGroup = translate("FastenerCmd", "Washer")
 OtherHeadGroup = translate("FastenerCmd", "Other head")
 ThreadedRodGroup = translate("FastenerCmd", "ThreadedRod")
 PEMInsertsGroup = translate("FastenerCmd", "PEM Inserts")
+RetainingRingGroup = translate("FastenerCmd", "Retaining Rings")
 
 CMD_HELP = 0
 CMD_GROUP = 1
@@ -186,6 +188,10 @@ FSScrewCommandTable = {
     "PCBStandoff": (translate("FastenerCmd", "Wurth WA-SSTII  PCB standoff"), PEMInsertsGroup, PCBStandoffParameters),
     "PCBSpacer": (translate("FastenerCmd", "Wurth WA-SSTII PCB spacer"), PEMInsertsGroup, PCBSpacerParameters),
     "IUTHeatInsert": (translate("FastenerCmd", "IUT[A/B/C] Heat Staked Metric Insert"), PEMInsertsGroup, NutParameters),
+
+    "DIN471": (translate("FastenerCmd", "Metric external retaining rings"), RetainingRingGroup, RetainingRingParameters),
+    "DIN472": (translate("FastenerCmd", "Metric internal retaining rings"), RetainingRingGroup, RetainingRingParameters),
+    "DIN6799": (translate("FastenerCmd", "Metric E-clip retaining rings"), RetainingRingGroup, RetainingRingParameters),
 }
 
 def GetParams(type):
@@ -616,5 +622,6 @@ FastenerBase.FSAddFastenerType("PressNut", False)
 FastenerBase.FSAddFastenerType("Standoff")
 FastenerBase.FSAddFastenerType("Stud")
 FastenerBase.FSAddFastenerType("HeatSet", False)
+FastenerBase.FSAddFastenerType("RetainingRing", False)
 for item in ScrewMaker.screwTables:
     FastenerBase.FSAddItemsToType(ScrewMaker.screwTables[item][0], item)

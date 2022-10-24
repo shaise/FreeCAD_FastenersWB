@@ -123,10 +123,13 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes 
-* V0.4.18  19 Oct 2022:  Add GOST1144-3-4 wood screws by @EA32.
+* V0.4.19  24 Oct 2022:  Add DIN471, DIN472, and DIN6799 retaining rings by @alexneufeld.  
+                       - Add Din603 mushroom-head square-neck bolts by @alexneufeld.  
+                       - Fix custom length bug by @alexneufeld.  
+* V0.4.18  19 Oct 2022:  Add GOST1144-3-4 wood screws by @EA32.  
                        - Optimize SVG files by @FreeCAD-Tools.
 * V0.4.17  16 Oct 2022:  Fix (extended) Issue #25: problem with hex sockets.
-* V0.4.16  16 Oct 2022:  Add DIN508 T-Slot nut by @hasecilu.
+* V0.4.16  16 Oct 2022:  Add DIN508 T-Slot nut by @hasecilu.  
                        - Cleanup translation files + add bash script by @FreeCAD-Tools.
 * V0.4.15  04 Oct 2022:  Add GOST1144 type 1 & type 2 wood screws by @FreeCAD-Tools.
 * V0.4.14  03 Oct 2022:  Add spanish translation by @hasecilu.

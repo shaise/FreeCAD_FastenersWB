@@ -459,7 +459,7 @@ class FSScrewObject(FSBaseObject):
                     else:
                         fp.length = l
                         if hasattr(fp, 'lengthCustom'):
-                            fp.lengthCustom = l
+                            fp.lengthCustom = FastenerBase.LenStr2Num(l)
                 self.calc_len = l
         else:
             self.calc_len = None

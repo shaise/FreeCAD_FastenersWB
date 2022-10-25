@@ -46,8 +46,6 @@ class FastenersWorkbench (Workbench):
         import FastenerBase, FSScrewCalc, PEMInserts, FastenersCmd
         import CountersunkHoles, FSChangeParams
 
-        print(translate("InitGui", "Translate this text"))
-
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command") 
         self.appendToolbar("FS Commands",cmdlist) 

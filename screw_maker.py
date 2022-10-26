@@ -372,16 +372,6 @@ class Screw:
         # perform the actual boolean operations
         base_body.rotate(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 90)
         threaded_solid = base_body.cut(swept_solid)
-        if toffset < 0:
-            # one more component: a kind of 'cap' to improve behaviour with large offset values
-            # (shai: this feature in unused??)
-            fm.Reset()
-            fm.AddPoints(pnt4, pnt0, (0, -dia2))
-            cap_profile = fm.GetClosedWire()
-            cap_shell = self.RevolveZ(cap_profile)
-            cap_solid = Part.makeSolid(cap_shell)
-            # threaded_solid = threaded_solid.fuse(cap_solid)
-            # threaded_solid.removeSplitter
         # remove top face(s) and convert to a shell
         result = Part.Shell([x for x in threaded_solid.Faces \
                              if not abs(x.CenterOfMass[2]) < 1e-7])

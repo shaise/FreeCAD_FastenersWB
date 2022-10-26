@@ -377,7 +377,6 @@ class FSTaskChangeParamDialog:
     def DialogClosing(self):
         Gui.Selection.removeSelectionGate()
         Gui.Selection.removeObserver(self.selobserver)
-        FastenerBase.FSMatchIconNeedUpdate = 2
         return
 
     def getStandardButtons(self):

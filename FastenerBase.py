@@ -90,12 +90,9 @@ class FSGroupCommand:
     # def Activated(self, index): # index is an int in the range [0, len(GetCommands)
 
 
-DropButtonSupported = int(FreeCAD.Version()[1]) > 15  # and  int(FreeCAD.Version()[2].split()[0]) >= 5165
-RadioButtonSupported = int(FreeCAD.Version()[1]) > 15  # and  int(FreeCAD.Version()[2].split()[0]) >= 5560
 FSParam = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/Fasteners")
-GroupButtonMode = FSParam.GetInt("ScrewToolbarGroupMode", 1)  # 0 = none, 1 = separate toolbar 2 = drop down buttons
-if GroupButtonMode == 2 and not DropButtonSupported:
-    GroupButtonMode = 1
+# GroupButtonMode: 0 = none, 1 = separate toolbar 2 = drop down buttons
+GroupButtonMode = FSParam.GetInt("ScrewToolbarGroupMode", 1)
 
 
 class FSCommandList:
@@ -711,49 +708,8 @@ Gui.addCommand('FSSimple', FSMakeSimpleCommand())
 FSCommands.append('FSSimple', "command")
 
 FSMatchOuter = False
-FSMatchIconNeedUpdate = 0
 
 
-# freecad 0.15 version:
-class FSToggleMatchTypeCommand:
-    """Toggle screw matching method"""
-
-    def GetResources(self):
-        self.menuText = translate("FastenerBase", "Toggle Match Type")
-        self.iconInner = os.path.join(iconPath, 'IconMatchTypeInner.svg')
-        self.iconOuter = os.path.join(iconPath, 'IconMatchTypeOuter.svg')
-        return {
-            'Pixmap': self.iconInner,  # the name of a svg file available in the resources
-            'MenuText': self.menuText,
-            'ToolTip': translate("FastenerBase", "Toggle auto screw diameter matching inner<->outer thread")
-        }
-
-    def Activated(self):
-        global FSMatchOuter
-        if not hasattr(self, 'toolbarItem'):
-            self.toolbarItem = FSGetToolbarItem("FS Commands", self.menuText)
-        if self.toolbarItem is None:
-            return
-        FSMatchOuter = not FSMatchOuter
-        self.UpdateIcon()
-        return
-
-    def UpdateIcon(self):
-        if FSMatchOuter:
-            self.toolbarItem.setIcon(QtGui.QIcon(self.iconOuter))
-        else:
-            self.toolbarItem.setIcon(QtGui.QIcon(self.iconInner))
-
-    def IsActive(self):
-        global FSMatchIconNeedUpdate
-        if FSMatchIconNeedUpdate > 0:
-            FSMatchIconNeedUpdate = FSMatchIconNeedUpdate - 1
-            if FSMatchIconNeedUpdate == 0:
-                self.UpdateIcon()
-        return True
-
-
-# freecad v0.16 version:
 class FSMatchTypeInnerCommand:
     def Activated(self):
         global FSMatchOuter
@@ -811,16 +767,14 @@ class FSMatchTypeGroupCommand:
     def IsActive(self): # optional
         return True
 
-if RadioButtonSupported:
-    FreeCADGui.addCommand('FSMatchTypeInner',FSMatchTypeInnerCommand())
-    FreeCADGui.addCommand('FSMatchTypeOuter',FSMatchTypeOuterCommand())
-    FSCommands.append('FSMatchTypeInner', "command")
-    FSCommands.append('FSMatchTypeOuter', "command")
-    # FreeCADGui.addCommand('FSMatchTypeGroup',FSMatchTypeGroupCommand())
-    # FSCommands.append('FSMatchTypeGroup', "command")
-else:
-    Gui.addCommand('FSToggleMatchType',FSToggleMatchTypeCommand())
-    FSCommands.append('FSToggleMatchType', "command")
+
+FreeCADGui.addCommand('FSMatchTypeInner', FSMatchTypeInnerCommand())
+FreeCADGui.addCommand('FSMatchTypeOuter', FSMatchTypeOuterCommand())
+FSCommands.append('FSMatchTypeInner', "command")
+FSCommands.append('FSMatchTypeOuter', "command")
+# FreeCADGui.addCommand('FSMatchTypeGroup',FSMatchTypeGroupCommand())
+# FSCommands.append('FSMatchTypeGroup', "command")
+
 
 ###################################################################################
 # Generate BOM command

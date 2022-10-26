@@ -202,7 +202,6 @@ class Ui_DlgCountersunktHoles(object):
     def fillDiameters(self, type):
         self.diamTable = cshGetTable(type)
         self.diamList = sorted(self.diamTable, key = FastenerBase.MToFloat)
-        #self.diamList.sort(cmp = FastenerBase.MCompare)
         self.comboDiameter.clear()
         self.comboDiameter.addItems(self.diamList)        
           

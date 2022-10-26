@@ -341,14 +341,6 @@ class FSScrewMaker(Screw):
                 res = diams[0]
         return res
 
-    def GetAllTypes(self, typeName):
-        list = []
-        for key in screwTables:
-            if screwTables[key][FASTENER_FAMILY_POS] == typeName:
-                list.append(key)
-        list.sort()
-        return list
-
     def GetTypeName(self, type):
         if not (type in screwTables):
             return "None"
@@ -409,7 +401,7 @@ class FSScrewMaker(Screw):
             return 10.0
         table = FsData[type + "def"]
         return table[diam][tablepos]
-       
+
     def GetInnerThread(self, diam):
         diam = FastenerBase.CleanM(diam)
         return FSCScrewHoleChartDict[diam]
@@ -435,18 +427,6 @@ class FSScrewMaker(Screw):
             res[diam] = (table[diam][dpos], table[diam][kpos])
             FreeCAD.Console.PrintMessage(diam + ":" + str(res[diam][0]) + "," + str(res[diam][1]))
         return res
-
-    def GetCountersunkDims(self, type, diam):
-        dpos = self.GetTablePos(type, 'csh_diam')
-        if dpos < 0:
-            return 0, 0
-        kpos = self.GetTablePos(type, 'csh_height')
-        if kpos < 0:
-            return 0, 0
-        table = FsData[type + "def"]
-        if not (diam in table):
-            return 0, 0
-        return table[diam][dpos], table[diam][kpos]
 
     def updateFastenerParameters(self):
         global FSParam

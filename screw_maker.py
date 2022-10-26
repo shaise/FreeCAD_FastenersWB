@@ -589,27 +589,6 @@ class Screw:
             return threadShell
 
 
-
-
-    def cutChamfer(self, dia_cC, P_cC, l_cC):
-        key, res = FastenerBase.FSGetKey("CrhamferTool", dia_cC, P_cC, l_cC)
-        if res is not None:
-            return res
-        # FastenerBase.FSCache[key] = cyl
-        cham_t = P_cC * sqrt3 / 2.0 * 17.0 / 24.0
-        dia_cC2 = dia_cC / 2.0
-        fm = FastenerBase.FSFaceMaker()
-        fm.AddPoint(0.0, -l_cC)
-        fm.AddPoint(dia_cC2 - cham_t, -l_cC)
-        fm.AddPoint(dia_cC2 + cham_t, -l_cC + cham_t + cham_t)
-        fm.AddPoint(dia_cC2 + cham_t, -l_cC - P_cC - cham_t)
-        fm.AddPoint(0.0, -l_cC - P_cC - cham_t)
-
-        CFace = fm.GetFace()
-        cyl = self.RevolveZ(CFace)
-        FastenerBase.FSCache[key] = cyl
-        return cyl
-
     # cross recess type H
     def makeCross_H3(self, CrossType='2', m=6.9, h=0.0):
         key, res = FastenerBase.FSGetKey("CrossRecess", CrossType, m, h)
@@ -910,9 +889,6 @@ class Screw:
 
         FastenerBase.FSCache[key] = (Helo, hexlobShell)
         return Helo, hexlobShell
-
-    def setTuner(self, myTuner=511):
-        self.Tuner = myTuner
 
     def getDia(self, ThreadDiam, isNut):
         if type(ThreadDiam) == type(""):

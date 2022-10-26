@@ -266,28 +266,6 @@ def LenStr2Num(LenStr):
     return DiaFloat
 
 
-# sort compare function for m sizes
-def MCompare(x, y):
-    x1 = DiaStr2Num(x)
-    y1 = DiaStr2Num(y)
-    if x1 > y1:
-        return 1
-    if x1 < y1:
-        return -1
-    return 0
-
-
-# sort compare function for string numbers
-def NumCompare(x, y):
-    x1 = float(x)
-    y1 = float(y)
-    if x1 > y1:
-        return 1
-    if x1 < y1:
-        return -1
-    return 0
-
-
 def FSRemoveDigits(txt):
     res = ''
     for c in txt:
@@ -558,14 +536,6 @@ def FSGetAttachableSelections():
     if len(asels) == 0:
         asels.append(None)
     return asels
-
-
-def FSGenerateObjects(objectClass, name):
-    for selObj in FSGetAttachableSelections():
-        a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython", name)
-        objectClass(a, selObj)
-        FSViewProviderIcon(a.ViewObject)
-    FreeCAD.ActiveDocument.recompute()
 
 
 def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):

@@ -25,13 +25,17 @@
 from FreeCAD import Gui
 from FreeCAD import Base
 from PySide import QtGui
-import FreeCAD, FreeCADGui, Part, os, math, sys
+import FreeCAD
+import FreeCADGui
+import Part
+import os
+import math
+import sys
 from pathlib import Path
 import DraftVecUtils
 import re
 from utils import csv2dict
-#from screw_maker import *
-from TranslateUtils import *
+from TranslateUtils import translate
 
 
 __dir__ = os.path.dirname(__file__)

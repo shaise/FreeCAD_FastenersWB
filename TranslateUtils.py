@@ -23,7 +23,9 @@
 #*                                                                         *
 #***************************************************************************
 
-import FreeCAD, FreeCADGui, os
+import FreeCAD
+import FreeCADGui
+import os
 
 # add translations path
 __dir__ = os.path.dirname(__file__)

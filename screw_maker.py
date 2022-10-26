@@ -85,19 +85,13 @@ check chamfer angle on hexogon heads and nuts
 __author__ = "Ulrich Brammer <ulrich1a@users.sourceforge.net>"
 
 
-
-import errno
-import FreeCAD, Part, math, os
+import FreeCAD
+import Part
+import math
 from FreeCAD import Base
-import DraftVecUtils
 import importlib
 import FastenerBase
 from FastenerBase import FsData
-
-#from FastenersCmd import FastenerAttribs
-
-#import FSmakeCountersunkHeadScrew
-#from FSmakeCountersunkHeadScrew import *
 
 DEBUG = False # set to True to show debug messages; does not work, still todo.
 

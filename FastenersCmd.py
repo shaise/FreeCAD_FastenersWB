@@ -23,19 +23,16 @@
 #  
 ###################################################################################
 
-from urllib.response import addclosehook
 from FreeCAD import Gui
-import FreeCAD, FreeCADGui, Part, os
-import json, re
-from TranslateUtils import *
-
-__dir__ = os.path.dirname(__file__)
-iconPath = os.path.join(__dir__, 'Icons')
-import screw_maker
-
+import FreeCAD
+import os
+import re
+from TranslateUtils import translate
 import FastenerBase
 from FastenerBase import FSBaseObject
 import ScrewMaker
+__dir__ = os.path.dirname(__file__)
+iconPath = os.path.join(__dir__, 'Icons')
 
 screwMaker = ScrewMaker.Instance()
 

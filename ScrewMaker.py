@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
 # A Wrapper to Ulrich's screw_maker macro
-
-from screw_maker import *
-from FastenerBase import FSParam, FsTitles
+import FreeCAD
+from screw_maker import Screw
+from screw_maker import FsData
+from FastenerBase import FsTitles
+import FastenerBase
+from FastenerBase import FSParam
+import math
 
 FSCScrewHoleChart = (
     ("M1", 0.75),

@@ -178,7 +178,6 @@ def FSScrewStr(obj):
 
 # show traceback of system error
 def FSShowError():
-    global lastErr
     lastErr = sys.exc_info()
     tb = lastErr[2]
     tbnext = tb

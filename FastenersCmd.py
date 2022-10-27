@@ -32,7 +32,7 @@ import FastenerBase
 from FastenerBase import FSParam
 from FastenerBase import FSBaseObject
 import ScrewMaker
-from utils import iconPath
+from FSutils import iconPath
 
 screwMaker = ScrewMaker.Instance
 

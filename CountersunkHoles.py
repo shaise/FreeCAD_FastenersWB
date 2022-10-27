@@ -37,7 +37,7 @@ import FastenerBase
 import ScrewMaker
 # Enable text translation support
 from TranslateUtils import translate
-from utils import iconPath
+from FSutils import iconPath
 screwMaker = ScrewMaker.Instance
 
 QTVer = int(QtCore.qVersion().split('.')[0])

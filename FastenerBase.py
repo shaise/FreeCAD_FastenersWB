@@ -35,9 +35,9 @@ from pathlib import Path
 import DraftVecUtils
 import re
 from TranslateUtils import translate
-from utils import csv2dict
-from utils import iconPath
-from utils import fsdatapath
+from FSutils import csv2dict
+from FSutils import iconPath
+from FSutils import fsdatapath
 
 matchOuterButton = None
 matchOuterButtonText = translate("FastenerBase", 'Match for pass hole')

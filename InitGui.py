@@ -29,7 +29,7 @@ import FreeCADGui
 class FastenersWorkbench(FreeCADGui.Workbench):
 
     from TranslateUtils import translate
-    from utils import iconPath
+    from FSutils import iconPath
 
     MenuText = translate("InitGui", "Fasteners")
     ToolTip = translate("InitGui", "Create ISO Fasteners")

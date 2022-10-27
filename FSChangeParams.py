@@ -20,7 +20,7 @@ import FreeCAD
 import ScrewMaker
 import FastenersCmd
 import PEMInserts
-from utils import iconPath
+from FSutils import iconPath
 screwMaker = ScrewMaker.Instance
 
 ###################################################################################

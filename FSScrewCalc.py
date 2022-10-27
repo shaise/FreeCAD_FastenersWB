@@ -32,7 +32,7 @@ import FreeCAD
 from FreeCAD import Gui
 from PySide import QtCore, QtGui
 import ScrewMaker
-from utils import iconPath
+from FSutils import iconPath
 screwMaker = ScrewMaker.Instance
 
 ###################################################################################

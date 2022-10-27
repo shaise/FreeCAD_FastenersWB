@@ -34,14 +34,10 @@ import sys
 from pathlib import Path
 import DraftVecUtils
 import re
-from utils import csv2dict
 from TranslateUtils import translate
-
-
-__dir__ = os.path.dirname(__file__)
-iconPath = os.path.join( __dir__, 'Icons' )
-# import fastener data
-fsdatapath = os.path.join(__dir__, 'FsData')
+from utils import csv2dict
+from utils import iconPath
+from utils import fsdatapath
 
 matchOuterButton = None
 matchOuterButtonText = translate("FastenerBase", 'Match for pass hole')

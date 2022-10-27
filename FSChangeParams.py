@@ -16,9 +16,8 @@ import FreeCAD
 import ScrewMaker
 import FastenersCmd
 import PEMInserts
+from utils import iconPath
 screwMaker = ScrewMaker.Instance()
-__dir__ = os.path.dirname(__file__)
-iconPath = os.path.join( __dir__, 'Icons')
 
 ###################################################################################
 # replace below with generated code from pyuic4

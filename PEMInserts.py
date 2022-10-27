@@ -23,13 +23,9 @@
 #  
 ###################################################################################
 
-import os, math
-__dir__ = os.path.dirname(__file__)
-iconPath = os.path.join( __dir__, 'Icons' )
-
 import FastenerBase
 from FastenersCmd import FSScrewObject
-import ScrewMaker  
+import ScrewMaker
 
 screwMaker = ScrewMaker.Instance()
 

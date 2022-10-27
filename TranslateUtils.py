@@ -25,11 +25,9 @@
 
 import FreeCAD
 import FreeCADGui
-import os
 
 # add translations path
-__dir__ = os.path.dirname(__file__)
-LanguagePath = os.path.join(__dir__,"translations")
+from FSutils import LanguagePath
 FreeCADGui.addLanguagePath(LanguagePath)
 FreeCADGui.updateLocale()
 

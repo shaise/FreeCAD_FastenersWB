@@ -31,8 +31,7 @@ from TranslateUtils import translate
 import FastenerBase
 from FastenerBase import FSBaseObject
 import ScrewMaker
-__dir__ = os.path.dirname(__file__)
-iconPath = os.path.join(__dir__, 'Icons')
+from utils import iconPath
 
 screwMaker = ScrewMaker.Instance()
 

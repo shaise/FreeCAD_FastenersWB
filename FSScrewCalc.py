@@ -32,8 +32,7 @@ import FreeCAD
 from FreeCAD import Gui
 from PySide import QtCore, QtGui
 import ScrewMaker
-__dir__ = os.path.dirname(__file__)
-iconPath = os.path.join(__dir__, 'Icons')
+from utils import iconPath
 screwMaker = ScrewMaker.Instance()
 
 ###################################################################################

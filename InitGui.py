@@ -24,30 +24,27 @@
 ###############################################################################
 import os
 import FreeCADGui
-import fnwb_locator
-
-fnWBpath = os.path.dirname(fnwb_locator.__file__)
-fnWB_icons_path = os.path.join(fnWBpath, "Icons")
-
-global main_fnWB_Icon
-main_fnWB_Icon = os.path.join(fnWB_icons_path, "FNLogo.svg")
 
 
 class FastenersWorkbench(FreeCADGui.Workbench):
 
-    global main_fnWB_Icon
     from TranslateUtils import translate
+    from utils import iconPath
 
     MenuText = translate("InitGui", "Fasteners")
     ToolTip = translate("InitGui", "Create ISO Fasteners")
-    Icon = main_fnWB_Icon
+    Icon = os.path.join(iconPath, "FNLogo.svg")
 
     def Initialize(self):
         "This function is executed when FreeCAD starts"
         from TranslateUtils import translate
-        import os
-        import FastenerBase, FSScrewCalc, PEMInserts, FastenersCmd
-        import CountersunkHoles, FSChangeParams
+        from FSutils import pref_file_path
+        import FastenerBase
+        import FSScrewCalc
+        import PEMInserts
+        import FastenersCmd
+        import CountersunkHoles
+        import FSChangeParams
 
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command")
@@ -84,7 +81,7 @@ class FastenersWorkbench(FreeCADGui.Workbench):
             self.list.extend(screwlist)
         FreeCADGui.addIconPath(FastenerBase.iconPath)
         FreeCADGui.addPreferencePage(
-            os.path.join(FastenerBase.__dir__, "FSprefs.ui"), "Fasteners"
+            pref_file_path, "Fasteners"
         )
 
     def Activated(self):

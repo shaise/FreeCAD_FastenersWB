@@ -707,15 +707,16 @@ class FSMakeSimpleCommand:
 Gui.addCommand('FSSimple', FSMakeSimpleCommand())
 FSCommands.append('FSSimple', "command")
 
-FSMatchOuter = False
+FSParam.SetBool("MatchOuterDiameter", False)
 
 
 class FSMatchTypeInnerCommand:
     def Activated(self):
-        global FSMatchOuter
+        matchOuterButton = FSGetToolbarItem("FS Commands", matchOuterButtonText)
+        matchInnerButton = FSGetToolbarItem("FS Commands", matchInnerButtonText)
         matchInnerButton.setChecked(True)
         matchOuterButton.setChecked(False)
-        FSMatchOuter = False
+        FSParam.SetBool("MatchOuterDiameter", False)
         FreeCAD.Console.PrintLog("Set auto diameter to match inner thread\n")
 
     def GetResources(self):
@@ -727,11 +728,12 @@ class FSMatchTypeInnerCommand:
 
 
 class FSMatchTypeOuterCommand:
-    def Activated(self): #, index):
-        global FSMatchOuter
+    def Activated(self):
+        matchOuterButton = FSGetToolbarItem("FS Commands", matchOuterButtonText)
+        matchInnerButton = FSGetToolbarItem("FS Commands", matchInnerButtonText)
         matchInnerButton.setChecked(False)
         matchOuterButton.setChecked(True)
-        FSMatchOuter = True
+        FSParam.SetBool("MatchOuterDiameter", True)
         FreeCAD.Console.PrintLog("Set auto diameter to match outer thread\n")
 
     def GetResources(self):
@@ -742,38 +744,10 @@ class FSMatchTypeOuterCommand:
         }
 
 
-class FSMatchTypeGroupCommand:
-    def GetCommands(self):
-        return "FSMatchTypeInner", "FSMatchTypeOuter"  # a tuple of command names that you want to group
-
-    def Activated(self, index):
-        global FSMatchOuter
-        if index == 0:
-            FSMatchOuter = False
-            FreeCAD.Console.PrintLog("Set auto diameter to match inner thread\n")
-        else:
-            FSMatchOuter = True
-            FreeCAD.Console.PrintLog("Set auto diameter to match outer thread\n")
-
-    def GetDefaultCommand(self): # return the index of the tuple of the default command. This method is optional and when not implemented '0' is used
-        return 0
-
-    def GetResources(self):
-        return { 'MenuText': translate("FastenerBase", 'Screw diameter matching mode'),
-                 'ToolTip': translate("FastenerBase", 'Screw diameter matching mode (by inner or outer thread diameter)'),
-                 'DropDownMenu': False,
-                 'Exclusive': True}
-
-    def IsActive(self): # optional
-        return True
-
-
 FreeCADGui.addCommand('FSMatchTypeInner', FSMatchTypeInnerCommand())
 FreeCADGui.addCommand('FSMatchTypeOuter', FSMatchTypeOuterCommand())
 FSCommands.append('FSMatchTypeInner', "command")
 FSCommands.append('FSMatchTypeOuter', "command")
-# FreeCADGui.addCommand('FSMatchTypeGroup',FSMatchTypeGroupCommand())
-# FSCommands.append('FSMatchTypeGroup', "command")
 
 
 ###################################################################################
@@ -865,11 +839,12 @@ class FSMakeBomCommand:
 Gui.addCommand('FSMakeBOM', FSMakeBomCommand())
 FSCommands.append('FSMakeBOM', "command")
 
+
 def InitCheckables():
-    global matchOuterButton, matchInnerButton, FSMatchOuter
+    match_outer = FSParam.GetBool("MatchOuterDiameter")
     matchOuterButton = FSGetToolbarItem("FS Commands", matchOuterButtonText)
-    matchOuterButton.setCheckable(True)
-    matchOuterButton.setChecked(FSMatchOuter)
     matchInnerButton = FSGetToolbarItem("FS Commands", matchInnerButtonText)
+    matchOuterButton.setCheckable(True)
     matchInnerButton.setCheckable(True)
-    matchInnerButton.setChecked(not FSMatchOuter)
+    matchOuterButton.setChecked(match_outer)
+    matchInnerButton.setChecked(not match_outer)

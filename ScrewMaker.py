@@ -262,10 +262,9 @@ class FSScrewMaker(Screw):
 
         return diam, len, width
 
-    def AutoDiameter(self, type, holeObj, baseobj=None, matchOuter=FastenerBase.FSMatchOuter):
+    def AutoDiameter(self, type, holeObj, baseobj=None, matchOuter=False):
         ''' Calculate screw diameter automatically based on given hole '''
         # this function is also used to assign the default screw diameter
-        # matchOuter = FastenerBase.FSMatchOuter
         if baseobj is not None and baseobj.Name.startswith("Washer"):
             matchOuter = True
         is_attached = (
@@ -433,7 +432,6 @@ class FSScrewMaker(Screw):
         return res
 
     def updateFastenerParameters(self):
-        global FSParam
         oldState = str(self.sm3DPrintMode) + str(self.smNutThrScaleA) + str(self.smNutThrScaleB) + str(self.smScrewThrScaleA) + str(self.smScrewThrScaleB)
         self.sm3DPrintMode = False
         threadMode = FSParam.GetInt("ScrewToolbarThreadGeneration", 0)  # 0 = standard, 1 = 3dprint

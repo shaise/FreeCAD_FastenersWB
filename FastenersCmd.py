@@ -29,6 +29,7 @@ import os
 import re
 from TranslateUtils import translate
 import FastenerBase
+from FastenerBase import FSParam
 from FastenerBase import FSBaseObject
 import ScrewMaker
 from utils import iconPath
@@ -285,7 +286,7 @@ class FSScrewObject(FSBaseObject):
         if "leftHanded" in params and not hasattr(obj, 'leftHanded'):
             obj.addProperty("App::PropertyBool", "leftHanded", "Parameters", translate("FastenerCmd", "Left handed thread")).leftHanded = False
         if "matchOuter" in params and not hasattr(obj, "matchOuter"):
-            obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", translate("FastenerCmd", "Match outer thread diameter")).matchOuter = FastenerBase.FSMatchOuter
+            obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", translate("FastenerCmd", "Match outer thread diameter")).matchOuter = FSParam.GetBool("MatchOuterDiameter")
 
         # width parameters
         if "widthCode" in params and not hasattr(obj, "width"):

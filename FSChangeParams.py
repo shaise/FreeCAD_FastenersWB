@@ -10,7 +10,7 @@
 from TranslateUtils import translate
 import os
 from FastenerBase import FSShowError
-from FastenerBase import FSFasenerTypeDB
+from FastenerBase import FSFastenerTypeDB
 from FastenerBase import FSRemoveDigits
 from FastenerBase import FSCommands
 from FastenerBase import FSParam
@@ -394,7 +394,7 @@ class FSChangeParamCommand:
 
     def Activated(self):
         dlg = FSTaskChangeParamDialog(None)
-        fstype = FSFasenerTypeDB[self.type]
+        fstype = FSFastenerTypeDB[self.type]
         dlg.FillFields(fstype)
         Gui.Control.showDialog(dlg)
         return
@@ -405,7 +405,7 @@ class FSChangeParamCommand:
             return False
         self.type = None
         tmaxlen = 0
-        for typename in FSFasenerTypeDB:
+        for typename in FSFastenerTypeDB:
             # FreeCAD.Console.PrintLog(typename + "\n")
             if FSRemoveDigits(sel[0].Name) == typename:
                 self.type = typename

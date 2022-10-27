@@ -145,17 +145,17 @@ class FSFastenerType:
         self.items = []
 
 
-FSFasenerTypeDB = {}
+FSFastenerTypeDB = {}
 
 
 def FSAddFastenerType(typeName, hasLength=True, lengthFixed=True):
-    FSFasenerTypeDB[typeName] = FSFastenerType(typeName, hasLength, lengthFixed)
+    FSFastenerTypeDB[typeName] = FSFastenerType(typeName, hasLength, lengthFixed)
 
 
 def FSAddItemsToType(typeName, item):
-    if not (typeName in FSFasenerTypeDB):
+    if not (typeName in FSFastenerTypeDB):
         return
-    FSFasenerTypeDB[typeName].items.append(item)
+    FSFastenerTypeDB[typeName].items.append(item)
 
 
 # common helpers

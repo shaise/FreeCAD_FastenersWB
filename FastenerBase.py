@@ -29,7 +29,7 @@ import FreeCAD, FreeCADGui, Part, os, math, sys
 from pathlib import Path
 import DraftVecUtils
 import re
-from utils import csv2dict
+from FastenerUtils import csv2dict
 #from screw_maker import *
 from TranslateUtils import *
 

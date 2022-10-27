@@ -452,11 +452,4 @@ class FSScrewMaker(Screw):
         return self.createScrew(screwTables[fastenerAttribs.type][FUNCTION_POS], fastenerAttribs)
 
 
-ScrewMakerInstance = None
-
-
-def Instance():
-    global ScrewMakerInstance
-    if ScrewMakerInstance is None:
-        ScrewMakerInstance = FSScrewMaker()
-    return ScrewMakerInstance
+Instance = FSScrewMaker()

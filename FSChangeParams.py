@@ -17,7 +17,7 @@ import ScrewMaker
 import FastenersCmd
 import PEMInserts
 from utils import iconPath
-screwMaker = ScrewMaker.Instance()
+screwMaker = ScrewMaker.Instance
 
 ###################################################################################
 # replace below with generated code from pyuic4

@@ -27,7 +27,7 @@ import FastenerBase
 from FastenersCmd import FSScrewObject
 import ScrewMaker
 
-screwMaker = ScrewMaker.Instance()
+screwMaker = ScrewMaker.Instance
 
 # functions for backward compatibility. suggest to delete this file starting from FreeCAD 0.23
 

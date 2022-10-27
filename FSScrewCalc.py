@@ -33,7 +33,7 @@ from FreeCAD import Gui
 from PySide import QtCore, QtGui
 import ScrewMaker
 from utils import iconPath
-screwMaker = ScrewMaker.Instance()
+screwMaker = ScrewMaker.Instance
 
 ###################################################################################
 # replace below with generated code from pyuic4

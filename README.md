@@ -112,7 +112,7 @@ createFastener(type, diam, len, threadType, shapeOnly = False)
 `shapeOnly` can be **True** if you just want to get the object or **False** (default) if you want it to be added to the treeView and shown.
 ```python
 import ScrewMaker
-sm = ScrewMaker.Instance()
+sm = ScrewMaker.Instance
 screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 ```
 

@@ -33,7 +33,7 @@ from FastenerBase import FSBaseObject
 import ScrewMaker
 from utils import iconPath
 
-screwMaker = ScrewMaker.Instance()
+screwMaker = ScrewMaker.Instance
 
 # These strings are required for fasteners translation in treeview.
 # They are used by the pylupdate5 utility for update *.ts files. Don't delete them.

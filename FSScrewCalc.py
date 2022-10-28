@@ -25,14 +25,20 @@
 ###################################################################################
 
 #Enable text translation support
-from TranslateUtils import *
-import os, FastenerBase, FreeCADGui
+from TranslateUtils import translate
+import os
+import FastenerBase
+import FreeCAD
+from FreeCAD import Gui
+from PySide import QtCore, QtGui
+import ScrewMaker
+from FSutils import iconPath
+screwMaker = ScrewMaker.Instance
 
 ###################################################################################
 # replace below with generated code from pyuic4
 ###################################################################################
 
-from PySide import QtCore, QtGui
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -135,16 +141,6 @@ class Ui_DockWidget(object):
         self.fillDiameters()
 
 
-from FreeCAD import Gui
-from FreeCAD import Base
-import FreeCAD, FreeCADGui, Part, os, math
-__dir__ = os.path.dirname(__file__)
-iconPath = os.path.join( __dir__, 'Icons' )
-
-import FastenerBase
-from FastenerBase import FSBaseObject
-import ScrewMaker  
-screwMaker = ScrewMaker.Instance()
 
 FSCPEMPressNutHoleChart = (
     ("M2", 4.22),

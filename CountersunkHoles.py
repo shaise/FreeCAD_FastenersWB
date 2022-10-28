@@ -29,9 +29,16 @@
 
 from PySide import QtCore, QtGui
 import sys
-
-#Enable text translation support
-from TranslateUtils import *
+from FreeCAD import Gui
+from FreeCAD import Base
+import FreeCAD
+import os
+import FastenerBase
+import ScrewMaker
+# Enable text translation support
+from TranslateUtils import translate
+from FSutils import iconPath
+screwMaker = ScrewMaker.Instance
 
 QTVer = int(QtCore.qVersion().split('.')[0])
 
@@ -202,7 +209,6 @@ class Ui_DlgCountersunktHoles(object):
     def fillDiameters(self, type):
         self.diamTable = cshGetTable(type)
         self.diamList = sorted(self.diamTable, key = FastenerBase.MToFloat)
-        #self.diamList.sort(cmp = FastenerBase.MCompare)
         self.comboDiameter.clear()
         self.comboDiameter.addItems(self.diamList)        
           
@@ -309,19 +315,6 @@ class Ui_DlgCountersunktHoles(object):
             dm.setData(dm.index(i,0), QtCore.Qt.Checked, QtCore.Qt.CheckStateRole)
         self.itemRefreshDisabled = False
         dm.itemChanged.emit(None)
-    
-    
-
-from FreeCAD import Gui
-from FreeCAD import Base
-import FreeCAD, FreeCADGui, Part, os, math
-__dir__ = os.path.dirname(__file__)
-iconPath = os.path.join( __dir__, 'Icons' )
-
-import FastenerBase
-from FastenerBase import FSBaseObject
-import ScrewMaker  
-screwMaker = ScrewMaker.Instance()
 
 
 class FSDiameterDelegate(QtGui.QItemDelegate):
@@ -447,11 +440,7 @@ class FSSelObserver:
     def clearSelection(self,
                        doc):  # If click on the screen, clear the selection
         FreeCAD.Console.PrintLog("FSO-ClrSel:" + "\n")
-    
 
-import sys
-
-#FSFilletDialog.ui.FillData()
 
 class FSTaskFilletDialog:
     def __init__(self, obj):

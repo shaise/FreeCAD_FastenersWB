@@ -31,7 +31,6 @@ from screw_maker import *
 # DIN508
 
 def makeTSlotNut(self, fa): # dynamically loaded method of class Screw
-    FreeCAD.Console.PrintMessage("Start")
     SType = fa.type
     dia = self.getDia(fa.calc_diam, True)
 

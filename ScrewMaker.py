@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
 
 # A Wrapper to Ulrich's screw_maker macro
-
-from screw_maker import *
-from FastenerBase import FSParam, FsTitles
+import FreeCAD
+from screw_maker import Screw
+from screw_maker import FsData
+from FastenerBase import FsTitles
+import FastenerBase
+from FastenerBase import FSParam
+import math
 
 FSCScrewHoleChart = (
     ("M1", 0.75),
@@ -258,10 +262,9 @@ class FSScrewMaker(Screw):
 
         return diam, len, width
 
-    def AutoDiameter(self, type, holeObj, baseobj=None, matchOuter=FastenerBase.FSMatchOuter):
+    def AutoDiameter(self, type, holeObj, baseobj=None, matchOuter=False):
         ''' Calculate screw diameter automatically based on given hole '''
         # this function is also used to assign the default screw diameter
-        # matchOuter = FastenerBase.FSMatchOuter
         if baseobj is not None and baseobj.Name.startswith("Washer"):
             matchOuter = True
         is_attached = (
@@ -341,14 +344,6 @@ class FSScrewMaker(Screw):
                 res = diams[0]
         return res
 
-    def GetAllTypes(self, typeName):
-        list = []
-        for key in screwTables:
-            if screwTables[key][FASTENER_FAMILY_POS] == typeName:
-                list.append(key)
-        list.sort()
-        return list
-
     def GetTypeName(self, type):
         if not (type in screwTables):
             return "None"
@@ -409,7 +404,7 @@ class FSScrewMaker(Screw):
             return 10.0
         table = FsData[type + "def"]
         return table[diam][tablepos]
-       
+
     def GetInnerThread(self, diam):
         diam = FastenerBase.CleanM(diam)
         return FSCScrewHoleChartDict[diam]
@@ -436,20 +431,7 @@ class FSScrewMaker(Screw):
             FreeCAD.Console.PrintMessage(diam + ":" + str(res[diam][0]) + "," + str(res[diam][1]))
         return res
 
-    def GetCountersunkDims(self, type, diam):
-        dpos = self.GetTablePos(type, 'csh_diam')
-        if dpos < 0:
-            return 0, 0
-        kpos = self.GetTablePos(type, 'csh_height')
-        if kpos < 0:
-            return 0, 0
-        table = FsData[type + "def"]
-        if not (diam in table):
-            return 0, 0
-        return table[diam][dpos], table[diam][kpos]
-
     def updateFastenerParameters(self):
-        global FSParam
         oldState = str(self.sm3DPrintMode) + str(self.smNutThrScaleA) + str(self.smNutThrScaleB) + str(self.smScrewThrScaleA) + str(self.smScrewThrScaleB)
         self.sm3DPrintMode = False
         threadMode = FSParam.GetInt("ScrewToolbarThreadGeneration", 0)  # 0 = standard, 1 = 3dprint
@@ -468,11 +450,4 @@ class FSScrewMaker(Screw):
         return self.createScrew(screwTables[fastenerAttribs.type][FUNCTION_POS], fastenerAttribs)
 
 
-ScrewMakerInstance = None
-
-
-def Instance():
-    global ScrewMakerInstance
-    if ScrewMakerInstance is None:
-        ScrewMakerInstance = FSScrewMaker()
-    return ScrewMakerInstance
+Instance = FSScrewMaker()

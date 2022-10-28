@@ -6,16 +6,27 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-#Enable text translation support
-from TranslateUtils import *
-import os, FastenerBase, FreeCADGui
+# Enable text translation support
+from TranslateUtils import translate
+import os
+from FastenerBase import FSShowError
+from FastenerBase import FSFastenerTypeDB
+from FastenerBase import FSRemoveDigits
+from FastenerBase import FSCommands
+from FastenerBase import FSParam
+from PySide import QtCore, QtGui
+from FreeCAD import Gui
+import FreeCAD
+import ScrewMaker
+import FastenersCmd
+import PEMInserts
+from FSutils import iconPath
+screwMaker = ScrewMaker.Instance
 
 ###################################################################################
 # replace below with generated code from pyuic4
 ###################################################################################
 
-
-from PySide import QtCore, QtGui
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -108,19 +119,6 @@ class Ui_DlgChangeParams(object):
         # End position for generated code from pyuic4
         ###################################################################################
 
-        
-from FreeCAD import Gui
-from FreeCAD import Base
-import FreeCAD, FreeCADGui, Part, os, math
-__dir__ = os.path.dirname(__file__)
-iconPath = os.path.join( __dir__, 'Icons' )
-
-import FastenerBase
-from FastenerBase import FSBaseObject
-import ScrewMaker  
-screwMaker = ScrewMaker.Instance()
-import sys
-import FastenersCmd, PEMInserts
 
 def FSCPGetDiameters(type, item):
     if type == "Screw" or type == "Washer" or type == "ScrewTap" or type == "Nut":
@@ -158,7 +156,7 @@ def FSCPGetDiametersFromSelection(sel):
                     listDiams.append(diam)
         return listDiams
     except:
-        FastenerBase.FSShowError()
+        FSShowError()
         return []
 
 
@@ -210,7 +208,7 @@ class FSTaskChangeParamDialog:
         self.baseObj = obj
         self.disableUpdate = True
         self.selection = Gui.Selection.getSelection()
-        self.matchOuter = FastenerBase.FSMatchOuter
+        self.matchOuter = FSParam.GetBool("MatchOuterDiameter")
         FSChangeParamDialog = QtGui.QWidget()
         FSChangeParamDialog.ui = Ui_DlgChangeParams()
         FSChangeParamDialog.ui.setupUi(FSChangeParamDialog)
@@ -273,7 +271,7 @@ class FSTaskChangeParamDialog:
             for diam in listDiams:
                 ui.comboDiameter.addItem(diam)
         except:
-            FastenerBase.FSShowError()
+            FSShowError()
         return
 
     def UpdateLengths(self):
@@ -300,7 +298,7 @@ class FSTaskChangeParamDialog:
                 ui.checkSetLength.show()
                 ui.spinLength.show()
         except:
-            FastenerBase.FSShowError()
+            FSShowError()
         return
 
     def onFastenerChange(self, findex):
@@ -322,7 +320,7 @@ class FSTaskChangeParamDialog:
                 ui.comboDiameter.setEnabled(True)
                 ui.comboMatchType.setEnabled(False)
         except:
-            FastenerBase.FSShowError()
+            FSShowError()
         return
 
     def onSetLengthChange(self, val):
@@ -333,7 +331,7 @@ class FSTaskChangeParamDialog:
             else:
                 ui.spinLength.setEnabled(False)
         except:
-            FastenerBase.FSShowError()
+            FSShowError()
         return
 
     def accept(self):
@@ -366,7 +364,7 @@ class FSTaskChangeParamDialog:
                                 obj.length = l
             FreeCAD.ActiveDocument.recompute()
         except:
-            FastenerBase.FSShowError()
+            FSShowError()
         self.DialogClosing()
         return True
 
@@ -377,7 +375,6 @@ class FSTaskChangeParamDialog:
     def DialogClosing(self):
         Gui.Selection.removeSelectionGate()
         Gui.Selection.removeObserver(self.selobserver)
-        FastenerBase.FSMatchIconNeedUpdate = 2
         return
 
     def getStandardButtons(self):
@@ -397,7 +394,7 @@ class FSChangeParamCommand:
 
     def Activated(self):
         dlg = FSTaskChangeParamDialog(None)
-        fstype = FastenerBase.FSFasenerTypeDB[self.type]
+        fstype = FSFastenerTypeDB[self.type]
         dlg.FillFields(fstype)
         Gui.Control.showDialog(dlg)
         return
@@ -408,17 +405,17 @@ class FSChangeParamCommand:
             return False
         self.type = None
         tmaxlen = 0
-        for typename in FastenerBase.FSFasenerTypeDB:
+        for typename in FSFastenerTypeDB:
             # FreeCAD.Console.PrintLog(typename + "\n")
-            if FastenerBase.FSRemoveDigits(sel[0].Name) == typename:
+            if FSRemoveDigits(sel[0].Name) == typename:
                 self.type = typename
         if self.type is None:
             return False
         for obj in sel:
-            if FastenerBase.FSRemoveDigits(obj.Name) != self.type:
+            if FSRemoveDigits(obj.Name) != self.type:
                 return False
         return True
 
 
 Gui.addCommand("FSChangeParams", FSChangeParamCommand())
-FastenerBase.FSCommands.append("FSChangeParams", "command")
+FSCommands.append("FSChangeParams", "command")

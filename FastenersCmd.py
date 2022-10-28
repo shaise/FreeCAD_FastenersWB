@@ -23,21 +23,18 @@
 #  
 ###################################################################################
 
-from urllib.response import addclosehook
 from FreeCAD import Gui
-import FreeCAD, FreeCADGui, Part, os
-import json, re
-from TranslateUtils import *
-
-__dir__ = os.path.dirname(__file__)
-iconPath = os.path.join(__dir__, 'Icons')
-import screw_maker
-
+import FreeCAD
+import os
+import re
+from TranslateUtils import translate
 import FastenerBase
+from FastenerBase import FSParam
 from FastenerBase import FSBaseObject
 import ScrewMaker
+from FSutils import iconPath
 
-screwMaker = ScrewMaker.Instance()
+screwMaker = ScrewMaker.Instance
 
 # These strings are required for fasteners translation in treeview.
 # They are used by the pylupdate5 utility for update *.ts files. Don't delete them.
@@ -289,7 +286,7 @@ class FSScrewObject(FSBaseObject):
         if "leftHanded" in params and not hasattr(obj, 'leftHanded'):
             obj.addProperty("App::PropertyBool", "leftHanded", "Parameters", translate("FastenerCmd", "Left handed thread")).leftHanded = False
         if "matchOuter" in params and not hasattr(obj, "matchOuter"):
-            obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", translate("FastenerCmd", "Match outer thread diameter")).matchOuter = FastenerBase.FSMatchOuter
+            obj.addProperty("App::PropertyBool", "matchOuter", "Parameters", translate("FastenerCmd", "Match outer thread diameter")).matchOuter = FSParam.GetBool("MatchOuterDiameter")
 
         # width parameters
         if "widthCode" in params and not hasattr(obj, "width"):

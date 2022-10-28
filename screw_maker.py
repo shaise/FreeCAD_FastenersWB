@@ -85,19 +85,13 @@ check chamfer angle on hexogon heads and nuts
 __author__ = "Ulrich Brammer <ulrich1a@users.sourceforge.net>"
 
 
-
-import errno
-import FreeCAD, Part, math, os
+import FreeCAD
+import Part
+import math
 from FreeCAD import Base
-import DraftVecUtils
 import importlib
 import FastenerBase
 from FastenerBase import FsData
-
-#from FastenersCmd import FastenerAttribs
-
-#import FSmakeCountersunkHeadScrew
-#from FSmakeCountersunkHeadScrew import *
 
 DEBUG = False # set to True to show debug messages; does not work, still todo.
 
@@ -372,16 +366,6 @@ class Screw:
         # perform the actual boolean operations
         base_body.rotate(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 90)
         threaded_solid = base_body.cut(swept_solid)
-        if toffset < 0:
-            # one more component: a kind of 'cap' to improve behaviour with large offset values
-            # (shai: this feature in unused??)
-            fm.Reset()
-            fm.AddPoints(pnt4, pnt0, (0, -dia2))
-            cap_profile = fm.GetClosedWire()
-            cap_shell = self.RevolveZ(cap_profile)
-            cap_solid = Part.makeSolid(cap_shell)
-            # threaded_solid = threaded_solid.fuse(cap_solid)
-            # threaded_solid.removeSplitter
         # remove top face(s) and convert to a shell
         result = Part.Shell([x for x in threaded_solid.Faces \
                              if not abs(x.CenterOfMass[2]) < 1e-7])
@@ -588,27 +572,6 @@ class Screw:
 
             return threadShell
 
-
-
-
-    def cutChamfer(self, dia_cC, P_cC, l_cC):
-        key, res = FastenerBase.FSGetKey("CrhamferTool", dia_cC, P_cC, l_cC)
-        if res is not None:
-            return res
-        # FastenerBase.FSCache[key] = cyl
-        cham_t = P_cC * sqrt3 / 2.0 * 17.0 / 24.0
-        dia_cC2 = dia_cC / 2.0
-        fm = FastenerBase.FSFaceMaker()
-        fm.AddPoint(0.0, -l_cC)
-        fm.AddPoint(dia_cC2 - cham_t, -l_cC)
-        fm.AddPoint(dia_cC2 + cham_t, -l_cC + cham_t + cham_t)
-        fm.AddPoint(dia_cC2 + cham_t, -l_cC - P_cC - cham_t)
-        fm.AddPoint(0.0, -l_cC - P_cC - cham_t)
-
-        CFace = fm.GetFace()
-        cyl = self.RevolveZ(CFace)
-        FastenerBase.FSCache[key] = cyl
-        return cyl
 
     # cross recess type H
     def makeCross_H3(self, CrossType='2', m=6.9, h=0.0):
@@ -910,9 +873,6 @@ class Screw:
 
         FastenerBase.FSCache[key] = (Helo, hexlobShell)
         return Helo, hexlobShell
-
-    def setTuner(self, myTuner=511):
-        self.Tuner = myTuner
 
     def getDia(self, ThreadDiam, isNut):
         if type(ThreadDiam) == type(""):

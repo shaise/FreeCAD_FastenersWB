@@ -376,6 +376,22 @@ class FSFaceMaker:
         z2 = zac + r * math.sin(sa)
         self.AddArc(x1, z1, x2, z2)
 
+    # add bspline starting at last point and going through (x1,z1) (x2,z2) ... (xn,zn)
+    # example: xxxx.addSpline(0, 0, 0, 1, 1, 0)
+    def AddSpline(self, *args):
+        l = len(args)
+        if l < 4 or (l & 1) == 1:
+            FreeCAD.Console.PrintError("FSFaceMaker.addSpline: invalid num of args, must be even number >= 4")
+            return
+        pt = self.lastPoint
+        pts = []
+        pts.append(pt)
+        for i in range(0, l, 2):
+            pt = FreeCAD.Base.Vector(args[i], 0, args[i + 1])
+            pts.append(pt)
+        self.edges.append(Part.BSplineCurve(pts).toShape())
+        self.lastPoint = pt
+
     def AddPoints(self, *args):
         for arg in args:
             if len(arg) == 2:

@@ -204,25 +204,26 @@ def makeGOST1144(self, fa):
     
     fm = FastenerBase.FSFaceMaker()
 
-    # create head profile
-    # instead two radii variables R1 and R2 in code used precalced coeeficents of 3 points, for build two arcs.
-    # that faster and easy for reproduce.
+    # 1) screw head
+    # Head of screw builds by B-Spline instead two arcs builded by two radii values R1 and R2.
+    # A curve built with two arcs and a curve built with a B-Spline are almost identical.
+    # You can build a curve by two ways in Sketch workbench and see this for yourself.
+    # B-Spline allows to remove the contour that appears between two radii during creation process
+    # also it use fewer points than two arcs.
     fm.AddPoint(0, K)
-    fm.AddArc(D/2*0.488, K*0.918, D/2*0.805, K*0.695)
-    fm.AddArc(D/2*0.955, K*0.384, D/2, 0)
-    #fm.AddPoint(d, 0)
+    fm.AddBSpline(D/2, K, D/2, 0)
 
-    # rounding under the head
+    # 2) rounding under the head
     rh=dia/10
     fm.AddPoint(d+rh, 0)
     fm.AddArc2(+0, -rh, 90)
     fm.AddPoint(d, -b*ftl)
 
-    # threaded cylinder profile
+    # 3) cylindrical part (place where thread is be added)
     if fa.thread:
         fm.AddPoint(dt, -b*ftl-(d-dt))
 
-    # sharp end (cone shape)
+    # 4) sharp end (cone shape)
     fm.AddPoint(dt, -ftl)
     fm.AddArc(dt*math.cos(angle/4), -l + z2 + z3 - d*math.sin(angle/4), x2, -l+z3)
     fm.AddPoint(0, -l)

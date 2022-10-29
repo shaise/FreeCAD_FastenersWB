@@ -23,9 +23,9 @@ import PEMInserts
 from FSutils import iconPath
 screwMaker = ScrewMaker.Instance
 
-###################################################################################
+###############################################################################
 # replace below with generated code from pyuic4
-###################################################################################
+###############################################################################
 
 
 try:
@@ -36,11 +36,13 @@ except AttributeError:
 
 try:
     _encoding = QtGui.QApplication.UnicodeUTF8
+
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
+
 
 class Ui_DlgChangeParams(object):
     def setupUi(self, DlgChangeParams):
@@ -99,7 +101,8 @@ class Ui_DlgChangeParams(object):
         self.spinLength.setObjectName(_fromUtf8("spinLength"))
         self.layoutSetVarLength.addWidget(self.spinLength)
         self.verticalLayout.addLayout(self.layoutSetVarLength)
-        spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        spacerItem = QtGui.QSpacerItem(
+            20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
         self.gridLayout_2.addWidget(self.mainGroup, 0, 0, 1, 1)
 
@@ -107,17 +110,24 @@ class Ui_DlgChangeParams(object):
         QtCore.QMetaObject.connectSlotsByName(DlgChangeParams)
 
     def retranslateUi(self, DlgChangeParams):
-        DlgChangeParams.setWindowTitle(_translate("DlgChangeParams", "Change fastener parameters", None))
-        self.mainGroup.setTitle(_translate("DlgChangeParams", "Fastener Parameters", None))
-        self.labelFastenerType.setText(_translate("DlgChangeParams", "Fastener type:", None))
-        self.checkAutoDiameter.setText(_translate("DlgChangeParams", "Auto set diameter", None))
-        self.labelDiameter.setText(_translate("DlgChangeParams", "Diameter:", None))
-        self.labelLength.setText(_translate("DlgChangeParams", "Length:", None))
-        self.checkSetLength.setText(_translate("DlgChangeParams", "Set length (mm):", None))
+        DlgChangeParams.setWindowTitle(_translate(
+            "DlgChangeParams", "Change fastener parameters", None))
+        self.mainGroup.setTitle(_translate(
+            "DlgChangeParams", "Fastener Parameters", None))
+        self.labelFastenerType.setText(_translate(
+            "DlgChangeParams", "Fastener type:", None))
+        self.checkAutoDiameter.setText(_translate(
+            "DlgChangeParams", "Auto set diameter", None))
+        self.labelDiameter.setText(_translate(
+            "DlgChangeParams", "Diameter:", None))
+        self.labelLength.setText(_translate(
+            "DlgChangeParams", "Length:", None))
+        self.checkSetLength.setText(_translate(
+            "DlgChangeParams", "Set length (mm):", None))
 
-        ###################################################################################
+        #######################################################################
         # End position for generated code from pyuic4
-        ###################################################################################
+        #######################################################################
 
 
 def FSCPGetDiameters(type, item):
@@ -182,7 +192,8 @@ class FSCPSelObserver:
         return True
 
     def removeSelection(self, doc, obj, sub):  # Delete the selected object
-        FreeCAD.Console.PrintLog("FSO-RemSel:" + str(obj) + ":" + str(sub) + "\n")
+        FreeCAD.Console.PrintLog(
+            "FSO-RemSel:" + str(obj) + ":" + str(sub) + "\n")
 
     def setSelection(self, doc):  # Selection in ComboView
         FreeCAD.Console.PrintLog("FSO-SetSel:" + "\n")
@@ -216,7 +227,8 @@ class FSTaskChangeParamDialog:
         # FSChangeParamDialog.ui.widgetVarLength.hide()
 
         self.form = FSChangeParamDialog
-        self.form.setWindowTitle(_translate("DlgChangeParams", "Change fastener parameters", None))
+        self.form.setWindowTitle(_translate(
+            "DlgChangeParams", "Change fastener parameters", None))
         Gui.Selection.addSelectionGate(FSCPSelectionFilterGate)
         self.selobserver = FSCPSelObserver(self.selection)
         Gui.Selection.addObserver(self.selobserver)
@@ -233,8 +245,10 @@ class FSTaskChangeParamDialog:
                 self.hatMatchOption = True
         if self.hatMatchOption:
             ui.comboMatchType.addItem("No Change")
-            ui.comboMatchType.addItem(QtGui.QIcon(os.path.join(iconPath, 'IconMatchTypeInner.svg')), "Match inner thread")
-            ui.comboMatchType.addItem(QtGui.QIcon(os.path.join(iconPath, 'IconMatchTypeOuter.svg')), "Match outer thread")
+            ui.comboMatchType.addItem(QtGui.QIcon(os.path.join(
+                iconPath, 'IconMatchTypeInner.svg')), "Match inner thread")
+            ui.comboMatchType.addItem(QtGui.QIcon(os.path.join(
+                iconPath, 'IconMatchTypeOuter.svg')), "Match outer thread")
             ui.comboMatchType.setEnabled(False)
             ui.comboMatchType.setCurrentIndex(0)
         else:
@@ -244,10 +258,12 @@ class FSTaskChangeParamDialog:
         ui = self.form.ui
         self.fstype = fstype
         # FreeCAD.Console.PrintLog(fstype.typeName + str(fstype.hasLength) + str(fstype.lengthFixed) + "\n")
-        ui.comboFastenerType.addItem(_translate("DlgChangeParams", 'No Change', None))
+        ui.comboFastenerType.addItem(_translate(
+            "DlgChangeParams", 'No Change', None))
         # FreeCAD.Console.PrintLog("nitems: " + str(len(fstype.items)) + "\n")
         for screw in fstype.items:
-            ui.comboFastenerType.addItem(QtGui.QIcon(os.path.join(iconPath, screw + '.svg')), screw)
+            ui.comboFastenerType.addItem(QtGui.QIcon(
+                os.path.join(iconPath, screw + '.svg')), screw)
         if len(fstype.items) == 1:
             ui.comboFastenerType.setCurrentIndex(1)
             ui.comboFastenerType.setEnabled(False)
@@ -262,12 +278,14 @@ class FSTaskChangeParamDialog:
         try:
             ui = self.form.ui
             ui.comboDiameter.clear()
-            ui.comboDiameter.addItem(_translate("DlgChangeParams", 'No Change', None))
+            ui.comboDiameter.addItem(_translate(
+                "DlgChangeParams", 'No Change', None))
             # FreeCAD.Console.PrintLog(str(ui.comboFastenerType.currentIndex()) + " " + str(ui.comboFastenerType.count()) + "\n")
             if ui.comboFastenerType.currentIndex() == 0 and ui.comboFastenerType.isEnabled():
                 listDiams = FSCPGetDiametersFromSelection(self.selection)
             else:
-                listDiams = FSCPGetDiameters(self.fstype.typeName, ui.comboFastenerType.currentText())
+                listDiams = FSCPGetDiameters(
+                    self.fstype.typeName, ui.comboFastenerType.currentText())
             for diam in listDiams:
                 ui.comboDiameter.addItem(diam)
         except:
@@ -277,7 +295,8 @@ class FSTaskChangeParamDialog:
     def UpdateLengths(self):
         try:
             ui = self.form.ui
-            self.fixedLength = ui.comboFastenerType.currentIndex() > 0 and ui.comboDiameter.currentIndex() > 0 and self.fstype.lengthFixed
+            self.fixedLength = ui.comboFastenerType.currentIndex(
+            ) > 0 and ui.comboDiameter.currentIndex() > 0 and self.fstype.lengthFixed
             if not self.fstype.hasLength:
                 ui.labelLength.hide()
                 ui.comboLength.hide()
@@ -289,7 +308,8 @@ class FSTaskChangeParamDialog:
                 ui.checkSetLength.hide()
                 ui.spinLength.hide()
                 ui.comboLength.clear()
-                ui.comboLength.addItem(_translate("DlgChangeParams", 'No Change', None))
+                ui.comboLength.addItem(_translate(
+                    "DlgChangeParams", 'No Change', None))
                 for slen in FSCPGetLengths(self.fstype.typeName, ui.comboFastenerType.currentText(), ui.comboDiameter.currentText()):
                     ui.comboLength.addItem(slen)
             else:
@@ -360,7 +380,8 @@ class FSTaskChangeParamDialog:
                             if isinstance(obj.Proxy, FastenersCmd.FSScrewRodObject):
                                 obj.length = ui.spinLength.value()
                             else:
-                                d, l = screwMaker.FindClosest(obj.type, obj.diameter, ui.spinLength.value())
+                                d, l = screwMaker.FindClosest(
+                                    obj.type, obj.diameter, ui.spinLength.value())
                                 obj.length = l
             FreeCAD.ActiveDocument.recompute()
         except:

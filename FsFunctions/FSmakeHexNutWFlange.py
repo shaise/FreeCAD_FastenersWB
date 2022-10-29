@@ -27,35 +27,22 @@
 """
 from screw_maker import *
 
-# EN 1662 Hex-head-bolt with flange - small series
-# EN 1665 Hexagon bolts with flange, heavy series
-# ASMEB18.2.1.8 Hexagon bolts with flange, heavy series
+# EN 1661 Hexagon nuts with flange
+# chamfer at top of hexagon is wrong = more than 30°
 
-def makeHexHeadWithFlunge(self, fa): # dynamically loaded method of class Screw
-    dia = self.getDia(fa.calc_diam, False)
-    SType = fa.type
-    l = fa.calc_len
-    # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
-    if SType == 'EN1662' or SType == 'EN1665':
-        P, b0, b1, b2, b3, c, dc, dw, e, k, kw, f, r1, s = fa.dimTable
-    elif SType == 'ASMEB18.2.1.8':
-        b0, P, c, dc, kw, r1, s = fa.dimTable
-        b = b0
-    if l < b0:
-        b = l - 2 * P
-    elif SType != 'ASMEB18.2.1.8':
-        if l <= 125.0:
-            b = b1
-        else:
-            if l <= 200.0:
-                b = b2
-            else:
-                b = b3
+def makeHexNutWFlange(self, fa): # dynamically loaded method of class Screw
+    dia = self.getDia(fa.calc_diam, True)
+    P, da, c, dc, dw, e, m, mw, r1, s = fa.dimTable
 
-    # FreeCAD.Console.PrintMessage("the head with isoEN1662: " + str(c) + "\n")
+    residue, turns = math.modf(m / P)
+    # halfturns = 2*int(turns)
+
+    if residue > 0.0:
+        turns += 1.0
+
+    # FreeCAD.Console.PrintMessage("the nut with isoEN1661: " + str(c) + "\n")
     cham = s * (2.0 / math.sqrt(3.0) - 1.0) * math.sin(math.radians(25))  # needed for chamfer at head top
 
-    thread_start = l - b
     sqrt2_ = 1.0 / math.sqrt(2.0)
 
     # Flange is made with a radius of c
@@ -68,41 +55,26 @@ def makeHexHeadWithFlunge(self, fa): # dynamically loaded method of class Screw
 
     hF = arc1_z + (arc1_x - s / 2.0) * tan_beta  # height of flange at center
 
-    kmean = arc1_z + (arc1_x - s / math.sqrt(3.0)) * tan_beta + kw * 1.1 + cham
+    # kmean = arc1_z + (arc1_x - s/math.sqrt(3.0)) * tan_beta + mw * 1.1 + cham
     # kmean = k * 0.95
 
     # Hex-Head Points
-    # FreeCAD.Console.PrintMessage("the head with math a: " + str(a_point) + "\n")
-    PntH0 = Base.Vector(0.0, 0.0, kmean * 0.9)
-    PntH1 = Base.Vector(s / 2.0 * 0.8 - r1 / 2.0, 0.0, kmean * 0.9)
-    PntH1a = Base.Vector(s / 2.0 * 0.8 - r1 / 2.0 + r1 / 2.0 * sqrt2_, 0.0,
-                            kmean * 0.9 + r1 / 2.0 - r1 / 2.0 * sqrt2_)
-    PntH1b = Base.Vector(s / 2.0 * 0.8, 0.0, kmean * 0.9 + r1 / 2.0)
-    PntH2 = Base.Vector(s / 2.0 * 0.8, 0.0, kmean - r1)
-    PntH2a = Base.Vector(s / 2.0 * 0.8 + r1 - r1 * sqrt2_, 0.0, kmean - r1 + r1 * sqrt2_)
-    PntH2b = Base.Vector(s / 2.0 * 0.8 + r1, 0.0, kmean)
-    PntH3 = Base.Vector(s / 2.0, 0.0, kmean)
-    # PntH4 = Base.Vector(s/math.sqrt(3.0),0.0,kmean-cham)   #s/math.sqrt(3.0)
-    # PntH5 = Base.Vector(s/math.sqrt(3.0),0.0,c)
-    # PntH6 = Base.Vector(0.0,0.0,c)
-
+    # FreeCAD.Console.PrintMessage("the nut with kmean: " + str(m) + "\n")
+    PntH0 = Base.Vector(da / 2.0, 0.0, m)
+    PntH1 = Base.Vector(s / 2.0, 0.0, m)
     edgeH1 = Part.makeLine(PntH0, PntH1)
-    edgeH2 = Part.Arc(PntH1, PntH1a, PntH1b).toShape()
-    edgeH3 = Part.makeLine(PntH1b, PntH2)
-    edgeH3a = Part.Arc(PntH2, PntH2a, PntH2b).toShape()
-    edgeH3b = Part.makeLine(PntH2b, PntH3)
 
-    hWire = Part.Wire([edgeH1, edgeH2, edgeH3, edgeH3a, edgeH3b])
+    hWire = Part.Wire([edgeH1])
     topShell = self.RevolveZ(hWire)
     # Part.show(hWire)
     # Part.show(topShell)
 
     # create a cutter ring to generate the chamfer at the top of the hex
     chamHori = s / math.sqrt(3.0) - s / 2.0
-    PntC1 = Base.Vector(s / 2.0 - chamHori, 0.0, kmean + kmean)
-    PntC2 = Base.Vector(s / math.sqrt(3.0) + chamHori, 0.0, kmean + kmean)
-    PntC3 = Base.Vector(s / 2.0 - chamHori, 0.0, kmean + cham)
-    PntC4 = Base.Vector(s / math.sqrt(3.0) + chamHori, 0.0, kmean - cham - cham)  # s/math.sqrt(3.0)
+    PntC1 = Base.Vector(s / 2.0 - chamHori, 0.0, m + m)
+    PntC2 = Base.Vector(s / math.sqrt(3.0) + chamHori, 0.0, m + m)
+    PntC3 = Base.Vector(s / 2.0 - chamHori, 0.0, m + cham)
+    PntC4 = Base.Vector(s / math.sqrt(3.0) + chamHori, 0.0, m - cham - cham)  # s/math.sqrt(3.0)
     edgeC1 = Part.makeLine(PntC3, PntC1)
     edgeC2 = Part.makeLine(PntC1, PntC2)
     edgeC3 = Part.makeLine(PntC2, PntC4)
@@ -117,31 +89,35 @@ def makeHexHeadWithFlunge(self, fa): # dynamically loaded method of class Screw
     mhex = Base.Matrix()
     mhex.rotateZ(math.radians(60.0))
     polygon = []
-    vhex = Base.Vector(s / math.sqrt(3.0), 0.0, kmean)
+    vhex = Base.Vector(s / math.sqrt(3.0), 0.0, m)
     for i in range(6):
         polygon.append(vhex)
         vhex = mhex.multiply(vhex)
     polygon.append(vhex)
     hexagon = Part.makePolygon(polygon)
     hexFace = Part.Face(hexagon)
-    solidHex = hexFace.extrude(Base.Vector(0.0, 0.0, c - kmean))
+    solidHex = hexFace.extrude(Base.Vector(0.0, 0.0, c - m))
     # Part.show(solidHex)
     hexCham = solidHex.cut(chamCut)
     # Part.show(hexCham)
 
     topFaces = topShell.Faces
 
-    topFaces.append(hexCham.Faces[6])
-    topFaces.append(hexCham.Faces[12])
-    topFaces.append(hexCham.Faces[14])
-    topFaces.append(hexCham.Faces[13])
-    topFaces.append(hexCham.Faces[8])
-    topFaces.append(hexCham.Faces[2])
     topFaces.append(hexCham.Faces[1])
+    topFaces.append(hexCham.Faces[2])
+    topFaces.append(hexCham.Faces[8])
+    topFaces.append(hexCham.Faces[13])
+    topFaces.append(hexCham.Faces[14])
+    topFaces.append(hexCham.Faces[12])
+    topFaces.append(hexCham.Faces[6])
 
     hexFaces = [hexCham.Faces[5], hexCham.Faces[11], hexCham.Faces[10]]
     hexFaces.extend([hexCham.Faces[9], hexCham.Faces[3], hexCham.Faces[0]])
     hexShell = Part.Shell(hexFaces)
+
+    H = P * math.cos(math.radians(30))  # Thread depth H
+    cham_i_delta = da / 2.0 - (dia / 2.0 - H * 5.0 / 8.0)
+    cham_i = cham_i_delta * math.tan(math.radians(15.0))
 
     # Center of flange:
     Pnt0 = Base.Vector(0.0, 0.0, hF)
@@ -151,17 +127,12 @@ def makeHexHeadWithFlunge(self, fa): # dynamically loaded method of class Screw
     Pnt2 = Base.Vector(arc1_x, 0.0, arc1_z)
     Pnt3 = Base.Vector(dc / 2.0, 0.0, c / 2.0)
     Pnt4 = Base.Vector((dc - c) / 2.0, 0.0, 0.0)
-
-    Pnt5 = Base.Vector(dia / 2.0 + r1, 0.0, 0.0)  # start of fillet between head and shank
-    Pnt6 = Base.Vector(dia / 2.0 + r1 - r1 * sqrt2_, 0.0, -r1 + r1 * sqrt2_)  # arc-point of fillet
-    Pnt7 = Base.Vector(dia / 2.0, 0.0, -r1)  # end of fillet
-    Pnt8 = Base.Vector(dia / 2.0, 0.0, -thread_start)  # Start of thread
+    Pnt5 = Base.Vector(da / 2.0, 0.0, 0.0)  # start of fillet between flat and thread
 
     edge1 = Part.makeLine(Pnt0, Pnt1)
     edge2 = Part.makeLine(Pnt1, Pnt2)
     edge3 = Part.Arc(Pnt2, Pnt3, Pnt4).toShape()
     edge4 = Part.makeLine(Pnt4, Pnt5)
-    edge5 = Part.Arc(Pnt5, Pnt6, Pnt7).toShape()
 
     # make a cutter for the hexShell
     PntHC1 = Base.Vector(0.0, 0.0, arc1_z)
@@ -180,33 +151,23 @@ def makeHexHeadWithFlunge(self, fa): # dynamically loaded method of class Screw
 
     topFaces.extend(hexShell.Faces)
 
-    # bolt points
-    cham_t = P * math.sqrt(3.0) / 2.0 * 17.0 / 24.0
-
-    PntB0 = Base.Vector(0.0, 0.0, -thread_start)
-    PntB1 = Base.Vector(dia / 2.0, 0.0, -l + cham_t)
-    PntB2 = Base.Vector(dia / 2.0 - cham_t, 0.0, -l)
-    PntB3 = Base.Vector(0.0, 0.0, -l)
-
-    edgeB2 = Part.makeLine(PntB1, PntB2)
-    edgeB3 = Part.makeLine(PntB2, PntB3)
-
-    # if self.RealThread.isChecked():
-    if fa.thread:
-        aWire = Part.Wire([edge2, edge3, edge4, edge5])
-        boltIndex = 4
+    if fa.thread and (dia > 4.0):
+        aWire = Part.Wire([edge2, edge3, edge4])
+        boltIndex = 3
 
     else:
-        if thread_start <= r1:
-            edgeB1 = Part.makeLine(Pnt7, PntB1)
-            aWire = Part.Wire([edge2, edge3, edge4, edge5, edgeB1, edgeB2, edgeB3])
-            boltIndex = 7
+        if fa.thread:
+            Pnt7 = Base.Vector(dia / 2.1 - H * 5.0 / 8.0, 0.0, m - cham_i)
+            Pnt6 = Base.Vector(dia / 2.1 - H * 5.0 / 8.0, 0.0, 0.0 + cham_i)
+
         else:
-            edgeB1 = Part.makeLine(Pnt8, PntB1)
-            edge6 = Part.makeLine(Pnt7, Pnt8)
-            aWire = Part.Wire([edge2, edge3, edge4, edge5, edge6, \
-                                edgeB1, edgeB2, edgeB3])
-            boltIndex = 8
+            Pnt7 = Base.Vector(dia / 2.0 - H * 5.0 / 8.0, 0.0, m - cham_i)
+            Pnt6 = Base.Vector(dia / 2.0 - H * 5.0 / 8.0, 0.0, 0.0 + cham_i)
+        edge5 = Part.makeLine(Pnt5, Pnt6)
+        edge6 = Part.makeLine(Pnt6, Pnt7)
+        edge7 = Part.makeLine(Pnt7, PntH0)
+        aWire = Part.Wire([edge2, edge3, edge4, edge5, edge6, edge7])
+        boltIndex = 6
 
     # aFace =Part.Face(aWire)
     # Part.show(aWire)
@@ -221,13 +182,25 @@ def makeHexHeadWithFlunge(self, fa): # dynamically loaded method of class Screw
         topFaces.append(headShell.Faces[i])
 
     if fa.thread:
-        rthread = self.makeShellthread(dia, P, l - r1, True, -r1, b)
-        for tFace in rthread.Faces:
-            topFaces.append(tFace)
-        headShell = Part.Shell(topFaces)
-        screw = Part.Solid(headShell)
-    else:
-        screwShell = Part.Shell(topFaces)
-        screw = Part.Solid(screwShell)
+        if dia < 5.0:
+            nutShell = Part.Shell(topFaces)
+            nut = Part.Solid(nutShell)
+            # Part.show(nut, 'unthreadedNut')
+            threadCutter = self.makeInnerThread_2(dia, P, int(turns + 1), None, m)
+            threadCutter.translate(Base.Vector(0.0, 0.0, turns * P + 0.5 * P))
+            # Part.show(threadCutter, 'threadCutter')
+            nut = nut.cut(threadCutter)
 
-    return screw
+        else:
+            threadShell = self.makeInnerThread_2(dia, P, int(turns), da, m)
+            # threadShell.translate(Base.Vector(0.0, 0.0,turns*P))
+            # Part.show(threadShell)
+            for tFace in threadShell.Faces:
+                topFaces.append(tFace)
+            headShell = Part.Shell(topFaces)
+            nut = Part.Solid(headShell)
+    else:
+        nutShell = Part.Shell(topFaces)
+        nut = Part.Solid(nutShell)
+
+    return nut

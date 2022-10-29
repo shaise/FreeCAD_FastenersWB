@@ -68,7 +68,9 @@ PEMPressNutParameters = {"type", "diameter",
 PEMStandoffParameters = {"type", "diameter", "matchOuter",
                          "thread", "leftHanded", "length", "blindness"}
 RetainingRingParameters = {"type", "diameter", "matchOuter"}
-FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length', 'lengthCustom', 'width',
+TSlotNutParameters = { "type", "diameter", "matchOuter",
+                        "thread", "leftHanded", "slotWidth" }
+FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length', 'lengthCustom', 'width', 
                    'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength']
 
 # Names of fasteners groups translated once before FSScrewCommandTable created.
@@ -84,6 +86,7 @@ OtherHeadGroup = translate("FastenerCmd", "Other head")
 ThreadedRodGroup = translate("FastenerCmd", "ThreadedRod")
 PEMInsertsGroup = translate("FastenerCmd", "PEM Inserts")
 RetainingRingGroup = translate("FastenerCmd", "Retaining Rings")
+TSlotGroup = translate("FastenerCmd", "T Slot")
 
 CMD_HELP = 0
 CMD_GROUP = 1
@@ -140,11 +143,13 @@ FSScrewCommandTable = {
     "EN1661": (translate("FastenerCmd", "EN 1661 Hexagon nuts with flange"), NutGroup, NutParameters),
     "DIN917": (translate("FastenerCmd", "DIN917 Cap nuts, thin style"), NutGroup, NutParameters),
     "DIN1587": (translate("FastenerCmd", "DIN 1587 Cap nuts"), NutGroup, NutParameters),
-    "GOST11860-1": (translate("FastenerCmd", "GOST 11860 (Type 1) Cap nuts"), NutGroup, NutParameters),
-    "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), NutGroup, NutParameters),
+    "GOST11860-1": (translate("FastenerCmd", "GOST 11860 (Type 1) Cap nuts"), NutGroup, NutParameters), 
     "DIN557": (translate("FastenerCmd", "DIN 557 Square nuts"), NutGroup, NutParameters),
     "DIN562": (translate("FastenerCmd", "DIN 562 Square nuts"), NutGroup, NutParameters),
     "DIN985": (translate("FastenerCmd", "DIN 985 Nyloc nuts"), NutGroup, NutParameters),
+
+    "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotGroup, TSlotNutParameters),
+    "GN507": (translate("FastenerCmd", "GN 507 T-Slot nuts"), TSlotGroup, TSlotNutParameters),
 
     "ISO7089": (translate("FastenerCmd", "ISO 7089 Washer"), WasherGroup, WasherParameters),
     "ISO7090": (translate("FastenerCmd", "ISO 7090 Plain Washers, chamfered - Normal series"), WasherGroup, WasherParameters),
@@ -346,6 +351,10 @@ class FSScrewObject(FSBaseObject):
         if "thicknessCode" in params and not hasattr(obj, "tcode"):
             obj.addProperty("App::PropertyEnumeration", "tcode", "Parameters", translate(
                 "FastenerCmd", "Thickness code")).tcode = screwMaker.GetAllTcodes(type, diameter)
+
+        # slot width
+        if "slotWidth" in params and not hasattr(obj, "slotW"):
+            obj.addProperty("App::PropertyLength", "slotW", "Parameters", translate("FastenerCmd", "Slot width")).slotW = 6.0
 
         # misc
         if "blindness" in params and not hasattr(obj, "blind"):

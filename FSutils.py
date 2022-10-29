@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 ***************************************************************************
-*   Copyright (c) 2022                                                    *
-*   FreeCAD FastnersWB Authors                                            *
+*   Copyright (c) 2022 - FreeCAD FastenersWB Authors                      *
 *                                                                         *
 *   This file is a supplement to the FreeCAD CAx development system.      *
 *                                                                         *

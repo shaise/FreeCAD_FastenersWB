@@ -257,8 +257,8 @@ Dust off your graphic design skills.
 
 The easiest way to create an icon for your new fastener type is as follows:
 - Create a TechDraw view of the fastener from a close-to-isometric view angle
-- export the page and import it into Inkscape
-- You can now recolor the view of the part to look like the workbenches icons
+- Export the page and import it into Inkscape
+- You can now recolor the view of the part to look like the workbenches icons, use `#FFAF00` ![#FFAF00](https://placehold.co/15x15/FFAF00/FFAF00.png) for metric fasteners and `#5FD3C2` ![#5FD3C2](https://placehold.co/15x15/5FD3C2/5FD3C2.png) for imperial fasteners
 - Icons should be 48x48px plain svg files
 
 ![](Resources/FSIconProcess.png)

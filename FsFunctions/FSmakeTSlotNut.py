@@ -29,6 +29,7 @@ from screw_maker import *
 
 # make T-Slot nut
 # DIN508
+# GN507
 
 def makeTSlotNut(self, fa): # dynamically loaded method of class Screw
     SType = fa.type
@@ -37,19 +38,24 @@ def makeTSlotNut(self, fa): # dynamically loaded method of class Screw
     if SType[:3] == 'DIN':
         # a, e_max, f, h, k_max, P
         a, e, f, h, k, P = fa.dimTable
-
+        e1 = e  # e1 is depth, y plane
+        e2 = e  # e2 is width, x plane
+    elif SType[:2] == 'GN':
+        a, e1, e2, h, k, P = fa.dimTable
+        f = 0.125 * e2    # constant calculated with official GN step file
+    
     # T-Slot nut Points, transversal cut
-    # Drawing in plane y = -e / 2 to extrude up to y = e / 2
-    Pnt0 = Base.Vector(e / 2 - f, - e / 2, - h)
-    Pnt1 = Base.Vector(e / 2, - e / 2, - h + f)
-    Pnt2 = Base.Vector(e / 2, - e / 2, -h + k)
-    Pnt3 = Base.Vector(a / 2, - e / 2, - h + k)
-    Pnt4 = Base.Vector(a / 2, - e / 2, 0.0)
-    Pnt5 = Base.Vector(- a / 2, - e / 2, 0.0)
-    Pnt6 = Base.Vector(- a / 2, - e / 2, - h + k)
-    Pnt7 = Base.Vector(- e / 2, - e / 2, - h + k)
-    Pnt8 = Base.Vector(- e / 2, - e / 2, - h + f)
-    Pnt9 = Base.Vector(- e / 2 + f, - e / 2, - h)
+    # Drawing in plane y = -e1 / 2 to extrude up to y = e1 / 2
+    Pnt0 = Base.Vector(e2 / 2 - f,      - e1 / 2,   - h)
+    Pnt1 = Base.Vector(e2 / 2,          - e1 / 2,   - h + f)
+    Pnt2 = Base.Vector(e2 / 2,          - e1 / 2,   -h + k)
+    Pnt3 = Base.Vector(a / 2,           - e1 / 2,   - h + k)
+    Pnt4 = Base.Vector(a / 2,           - e1 / 2,   0.0)
+    Pnt5 = Base.Vector(- a / 2,         - e1 / 2,   0.0)
+    Pnt6 = Base.Vector(- a / 2,         - e1 / 2,   - h + k)
+    Pnt7 = Base.Vector(- e2 / 2,        - e1 / 2,   - h + k)
+    Pnt8 = Base.Vector(- e2 / 2,        - e1 / 2,   - h + f)
+    Pnt9 = Base.Vector(- e2 / 2 + f,    - e1 / 2,   - h)
 
     edge0 = Part.makeLine(Pnt0, Pnt1)
     edge1 = Part.makeLine(Pnt1, Pnt2)
@@ -65,7 +71,7 @@ def makeTSlotNut(self, fa): # dynamically loaded method of class Screw
     aWire = Part.Wire([edge0, edge1, edge2, edge3, edge4, edge5, edge6, edge7, edge8, edge9])
     # Part.show(aWire) # See profile
     aFace = Part.Face(aWire)
-    nut = aFace.extrude(Base.Vector(0.0, e, 0.0))
+    nut = aFace.extrude(Base.Vector(0.0, e1, 0.0))
 
     residue, turns = math.modf(h / P)
     if residue > 0.0:

@@ -177,7 +177,7 @@ def makeGOST1144(self, fa):
     b = 0.4
     # 2 and 4 type of GOST1144 fasteners have a thread along the entire length
     if SType == "GOST1144-2" or SType == "GOST1144-4":
-        b = 0.005
+        b = 0.05
     dia = float(fa.calc_diam.split()[0])
 
     if SType == "GOST1144-1" or SType == "GOST1144-2":
@@ -186,10 +186,6 @@ def makeGOST1144(self, fa):
         d2, P, D, K, PH, m, h = fa.dimTable
     d = dia / 2.0
     d32 = d2 / 2.0
-
-    # calc head
-    r = (4*K*K+D*D)/(8*K)
-    zm = math.sqrt(1-D*D/(16*r*r))*r - (r-K)
 
     # calc screw
     if fa.thread:
@@ -206,14 +202,23 @@ def makeGOST1144(self, fa):
     # Make full screw profile #
     ###########################
     
-    # start from head
     fm = FastenerBase.FSFaceMaker()
+
+    # create head profile
+    # instead two radii variables R1 and R2 in code used precalced coeeficents of 3 points, for build two arcs.
+    # that faster and easy for reproduce.
     fm.AddPoint(0, K)
-    fm.AddArc(D/4, zm, D/2, 0)
-    fm.AddPoint(d, 0)
+    fm.AddArc(D/2*0.488, K*0.918, D/2*0.805, K*0.695)
+    fm.AddArc(D/2*0.955, K*0.384, D/2, 0)
+    #fm.AddPoint(d, 0)
+
+    # rounding under the head
+    rh=dia/10
+    fm.AddPoint(d+rh, 0)
+    fm.AddArc2(+0, -rh, 90)
     fm.AddPoint(d, -b*ftl)
 
-    # thread cylinder profile
+    # threaded cylinder profile
     if fa.thread:
         fm.AddPoint(dt, -b*ftl-(d-dt))
 

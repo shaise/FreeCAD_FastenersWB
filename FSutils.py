@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 ***************************************************************************
-*   Copyright (c) 2022                                                    *
-*   FreeCAD FastnersWB Authors                                            *
+*   Copyright (c) 2022 - FreeCAD FastenersWB Authors                      *
 *                                                                         *
 *   This file is a supplement to the FreeCAD CAx development system.      *
 *                                                                         *
@@ -36,6 +35,8 @@ pref_file_path = os.path.join(_dir, "FSprefs.ui")
 # read .csv files into dictionary tables
 # multiple tables can be put in a single file by placing the table name as a single word before the table
 # several names can share the same table by placing all the names as a single word line above the table
+
+
 def csv2dict(filename, defaultTableMame, fieldsnamed=True):
     with open(filename) as fp:
         reader = csv.reader(
@@ -49,21 +50,21 @@ def csv2dict(filename, defaultTableMame, fieldsnamed=True):
         newTable = False
         firstTime = True
         cur_table = {}
-        table_names = { defaultTableMame }
-        
-        #if fieldsnamed:
-            # skip the first line
+        table_names = {defaultTableMame}
+
+        # if fieldsnamed:
+        # skip the first line
         #    next(reader)
         for line_list in reader:
             if len(line_list) == 0:
                 continue
             elif len(line_list) == 1:
                 tablename = line_list[0]
-                if newTable == False:
+                if not newTable:
                     cur_table = {}
                     table_names = set()
                     newTable = True
-                table_names.add(tablename)                
+                table_names.add(tablename)
                 continue
             key = line_list[0]
             data = tuple(line_list[1:])

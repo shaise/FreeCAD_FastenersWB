@@ -177,7 +177,7 @@ def makeGOST1144(self, fa):
     b = 0.4
     # 2 and 4 type of GOST1144 fasteners have a thread along the entire length
     if SType == "GOST1144-2" or SType == "GOST1144-4":
-        b = 0.005
+        b = 0.05
     dia = float(fa.calc_diam.split()[0])
 
     if SType == "GOST1144-1" or SType == "GOST1144-2":
@@ -186,10 +186,6 @@ def makeGOST1144(self, fa):
         d2, P, D, K, PH, m, h = fa.dimTable
     d = dia / 2.0
     d32 = d2 / 2.0
-
-    # calc head
-    r = (4*K*K+D*D)/(8*K)
-    zm = math.sqrt(1-D*D/(16*r*r))*r - (r-K)
 
     # calc screw
     if fa.thread:
@@ -206,18 +202,28 @@ def makeGOST1144(self, fa):
     # Make full screw profile #
     ###########################
     
-    # start from head
     fm = FastenerBase.FSFaceMaker()
+
+    # 1) screw head
+    # Head of screw builds by B-Spline instead two arcs builded by two radii values R1 and R2.
+    # A curve built with two arcs and a curve built with a B-Spline are almost identical.
+    # You can build a curve by two ways in Sketch workbench and see this for yourself.
+    # B-Spline allows to remove the contour that appears between two radii during creation process
+    # also it use fewer points than two arcs.
     fm.AddPoint(0, K)
-    fm.AddArc(D/4, zm, D/2, 0)
-    fm.AddPoint(d, 0)
+    fm.AddBSpline(D/2, K, D/2, 0)
+
+    # 2) rounding under the head
+    rh=dia/10
+    fm.AddPoint(d+rh, 0)
+    fm.AddArc2(+0, -rh, 90)
     fm.AddPoint(d, -b*ftl)
 
-    # thread cylinder profile
+    # 3) cylindrical part (place where thread is be added)
     if fa.thread:
         fm.AddPoint(dt, -b*ftl-(d-dt))
 
-    # sharp end (cone shape)
+    # 4) sharp end (cone shape)
     fm.AddPoint(dt, -ftl)
     fm.AddArc(dt*math.cos(angle/4), -l + z2 + z3 - d*math.sin(angle/4), x2, -l+z3)
     fm.AddPoint(0, -l)

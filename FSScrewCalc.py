@@ -1,30 +1,30 @@
 # -*- coding: utf-8 -*-
-###################################################################################
+###############################################################################
 #
 #  ScrewCalc.py
 #  A calculator utility to calculate needed hole sizes for selected fasteners
-#  
+#
 #  Copyright 2015 Shai Seger <shaise at gmail dot com>
-#  
+#
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
 #  the Free Software Foundation; either version 2 of the License, or
 #  (at your option) any later version.
-#  
+#
 #  This program is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU General Public License for more details.
-#  
+#
 #  You should have received a copy of the GNU General Public License
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
-#  
-#  
-###################################################################################
+#
+#
+###############################################################################
 
-#Enable text translation support
+# Enable text translation support
 from TranslateUtils import translate
 import os
 import FastenerBase
@@ -35,9 +35,9 @@ import ScrewMaker
 from FSutils import iconPath
 screwMaker = ScrewMaker.Instance
 
-###################################################################################
+###############################################################################
 # replace below with generated code from pyuic4
-###################################################################################
+###############################################################################
 
 
 try:
@@ -48,11 +48,13 @@ except AttributeError:
 
 try:
     _encoding = QtGui.QApplication.UnicodeUTF8
+
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig, _encoding)
 except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
+
 
 class Ui_DockWidget(object):
     def setupUi(self, DockWidget):
@@ -70,7 +72,8 @@ class Ui_DockWidget(object):
         self.label = QtGui.QLabel(self.dockWidgetContents)
         self.label.setObjectName(_fromUtf8("label"))
         self.horizontalLayout.addWidget(self.label)
-        spacerItem = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        spacerItem = QtGui.QSpacerItem(
+            40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.comboFastenerType = QtGui.QComboBox(self.dockWidgetContents)
         self.comboFastenerType.setObjectName(_fromUtf8("comboFastenerType"))
@@ -81,7 +84,8 @@ class Ui_DockWidget(object):
         self.label_2 = QtGui.QLabel(self.dockWidgetContents)
         self.label_2.setObjectName(_fromUtf8("label_2"))
         self.horizontalLayout_2.addWidget(self.label_2)
-        spacerItem1 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        spacerItem1 = QtGui.QSpacerItem(
+            40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
         self.comboDiameter = QtGui.QComboBox(self.dockWidgetContents)
         self.comboDiameter.setObjectName(_fromUtf8("comboDiameter"))
@@ -92,14 +96,16 @@ class Ui_DockWidget(object):
         self.labelHoleSize = QtGui.QLabel(self.dockWidgetContents)
         self.labelHoleSize.setObjectName(_fromUtf8("labelHoleSize"))
         self.horizontalLayout_3.addWidget(self.labelHoleSize)
-        spacerItem2 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        spacerItem2 = QtGui.QSpacerItem(
+            40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem2)
         self.textHole = QtGui.QLineEdit(self.dockWidgetContents)
         self.textHole.setReadOnly(True)
         self.textHole.setObjectName(_fromUtf8("textHole"))
         self.horizontalLayout_3.addWidget(self.textHole)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
-        spacerItem3 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        spacerItem3 = QtGui.QSpacerItem(
+            20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem3)
         self.gridLayout.addLayout(self.verticalLayout, 1, 0, 1, 1)
         DockWidget.setWidget(self.dockWidgetContents)
@@ -108,14 +114,16 @@ class Ui_DockWidget(object):
         QtCore.QMetaObject.connectSlotsByName(DockWidget)
 
     def retranslateUi(self, DockWidget):
-        DockWidget.setWindowTitle(_translate("DockWidget", "Screw hole calculator", None))
+        DockWidget.setWindowTitle(_translate(
+            "DockWidget", "Screw hole calculator", None))
         self.label.setText(_translate("DockWidget", "Fastener type:", None))
         self.label_2.setText(_translate("DockWidget", "Screw Diameter:", None))
-        self.labelHoleSize.setText(_translate("DockWidget", "Suggested Hole diameter (mm):", None))
+        self.labelHoleSize.setText(_translate(
+            "DockWidget", "Suggested Hole diameter (mm):", None))
 
-        ###################################################################################
+        #######################################################################
         # End position for generated code from pyuic4
-        ###################################################################################
+        #######################################################################
 
     def fillScrewTypes(self):
         self.comboFastenerType.currentIndexChanged.connect(self.onTypeChange)
@@ -123,7 +131,8 @@ class Ui_DockWidget(object):
         self.comboFastenerType.clear()
         for type in FSCScrewTypes:
             icon, name, table = type
-            self.comboFastenerType.addItem(QtGui.QIcon(os.path.join(iconPath, icon)), name)
+            self.comboFastenerType.addItem(
+                QtGui.QIcon(os.path.join(iconPath, icon)), name)
 
     def fillDiameters(self):
         self.comboDiameter.clear()
@@ -139,7 +148,6 @@ class Ui_DockWidget(object):
 
     def onTypeChange(self, typeindex):
         self.fillDiameters()
-
 
 
 FSCPEMPressNutHoleChart = (
@@ -216,4 +224,3 @@ class FSScrewCalcCommand:
 
 Gui.addCommand("FSScrewCalc", FSScrewCalcCommand())
 FastenerBase.FSCommands.append("FSScrewCalc", "command")
-

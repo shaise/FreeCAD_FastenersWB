@@ -125,6 +125,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 #### Release Notes 
 * V0.4.21  29 Oct 2022:  Further code cleanup by @alexneufeld and @FreeCAD-Tools.  
                        - Fix wood screw head shape by @EA32.  
+                       - Add GN507 T slot nut by @hasecilu.  
+                       - Add B-Spline option to FSFaceMaker
 * V0.4.20  28 Oct 2022:  Complete code cleanup by @alexneufeld.  
                        - svg icon optimizations by @EA32
 * V0.4.19  24 Oct 2022:  Add DIN471, DIN472, and DIN6799 retaining rings by @alexneufeld.  

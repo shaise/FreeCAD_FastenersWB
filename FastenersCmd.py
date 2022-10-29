@@ -71,7 +71,7 @@ RetainingRingParameters = {"type", "diameter", "matchOuter"}
 TSlotNutParameters = { "type", "diameter", "matchOuter",
                         "thread", "leftHanded", "slotWidth" }
 FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length', 'lengthCustom', 'width', 
-                   'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength']
+                   'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength', "slotWidth"]
 
 # Names of fasteners groups translated once before FSScrewCommandTable created.
 # For make FSScrewCommandTable more compact and readable

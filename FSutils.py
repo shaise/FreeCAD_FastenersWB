@@ -37,7 +37,7 @@ pref_file_path = os.path.join(_dir, "FSprefs.ui")
 # several names can share the same table by placing all the names as a single word line above the table
 
 
-def csv2dict(filename, defaultTableMame, fieldsnamed=True):
+def csv2dict(filename, defaultTableName, fieldsnamed=True):
     with open(filename) as fp:
         reader = csv.reader(
             fp,
@@ -50,7 +50,7 @@ def csv2dict(filename, defaultTableMame, fieldsnamed=True):
         newTable = False
         firstTime = True
         cur_table = {}
-        table_names = {defaultTableMame}
+        table_names = {defaultTableName}
 
         # if fieldsnamed:
         # skip the first line

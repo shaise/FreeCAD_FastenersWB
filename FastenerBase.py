@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-###################################################################################
+###############################################################################
 #
 #  FastenerBase.py
 #
@@ -21,7 +21,7 @@
 #  MA 02110-1301, USA.
 #
 #
-###################################################################################
+###############################################################################
 from FreeCAD import Gui
 from FreeCAD import Base
 from PySide import QtGui
@@ -62,15 +62,20 @@ class FSBaseObject:
     '''Base Class for all fasteners'''
 
     def __init__(self, obj, attachTo):
-        obj.addProperty("App::PropertyDistance", "offset", "Parameters", "Offset from surface").offset = 0.0
-        obj.addProperty("App::PropertyBool", "invert", "Parameters", "Invert screw direction").invert = False
-        obj.addProperty("App::PropertyXLinkSub", "baseObject", "Parameters", "Base object").baseObject = attachTo
+        obj.addProperty("App::PropertyDistance", "offset",
+                        "Parameters", "Offset from surface").offset = 0.0
+        obj.addProperty("App::PropertyBool", "invert",
+                        "Parameters", "Invert screw direction").invert = False
+        obj.addProperty("App::PropertyXLinkSub", "baseObject",
+                        "Parameters", "Base object").baseObject = attachTo
 
     def updateProps(self, obj):
         if obj.getTypeIdOfProperty("baseObject") != "App::PropertyXLinkSub":
             linkedObj = obj.baseObject
             obj.removeProperty("baseObject")
-            obj.addProperty("App::PropertyXLinkSub", "baseObject", "Parameters", "Base object").baseObject = linkedObj
+            obj.addProperty("App::PropertyXLinkSub", "baseObject",
+                            "Parameters", "Base object").baseObject = linkedObj
+
 
 class FSGroupCommand:
     def __init__(self, cmds, menuText, toolTip):
@@ -79,7 +84,8 @@ class FSGroupCommand:
         self.toolTip = toolTip
 
     def GetCommands(self):
-        return tuple(self.commands)  # a tuple of command names that you want to group
+        # a tuple of command names that you want to group
+        return tuple(self.commands)
         # return ('FSFlip', 'FSMove', 'FSSimple', 'FSFillet')
 
     def GetResources(self):
@@ -120,9 +126,11 @@ class FSCommandList:
                 cmdlist.append(command)
         for subcommand in cmdsubs:
             if GroupButtonMode == 2:
-                Gui.addCommand(subcommand.replace(" ", ""), FSGroupCommand(cmdsubs[subcommand], subcommand, subcommand))
+                Gui.addCommand(subcommand.replace(" ", ""), FSGroupCommand(
+                    cmdsubs[subcommand], subcommand, subcommand))
             else:
-                cmdlist.append((subcommand.replace(" ", ""), cmdsubs[subcommand], subcommand))
+                cmdlist.append((subcommand.replace(" ", ""),
+                               cmdsubs[subcommand], subcommand))
         return cmdlist
 
 
@@ -149,7 +157,8 @@ FSFastenerTypeDB = {}
 
 
 def FSAddFastenerType(typeName, hasLength=True, lengthFixed=True):
-    FSFastenerTypeDB[typeName] = FSFastenerType(typeName, hasLength, lengthFixed)
+    FSFastenerTypeDB[typeName] = FSFastenerType(
+        typeName, hasLength, lengthFixed)
 
 
 def FSAddItemsToType(typeName, item):
@@ -183,10 +192,12 @@ def FSShowError():
     tbnext = tb
     x = 10
     while tbnext is not None and x > 0:
-        FreeCAD.Console.PrintError("At " + tbnext.tb_frame.f_code.co_filename + " Line " + str(tbnext.tb_lineno) + "\n")
+        FreeCAD.Console.PrintError(
+            "At " + tbnext.tb_frame.f_code.co_filename + " Line " + str(tbnext.tb_lineno) + "\n")
         tbnext = tbnext.tb_next
         x = x - 1
-    FreeCAD.Console.PrintError(str(lastErr[1]) + ": " + lastErr[1].__doc__ + "\n")
+    FreeCAD.Console.PrintError(
+        str(lastErr[1]) + ": " + lastErr[1].__doc__ + "\n")
 
 
 # get instance of a toolbar item
@@ -229,20 +240,27 @@ def FSCacheRemoveThreaded():
             del FSCache[key]
 
 # extruct the diameter code (metric/imperial) from the given string
+
+
 def CleanM(m):
     res = re.findall("M[\d.]+|#\d+|[\d /]+in|[\d.]+ mm", m)
     # FreeCAD.Console.PrintMessage(m + " -> " + res[0] + "\n")
     return res[0]
 
+
 def MToFloat(m):
     return float(CleanM(m).lstrip("M"))
 
 # accepts formats: 'Mx', '(Mx)' 'YYYMx' 'Mx-YYY'
+
+
 def DiaStr2Num(DiaStr):
     DiaStr = CleanM(DiaStr)
     return FsData["DiaList"][DiaStr][0]
 
 # inch tolerant version of length string to number converter
+
+
 def LenStr2Num(LenStr):
     # inch diameters of format 'x y/z\"'
     if 'in' in LenStr:
@@ -282,11 +300,12 @@ def GetTotalObjectRepeats(obj):
 
         if parent.TypeId == 'App::Part':
             if obj.Visibility:
-                cnt -= 1 # obj has already been counted, without this we would count it twice
+                cnt -= 1  # obj has already been counted, without this we would count it twice
                 numreps = 1
         elif parent.TypeId == 'App::Link':
             if parent.ElementCount > 0:
-                numreps = parent.VisibilityList.count(True) # note: VisibilityList is a tuple
+                numreps = parent.VisibilityList.count(
+                    True)  # note: VisibilityList is a tuple
             else:
                 numreps = 1
         # Draft clones and arrays:
@@ -349,7 +368,8 @@ class FSFaceMaker:
     def AddArc(self, x1, z1, x2, z2):
         midPoint = FreeCAD.Base.Vector(x1, 0, z1)
         endPoint = FreeCAD.Base.Vector(x2, 0, z2)
-        self.edges.append(Part.Arc(self.lastPoint, midPoint, endPoint).toShape())
+        self.edges.append(
+            Part.Arc(self.lastPoint, midPoint, endPoint).toShape())
         self.lastPoint = endPoint
 
         # add an arc starting at last point, with relative center xc, zc and angle a
@@ -381,7 +401,8 @@ class FSFaceMaker:
     def AddSpline(self, *args):
         l = len(args)
         if l < 4 or (l & 1) == 1:
-            FreeCAD.Console.PrintError("FSFaceMaker.addSpline: invalid num of args, must be even number >= 4")
+            FreeCAD.Console.PrintError(
+                "FSFaceMaker.addSpline: invalid num of args, must be even number >= 4")
             return
         pt = self.lastPoint
         pts = []
@@ -412,7 +433,6 @@ class FSFaceMaker:
     def GetFace(self):
         w = self.GetClosedWire()
         return Part.Face(w)
-
 
 
 def FSAutoDiameterM(holeObj, table, tablepos):
@@ -502,8 +522,8 @@ def FSGetAttachableSelections():
         grp = obj.getParentGeoFeatureGroup()
         if grp is not None and hasattr(grp, "TypeId") and grp.TypeId == "PartDesign::Body":
             obj = grp
-        position_done_list = [] # list with sublists to store the center and radius
-                                # of processed edges to avoid duplicate fasteners
+        position_done_list = []  # list with sublists to store the center and radius
+        # of processed edges to avoid duplicate fasteners
 
         for baseObjectName in baseObjectNames:
             shape = obj.Shape.getElement(baseObjectName)
@@ -517,8 +537,10 @@ def FSGetAttachableSelections():
                 if PositionDone(shape.Curve.Center, shape.Curve.Radius, position_done_list):
                     continue
                 asels.append((obj, [baseObjectName]))
-                position_done_list.append([shape.Curve.Center, shape.Curve.Radius])
-                FreeCAD.Console.PrintLog("Linking to " + obj.Name + "[" + baseObjectName + "].\n")
+                position_done_list.append(
+                    [shape.Curve.Center, shape.Curve.Radius])
+                FreeCAD.Console.PrintLog(
+                    "Linking to " + obj.Name + "[" + baseObjectName + "].\n")
 
             # add edges of selected faces
             elif isinstance(shape, Part.Face):
@@ -542,8 +564,10 @@ def FSGetAttachableSelections():
                     if edgeName is None:
                         continue
                     asels.append((obj, [edgeName]))
-                    position_done_list.append([edge.Curve.Center, edge.Curve.Radius])
-                    FreeCAD.Console.PrintLog("Linking to " + obj.Name + "[" + edgeName + "].\n")
+                    position_done_list.append(
+                        [edge.Curve.Center, edge.Curve.Radius])
+                    FreeCAD.Console.PrintLog(
+                        "Linking to " + obj.Name + "[" + edgeName + "].\n")
 
     if len(asels) == 0:
         asels.append(None)
@@ -566,7 +590,8 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
             Axis1 = s.Surface.Axis
 
     if hasattr(s, 'Point'):
-        FreeCAD.Console.PrintLog("the object seems to be a vertex! " + str(s.Point) + "\n")
+        FreeCAD.Console.PrintLog(
+            "the object seems to be a vertex! " + str(s.Point) + "\n")
         Pnt1 = s.Point
 
     if Axis1 is not None:
@@ -587,10 +612,12 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
                 normvec = Base.Vector(1.0, 0.0, 0.0)
                 result = math.pi
             else:
-                normvec = Axis1.cross(Axis2)  # Calculate axis of rotation = normvec
+                # Calculate axis of rotation = normvec
+                normvec = Axis1.cross(Axis2)
                 normvec.normalize()  # Normalize for quaternion calculations
                 # normvec_rot = normvec
-                result = DraftVecUtils.angle(Axis1, Axis2, normvec)  # Angle calculation
+                result = DraftVecUtils.angle(
+                    Axis1, Axis2, normvec)  # Angle calculation
         sin_res = math.sin(result / 2.0)
         cos_res = math.cos(result / 2.0)
         normvec.multiply(-sin_res)  # Calculation of the quaternion elements
@@ -599,11 +626,13 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
         # FreeCAD.Console.PrintMessage("Normal vector: "+ str(normvec) + "\n")
 
         pl = FreeCAD.Placement()
-        pl.Rotation = (normvec.x, normvec.y, normvec.z, cos_res)  # Rotation quaternion
+        pl.Rotation = (normvec.x, normvec.y, normvec.z,
+                       cos_res)  # Rotation quaternion
 
         # FreeCAD.Console.PrintMessage("pl mit Rot: "+ str(pl) + "\n")
         ScrewObj_m.Placement = FreeCAD.Placement()
-        ScrewObj_m.Placement.Rotation = pl.Rotation.multiply(ScrewObj_m.Placement.Rotation)
+        ScrewObj_m.Placement.Rotation = pl.Rotation.multiply(
+            ScrewObj_m.Placement.Rotation)
         ScrewObj_m.Placement.move(Pnt1)
 
 
@@ -707,7 +736,8 @@ class FSMakeSimpleCommand:
             FreeCAD.Console.PrintLog("sel shape: " + str(obj.Shape) + "\n")
             if isinstance(obj.Shape, (Part.Solid, Part.Compound)):
                 FreeCAD.Console.PrintLog("simplify shape: " + obj.Name + "\n")
-                cobj = FreeCAD.ActiveDocument.addObject("Part::Feature", obj.Label + "_Copy")
+                cobj = FreeCAD.ActiveDocument.addObject(
+                    "Part::Feature", obj.Label + "_Copy")
                 cobj.Shape = obj.Shape
                 Gui.ActiveDocument.getObject(obj.Name).Visibility = False
         FreeCAD.ActiveDocument.recompute()
@@ -727,8 +757,10 @@ FSParam.SetBool("MatchOuterDiameter", False)
 
 class FSMatchTypeInnerCommand:
     def Activated(self):
-        matchOuterButton = FSGetToolbarItem("FS Commands", matchOuterButtonText)
-        matchInnerButton = FSGetToolbarItem("FS Commands", matchInnerButtonText)
+        matchOuterButton = FSGetToolbarItem(
+            "FS Commands", matchOuterButtonText)
+        matchInnerButton = FSGetToolbarItem(
+            "FS Commands", matchInnerButtonText)
         matchInnerButton.setChecked(True)
         matchOuterButton.setChecked(False)
         FSParam.SetBool("MatchOuterDiameter", False)
@@ -738,14 +770,17 @@ class FSMatchTypeInnerCommand:
         return {
             'Pixmap': os.path.join(iconPath, 'IconMatchTypeInner.svg'),
             'MenuText': matchInnerButtonText,
-            'ToolTip': translate("FastenerBase", 'Match screws by inner thread diameter (Tap hole)') #,'Checkable': True
+            # ,'Checkable': True
+            'ToolTip': translate("FastenerBase", 'Match screws by inner thread diameter (Tap hole)')
         }
 
 
 class FSMatchTypeOuterCommand:
     def Activated(self):
-        matchOuterButton = FSGetToolbarItem("FS Commands", matchOuterButtonText)
-        matchInnerButton = FSGetToolbarItem("FS Commands", matchInnerButtonText)
+        matchOuterButton = FSGetToolbarItem(
+            "FS Commands", matchOuterButtonText)
+        matchInnerButton = FSGetToolbarItem(
+            "FS Commands", matchInnerButtonText)
         matchInnerButton.setChecked(False)
         matchOuterButton.setChecked(True)
         FSParam.SetBool("MatchOuterDiameter", True)
@@ -755,7 +790,8 @@ class FSMatchTypeOuterCommand:
         return {
             'Pixmap': os.path.join(iconPath, 'IconMatchTypeOuter.svg'),
             'MenuText': matchOuterButtonText,
-            'ToolTip': translate("FastenerBase", 'Match screws by outer thread diameter (Pass hole)')# ,'Checkable': False
+            # ,'Checkable': False
+            'ToolTip': translate("FastenerBase", 'Match screws by outer thread diameter (Pass hole)')
         }
 
 
@@ -810,7 +846,8 @@ class FSMakeBomCommand:
             self.fastenerDB[fastener] = cnt
 
     def AddScrew(self, obj, cnt):
-        desc = obj.type + translate("FastenerBase", " Screw ") + FSScrewStr(obj)
+        desc = obj.type + translate("FastenerBase",
+                                    " Screw ") + FSScrewStr(obj)
         self.AddFastener(desc, cnt)
 
     def AddNut(self, obj, cnt):
@@ -818,34 +855,42 @@ class FSMakeBomCommand:
             type = obj.type
         else:
             type = 'ISO4033'
-        self.AddFastener(type + translate("FastenerBase", " Nut ") + obj.diameter, cnt)
+        self.AddFastener(type + translate("FastenerBase",
+                         " Nut ") + obj.diameter, cnt)
 
     def AddWasher(self, obj, cnt):
-        self.AddFastener(obj.type + translate("FastenerBase", " Washer ") + obj.diameter, cnt)
+        self.AddFastener(obj.type + translate("FastenerBase",
+                         " Washer ") + obj.diameter, cnt)
 
     def AddThreadedRod(self, obj, cnt):
         desc = translate("FastenerBase", "Threaded Rod ") + FSScrewStr(obj)
         self.AddFastener(desc, cnt)
 
     def AddPressNut(self, obj, cnt):
-        self.AddFastener(translate("FastenerBase", "PEM PressNut ") + obj.diameter + "-" + obj.tcode, cnt)
+        self.AddFastener(translate("FastenerBase", "PEM PressNut ") +
+                         obj.diameter + "-" + obj.tcode, cnt)
 
     def AddStandoff(self, obj, cnt):
-        self.AddFastener(translate("FastenerBase", "PEM Standoff ") + obj.diameter + "x" + obj.length, cnt)
+        self.AddFastener(translate("FastenerBase", "PEM Standoff ") +
+                         obj.diameter + "x" + obj.length, cnt)
 
     def AddStud(self, obj, cnt):
-        self.AddFastener(translate("FastenerBase", "PEM Stud ") + obj.diameter + "x" + obj.length, cnt)
+        self.AddFastener(translate("FastenerBase", "PEM Stud ") +
+                         obj.diameter + "x" + obj.length, cnt)
 
     def AddPcbStandoff(self, obj, cnt):
         self.AddFastener(
-            translate("FastenerBase", "PCB Standoff ") + obj.diameter + "x" + obj.width + "x" + obj.length,
+            translate("FastenerBase", "PCB Standoff ") +
+            obj.diameter + "x" + obj.width + "x" + obj.length,
             cnt)
 
     def AddHeatSet(self, obj, cnt):
-        self.AddFastener(translate("FastenerBase", "Heat Set Insert ") + obj.diameter, cnt)
+        self.AddFastener(
+            translate("FastenerBase", "Heat Set Insert ") + obj.diameter, cnt)
 
     def AddRetainingRing(self, obj, cnt):
-        self.AddFastener(obj.type + translate("FastenerBase", " Retaining Ring ") + obj.diameter, cnt)
+        self.AddFastener(obj.type + translate("FastenerBase",
+                         " Retaining Ring ") + obj.diameter, cnt)
 
     def IsActive(self):
         return Gui.ActiveDocument is not None

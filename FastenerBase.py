@@ -364,7 +364,7 @@ class FSFaceMaker:
         self.Reset()
         self.AddPoint(x, z)
 
-        # add an arc starting at last point and going through x1,z1 and x2,z2
+    # add an arc starting at last point and going through x1,z1 and x2,z2
     def AddArc(self, x1, z1, x2, z2):
         midPoint = FreeCAD.Base.Vector(x1, 0, z1)
         endPoint = FreeCAD.Base.Vector(x2, 0, z2)
@@ -372,8 +372,7 @@ class FSFaceMaker:
             Part.Arc(self.lastPoint, midPoint, endPoint).toShape())
         self.lastPoint = endPoint
 
-        # add an arc starting at last point, with relative center xc, zc and angle a
-
+    # add an arc starting at last point, with relative center xc, zc and angle a
     def AddArc2(self, xc, zc, a):
         # convert to radians
         a = math.radians(a)
@@ -396,13 +395,13 @@ class FSFaceMaker:
         z2 = zac + r * math.sin(sa)
         self.AddArc(x1, z1, x2, z2)
 
-    # add bspline starting at last point and going through (x1,z1) (x2,z2) ... (xn,zn)
-    # example: xxxx.addSpline(0, 0, 0, 1, 1, 0)
-    def AddSpline(self, *args):
+    # add B-Spline starting at last point and going through (x1,z1) (x2,z2) ... (xn,zn)
+    # example: contour.AddBSpline(0, 0, 0, 1, 1, 0)
+    def AddBSpline(self, *args):
         l = len(args)
         if l < 4 or (l & 1) == 1:
             FreeCAD.Console.PrintError(
-                "FSFaceMaker.addSpline: invalid num of args, must be even number >= 4")
+                "FSFaceMaker.AddBSpline: invalid num of args, must be even number >= 4")
             return
         pt = self.lastPoint
         pts = []

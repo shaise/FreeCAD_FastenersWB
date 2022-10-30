@@ -437,6 +437,11 @@
         <source>Heat Set Insert </source>
         <translation>Резьбовая втулка под горячую запрессовку </translation>
     </message>
+    <message>
+        <location filename="../FastenerBase.py" line="903"/>
+        <source> Retaining Ring </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FastenerCmd</name>
@@ -489,6 +494,16 @@
         <location filename="../FastenersCmd.py" line="80"/>
         <source>PEM Inserts</source>
         <translation>Запрессовочный крепёж</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="88"/>
+        <source>Retaining Rings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="89"/>
+        <source>T Slot</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="87"/>
@@ -656,6 +671,21 @@
         <translation>ISO 7048 (ГОСТ Р ИСО 7048) Винт с низкой цилиндрической головкой и крестообразным шлицем.</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="134"/>
+        <source>GOST 1144 (Type 3) Half — round head wood screw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="135"/>
+        <source>GOST 1144 (Type 4) Half — round head wood screw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="137"/>
+        <source>DIN 603 Mushroom head square neck bolts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="126"/>
         <source>ISO 4032 Hexagon nuts, Style 1</source>
         <translation>ISO 4032 (ГОСТ Р ИСО 4032) Гайка шестигранная нормальная (тип 1)</translation>
@@ -692,11 +722,6 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
-        <source>DIN 508 T-Slot nuts</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="134"/>
         <source>DIN 557 Square nuts</source>
         <translation>DIN 557 Гайка квадратная с фаской</translation>
     </message>
@@ -709,6 +734,16 @@
         <location filename="../FastenersCmd.py" line="136"/>
         <source>DIN 985 Nyloc nuts</source>
         <translation>DIN 985 Гайка самоконтрящаяся со стопорным кольцом</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="134"/>
+        <source>DIN 508 T-Slot nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="152"/>
+        <source>GN 507 T-Slot nuts</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="138"/>
@@ -901,6 +936,21 @@
         <translation>Резьбовая втулка под горячую запрессовку (IUT[A/B/C])</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="203"/>
+        <source>Metric external retaining rings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="204"/>
+        <source>Metric internal retaining rings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="205"/>
+        <source>Metric E-clip retaining rings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="255"/>
         <source>Screw type</source>
         <translation>Тип крепежного элемента</translation>
@@ -954,6 +1004,11 @@
         <location filename="../FastenersCmd.py" line="316"/>
         <source>Thickness code</source>
         <translation>Код толщины</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="357"/>
+        <source>Slot width</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="320"/>
@@ -1027,6 +1082,11 @@
         <location filename="../FastenersCmd.py" line="54"/>
         <source>Insert</source>
         <translation>Втулка</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="52"/>
+        <source>RetainingRing</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

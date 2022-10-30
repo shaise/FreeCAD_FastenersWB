@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_AR" sourcelanguage="en_US">
+<TS version="2.1" language="es-ar" sourcelanguage="en_US">
 <context>
     <name>DlgChangeParams</name>
     <message>
@@ -287,7 +287,7 @@
     <message>
         <location filename="../FSprefs.ui" line="317"/>
         <source>* Thread&apos;s newDiam = oldDiam * A + B</source>
-        <translation>* diámetro nuevo de cuerda= diámetroViejo* A + B</translation>
+        <translation>* Nuevo diámetro de cuerda= diámetroViejo* A + B</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="362"/>
@@ -437,6 +437,11 @@
         <source>Heat Set Insert </source>
         <translation>Inserto metálico </translation>
     </message>
+    <message>
+        <location filename="../FastenerBase.py" line="903"/>
+        <source> Retaining Ring </source>
+        <translation> Anillo retenedor </translation>
+    </message>
 </context>
 <context>
     <name>FastenerCmd</name>
@@ -489,6 +494,16 @@
         <location filename="../FastenersCmd.py" line="80"/>
         <source>PEM Inserts</source>
         <translation>Insertos PEM</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="88"/>
+        <source>Retaining Rings</source>
+        <translation>Anillos retenedores</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="89"/>
+        <source>T Slot</source>
+        <translation>Ranura en T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="87"/>
@@ -656,6 +671,21 @@
         <translation>ISO 7048 Tornillo cabeza de queso con hendidura de cruz tipo H</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="134"/>
+        <source>GOST 1144 (Type 3) Half — round head wood screw</source>
+        <translation>GOST 1144 (Tipo 3) Mitad — tornillo para madera cabeza redonda</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="135"/>
+        <source>GOST 1144 (Type 4) Half — round head wood screw</source>
+        <translation>GOST 1144 (Tipo 4) Mitad — tornillo para madera cabeza redonda</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="137"/>
+        <source>DIN 603 Mushroom head square neck bolts</source>
+        <translation>DIN 603 Perno cabeza de hongo y cuello cuadrado</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="126"/>
         <source>ISO 4032 Hexagon nuts, Style 1</source>
         <translation>ISO 4032 Tuerca hexagonal, estilo 1</translation>
@@ -692,11 +722,6 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
-        <source>DIN 508 T-Slot nuts</source>
-        <translation>DIN 508 Tuercas de ranura en T</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="134"/>
         <source>DIN 557 Square nuts</source>
         <translation>DIN 557 Tuerca cuadrada</translation>
     </message>
@@ -709,6 +734,16 @@
         <location filename="../FastenersCmd.py" line="136"/>
         <source>DIN 985 Nyloc nuts</source>
         <translation>DIN 985 Tuerca nyloc</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="134"/>
+        <source>DIN 508 T-Slot nuts</source>
+        <translation>DIN 508 Tuercas de ranura en T</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="152"/>
+        <source>GN 507 T-Slot nuts</source>
+        <translation>GN 507 Tuercas de ranura en T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="138"/>
@@ -901,6 +936,21 @@
         <translation>IUT[A/B/C] Inserto metálico métrico</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="203"/>
+        <source>Metric external retaining rings</source>
+        <translation>Anillo retenedor métrico externo</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="204"/>
+        <source>Metric internal retaining rings</source>
+        <translation>Anillo retenedor métrico interno</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="205"/>
+        <source>Metric E-clip retaining rings</source>
+        <translation>Anillo retenedor métrico tipo E</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="255"/>
         <source>Screw type</source>
         <translation>Tipo de tornillo</translation>
@@ -954,6 +1004,11 @@
         <location filename="../FastenersCmd.py" line="316"/>
         <source>Thickness code</source>
         <translation>Código de espesor</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="357"/>
+        <source>Slot width</source>
+        <translation>Ancho de ranura</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="320"/>
@@ -1027,6 +1082,11 @@
         <location filename="../FastenersCmd.py" line="54"/>
         <source>Insert</source>
         <translation>Inserto</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="52"/>
+        <source>RetainingRing</source>
+        <translation>Anillo retenedor</translation>
     </message>
 </context>
 <context>

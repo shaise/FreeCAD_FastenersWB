@@ -634,8 +634,12 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
             ScrewObj_m.Placement.Rotation)
         ScrewObj_m.Placement.move(Pnt1)
 
+###############################################################################
+#                         Common actions on fasteners                         #
+###############################################################################
 
-# common actions on fasteners:
+################################ Flip command #################################
+
 class FSFlipCommand:
     """Flip Screw command"""
 
@@ -675,6 +679,7 @@ class FSFlipCommand:
 Gui.addCommand('FSFlip', FSFlipCommand())
 FSCommands.append('FSFlip', "command")
 
+################################ Move command #################################
 
 class FSMoveCommand:
     """Move Screw command"""
@@ -717,6 +722,7 @@ class FSMoveCommand:
 Gui.addCommand('FSMove', FSMoveCommand())
 FSCommands.append('FSMove', "command")
 
+########################### Make Simple command ###############################
 
 class FSMakeSimpleCommand:
     """Move Screw command"""
@@ -751,8 +757,9 @@ class FSMakeSimpleCommand:
 Gui.addCommand('FSSimple', FSMakeSimpleCommand())
 FSCommands.append('FSSimple', "command")
 
-FSParam.SetBool("MatchOuterDiameter", False)
+######################## MatchTypeInner/Outer commands ########################
 
+FSParam.SetBool("MatchOuterDiameter", False)
 
 class FSMatchTypeInnerCommand:
     def Activated(self):
@@ -772,7 +779,6 @@ class FSMatchTypeInnerCommand:
             # ,'Checkable': True
             'ToolTip': translate("FastenerBase", 'Match screws by inner thread diameter (Tap hole)')
         }
-
 
 class FSMatchTypeOuterCommand:
     def Activated(self):
@@ -799,10 +805,16 @@ FreeCADGui.addCommand('FSMatchTypeOuter', FSMatchTypeOuterCommand())
 FSCommands.append('FSMatchTypeInner', "command")
 FSCommands.append('FSMatchTypeOuter', "command")
 
-
-###################################################################################
-# Generate BOM command
-###################################################################################
+def InitCheckables():
+    match_outer = FSParam.GetBool("MatchOuterDiameter")
+    matchOuterButton = FSGetToolbarItem("FS Commands", matchOuterButtonText)
+    matchInnerButton = FSGetToolbarItem("FS Commands", matchInnerButtonText)
+    matchOuterButton.setCheckable(True)
+    matchInnerButton.setCheckable(True)
+    matchOuterButton.setChecked(match_outer)
+    matchInnerButton.setChecked(not match_outer)
+    
+########################## Generate BOM command ###############################
 
 class FSMakeBomCommand:
     """Generate fasteners bill of material"""
@@ -897,13 +909,3 @@ class FSMakeBomCommand:
 
 Gui.addCommand('FSMakeBOM', FSMakeBomCommand())
 FSCommands.append('FSMakeBOM', "command")
-
-
-def InitCheckables():
-    match_outer = FSParam.GetBool("MatchOuterDiameter")
-    matchOuterButton = FSGetToolbarItem("FS Commands", matchOuterButtonText)
-    matchInnerButton = FSGetToolbarItem("FS Commands", matchInnerButtonText)
-    matchOuterButton.setCheckable(True)
-    matchInnerButton.setCheckable(True)
-    matchOuterButton.setChecked(match_outer)
-    matchInnerButton.setChecked(not match_outer)

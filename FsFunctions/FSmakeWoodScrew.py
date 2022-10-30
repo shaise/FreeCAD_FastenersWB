@@ -219,7 +219,7 @@ def makeGOST1144(self, fa):
     fm.AddArc2(+0, -rh, 90)
     fm.AddPoint(d, -b*ftl)
 
-    # 3) cylindrical part (place where thread is be added)
+    # 3) cylindrical part (place where thread will be added)
     if fa.thread:
         fm.AddPoint(dt, -b*ftl-(d-dt))
 

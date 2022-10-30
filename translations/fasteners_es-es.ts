@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es-es" sourcelanguage="en_US">
+<TS version="2.1" language="es_ES" sourcelanguage="en_US">
 <context>
     <name>DlgChangeParams</name>
     <message>
@@ -358,16 +358,6 @@
         <translation>Coincidir tornillos por diámetro de rosca externo  (Barreno de paso)</translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="836"/>
-        <source>Screw diameter matching mode</source>
-        <translation>Modo de coincidencia de diámetro de tornillo</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="837"/>
-        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
-        <translation>Modo de coincidencia de diámetro de tornillo (por diámetro de rosca interno o externo)</translation>
-    </message>
-    <message>
         <location filename="../FastenerBase.py" line="866"/>
         <source>Generate BOM</source>
         <translation>Generar lista de materiales</translation>
@@ -391,6 +381,16 @@
         <location filename="../FastenerBase.py" line="876"/>
         <source>Qty</source>
         <translation>Cantidad</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="836"/>
+        <source>Screw diameter matching mode</source>
+        <translation>Modo de coincidencia de diámetro de tornillo</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="837"/>
+        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
+        <translation>Modo de coincidencia de diámetro de tornillo (por diámetro de rosca interno o externo)</translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="900"/>

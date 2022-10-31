@@ -165,22 +165,22 @@
     <message>
         <location filename="../FSprefs.ui" line="14"/>
         <source>General settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Основные настройки</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="26"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Основные</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="37"/>
         <source>Toolbar screw icons grouping:</source>
-        <translation type="unfinished"></translation>
+        <translation>Способ группировки изделий на панели инструментов:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="57"/>
         <source>Method of icon grouping</source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет способ группировки значков стандартных изделий на панели инструментов</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="63"/>
@@ -200,27 +200,27 @@
     <message>
         <location filename="../FSprefs.ui" line="70"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Все изделия в одной большой панели инструментов</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="75"/>
         <source>Separate toolbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Набор раздельных панелей инструментов</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="80"/>
         <source>Drop down buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Набор кнопок с выпадающими списками изделий</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="92"/>
         <source>Thread generation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма резьбы:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="112"/>
         <source>Select method of thread generation</source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет способ построения 3-ех мерной модели резьбы</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="115"/>
@@ -230,28 +230,28 @@
     <message>
         <location filename="../FSprefs.ui" line="122"/>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Стандартная</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="127"/>
         <source>3D printer compatible</source>
-        <translation type="unfinished"></translation>
+        <translation>Скорректированная для 3D печати</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="137"/>
         <source>Scale settings for 3D printing thread generation</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки масштаба резьбы для печати на 3D-принтере</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="151"/>
         <source>Screw Scaling</source>
-        <translation type="unfinished"></translation>
+        <translation>Коррекционные значения для Винтов</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="159"/>
         <location filename="../FSprefs.ui" line="240"/>
         <source>Scale A:</source>
-        <translation type="unfinished"></translation>
+        <translation>Масштаб A:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="181"/>
@@ -262,7 +262,7 @@
         <location filename="../FSprefs.ui" line="195"/>
         <location filename="../FSprefs.ui" line="276"/>
         <source>Scale B:</source>
-        <translation type="unfinished"></translation>
+        <translation>Масштаб B:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="217"/>
@@ -272,7 +272,7 @@
     <message>
         <location filename="../FSprefs.ui" line="232"/>
         <source>Nut Scaling</source>
-        <translation type="unfinished"></translation>
+        <translation>Коррекционные значения для Гаек</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="262"/>
@@ -287,12 +287,12 @@
     <message>
         <location filename="../FSprefs.ui" line="317"/>
         <source>* Thread&apos;s newDiam = oldDiam * A + B</source>
-        <translation type="unfinished"></translation>
+        <translation>* Диаметр для печати на 3D принтере = стандартный диаметр * A + B</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="362"/>
         <source>Preferences for the Fasteners Workbench</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки для верстака Стандартные изделия</translation>
     </message>
 </context>
 <context>
@@ -440,7 +440,7 @@
     <message>
         <location filename="../FastenerBase.py" line="903"/>
         <source> Retaining Ring </source>
-        <translation type="unfinished"></translation>
+        <translation> Стопорное кольцо </translation>
     </message>
 </context>
 <context>
@@ -498,12 +498,12 @@
     <message>
         <location filename="../FastenersCmd.py" line="88"/>
         <source>Retaining Rings</source>
-        <translation type="unfinished"></translation>
+        <translation>Стопорные кольца</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="89"/>
         <source>T Slot</source>
-        <translation type="unfinished"></translation>
+        <translation>Т-образные гайки</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="87"/>
@@ -633,17 +633,17 @@
     <message>
         <location filename="../FastenersCmd.py" line="116"/>
         <source>DIN 96 Slotted half round head wood screw</source>
-        <translation type="unfinished"></translation>
+        <translation>DIN 96 Шуруп с полукруглой головкой и прямым шлицем</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="117"/>
         <source>GOST 1144 (Type 1) Half — round head wood screw</source>
-        <translation type="unfinished"></translation>
+        <translation>ГОСТ 1144 (Исполнение 1) Шуруп с полукруглой головкой</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="118"/>
         <source>GOST 1144 (Type 2) Half — round head wood screw</source>
-        <translation type="unfinished"></translation>
+        <translation>ГОСТ 1144 (Исполнение 2) Шуруп с полукруглой головкой</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="120"/>
@@ -673,17 +673,17 @@
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
         <source>GOST 1144 (Type 3) Half — round head wood screw</source>
-        <translation type="unfinished"></translation>
+        <translation>ГОСТ 1144 (Исполнение 3) Шуруп с полукруглой головкой</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="135"/>
         <source>GOST 1144 (Type 4) Half — round head wood screw</source>
-        <translation type="unfinished"></translation>
+        <translation>ГОСТ 1144 (Исполнение 4) Шуруп с полукруглой головкой</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="137"/>
         <source>DIN 603 Mushroom head square neck bolts</source>
-        <translation type="unfinished"></translation>
+        <translation>DIN 603 Болт с увеличенной полукруглой головкой и квадратным подголовком</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="126"/>
@@ -718,7 +718,7 @@
     <message>
         <location filename="../FastenersCmd.py" line="133"/>
         <source>GOST 11860 (Type 1) Cap nuts</source>
-        <translation type="unfinished"></translation>
+        <translation>ГОСТ 11860 (Исполнение 1) Гайка колпачковая</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
@@ -738,12 +738,12 @@
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
         <source>DIN 508 T-Slot nuts</source>
-        <translation type="unfinished"></translation>
+        <translation>DIN 508 Т-образная гайка</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="152"/>
         <source>GN 507 T-Slot nuts</source>
-        <translation type="unfinished"></translation>
+        <translation>GN 507 Т-образная гайка</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="138"/>
@@ -938,17 +938,17 @@
     <message>
         <location filename="../FastenersCmd.py" line="203"/>
         <source>Metric external retaining rings</source>
-        <translation type="unfinished"></translation>
+        <translation>Кольцо стопорное внешнее</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="204"/>
         <source>Metric internal retaining rings</source>
-        <translation type="unfinished"></translation>
+        <translation>Кольцо стопорное внутреннее</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="205"/>
         <source>Metric E-clip retaining rings</source>
-        <translation type="unfinished"></translation>
+        <translation>Шайба упорная быстросъемная</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="255"/>
@@ -1008,7 +1008,7 @@
     <message>
         <location filename="../FastenersCmd.py" line="357"/>
         <source>Slot width</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина паза</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="320"/>
@@ -1086,7 +1086,7 @@
     <message>
         <location filename="../FastenersCmd.py" line="52"/>
         <source>RetainingRing</source>
-        <translation type="unfinished"></translation>
+        <translation>Стопорное кольцо</translation>
     </message>
 </context>
 <context>

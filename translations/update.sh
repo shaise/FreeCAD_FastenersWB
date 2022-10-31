@@ -2,16 +2,14 @@
 #
 # Tested in Ubuntu 20.04.2 LTS.
 # This script must strictly contain line endings in Linux format for correct work.
-# Install QT5 dev tools packages before run this script,
-# by the following commands:
+# Install QT5 dev tools packages before run this script, by the following commands:
 #
 # sudo apt update
 # sudo apt install -y qttools5-dev-tools
 # sudo apt install -y pyqt5-dev-tools
 #
-# This is array of supported languages.
-# When adding new languages, this list needs to be update.
-languages=(es-ar es-es es-mx pt-br pt-pt ru)
+# This is array of supported languages. New languages, must be added to it.
+languages=(es-ar es-es pt-br pt-pt ru)
 for lang in ${languages[*]}
 do
    # Creation of uifiles.ts file from ../*.ui files with designation of language code

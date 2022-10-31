@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pt-pt" sourcelanguage="en_US">
+<TS version="2.1" language="pt_PT" sourcelanguage="en_US">
 <context>
     <name>DlgChangeParams</name>
     <message>
@@ -250,7 +250,7 @@
     <message>
         <location filename="../FSprefs.ui" line="159"/>
         <location filename="../FSprefs.ui" line="240"/>
-        <source>Scale A:</source>
+        <source>Scale (A):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -261,7 +261,7 @@
     <message>
         <location filename="../FSprefs.ui" line="195"/>
         <location filename="../FSprefs.ui" line="276"/>
-        <source>Scale B:</source>
+        <source>Offset (B):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

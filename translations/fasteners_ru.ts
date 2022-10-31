@@ -250,7 +250,7 @@
     <message>
         <location filename="../FSprefs.ui" line="159"/>
         <location filename="../FSprefs.ui" line="240"/>
-        <source>Scale A:</source>
+        <source>Scale (A):</source>
         <translation>Масштаб A:</translation>
     </message>
     <message>
@@ -261,8 +261,8 @@
     <message>
         <location filename="../FSprefs.ui" line="195"/>
         <location filename="../FSprefs.ui" line="276"/>
-        <source>Scale B:</source>
-        <translation>Масштаб B:</translation>
+        <source>Offset (B):</source>
+        <translation>Смещение B:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="217"/>

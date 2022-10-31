@@ -250,8 +250,8 @@
     <message>
         <location filename="../FSprefs.ui" line="159"/>
         <location filename="../FSprefs.ui" line="240"/>
-        <source>Scale A:</source>
-        <translation>Escala A:</translation>
+        <source>Scale (A):</source>
+        <translation type="unfinished">Escala A:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="181"/>
@@ -261,8 +261,8 @@
     <message>
         <location filename="../FSprefs.ui" line="195"/>
         <location filename="../FSprefs.ui" line="276"/>
-        <source>Scale B:</source>
-        <translation>Escala B:</translation>
+        <source>Offset (B):</source>
+        <translation type="unfinished">Escala B:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="217"/>

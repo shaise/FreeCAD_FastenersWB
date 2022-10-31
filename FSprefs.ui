@@ -156,7 +156,7 @@
                 <item>
                  <widget class="QLabel" name="label_5">
                   <property name="text">
-                   <string>Scale A:</string>
+                   <string>Scale (A):</string>
                   </property>
                  </widget>
                 </item>
@@ -192,7 +192,7 @@
                 <item>
                  <widget class="QLabel" name="label_6">
                   <property name="text">
-                   <string>Scale B:</string>
+                   <string>Offset (B):</string>
                   </property>
                  </widget>
                 </item>
@@ -237,7 +237,7 @@
                 <item>
                  <widget class="QLabel" name="label_7">
                   <property name="text">
-                   <string>Scale A:</string>
+                   <string>Scale (A):</string>
                   </property>
                  </widget>
                 </item>
@@ -273,7 +273,7 @@
                 <item>
                  <widget class="QLabel" name="label_8">
                   <property name="text">
-                   <string>Scale B:</string>
+                   <string>Offset (B):</string>
                   </property>
                  </widget>
                 </item>

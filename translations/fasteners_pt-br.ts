@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pt_BR" sourcelanguage="en_US">
+<TS version="2.1" language="pt-br" sourcelanguage="en_US">
 <context>
     <name>DlgChangeParams</name>
     <message>
@@ -183,21 +183,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FSprefs.ui" line="63"/>
-        <source>ScrewToolbarGroupMode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="66"/>
-        <location filename="../FSprefs.ui" line="118"/>
-        <location filename="../FSprefs.ui" line="184"/>
-        <location filename="../FSprefs.ui" line="220"/>
-        <location filename="../FSprefs.ui" line="265"/>
-        <location filename="../FSprefs.ui" line="301"/>
-        <source>Mod/Fasteners</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../FSprefs.ui" line="70"/>
         <source>None</source>
         <translation type="unfinished"></translation>
@@ -220,11 +205,6 @@
     <message>
         <location filename="../FSprefs.ui" line="112"/>
         <source>Select method of thread generation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="115"/>
-        <source>ScrewToolbarThreadGeneration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -254,34 +234,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FSprefs.ui" line="181"/>
-        <source>ScrewThrScaleA</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../FSprefs.ui" line="195"/>
         <location filename="../FSprefs.ui" line="276"/>
         <source>Offset (B):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../FSprefs.ui" line="217"/>
-        <source>ScrewThrScaleB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../FSprefs.ui" line="232"/>
         <source>Nut Scaling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="262"/>
-        <source>NutThrScaleA</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="298"/>
-        <source>NutThrScaleB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -358,16 +318,6 @@
         <translation>Acertar os parafusos pelo diâmetro externo da rosca</translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="836"/>
-        <source>Screw diameter matching mode</source>
-        <translation>Modo para acertar o diâmetro do parafuso</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="837"/>
-        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
-        <translation>Modo do acertador automático de parafuso (pelo diâmetro interno ou externo)</translation>
-    </message>
-    <message>
         <location filename="../FastenerBase.py" line="866"/>
         <source>Generate BOM</source>
         <translation>Gerar lista de materiais</translation>
@@ -391,6 +341,16 @@
         <location filename="../FastenerBase.py" line="876"/>
         <source>Qty</source>
         <translation>Qntd</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="836"/>
+        <source>Screw diameter matching mode</source>
+        <translation>Modo para acertar o diâmetro do parafuso</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="837"/>
+        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
+        <translation>Modo do acertador automático de parafuso (pelo diâmetro interno ou externo)</translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="900"/>

@@ -60,10 +60,10 @@
            <number>1</number>
           </property>
           <property name="prefEntry" stdset="1">
-           <string>ScrewToolbarGroupMode</string>
+           <string notr="true">ScrewToolbarGroupMode</string>
           </property>
           <property name="prefPath" stdset="0">
-           <string>Mod/Fasteners</string>
+           <string notr="true">Mod/Fasteners</string>
           </property>
           <item>
            <property name="text">
@@ -112,10 +112,10 @@
            <string>Select method of thread generation</string>
           </property>
           <property name="prefEntry" stdset="0">
-           <string>ScrewToolbarThreadGeneration</string>
+           <string notr="true">ScrewToolbarThreadGeneration</string>
           </property>
           <property name="prefPath" stdset="0">
-           <string>Mod/Fasteners</string>
+           <string notr="true">Mod/Fasteners</string>
           </property>
           <item>
            <property name="text">
@@ -178,10 +178,10 @@
                    <double>0.990000000000000</double>
                   </property>
                   <property name="prefEntry" stdset="0">
-                   <string>ScrewThrScaleA</string>
+                   <string notr="true">ScrewThrScaleA</string>
                   </property>
                   <property name="prefPath" stdset="0">
-                   <string>Mod/Fasteners</string>
+                   <string notr="true">Mod/Fasteners</string>
                   </property>
                  </widget>
                 </item>
@@ -214,10 +214,10 @@
                    <double>-0.050000000000000</double>
                   </property>
                   <property name="prefEntry" stdset="0">
-                   <string>ScrewThrScaleB</string>
+                   <string notr="true">ScrewThrScaleB</string>
                   </property>
                   <property name="prefPath" stdset="0">
-                   <string>Mod/Fasteners</string>
+                   <string notr="true">Mod/Fasteners</string>
                   </property>
                  </widget>
                 </item>
@@ -259,10 +259,10 @@
                    <double>1.030000000000000</double>
                   </property>
                   <property name="prefEntry" stdset="0">
-                   <string>NutThrScaleA</string>
+                   <string notr="true">NutThrScaleA</string>
                   </property>
                   <property name="prefPath" stdset="0">
-                   <string>Mod/Fasteners</string>
+                   <string notr="true">Mod/Fasteners</string>
                   </property>
                  </widget>
                 </item>
@@ -295,10 +295,10 @@
                    <double>0.100000000000000</double>
                   </property>
                   <property name="prefEntry" stdset="0">
-                   <string>NutThrScaleB</string>
+                   <string notr="true">NutThrScaleB</string>
                   </property>
                   <property name="prefPath" stdset="0">
-                   <string>Mod/Fasteners</string>
+                   <string notr="true">Mod/Fasteners</string>
                   </property>
                  </widget>
                 </item>

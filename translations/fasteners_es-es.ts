@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_ES" sourcelanguage="en_US">
+<TS version="2.1" language="es-es" sourcelanguage="en_US">
 <context>
     <name>DlgChangeParams</name>
     <message>
@@ -183,21 +183,6 @@
         <translation>Método de agrupamiento de iconos</translation>
     </message>
     <message>
-        <location filename="../FSprefs.ui" line="63"/>
-        <source>ScrewToolbarGroupMode</source>
-        <translation type="unfinished">ScrewToolbarGroupMode</translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="66"/>
-        <location filename="../FSprefs.ui" line="118"/>
-        <location filename="../FSprefs.ui" line="184"/>
-        <location filename="../FSprefs.ui" line="220"/>
-        <location filename="../FSprefs.ui" line="265"/>
-        <location filename="../FSprefs.ui" line="301"/>
-        <source>Mod/Fasteners</source>
-        <translation>Mod/Elementos de sujeción</translation>
-    </message>
-    <message>
         <location filename="../FSprefs.ui" line="70"/>
         <source>None</source>
         <translation>Ninguno</translation>
@@ -221,11 +206,6 @@
         <location filename="../FSprefs.ui" line="112"/>
         <source>Select method of thread generation</source>
         <translation>Seleccionar método de generación de cuerda</translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="115"/>
-        <source>ScrewToolbarThreadGeneration</source>
-        <translation type="unfinished">ScrewToolbarThreadGeneration</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="122"/>
@@ -254,35 +234,15 @@
         <translation type="unfinished">Escala A:</translation>
     </message>
     <message>
-        <location filename="../FSprefs.ui" line="181"/>
-        <source>ScrewThrScaleA</source>
-        <translation type="unfinished">ScrewThrScaleA</translation>
-    </message>
-    <message>
         <location filename="../FSprefs.ui" line="195"/>
         <location filename="../FSprefs.ui" line="276"/>
         <source>Offset (B):</source>
         <translation type="unfinished">Escala B:</translation>
     </message>
     <message>
-        <location filename="../FSprefs.ui" line="217"/>
-        <source>ScrewThrScaleB</source>
-        <translation type="unfinished">ScrewThrScaleB</translation>
-    </message>
-    <message>
         <location filename="../FSprefs.ui" line="232"/>
         <source>Nut Scaling</source>
         <translation>Escala de tuercas</translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="262"/>
-        <source>NutThrScaleA</source>
-        <translation type="unfinished">NutThrScaleA</translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="298"/>
-        <source>NutThrScaleB</source>
-        <translation type="unfinished">NutThrScaleB</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="317"/>
@@ -358,6 +318,16 @@
         <translation>Coincidir tornillos por diámetro de rosca externo  (Barreno de paso)</translation>
     </message>
     <message>
+        <location filename="../FastenerBase.py" line="836"/>
+        <source>Screw diameter matching mode</source>
+        <translation>Modo de coincidencia de diámetro de tornillo</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="837"/>
+        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
+        <translation>Modo de coincidencia de diámetro de tornillo (por diámetro de rosca interno o externo)</translation>
+    </message>
+    <message>
         <location filename="../FastenerBase.py" line="866"/>
         <source>Generate BOM</source>
         <translation>Generar lista de materiales</translation>
@@ -381,16 +351,6 @@
         <location filename="../FastenerBase.py" line="876"/>
         <source>Qty</source>
         <translation>Cantidad</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="836"/>
-        <source>Screw diameter matching mode</source>
-        <translation>Modo de coincidencia de diámetro de tornillo</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="837"/>
-        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
-        <translation>Modo de coincidencia de diámetro de tornillo (por diámetro de rosca interno o externo)</translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="900"/>

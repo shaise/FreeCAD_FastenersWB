@@ -183,21 +183,6 @@
         <translation>Определяет способ группировки значков стандартных изделий на панели инструментов</translation>
     </message>
     <message>
-        <location filename="../FSprefs.ui" line="63"/>
-        <source>ScrewToolbarGroupMode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="66"/>
-        <location filename="../FSprefs.ui" line="118"/>
-        <location filename="../FSprefs.ui" line="184"/>
-        <location filename="../FSprefs.ui" line="220"/>
-        <location filename="../FSprefs.ui" line="265"/>
-        <location filename="../FSprefs.ui" line="301"/>
-        <source>Mod/Fasteners</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../FSprefs.ui" line="70"/>
         <source>None</source>
         <translation>Все изделия в одной большой панели инструментов</translation>
@@ -223,11 +208,6 @@
         <translation>Определяет способ построения 3-ех мерной модели резьбы</translation>
     </message>
     <message>
-        <location filename="../FSprefs.ui" line="115"/>
-        <source>ScrewToolbarThreadGeneration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../FSprefs.ui" line="122"/>
         <source>Standard</source>
         <translation>Стандартная</translation>
@@ -251,38 +231,18 @@
         <location filename="../FSprefs.ui" line="159"/>
         <location filename="../FSprefs.ui" line="240"/>
         <source>Scale (A):</source>
-        <translation>Масштаб A:</translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="181"/>
-        <source>ScrewThrScaleA</source>
-        <translation type="unfinished"></translation>
+        <translation>Масштаб (A):</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="195"/>
         <location filename="../FSprefs.ui" line="276"/>
         <source>Offset (B):</source>
-        <translation>Смещение B:</translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="217"/>
-        <source>ScrewThrScaleB</source>
-        <translation type="unfinished"></translation>
+        <translation>Смещение (B):</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="232"/>
         <source>Nut Scaling</source>
         <translation>Коррекционные значения для Гаек</translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="262"/>
-        <source>NutThrScaleA</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FSprefs.ui" line="298"/>
-        <source>NutThrScaleB</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="317"/>
@@ -358,16 +318,6 @@
         <translation>Подбирать резьбу по наужному диаметру (установка на ось)</translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="836"/>
-        <source>Screw diameter matching mode</source>
-        <translation>Режим подбора диаметра резьбы</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="837"/>
-        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
-        <translation>Режим подбора диаметра резьбы (по внутреннему или по наружному диаметру резьбы)</translation>
-    </message>
-    <message>
         <location filename="../FastenerBase.py" line="866"/>
         <source>Generate BOM</source>
         <translation>Спецификация</translation>
@@ -391,6 +341,16 @@
         <location filename="../FastenerBase.py" line="876"/>
         <source>Qty</source>
         <translation>Кол-во</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="836"/>
+        <source>Screw diameter matching mode</source>
+        <translation>Режим подбора диаметра резьбы</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="837"/>
+        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
+        <translation>Режим подбора диаметра резьбы (по внутреннему или по наружному диаметру резьбы)</translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="900"/>

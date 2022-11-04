@@ -606,10 +606,12 @@ class FSScrewCommand:
         self.TypeName = screwMaker.GetTypeName(type)
 
     def GetResources(self):
+        import GrammaticalTools
+        
         icon = os.path.join(iconPath, self.Type + '.svg')
         return {'Pixmap': icon,
                 # the name of a svg file available in the resources
-                'MenuText': translate("FastenerCmd", "Add ") + self.Help,
+                'MenuText': translate("FastenerCmd", "Add ") + GrammaticalTools.ToDativeCase(self.Help),
                 'ToolTip': self.Help}
 
     def Activated(self):

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pt-pt" sourcelanguage="en_US">
+<TS version="2.1" language="pt_PT" sourcelanguage="en_US">
 <context>
     <name>DlgChangeParams</name>
     <message>
@@ -165,94 +165,94 @@
     <message>
         <location filename="../FSprefs.ui" line="14"/>
         <source>General settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurações gerais</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="26"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Geral</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="37"/>
         <source>Toolbar screw icons grouping:</source>
-        <translation type="unfinished"></translation>
+        <translation>Agrupamento de ícones de parafusos na barra de ferramentas:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="57"/>
         <source>Method of icon grouping</source>
-        <translation type="unfinished"></translation>
+        <translation>Método de agrupamento de ícones</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="70"/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Nenhum</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="75"/>
         <source>Separate toolbars</source>
-        <translation type="unfinished"></translation>
+        <translation>Barras de ferramentas separadas</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="80"/>
         <source>Drop down buttons</source>
-        <translation type="unfinished"></translation>
+        <translation>Botões suspensos</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="92"/>
         <source>Thread generation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Geração de rosca:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="112"/>
         <source>Select method of thread generation</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecione o método de geração de rosca</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="122"/>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Padrão</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="127"/>
         <source>3D printer compatible</source>
-        <translation type="unfinished"></translation>
+        <translation>Compatível com impressão 3D</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="137"/>
         <source>Scale settings for 3D printing thread generation</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurações de escala para geração de rosca para impressão 3D</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="151"/>
         <source>Screw Scaling</source>
-        <translation type="unfinished"></translation>
+        <translation>Escalonamento de parafuso</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="159"/>
         <location filename="../FSprefs.ui" line="240"/>
         <source>Scale (A):</source>
-        <translation type="unfinished"></translation>
+        <translation>Escala (A):</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="195"/>
         <location filename="../FSprefs.ui" line="276"/>
         <source>Offset (B):</source>
-        <translation type="unfinished"></translation>
+        <translation>Escala (B):</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="232"/>
         <source>Nut Scaling</source>
-        <translation type="unfinished"></translation>
+        <translation>Escalonamento de porca</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="317"/>
         <source>* Thread&apos;s newDiam = oldDiam * A + B</source>
-        <translation type="unfinished"></translation>
+        <translation>* Novo diâmetro da rosca = diamAnterior * A + B</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="362"/>
         <source>Preferences for the Fasteners Workbench</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferências para a bancada de Elementos de fixação</translation>
     </message>
 </context>
 <context>
@@ -400,7 +400,7 @@
     <message>
         <location filename="../FastenerBase.py" line="903"/>
         <source> Retaining Ring </source>
-        <translation type="unfinished"></translation>
+        <translation> Anel Elástico </translation>
     </message>
 </context>
 <context>
@@ -458,12 +458,12 @@
     <message>
         <location filename="../FastenersCmd.py" line="88"/>
         <source>Retaining Rings</source>
-        <translation type="unfinished"></translation>
+        <translation>Anel elastico</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="89"/>
         <source>T Slot</source>
-        <translation type="unfinished"></translation>
+        <translation>Rasgo T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="87"/>
@@ -643,7 +643,7 @@
     <message>
         <location filename="../FastenersCmd.py" line="137"/>
         <source>DIN 603 Mushroom head square neck bolts</source>
-        <translation type="unfinished"></translation>
+        <translation>DIN 603 Parafuso francês cabeça redonda pescoço quadrado</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="126"/>
@@ -698,12 +698,12 @@
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
         <source>DIN 508 T-Slot nuts</source>
-        <translation type="unfinished"></translation>
+        <translation>DIN 508 Porca para rasgo T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="152"/>
         <source>GN 507 T-Slot nuts</source>
-        <translation type="unfinished"></translation>
+        <translation>GN 507 Porca para rasgo T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="138"/>
@@ -898,17 +898,17 @@
     <message>
         <location filename="../FastenersCmd.py" line="203"/>
         <source>Metric external retaining rings</source>
-        <translation type="unfinished"></translation>
+        <translation>Anel Elástico externo métrico</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="204"/>
         <source>Metric internal retaining rings</source>
-        <translation type="unfinished"></translation>
+        <translation>Anel Elástico interno métrico</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="205"/>
         <source>Metric E-clip retaining rings</source>
-        <translation type="unfinished"></translation>
+        <translation>Anel de retenção trava métrico</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="255"/>
@@ -968,7 +968,7 @@
     <message>
         <location filename="../FastenersCmd.py" line="357"/>
         <source>Slot width</source>
-        <translation type="unfinished"></translation>
+        <translation>Largura do rasgo</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="320"/>
@@ -1046,7 +1046,7 @@
     <message>
         <location filename="../FastenersCmd.py" line="52"/>
         <source>RetainingRing</source>
-        <translation type="unfinished"></translation>
+        <translation>Anel elástico</translation>
     </message>
 </context>
 <context>

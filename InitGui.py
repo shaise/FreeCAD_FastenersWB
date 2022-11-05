@@ -45,6 +45,7 @@ class FastenersWorkbench(FreeCADGui.Workbench):
         import FastenersCmd
         import CountersunkHoles
         import FSChangeParams
+        import GrammaticalTools
 
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command")
@@ -63,7 +64,7 @@ class FastenersWorkbench(FreeCADGui.Workbench):
                 self.appendMenu(
                     [
                         translate("InitGui", "Fasteners"),
-                        translate("InitGui", "Add ") + cmd[2],
+                        translate("InitGui", "Add ") + GrammaticalTools.ToSingular(cmd[2]),
                     ],
                     cmd[1],
                 )
@@ -105,6 +106,5 @@ class FastenersWorkbench(FreeCADGui.Workbench):
     def GetClassName(self):
         # this function is mandatory if this is a full python workbench
         return "Gui::PythonWorkbench"
-
 
 FreeCADGui.addWorkbench(FastenersWorkbench())

@@ -36,7 +36,7 @@ def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
     elif SType == "GOST1144-1" or SType == "GOST1144-2" or SType == "GOST1144-3" or SType == "GOST1144-4":
         return makeGOST1144(self, fa)
 
-# DIN 571 wood-screw
+# DIN571 Wood screw
 
 def makeDIN571(screw_obj, fa):
     SType = fa.type
@@ -115,7 +115,7 @@ def makeDIN571(screw_obj, fa):
     
     return head
 
-# DIN 96 wood-screw
+# DIN96 Wood screw
 
 def makeDIN96(screw_obj, fa):
     l = fa.calc_len
@@ -169,34 +169,48 @@ def makeDIN96(screw_obj, fa):
 
     return screw
 
-# GOST 1144 wood-screw
+# GOST1144-1 Wood screw
+# GOST1144-2 Wood screw
+# GOST1144-3 Wood screw
+# GOST1144-4 Wood screw
 
 def makeGOST1144(self, fa):
     SType = fa.type
     l = fa.calc_len
-    b = 0.4
-    # 2 and 4 type of GOST1144 fasteners have a thread along the entire length
-    if SType == "GOST1144-2" or SType == "GOST1144-4":
-        b = 0.05
     dia = float(fa.calc_diam.split()[0])
 
+    # load screw parameters from *.csv tables
     if SType == "GOST1144-1" or SType == "GOST1144-2":
         d2, P, D, K, sb, h = fa.dimTable
     elif SType == "GOST1144-3" or SType == "GOST1144-4":
         d2, P, D, K, PH, m, h = fa.dimTable
-    d = dia / 2.0
-    d32 = d2 / 2.0
+        
+    # types 2 and 4 have full length thread while types 1 and 3 do not
+    b = l
+    full_length=True
+    if SType == "GOST1144-1" or SType == "GOST1144-3":
+       b = l * 0.6
+       full_length=False
 
-    # calc screw
+    ri = d2 / 2.0   # inner thread radius
+    ro = dia / 2.0  # outer thread radius
+ 
+    # inner radius of screw section
+    sr = ro
     if fa.thread:
-        dt = d2 / 2.0
-    else:
-        dt = d
-    angle = math.radians(40) # 40 degrees end cone
-    x2 = dt * math.cos(angle/2)
-    z2 = dt * math.sin(angle/2)
-    z3 = x2 / math.tan(angle/2)
-    ftl = l - z2 - z3 # flat part (total length - tip)
+        sr = ri
+
+    # lenght of cylindrical part where thread begins to grow.    
+    slope_length = (ro-ri)
+
+    # calculation of screw tip length
+    # Sharpness of screw tip is equal 40 degrees. If imagine half of screw tip
+    # as a triangle, then acute-angled angle of the triangle (alpha) be which 
+    # is equal to half of the screw tip angle.
+    alpha = 40/2
+    # And the adjacent cathetus be which is equal to least screw radius (sr)
+    # Then the opposite cathetus can be getted by formula: tip_lenght=sr/tg(alpha)
+    tip_lenght = sr/math.tan(math.radians(alpha))
 
     ###########################
     # Make full screw profile #
@@ -205,27 +219,31 @@ def makeGOST1144(self, fa):
     fm = FastenerBase.FSFaceMaker()
 
     # 1) screw head
-    # Head of screw builds by B-Spline instead two arcs builded by two radii values R1 and R2.
-    # A curve built with two arcs and a curve built with a B-Spline are almost identical.
-    # You can build a curve by two ways in Sketch workbench and see this for yourself.
-    # B-Spline allows to remove the contour that appears between two radii during creation process
-    # also it use fewer points than two arcs.
+    # Head of screw builds by B-Spline instead two arcs builded by two radii 
+    # (values R1 and R2). A curve built with two arcs and a curve built with a 
+    # B-Spline are almost identical. That can be verified if build a contour of 
+    # screw head by two ways in Sketch workbench and compare them. B-Spline also
+    # allows to remove the contour that appears between two arcs during creation
+    # process, and it use fewer points than two arcs.
     fm.AddPoint(0, K)
     fm.AddBSpline(D/2, K, D/2, 0)
 
-    # 2) rounding under the head
-    rh=dia/10
-    fm.AddPoint(d+rh, 0)
-    fm.AddArc2(+0, -rh, 90)
-    fm.AddPoint(d, -b*ftl)
-
+    # 2) add rounding under screw head
+    rr=dia/10
+    fm.AddPoint(ro+rr, 0)      # first point of rounding
+    if fa.thread and full_length:
+       fm.AddBSpline(ro, 0, sr, -slope_length) # create spline rounding
+    else:
+       fm.AddArc2(+0, -rr, 90) # in other cases create arc rounding
+    
     # 3) cylindrical part (place where thread will be added)
-    if fa.thread:
-        fm.AddPoint(dt, -b*ftl-(d-dt))
+    if not full_length:
+       if fa.thread:
+          fm.AddPoint(ro, -l+b+slope_length)    # entery point of thread
+       fm.AddPoint(sr, -l+b)   # start of full width thread b >= l*0.6
 
     # 4) sharp end (cone shape)
-    fm.AddPoint(dt, -ftl)
-    fm.AddArc(dt*math.cos(angle/4), -l + z2 + z3 - d*math.sin(angle/4), x2, -l+z3)
+    fm.AddPoint(sr, -l+tip_lenght)
     fm.AddPoint(0, -l)
 
     # make profile from points (lines and arcs)  
@@ -243,7 +261,7 @@ def makeGOST1144(self, fa):
 
     # make thread
     if fa.thread:
-        thread = self.makeDin7998Thread(b * -ftl, -ftl, -l, d32, d, P)
+        thread = self.makeDin7998Thread(-l+b+slope_length, -l+tip_lenght, -l, ri, ro, P)
         screw = screw.fuse(thread)
 
     return screw

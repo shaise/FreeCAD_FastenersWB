@@ -123,6 +123,9 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes 
+* V0.4.23  05 Nov 2022:  Update portuguese translation by @riqueenz  
+                       - GOST 1144 (Wood screws) code refactoring by @EA32  
+                       - Add GrammaticalTools fixer script @FreeCAD-Tools.  
 * V0.4.22  02 Nov 2022:  Translations cleanup and updates by @hasecilu and @FreeCAD-Tools.  
 * V0.4.21  29 Oct 2022:  Further code cleanup by @alexneufeld and @FreeCAD-Tools.  
                        - Fix wood screw head shape by @EA32.  

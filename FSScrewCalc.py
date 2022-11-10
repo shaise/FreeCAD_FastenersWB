@@ -185,7 +185,7 @@ FSCPEMStudHoleChart = (
 FSCScrewTypes = (
     ("ISO7045.svg", "Metric Screw", ScrewMaker.FSCScrewHoleChart),
     ("PEMPressNut.svg", "PEM Press-nut", FSCPEMPressNutHoleChart),
-    ("PEMBLStandoff.svg", "PEM Stand-off", FSCPEMStudHoleChart),
+    ("PEMBLStandoff.svg", "PEM Stand-off", FSCPEMStandOffHoleChart),
     ("PEMStud.svg", "PEM Stud", FSCPEMStudHoleChart),
     ("ASMEB18.2.1.6.svg", "Inch Screw", ScrewMaker.FSC_Inch_ScrewHoleChart)
 )

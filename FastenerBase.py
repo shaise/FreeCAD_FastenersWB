@@ -119,17 +119,17 @@ class FSCommandList:
                 if not (subgroup in cmdsubs):
                     cmdsubs[subgroup] = []
                     if GroupButtonMode == 2:
-                        cmdlist.append(subgroup.replace(" ", ""))
+                        cmdlist.append(subgroup) # .replace(" ", ""))
                         cmdlist.append("Separator")
                 cmdsubs[subgroup].append(command)
             else:
                 cmdlist.append(command)
         for subcommand in cmdsubs:
             if GroupButtonMode == 2:
-                Gui.addCommand(subcommand.replace(" ", ""), FSGroupCommand(
-                    cmdsubs[subcommand], subcommand, subcommand))
+                Gui.addCommand(subcommand, #.replace(" ", ""),
+                    FSGroupCommand(cmdsubs[subcommand], subcommand, subcommand))
             else:
-                cmdlist.append((subcommand.replace(" ", ""),
+                cmdlist.append((subcommand, #.replace(" ", ""),
                                cmdsubs[subcommand], subcommand))
         return cmdlist
 

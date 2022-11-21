@@ -123,6 +123,10 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes 
+* V0.4.24  21 Nov 2022:  Fix PEM standoff calculator
+                       - SVG Icons optimization by @EA32.  
+                       - Fix toolbar names by @FreeCAD-Tools.  
+                       - Add translation documentation by @FreeCAD-Tools.  
 * V0.4.23  05 Nov 2022:  Update portuguese translation by @riqueenz  
                        - GOST 1144 (Wood screws) code refactoring by @EA32  
                        - Add GrammaticalTools fixer script @FreeCAD-Tools.  

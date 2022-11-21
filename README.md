@@ -236,6 +236,10 @@ For further discussion, feel free to open a forum thread on [FreeCAD Open Discus
 
 There is also an [ongoing thread](https://forum.freecadweb.org/viewtopic.php?f=8&t=11429) discussing Fasteners Workbench that is also a place to comment on.
 
+### Translation
+
+See [TRANSLATIONS.md](TRANSLATIONS.md)
+
 ### Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md)

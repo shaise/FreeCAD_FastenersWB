@@ -16,7 +16,7 @@ Translations can be performed on operating systems supported by the QT Linguist 
 3. Unpack archive to temporary folder and enter to **/translations** folder.
 4. Run QT Linguist application and open the *.ts file to which need to add the translation (by selecting *File → Open*  menu item).
 
-    ![image](/Resources/FSQTLinguist.png)
+    ![Running QT Linguist](./Resources/FSQTLinguist.png)
 
 5. Translate strings and Don't forget to mark a completed strings as "**✓** Done" 
 6. Save the updated *.ts file after completing the partial or full translation.
@@ -57,7 +57,7 @@ Translations can be performed on operating systems supported by the QT Linguist 
 7. Save update.sh
 8. Run update.sh as execute file (If run the script in the terminal, more detailed information about the update can be obtained)
 
-    ![image](/Resources/FSRunTerminal.png)
+    ![Executing update.sh script](./Resources/FSRunTerminal.png)
 
 9. As a result, a new empty *.ts file will be generated to **/translations** folder. Open it in QT Linguist utility and make translations.
 10. Save *.ts file after the partial or full translation is completed and close QT Linguist utility.

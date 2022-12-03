@@ -498,21 +498,22 @@ class Screw:
             # points for chamfer: cut-Method
             fm = FastenerBase.FSFaceMaker()
             da2 = da / 2.0
+
             fm.AddPoint(da2 - 2 * H, +cham_i)
             fm.AddPoint(da2, 0.0)
             fm.AddPoint(da2, - 2.1 * P)
             fm.AddPoint(da2 - 2 * H, - 2.1 * P)
             bottom_Face = fm.GetFace()
             bottom_Solid = self.RevolveZ(bottom_Face)
-            # Part.show(cham_Solid, 'cham_Solid')
+            # Part.show(bottom_Solid, 'cham_Solid')
             # Part.show(Wch_wire)
             bottomChamferFace = bottom_Solid.Faces[0]
 
             # points for chamfer: cut-Method
-            fm.StartPoint(da / 2.0 - 2 * H, l - cham_i)
-            fm.AddPoint(da / 2.0, l)
-            fm.AddPoint(da / 2.0, l + 4 * P)
-            fm.AddPoint(da / 2.0 - 2 * H, l + 4 * P)
+            fm.StartPoint(da2 - 2 * H, l - cham_i)
+            fm.AddPoint(da2, l)
+            fm.AddPoint(da2, l + 4 * P)
+            fm.AddPoint(da2 - 2 * H, l + 4 * P)
             top_Face = fm.GetFace()
 
             top_Solid = self.RevolveZ(top_Face)

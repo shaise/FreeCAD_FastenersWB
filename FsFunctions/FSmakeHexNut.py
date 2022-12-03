@@ -47,6 +47,8 @@ def makeHexNut(self, fa): # dynamically loaded method of class Screw
         P, da, e, m_a, m_b, s = fa.dimTable
         m = m_b
 
+    da = self.getDia(da, True)
+
     residue, turns = math.modf(m / P)
     # halfturns = 2*int(turns)
 

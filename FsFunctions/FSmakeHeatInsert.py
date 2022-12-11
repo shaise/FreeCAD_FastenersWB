@@ -29,6 +29,7 @@ import FastenerBase
 
 # Heat Staked Threaded Insert types: IUT
 
+
 def iutMakeFace(D, a, E, C, s1, s2):
     d = D / 2
     e = E / 2
@@ -39,8 +40,20 @@ def iutMakeFace(D, a, E, C, s1, s2):
     sd = (e - d) / 2
 
     fm = FastenerBase.FSFaceMaker()
-    fm.AddPoints((d, 0), (e, 0), (e, -k1), (e - sd, -k1), (e - sd, -k1 - s1), (e, -k1 - s1), (e, -k2),
-        (e - sd, -k2), (e - sd, -k2 - s2), (c, -k2 - s2), (c, -a), (d, -a))
+    fm.AddPoints(
+        (d, 0),
+        (e, 0),
+        (e, -k1),
+        (e - sd, -k1),
+        (e - sd, -k1 - s1),
+        (e, -k1 - s1),
+        (e, -k2),
+        (e - sd, -k2),
+        (e - sd, -k2 - s2),
+        (c, -k2 - s2),
+        (c, -a),
+        (d, -a),
+    )
     return fm.GetFace()
 
 
@@ -53,10 +66,9 @@ def makeHeatInsert(self, fa):
     if fa.thread:
         dia = self.getDia(fa.calc_diam, True)
         P = FsData["MetricPitchTable"][fa.diameter][0]
-        turns = int(A / P) + 2
-        threadCutter = self.makeInnerThread_2(dia, P, turns, None, A)
-        threadCutter.translate(Base.Vector(0.0, 0.0, P))
-        # Part.show(threadCutter, 'threadCutter')
-        fSolid = fSolid.cut(threadCutter)
-
+        thread_cutter = self.CreateInnerThreadCutter(dia, P, A + P)
+        thread_cutter.rotate(
+            Base.Vector(0.0, 0.0, 0.0), Base.Vector(1.0, 0.0, 0.0), 180
+        )
+        fSolid = fSolid.cut(thread_cutter)
     return fSolid

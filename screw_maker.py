@@ -334,6 +334,37 @@ class Screw:
         sweep.makeSolid()
         return sweep.shape()
 
+    def CreateBlindInnerThreadCutter(self, dia: float, P: float, blen: float):
+        """create a blind inner thread cutter,
+        for use with a boolean cut operation.
+
+        the solid is oriented z-up and placed at the origin.
+
+        Parameters:
+        dia: outer diameter of threads
+        P: thread pitch
+        blen: usable threaded length, measured from the base of the cutter
+        """
+        # simulate a 118 degree drill point at the end of the solid
+        conic_height = 0.55 * dia / math.tan(math.radians(59))
+        if blen <= conic_height:
+            raise ValueError(
+                f"Can't create thread cutter of diameter {dia} & height {blen}"
+            )
+        threads = self.CreateInnerThreadCutter(dia, P, blen + conic_height)
+        inner_rad = dia / 2 - 0.625 * sqrt3 / 2 * P
+        core = Part.makeCylinder(inner_rad, blen + 1.1 * conic_height + 1)
+        core.translate(Base.Vector(0.0, 0.0, -1.0))
+        obj = core.fuse(threads)
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint(0.0, 0.0)
+        fm.AddPoint(0.55 * dia, 0.0)
+        fm.AddPoint(0.55 * dia, blen)
+        fm.AddPoint(0.0, blen + conic_height)
+        drill = self.RevolveZ(fm.GetFace())
+        obj = obj.common(drill)
+        return Part.Solid(obj)
+
     def RevolveZ(self, profile, angle=360):
         return profile.revolve(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), angle)
 

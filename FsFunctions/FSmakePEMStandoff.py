@@ -31,6 +31,7 @@ tan30 = math.tan(math.radians(30))
 
 # PEM Self Clinching standoffs types: SO/SOS/SOA/SO4
 
+
 def soMakeFace(b, c, h, d, l1, bl, isBlind):
     h10 = h / 10.0
     h102 = h10 + h10 / 2
@@ -49,7 +50,13 @@ def soMakeFace(b, c, h, d, l1, bl, isBlind):
 
     fm = FastenerBase.FSFaceMaker()
     if isBlind:
-        fm.AddPoints((0, 0), (0, -h102), (d, -(h102 + ch2)), (d, -(l1 - ch1)), (b, -l1))
+        fm.AddPoints(
+            (0, 0),
+            (0, -h102),
+            (d, -(h102 + ch2)),
+            (d, -(l1 - ch1)),
+            (b, -l1)
+        )
     else:
         fm.AddPoints((b, 0), (d, -ch1), (d, -(l2 - ch1)), (b, -l2))
         if (l1 - l2) > 0.01:
@@ -57,9 +64,19 @@ def soMakeFace(b, c, h, d, l1, bl, isBlind):
     fm.AddPoint(c, -l1)
     if l3 < l1:
         fm.AddPoints((c, -l3), (c1, -l3), (c1, -(l3 - c20)), (c, -(l3 - c20)))
-    fm.AddPoints((c, -(h10 * 2 + c12 + c20)), (c1, -(h10 * 2 + c12 + c20)), (c1, -(h10 * 2 + c12)), (c, -(h10 * 2 + c12))
-            ,(c, -h10 * 2), (c2, -h10 * 2), (c2, -h10), (h * 0.6, -h10), (h * 0.6, 0))
+    fm.AddPoints(
+        (c, -(h10 * 2 + c12 + c20)),
+        (c1, -(h10 * 2 + c12 + c20)),
+        (c1, -(h10 * 2 + c12)),
+        (c, -(h10 * 2 + c12)),
+        (c, -h10 * 2),
+        (c2, -h10 * 2),
+        (c2, -h10),
+        (h * 0.6, -h10),
+        (h * 0.6, 0),
+    )
     return fm.GetFace()
+
 
 def makePEMStandoff(self, fa):
     l = fa.calc_len
@@ -78,14 +95,12 @@ def makePEMStandoff(self, fa):
     if fa.thread:
         dia = self.getDia(fa.calc_diam, True)
         P = FsData["MetricPitchTable"][fa.diameter][0]
-        turns = int(l / P) + 2
-        threadCutter = self.makeInnerThread_2(dia, P, turns, None, l)
-        if (fa.blind):
-            threadCutter.translate(Base.Vector(0.0, 0.0, -d))
-        else:
-            threadCutter.translate(Base.Vector(0.0, 0.0, P))
-        # Part.show(threadCutter, 'threadCutter')
-        fSolid = fSolid.cut(threadCutter)
+        thread_cutter = self.CreateInnerThreadCutter(dia, P, l)
+        thread_cutter.rotate(
+            Base.Vector(0.0, 0.0, 0.0), Base.Vector(1.0, 0.0, 0.0), 180.0
+        )
+        if fa.blind:
+            thread_cutter.translate(Base.Vector(0.0, 0.0, -d))
+        fSolid = fSolid.cut(thread_cutter)
 
     return fSolid
-

@@ -26,102 +26,60 @@
 ***************************************************************************
 """
 from screw_maker import *
+import FastenerBase
 
-# DIN1587 or GOST11860-1 : cap (or 'acorn') nut
 
-def makeCupNut(self, fa): # dynamically loaded method of class Screw
+def makeCupNut(self, fa):
+    """Creates a blind-threaded cap nut
+
+    Supported types:
+        - DIN1587 cap nut
+        - GOST11860-1  cap (or 'acorn') nut
+    """
     SType = fa.type
     dia = self.getDia(fa.calc_diam, True)
     if SType == "DIN1587" or SType == "GOST11860-1":
         P, d_k, h, m, s, t, w = fa.dimTable
     else:
         raise RuntimeError("unknown screw type")
+    # create the profile of the nut in the x-z plane
     sq3 = math.sqrt(3)
     ec = (2 - sq3) * s / 6
-    pnts = list(
-        map(
-            lambda x: Base.Vector(x),
-            [
-                [0, 0, 1.1 * dia / 4],
-                [1.1 * dia / 2, 0, 0],
-                [s / 2, 0, 0],
-                [s * sq3 / 3, 0, ec],
-                [s * sq3 / 3, 0, m - ec],
-                [d_k / 2, 0, (m - ec) + (2 * s - sq3 * d_k) / 6 ],
-                [d_k / 2, 0, h - d_k / 2 ],
-                [d_k / 2 * math.sqrt(2) / 2, 0, h - d_k / 2 + d_k / 2 * math.sqrt(2) / 2],
-                [0, 0, h]
-            ]
-        )
+    fm = FastenerBase.FSFaceMaker()
+    fm.AddPoint(0, 1.1 * dia / 4)
+    fm.AddPoint(1.1 * dia / 2, 0)
+    fm.AddPoint(s / 2, 0)
+    fm.AddPoint(s * sq3 / 3, ec)
+    fm.AddPoint(s * sq3 / 3, m - ec)
+    fm.AddPoint(d_k / 2, (m - ec) + (2 * s - sq3 * d_k) / 6)
+    fm.AddPoint(d_k / 2, h - d_k / 2)
+    fm.AddArc(
+        d_k / 2 * math.sqrt(2) / 2, h - d_k / 2 + d_k /
+        2 * math.sqrt(2) / 2, 0, h
     )
-    profile = Part.Wire(
-        [
-            Part.makeLine(pnts[0], pnts[1]),
-            Part.makeLine(pnts[1], pnts[2]),
-            Part.makeLine(pnts[2], pnts[3]),
-            Part.makeLine(pnts[3], pnts[4]),
-            Part.makeLine(pnts[4], pnts[5]),
-            Part.makeLine(pnts[5], pnts[6]),
-            Part.Arc(pnts[6], pnts[7], pnts[8]).toShape(),
-            Part.makeLine(pnts[8], pnts[0])
-        ]
-    )
-    shell = self.RevolveZ(profile)
-    solid = Part.Solid(shell)
+    solid = self.RevolveZ(fm.GetFace())
     # create an additional solid to cut the hex flats with
-    mhex = Base.Matrix()
-    mhex.rotateZ(math.radians(60.0))
-    polygon = []
-    vhex = Base.Vector(s / math.sqrt(3), 0, 0)
-    for i in range(6):
-        polygon.append(vhex)
-        vhex = mhex.multiply(vhex)
-    polygon.append(vhex)
-    hexagon = Part.makePolygon(polygon)
-    hexFace = Part.Face(hexagon)
-    solidHex = hexFace.extrude(Base.Vector(0.0, 0.0, h * 1.1))
-    solid = solid.common(solidHex)
+    solidHex = self.makeHextool(s, h * 1.1, s * 3)
+    solid = solid.cut(solidHex)
     # cut the threads
     if fa.thread:
-        turns = math.ceil((h-w) / P)
-        tap_tool = self.makeInnerThread_2(dia, P, int(turns), None, None)
-        tap_tool.translate(Base.Vector(0, 0, h-w))
-        tc_points = list(
-            map(
-                lambda x: Base.Vector(x),
-                [
-                    (0, 0, h-w),
-                    (1.1 * dia / 2, 0, t),
-                    (1.1 * dia / 2, 0, h),
-                    (0, 0, h)
-                ]
-            )
-        )
-        thread_chamfer_profile = Part.Wire(
-            [
-                Part.makeLine(tc_points[0], tc_points[1]),
-                Part.makeLine(tc_points[1], tc_points[2]),
-                Part.makeLine(tc_points[2], tc_points[3]),
-                Part.makeLine(tc_points[3], tc_points[0]),
-            ]
-        )
-        cham_shell = self.RevolveZ(thread_chamfer_profile)
-        thread_chamfer = Part.Solid(cham_shell)
+        tap_tool = self.CreateBlindInnerThreadCutter(dia, P, h - w)
+        fm.Reset()
+        fm.AddPoint(0, h - w),
+        fm.AddPoint(1.1 * dia / 2, t),
+        fm.AddPoint(1.1 * dia / 2, h),
+        fm.AddPoint(0, h)
+        thread_chamfer = self.RevolveZ(fm.GetFace())
         tap_tool = tap_tool.cut(thread_chamfer)
         solid = solid.cut(tap_tool)
+    # if real threads are not needed, cut a drilled hole at
+    # the minor diameter of the threads
     else:
-        hole_pts = [ Base.Vector(x, 0, y) for x, y in [
-            [0, 0],
-            [0, h-w],
-            [dia/2.0, t],
-            [dia/2.0, 0]
-        ] ]
-        hole_profile = Part.Wire( [
-            Part.makeLine(hole_pts[0], hole_pts[1]),
-            Part.makeLine(hole_pts[1], hole_pts[2]),
-            Part.makeLine(hole_pts[2], hole_pts[3]),
-            Part.makeLine(hole_pts[3], hole_pts[0])
-        ] )
-        hole = Part.Solid(self.RevolveZ(hole_profile))
+        fm.Reset()
+        fm.AddPoint(0, 0),
+        fm.AddPoint(0, h - w)
+        fm.AddPoint(dia / 2 - 0.625 * P * sq3 / 2, t)
+        fm.AddPoint(dia / 2 - 0.625 * P * sq3 / 2, 0)
+        hole = self.RevolveZ(fm.GetFace())
         solid = solid.cut(hole)
     return solid

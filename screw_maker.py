@@ -262,26 +262,29 @@ class Screw:
         H = P * cos30  # Thread depth H
         r = dia / 2.0
 
-        height = (blen // P) + 2
-
         # make just one turn, length is identical to pitch
         helix = Part.makeLongHelix(
-            P, height, dia * self.Tuner / 1000.0, 0, self.leftHanded)
-        helix.translate(FreeCAD.Vector(0.0, 0.0, -P * 9.0 / 16.0))
+            P, blen, r, 0, self.leftHanded
+        )
 
         # points for inner thread profile
         fm = FastenerBase.FSFaceMaker()
-        fm.AddPoint(r - H * 5.0 / 8.0, P * 7.0 / 16.0)
+        fm.AddPoint(
+            r - 0.875 * H + 0.025 * P * sqrt3,
+            P / 2 * 0.95 + P * 1 / 16
+        )
         fm.AddPoint(r, P * 2.0 / 16.0)
         fm.AddArc(r + H * 1 / 24.0, P * 2.0 / 32.0, r, 0)
-        fm.AddPoint(r - H * 5.0 / 8.0, -P * 5.0 / 16.0)
+        fm.AddPoint(
+            r - 0.875 * H + 0.025 * P * sqrt3,
+            -P / 2 * 0.95 + P * 1 / 16
+        )
         W0 = fm.GetClosedWire()
-        W0.translate(Base.Vector(0, 0, -P))
+        W0.translate(Base.Vector(0, 0, -P * 9.0 / 16.0))
 
         makeSolid = True
         isFrenet = True
         cutTool = Part.Wire(helix).makePipeShell([W0], makeSolid, isFrenet)
-        #Part.show(cutTool, 'cutTool')
         return cutTool
 
     def CreateThreadCutter(self, dia, P, blen):

@@ -27,11 +27,10 @@
 """
 from screw_maker import *
 
-# negative-threaded rod for tapping holes
 
-def makeScrewTap(self, fa): # dynamically loaded method of class Screw
+def makeScrewTap(self, fa):
+    """negative-threaded rod for tapping holes"""
     ThreadType = fa.calc_diam
-    # FreeCAD.Console.PrintMessage("tt:" + ThreadType + "cdia: " + str(fa.calc_diam) + "\n")
     if fa.diameter != 'Custom':
         dia = self.getDia(ThreadType, True)
         if fa.type == "ScrewTap":
@@ -41,31 +40,29 @@ def makeScrewTap(self, fa): # dynamically loaded method of class Screw
     else:  # custom pitch and diameter
         P = fa.calc_pitch
         if self.sm3DPrintMode:
-            dia = self.smNutThrScaleA * float(fa.calc_diam) + self.smNutThrScaleB
+            dia = self.smNutThrScaleA * \
+                float(fa.calc_diam) + self.smNutThrScaleB
         else:
             dia = float(fa.calc_diam)
-    residue, turns = math.modf(fa.calc_len / P)
-    # FreeCAD.Console.PrintMessage("turns:" + str(turns) + "res: " + str(residue) + "\n")
-    if residue > 0.00001:
-        turns += 1.0
+    tap = Part.makeCylinder(
+        dia / 2 - 0.625 * math.sqrt(3) / 2 * P,
+        fa.calc_len + 2
+    )
+    tap.translate(Base.Vector(0.0, 0.0, -1.0))
     if fa.thread:
-        screwTap = self.makeInnerThread_2(dia, P, int(turns), None, 0.0)
-        # screwTap.translate(Base.Vector(0.0, 0.0, (1-residue)*P))
-    else:
-        H = P * math.cos(math.radians(30))  # Thread depth H
-        r = dia / 2.0
-
-        # points for inner thread profile
-        adjusted_l = turns * P
-        Pnt0 = Base.Vector(0.0, 0.0, 0)
-        Pnt1 = Base.Vector(r - H * 5.0 / 8.0, 0.0, 0)
-        Pnt2 = Base.Vector(r - H * 5.0 / 8.0, 0.0, -adjusted_l)
-        Pnt3 = Base.Vector(0.0, 0.0, -adjusted_l)
-
-        edge1 = Part.makeLine(Pnt0, Pnt1)
-        edge2 = Part.makeLine(Pnt1, Pnt2)
-        edge3 = Part.makeLine(Pnt2, Pnt3)
-        aWire = Part.Wire([edge1, edge2, edge3])
-        headShell = self.RevolveZ(aWire)
-        screwTap = Part.Solid(headShell)
-    return screwTap
+        threads = self.CreateInnerThreadCutter(dia, P, fa.calc_len + P)
+        tap = tap.fuse(threads)
+    tap.rotate(
+        Base.Vector(0.0, 0.0, 0.0),
+        Base.Vector(1.0, 0.0, 0.0),
+        180
+    )
+    cyl = Part.makeCylinder(
+        dia,
+        fa.calc_len,
+        Base.Vector(0.0, 0.0, 0.0),
+        Base.Vector(0.0, 0.0, -1.0),
+        360
+    )
+    solid = Part.Solid(cyl.common(tap))
+    return solid

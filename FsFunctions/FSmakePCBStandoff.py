@@ -82,12 +82,10 @@ def makePCBStandoff(self, fa):
         + str(screwlen)
         + "\n"
     )
-
-    # FreeCAD.Console.PrintLog(str(fa.dimTable) + "\n")
-    tlo, id = fa.dimTable
-
     diain = self.getDia(fa.calc_diam, True)
     diaout = self.getDia(fa.calc_diam, False)
+    P = FsData["MetricPitchTable"][fa.diameter][0]
+    id = self.GetInnerThreadMinDiameter(diain, P)
     f, thrPos = psMakeFace(diaout, width, screwlen, flen, id)
     p = self.RevolveZ(f)
     w = float(width)
@@ -95,7 +93,6 @@ def makePCBStandoff(self, fa):
     htool.translate(Base.Vector(0.0, 0.0, -screwlen - 0.1))
     shape = p.cut(htool)
     if fa.thread:
-        P = FsData["MetricPitchTable"][fa.diameter][0]
         # outer thread
         tool = self.CreateThreadCutter(diaout, P, screwlen)
         b = Part.makeBox(20, 20, 10, Base.Vector(-10.0, -10.0, -0.6))

@@ -81,7 +81,11 @@ def soMakeFace(b, c, h, d, l1, bl, isBlind):
 def makePEMStandoff(self, fa):
     l = fa.calc_len
     plen = fa.length
-    b, c, h, d, lmin, lmax = fa.dimTable
+    _ , c, h, _, lmin, lmax = fa.dimTable
+    dia = self.getDia(fa.calc_diam, True)
+    b = dia * 1.05
+    P = FsData["MetricPitchTable"][fa.diameter][0]
+    d = self.GetInnerThreadMinDiameter(dia, P)
     if fa.blind and l < 6:
         l = 6
         plen = "6"
@@ -93,9 +97,7 @@ def makePEMStandoff(self, fa):
     htool.translate(Base.Vector(0.0, 0.0, -2.0))
     fSolid = p.cut(htool)
     if fa.thread:
-        dia = self.getDia(fa.calc_diam, True)
-        P = FsData["MetricPitchTable"][fa.diameter][0]
-        thread_cutter = self.CreateInnerThreadCutter(dia, P, l)
+        thread_cutter = self.CreateInnerThreadCutter(dia, P, l * 1.25)
         thread_cutter.rotate(
             Base.Vector(0.0, 0.0, 0.0), Base.Vector(1.0, 0.0, 0.0), 180.0
         )

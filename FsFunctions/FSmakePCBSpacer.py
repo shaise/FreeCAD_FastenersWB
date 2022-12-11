@@ -67,9 +67,10 @@ def makePCBSpacer(self, fa):
         "Making PCB spacer" + diam + "x" + str(flen) + "x" + str(width) + "\n"
     )
 
-    th, id = fa.dimTable
-
-    m = FastenerBase.MToFloat(diam) * 1.05
+    th, _ = fa.dimTable
+    dia = self.getDia(fa.calc_diam, True)
+    P = FsData["MetricPitchTable"][fa.diameter][0]
+    id = self.GetInnerThreadMinDiameter(dia, P)
     w = float(width)
     l = float(flen)
     if l > th:
@@ -80,16 +81,14 @@ def makePCBSpacer(self, fa):
     else:
         thl = 0
 
-    f = pspMakeFace(m, w, l, id, thl)
+    f = pspMakeFace(dia * 1.05, w, l, id, thl)
     p = self.RevolveZ(f)
     htool = self.makeHextool(w, l, w * 2)
     htool.translate(Base.Vector(0.0, 0.0, - 0.1))
     fSolid = p.cut(htool)
     if fa.thread:
-        dia = self.getDia(fa.calc_diam, True)
-        P = FsData["MetricPitchTable"][fa.diameter][0]
         if thl > 0:  # blind & threaded from both sides
-            threadCutter = self.CreateInnerThreadCutter(dia, P, thl - m / 2)
+            threadCutter = self.CreateInnerThreadCutter(dia, P, thl - dia / 2)
             fSolid = fSolid.cut(threadCutter)
             threadCutter.rotate(
                 Base.Vector(0.0, 0.0, l / 2),

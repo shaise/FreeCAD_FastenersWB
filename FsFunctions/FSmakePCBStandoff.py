@@ -27,9 +27,10 @@
 from screw_maker import *
 import FastenerBase
 
-# PCB standoffs / Wurth standard WA-SSTII 
+# PCB standoffs / Wurth standard WA-SSTII
 
 cos30 = math.cos(math.radians(30))
+
 
 def psMakeFace(m, sw, lo, l, id):
     id2 = id / 2.0
@@ -47,8 +48,21 @@ def psMakeFace(m, sw, lo, l, id):
     p1 = p + id2
 
     fm = FastenerBase.FSFaceMaker()
-    fm.AddPoints((0, p), (id2, p1), (id2, l - dd), (id2 + dd, l), (sw2, l), (d2, l1), (d2, 0), (id2, 0),
-        (id2, lo1), (m2, lo2), (m2, lo3), (id2, -lo), (0, -lo))
+    fm.AddPoints(
+        (0, p),
+        (id2, p1),
+        (id2, l - dd),
+        (id2 + dd, l),
+        (sw2, l),
+        (d2, l1),
+        (d2, 0),
+        (id2, 0),
+        (id2, lo1),
+        (m2, lo2),
+        (m2, lo3),
+        (id2, -lo),
+        (0, -lo),
+    )
     return (fm.GetFace(), p1)
 
 
@@ -57,7 +71,17 @@ def makePCBStandoff(self, fa):
     width = fa.width
     screwlen = FastenerBase.LenStr2Num(fa.screwLength)
     flen = float(fa.calc_len)
-    FreeCAD.Console.PrintLog("Making PCB standof" + str(diam) + "x" + str(flen) + "x" + str(width) + "x" + str(screwlen) + "\n")
+    FreeCAD.Console.PrintLog(
+        "Making PCB standof"
+        + str(diam)
+        + "x"
+        + str(flen)
+        + "x"
+        + str(width)
+        + "x"
+        + str(screwlen)
+        + "\n"
+    )
 
     # FreeCAD.Console.PrintLog(str(fa.dimTable) + "\n")
     tlo, id = fa.dimTable
@@ -77,11 +101,12 @@ def makePCBStandoff(self, fa):
         b = Part.makeBox(20, 20, 10, Base.Vector(-10.0, -10.0, -0.6))
         tool = tool.cut(b)
         shape = shape.cut(tool)
-        # inner thread
-        turns = int(flen / P) + 2
-        H = turns * P
-        tool1 = self.makeInnerThread_2(diain, P, turns, None, flen)
-        tool1.translate(Base.Vector(0.0, 0.0, H + thrPos))
+        tool1 = self.CreateInnerThreadCutter(diain, P, flen - thrPos)
+        tool1.rotate(
+            Base.Vector(0.0, 0.0, 0.0),
+            Base.Vector(1.0, 0.0, 0.0),
+            180
+        )
+        tool1.translate(Base.Vector(0.0, 0.0, flen))
         shape = shape.cut(tool1)
     return shape
-

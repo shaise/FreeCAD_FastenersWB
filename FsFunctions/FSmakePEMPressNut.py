@@ -75,9 +75,7 @@ def makePEMPressNut(self, fa):
         dia = self.getDia(diam, True)
         P = FsData["MetricPitchTable"][diam][0]
         H = a + t
-        turns = int(H / P) + 2
-        threadCutter = self.makeInnerThread_2(dia, P, turns, None, H)
-        threadCutter.translate(Base.Vector(0.0, 0.0, t + P))
-        # Part.show(threadCutter, 'threadCutter')
-        fSolid = fSolid.cut(threadCutter)
+        thread_cutter = self.CreateInnerThreadCutter(dia, P, H * 2)
+        thread_cutter.translate(Base.Vector(0.0, 0.0, -H * 0.75))
+        fSolid = fSolid.cut(thread_cutter)
     return fSolid

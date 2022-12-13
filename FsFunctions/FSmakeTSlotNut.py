@@ -26,66 +26,60 @@
 ***************************************************************************
 """
 from screw_maker import *
+import FastenerBase
 
 # make T-Slot nut
 # DIN508
 # GN507
 
-def makeTSlotNut(self, fa): # dynamically loaded method of class Screw
+
+def makeTSlotNut(self, fa):  # dynamically loaded method of class Screw
     SType = fa.type
     dia = self.getDia(fa.calc_diam, True)
 
-    if SType[:3] == 'DIN':
+    if SType[:3] == "DIN":
         # a, e_max, f, h, k_max, P
         a, e, f, h, k, P = fa.dimTable
         e1 = e  # e1 is depth, y plane
         e2 = e  # e2 is width, x plane
-    elif SType[:2] == 'GN':
+    elif SType[:2] == "GN":
         a, e1, e2, h, k, P = fa.dimTable
-        f = 0.125 * e2    # constant calculated with official GN step file
-    
+        f = 0.125 * e2  # constant calculated with official GN step file
+
     # T-Slot nut Points, transversal cut
-    # Drawing in plane y = -e1 / 2 to extrude up to y = e1 / 2
-    Pnt0 = Base.Vector(e2 / 2 - f,      - e1 / 2,   - h)
-    Pnt1 = Base.Vector(e2 / 2,          - e1 / 2,   - h + f)
-    Pnt2 = Base.Vector(e2 / 2,          - e1 / 2,   -h + k)
-    Pnt3 = Base.Vector(a / 2,           - e1 / 2,   - h + k)
-    Pnt4 = Base.Vector(a / 2,           - e1 / 2,   0.0)
-    Pnt5 = Base.Vector(- a / 2,         - e1 / 2,   0.0)
-    Pnt6 = Base.Vector(- a / 2,         - e1 / 2,   - h + k)
-    Pnt7 = Base.Vector(- e2 / 2,        - e1 / 2,   - h + k)
-    Pnt8 = Base.Vector(- e2 / 2,        - e1 / 2,   - h + f)
-    Pnt9 = Base.Vector(- e2 / 2 + f,    - e1 / 2,   - h)
+    fm = FastenerBase.FSFaceMaker()
+    fm.AddPoint(e2 / 2 - f, -h)
+    fm.AddPoint(e2 / 2, -h + f)
+    fm.AddPoint(e2 / 2, -h + k)
+    fm.AddPoint(a / 2, -h + k)
+    fm.AddPoint(a / 2, 0.0)
+    fm.AddPoint(-a / 2, 0.0)
+    fm.AddPoint(-a / 2, -h + k)
+    fm.AddPoint(-e2 / 2, -h + k)
+    fm.AddPoint(-e2 / 2, -h + f)
+    fm.AddPoint(-e2 / 2 + f, -h)
+    face = fm.GetFace()
+    # translate to plane y = -e1 / 2 to extrude up to y = e1 / 2
+    face.translate(Base.Vector(0.0, -e1 / 2, 0.0))
+    nut = face.extrude(Base.Vector(0.0, e1, 0.0))
 
-    edge0 = Part.makeLine(Pnt0, Pnt1)
-    edge1 = Part.makeLine(Pnt1, Pnt2)
-    edge2 = Part.makeLine(Pnt2, Pnt3)
-    edge3 = Part.makeLine(Pnt3, Pnt4)
-    edge4 = Part.makeLine(Pnt4, Pnt5)
-    edge5 = Part.makeLine(Pnt5, Pnt6)
-    edge6 = Part.makeLine(Pnt6, Pnt7)
-    edge7 = Part.makeLine(Pnt7, Pnt8)
-    edge8 = Part.makeLine(Pnt8, Pnt9)
-    edge9 = Part.makeLine(Pnt9, Pnt0)
-    
-    aWire = Part.Wire([edge0, edge1, edge2, edge3, edge4, edge5, edge6, edge7, edge8, edge9])
-    # Part.show(aWire) # See profile
-    aFace = Part.Face(aWire)
-    nut = aFace.extrude(Base.Vector(0.0, e1, 0.0))
-
-    residue, turns = math.modf(h / P)
-    if residue > 0.0:
-        turns += 1.0
-    
+    sqrt3 = math.sqrt(3)
+    da = 1.05 * dia
+    inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
+    inner_cham_ht = math.tan(math.radians(15)) * (da / 2 - inner_rad)
+    fm.Reset()
+    fm.AddPoint(0.0, 0.0)
+    fm.AddPoint(da / 2, 0.0)
+    fm.AddPoint(inner_rad, -inner_cham_ht)
+    fm.AddPoint(inner_rad, -h + inner_cham_ht)
+    fm.AddPoint(da / 2, -h)
+    fm.AddPoint(0.0, -h)
+    hole = self.RevolveZ(fm.GetFace())
+    nut = nut.cut(hole)
     if fa.thread:
-        turns += 2
-        threadCutter = self.makeInnerThread_2(dia, P, int(turns), None, h)
-        threadCutter.translate(Base.Vector(0.0, 0.0, P))
-        #Part.show(threadCutter, 'threadCutter')
-        nut = nut.cut(threadCutter)
-    else:
-        myCyl = Part.makeCylinder(dia/2, h)
-        myCyl.translate(Base.Vector(0, 0, -h))
-        nut = nut.cut(myCyl)
-    
+        thread_cutter = self.CreateInnerThreadCutter(dia, P, h + P)
+        thread_cutter.rotate(
+            Base.Vector(0.0, 0.0, 0.0), Base.Vector(1.0, 0.0, 0.0), 180
+        )
+        nut = nut.cut(thread_cutter)
     return nut

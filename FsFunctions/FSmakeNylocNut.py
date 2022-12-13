@@ -31,6 +31,7 @@ import FastenerBase
 
 tan30 = math.tan(math.radians(30.0))
 
+
 def nylocMakeFace(do, p, da, dw, e, m, h, s):
     di = (do - p) / 2
     do = do / 2
@@ -46,7 +47,8 @@ def nylocMakeFace(do, p, da, dw, e, m, h, s):
     r = (s - di) / 3
 
     fm = FastenerBase.FSFaceMaker()
-    fm.AddPoints((di, ch1), (da, 0), (dw, 0), (e, ch2), (e, ch3), (s1, m), (s1, h - r))
+    fm.AddPoints((di, ch1), (da, 0), (dw, 0), (e, ch2),
+                 (e, ch3), (s1, m), (s1, h - r))
     fm.AddArc2(-r, 0, 90)
     fm.AddPoints((di + r, h), (di + r, h1), (di, h1))
     return fm.GetFace()
@@ -60,10 +62,7 @@ def makeNylocNut(self, fa):
     htool = htool = self.makeHextool(s, m, s * 2)
     nutSolid = nutSolid.cut(htool)
     if fa.thread:
-        turns = int(h / P) + 1
-        threadCutter = self.makeInnerThread_2(dia, P, int(turns + 1), None, h)
-        threadCutter.translate(Base.Vector(0.0, 0.0, m))
-        # Part.show(threadCutter, 'threadCutter')
+        threadCutter = self.CreateInnerThreadCutter(dia, P, h + P)
         nutSolid = nutSolid.cut(threadCutter)
 
     return nutSolid

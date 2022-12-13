@@ -64,20 +64,19 @@ def makePEMPressNut(self, fa):
 
     i = FastenerBase.FsTitles[fa.type + "tcodes"].index(code)
 
-    c, e, t, di = fa.dimTable
+    c, e, t, _ = fa.dimTable
     a = FsData[fa.type + "tcodes"][diam][i]
     if a == 0:
         return None
-    do = FastenerBase.MToFloat(diam)
-    fFace = clMakeFace(do, di, a, c, e, t)
+    do = self.getDia(diam, True)
+    P = FsData["MetricPitchTable"][diam][0]
+    di = self.GetInnerThreadMinDiameter(do, P)
+    fFace = clMakeFace(do * 1.05, di, a, c, e, t)
     fSolid = self.RevolveZ(fFace)
     if fa.thread:
         dia = self.getDia(diam, True)
-        P = FsData["MetricPitchTable"][diam][0]
         H = a + t
-        turns = int(H / P) + 2
-        threadCutter = self.makeInnerThread_2(dia, P, turns, None, H)
-        threadCutter.translate(Base.Vector(0.0, 0.0, t + P))
-        # Part.show(threadCutter, 'threadCutter')
-        fSolid = fSolid.cut(threadCutter)
+        thread_cutter = self.CreateInnerThreadCutter(dia, P, H * 2)
+        thread_cutter.translate(Base.Vector(0.0, 0.0, -H * 0.75))
+        fSolid = fSolid.cut(thread_cutter)
     return fSolid

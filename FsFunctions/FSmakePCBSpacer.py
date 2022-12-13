@@ -27,9 +27,10 @@
 from screw_maker import *
 import FastenerBase
 
-# PCB spacers / Wurth standard WA-SSTII 
+# PCB spacers / Wurth standard WA-SSTII
 
 cos30 = math.cos(math.radians(30))
+
 
 def pspMakeFace(m, sw, l, id, thl):
     id2 = id / 2.0
@@ -41,7 +42,16 @@ def pspMakeFace(m, sw, l, id, thl):
     thl1 = thl - id2
 
     fm = FastenerBase.FSFaceMaker()
-    fm.AddPoints((id2, l - dd), (id2 + dd, l), (sw2, l), (d2, l1), (d2, dd), (sw2, 0), (id2 + dd, 0), (id2, dd))
+    fm.AddPoints(
+        (id2, l - dd),
+        (id2 + dd, l),
+        (sw2, l),
+        (d2, l1),
+        (d2, dd),
+        (sw2, 0),
+        (id2 + dd, 0),
+        (id2, dd),
+    )
     if thl > 0:
         # separate holes
         fm.AddPoints((id2, thl1), (0, thl), (0, l - thl), (id2, l - thl1))
@@ -53,14 +63,17 @@ def makePCBSpacer(self, fa):
     width = fa.width
     flen = fa.calc_len
 
-    FreeCAD.Console.PrintLog("Making PCB spacer" + diam + "x" + str(flen) + "x" + str(width) + "\n")
+    FreeCAD.Console.PrintLog(
+        "Making PCB spacer" + diam + "x" + str(flen) + "x" + str(width) + "\n"
+    )
 
-    th, id = fa.dimTable
-
-    m = FastenerBase.MToFloat(diam)
+    th, _ = fa.dimTable
+    dia = self.getDia(fa.calc_diam, True)
+    P = FsData["MetricPitchTable"][fa.diameter][0]
+    id = self.GetInnerThreadMinDiameter(dia, P)
     w = float(width)
     l = float(flen)
-    if (l > th):
+    if l > th:
         # separate thread holes on both sides
         thl = 10
         if thl + 0.5 > l / 2.0:
@@ -68,25 +81,21 @@ def makePCBSpacer(self, fa):
     else:
         thl = 0
 
-    f = pspMakeFace(m, w, l, id, thl)
+    f = pspMakeFace(dia * 1.05, w, l, id, thl)
     p = self.RevolveZ(f)
     htool = self.makeHextool(w, l, w * 2)
     htool.translate(Base.Vector(0.0, 0.0, - 0.1))
     fSolid = p.cut(htool)
     if fa.thread:
-        dia = self.getDia(fa.calc_diam, True)
-        P = FsData["MetricPitchTable"][fa.diameter][0]
-        turns = int(th / P) + 2
-        thlen = turns * P
-        threadCutter = self.makeInnerThread_2(dia, P, turns, None, th)
-        if (thl > 0):
-            threadCutter.translate(Base.Vector(0.0, 0.0, thl - id / 2))
+        if thl > 0:  # blind & threaded from both sides
+            threadCutter = self.CreateInnerThreadCutter(dia, P, thl - dia / 2)
             fSolid = fSolid.cut(threadCutter)
-            threadCutter.translate(Base.Vector(0.0, 0.0, thlen + l - 2 * thl + id))
-            fSolid = fSolid.cut(threadCutter)
-        else:
-            threadCutter.translate(Base.Vector(0.0, 0.0, l + P))
-            # Part.show(threadCutter, 'threadCutter')
-            fSolid = fSolid.cut(threadCutter)
-
+            threadCutter.rotate(
+                Base.Vector(0.0, 0.0, l / 2),
+                Base.Vector(1.0, 0.0, 0.0),
+                180
+            )
+        else:  # has through hole, fully threaded
+            threadCutter = self.CreateInnerThreadCutter(dia, P, l + P)
+        fSolid = fSolid.cut(threadCutter)
     return fSolid

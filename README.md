@@ -123,6 +123,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes 
+* V0.4.26  13 Dec 2022:  Simplify creation of internal threads by @alexneufeld.
 * V0.4.25  03 Dec 2022:  Fix Thread issues with extreme 3d print offsets
 * V0.4.24  21 Nov 2022:  Fix PEM standoff calculator
                        - SVG Icons optimization by @EA32.  

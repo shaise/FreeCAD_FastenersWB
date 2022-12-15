@@ -81,10 +81,18 @@ def soMakeFace(b, c, h, d, l1, bl, isBlind):
 def makePEMStandoff(self, fa):
     l = fa.calc_len
     plen = fa.length
-    _ , c, h, _, lmin, lmax = fa.dimTable
-    dia = self.getDia(fa.calc_diam, True)
+    _, c, h, _, lmin, lmax = fa.dimTable
+    # there is an additional M3 size available for this fastener type,
+    # designated by "3.5M3".
+    # We must account for the fact that this size is not available in
+    # thread data tables
+    if fa.diameter.startswith("3.5"):
+        dia_key = "M3"
+    else:
+        dia_key = fa.diameter
+    dia = self.getDia(dia_key, True)
     b = dia * 1.05
-    P = FsData["MetricPitchTable"][fa.diameter][0]
+    P = FsData["MetricPitchTable"][dia_key][0]
     d = self.GetInnerThreadMinDiameter(dia, P)
     if fa.blind and l < 6:
         l = 6

@@ -434,6 +434,8 @@ class FSScrewObject(FSBaseObject):
             fp.diameter = curdiam
 
         # handle diameter changes
+        if self.pitchCustom is not None and hasattr(fp, "pitchCustom") and str(fp.pitchCustom) != self.pitchCustom:
+            fp.diameter = 'Custom'
         diameterchange = self.diameter != fp.diameter
         matchouterchange = self.matchOuter != fp.matchOuter
         widthchange = hasattr(fp, "width") and self.width != fp.width

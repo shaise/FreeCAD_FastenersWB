@@ -55,8 +55,8 @@ def makeThinCupNut(self, fa):
     fm.AddPoint(0.0, h-w)
     fm.AddPoint(0.0, d * math.tan(math.radians(15)))
     head = self.RevolveZ(fm.GetFace())
-    extrude = self.makeHextool(s, h, s * 2.0)
-    nut = head.cut(extrude)
+    extrude = self.makeHexPrism(s, h)
+    nut = head.common(extrude)
 
     if fa.thread:
         threadCutter = self.CreateBlindInnerThreadCutter(dia, P, t - 1.5 * P)

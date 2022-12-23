@@ -66,8 +66,8 @@ def makeDIN571(screw_obj, fa):
 
     # create cutting tool for hexagon head
     # Parameters s, k, outer circle diameter =  e/2.0+10.0
-    extrude = screw_obj.makeHextool(s, k, s * 2.0)
-
+    extrude = screw_obj.makeHexPrism(s, k + l * 2)
+    extrude.translate(Base.Vector(0.0, 0.0, -1.5 * l))
     #if fa.thread:
     #  pass
     #else:
@@ -107,7 +107,7 @@ def makeDIN571(screw_obj, fa):
     aFace = Part.Face(aWire)
     # Part.show(aFace)
     head = screw_obj.RevolveZ(aFace)
-    head = head.cut(extrude)
+    head = head.common(extrude)
     if fa.thread:
         thread = screw_obj.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d3h, d, P)
         #Part.show(thread)

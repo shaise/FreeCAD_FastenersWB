@@ -83,9 +83,9 @@ def makePCBSpacer(self, fa):
 
     f = pspMakeFace(dia * 1.05, w, l, id, thl)
     p = self.RevolveZ(f)
-    htool = self.makeHextool(w, l, w * 2)
+    htool = self.makeHexPrism(w, l)
     htool.translate(Base.Vector(0.0, 0.0, - 0.1))
-    fSolid = p.cut(htool)
+    fSolid = p.common(htool)
     if fa.thread:
         if thl > 0:  # blind & threaded from both sides
             threadCutter = self.CreateInnerThreadCutter(dia, P, thl - dia / 2)

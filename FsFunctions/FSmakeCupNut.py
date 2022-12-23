@@ -59,8 +59,8 @@ def makeCupNut(self, fa):
     )
     solid = self.RevolveZ(fm.GetFace())
     # create an additional solid to cut the hex flats with
-    solidHex = self.makeHextool(s, h * 1.1, s * 3)
-    solid = solid.cut(solidHex)
+    solidHex = self.makeHexPrism(s, h * 1.1)
+    solid = solid.common(solidHex)
     # cut the threads
     if fa.thread:
         tap_tool = self.CreateBlindInnerThreadCutter(dia, P, h - w)

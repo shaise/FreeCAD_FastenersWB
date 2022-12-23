@@ -46,7 +46,7 @@ def makeHexNutWFlange(self, fa):  # dynamically loaded method of class Screw
     fm.AddPoint(inner_rad, inner_cham_ht)
     nut_body = self.RevolveZ(fm.GetFace())
     # cut the hex flats with a boolean subtraction
-    nut_body = nut_body.cut(self.makeHextool(s, m, s * 5))
+    nut_body = nut_body.common(self.makeHexPrism(s, m))
     # add the flange with a boolean fuse
     fm.Reset()
     fm.AddPoint((da + s) / 4, 0.0)

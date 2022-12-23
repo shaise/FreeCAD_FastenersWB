@@ -27,182 +27,66 @@
 """
 from screw_maker import *
 
-# make Cheese head screw
-# ISO 1207 slotted screw
-# ISO 7048 cross recessed screw
-# ISO 14580 Hexalobular socket cheese head screws
 
-def makeCheeseHeadScrew(self, fa): # dynamically loaded method of class Screw
+
+def makeCheeseHeadScrew(self, fa):
+    """Create a cheese head screw
+
+    supported types:
+    - ISO 1207 slotted screw
+    - ISO 7048 cross recessed screw
+    - ISO 14580 Hexalobular socket cheese head screws
+    """
     SType = fa.type
-    l = fa.calc_len
+    length = fa.calc_len
     dia = self.getDia(fa.calc_diam, False)
-
-    # FreeCAD.Console.PrintMessage("the head with l: " + str(l) + "\n")
-    if SType == 'ISO1207' or SType == 'ISO14580':
+    if SType == "ISO1207":
         P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = fa.dimTable
-    if SType == 'ISO7048':
+        r_fil = r * 2.0
+        recess = self.makeSlotRecess(n_min, t_min)
+    elif SType == "ISO7048":
         P, a, b, dk, dk_mean, da, k, r, x, cT, mH, mZ = fa.dimTable
-    if SType == 'ISO14580':
+        r_fil = r * 2.0
+        recess = self.makeHCrossRecess(cT, mH)
+    elif SType == "ISO1580":
+        P, a, b, dk, da, k, n_min, r, rf, t_min, x = fa.dimTable
+        r_fil = rf
+        recess = self.makeSlotRecess(n_min, t_min)
+    elif SType == "ISO14580":
+        P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = fa.dimTable
         tt, k, A, t_min = FsData["ISO14580extra"][fa.calc_diam]
-
-    # FreeCAD.Console.PrintMessage("the head with iso: " + str(dk) + "\n")
-
-    # Length for calculation of head fillet
-    r_fil = r * 2.0
-    beta = math.radians(5.0)  # angle of cheese head edge
-    alpha = math.radians(90.0 - (90.0 + 5.0) / 2.0)
-    tan_beta = math.tan(beta)
-    # top head diameter without fillet
-    rK_top = dk / 2.0 - k * tan_beta
-    fillet_center_x = rK_top - r_fil + r_fil * tan_beta
-    fillet_center_z = k - r_fil
-    fillet_arc_x = fillet_center_x + r_fil * math.sin(alpha)
-    fillet_arc_z = fillet_center_z + r_fil * math.cos(alpha)
-    # FreeCAD.Console.PrintMessage("rK_top: " + str(rK_top) + "\n")
-
-    thread_start = l - b
-    sqrt2_ = 1.0 / math.sqrt(2.0)
-
-    # Head Points
-    Pnt2 = Base.Vector(fillet_center_x, 0.0, k)
-    Pnt3 = Base.Vector(fillet_arc_x, 0.0, fillet_arc_z)
-    Pnt4 = Base.Vector(fillet_center_x + r_fil * math.cos(beta), 0.0, fillet_center_z + r_fil * math.sin(beta))
-    Pnt5 = Base.Vector(dk / 2.0, 0.0, 0.0)
-    Pnt6 = Base.Vector(dia / 2.0 + r, 0.0, 0.0)  # start of fillet between head and shank
-    Pnt7 = Base.Vector(dia / 2.0 + r - r * sqrt2_, 0.0, -r + r * sqrt2_)  # arc-point of fillet
-    Pnt8 = Base.Vector(dia / 2.0, 0.0, -r)  # end of fillet
-    Pnt9 = Base.Vector(dia / 2.0, 0.0, -thread_start)  # Start of thread
-    # FreeCAD.Console.PrintMessage("Points defined fillet_center_x: " + str(fillet_center_x) + "\n")
-
-    if SType == 'ISO14580':
-        # Pnt0 = Base.Vector(0.0,0.0,k-A/4.0) #Center Point for countersunk
-        Pnt0 = Base.Vector(0.0, 0.0, k - A / 8.0)  # Center Point for flat countersunk
-        PntFlat = Base.Vector(A / 8.0, 0.0, k - A / 8.0)  # End of flat part
-        Pnt1 = Base.Vector(A / 1.99, 0.0, k)  # countersunk edge at head
-        edgeCham0 = Part.makeLine(Pnt0, PntFlat)
-        edgeCham1 = Part.makeLine(PntFlat, Pnt1)
-        edgeCham2 = Part.makeLine(Pnt1, Pnt2)
-        edge1 = Part.Wire([edgeCham1, edgeCham2])  # make head with countersunk
-        PntH1 = Base.Vector(A / 1.99, 0.0, 2.0 * k)
-
+        r_fil = r * 2.0
+        recess = self.makeHexalobularRecess(tt, t_min, True)
+    head_taper_angle = math.radians(5)
+    # lay out the fastener profile
+    fm = FSFaceMaker()
+    fm.AddPoint(0.0, k)
+    fm.AddPoint(
+        dk / 2
+        - k * math.tan(head_taper_angle)
+        - r_fil * math.tan((math.pi / 2 - head_taper_angle) / 2),
+        k,
+    )
+    fm.AddArc2(0.0, -r_fil, -90 + math.degrees(head_taper_angle))
+    fm.AddPoint(dk / 2, 0.0)
+    fm.AddPoint(dia / 2 + r, 0.0)
+    fm.AddArc2(0.0, -r, 90)
+    if length - r > b:  # partially threaded fastener
+        thread_length = b
+        if not fa.thread:
+            fm.AddPoint(dia / 2, -1 * (length - b))
     else:
-        Pnt0 = Base.Vector(0.0, 0.0, k)
-        edge1 = Part.makeLine(Pnt0, Pnt2)  # make flat head
-
-    edge2 = Part.Arc(Pnt2, Pnt3, Pnt4).toShape()
-    edge3 = Part.makeLine(Pnt4, Pnt5)
-    edge4 = Part.makeLine(Pnt5, Pnt6)
-    edge5 = Part.Arc(Pnt6, Pnt7, Pnt8).toShape()
-    # FreeCAD.Console.PrintMessage("Edges made fillet_center_z: " + str(fillet_center_z) + "\n")
-
-    if SType == 'ISO1207':
-        # Parameter for slot-recess: dk, n_min, k, t_min
-        recess = Part.makePlane(dk, n_min, \
-                                Base.Vector(dk / 2.0, -n_min / 2.0, k + 1.0), Base.Vector(0.0, 0.0, -1.0))
-        recess = recess.extrude(Base.Vector(0.0, 0.0, -t_min - 1.0))
-
-        if fa.thread:
-            Pnt11 = Base.Vector(0.0, 0.0, -r)  # helper point for real thread
-            edgeZ1 = Part.makeLine(Pnt8, Pnt11)
-            edgeZ0 = Part.makeLine(Pnt11, Pnt0)
-            aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5, \
-                                edgeZ1, edgeZ0])
-        else:
-            # bolt points
-            PntB1 = Base.Vector(dia / 2.0, 0.0, -l)
-            PntB2 = Base.Vector(0.0, 0.0, -l)
-
-            edgeB2 = Part.makeLine(PntB1, PntB2)
-
-            if thread_start <= r:
-                edgeB1 = Part.makeLine(Pnt8, PntB1)
-                aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5, \
-                                    edgeB1, edgeB2])
-            else:
-                edge6 = Part.makeLine(Pnt8, Pnt9)
-                edgeB1 = Part.makeLine(Pnt9, PntB1)
-                aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5, edge6, \
-                                    edgeB1, edgeB2])
-
-        aFace = Part.Face(aWire)
-        head = self.RevolveZ(aFace)
-        head = head.cut(recess)
-        # FreeCAD.Console.PrintMessage("the head cut: " + str(dia) + "\n")
-        # Part.show(head)
-        if fa.thread:
-            screwFaces = []
-            for i in range(0, len(head.Faces) - 1):
-                screwFaces.append(head.Faces[i])
-            rthread = self.makeShellthread(dia, P, l - r, False, -r, b)
-            for threadFace in rthread.Faces:
-                screwFaces.append(threadFace)
-
-            screwShell = Part.Shell(screwFaces)
-            head = Part.Solid(screwShell)
-
-
-
-    else:
-        if fa.thread:
-            aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5])
-        else:
-            # bolt points
-            PntB1 = Base.Vector(dia / 2.0, 0.0, -l)
-            PntB2 = Base.Vector(0.0, 0.0, -l)
-
-            edgeB2 = Part.makeLine(PntB1, PntB2)
-
-            if thread_start <= r:
-                edgeB1 = Part.makeLine(Pnt8, PntB1)
-                aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5, \
-                                    edgeB1, edgeB2])
-            else:
-                edge6 = Part.makeLine(Pnt8, Pnt9)
-                edgeB1 = Part.makeLine(Pnt9, PntB1)
-                aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5, edge6, \
-                                    edgeB1, edgeB2])
-
-        # aFace =Part.Face(aWire)
-        headShell = self.RevolveZ(aWire)
-        # FreeCAD.Console.PrintMessage("the head with revolve: " + str(dia) + "\n")
-
-        if SType == 'ISO7048':
-            # hCut should be just a cylinder
-            hCut = Part.makeCylinder(fillet_center_x, k, Pnt0)
-            recess, recessShell = self.makeCross_H3(cT, mH, k)
-            recessShell = recessShell.cut(hCut)
-            topFace = headShell.Faces[0].cut(recess)
-            screwFaces = [topFace.Faces[0]]
-            screwFaces.extend(recessShell.Faces)
-        if SType == 'ISO14580':
-            # Ring-cutter for recess shell
-            PntH2 = Base.Vector(A / 8.0, 0.0, 2.0 * k)
-            edgeH1 = Part.makeLine(Pnt1, PntH1)
-            edgeH2 = Part.makeLine(PntH1, PntH2)
-            edgeH3 = Part.makeLine(PntH2, PntFlat)
-            hWire = Part.Wire([edgeCham1, edgeH1, edgeH2, edgeH3])  # Cutter for recess-Shell
-            hFace = Part.Face(hWire)
-            hCut = self.RevolveZ(hFace)
-            # Part.show(hWire)
-
-            recess, recessShell = self.makeIso10664_3(tt, t_min, k)
-            recessShell = recessShell.cut(hCut)
-            topFace = headShell.Faces[0].cut(recess)
-            screwFaces = [topFace.Faces[0]]
-            screwFaces.extend(recessShell.Faces)
-
-        for i in range(1, len(headShell.Faces)):
-            screwFaces.append(headShell.Faces[i])
-
-        if fa.thread:
-            # head = self.cutIsoThread(head, dia, P, turns, l)
-            rthread = self.makeShellthread(dia, P, l - r, False, -r, b)
-            # head = head.fuse(rthread)
-            # Part.show(rthread)
-            for threadFace in rthread.Faces:
-                screwFaces.append(threadFace)
-
-        screwShell = Part.Shell(screwFaces)
-        head = Part.Solid(screwShell)
-
-    return head
+        thread_length = length - r
+    fm.AddPoint(dia / 2, -length)
+    fm.AddPoint(0.0, -length)
+    screw = self.RevolveZ(fm.GetFace())
+    # cut the driving feature, then add modelled threads if needed
+    recess.translate(Base.Vector(0.0, 0.0, k))
+    screw = screw.cut(recess)
+    if fa.thread:
+        thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
+        thread_cutter.translate(Base.Vector(
+            0.0, 0.0, -1 * (length - thread_length))
+        )
+        screw = screw.cut(thread_cutter)
+    return screw

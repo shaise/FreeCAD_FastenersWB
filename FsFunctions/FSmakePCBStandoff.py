@@ -94,7 +94,7 @@ def makePCBStandoff(self, fa):
     shape = p.common(htool)
     if fa.thread:
         # outer thread
-        tool = self.CreateThreadCutter(diaout, P, screwlen)
+        tool = self.CreateBlindThreadCutter(diaout, P, screwlen)
         b = Part.makeBox(20, 20, 10, Base.Vector(-10.0, -10.0, -0.6))
         tool = tool.cut(b)
         shape = shape.cut(tool)

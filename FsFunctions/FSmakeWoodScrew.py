@@ -256,7 +256,8 @@ def makeGOST1144(self, fa):
     if SType == "GOST1144-1" or SType == "GOST1144-2":
         recess = Part.makeBox(D, sb, h+1, Base.Vector(-D/2, -sb/2, K-h))
     elif SType == "GOST1144-3" or SType == "GOST1144-4":
-        recess, recessShell = self.makeCross_H3(PH, m, h)
+        recess = self.makeHCrossRecess(PH, m)
+        recess = recess.translate(Base.Vector(0.0, 0.0, h))
     screw = screw.cut(recess)
 
     # make thread

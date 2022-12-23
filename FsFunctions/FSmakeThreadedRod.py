@@ -27,9 +27,9 @@
 """
 from screw_maker import *
 
-# make a length of standard threaded rod
 
-def makeThreadedRod(self, fa): # dynamically loaded method of class Screw
+def makeThreadedRod(self, fa):
+    """make a length of standard threaded rod"""
     ThreadType = fa.calc_diam
     if fa.diameter != 'Custom':
         dia = self.getDia(ThreadType, False)
@@ -45,32 +45,17 @@ def makeThreadedRod(self, fa): # dynamically loaded method of class Screw
             dia = float(fa.calc_diam)
     dia = dia * 1.01
     cham = P
-    l = fa.calc_len
-    p0 = Base.Vector(0, 0, 0)
-    p1 = Base.Vector(dia / 2 - cham, 0, 0)
-    p2 = Base.Vector(dia / 2, 0, 0 - cham)
-    p3 = Base.Vector(dia / 2, 0, -1 * l + cham)
-    p4 = Base.Vector(dia / 2 - cham, 0, -1 * l)
-    p5 = Base.Vector(0, 0, -1 * l)
-    e1 = Part.makeLine(p0, p1)
-    e2 = Part.makeLine(p1, p2)
-    e3 = Part.makeLine(p2, p3)
-    e4 = Part.makeLine(p3, p4)
-    e5 = Part.makeLine(p4, p5)
-    p_profile = Part.Wire([e1, e2, e3, e4, e5])
-    p_shell = self.RevolveZ(p_profile)
-    screw = Part.Solid(p_shell)
+    length = fa.calc_len
+    fm = FSFaceMaker()
+    fm.AddPoint(0, 0)
+    fm.AddPoint(dia / 2 - cham, 0)
+    fm.AddPoint(dia / 2, 0 - cham)
+    fm.AddPoint(dia / 2, -1 * length + cham)
+    fm.AddPoint(dia / 2 - cham, -1 * length)
+    fm.AddPoint(0, -1 * length)
+    screw = self.RevolveZ(fm.GetFace())
     if fa.thread:
         # make the threaded section
-        shell_thread = self.makeShellthread(dia, P, l, False, 0)
-        thr_p1 = Base.Vector(0, 0, 0)
-        thr_p2 = Base.Vector(dia / 2, 0, 0)
-        thr_e1 = Part.makeLine(thr_p1, thr_p2)
-        thr_cap_profile = Part.Wire([thr_e1])
-        thr_cap = self.RevolveZ(thr_cap_profile)
-        thr_faces = shell_thread.Faces
-        thr_faces.extend(thr_cap.Faces)
-        thread_shell = Part.Shell(thr_faces)
-        thread_solid = Part.Solid(thread_shell)
-        screw = screw.common(thread_solid)
+        thread_cutter = self.CreateThreadCutter(dia, P, length)
+        screw = screw.cut(thread_cutter)
     return screw

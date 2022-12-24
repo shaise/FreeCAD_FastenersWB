@@ -124,6 +124,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes 
+* V0.4.50  24 Dec 2022:  Major Cleanup and refactor of fasteners functions by @alexneufeld.
 * V0.4.27  15 Dec 2022:  Fix error creating '3.5M3' PEM standoffs by @alexneufeld.
                        - Automatically select Custom diameter when custom pitch is changed.
 * V0.4.26  13 Dec 2022:  Simplify creation of internal threads by @alexneufeld.

@@ -65,8 +65,8 @@ def makeHexNut(self, fa):  # dynamically loaded method of class Screw
     fm.AddPoint(dia / 2.0 - H * 5.0 / 8.0, 0.0 + cham_i)
     head = self.RevolveZ(fm.GetFace())
     # create cutting tool for hexagon head
-    extrude = self.makeHextool(s, m, s * 2.0)
-    nut = head.cut(extrude)
+    extrude = self.makeHexPrism(s, m)
+    nut = head.common(extrude)
     # add modeled threads if necessary
     if fa.thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)

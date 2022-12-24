@@ -82,24 +82,16 @@ def makeCarriageBolt(self, fa):  # dynamically loaded method of class Screw
     fm.AddPoint(sqrt2 / 2 * O, 0)
     fm.AddPoint(sqrt2 / 2 * O, -1 * P + (sqrt2 / 2 * O - d / 2))
     fm.AddPoint(d / 2, -1 * P)
-    wire1 = fm.GetWire()
-    head_shell = self.RevolveZ(wire1)
-    if not fa.thread:
-        # simplified threaded section
-        fm.Reset()
-        fm.AddPoint(d / 2, -1 * P)
-        if (flat_len > L_t):
+    if (flat_len > L_t):
+        if not fa.thread:
             fm.AddPoint(d / 2, -length + L_t)
-        fm.AddPoint(d / 2, -length + d / 10)
-        fm.AddPoint(d / 2 - d / 10, -length)
-        fm.AddPoint(0, -length)
-        thread_profile_wire = fm.GetWire()
-        shell_thread = self.RevolveZ(thread_profile_wire)
+        thread_length = L_t
     else:
-        # modeled threaded section
-        shell_thread = self.makeShellthread(d, pitch, flat_len, True, -P, L_t)
-    p_shell = Part.Shell(head_shell.Faces + shell_thread.Faces)
-    p_solid = Part.Solid(p_shell)
+        thread_length = flat_len
+    fm.AddPoint(d / 2, -length + d / 10)
+    fm.AddPoint(d / 2 - d / 10, -length)
+    fm.AddPoint(0, -length)
+    p_solid = self.RevolveZ(fm.GetFace())
     # cut 4 flats under the head
     d_mod = d + 0.0002
     outerBox = Part.makeBox(
@@ -126,4 +118,10 @@ def makeCarriageBolt(self, fa):  # dynamically loaded method of class Screw
     innerBox = innerBox.makeFillet(d * 0.08, edges_to_fillet)
     tool = outerBox.cut(innerBox)
     p_solid = p_solid.cut(tool)
-    return p_solid
+    if fa.thread:
+        thread_cutter = self.CreateBlindThreadCutter(d, pitch, thread_length)
+        thread_cutter.translate(
+            Base.Vector(0.0, 0.0, -1 * (length - thread_length))
+        )
+        p_solid = p_solid.cut(thread_cutter)
+    return Part.Solid(p_solid)

@@ -27,8 +27,9 @@
 """
 from screw_maker import *
 
-# make object to cut external threads on a shaft
-def makeScrewDie(self, fa): # dynamically loaded method of class Screw
+
+def makeScrewDie(self, fa):
+    """make object to cut external threads on a shaft"""
     ThreadType = fa.calc_diam
     if fa.diameter != "Custom":
         dia = self.getDia(ThreadType, False)
@@ -43,25 +44,19 @@ def makeScrewDie(self, fa): # dynamically loaded method of class Screw
         else:
             dia = float(fa.calc_diam)
     if fa.thread:
-        cutDia = dia * 0.75
+        cutDia = self.GetInnerThreadMinDiameter(dia, P, 0.0)
     else:
         cutDia = dia
-    l = fa.calc_len
-    refpoint = Base.Vector(0, 0, -1 * l)
-    screwDie = Part.makeCylinder(dia * 1.1 / 2, l, refpoint)
-    screwDie = screwDie.cut(Part.makeCylinder(cutDia / 2, l, refpoint))
+    length = fa.calc_len
+    refpoint = Base.Vector(0, 0, -1 * length)
+    screwDie = Part.makeCylinder(dia * 1.1 / 2, length, refpoint)
+    screwDie = screwDie.cut(Part.makeCylinder(cutDia / 2, length, refpoint))
     if fa.thread:
-        shell_thread = self.makeShellthread(dia, P, l, False, 0)
-        thr_p1 = Base.Vector(0, 0, 0)
-        thr_p2 = Base.Vector(dia / 2, 0, 0)
-        thr_e1 = Part.makeLine(thr_p1, thr_p2)
-        thr_cap_profile = Part.Wire([thr_e1])
-        thr_cap = self.RevolveZ(thr_cap_profile)
-        #Part.show(thr_cap)
-        #Part.show(shell_thread)
-        thr_faces = shell_thread.Faces
-        thr_faces.extend(thr_cap.Faces)
-        thread_shell = Part.Shell(thr_faces)
-        thread_solid = Part.Solid(thread_shell)
-        screwDie = screwDie.cut(thread_solid)
+        thread_cutter = self.CreateInnerThreadCutter(dia, P, length + 2 * P)
+        thread_cutter.rotate(
+            Base.Vector(0.0, 0.0, 0.0),
+            Base.Vector(1.0, 0.0, 0.0),
+            180
+        )
+        screwDie = screwDie.cut(thread_cutter)
     return screwDie

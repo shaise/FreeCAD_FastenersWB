@@ -89,12 +89,12 @@ def makePCBStandoff(self, fa):
     f, thrPos = psMakeFace(diaout, width, screwlen, flen, id)
     p = self.RevolveZ(f)
     w = float(width)
-    htool = self.makeHextool(w, flen + screwlen, w * 2)
+    htool = self.makeHexPrism(w, flen + screwlen)
     htool.translate(Base.Vector(0.0, 0.0, -screwlen - 0.1))
-    shape = p.cut(htool)
+    shape = p.common(htool)
     if fa.thread:
         # outer thread
-        tool = self.CreateThreadCutter(diaout, P, screwlen)
+        tool = self.CreateBlindThreadCutter(diaout, P, screwlen)
         b = Part.makeBox(20, 20, 10, Base.Vector(-10.0, -10.0, -0.6))
         tool = tool.cut(b)
         shape = shape.cut(tool)

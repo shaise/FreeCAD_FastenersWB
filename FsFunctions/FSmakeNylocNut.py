@@ -59,7 +59,7 @@ def makeNylocNut(self, fa):
     dia = self.getDia(fa.calc_diam, True)
     section = nylocMakeFace(dia, P, da, dw, e, m, h, s)
     nutSolid = self.RevolveZ(section)
-    htool = htool = self.makeHexPrism(s, m)
+    htool = htool = self.makeHexPrism(s, m * 2)
     nutSolid = nutSolid.common(htool)
     if fa.thread:
         threadCutter = self.CreateInnerThreadCutter(dia, P, h + P)

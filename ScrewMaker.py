@@ -180,6 +180,8 @@ screwTables = {
     "DIN315": ("Nut", "makeWingNut"),
     "DIN557": ("Nut", "makeSquareNut"),
     "DIN562": ("Nut", "makeSquareNut"),
+    "DIN928": ("Nut", "makeWeldNut"),
+    "DIN929": ("Nut", "makeWeldNut"),
     "DIN935": ("Nut", "makeCastleNut"),
     "DIN985": ("Nut", "makeNylocNut"),
     "DIN508": ("Nut", "makeTSlotNut"),

@@ -29,16 +29,32 @@ import FastenerBase
 
 
 def makeSquareNut(self, fa):
+    """Creates a nut with 4 wrenching flats, that may optionally have a
+    chamfer on its top face.
+    Supported types:
+    - DIN 557 square nuts
+    - DIN 562 square thin nuts
+    - ASME B18.2.2 square nuts
+    - ASME B18.2.2 square machine screw nuts (small sizes)
+    """
     SType = fa.type
     dia = self.getDia(fa.calc_diam, True)
-
-    # FreeCAD.Console.PrintMessage(SType + "\n")
     if SType == 'DIN557':
         s, m, di, dw, P = fa.dimTable
         top_chamfer = True
     elif SType == 'DIN562':
         s, m, di, P = fa.dimTable
         top_chamfer = False
+    elif SType == "ASMEB18.2.2.1B":
+        P, _, _, m, s = fa.dimTable
+        top_chamfer = False
+    elif SType == "ASMEB18.2.2.2":
+        TPI, F, H = fa.dimTable
+        P = 1 / TPI * 25.4
+        s = F * 25.4
+        dw = s
+        m = H * 25.4
+        top_chamfer = True
     # create the nut body using a recantular prism primitive
     nut = Part.makeBox(s, s, m, Base.Vector(-s / 2, -s / 2, 0.0))
     # subtract the internal bore from the nut using a revolved solid

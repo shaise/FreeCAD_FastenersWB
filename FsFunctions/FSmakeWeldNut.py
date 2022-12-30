@@ -92,6 +92,10 @@ def _makeHexWeldNut(self, fa):
     if fa.thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)
         shape = shape.cut(thread_cutter)
+    # transform so that the XY-plane relates better to the installed height
+    mat = Base.Matrix()
+    mat.move(Base.Vector(0.0, 0.0, -h1))
+    shape = shape.transformGeometry(mat)
     return shape
 
 
@@ -141,4 +145,8 @@ def _makeSquareWeldNut(self, fa):
     if fa.thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + h1 + h2 + P)
         shape = shape.cut(thread_cutter)
+    # transform so that the XY-plane relates better to the installed height
+    mat = Base.Matrix()
+    mat.move(Base.Vector(0.0, 0.0, -h1))
+    shape = shape.transformGeometry(mat)
     return shape

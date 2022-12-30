@@ -124,13 +124,15 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes 
-* V0.4.50  24 Dec 2022:  Major Cleanup and refactor of fasteners functions by @alexneufeld.
-* V0.4.27  15 Dec 2022:  Fix error creating '3.5M3' PEM standoffs by @alexneufeld.
-                       - Automatically select Custom diameter when custom pitch is changed.
-* V0.4.26  13 Dec 2022:  Simplify creation of internal threads by @alexneufeld.
-                       - Remove LGTM badges by @alexneufeld.
-* V0.4.25  03 Dec 2022:  Fix Thread issues with extreme 3d print offsets
-* V0.4.24  21 Nov 2022:  Fix PEM standoff calculator
+* V0.4.51  30 Dec 2022:  Add 9(!) new nut types by @alexneufeld.  
+                       - Fix nylon hex nut fasteners by @alexneufeld.  
+* V0.4.50  24 Dec 2022:  Major Cleanup and refactor of fasteners functions by @alexneufeld.  
+* V0.4.27  15 Dec 2022:  Fix error creating '3.5M3' PEM standoffs by @alexneufeld.  
+                       - Automatically select Custom diameter when custom pitch is changed.  
+* V0.4.26  13 Dec 2022:  Simplify creation of internal threads by @alexneufeld.  
+                       - Remove LGTM badges by @alexneufeld.  
+* V0.4.25  03 Dec 2022:  Fix Thread issues with extreme 3d print offsets  
+* V0.4.24  21 Nov 2022:  Fix PEM standoff calculator  
                        - SVG Icons optimization by @EA32.  
                        - Fix toolbar names by @FreeCAD-Tools.  
                        - Add translation documentation by @FreeCAD-Tools.  

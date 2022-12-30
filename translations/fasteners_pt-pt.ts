@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pt_PT" sourcelanguage="en_US">
+<TS version="2.1" language="pt-pt" sourcelanguage="en_US">
 <context>
     <name>DlgChangeParams</name>
     <message>
@@ -318,6 +318,16 @@
         <translation>Acertar os parafusos pelo diâmetro externo da rosca</translation>
     </message>
     <message>
+        <location filename="../FastenerBase.py" line="836"/>
+        <source>Screw diameter matching mode</source>
+        <translation>Modo para acertar o diâmetro do parafuso</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="837"/>
+        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
+        <translation>Modo do acertador automático de parafuso (pelo diâmetro interno ou externo)</translation>
+    </message>
+    <message>
         <location filename="../FastenerBase.py" line="866"/>
         <source>Generate BOM</source>
         <translation>Gerar lista de materiais</translation>
@@ -341,16 +351,6 @@
         <location filename="../FastenerBase.py" line="876"/>
         <source>Qty</source>
         <translation>Qntd</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="836"/>
-        <source>Screw diameter matching mode</source>
-        <translation>Modo para acertar o diâmetro do parafuso</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="837"/>
-        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
-        <translation>Modo do acertador automático de parafuso (pelo diâmetro interno ou externo)</translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="900"/>
@@ -671,6 +671,31 @@
         <translation>DIN 917 Porca calota baixa</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="145"/>
+        <source>DIN 928 square weld nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="146"/>
+        <source>DIN 929 hexagonal weld nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="147"/>
+        <source>DIN 935 Slotted / Castle nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="148"/>
+        <source>DIN 6334 elongated hexagon nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="149"/>
+        <source>DIN 7967 self locking counter nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="132"/>
         <source>DIN 1587 Cap nuts</source>
         <translation>DIN 1587 Porca calota</translation>
@@ -679,6 +704,11 @@
         <location filename="../FastenersCmd.py" line="133"/>
         <source>GOST 11860 (Type 1) Cap nuts</source>
         <translation>GOST 11860 (Tipo 1) Porca cega</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="152"/>
+        <source>DIN 315 wing nuts</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
@@ -694,6 +724,11 @@
         <location filename="../FastenersCmd.py" line="136"/>
         <source>DIN 985 Nyloc nuts</source>
         <translation>DIN 985 Porca sextavada auto-travante</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="156"/>
+        <source>DIN 1624 Tee nuts</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
@@ -811,6 +846,21 @@
         <translation>ASME B18.2.2 UNC Porca sextavada média</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="189"/>
+        <source>ASME B18.2.2 UNC Hex Machine screw nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="190"/>
+        <source>ASME B18.2.2 UNC Square machine screw nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="191"/>
+        <source>ASME B18.2.2 UNC Square nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="167"/>
         <source>ASME B18.2.2 UNC Hexagon nuts</source>
         <translation>ASME B18.2.2 UNC Porca sextavada larga</translation>
@@ -819,6 +869,36 @@
         <location filename="../FastenersCmd.py" line="168"/>
         <source>ASME B18.2.2 UNC Hexagon thin nuts</source>
         <translation>ASME B18.2.2 UNC Porca sextavada fina</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="194"/>
+        <source>ASME B18.2.2 UNC Hex slotted nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="195"/>
+        <source>ASME B18.2.2 UNC Hex flange nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="196"/>
+        <source>ASME B18.2.2 UNC Hex coupling nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="197"/>
+        <source>ASME B18.6.9 wing nuts, type A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="198"/>
+        <source>SAE J483a low cap nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="199"/>
+        <source>SAE J483a high cap nuts</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="170"/>

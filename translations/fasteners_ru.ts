@@ -318,6 +318,16 @@
         <translation>Подбирать резьбу по наужному диаметру (установка на ось)</translation>
     </message>
     <message>
+        <location filename="../FastenerBase.py" line="836"/>
+        <source>Screw diameter matching mode</source>
+        <translation>Режим подбора диаметра резьбы</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="837"/>
+        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
+        <translation>Режим подбора диаметра резьбы (по внутреннему или по наружному диаметру резьбы)</translation>
+    </message>
+    <message>
         <location filename="../FastenerBase.py" line="866"/>
         <source>Generate BOM</source>
         <translation>Спецификация</translation>
@@ -341,16 +351,6 @@
         <location filename="../FastenerBase.py" line="876"/>
         <source>Qty</source>
         <translation>Кол-во</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="836"/>
-        <source>Screw diameter matching mode</source>
-        <translation>Режим подбора диаметра резьбы</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="837"/>
-        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
-        <translation>Режим подбора диаметра резьбы (по внутреннему или по наружному диаметру резьбы)</translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="900"/>
@@ -671,6 +671,31 @@
         <translation>DIN 917 Гайка колпачковая, низкая</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="145"/>
+        <source>DIN 928 square weld nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="146"/>
+        <source>DIN 929 hexagonal weld nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="147"/>
+        <source>DIN 935 Slotted / Castle nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="148"/>
+        <source>DIN 6334 elongated hexagon nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="149"/>
+        <source>DIN 7967 self locking counter nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="132"/>
         <source>DIN 1587 Cap nuts</source>
         <translation>DIN 1587 Гайка колпачковая</translation>
@@ -679,6 +704,11 @@
         <location filename="../FastenersCmd.py" line="133"/>
         <source>GOST 11860 (Type 1) Cap nuts</source>
         <translation>ГОСТ 11860 (Исполнение 1) Гайка колпачковая</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="152"/>
+        <source>DIN 315 wing nuts</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
@@ -694,6 +724,11 @@
         <location filename="../FastenersCmd.py" line="136"/>
         <source>DIN 985 Nyloc nuts</source>
         <translation>DIN 985 Гайка самоконтрящаяся со стопорным кольцом</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="156"/>
+        <source>DIN 1624 Tee nuts</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
@@ -811,6 +846,21 @@
         <translation>ASME B18.2.2.1A Дюймовая (UNC) Гайка шестигранная общего назначения</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="189"/>
+        <source>ASME B18.2.2 UNC Hex Machine screw nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="190"/>
+        <source>ASME B18.2.2 UNC Square machine screw nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="191"/>
+        <source>ASME B18.2.2 UNC Square nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="167"/>
         <source>ASME B18.2.2 UNC Hexagon nuts</source>
         <translation>ASME B18.2.2.4A Дюймовая (UNC) Гайка шестигранная</translation>
@@ -819,6 +869,36 @@
         <location filename="../FastenersCmd.py" line="168"/>
         <source>ASME B18.2.2 UNC Hexagon thin nuts</source>
         <translation>ASME B18.2.2.4B Дюймовая (UNC) Гайка шестигранная низкая</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="194"/>
+        <source>ASME B18.2.2 UNC Hex slotted nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="195"/>
+        <source>ASME B18.2.2 UNC Hex flange nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="196"/>
+        <source>ASME B18.2.2 UNC Hex coupling nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="197"/>
+        <source>ASME B18.6.9 wing nuts, type A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="198"/>
+        <source>SAE J483a low cap nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="199"/>
+        <source>SAE J483a high cap nuts</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="170"/>

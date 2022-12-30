@@ -27,15 +27,21 @@
 """
 from screw_maker import *
 import FastenerBase
-# make the ISO 4032 Hex-nut
-# make the ISO 4033 Hex-nut
 
 
-def makeHexNut(self, fa):  # dynamically loaded method of class Screw
+def makeHexNut(self, fa):
+    """Creates a basic hexagonal nut.
+    Supported types:
+    - ISO 4032 hexagon nuts
+    - ISO 4033 hexagon high nuts
+    - ISO 4035 hexagon thin nuts, chamfered
+    - ASME B18.2.2 machine screw, thin, and regular hexagon nuts
+    - DIN 6334 3xD length hexagon nuts
+    - ASME B18.2.2 coupling nuts
+    """
     SType = fa.type
     dia = self.getDia(fa.calc_diam, True)
     if SType[:3] == 'ISO':
-        # P, c, damax,  dw,    e,     m,   mw,   s_nom
         P, c, da, dw, e, m, mw, s = fa.dimTable
     elif SType == 'ASMEB18.2.2.1A':
         P, da, e, m, s = fa.dimTable
@@ -45,12 +51,19 @@ def makeHexNut(self, fa):  # dynamically loaded method of class Screw
     elif SType == 'ASMEB18.2.2.4B':
         P, da, e, m_a, m_b, s = fa.dimTable
         m = m_b
-
+    elif SType == "DIN6334":
+        P, da, m, s = fa.dimTable
+    elif SType == "ASMEB18.2.2.13":
+        TPI, F, H = fa.dimTable
+        P = 1 / TPI * 25.4
+        m = H * 25.4
+        s = F * 25.4
+        da = dia
     da = self.getDia(da, True)
     sqrt2_ = 1.0 / math.sqrt(2.0)
     # needed for chamfer at nut top
-    cham = (e - s) * math.sin(math.radians(15))
-    H = P * math.cos(math.radians(30))  # Gewindetiefe H
+    cham = s * (math.sqrt(3) / 3 - 1 / 2) * math.tan(math.radians(22.5))
+    H = P * math.cos(math.radians(30))
     cham_i_delta = da / 2.0 - (dia / 2.0 - H * 5.0 / 8.0)
     cham_i = cham_i_delta * math.tan(math.radians(15.0))
     # layout the nut profile, then create a revolved solid

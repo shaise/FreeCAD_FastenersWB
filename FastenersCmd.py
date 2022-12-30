@@ -188,6 +188,7 @@ FSScrewCommandTable = {
     "ASMEB18.2.2.4A": (translate("FastenerCmd", "ASME B18.2.2 UNC Hexagon nuts"), NutGroup, NutParameters),
     "ASMEB18.2.2.4B": (translate("FastenerCmd", "ASME B18.2.2 UNC Hexagon thin nuts"), NutGroup, NutParameters),
     "ASMEB18.2.2.5": (translate("FastenerCmd", "ASME B18.2.2 UNC Hex slotted nuts"), NutGroup, NutParameters),
+    "ASMEB18.2.2.12": (translate("FastenerCmd", "ASME B18.2.2 UNC Hex flange nuts"), NutGroup, NutParameters),
     "ASMEB18.6.9A": (translate("FastenerCmd", "ASME B18.6.9 wing nuts, type A"), NutGroup, NutParameters),
 
     "ASMEB18.21.1.12A": (translate("FastenerCmd", "ASME B18.21.1 UN washers, narrow series"), WasherGroup, WasherParameters),

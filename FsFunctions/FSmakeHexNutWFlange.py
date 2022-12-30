@@ -29,10 +29,25 @@ from screw_maker import *
 import FastenerBase
 
 
-# EN 1661 Hexagon nuts with flange
-def makeHexNutWFlange(self, fa):  # dynamically loaded method of class Screw
+def makeHexNutWFlange(self, fa):
+    """Creates a hexagon nut with a flanged base.
+    Supported types:
+    - EN1661 nuts with flange
+    - ASME B18.2.2 UNC flanged nuts
+    """
     dia = self.getDia(fa.calc_diam, True)
-    P, da, c, dc, dw, e, m, mw, r1, s = fa.dimTable
+    if fa.type == "EN1661":
+        P, da, c, dc, _, _, m, _, _, s = fa.dimTable
+        flange_edge_rounded = True
+    elif fa.type == "ASMEB18.2.2.12":
+        TPI, F, B, H, J, K = fa.dimTable
+        P = 1 / TPI * 25.4
+        s = F * 25.4
+        dc = B * 25.4
+        da = 1.05 * dia
+        m = H * 25.4
+        c = K * 25.4
+        flange_edge_rounded = False
     sqrt3 = math.sqrt(3)
     inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
     inner_cham_ht = math.tan(math.radians(15)) * (da / 2 - inner_rad)
@@ -50,11 +65,17 @@ def makeHexNutWFlange(self, fa):  # dynamically loaded method of class Screw
     # add the flange with a boolean fuse
     fm.Reset()
     fm.AddPoint((da + s) / 4, 0.0)
-    fm.AddPoint((dc + sqrt3 * c) / 2, 0.0)
-    fm.AddPoint((dc - c) / 2, 0.0)
-    fm.AddArc2(0, c / 2, 150)
-    fm.AddPoint((da + s) / 4, sqrt3 / 3 * ((dc - c) /
-                2 + c / (4 - 2 * sqrt3) - (da + s) / 4))
+    if flange_edge_rounded:
+        fm.AddPoint((dc + sqrt3 * c) / 2, 0.0)
+        fm.AddPoint((dc - c) / 2, 0.0)
+        fm.AddArc2(0, c / 2, 150)
+        fm.AddPoint((da + s) / 4, sqrt3 / 3 * ((dc - c) /
+                    2 + c / (4 - 2 * sqrt3) - (da + s) / 4))
+    else:
+        fm.AddPoint(dc / 2, 0.0)
+        fm.AddPoint(dc / 2, c)
+        fm.AddPoint((da + s) / 4, c + (dc / 2 - (da + s) / 4) *
+                    math.tan(math.radians(30)))
     face = fm.GetFace()
     flange = self.RevolveZ(face)
     nut_body = nut_body.fuse(flange).removeSplitter()

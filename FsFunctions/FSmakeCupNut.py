@@ -31,15 +31,24 @@ import FastenerBase
 
 def makeCupNut(self, fa):
     """Creates a blind-threaded cap nut
-
     Supported types:
-        - DIN1587 cap nut
-        - GOST11860-1  cap (or 'acorn') nut
+    - DIN1587 cap nut
+    - GOST11860-1 cap (or 'acorn') nut
+    - SAE J483a cap nuts, both low and high styles
     """
     SType = fa.type
     dia = self.getDia(fa.calc_diam, True)
     if SType == "DIN1587" or SType == "GOST11860-1":
         P, d_k, h, m, s, t, w = fa.dimTable
+    elif SType == "SAEJ483a1" or SType == "SAEJ483a2":
+        TPI, F, A, H, Q, U = fa.dimTable
+        P = 1 / TPI * 25.4
+        s = F * 25.4
+        d_k = A * 25.4
+        m = Q * 25.4
+        t = U * 25.4
+        h = H * 25.4
+        w = h - t - dia / 2 / math.tan(math.radians(60))
     else:
         raise RuntimeError("unknown screw type")
     # create the profile of the nut in the x-z plane

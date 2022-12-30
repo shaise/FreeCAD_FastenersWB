@@ -193,6 +193,8 @@ screwTables = {
     "ASMEB18.2.2.5": ("Nut", "makeCastleNut"),
     "ASMEB18.2.2.12": ("Nut", "makeHexNutWFlange"),
     "ASMEB18.6.9A": ("Nut", "makeWingNut"),
+    "SAEJ483a1": ("Nut", "makeCupNut"),
+    "SAEJ483a2": ("Nut", "makeCupNut"),
     "ASMEB18.3.1A": ("Screw", "makeCylinderHeadScrew"),
     "ASMEB18.3.1G": ("Screw", "makeCylinderHeadScrew"),
     "ASMEB18.3.2": ("Screw", "makeCountersunkHeadScrew"),

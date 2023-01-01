@@ -169,6 +169,7 @@ FSScrewCommandTable = {
 
     # Inch
 
+    "ASMEB18.2.1.1": (translate("FastenerCmd", "ASME B18.2.1 UNC Square bolts"), OtherHeadGroup, ScrewParametersLC),
     "ASMEB18.2.1.6": (translate("FastenerCmd", "ASME B18.2.1 UNC Hex head screws"), HexHeadGroup, ScrewParametersLC),
     "ASMEB18.2.1.8": (translate("FastenerCmd", "ASME B18.2.1 UNC Hex head screws with flange"), HexHeadGroup, ScrewParametersLC),
 

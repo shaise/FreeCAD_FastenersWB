@@ -188,6 +188,7 @@ screwTables = {
     "DIN508": ("Nut", "makeTSlotNut"),
     "DIN1624": ("Nut", "makeTeeNut"),
     "GN507": ("Nut", "makeTSlotNut"),
+    "ASMEB18.2.1.1": ("Screw", "makeSquareBolt"),
     "ASMEB18.2.1.6": ("Screw", "makeHexHeadBolt"),
     "ASMEB18.2.1.8": ("Screw", "makeHexHeadWithFlange"),
     "ASMEB18.2.2.1A": ("Nut", "makeHexNut"),

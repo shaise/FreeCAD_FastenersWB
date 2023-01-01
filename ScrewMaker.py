@@ -150,6 +150,7 @@ screwTables = {
     "ISO14584": ("Screw", "makeRaisedCountersunkScrew"),
     "DIN7984": ("Screw", "makeCylinderHeadScrew"),
     "DIN6912": ("Screw", "makeCylinderHeadScrew"),
+    "DIN478": ("Screw", "makeFlangedSquareHeadBolt"),
     "DIN603": ("Screw", "makeCarriageBolt"),
     "DIN571": ("Screw", "makeWoodScrew"),
     "DIN96": ("Screw", "makeWoodScrew"),

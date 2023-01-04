@@ -318,16 +318,6 @@
         <translation>Acertar os parafusos pelo diâmetro externo da rosca</translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="836"/>
-        <source>Screw diameter matching mode</source>
-        <translation>Modo para acertar o diâmetro do parafuso</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="837"/>
-        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
-        <translation>Modo do acertador automático de parafuso (pelo diâmetro interno ou externo)</translation>
-    </message>
-    <message>
         <location filename="../FastenerBase.py" line="866"/>
         <source>Generate BOM</source>
         <translation>Gerar lista de materiais</translation>
@@ -351,6 +341,16 @@
         <location filename="../FastenerBase.py" line="876"/>
         <source>Qty</source>
         <translation>Qntd</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="836"/>
+        <source>Screw diameter matching mode</source>
+        <translation>Modo para acertar o diâmetro do parafuso</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="837"/>
+        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
+        <translation>Modo do acertador automático de parafuso (pelo diâmetro interno ou externo)</translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="900"/>
@@ -646,6 +646,11 @@
         <translation>DIN 603 Parafuso francês cabeça redonda pescoço quadrado</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="138"/>
+        <source>DIN 478 Square head bolts with collar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="126"/>
         <source>ISO 4032 Hexagon nuts, Style 1</source>
         <translation>ISO 4032 Porca sextavada, estilo 1</translation>
@@ -769,6 +774,11 @@
         <location filename="../FastenersCmd.py" line="144"/>
         <source>NFE27-619 Countersunk washer</source>
         <translation>NFE27-619 Arruela cabeça escareada</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="172"/>
+        <source>ASME B18.2.1 UNC Square bolts</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="148"/>

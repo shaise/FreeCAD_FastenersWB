@@ -135,6 +135,7 @@ FSScrewCommandTable = {
     "GOST1144-4": (translate("FastenerCmd", "GOST 1144 (Type 4) Half — round head wood screw"), HCrossGroup, ScrewParametersLC),
 
     "DIN603": (translate("FastenerCmd", "DIN 603 Mushroom head square neck bolts"), OtherHeadGroup, ScrewParametersLC),
+    "DIN478": (translate("FastenerCmd", "DIN 478 Square head bolts with collar"), OtherHeadGroup, ScrewParametersLC),
 
     "ISO4032": (translate("FastenerCmd", "ISO 4032 Hexagon nuts, Style 1"), NutGroup, NutParameters),
     "ISO4033": (translate("FastenerCmd", "ISO 4033 Hexagon nuts, Style 2"), NutGroup, NutParameters),
@@ -168,6 +169,7 @@ FSScrewCommandTable = {
 
     # Inch
 
+    "ASMEB18.2.1.1": (translate("FastenerCmd", "ASME B18.2.1 UNC Square bolts"), OtherHeadGroup, ScrewParametersLC),
     "ASMEB18.2.1.6": (translate("FastenerCmd", "ASME B18.2.1 UNC Hex head screws"), HexHeadGroup, ScrewParametersLC),
     "ASMEB18.2.1.8": (translate("FastenerCmd", "ASME B18.2.1 UNC Hex head screws with flange"), HexHeadGroup, ScrewParametersLC),
 

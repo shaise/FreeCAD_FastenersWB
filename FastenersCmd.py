@@ -92,7 +92,8 @@ CMD_HELP = 0
 CMD_GROUP = 1
 CMD_PARAMETER_GRP = 2
 FSScrewCommandTable = {
-    # type - (help, group, parameter-group)
+    # type - (help, group, parameter-group)  
+    "DIN933": (translate("FastenerCmd", "DIN 933 Hex head screw"), HexHeadGroup, ScrewParametersLC),
     "ISO4017": (translate("FastenerCmd", "ISO 4017 Hex head screw"), HexHeadGroup, ScrewParametersLC),
     "ISO4014": (translate("FastenerCmd", "ISO 4014 Hex head bolt"), HexHeadGroup, ScrewParametersLC),
     "EN1662": (translate("FastenerCmd", "EN 1662 Hexagon bolt with flange, small series"), HexHeadGroup, ScrewParametersLC),

@@ -32,12 +32,19 @@ def makeHexHeadBolt(self, fa):
     """Creates a bolt with a hexagonal head
 
     supported types:
+    - DIN 933 Hex-head-screw
     - ISO 4017 Hex-head-screw
     - ISO 4014 Hex-head-bolt
     - ASMEB18.2.1.6 Hex-head-bolt
     """
     dia = self.getDia(fa.calc_diam, False)
     length = fa.calc_len
+    
+    # DIN933
+    if fa.type == 'DIN933':
+        P, c, dw, e, k, r, s = fa.dimTable
+        b = length
+    
     if fa.type == 'ISO4017':
         P, c, dw, e, k, r, s = fa.dimTable
         b = length

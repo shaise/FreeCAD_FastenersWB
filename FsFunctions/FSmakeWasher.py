@@ -45,24 +45,24 @@ def makeWasher(self, fa): # dynamically loaded method of class Screw
     if SType[:3] == 'ISO':
         d1_min, d2_max, h, h_max = fa.dimTable
     elif SType[:3] == 'ASM':
-        d1_min, d2_max, h_max = fa.dimTable
+        d1_min, d2_max, h = fa.dimTable
     elif SType[:3] == 'NFE':
-        d1_min, d2_max, d3, h_max, h_min = fa.dimTable
+        d1_min, d2_max, d3, h, h_min = fa.dimTable
 
     # Washer Points
-    Pnt0 = Base.Vector(d1_min / 2.0, 0.0, h_max)
-    Pnt2 = Base.Vector(d2_max / 2.0, 0.0, h_max)
+    Pnt0 = Base.Vector(d1_min / 2.0, 0.0, h)
+    Pnt2 = Base.Vector(d2_max / 2.0, 0.0, h)
     Pnt3 = Base.Vector(d2_max / 2.0, 0.0, 0.0)
     Pnt4 = Base.Vector(d1_min / 2.0, 0.0, 0.0)
     if SType == 'ISO7090':
-        Pnt1 = Base.Vector(d2_max / 2.0 - h_max / 4.0, 0.0, h_max)
-        Pnt2 = Base.Vector(d2_max / 2.0, 0.0, h_max * 0.75)
+        Pnt1 = Base.Vector(d2_max / 2.0 - h / 4.0, 0.0, h)
+        Pnt2 = Base.Vector(d2_max / 2.0, 0.0, h * 0.75)
         edge1 = Part.makeLine(Pnt0, Pnt1)
         edgeCham = Part.makeLine(Pnt1, Pnt2)
         edge1 = Part.Wire([edge1, edgeCham])
     elif SType == 'NFE27-619':
         Pnt0 = Base.Vector(d1_min / 2.0, 0.0, h_min)
-        Pnt2 = Base.Vector(d3 / 2.0, 0.0, h_max)
+        Pnt2 = Base.Vector(d3 / 2.0, 0.0, h)
         edge1 = Part.makeLine(Pnt0, Pnt2)
     else:
         edge1 = Part.makeLine(Pnt0, Pnt2)

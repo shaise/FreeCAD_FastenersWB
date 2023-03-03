@@ -124,6 +124,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 **This is now done automatically**
 
 #### Release Notes 
+* V0.4.55  03 Mar 2023:  Fix error changing PEM standoffs length by @alexneufeld.  
 * V0.4.54  14 Jan 2023:  Fix ISO washer thickness.  
 * V0.4.53  11 Jan 2023:  Add DIN933 bolts by @JanAndersen.  
 * V0.4.52  04 Jan 2023:  Add Add Square head bolts by @alexneufeld.  

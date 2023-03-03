@@ -101,8 +101,8 @@ def makePEMStandoff(self, fa):
     bl = FsData[fa.type + "length"][plen][0]
     f = soMakeFace(b, c, h, d, l, bl, fa.blind)
     p = self.RevolveZ(f)
-    htool = self.makeHexPrism(h, 3)
-    htool.translate(Base.Vector(0.0, 0.0, -2.0))
+    htool = self.makeHexPrism(h, l * 1.1)
+    htool.translate(Base.Vector(0.0, 0.0, -1.05 * l))
     fSolid = p.common(htool)
     if fa.thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, l * 1.25)
@@ -112,5 +112,4 @@ def makePEMStandoff(self, fa):
         if fa.blind:
             thread_cutter.translate(Base.Vector(0.0, 0.0, -d))
         fSolid = fSolid.cut(thread_cutter)
-
     return fSolid

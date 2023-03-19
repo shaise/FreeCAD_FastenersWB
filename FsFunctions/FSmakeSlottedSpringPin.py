@@ -28,7 +28,7 @@ from screw_maker import *
 
 
 def makeSlottedSpringPin(self, fa):
-    if fa.type == "ISO8752":
+    if fa.type == "ISO8752" or fa.type == "ISO13337":
         d_1, d_2, a, s = fa.dimTable
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.type}")

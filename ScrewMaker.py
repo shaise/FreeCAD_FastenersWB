@@ -295,6 +295,7 @@ screwTables = {
     "DIN1160-A": ("Nail", "makeNail"),
     "DIN1160-B": ("Nail", "makeNail"),
     "ISO1234": ("Pin", "makeSplitPin"),
+    "ISO2341": ("Pin", "makeClevisPin"),
     "ISO8734": ("Pin", "makeDowelPin"),
     # * diam pos and K pos were moved from this table to the csv titles
 }

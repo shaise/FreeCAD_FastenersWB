@@ -189,6 +189,7 @@ FSScrewCommandTable = {
     "NFE27-619": (translate("FastenerCmd", "NFE27-619 Countersunk washer"), WasherGroup, WasherParameters, "other"),
 
     "ISO1234": (translate("FastenerCmd", "ISO 1234 Split pins"), PinGroup, PinParameters),
+    "ISO2341": (translate("FastenerCmd", "ISO 2341 clevis pins with head"), PinGroup, PinParameters),
     "ISO8734": (translate("FastenerCmd", "ISO 8734 Dowel pins"), PinGroup, PinParameters),
 
     # Inch

@@ -298,6 +298,8 @@ screwTables = {
     "ISO2341": ("Pin", "makeClevisPin"),
     "ISO8734": ("Pin", "makeDowelPin"),
     "ISO8740": ("Pin", "makeGroovedParallelPin"),
+    "ISO8750": ("Pin", "makeCoiledSpringPin"),
+    "ISO8751": ("Pin", "makeCoiledSpringPin"),
     "ISO8752": ("Pin", "makeSlottedSpringPin"),
     "ISO13337": ("Pin", "makeSlottedSpringPin"),
     # * diam pos and K pos were moved from this table to the csv titles

@@ -192,6 +192,8 @@ FSScrewCommandTable = {
     "ISO2341": (translate("FastenerCmd", "ISO 2341 clevis pins with head"), PinGroup, PinParameters),
     "ISO8734": (translate("FastenerCmd", "ISO 8734 Dowel pins"), PinGroup, PinParameters),
     "ISO8740": (translate("FastenerCmd", "ISO 8740 full-length grooved pins with chamfer"), PinGroup, PinParameters),
+    "ISO8750": (translate("FastenerCmd", "ISO 8750 slotted spring pins, standard duty"), PinGroup, PinParameters),
+    "ISO8751": (translate("FastenerCmd", "ISO 8750 slotted spring pins, light duty"), PinGroup, PinParameters),
     "ISO8752": (translate("FastenerCmd", "ISO 8734 slotted spring pins, heavy duty"), PinGroup, PinParameters),
     "ISO13337": (translate("FastenerCmd", "ISO 8734 slotted spring pins, light duty"), PinGroup, PinParameters),
 

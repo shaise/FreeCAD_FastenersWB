@@ -295,6 +295,7 @@ screwTables = {
     "DIN1160-A": ("Nail", "makeNail"),
     "DIN1160-B": ("Nail", "makeNail"),
     "ISO1234": ("Pin", "makeSplitPin"),
+    "ISO2338": ("Pin", "makeDowelPin"),
     "ISO2339": ("Pin", "makeTaperedPin"),
     "ISO2340": ("Pin", "makeHeadlessClevisPin"),
     "ISO2341": ("Pin", "makeClevisPin"),

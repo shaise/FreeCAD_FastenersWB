@@ -28,12 +28,11 @@ from screw_maker import *
 
 
 def makeDowelPin(self, fa):
-    if fa.type == "ISO8734":
-        cham = fa.dimTable[0]
+    if fa.type in ["ISO8734", "ISO2338"]:
+        dia, cham = fa.dimTable
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.type}")
     length = fa.calc_len
-    dia = FsData["DiaList"][fa.calc_diam][0]
     fm = FSFaceMaker()
     cham_d = math.tan(math.radians(15)) * cham
     fm.AddPoint(0.0, 0.0)

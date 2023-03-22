@@ -76,7 +76,7 @@ PEMPressNutParameters = {"type", "diameter",
 PEMStandoffParameters = {"type", "diameter", "matchOuter",
                          "thread", "leftHanded", "length", "blindness"}
 RetainingRingParameters = {"type", "diameter", "matchOuter"}
-PinParameters = {"type", "diameter", "length", "lengthCustom"}
+PinParameters = {"type", "diameter", "length", "lengthCustom", "leftHanded", "thread"}
 TSlotNutParameters = { "type", "diameter", "matchOuter",
                         "thread", "leftHanded", "slotWidth" }
 TSlotBoltParameters = { "type", "diameter", "length", "lengthCustom",
@@ -193,7 +193,9 @@ FSScrewCommandTable = {
     "ISO2339": (translate("FastenerCmd", "ISO 2339 taper pins"), PinGroup, PinParameters),
     "ISO2340": (translate("FastenerCmd", "ISO 2340 clevis pins without head"), PinGroup, PinParameters),
     "ISO2341": (translate("FastenerCmd", "ISO 2341 clevis pins with head"), PinGroup, PinParameters),
+    "ISO8733": (translate("FastenerCmd", "ISO 8733 parallel pins with internal thread, unhardened"), PinGroup, PinParameters),
     "ISO8734": (translate("FastenerCmd", "ISO 8734 Dowel pins"), PinGroup, PinParameters),
+    "ISO8735": (translate("FastenerCmd", "ISO 8735 parallel pins with internal thread, hardened"), PinGroup, PinParameters),
     "ISO8740": (translate("FastenerCmd", "ISO 8740 full-length grooved pins with chamfer"), PinGroup, PinParameters),
     "ISO8750": (translate("FastenerCmd", "ISO 8750 slotted spring pins, standard duty"), PinGroup, PinParameters),
     "ISO8751": (translate("FastenerCmd", "ISO 8750 slotted spring pins, light duty"), PinGroup, PinParameters),

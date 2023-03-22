@@ -28,7 +28,7 @@ from screw_maker import *
 
 
 def makeCoiledSpringPin(self, fa):
-    if fa.type == "ISO8750" or fa.type == "ISO8751":
+    if fa.type in ["ISO8748", "ISO8750", "ISO8751"]:
         d_1, d_2, a, s = fa.dimTable
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.type}")

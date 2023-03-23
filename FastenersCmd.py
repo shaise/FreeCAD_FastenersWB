@@ -200,6 +200,8 @@ FSScrewCommandTable = {
     "ISO8737": (translate("FastenerCmd", "ISO 8737 taper pins with external thread, unhardened"), PinGroup, PinParameters),
     "ISO8739": (translate("FastenerCmd", "ISO 8739 full-length grooved pins with pilot"), PinGroup, PinParameters),
     "ISO8740": (translate("FastenerCmd", "ISO 8740 full-length grooved pins with chamfer"), PinGroup, PinParameters),
+    "ISO8742": (translate("FastenerCmd", "ISO 8742 third-length center grooved pins"), PinGroup, PinParameters),
+    "ISO8743": (translate("FastenerCmd", "ISO 8743 half-length center grooved pins"), PinGroup, PinParameters),
     "ISO8748": (translate("FastenerCmd", "ISO 8750 coiled spring pins, heavy duty"), PinGroup, PinParameters),
     "ISO8750": (translate("FastenerCmd", "ISO 8750 coiled spring pins, standard duty"), PinGroup, PinParameters),
     "ISO8751": (translate("FastenerCmd", "ISO 8751 coiled spring pins, light duty"), PinGroup, PinParameters),

@@ -43,7 +43,7 @@ def makeThreadedRod(self, fa):
             dia = self.smScrewThrScaleA * float(fa.calc_diam) + self.smScrewThrScaleB
         else:
             dia = float(fa.calc_diam)
-    dia = dia * 1.01
+    #dia = dia * 1.01
     cham = P
     length = fa.calc_len
     fm = FSFaceMaker()

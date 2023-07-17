@@ -135,6 +135,7 @@ screwTables = {
     "ISO4762": ("Screw", "makeCylinderHeadScrew"),
     "ISO10642": ("Screw", "makeCountersunkHeadScrew"),
     "ISO1207": ("Screw", "makeCheeseHeadScrew"),
+    "DIN84": ("Screw", "makeCheeseHeadScrew"),
     "ISO1580": ("Screw", "makeCheeseHeadScrew"),
     "ISO7045": ("Screw", "makePanHeadScrew"),
     "ISO7046": ("Screw", "makeCountersunkHeadScrew"),

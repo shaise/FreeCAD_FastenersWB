@@ -40,7 +40,7 @@ def makeCheeseHeadScrew(self, fa):
     SType = fa.type
     length = fa.calc_len
     dia = self.getDia(fa.calc_diam, False)
-    if SType == "ISO1207":
+    if SType == "ISO1207" or SType == "DIN84":
         P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = fa.dimTable
         r_fil = r * 2.0
         recess = self.makeSlotRecess(n_min, t_min)

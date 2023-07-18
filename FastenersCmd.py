@@ -142,6 +142,7 @@ FSScrewCommandTable = {
     "ISO4032": (translate("FastenerCmd", "ISO 4032 Hexagon nuts, Style 1"), NutGroup, NutParameters),
     "ISO4033": (translate("FastenerCmd", "ISO 4033 Hexagon nuts, Style 2"), NutGroup, NutParameters),
     "ISO4035": (translate("FastenerCmd", "ISO 4035 Hexagon thin nuts, chamfered"), NutGroup, NutParameters),
+    "DIN934": (translate("FastenerCmd", "DIN 934(superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered"), NutGroup, NutParameters),
     #    "ISO4036": (translate("FastenerCmd", "ISO 4035 Hexagon thin nuts, unchamfered"), NutGroup, NutParameters),
     "EN1661": (translate("FastenerCmd", "EN 1661 Hexagon nuts with flange"), NutGroup, NutParameters),
     "DIN917": (translate("FastenerCmd", "DIN917 Cap nuts, thin style"), NutGroup, NutParameters),

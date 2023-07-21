@@ -41,7 +41,7 @@ def makeHexNut(self, fa):
     """
     SType = fa.type
     dia = self.getDia(fa.calc_diam, True)
-    if SType[:3] == 'ISO':
+    if SType[:3] == 'ISO' or SType == "DIN934":
         P, c, da, dw, e, m, mw, s = fa.dimTable
     elif SType == 'ASMEB18.2.2.1A':
         P, da, e, m, s = fa.dimTable

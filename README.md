@@ -123,7 +123,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 ~~To attach a fastener to a feature created with part design, it must be attached to the body, rather then one of its inner elements. To do so, first switch the "Display Mode" of the body from "Through" to "Tip". This can be found in the "View" tab of the Body's properties panel. To continue editing the Body, switch back to "Through"~~  
 **This is now done automatically**
 
-#### Release Notes 
+#### Release Notes DIN 7996 Cross recessed round head wood screws
+* V0.4.58  23 Jul 2023:  Add DIN 7996 wood screws @berberic2.  
 * V0.4.57  21 Jul 2023:  Add DIN84 and DIN934 by @tobiasfalk.  
 * V0.4.56  29 Mar 2023:  Remove unnecessary diameter factor.  
 * V0.4.55  03 Mar 2023:  Fix error changing PEM standoffs length by @alexneufeld.  

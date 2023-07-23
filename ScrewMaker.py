@@ -156,6 +156,7 @@ screwTables = {
     "DIN603": ("Screw", "makeCarriageBolt"),
     "DIN571": ("Screw", "makeWoodScrew"),
     "DIN96": ("Screw", "makeWoodScrew"),
+    "DIN7996": ("Screw", "makeWoodScrew"),
     "GOST1144-1": ("Screw", "makeWoodScrew"),
     "GOST1144-2": ("Screw", "makeWoodScrew"),
     "GOST1144-3": ("Screw", "makeWoodScrew"),

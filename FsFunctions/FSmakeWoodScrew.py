@@ -33,6 +33,8 @@ def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
         return makeDIN571(self, fa)
     elif SType == "DIN96":
         return makeDIN96(self, fa)
+    elif SType == "DIN7996":
+        return makeDIN7996(self, fa)
     elif SType == "GOST1144-1" or SType == "GOST1144-2" or SType == "GOST1144-3" or SType == "GOST1144-4":
         return makeGOST1144(self, fa)
 
@@ -161,6 +163,59 @@ def makeDIN96(screw_obj, fa):
     slot = Part.makeBox(dk, n, t+1,
                         Base.Vector(-dk/2, -n/2, k-t))
     screw = screw.cut(slot)
+
+    # make thread
+    if fa.thread:
+        thread = screw_obj.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d32, d, P)
+        screw = screw.fuse(thread)
+
+    return screw
+
+# DIN7996 Wood screw
+
+def makeDIN7996(screw_obj, fa):
+    l = fa.calc_len
+    dia = float(fa.calc_diam.split()[0])
+    dk, k, da, r, d3, P, PH, m, e = fa.dimTable
+    d = dia/2
+    d32 = d3/2
+    sa = da/2
+
+    # calc screw
+    if fa.thread:
+        dt = d32
+    else:
+        dt = d
+    angle = math.radians(20)
+    x2 = dt * math.cos(angle)
+    z2 = dt * math.sin(angle)
+    z3 = x2 / math.tan(angle)
+    ftl = l - z2 - z3 # flat part (total length - tip)
+
+    # make profile
+    fm = FastenerBase.FSFaceMaker()
+    fm.AddPoint(0, k)
+    # using a spline (inspired by makeGOST1144) even it is not correct
+    fm.AddBSpline(dk/2, k, dk/2, 0)
+    fm.AddPoints(
+        (sa, 0),
+        (0, d-sa, 90),
+        (d, -0.4*ftl))
+    if fa.thread:
+        fm.AddPoints((dt, -0.4*ftl-(d-dt)))
+    fm.AddPoints(
+        (dt, -ftl),
+        (dt*math.cos(angle/2), -l + z2 + z3 - d*math.sin(angle/2), x2, -l+z3),
+        (0, -l))
+    profile = fm.GetFace()
+
+    # make screw body
+    screw = screw_obj.RevolveZ(profile)
+
+    # make phillips recess (10% compensation for spline)
+    recess = screw_obj.makeHCrossRecess(PH, m*1.1)
+    recess = recess.translate(Base.Vector(0.0, 0.0, k))
+    screw = screw.cut(recess)
 
     # make thread
     if fa.thread:

@@ -119,7 +119,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 
 </details>
 
-#### Release Notes DIN 7996 Cross recessed round head wood screws
+#### Release Notes
 * V0.4.59  30 Jul 2023:  Add DIN 6340 Washers by @berberic2.  
 * V0.4.58  23 Jul 2023:  Add DIN 7996 wood screws by @berberic2.  
 * V0.4.57  21 Jul 2023:  Add DIN84 and DIN934 by @tobiasfalk.  

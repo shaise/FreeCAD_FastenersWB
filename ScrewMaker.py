@@ -167,6 +167,7 @@ screwTables = {
     "ISO7092": ("Washer", "makeWasher"),
     "ISO7093-1": ("Washer", "makeWasher"),
     "ISO7094": ("Washer", "makeWasher"),
+    "DIN6340": ("Washer", "makeWasher"),
     "NFE27-619": ("Washer", "makeWasher"),
     "ISO4026": ("Screw", "makeSetScrew"),
     "ISO4027": ("Screw", "makeSetScrew"),

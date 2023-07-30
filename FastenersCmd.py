@@ -169,6 +169,7 @@ FSScrewCommandTable = {
     "ISO7092": (translate("FastenerCmd", "ISO 7092 Plain washers - Small series"), WasherGroup, WasherParameters),
     "ISO7093-1": (translate("FastenerCmd", "ISO 7093-1 Plain washers - Large series"), WasherGroup, WasherParameters),
     "ISO7094": (translate("FastenerCmd", "ISO 7094 Plain washers - Extra large series"), WasherGroup, WasherParameters),
+    "DIN6340": (translate("FastenerCmd", "DIN6340 Washers for clamping devices"), WasherGroup, WasherParameters),
     "NFE27-619": (translate("FastenerCmd", "NFE27-619 Countersunk washer"), WasherGroup, WasherParameters),
 
     # Inch

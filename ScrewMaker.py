@@ -180,6 +180,7 @@ screwTables = {
     "EN1661": ("Nut", "makeHexNutWFlange"),
     "DIN917": ("Nut", "makeThinCupNut"),
     "DIN1587": ("Nut", "makeCupNut"),
+    "DIN6330": ("Nut", "makeHexNut"),
     "DIN6334": ("Nut", "makeHexNut"),
     "DIN7967": ("Nut", "makePalNut"),
     "GOST11860-1": ("Nut", "makeCupNut"),

@@ -150,6 +150,7 @@ FSScrewCommandTable = {
     "DIN928": (translate("FastenerCmd", "DIN 928 square weld nuts"), NutGroup, NutParameters),
     "DIN929": (translate("FastenerCmd", "DIN 929 hexagonal weld nuts"), NutGroup, NutParameters),
     "DIN935": (translate("FastenerCmd", "DIN 935 Slotted / Castle nuts"), NutGroup, NutParameters),
+    "DIN6330": (translate("FastenerCmd", "DIN 6330 Hexagon nuts with a height of 1,5 d"), NutGroup, NutParameters),
     "DIN6334": (translate("FastenerCmd", "DIN 6334 elongated hexagon nuts"), NutGroup, NutParameters),
     "DIN7967": (translate("FastenerCmd", "DIN 7967 self locking counter nuts"), NutGroup, WasherParameters),
     "DIN1587": (translate("FastenerCmd", "DIN 1587 Cap nuts"), NutGroup, NutParameters),

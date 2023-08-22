@@ -56,25 +56,38 @@ class FastenersWorkbench(FreeCADGui.Workbench):
         self.list.extend(cmdlist)
         screwlist1 = FastenerBase.FSGetCommands("screws")
         screwlist = []
+        lastcmd = ""
         for cmd in screwlist1:
-            # FreeCAD.Console.PrintLog("Append toolbar " + str(cmd) + "\n")
             if isinstance(cmd, tuple):  # group in sub toolbars
-                self.appendToolbar(cmd[0], cmd[1])
-                self.list.extend(cmd[1])
+                group, commands, groupTitle = cmd
+                # FreeCAD.Console.PrintLog("Append group toolbar " + group + "," + str(commands) + "," + groupTitle + "\n")
+                parentmenu = [translate("InitGui", "Fasteners"),]
+                if group.startswith("Other "):
+                    parentmenu.append(translate("InitGui", "Add Other"))
+                else:
+                    self.appendToolbar(group, commands)
+                self.list.extend(commands)
+                parentmenu.append(translate("InitGui", "Add ") + GrammaticalTools.ToSingular(groupTitle))
                 self.appendMenu(
-                    [
-                        translate("InitGui", "Fasteners"),
-                        translate("InitGui", "Add ") + GrammaticalTools.ToSingular(cmd[2]),
-                    ],
-                    cmd[1],
+                    parentmenu,
+                    commands,
                 )
             else:
-                screwlist.append(cmd)
+                parentmenu = [
+                    translate("InitGui", "Fasteners"),
+                    translate("InitGui", "Add Fasteners"),
+                ]
+                if cmd.startswith("Other "):
+                    parentmenu.append(translate("InitGui", "Other"))
+                else:
+                    duplicateSeparator = cmd == "Separator" and lastcmd == "Separator"
+                    lastcmd = cmd
+                    if not duplicateSeparator:
+                        screwlist.append(cmd)
+                        # FreeCAD.Console.PrintLog("Append toolbar " + str(cmd) + "\n")
+
                 self.appendMenu(
-                    [
-                        translate("InitGui", "Fasteners"),
-                        translate("InitGui", "Add Fasteners"),
-                    ],
+                    parentmenu,
                     cmd,
                 )
         if len(screwlist) > 0:

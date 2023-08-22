@@ -121,6 +121,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 
 #### Release Notes
 * V0.4.61  22 Aug 2023:  Add preferences to select which fastener types to show by @alexneufeld.
+                       - Non selected standards stil shows on the menu bar. 
 * V0.4.60  16 Aug 2023:  Add DIN 6330 Nuts by @berberic2.  
 * V0.4.59  30 Jul 2023:  Add DIN 6340 Washers by @berberic2.  
 * V0.4.58  23 Jul 2023:  Add DIN 7996 wood screws by @berberic2.  

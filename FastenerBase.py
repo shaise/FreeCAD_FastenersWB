@@ -118,6 +118,7 @@ class FSCommandList:
             if subgroup is not None and GroupButtonMode > 0:
                 if not (subgroup in cmdsubs):
                     cmdsubs[subgroup] = []
+                    # FreeCAD.Console.PrintLog("add subgroup " + subgroup + "\n")
                     if GroupButtonMode == 2:
                         cmdlist.append(subgroup) # .replace(" ", ""))
                         cmdlist.append("Separator")
@@ -126,6 +127,7 @@ class FSCommandList:
                 cmdlist.append(command)
         for subcommand in cmdsubs:
             if GroupButtonMode == 2:
+                #FreeCAD.Console.PrintLog("add commands " + str(len(cmdsubs[subcommand])) + " - " + subcommand + "\n")
                 Gui.addCommand(subcommand, #.replace(" ", ""),
                     FSGroupCommand(cmdsubs[subcommand], subcommand, subcommand))
             else:

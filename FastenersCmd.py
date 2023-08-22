@@ -668,11 +668,12 @@ def FSAddScrewCommand(type):
     cmd = 'FS' + type
     Gui.addCommand(cmd, FSScrewCommand(
         type, FSScrewCommandTable[type][CMD_HELP]))
+    group = FSScrewCommandTable[type][CMD_GROUP]
     # Don't add the command to the toolbar for this session if the user has
     # disabled the standard type in the preferences page:
-    if enabled_fastener_toolbutton_types[FSScrewCommandTable[type][CMD_STD_GROUP]]:
-        FastenerBase.FSCommands.append(
-            cmd, "screws", FSScrewCommandTable[type][CMD_GROUP])
+    if not enabled_fastener_toolbutton_types[FSScrewCommandTable[type][CMD_STD_GROUP]]:
+        group = "Other " + group
+    FastenerBase.FSCommands.append(cmd, "screws", group)
 
 
 # generate all commands

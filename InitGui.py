@@ -100,7 +100,7 @@ class FastenersWorkbench(FreeCADGui.Workbench):
         "This is executed whenever the user right-clicks on screen"
         # "recipient" will be either "view" or "tree"
         self.appendContextMenu(
-            "Fasteners", self.list
+            translate("InitGui", "Fasteners"), self.list
         )  # add commands to the context menu
 
     def GetClassName(self):

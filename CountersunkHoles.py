@@ -243,7 +243,7 @@ class Ui_DlgCountersunktHoles(object):
 
     def fillScrewType(self, screwList):
         self.comboScrewType.clear()
-        self.comboScrewType.addItem("Default")
+        self.comboScrewType.addItem(translate("Fasteners", "Default"))
         for screw in screwList:
             self.comboScrewType.addItem(
                 QtGui.QIcon(os.path.join(iconPath, screw + ".svg")), screw

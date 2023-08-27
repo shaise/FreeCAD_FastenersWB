@@ -219,6 +219,41 @@
     </message>
     <message>
         <location filename="../FSprefs.ui" line="137"/>
+        <source>Fastener standards shown in toolbars:</source>
+        <translation>Standardy elementów złącznych wyświetlane na paskach narzędzi:</translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="148"/>
+        <source>ASME</source>
+        <translation>ASME</translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="167"/>
+        <source>DIN</source>
+        <translation>DIN</translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="186"/>
+        <source>EN</source>
+        <translation>EN</translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="222"/>
+        <source>GOST</source>
+        <translation>GOST</translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="241"/>
+        <source>ISO</source>
+        <translation>ISO</translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="260"/>
+        <source>SAE</source>
+        <translation>SAE</translation>
+    </message>
+    <message>
+        <location filename="../FSprefs.ui" line="137"/>
         <source>Scale settings for 3D printing thread generation</source>
         <translation>Ustawienia skali dla generatora gwintów do druku 3D</translation>
     </message>
@@ -421,6 +456,11 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
         <location filename="../FastenersCmd.py" line="84"/>
         <source>Washer</source>
         <translation>Podkładka</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="85"/>
+        <source>Misc head</source>
+        <translation>Róźne łby</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="85"/>
@@ -691,6 +731,11 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
         <location filename="../FastenersCmd.py" line="152"/>
         <source>DIN 935 Slotted / Castle nuts</source>
         <translation>DIN 935 - Nakrętka z rowkiem / koronowe</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="154"/>
+        <source>DIN 6330 Hexagon nuts with a height of 1,5 d</source>
+        <translation>DIN 6330 - Nakrętki sześciokątne o wysokości 1,5 d</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="153"/>
@@ -1142,11 +1187,24 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
     </message>
 </context>
 <context>
+    <name>Fasteners</name>
+    <message>
+        <location filename="../CountersunkHoles.py" line="246"/>
+        <source>Default</source>
+        <translation>Domyślna</translation>
+    </message>
+</context>
+<context>
     <name>InitGui</name>
     <message>
         <location filename="../InitGui.py" line="35"/>
         <source>Create ISO Fasteners</source>
         <translation>Utwórz elementy złączne ISO</translation>
+    </message>
+    <message>
+        <location filename="../InitGui.py" line="66"/>
+        <source>Add Other</source>
+        <translation>Dodaj pozodtałe</translation>
     </message>
     <message>
         <location filename="../InitGui.py" line="64"/>
@@ -1155,13 +1213,18 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
     </message>
     <message>
         <location filename="../InitGui.py" line="73"/>
-        <source>Fasteners</source>
-        <translation>Elementy złączne</translation>
+        <source>Add Fasteners</source>
+        <translation>Dodaj elementy złączne</translation>
+    </message>
+    <message>
+        <location filename="../InitGui.py" line="81"/>
+        <source>Other</source>
+        <translation>Pozostałe</translation>
     </message>
     <message>
         <location filename="../InitGui.py" line="73"/>
-        <source>Add Fasteners</source>
-        <translation>Dodaj elementy złączne</translation>
+        <source>Fasteners</source>
+        <translation>Elementy złączne</translation>
     </message>
 </context>
 </TS>

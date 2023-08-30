@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.4.63  30 Aug 2023:  Add french translation files by @kaktusus & @David69.
 * V0.4.62  23 Aug 2023:  Add polish translation files by @kaktusus.
 * V0.4.61  22 Aug 2023:  Add preferences to select which fastener types to show by @alexneufeld.
                        - Non selected standards stil shows on the menu bar. 

@@ -38,6 +38,7 @@ os.system(
     lupdate ../*.ui -ts fasteners_uifiles_es-es.ts
     lupdate ../*.ui -ts fasteners_uifiles_pt-br.ts
     lupdate ../*.ui -ts fasteners_uifiles_pt-pt.ts
+    lupdate ../*.ui -ts fasteners_uifiles_de.ts
     lupdate ../*.ui -ts fasteners_uifiles_ru.ts
     """
     )

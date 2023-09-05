@@ -152,7 +152,7 @@
     <message>
         <location filename="../FSScrewCalc.py" line="210"/>
         <source>Screw calculator</source>
-        <translation>Calculateur de vis</translation>
+        <translation>Calculateur de trous de vis</translation>
     </message>
     <message>
         <location filename="../FSScrewCalc.py" line="211"/>
@@ -335,12 +335,12 @@
     <message>
         <location filename="../FastenerBase.py" line="782"/>
         <source>Match screws by inner thread diameter (Tap hole)</source>
-        <translation>Faire correspondre les vis au diamètre du filetage intérieur (trou taraudé)</translation>
+        <translation>Faire adapter les vis au diamètre du filetage intérieur (trou taraudé)</translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="801"/>
         <source>Match screws by outer thread diameter (Pass hole)</source>
-        <translation>Faire correspondre les vis au diamètre du filetage extérieur (trou de passage)</translation>
+        <translation>Faire adapter les vis au diamètre du filetage extérieur (trou de passage)</translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="828"/>
@@ -423,37 +423,37 @@
     <message>
         <location filename="../FastenersCmd.py" line="78"/>
         <source>Hex head</source>
-        <translation>une vis à tête hexagonale</translation>
+        <translation>Vis à tête hexagonale</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="79"/>
         <source>Hexagon socket</source>
-        <translation>une vis à six pans creux</translation>
+        <translation>Vis à tête cylindrique à six pans creux</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="80"/>
         <source>Hexalobular socket</source>
-        <translation>une vis à tête creuse hexalobulaire</translation>
+        <translation>Vis à tête cylindrique torx</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="81"/>
         <source>Slotted</source>
-        <translation>une vis à tête fendue</translation>
+        <translation>Vis à tête fendue</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="82"/>
         <source>H cross</source>
-        <translation>une vis type H à tête cruciforme</translation>
+        <translation>Vis à tête cruciforme</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="83"/>
         <source>Nut</source>
-        <translation>un écrou pour rainures en T</translation>
+        <translation>Écroux</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="84"/>
         <source>Washer</source>
-        <translation>une rondelle</translation>
+        <translation>Rondelles</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="85"/>
@@ -463,22 +463,22 @@
     <message>
         <location filename="../FastenersCmd.py" line="86"/>
         <source>ThreadedRod</source>
-        <translation>une tige filetée</translation>
+        <translation>Tiges filetées</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="87"/>
         <source>PEM Inserts</source>
-        <translation>un élément à sertir PEM</translation>
+        <translation>Éléments à sertir PEM</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="88"/>
         <source>Retaining Rings</source>
-        <translation>un anneau de maintien</translation>
+        <translation>Anneaux de maintien</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="89"/>
         <source>T Slot</source>
-        <translation>Rainure en T</translation>
+        <translation>Écroux pour rainures en T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="97"/>
@@ -493,22 +493,22 @@
     <message>
         <location filename="../FastenersCmd.py" line="99"/>
         <source>ISO 4014 Hex head bolt</source>
-        <translation>ISO 4014 Boulons à tête hexagonale</translation>
+        <translation>ISO 4014 Boulon à tête hexagonale</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="100"/>
         <source>EN 1662 Hexagon bolt with flange, small series</source>
-        <translation>EN 1662 Boulons à tête hexagonale avec embase, série étroite</translation>
+        <translation>EN 1662 Boulon à tête hexagonale avec embase, série étroite</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="101"/>
         <source>EN 1665 Hexagon bolt with flange, heavy series</source>
-        <translation>EN 1665 Boulons à tête hexagonale avec embase, série large</translation>
+        <translation>EN 1665 Boulon à tête hexagonale avec embase, série large</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="102"/>
         <source>DIN 571 Hex head wood screw</source>
-        <translation>DIN 571 Tirefonds vis à bois à tête hexagonale</translation>
+        <translation>DIN 571 Tirefond vis à bois à tête hexagonale</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="104"/>
@@ -653,67 +653,67 @@
     <message>
         <location filename="../FastenersCmd.py" line="136"/>
         <source>ISO 7048 Cheese head screws with type H cross r.</source>
-        <translation>ISO 7048 Vis à tête cylindrique avec évidement transversal</translation>
+        <translation>ISO 7048 Vis à tête cylindrique à empreinte cruciforme</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="137"/>
         <source>DIN 7996 Cross recessed pan head wood screw</source>
-        <translation>DIN 7996 Vis à bois à tête cylindrique avec empreinte transversale</translation>
+        <translation>DIN 7996 Vis à bois à tête cylindrique à empreinte cruciforme</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="138"/>
         <source>GOST 1144 (Type 3) Half — round head wood screw</source>
-        <translation>GOST 1144 (Type 3) Vis à bois à tête demi-ronde fendue</translation>
+        <translation>GOST 1144 (Type 3) Vis à bois à tête demi-ronde à empreinte cruciforme</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="139"/>
         <source>GOST 1144 (Type 4) Half — round head wood screw</source>
-        <translation>GOST 1144 (Type 4) Vis à bois à tête demi-ronde fendue</translation>
+        <translation>GOST 1144 (Type 4) Vis à bois à tête demi-ronde à empreinte cruciforme</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="141"/>
         <source>DIN 603 Mushroom head square neck bolts</source>
-        <translation>DIN 603 Boulons à tête bombée et à collet carré</translation>
+        <translation>DIN 603 Boulon à tête bombée et à collet carré</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="142"/>
         <source>DIN 478 Square head bolts with collar</source>
-        <translation>DIN 478 Boulons à tête carrée avec collerette</translation>
+        <translation>DIN 478 Boulon à tête carrée avec collerette</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="144"/>
         <source>ISO 4032 Hexagon nuts, Style 1</source>
-        <translation>ISO 4032 Écrous hexagonaux, style 1</translation>
+        <translation>ISO 4032 Écrou hexagonal, style 1</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="145"/>
         <source>ISO 4033 Hexagon nuts, Style 2</source>
-        <translation>ISO 4033 Écrous hexagonaux, style 2</translation>
+        <translation>ISO 4033 Écrou hexagonal, style 2</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="146"/>
         <source>ISO 4035 Hexagon thin nuts, chamfered</source>
-        <translation>ISO 4035 Écrous minces hexagonaux, chanfreinés</translation>
+        <translation>ISO 4035 Écrou mince hexagonal, chanfreiné</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="147"/>
         <source>DIN 934(superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
-        <translation>DIN 934 (remplacé par ISO 4035 et ISO 8673) Écrous minces hexagonaux, chanfreinés</translation>
+        <translation>DIN 934 (remplacé par ISO 4035 et ISO 8673) Écrou mince hexagonal, chanfreiné</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="149"/>
         <source>EN 1661 Hexagon nuts with flange</source>
-        <translation>EN 1661 Écrous hexagonaux avec embase</translation>
+        <translation>EN 1661 Écrou hexagonal avec embase</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="150"/>
         <source>DIN917 Cap nuts, thin style</source>
-        <translation>DIN 917 Écrous borgnes, forme basse</translation>
+        <translation>DIN 917 Écrou borgne, forme basse</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="151"/>
         <source>DIN 928 square weld nuts</source>
-        <translation>DIN 928 Écrous à souder carré</translation>
+        <translation>DIN 928 Écrou à souder carré</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="152"/>
@@ -728,82 +728,82 @@
     <message>
         <location filename="../FastenersCmd.py" line="154"/>
         <source>DIN 6330 Hexagon nuts with a height of 1,5 d</source>
-        <translation>DIN 6330 Écrous hexagonaux d&apos;une hauteur de 1,5 d</translation>
+        <translation>DIN 6330 Écrou hexagonal d&apos;une hauteur de 1,5 d</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="155"/>
         <source>DIN 6334 elongated hexagon nuts</source>
-        <translation>DIN 6334 Écrous hexagonaux allongés</translation>
+        <translation>DIN 6334 Écrou hexagonal allongé</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="156"/>
         <source>DIN 7967 self locking counter nuts</source>
-        <translation>DIN 7967 Écrous PAL auto-freinés</translation>
+        <translation>DIN 7967 Écrou PAL auto-freiné</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="157"/>
         <source>DIN 1587 Cap nuts</source>
-        <translation>DIN 1587 Écrous borgnes</translation>
+        <translation>DIN 1587 Écrou borgne</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="158"/>
         <source>GOST 11860 (Type 1) Cap nuts</source>
-        <translation>GOST 11860 (Type 1) Écrous borgnes</translation>
+        <translation>GOST 11860 (Type 1) Écrou borgne</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="159"/>
         <source>DIN 315 wing nuts</source>
-        <translation>DIN 315 Écrous à oreilles</translation>
+        <translation>DIN 315 Écrou à oreilles</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="160"/>
         <source>DIN 557 Square nuts</source>
-        <translation>DIN 557 Écrous carrés</translation>
+        <translation>DIN 557 Écrou carré</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="161"/>
         <source>DIN 562 Square nuts</source>
-        <translation>DIN 562 Écrous carrés</translation>
+        <translation>DIN 562 Écrou carré</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="162"/>
         <source>DIN 985 Nyloc nuts</source>
-        <translation>DIN 985 Écrous Nylstop</translation>
+        <translation>DIN 985 Écrou Nylstop</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="163"/>
         <source>DIN 1624 Tee nuts</source>
-        <translation>DIN 1624 Écrous en T 4 griffes</translation>
+        <translation>DIN 1624 Écrou en T 4 griffes</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="165"/>
         <source>DIN 508 T-Slot nuts</source>
-        <translation>DIN 508 Écrous pour rainures en T</translation>
+        <translation>DIN 508 Écrou pour rainure en T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="166"/>
         <source>GN 507 T-Slot nuts</source>
-        <translation>GN 507 Écrous pour rainures en T</translation>
+        <translation>GN 507 Écrou pour rainure en T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="168"/>
         <source>ISO 7089 Washer</source>
-        <translation>ISO 7089 Rondelles plates</translation>
+        <translation>ISO 7089 Rondelle plate</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="169"/>
         <source>ISO 7090 Plain Washers, chamfered - Normal series</source>
-        <translation>ISO 7090 Rondelles plates chanfreinées, série normale</translation>
+        <translation>ISO 7090 Rondelle plate chanfreinée, série normale</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="171"/>
         <source>ISO 7092 Plain washers - Small series</source>
-        <translation>ISO 7092 Rondelles plates, série étroite</translation>
+        <translation>ISO 7092 Rondelle plate, série étroite</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="172"/>
         <source>ISO 7093-1 Plain washers - Large series</source>
-        <translation>ISO 7093-1 Rondelles plates, série large</translation>
+        <translation>ISO 7093-1 Rondelle plate, série large</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="173"/>
@@ -813,17 +813,17 @@
     <message>
         <location filename="../FastenersCmd.py" line="174"/>
         <source>DIN6340 Washers for clamping devices</source>
-        <translation>DIN 6340 Rondelles pour dispositifs de serrage</translation>
+        <translation>DIN 6340 Rondelle pour dispositif de serrage</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="175"/>
         <source>NFE27-619 Countersunk washer</source>
-        <translation>NFE27-619 Rondelles cuvette décolletées</translation>
+        <translation>NFE27-619 Rondelle cuvette décolletée</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="179"/>
         <source>ASME B18.2.1 UNC Square bolts</source>
-        <translation>ASME B18.2.1 Boulons carrés UNC</translation>
+        <translation>ASME B18.2.1 Boulon carré UNC</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="180"/>
@@ -893,77 +893,77 @@
     <message>
         <location filename="../FastenersCmd.py" line="196"/>
         <source>ASME B18.5 UNC Round head square neck bolts</source>
-        <translation>ASME B18.5 Boulons à tête carrée - boulons de carrosserie</translation>
+        <translation>ASME B18.5 Boulon à tête carrée - boulon de carrosserie</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="198"/>
         <source>ASME B18.2.2 UNC Hex Machine screw nuts</source>
-        <translation>ASME B18.2.2 Écrous à vis à tête hexagonale UNC</translation>
+        <translation>ASME B18.2.2 Écrou à vis à tête hexagonale UNC</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="199"/>
         <source>ASME B18.2.2 UNC Square machine screw nuts</source>
-        <translation>ASME B18.2.2 Écrous à vis carrée UNC</translation>
+        <translation>ASME B18.2.2 Écrou à vis carrée UNC</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="200"/>
         <source>ASME B18.2.2 UNC Square nuts</source>
-        <translation>ASME B18.2.2 Écrous carrés UNC</translation>
+        <translation>ASME B18.2.2 Écrou carré UNC</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="201"/>
         <source>ASME B18.2.2 UNC Hexagon nuts</source>
-        <translation>ASME B18.2.2 Écrous hexagonaux UNC</translation>
+        <translation>ASME B18.2.2 Écrou hexagonal UNC</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="202"/>
         <source>ASME B18.2.2 UNC Hexagon thin nuts</source>
-        <translation>ASME B18.2.2 Écrous fins hexagonaux UNC</translation>
+        <translation>ASME B18.2.2 Écrou fin hexagonal UNC</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="203"/>
         <source>ASME B18.2.2 UNC Hex slotted nuts</source>
-        <translation>ASME B18.2.2 Écrous fendus hexagonaux UNC</translation>
+        <translation>ASME B18.2.2 Écrou fendu hexagonal UNC</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="204"/>
         <source>ASME B18.2.2 UNC Hex flange nuts</source>
-        <translation>ASME B18.2.2 Écrous hexagonaux à embase UNC</translation>
+        <translation>ASME B18.2.2 Écrou hexagonal à embase UNC</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="205"/>
         <source>ASME B18.2.2 UNC Hex coupling nuts</source>
-        <translation>ASME B18.2.2 Écrous hexagonaux de couplage UNC</translation>
+        <translation>ASME B18.2.2 Écrou hexagonal de couplage UNC</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="206"/>
         <source>ASME B18.6.9 wing nuts, type A</source>
-        <translation>ASME B18.6.9 Écrous à oreilles, type A</translation>
+        <translation>ASME B18.6.9 Écrou à oreilles, type A</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="207"/>
         <source>SAE J483a low cap nuts</source>
-        <translation>SAE J483a 1 Écrous borgnes, forme basse</translation>
+        <translation>SAE J483a 1 Écrou borgne, forme basse</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="208"/>
         <source>SAE J483a high cap nuts</source>
-        <translation>SAE J483a 2 Écrous borgnes, forme haute</translation>
+        <translation>SAE J483a 2 Écrou borgne, forme haute</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="210"/>
         <source>ASME B18.21.1 UN washers, narrow series</source>
-        <translation>ASME B18.21.1 Rondelles UN, série étroite</translation>
+        <translation>ASME B18.21.1 Rondelle UN, série étroite</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="211"/>
         <source>ASME B18.21.1 UN washers, regular series</source>
-        <translation>ASME B18.21.1 Rondelles UN, série normale</translation>
+        <translation>ASME B18.21.1 Rondelle UN, série normale</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="212"/>
         <source>ASME B18.21.1 UN washers, wide series</source>
-        <translation>ASME B18.21.1 Rondelles UN, série large</translation>
+        <translation>ASME B18.21.1 Rondelle UN, série large</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="214"/>
@@ -998,42 +998,42 @@
     <message>
         <location filename="../FastenersCmd.py" line="220"/>
         <source>PEM Self Clinching nut</source>
-        <translation>Écrous auto-agrippants PEM</translation>
+        <translation>Écrou à sertir PEM</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="221"/>
         <source>PEM Self Clinching standoff</source>
-        <translation>Entretoises filetéés auto-agrippantes PEM</translation>
+        <translation>Entretoise à sertir PEM</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="222"/>
         <source>PEM Self Clinching stud</source>
-        <translation>Goujons auto-agrippants PEM</translation>
+        <translation>Goujon à sertir PEM</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="223"/>
         <source>Wurth WA-SSTII  PCB standoff</source>
-        <translation>Entretoises filetéés Wurth WA-SSTII pour PCB</translation>
+        <translation>Entretoise filetéé Wurth WA-SSTII pour PCB</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="224"/>
         <source>Wurth WA-SSTII PCB spacer</source>
-        <translation>Entretoises Wurth WA-SSTII pour PCB</translation>
+        <translation>Entretoise Wurth WA-SSTII pour PCB</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="225"/>
         <source>IUT[A/B/C] Heat Staked Metric Insert</source>
-        <translation>Inserts thermofixés métriques IUT[A/B/C]</translation>
+        <translation>Insert thermofixé métrique IUT[A/B/C]</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="227"/>
         <source>Metric external retaining rings</source>
-        <translation>Anneaux de maintien extérieurs métriques</translation>
+        <translation>Anneau de maintien extérieur métrique</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="228"/>
         <source>Metric internal retaining rings</source>
-        <translation>Anneaux de maintien intérieurs métriques</translation>
+        <translation>Anneau de maintien intérieur métrique</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="229"/>
@@ -1103,7 +1103,7 @@
     <message>
         <location filename="../FastenersCmd.py" line="385"/>
         <source>Blind Standoff type</source>
-        <translation>Entretoise auto-sertissable</translation>
+        <translation>Entretoise aveugle à sertir</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="388"/>
@@ -1113,7 +1113,7 @@
     <message>
         <location filename="../FastenersCmd.py" line="640"/>
         <source>Add </source>
-        <translation>Ajouter </translation>
+        <translation>- </translation>
     </message>
 </context>
 <context>
@@ -1202,7 +1202,7 @@
     <message>
         <location filename="../InitGui.py" line="70"/>
         <source>Add </source>
-        <translation>Ajouter </translation>
+        <translation>- </translation>
     </message>
     <message>
         <location filename="../InitGui.py" line="78"/>
@@ -1217,7 +1217,7 @@
     <message>
         <location filename="../InitGui.py" line="115"/>
         <source>Fasteners</source>
-        <translation>Fixations</translation>
+        <translation>Fasteners</translation>
     </message>
 </context>
 </TS>

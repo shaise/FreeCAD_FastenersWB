@@ -126,7 +126,9 @@ FUNCTION_POS = 1
 screwTables = {
     #            name,    function
     "DIN933": ("Screw", "makeHexHeadBolt"),
+    "DIN961": ("Screw", "makeHexHeadBolt"),
     "ISO4017": ("Screw", "makeHexHeadBolt"),
+    "ISO8676": ("Screw", "makeHexHeadBolt"),
     "ISO4014": ("Screw", "makeHexHeadBolt"),
     "EN1662": ("Screw", "makeHexHeadWithFlange"),
     "EN1665": ("Screw", "makeHexHeadWithFlange"),

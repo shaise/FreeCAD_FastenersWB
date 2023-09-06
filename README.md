@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.4.65  06 Sep 2023:  Added DIN 961, ISO 8676, ISO 8673, ISO 8674 and ISO 8675 by @tobiasfalk.
 * V0.4.64  05 Sep 2023:  Update french translation files by @kaktusus & @David69.
                        - Add German translations by @berberic2
 * V0.4.63  30 Aug 2023:  Add french translation files by @kaktusus & @David69.

@@ -35,7 +35,8 @@ import FastenerBase
 
 def makeTSlotNut(self, fa):  # dynamically loaded method of class Screw
     SType = fa.type
-    dia = self.getDia(fa.calc_diam, True)
+    d = fa.calc_diam # String value, ex: M6
+    dia = self.getDia(fa.calc_diam, True) # Converted numeric value
 
     if SType[:3] == "DIN":
         # a, e_max, f, h, k_max, P
@@ -43,7 +44,17 @@ def makeTSlotNut(self, fa):  # dynamically loaded method of class Screw
         e1 = e  # e1 is depth, y plane
         e2 = e  # e2 is width, x plane
     elif SType[:2] == "GN":
-        a, e1, e2, h, k, P = fa.dimTable
+        # All dimensions depend on the slot width NOT in the diameter
+        swidth = fa.slotWidth # 8mm/10mm
+        i = FastenerBase.FsTitles[fa.type + "slotwidths"].index(swidth)
+
+        a = FsData[fa.type + "slotwidths"][d][i]
+        e1 = FsData[fa.type + "e1"][d][i]
+        e2 = FsData[fa.type + "e2"][d][i]
+        h = FsData[fa.type + "h"][d][i]
+        k = FsData[fa.type + "k"][d][i]
+        P = FsData[fa.type + "P"][d][i]
+
         f = 0.125 * e2  # constant calculated with official GN step file
 
     # T-Slot nut Points, transversal cut

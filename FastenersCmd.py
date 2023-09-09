@@ -71,7 +71,7 @@ RetainingRingParameters = {"type", "diameter", "matchOuter"}
 TSlotNutParameters = { "type", "diameter", "matchOuter",
                         "thread", "leftHanded", "slotWidth" }
 FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length', 'lengthCustom', 'width', 
-                   'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength', "slotW"]
+                   'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength', "slotWidth"]
 
 # Names of fasteners groups translated once before FSScrewCommandTable created.
 # For make FSScrewCommandTable more compact and readable
@@ -86,7 +86,7 @@ OtherHeadGroup = translate("FastenerCmd", "Misc head")
 ThreadedRodGroup = translate("FastenerCmd", "ThreadedRod")
 PEMInsertsGroup = translate("FastenerCmd", "PEM Inserts")
 RetainingRingGroup = translate("FastenerCmd", "Retaining Rings")
-TSlotGroup = translate("FastenerCmd", "T Slot")
+TSlotNutGroup = translate("FastenerCmd", "T Slot Nuts")
 
 CMD_HELP = 0
 CMD_GROUP = 1
@@ -162,8 +162,8 @@ FSScrewCommandTable = {
     "DIN985": (translate("FastenerCmd", "DIN 985 Nyloc nuts"), NutGroup, NutParameters, "DIN"),
     "DIN1624": (translate("FastenerCmd", "DIN 1624 Tee nuts"), NutGroup, NutParameters, "DIN"),
 
-    "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "DIN"),
-    "GN507": (translate("FastenerCmd", "GN 507 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "other"),
+    "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotNutGroup, TSlotNutParameters, "DIN"),
+    "GN507": (translate("FastenerCmd", "GN 507 T-Slot nuts"), TSlotNutGroup, TSlotNutParameters, "other"),
 
     "ISO7089": (translate("FastenerCmd", "ISO 7089 Washer"), WasherGroup, WasherParameters, "ISO"),
     "ISO7090": (translate("FastenerCmd", "ISO 7090 Plain Washers, chamfered - Normal series"), WasherGroup, WasherParameters, "ISO"),
@@ -377,8 +377,9 @@ class FSScrewObject(FSBaseObject):
                 "FastenerCmd", "Thickness code")).tcode = screwMaker.GetAllTcodes(type, diameter)
 
         # slot width
-        if "slotWidth" in params and not hasattr(obj, "slotW"):
-            obj.addProperty("App::PropertyLength", "slotW", "Parameters", translate("FastenerCmd", "Slot width")).slotW = 6.0
+        if "slotWidth" in params and not hasattr(obj, "slotWidth"):
+            obj.addProperty("App::PropertyEnumeration", "slotWidth", "Parameters", translate(
+                "FastenerCmd", "Slot width")).slotWidth = screwMaker.GetAllSlotWidths(type, diameter)
 
         # misc
         if "blindness" in params and not hasattr(obj, "blind"):
@@ -533,6 +534,13 @@ class FSScrewObject(FSBaseObject):
             fp.tcode = tcodes
             if oldcode in tcodes:
                 fp.tcode = oldcode
+
+        if diameterchange and "slotWidth" in params:
+            swidths = screwMaker.GetAllSlotWidths(fp.type, fp.diameter)
+            oldsw = fp.slotWidth
+            fp.slotWidth = swidths
+            if oldsw in swidths:
+                fp.slotWidth = oldsw
 
         if fp.diameter == 'Custom' and hasattr(fp, "pitchCustom"):
             self.calc_pitch = fp.pitchCustom.Value

@@ -385,6 +385,15 @@ class FSScrewMaker(Screw):
                 res.append(tcodes[i])
         return res
 
+    def GetAllSlotWidths(self, type, diam):
+        swidths = FsTitles[type + "slotwidths"]
+        swdata = FsData[type + "slotwidths"][diam]
+        res = []
+        for i in range(len(swdata)):
+            if swdata[i] != 0:
+                res.append(swidths[i])
+        return res
+
     def GetAllWidthcodes(self, type, diam):
         widths = FsData[type + "width"][diam]
         return list(widths)

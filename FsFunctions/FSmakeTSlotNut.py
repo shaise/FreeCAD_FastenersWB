@@ -30,8 +30,34 @@ import FastenerBase
 
 # make T-Slot nut
 # DIN508
+# GN505
 # GN507
 
+# Cut corner delimited by 2 perpendicular rects and a quarter circunference
+def cutCorner(nut, radio, depth):
+    sqrt2 = math.sqrt(2)
+    p0 = Base.Vector(0.0, -radio, 0.0)
+    p1= Base.Vector(radio, -radio, 0.0)
+    p2 = Base.Vector(radio, 0.0, 0.0)
+    x = radio * (sqrt2 / 2)
+    p3 = Base.Vector(x, -x, 0.0)
+
+    edge0 = Part.makeLine(p0, p1)
+    edge1 = Part.makeLine(p1, p2)
+    curve = Part.Arc(p2, p3, p0).toShape()
+
+    aWire = Part.Wire([edge0, edge1, curve])
+    aFace = Part.Face(aWire)
+    corner = aFace.extrude(Base.Vector(0.0, 0.0, -depth))
+    # Part.show(corner) # See profile
+    nut = nut.cut(corner)
+
+    myMat = Base.Matrix()
+    myMat.rotateZ(math.pi)
+    corner.transformShape(myMat)
+    nut = nut.cut(corner)
+
+    return nut
 
 def makeTSlotNut(self, fa):  # dynamically loaded method of class Screw
     SType = fa.type
@@ -53,8 +79,11 @@ def makeTSlotNut(self, fa):  # dynamically loaded method of class Screw
         e2 = FsData[fa.type + "e2"][d][i]
         h = FsData[fa.type + "h"][d][i]
         k = FsData[fa.type + "k"][d][i]
+        if SType == "GN505":
+            k = k - 0.05 * e1 # Take into account strips height
         P = FsData[fa.type + "P"][d][i]
 
+        # f is the horizontal component of the chamfer
         f = 0.125 * e2  # constant calculated with official GN step file
 
     # T-Slot nut Points, transversal cut
@@ -74,6 +103,29 @@ def makeTSlotNut(self, fa):  # dynamically loaded method of class Screw
     face.translate(Base.Vector(0.0, -e1 / 2, 0.0))
     nut = face.extrude(Base.Vector(0.0, e1, 0.0))
 
+    if SType == "GN505":
+        # Cut corners in the upper face to enable rotation on slot
+        # a = e1
+        nut = cutCorner(nut, a/2, h-k)
+        # Add strips
+        p0 = Base.Vector(-e2 / 2, e1 / 2, -h + k)
+        p1 = Base.Vector(-e2 / 2, (e1 / 2) - 0.1 * e1, -h + k)
+        p2 = Base.Vector(-e2 / 2, (e1 / 2) - 0.05 * e1, -h + k + 0.05 * e1)
+
+        edge0 = Part.makeLine(p0, p1)
+        edge1 = Part.makeLine(p1, p2)
+        edge2 = Part.makeLine(p2, p0)
+
+        aWire = Part.Wire([edge0, edge1, edge2])
+        aFace = Part.Face(aWire)
+        strip = aFace.extrude(Base.Vector(e2, 0.0, 0.0))
+        nut = nut.fuse(strip)
+        for x in range(9):
+            myMat = Base.Matrix()
+            strip.translate(Base.Vector(0, -0.1 * e1, 0))
+            nut = nut.fuse(strip)
+
+    # Hole with chamfer
     sqrt3 = math.sqrt(3)
     da = 1.05 * dia
     inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
@@ -93,4 +145,22 @@ def makeTSlotNut(self, fa):  # dynamically loaded method of class Screw
             Base.Vector(0.0, 0.0, 0.0), Base.Vector(1.0, 0.0, 0.0), 180
         )
         nut = nut.cut(thread_cutter)
+
+    if SType == "GN505":
+        # Cut corners in the middle face
+        nut = cutCorner(nut, e2 / 2, h)
+        # Draw a triangle on x = e2 / 2
+        # to cut opposite corners on the bottom
+        fm.Reset()
+        fm.AddPoint((e2 / 2) - f, -h)
+        fm.AddPoint(e2 / 2, -h)
+        fm.AddPoint(e2 / 2, -h + f )
+        qring = self.RevolveZ(fm.GetFace(), angle=-90)
+        nut = nut.cut(qring)
+
+        myMat = Base.Matrix()
+        myMat.rotateZ(math.pi)
+        qring.transformShape(myMat)
+        nut = nut.cut(qring)
+
     return nut

@@ -163,6 +163,7 @@ FSScrewCommandTable = {
     "DIN1624": (translate("FastenerCmd", "DIN 1624 Tee nuts"), NutGroup, NutParameters, "DIN"),
 
     "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotNutGroup, TSlotNutParameters, "DIN"),
+    "GN505": (translate("FastenerCmd", "GN 505 Serrated Quarter-Turn T-Slot nuts"), TSlotNutGroup, TSlotNutParameters, "other"),
     "GN507": (translate("FastenerCmd", "GN 507 T-Slot nuts"), TSlotNutGroup, TSlotNutParameters, "other"),
 
     "ISO7089": (translate("FastenerCmd", "ISO 7089 Washer"), WasherGroup, WasherParameters, "ISO"),

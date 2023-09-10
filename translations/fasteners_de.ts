@@ -697,7 +697,7 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="147"/>
-        <source>DIN 934(superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
+        <source>DIN 934 (superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
         <translation>DIN 934 Sechskantmutter</translation>
     </message>
     <message>

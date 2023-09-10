@@ -906,14 +906,8 @@ class FSMakeBomCommand:
                          " Retaining Ring ") + obj.diameter, cnt)
 
     def AddTSlotNut(self, obj, cnt):
-        type = obj.type
-
-        if type[:3] == "DIN":
-            self.AddFastener(translate("FastenerBase", "T Slot Nut ") +
-                                obj.type + " " + obj.diameter, cnt)
-        elif type[:2] == "GN":
-            self.AddFastener(translate("FastenerBase", "T Slot Nut ") +
-                            obj.type + "-" + obj.slotWidth + "-" + obj.diameter, cnt)
+        self.AddFastener(translate("FastenerBase", "T Slot Nut ") +
+                        obj.type + "-" + obj.slotWidth + "-" + obj.diameter, cnt)
 
     def IsActive(self):
         return Gui.ActiveDocument is not None

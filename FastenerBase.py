@@ -905,7 +905,7 @@ class FSMakeBomCommand:
         self.AddFastener(obj.type + translate("FastenerBase",
                          " Retaining Ring ") + obj.diameter, cnt)
 
-    def AddTSlotNut(self, obj, cnt):
+    def AddTSlot(self, obj, cnt):
         self.AddFastener(translate("FastenerBase", "T Slot Nut ") +
                         obj.type + "-" + obj.slotWidth + "-" + obj.diameter, cnt)
 

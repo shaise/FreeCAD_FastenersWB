@@ -50,6 +50,7 @@ translate("FastenerCmdTreeView", "ScrewTap")
 translate("FastenerCmdTreeView", "ScrewDie")
 translate("FastenerCmdTreeView", "Insert")
 translate("FastenerCmdTreeView", "RetainingRing")
+translate("FastenerCmdTreeView", "TSlot")
 
 ScrewParameters = {"type", "diameter",
                    "matchOuter", "thread", "leftHanded", "length"}
@@ -68,7 +69,7 @@ PEMPressNutParameters = {"type", "diameter",
 PEMStandoffParameters = {"type", "diameter", "matchOuter",
                          "thread", "leftHanded", "length", "blindness"}
 RetainingRingParameters = {"type", "diameter", "matchOuter"}
-TSlotNutParameters = { "type", "diameter", "matchOuter",
+TSlotParameters = { "type", "diameter", "matchOuter",
                         "thread", "leftHanded", "slotWidth" }
 FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length', 'lengthCustom', 'width', 
                    'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength', "slotWidth"]
@@ -86,7 +87,7 @@ OtherHeadGroup = translate("FastenerCmd", "Misc head")
 ThreadedRodGroup = translate("FastenerCmd", "ThreadedRod")
 PEMInsertsGroup = translate("FastenerCmd", "PEM Inserts")
 RetainingRingGroup = translate("FastenerCmd", "Retaining Rings")
-TSlotNutGroup = translate("FastenerCmd", "T Slot Nuts")
+TSlotGroup = translate("FastenerCmd", "T Slot Nuts")
 
 CMD_HELP = 0
 CMD_GROUP = 1
@@ -162,9 +163,9 @@ FSScrewCommandTable = {
     "DIN985": (translate("FastenerCmd", "DIN 985 Nyloc nuts"), NutGroup, NutParameters, "DIN"),
     "DIN1624": (translate("FastenerCmd", "DIN 1624 Tee nuts"), NutGroup, NutParameters, "DIN"),
 
-    "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotNutGroup, TSlotNutParameters, "DIN"),
-    "GN505": (translate("FastenerCmd", "GN 505 Serrated Quarter-Turn T-Slot nuts"), TSlotNutGroup, TSlotNutParameters, "other"),
-    "GN507": (translate("FastenerCmd", "GN 507 T-Slot nuts"), TSlotNutGroup, TSlotNutParameters, "other"),
+    "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotGroup, TSlotParameters, "DIN"),
+    "GN505": (translate("FastenerCmd", "GN 505 Serrated Quarter-Turn T-Slot nuts"), TSlotGroup, TSlotParameters, "other"),
+    "GN507": (translate("FastenerCmd", "GN 507 T-Slot nuts"), TSlotGroup, TSlotParameters, "other"),
 
     "ISO7089": (translate("FastenerCmd", "ISO 7089 Washer"), WasherGroup, WasherParameters, "ISO"),
     "ISO7090": (translate("FastenerCmd", "ISO 7090 Plain Washers, chamfered - Normal series"), WasherGroup, WasherParameters, "ISO"),
@@ -724,5 +725,6 @@ FastenerBase.FSAddFastenerType("Standoff")
 FastenerBase.FSAddFastenerType("Stud")
 FastenerBase.FSAddFastenerType("HeatSet", False)
 FastenerBase.FSAddFastenerType("RetainingRing", False)
+FastenerBase.FSAddFastenerType("TSlot", False)
 for item in ScrewMaker.screwTables:
     FastenerBase.FSAddItemsToType(ScrewMaker.screwTables[item][0], item)

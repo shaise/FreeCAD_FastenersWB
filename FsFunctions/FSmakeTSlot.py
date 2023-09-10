@@ -28,7 +28,7 @@
 from screw_maker import *
 import FastenerBase
 
-# make T-Slot nut
+# make T-Slot fastener
 # DIN508
 # GN505
 # GN507
@@ -59,7 +59,7 @@ def cutCorner(nut, radio, depth):
 
     return nut
 
-def makeTSlotNut(self, fa):  # dynamically loaded method of class Screw
+def makeTSlot(self, fa):  # dynamically loaded method of class Screw
     SType = fa.type
     d = fa.calc_diam # String value, ex: M6
     dia = self.getDia(fa.calc_diam, True) # Converted numeric value
@@ -84,7 +84,7 @@ def makeTSlotNut(self, fa):  # dynamically loaded method of class Screw
             k = k - 0.05 * e1 # Take into account strips height
         f = 0.125 * e2  # constant calculated with official GN step file
 
-    # T-Slot nut Points, transversal cut
+    # T-Slot points, transversal cut
     fm = FastenerBase.FSFaceMaker()
     fm.AddPoint(e2 / 2 - f, -h)
     fm.AddPoint(e2 / 2, -h + f)

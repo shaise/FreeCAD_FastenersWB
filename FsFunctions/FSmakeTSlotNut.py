@@ -64,26 +64,24 @@ def makeTSlotNut(self, fa):  # dynamically loaded method of class Screw
     d = fa.calc_diam # String value, ex: M6
     dia = self.getDia(fa.calc_diam, True) # Converted numeric value
 
+    # All dimensions depend on the slot width NOT in the diameter
+    # with exception of the pitch
+    swidth = fa.slotWidth # 8mm/10mm
+    i = FastenerBase.FsTitles[fa.type + "slotwidths"].index(swidth)
+    a = FsData[fa.type + "slotwidths"][d][i]
+    h = FsData[fa.type + "h"][d][i]
+    P = FsData[fa.type + "P"][d][i]
     if SType[:3] == "DIN":
-        # a, e_max, f, h, k_max, P
-        a, e, f, h, k, P = fa.dimTable
-        e1 = e  # e1 is depth, y plane
-        e2 = e  # e2 is width, x plane
+        e1 = FsData[fa.type + "e"][d][i]
+        e2 = e1
+        f = FsData[fa.type + "f"][d][i]
+        k = FsData[fa.type + "k"][d][i]
     elif SType[:2] == "GN":
-        # All dimensions depend on the slot width NOT in the diameter
-        swidth = fa.slotWidth # 8mm/10mm
-        i = FastenerBase.FsTitles[fa.type + "slotwidths"].index(swidth)
-
-        a = FsData[fa.type + "slotwidths"][d][i]
         e1 = FsData[fa.type + "e1"][d][i]
         e2 = FsData[fa.type + "e2"][d][i]
-        h = FsData[fa.type + "h"][d][i]
         k = FsData[fa.type + "k"][d][i]
         if SType == "GN505":
             k = k - 0.05 * e1 # Take into account strips height
-        P = FsData[fa.type + "P"][d][i]
-
-        # f is the horizontal component of the chamfer
         f = 0.125 * e2  # constant calculated with official GN step file
 
     # T-Slot nut Points, transversal cut

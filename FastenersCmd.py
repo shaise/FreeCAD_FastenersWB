@@ -69,8 +69,10 @@ PEMPressNutParameters = {"type", "diameter",
 PEMStandoffParameters = {"type", "diameter", "matchOuter",
                          "thread", "leftHanded", "length", "blindness"}
 RetainingRingParameters = {"type", "diameter", "matchOuter"}
-TSlotParameters = { "type", "diameter", "matchOuter",
+TSlotNutParameters = { "type", "diameter", "matchOuter",
                         "thread", "leftHanded", "slotWidth" }
+TSlotBoltParameters = { "type", "diameter", "length", "lengthCustom",
+                       "matchOuter", "thread", "leftHanded", "slotWidth" }
 FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length', 'lengthCustom', 'width', 
                    'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength', "slotWidth"]
 
@@ -163,9 +165,10 @@ FSScrewCommandTable = {
     "DIN985": (translate("FastenerCmd", "DIN 985 Nyloc nuts"), NutGroup, NutParameters, "DIN"),
     "DIN1624": (translate("FastenerCmd", "DIN 1624 Tee nuts"), NutGroup, NutParameters, "DIN"),
 
-    "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotGroup, TSlotParameters, "DIN"),
-    "GN505": (translate("FastenerCmd", "GN 505 Serrated Quarter-Turn T-Slot nuts"), TSlotGroup, TSlotParameters, "other"),
-    "GN507": (translate("FastenerCmd", "GN 507 T-Slot nuts"), TSlotGroup, TSlotParameters, "other"),
+    "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "DIN"),
+    "GN505": (translate("FastenerCmd", "GN 505 Serrated Quarter-Turn T-Slot nuts"), TSlotGroup, TSlotNutParameters, "other"),
+    "GN505.4": (translate("FastenerCmd", "GN 505.4 Serrated T-Slot Bolts"), TSlotGroup, TSlotBoltParameters, "other"),
+    "GN507": (translate("FastenerCmd", "GN 507 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "other"),
 
     "ISO7089": (translate("FastenerCmd", "ISO 7089 Washer"), WasherGroup, WasherParameters, "ISO"),
     "ISO7090": (translate("FastenerCmd", "ISO 7090 Plain Washers, chamfered - Normal series"), WasherGroup, WasherParameters, "ISO"),
@@ -455,7 +458,7 @@ class FSScrewObject(FSBaseObject):
             if "diameterCustom" in params:
                 diameters.append("Custom")
 
-            if not (curdiam in diameters):
+            if curdiam not in diameters:
                 curdiam = 'Auto'
             fp.diameter = diameters
             fp.diameter = curdiam

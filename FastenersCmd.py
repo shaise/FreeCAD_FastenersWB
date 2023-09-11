@@ -89,7 +89,7 @@ OtherHeadGroup = translate("FastenerCmd", "Misc head")
 ThreadedRodGroup = translate("FastenerCmd", "ThreadedRod")
 PEMInsertsGroup = translate("FastenerCmd", "PEM Inserts")
 RetainingRingGroup = translate("FastenerCmd", "Retaining Rings")
-TSlotGroup = translate("FastenerCmd", "T Slot Nuts")
+TSlotGroup = translate("FastenerCmd", "T-Slot Fasteners")
 
 CMD_HELP = 0
 CMD_GROUP = 1

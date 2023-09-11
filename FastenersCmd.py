@@ -50,7 +50,7 @@ translate("FastenerCmdTreeView", "ScrewTap")
 translate("FastenerCmdTreeView", "ScrewDie")
 translate("FastenerCmdTreeView", "Insert")
 translate("FastenerCmdTreeView", "RetainingRing")
-translate("FastenerCmdTreeView", "TSlot")
+translate("FastenerCmdTreeView", "T-Slot")
 
 ScrewParameters = {"type", "diameter",
                    "matchOuter", "thread", "leftHanded", "length"}
@@ -728,6 +728,6 @@ FastenerBase.FSAddFastenerType("Standoff")
 FastenerBase.FSAddFastenerType("Stud")
 FastenerBase.FSAddFastenerType("HeatSet", False)
 FastenerBase.FSAddFastenerType("RetainingRing", False)
-FastenerBase.FSAddFastenerType("TSlot", False)
+FastenerBase.FSAddFastenerType("T-Slot", False)
 for item in ScrewMaker.screwTables:
     FastenerBase.FSAddItemsToType(ScrewMaker.screwTables[item][0], item)

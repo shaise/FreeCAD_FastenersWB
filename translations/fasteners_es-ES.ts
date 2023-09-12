@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_AR" sourcelanguage="en_US">
+<TS version="2.1" language="es_ES" sourcelanguage="en_US">
 <context>
     <name>DlgChangeParams</name>
     <message>
         <location filename="../FSChangeParams.py" line="394"/>
         <source>Change fastener parameters</source>
-        <translation>Cambiar parámetros de sujeciones</translation>
+        <translation>Cambiar parámetros de elementos de sujeción</translation>
     </message>
     <message>
         <location filename="../FSChangeParams.py" line="100"/>
@@ -353,6 +353,16 @@
         <translation>Coincidir tornillos por diámetro de rosca externo  (Barreno de paso)</translation>
     </message>
     <message>
+        <location filename="../FastenerBase.py" line="836"/>
+        <source>Screw diameter matching mode</source>
+        <translation>Modo de coincidencia de diámetro de tornillo</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="837"/>
+        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
+        <translation>Modo de coincidencia de diámetro de tornillo (por diámetro de rosca interno o externo)</translation>
+    </message>
+    <message>
         <location filename="../FastenerBase.py" line="866"/>
         <source>Generate BOM</source>
         <translation>Generar lista de materiales</translation>
@@ -378,19 +388,9 @@
         <translation>Tuerca de ranura en T </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="836"/>
-        <source>Screw diameter matching mode</source>
-        <translation>Modo de coincidencia de diámetro de tornillo</translation>
-    </message>
-    <message>
         <location filename="../FastenerBase.py" line="876"/>
         <source>Qty</source>
         <translation>Cantidad</translation>
-    </message>
-    <message>
-        <location filename="../FastenerBase.py" line="837"/>
-        <source>Screw diameter matching mode (by inner or outer thread diameter)</source>
-        <translation>Modo de coincidencia de diámetro de tornillo (por diámetro de rosca interno o externo)</translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="900"/>
@@ -450,7 +450,7 @@
     <message>
         <location filename="../FastenerBase.py" line="913"/>
         <source>T-Slot Nut </source>
-        <translation>Tuerca de ranura en T</translation>
+        <translation>Tuerca de ranura en T </translation>
     </message>
 </context>
 <context>
@@ -517,13 +517,13 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="89"/>
-        <source>T Slot Nuts</source>
-        <translation>Tuercas de ranura en T</translation>
+        <source>T Slot</source>
+        <translation>Ranura en T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="89"/>
-        <source>T Slot</source>
-        <translation>Ranura en T</translation>
+        <source>T Slot Nuts</source>
+        <translation>Tuercas de ranura en T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="92"/>
@@ -536,9 +536,19 @@
         <translation>DIN 933 Tornillo cabeza hexagonal</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="101"/>
+        <source>DIN 961 Hex head screw</source>
+        <translation>DIN 961 Tornillo de cabeza hexagonal</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="87"/>
         <source>ISO 4017 Hex head screw</source>
         <translation>ISO 4017 Tornillo de cabeza hexagonal</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="103"/>
+        <source>ISO 8676 Hex head screw</source>
+        <translation>ISO 8676 Tornillo de cabeza hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="88"/>
@@ -563,6 +573,11 @@
     <message>
         <location filename="../FastenersCmd.py" line="93"/>
         <source>ISO4762 Hexagon socket head cap screw</source>
+        <translation>ISO 4762 Tornillo hexagonal cabeza cilíndrica</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="109"/>
+        <source>ISO 4762 Hexagon socket head cap screw</source>
         <translation>ISO 4762 Tornillo hexagonal cabeza cilíndrica</translation>
     </message>
     <message>
@@ -666,6 +681,11 @@
         <translation>DIN84 (remplezado por ISO 1207) Tornillo ranurado cabeza de queso</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="132"/>
+        <source>DIN 84 (superseded by ISO 1207) Slotted cheese head screw</source>
+        <translation>DIN 84 (remplezado por ISO 1207) Tornillo ranurado cabeza de queso</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="116"/>
         <source>DIN 96 Slotted half round head wood screw</source>
         <translation>DIN 96 Tornillo para madera ranurado cabeza mitad redonda</translation>
@@ -748,7 +768,32 @@
     <message>
         <location filename="../FastenersCmd.py" line="147"/>
         <source>DIN 934(superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
-        <translation>DIN 934(remplezado por ISO 4035 e ISO 8673) Tuerca hexagonal delgada, con chaflán</translation>
+        <translation>DIN 934 (reemplazado por ISO 4035 e ISO 8673) Tuerca hexagonal delgada, con chaflán</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="152"/>
+        <source>ISO 8673 Hexagon regular nuts (style 1) with metric fine pitch thread — Product grades A and B</source>
+        <translation>ISO 8673 Tuerca hexagonal regular (estilo 1) con rosca métrica paso fino — Producto grados A y B</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="153"/>
+        <source>ISO 8674 Hexagon high nuts (style 2) with metric fine pitch thread</source>
+        <translation>ISO 8674 Tuerca hexagonal alta (estilo 2) con rosca métrica paso fino</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="153"/>
+        <source>ISO 8674 Hexagon high nuts (style 2) with metric fine pitch thread </source>
+        <translation>ISO 8674 Tuerca hexagonal alta (estilo 2) con rosca métrica paso fino</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="154"/>
+        <source>ISO 8675 Hexagon thin nuts chamfered (style 0) with metric fine pitch thread — Product grades A and B</source>
+        <translation>ISO 8675 Tuerca hexagonal delgada con chaflán (estilo 0) con rosca métrica paso fino — Producto grados A y B</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="155"/>
+        <source>DIN 934 (superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
+        <translation>DIN 934 (reemplazado por ISO 4035 e ISO 8673) Tuerca hexagonal delgada, con chaflán</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="130"/>
@@ -758,6 +803,11 @@
     <message>
         <location filename="../FastenersCmd.py" line="131"/>
         <source>DIN917 Cap nuts, thin style</source>
+        <translation>DIN 917 Tuerca bellota, estilo delgado</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="158"/>
+        <source>DIN 917 Cap nuts, thin style</source>
         <translation>DIN 917 Tuerca bellota, estilo delgado</translation>
     </message>
     <message>
@@ -874,6 +924,11 @@
         <location filename="../FastenersCmd.py" line="175"/>
         <source>DIN6340 Washers for clamping devices</source>
         <translation>DIN6340 Arandela ṕara dispositivos de sujeción</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="184"/>
+        <source>DIN 6340 Washers for clamping devices</source>
+        <translation>DIN 6340 Arandela ṕara dispositivos de sujeción</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="144"/>

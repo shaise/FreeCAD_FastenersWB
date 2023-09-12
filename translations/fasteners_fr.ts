@@ -467,7 +467,7 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="87"/>
-        <source>PEM Inserts</source>
+        <source>Inserts</source>
         <translation>Éléments à sertir PEM</translation>
     </message>
     <message>

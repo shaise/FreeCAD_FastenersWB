@@ -474,7 +474,7 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="87"/>
-        <source>PEM Inserts</source>
+        <source>Inserts</source>
         <translation>Wkładki PEM</translation>
     </message>
     <message>

@@ -452,7 +452,7 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="80"/>
-        <source>PEM Inserts</source>
+        <source>Inserts</source>
         <translation>Запрессовочный крепёж</translation>
     </message>
     <message>

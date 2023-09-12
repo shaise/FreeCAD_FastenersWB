@@ -196,9 +196,11 @@ screwTables = {
     "DIN929": ("Nut", "makeWeldNut"),
     "DIN935": ("Nut", "makeCastleNut"),
     "DIN985": ("Nut", "makeNylocNut"),
-    "DIN508": ("Nut", "makeTSlotNut"),
+    "DIN508": ("TSlot", "makeTSlot"),
     "DIN1624": ("Nut", "makeTeeNut"),
-    "GN507": ("Nut", "makeTSlotNut"),
+    "GN505": ("TSlot", "makeTSlot"),
+    "GN505.4": ("TSlot", "makeTSlot"),
+    "GN507": ("TSlot", "makeTSlot"),
     "ASMEB18.2.1.1": ("Screw", "makeSquareBolt"),
     "ASMEB18.2.1.6": ("Screw", "makeHexHeadBolt"),
     "ASMEB18.2.1.8": ("Screw", "makeHexHeadWithFlange"),
@@ -374,7 +376,7 @@ class FSScrewMaker(Screw):
         return res
 
     def GetTypeName(self, type):
-        if not (type in screwTables):
+        if type not in screwTables:
             return "None"
         return screwTables[type][FASTENER_FAMILY_POS]
 
@@ -388,6 +390,15 @@ class FSScrewMaker(Screw):
         for i in range(len(tdata)):
             if tdata[i] != 0:
                 res.append(tcodes[i])
+        return res
+
+    def GetAllSlotWidths(self, type, diam):
+        swidths = FsTitles[type + "slotwidths"]
+        swdata = FsData[type + "slotwidths"][diam]
+        res = []
+        for i in range(len(swdata)):
+            if swdata[i] != 0:
+                res.append(swidths[i])
         return res
 
     def GetAllWidthcodes(self, type, diam):

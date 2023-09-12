@@ -106,7 +106,7 @@ class FSCommandList:
         self.commands = {}
 
     def append(self, cmd, group="screws", subgroup=None):
-        if not (group in self.commands):
+        if group not in self.commands:
             self.commands[group] = []
         self.commands[group].append((cmd, subgroup))
 
@@ -116,7 +116,7 @@ class FSCommandList:
         for cmd in self.commands[group]:
             command, subgroup = cmd
             if subgroup is not None and GroupButtonMode > 0:
-                if not (subgroup in cmdsubs):
+                if subgroup not in cmdsubs:
                     cmdsubs[subgroup] = []
                     # FreeCAD.Console.PrintLog("add subgroup " + subgroup + "\n")
                     if GroupButtonMode == 2:
@@ -164,7 +164,7 @@ def FSAddFastenerType(typeName, hasLength=True, lengthFixed=True):
 
 
 def FSAddItemsToType(typeName, item):
-    if not (typeName in FSFastenerTypeDB):
+    if typeName not in FSFastenerTypeDB:
         return
     FSFastenerTypeDB[typeName].items.append(item)
 
@@ -223,10 +223,9 @@ FSCache = {}
 
 
 def FSGetKey(*args):
-    obj = None
     key = 'FS'
     for arg in args:
-        if not arg is None:
+        if arg is not None:
             key = key + '|' + str(arg)
     if key in FSCache:
         FreeCAD.Console.PrintLog("Using cached shape for: " + key + "\n")
@@ -904,6 +903,16 @@ class FSMakeBomCommand:
     def AddRetainingRing(self, obj, cnt):
         self.AddFastener(obj.type + translate("FastenerBase",
                          " Retaining Ring ") + obj.diameter, cnt)
+
+    def AddTSlot(self, obj, cnt):
+        if obj.type == "GN505.4":
+            self.AddFastener(translate("FastenerBase", "T-Slot Bolt ") +
+                            obj.type + " " + obj.diameter + " " + obj.slotWidth, 
+                             cnt)
+        else:
+            self.AddFastener(translate("FastenerBase", "T-Slot Nut ") +
+                            obj.type + " " + obj.diameter + " " + obj.slotWidth, 
+                             cnt)
 
     def IsActive(self):
         return Gui.ActiveDocument is not None

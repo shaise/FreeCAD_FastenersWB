@@ -2,8 +2,8 @@
 <package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
   <name>Fasteners Workbench</name>
   <description>Some common fasteners and fastener tools for FreeCAD.</description>
-  <version>0.4.65</version>
-  <date>2023-09-06</date>
+  <version>0.4.66</version>
+  <date>2023-09-12</date>
   <maintainer email="shaise@gmail.com">Shai Seger</maintainer>
   <license file="LICENSE">GPLv2</license>
   <url type="repository" branch="master">https://github.com/shaise/FreeCAD_FastenersWB</url>

@@ -120,12 +120,17 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
-* V0.4.65  06 Sep 2023:  Added DIN 961, ISO 8676, ISO 8673, ISO 8674 and ISO 8675 by @tobiasfalk.
-* V0.4.64  05 Sep 2023:  Update french translation files by @kaktusus & @David69.
-                       - Add German translations by @berberic2
-* V0.4.63  30 Aug 2023:  Add french translation files by @kaktusus & @David69.
-* V0.4.62  23 Aug 2023:  Add polish translation files by @kaktusus.
-* V0.4.61  22 Aug 2023:  Add preferences to select which fastener types to show by @alexneufeld.
+* V0.4.66  12 Sep 2023:  Update and add T slot fasteners by @hasecilu.  
+                       - Update Spanish translations by @hasecilu.  
+                       - German translation update + update.sh change by @berberic2.  
+                       - PEM Inserts → Inserts by @berberic2.  
+                       - Added some whitespace to get uniform appearance by @UR-0.  
+* V0.4.65  06 Sep 2023:  Added DIN 961, ISO 8676, ISO 8673, ISO 8674 and ISO 8675 by @tobiasfalk.  
+* V0.4.64  05 Sep 2023:  Update french translation files by @kaktusus & @David69.  
+                       - Add German translations by @berberic2  
+* V0.4.63  30 Aug 2023:  Add french translation files by @kaktusus & @David69.  
+* V0.4.62  23 Aug 2023:  Add polish translation files by @kaktusus.  
+* V0.4.61  22 Aug 2023:  Add preferences to select which fastener types to show by @alexneufeld.  
                        - Non selected standards stil shows on the menu bar. 
 * V0.4.60  16 Aug 2023:  Add DIN 6330 Nuts by @berberic2.  
 * V0.4.59  30 Jul 2023:  Add DIN 6340 Washers by @berberic2.  

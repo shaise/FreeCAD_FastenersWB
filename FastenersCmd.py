@@ -87,7 +87,7 @@ NutGroup = translate("FastenerCmd", "Nut")
 WasherGroup = translate("FastenerCmd", "Washer")
 OtherHeadGroup = translate("FastenerCmd", "Misc head")
 ThreadedRodGroup = translate("FastenerCmd", "ThreadedRod")
-PEMInsertsGroup = translate("FastenerCmd", "PEM Inserts")
+InsertGroup = translate("FastenerCmd", "Inserts")
 RetainingRingGroup = translate("FastenerCmd", "Retaining Rings")
 TSlotGroup = translate("FastenerCmd", "T-Slot Fasteners")
 
@@ -227,12 +227,12 @@ FSScrewCommandTable = {
     "ScrewDieInch": (translate("FastenerCmd", "Tool object to cut external non-metric threads"), ThreadedRodGroup, RodParameters, "ASME"),
     "ThreadedRod": (translate("FastenerCmd", "DIN 975 metric threaded rod"), ThreadedRodGroup, RodParameters, "DIN"),
     "ThreadedRodInch": (translate("FastenerCmd", "UNC threaded rod"), ThreadedRodGroup, RodParameters, "ASME"),
-    "PEMPressNut": (translate("FastenerCmd", "PEM Self Clinching nut"), PEMInsertsGroup, PEMPressNutParameters, "other"),
-    "PEMStandoff": (translate("FastenerCmd", "PEM Self Clinching standoff"), PEMInsertsGroup, PEMStandoffParameters, "other"),
-    "PEMStud": (translate("FastenerCmd", "PEM Self Clinching stud"), PEMInsertsGroup, ScrewParameters, "other"),
-    "PCBStandoff": (translate("FastenerCmd", "Wurth WA-SSTII  PCB standoff"), PEMInsertsGroup, PCBStandoffParameters, "other"),
-    "PCBSpacer": (translate("FastenerCmd", "Wurth WA-SSTII PCB spacer"), PEMInsertsGroup, PCBSpacerParameters, "other"),
-    "IUTHeatInsert": (translate("FastenerCmd", "IUT[A/B/C] Heat Staked Metric Insert"), PEMInsertsGroup, NutParameters, "other"),
+    "PEMPressNut": (translate("FastenerCmd", "PEM Self Clinching nut"), InsertGroup, PEMPressNutParameters, "other"),
+    "PEMStandoff": (translate("FastenerCmd", "PEM Self Clinching standoff"), InsertGroup, PEMStandoffParameters, "other"),
+    "PEMStud": (translate("FastenerCmd", "PEM Self Clinching stud"), InsertGroup, ScrewParameters, "other"),
+    "PCBStandoff": (translate("FastenerCmd", "Wurth WA-SSTII  PCB standoff"), InsertGroup, PCBStandoffParameters, "other"),
+    "PCBSpacer": (translate("FastenerCmd", "Wurth WA-SSTII PCB spacer"), InsertGroup, PCBSpacerParameters, "other"),
+    "IUTHeatInsert": (translate("FastenerCmd", "IUT[A/B/C] Heat Staked Metric Insert"), InsertGroup, NutParameters, "other"),
 
     "DIN471": (translate("FastenerCmd", "Metric external retaining rings"), RetainingRingGroup, RetainingRingParameters, "DIN"),
     "DIN472": (translate("FastenerCmd", "Metric internal retaining rings"), RetainingRingGroup, RetainingRingParameters, "DIN"),

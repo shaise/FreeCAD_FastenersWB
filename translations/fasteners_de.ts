@@ -467,8 +467,8 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="87"/>
-        <source>PEM Inserts</source>
-        <translation type="unfinished"></translation>
+        <source>Inserts</source>
+        <translation>Einsätze</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="88"/>
@@ -523,6 +523,11 @@
     <message>
         <location filename="../FastenersCmd.py" line="104"/>
         <source>ISO4762 Hexagon socket head cap screw</source>
+        <translation>ISO 4762 Zylinderschrauben mit Innensechskant</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="106"/>
+        <source>ISO 4762 Hexagon socket head cap screw</source>
         <translation>ISO 4762 Zylinderschrauben mit Innensechskant</translation>
     </message>
     <message>
@@ -623,6 +628,11 @@
     <message>
         <location filename="../FastenersCmd.py" line="127"/>
         <source>DIN84 (superseded by ISO 1207) Slotted cheese head screw</source>
+        <translation>DIN 84 Zylinderschrauben mit Schlitz (ersetzt durch ISO 1207)</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="129"/>
+        <source>DIN 84 (superseded by ISO 1207) Slotted cheese head screw</source>
         <translation>DIN 84 Zylinderschrauben mit Schlitz (ersetzt durch ISO 1207)</translation>
     </message>
     <message>
@@ -736,6 +746,11 @@
         <translation>DIN 917 Sechskant-Hutmuttern, niedrige Form</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="155"/>
+        <source>DIN 917 Cap nuts, thin style</source>
+        <translation>DIN 917 Sechskant-Hutmuttern, niedrige Form</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="151"/>
         <source>DIN 928 square weld nuts</source>
         <translation>DIN 928 Vierkant-Schweißmuttern</translation>
@@ -838,6 +853,11 @@
     <message>
         <location filename="../FastenersCmd.py" line="174"/>
         <source>DIN6340 Washers for clamping devices</source>
+        <translation>DIN 6340 Scheibe für Spannzeuge</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="179"/>
+        <source>DIN 6340 Washers for clamping devices</source>
         <translation>DIN 6340 Scheibe für Spannzeuge</translation>
     </message>
     <message>
@@ -1038,12 +1058,12 @@
     <message>
         <location filename="../FastenersCmd.py" line="223"/>
         <source>Wurth WA-SSTII  PCB standoff</source>
-        <translation type="unfinished"></translation>
+        <translation>Würth WA-SSTII  PCB standoff</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="224"/>
         <source>Wurth WA-SSTII PCB spacer</source>
-        <translation type="unfinished"></translation>
+        <translation>Würth WA-SSTII PCB spacer</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="225"/>

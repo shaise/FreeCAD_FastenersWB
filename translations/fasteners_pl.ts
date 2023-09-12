@@ -520,7 +520,7 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
     <message>
         <location filename="../FastenersCmd.py" line="103"/>
         <source>ISO4762 Hexagon socket head cap screw</source>
-        <translation>ISO4762 - Śruba z łbem walcowym z gniazdem na imbus</translation>
+        <translation>ISO 4762 - Śruba z łbem walcowym z gniazdem na imbus</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="104"/>
@@ -620,7 +620,7 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
     <message>
         <location filename="../FastenersCmd.py" line="126"/>
         <source>DIN84 (superseded by ISO 1207) Slotted cheese head screw</source>
-        <translation>DIN84 (zastąpiony przez ISO 1207) Wkręt z łbem walcowym z rowkiem</translation>
+        <translation>DIN 84 (zastąpiony przez ISO 1207) Wkręt z łbem walcowym z rowkiem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="127"/>
@@ -704,7 +704,7 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="146"/>
-        <source>DIN 934(superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
+        <source>DIN 934 (superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
         <translation>DIN 934 (zastąpione przez ISO 4035 i ISO 8673) - Nakrętka sześciokątna cienka, fazowane</translation>
     </message>
     <message>
@@ -715,7 +715,7 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
     <message>
         <location filename="../FastenersCmd.py" line="149"/>
         <source>DIN917 Cap nuts, thin style</source>
-        <translation>DIN917 - Nakrętka kołpakowa, cienkie</translation>
+        <translation>DIN 917 - Nakrętka kołpakowa, cienkie</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="150"/>
@@ -820,7 +820,7 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
     <message>
         <location filename="../FastenersCmd.py" line="172"/>
         <source>DIN6340 Washers for clamping devices</source>
-        <translation>DIN6340 - Podkładka do urządzeń zaciskowych</translation>
+        <translation>DIN 6340 - Podkładka do urządzeń zaciskowych</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="173"/>

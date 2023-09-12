@@ -9,7 +9,12 @@
 # sudo apt install -y pyqt5-dev-tools
 #
 # This is array of supported languages. New languages, must be added to it.
-languages=(es-ar es-es pt-br pt-pt ru pl fr de)
+if [ $# -eq 1 ]; then
+    languages="$1"
+else
+    languages=(es-ar es-es pt-br pt-pt ru pl fr de)
+fi
+#
 for lang in ${languages[*]}
 do
    # Check if fastners_$lang.ts exist

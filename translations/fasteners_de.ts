@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de_DE" sourcelanguage="en_GB">
+<TS version="2.1" language="de" sourcelanguage="en_US">
 <context>
     <name>DlgChangeParams</name>
     <message>
@@ -487,8 +487,18 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="98"/>
+        <source>DIN 961 Hex head screw</source>
+        <translation>DIN 961 Sechskantschrauben mit Gewinde bis Kopf und Feingewinde</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="98"/>
         <source>ISO 4017 Hex head screw</source>
         <translation>ISO 4017 Sechskantschrauben mit Gewinde bis Kopf</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="100"/>
+        <source>ISO 8676 Hex head screw</source>
+        <translation>ISO 8676 Sechskantschrauben mit Gewinde bis Kopf und Feingewinde</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="99"/>
@@ -694,6 +704,21 @@
         <location filename="../FastenersCmd.py" line="146"/>
         <source>ISO 4035 Hexagon thin nuts, chamfered</source>
         <translation>ISO 4035 Sechskantmuttern, niedrige Form (mit Fase)</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="149"/>
+        <source>ISO 8673 Hexagon regular nuts (style 1) with metric fine pitch thread — Product grades A and B</source>
+        <translation>ISO 8673 Sechskantmuttern (Typ 1), mit Feingewinde</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="150"/>
+        <source>ISO 8674 Hexagon high nuts (style 2) with metric fine pitch thread </source>
+        <translation>ISO 8674 Hohe Sechskantmuttern (Typ 2), mit Feingewinde</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="151"/>
+        <source>ISO 8675 Hexagon thin nuts chamfered (style 0) with metric fine pitch thread — Product grades A and B</source>
+        <translation>ISO 8675 Niedrige Sechskantmuttern (Typ 0), mit metrischem Feingewinde</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="147"/>

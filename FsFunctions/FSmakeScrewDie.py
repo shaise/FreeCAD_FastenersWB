@@ -43,20 +43,20 @@ def makeScrewDie(self, fa):
             dia = self.smScrewThrScaleA * float(fa.calc_diam) + self.smScrewThrScaleB
         else:
             dia = float(fa.calc_diam)
-    if fa.thread:
-        cutDia = self.GetInnerThreadMinDiameter(dia, P, 0.0)
-    else:
-        cutDia = dia
     length = fa.calc_len
     refpoint = Base.Vector(0, 0, -1 * length)
-    screwDie = Part.makeCylinder(dia * 1.1 / 2, length, refpoint)
-    screwDie = screwDie.cut(Part.makeCylinder(cutDia / 2, length, refpoint))
+    screwDie = Part.makeCylinder(dia * 1.2 / 2, length, refpoint)
     if fa.thread:
-        thread_cutter = self.CreateInnerThreadCutter(dia, P, length + 2 * P)
-        thread_cutter.rotate(
-            Base.Vector(0.0, 0.0, 0.0),
-            Base.Vector(1.0, 0.0, 0.0),
-            180
-        )
+        thread_cylinder = Part.makeCylinder(dia / 2, length, refpoint)
+        thread_cutter = self.CreateThreadCutter(dia, P, length)
+        thread_cutter = thread_cylinder.cut(thread_cutter)
+        #thread_cutter = self.CreateInnerThreadCutter(dia, P, length + 2 * P)
+        #thread_cutter.rotate(
+        #    Base.Vector(0.0, 0.0, 0.0),
+        #    Base.Vector(1.0, 0.0, 0.0),
+        #    180
+        #)
         screwDie = screwDie.cut(thread_cutter)
+    else:
+        screwDie = screwDie.cut(Part.makeCylinder(dia / 2, length, refpoint))
     return screwDie

@@ -33,7 +33,7 @@ FreeCADGui.updateLocale()
 
 if FreeCAD.GuiUp:
     from PySide.QtCore import QT_TRANSLATE_NOOP
-    from DraftGui import translate
+    from draftutils.translate import translate
 else:
     def QT_TRANSLATE_NOOP(context, text):
         return text

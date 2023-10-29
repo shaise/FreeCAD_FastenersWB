@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.4.68  29 Oct 2023:  Import translate module direcrtly by @Roy-043.  
 * V0.4.67  15 Sep 2023:  Fix screw die tool.  
 * V0.4.66  12 Sep 2023:  Update and add T slot fasteners by @hasecilu.  
                        - Update Spanish translations by @hasecilu.  

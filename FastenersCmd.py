@@ -622,24 +622,35 @@ class FSViewProviderTree:
     def onChanged(self, vp, prop):
         return
 
-    def dumps(self):
-        #        return {'ObjectName' : self.Object.Name}
-        return None
+    if (FreeCAD.Version()[0]+'.'+FreeCAD.Version()[1]) >= '0.22':
+        def dumps(self):
+            #        return {'ObjectName' : self.Object.Name}
+            return None
 
-    def loads(self, state):
-        if state is not None:
-            import FreeCAD
-            doc = FreeCAD.ActiveDocument  # crap
-            self.Object = doc.getObject(state['ObjectName'])
+        def loads(self, state):
+            if state is not None:
+                import FreeCAD
+                doc = FreeCAD.ActiveDocument  # crap
+                self.Object = doc.getObject(state['ObjectName'])
+
+    else:
+        def __getstate__(self):
+            #        return {'ObjectName' : self.Object.Name}
+            return None
+
+        def __setstate__(self, state):
+            if state is not None:
+                import FreeCAD
+                doc = FreeCAD.ActiveDocument  # crap
+                self.Object = doc.getObject(state['ObjectName'])
 
     def getIcon(self):
         if hasattr(self.Object, "type"):
             return os.path.join(iconPath, self.Object.type + '.svg')
         elif hasattr(self.Object.Proxy, "type"):
-            return os.path.join(iconPath, self.Object.Proxy.type + '.svg')
+                return os.path.join(iconPath, self.Object.Proxy.type + '.svg')
         # default to ISO4017.svg
         return os.path.join(iconPath, 'ISO4017.svg')
-
 
 class FSScrewCommand:
     """Add Screw command"""

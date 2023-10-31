@@ -481,18 +481,27 @@ class FSViewProviderIcon:
         #        return {'ObjectName' : self.Object.Name}
         return None
 
-    def loads(self, state):
-        if state is not None:
-            import FreeCAD
-            doc = FreeCAD.ActiveDocument  # crap
-            self.Object = doc.getObject(state['ObjectName'])
+    if (FreeCAD.Version()[0]+'.'+FreeCAD.Version()[1]) >= '0.22':
+        def loads(self, state):
+            if state is not None:
+                import FreeCAD
+                doc = FreeCAD.ActiveDocument  # crap
+                self.Object = doc.getObject(state['ObjectName'])
 
-    def getIcon(self):
-        for type in FSClassIcons:
-            if isinstance(self.Object.Proxy, type):
-                return os.path.join(iconPath, FSClassIcons[type])
-        return None
+        def dumps(self):
+            #        return {'ObjectName' : self.Object.Name}
+            return None
 
+    else:
+        def __setstate__(self, state):
+            if state is not None:
+                import FreeCAD
+                doc = FreeCAD.ActiveDocument  # crap
+                self.Object = doc.getObject(state['ObjectName'])
+
+        def __getstate__(self):
+            #        return {'ObjectName' : self.Object.Name}
+            return None
 
 def GetEdgeName(obj, edge):
     i = 1

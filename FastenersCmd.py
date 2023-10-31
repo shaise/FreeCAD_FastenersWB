@@ -622,11 +622,11 @@ class FSViewProviderTree:
     def onChanged(self, vp, prop):
         return
 
-    def __getstate__(self):
+    def dumps(self):
         #        return {'ObjectName' : self.Object.Name}
         return None
 
-    def __setstate__(self, state):
+    def loads(self, state):
         if state is not None:
             import FreeCAD
             doc = FreeCAD.ActiveDocument  # crap

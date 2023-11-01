@@ -317,6 +317,41 @@ class Screw:
         isFrenet = True
         cutTool = Part.Wire(helix).makePipeShell([W0], makeSolid, isFrenet)
         return cutTool
+    
+    def CreateKnurlCutter(self, outDia: float, inDia: float, zbase: float, height: float, leftHanded: bool) -> Part.Shape:
+        ro = outDia / 2.0
+        ri = inDia / 2.0
+        p = outDia * 3.1415
+        tan_a2 = 1.2 # tan(50)
+
+        # make just one turn, length is identical to pitch
+        helix = Part.makeLongHelix(
+            p, height, ro, 0, leftHanded
+        )
+
+        # create base triangle
+        d2 = outDia - ri
+        y2 = (d2 - ri) * tan_a2
+        p1 = FreeCAD.Base.Vector(ri, 0, 0)
+        p2 = FreeCAD.Base.Vector(d2, y2, 0)
+        p3 = FreeCAD.Base.Vector(d2, -y2, 0)
+        l1 = Part.makeLine(p1, p2)
+        l2 = Part.makeLine(p2, p3)
+        l3 = Part.makeLine(p3, p1)
+        w = Part.Wire([l1,l2, l3])
+
+        cutElement = Part.Wire(helix).makePipeShell([w], True, True)
+        cutElement.translate(Base.Vector(0, 0, zbase))
+        cutElements = [cutElement]
+        ang = math.atan(y2 / d2) * 114.6 # 2 * 180 / pi
+        numCuts = int(360.0 / ang)
+        elementAng = 360 / numCuts
+        
+        for i in range(1, numCuts):
+            nextElement = cutElement.copy().rotate(Base.Vector(0,0,0), Base.Vector(0,0,1), i * elementAng)
+            cutElements.append(nextElement)
+        cutTool = Part.Compound(cutElements)
+        return cutTool
 
     def CreateBlindThreadCutter(self, dia: float, P: float, blen: float) -> Part.Shape:
         """Returns a shape that can be subtracted from a shaft to create a

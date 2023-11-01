@@ -64,6 +64,9 @@ def makeHeatInsert(self, fa):
     iD = self.GetInnerThreadMinDiameter(oD, P)
     fFace = iutMakeFace(iD, A, E, C, s1, s2)
     fSolid = self.RevolveZ(fFace)
+    ch = C / 6
+    k1 = (A - ch - s1 - s2) / 2
+    k2 = k1 + s1 + k1
     if fa.thread:
         dia = self.getDia(fa.calc_diam, True)
         thread_cutter = self.CreateInnerThreadCutter(dia, P, A + P)
@@ -71,4 +74,8 @@ def makeHeatInsert(self, fa):
             Base.Vector(0.0, 0.0, 0.0), Base.Vector(1.0, 0.0, 0.0), 180
         )
         fSolid = fSolid.cut(thread_cutter)
+        knurlCut = self.CreateKnurlCutter(E, E - 1, -k1 - 0.01, k1 + 0.02, False)
+        fSolid = fSolid.cut(knurlCut)
+        knurlCut = self.CreateKnurlCutter(E, E - 1, -k2 - 0.01, k1 + 0.02, True)
+        fSolid = fSolid.cut(knurlCut)
     return fSolid

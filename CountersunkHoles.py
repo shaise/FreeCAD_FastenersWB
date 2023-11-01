@@ -622,27 +622,22 @@ class FSViewProviderCountersunk:
     def onChanged(self, vp, prop):
         return
 
-    if (FreeCAD.Version()[0]+'.'+FreeCAD.Version()[1]) >= '0.22':
-        def dumps(self):
-            #        return {'ObjectName' : self.Object.Name}
-            return None
+    def dumps(self):
+        #        return {'ObjectName' : self.Object.Name}
+        return None
 
-        def loads(self, state):
-            if state is not None:
-                import FreeCAD
-                doc = FreeCAD.ActiveDocument  # crap
-                self.Object = doc.getObject(state["ObjectName"])
+    def loads(self, state):
+        if state is not None:
+            import FreeCAD
+            doc = FreeCAD.ActiveDocument  # crap
+            self.Object = doc.getObject(state["ObjectName"])
 
-    else:
+    if FastenerBase.FsUseGetSetState: # compatibility with old versions
         def __getstate__(self):
-            #        return {'ObjectName' : self.Object.Name}
-            return None
+            return self.dumps()
 
         def __setstate__(self, state):
-            if state is not None:
-                import FreeCAD
-                doc = FreeCAD.ActiveDocument  # crap
-                self.Object = doc.getObject(state["ObjectName"])
+            self.loads(state)
 
     def claimChildren(self):
         objs = []

@@ -45,6 +45,8 @@ matchInnerButton = None
 matchInnerButtonText = translate("FastenerBase", 'Match for tap hole')
 
 
+FsUseGetSetState =  ((FreeCAD.Version()[0]+'.'+FreeCAD.Version()[1]) < '0.22') or (FreeCAD.Version()[5] == 'LinkDaily')
+
 # function to open a csv file and convert it to a dictionary
 FsData = {}
 FsTitles = {}
@@ -477,31 +479,23 @@ class FSViewProviderIcon:
     def onChanged(self, vp, prop):
         return
 
+    def loads(self, state):
+        if state is not None:
+            import FreeCAD
+            doc = FreeCAD.ActiveDocument  # crap
+            self.Object = doc.getObject(state['ObjectName'])
+
     def dumps(self):
         #        return {'ObjectName' : self.Object.Name}
         return None
 
-    if (FreeCAD.Version()[0]+'.'+FreeCAD.Version()[1]) >= '0.22':
-        def loads(self, state):
-            if state is not None:
-                import FreeCAD
-                doc = FreeCAD.ActiveDocument  # crap
-                self.Object = doc.getObject(state['ObjectName'])
-
-        def dumps(self):
-            #        return {'ObjectName' : self.Object.Name}
-            return None
-
-    else:
+    if FsUseGetSetState:  # compatibility with old versions
+        FreeCAD.Console.PrintLog("Using old getstate/setstate system\n")
         def __setstate__(self, state):
-            if state is not None:
-                import FreeCAD
-                doc = FreeCAD.ActiveDocument  # crap
-                self.Object = doc.getObject(state['ObjectName'])
+            self.loads(state)
 
         def __getstate__(self):
-            #        return {'ObjectName' : self.Object.Name}
-            return None
+            return self.dumps()
 
 def GetEdgeName(obj, edge):
     i = 1

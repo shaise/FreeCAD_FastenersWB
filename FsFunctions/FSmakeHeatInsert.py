@@ -30,29 +30,21 @@ import FastenerBase
 # Heat Staked Threaded Insert types: IUT
 
 
-def iutMakeFace(D, a, E, C, s1, s2):
-    d = D / 2
-    e = E / 2
-    c = C / 2
-    ch = C / 6
-    k1 = (a - ch - s1 - s2) / 2
-    k2 = k1 + s1 + k1
-    sd = (e - d) / 2
-
+def iutMakeFace(d, a, e, c, c1, k1, k2, k3, k4, k5):
     fm = FastenerBase.FSFaceMaker()
     fm.AddPoints(
         (d, 0),
         (e, 0),
-        (e, -k1),
-        (e - sd, -k1),
-        (e - sd, -k1 - s1),
-        (e, -k1 - s1),
-        (e, -k2),
-        (e - sd, -k2),
-        (e - sd, -k2 - s2),
-        (c, -k2 - s2),
-        (c, -a),
-        (d, -a),
+        (e, k1),
+        (c, k1),
+        (c, k2),
+        (e, k2),
+        (e, k3),
+        (c1, k4),
+        (c1, k5),
+        (c, k5),
+        (c, a),
+        (d, a),
     )
     return fm.GetFace()
 
@@ -62,11 +54,26 @@ def makeHeatInsert(self, fa):
     oD = self.getDia(fa.diameter, True)
     P = FsData["MetricPitchTable"][fa.diameter][0]
     iD = self.GetInnerThreadMinDiameter(oD, P)
-    fFace = iutMakeFace(iD, A, E, C, s1, s2)
+ 
+    len =  FastenerBase.LenStr2Num(fa.length)
+    extDiam = FastenerBase.LenStr2Num(fa.externalDiam)
+    scale = len / A
+    a = -len
+    d = iD / 2
+    e = extDiam / 2
+    c = (extDiam - E + C) / 2
+    ch = c / 3
+    c1 = c - d / 10
+    k1 = -(A - ch - s1 - s2) * scale / 2
+    k2 = k1 - s1 * scale
+    k4 = k1 * 2 - s1 * scale
+    k3 = k4 + (e - c1) * scale
+    k5 = k4 - s2 * scale
+
+    fFace = iutMakeFace(d, a, e, c, c1, k1, k2, k3, k4, k5)
     fSolid = self.RevolveZ(fFace)
-    ch = C / 6
-    k1 = (A - ch - s1 - s2) / 2
-    k2 = k1 + s1 + k1
+
+
     if fa.thread:
         dia = self.getDia(fa.calc_diam, True)
         thread_cutter = self.CreateInnerThreadCutter(dia, P, A + P)
@@ -74,8 +81,8 @@ def makeHeatInsert(self, fa):
             Base.Vector(0.0, 0.0, 0.0), Base.Vector(1.0, 0.0, 0.0), 180
         )
         fSolid = fSolid.cut(thread_cutter)
-        knurlCut = self.CreateKnurlCutter(E, E - 1, -k1 - 0.01, k1 + 0.02, False)
+        knurlCut = self.CreateKnurlCutter(extDiam, c * 2, k1 - 0.01, -k1 + 0.02, False)
         fSolid = fSolid.cut(knurlCut)
-        knurlCut = self.CreateKnurlCutter(E, E - 1, -k2 - 0.01, k1 + 0.02, True)
+        knurlCut = self.CreateKnurlCutter(extDiam, c * 2, k4 - 0.01, -k1 + 0.02, True)
         fSolid = fSolid.cut(knurlCut)
     return fSolid

@@ -437,13 +437,18 @@ class FSScrewMaker(Screw):
         if name not in titles:
             return -1
         return titles.index(name)
+    
+    def GetTableProperty(self, type, diam, property, default_val):
+        tablepos = self.GetTablePos(type, property)
+        FreeCAD.Console.PrintLog("Found pos for " + property + ": " + str(tablepos) + "\n")
+        if (tablepos < 0):
+            return default_val
+        table = FsData[type + "def"]
+        FreeCAD.Console.PrintLog("Fetching value for diam: " + diam + "\n")
+        return table[diam][tablepos]        
 
     def GetThreadLength(self, type, diam):
-        tablepos = self.GetTablePos(type, 'thr_len')
-        if (tablepos < 0):
-            return 10.0
-        table = FsData[type + "def"]
-        return table[diam][tablepos]
+        return self.GetTableProperty(type, diam, 'thr_len', 10.0)
 
     def GetInnerThread(self, diam):
         diam = FastenerBase.CleanM(diam)
@@ -505,8 +510,8 @@ class FSScrewMaker(Screw):
             FastenerBase.FSCacheRemoveThreaded()
 
     def createFastener(self, fastenerAttribs):
-        dims = screwTables[fastenerAttribs.type][FUNCTION_POS]
-        return self.createScrew(dims, fastenerAttribs)
+        func = screwTables[fastenerAttribs.type][FUNCTION_POS]
+        return self.createScrew(func, fastenerAttribs)
 
 
 Instance = FSScrewMaker()

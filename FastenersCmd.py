@@ -59,6 +59,7 @@ ScrewParametersLC = {"type", "diameter", "matchOuter",
 RodParameters = {"type", "diameter", "matchOuter", "thread",
                  "leftHanded", "lengthArbitrary",  "diameterCustom", "pitchCustom"}
 NutParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded"}
+HeatInsertParameters = {"type", "diameter", "lengthArbitrary", "externalDiam", "matchOuter", "thread", "leftHanded"}
 WasherParameters = {"type", "diameter", "matchOuter"}
 PCBStandoffParameters = {"type", "diameter", "matchOuter", "thread",
                          "leftHanded", "threadLength", "lenByDiamAndWidth", "lengthCustom", "widthCode"}
@@ -73,8 +74,9 @@ TSlotNutParameters = { "type", "diameter", "matchOuter",
                         "thread", "leftHanded", "slotWidth" }
 TSlotBoltParameters = { "type", "diameter", "length", "lengthCustom",
                        "matchOuter", "thread", "leftHanded", "slotWidth" }
+# this is a list of all possible fastener attribs 
 FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length', 'lengthCustom', 'width', 
-                   'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength', "slotWidth"]
+                   'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength', "slotWidth", 'externalDiam']
 
 # Names of fasteners groups translated once before FSScrewCommandTable created.
 # For make FSScrewCommandTable more compact and readable
@@ -232,7 +234,7 @@ FSScrewCommandTable = {
     "PEMStud": (translate("FastenerCmd", "PEM Self Clinching stud"), InsertGroup, ScrewParameters, "other"),
     "PCBStandoff": (translate("FastenerCmd", "Wurth WA-SSTII  PCB standoff"), InsertGroup, PCBStandoffParameters, "other"),
     "PCBSpacer": (translate("FastenerCmd", "Wurth WA-SSTII PCB spacer"), InsertGroup, PCBSpacerParameters, "other"),
-    "IUTHeatInsert": (translate("FastenerCmd", "IUT[A/B/C] Heat Staked Metric Insert"), InsertGroup, NutParameters, "other"),
+    "IUTHeatInsert": (translate("FastenerCmd", "IUT[A/B/C] Heat Staked Metric Insert"), InsertGroup, HeatInsertParameters, "other"),
 
     "DIN471": (translate("FastenerCmd", "Metric external retaining rings"), RetainingRingGroup, RetainingRingParameters, "DIN"),
     "DIN472": (translate("FastenerCmd", "Metric internal retaining rings"), RetainingRingGroup, RetainingRingParameters, "DIN"),
@@ -373,7 +375,10 @@ class FSScrewObject(FSBaseObject):
         # custom size parameters
         if "lengthArbitrary" in params and not hasattr(obj, "length"):
             obj.addProperty("App::PropertyLength", "length", "Parameters", translate(
-                "FastenerCmd", "Screw length")).length = 20.0
+                "FastenerCmd", "Screw length")).length = screwMaker.GetTableProperty(type, diameter, "Length", 20.0)
+        if "externalDiam" in params and not hasattr(obj, "externalDiam"):
+            obj.addProperty("App::PropertyLength", "externalDiam", "Parameters", translate(
+                "FastenerCmd", "External Diameter")).externalDiam = screwMaker.GetTableProperty(type, diameter, "ExtDia", 8.0)
         if "diameterCustom" in params and not hasattr(obj, "diameterCustom"):
             obj.addProperty("App::PropertyLength", "diameterCustom", "Parameters", translate(
                 "FastenerCmd", "Screw major diameter custom")).diameterCustom = 6
@@ -489,10 +494,13 @@ class FSScrewObject(FSBaseObject):
         if hasattr(fp, 'length'):
             if "lengthArbitrary" in params:
                 # arbitrary lengths
-                l = fp.length.Value
+                if (diameterchange):
+                    l = screwMaker.GetTableProperty(fp.type, fp.diameter, "Length", fp.length.Value)
+                else:
+                    l = fp.length.Value
                 if l < 2.0:
                     l = 2.0
-                    fp.length = 2.0
+                fp.length = l
                 self.calc_len = str(l)
             else:
                 # fixed lengths
@@ -537,6 +545,10 @@ class FSScrewObject(FSBaseObject):
                 self.calc_len = l
         else:
             self.calc_len = None
+
+        if hasattr(fp, 'externalDiam'):
+            if (diameterchange):
+                fp.externalDiam = screwMaker.GetTableProperty(fp.type, fp.diameter, "ExtDia", 8.0)
 
         if diameterchange and "thicknessCode" in params:
             tcodes = screwMaker.GetAllTcodes(fp.type, fp.diameter)

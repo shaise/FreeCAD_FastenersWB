@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.4.70  02 Nov 2023:  Add custom length and width for heatset inserts.  
 * V0.4.69  01 Nov 2023:  Use the new loads/dumps system (supporting old versions as well) by @fra589.  
 * V0.4.68  29 Oct 2023:  Import translate module direcrtly by @Roy-043.  
 * V0.4.67  15 Sep 2023:  Fix screw die tool.  

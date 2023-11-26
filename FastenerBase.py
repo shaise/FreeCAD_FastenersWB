@@ -363,6 +363,17 @@ class FSFaceMaker:
         self.lastPoint = curPoint
         # FreeCAD.Console.PrintLog("Add Point: " + str(curPoint) + "\n")
 
+    def AddPointRelative(self, dx, dz):
+        if self.firstPoint is None:
+            FreeCAD.Console.PrintError(
+                "FSFaceMaker.AddPointRelative: A start point has to be set previous")
+            return
+        else:
+            curPoint = self.lastPoint + FreeCAD.Base.Vector(dx, 0, dz)
+            self.edges.append(Part.makeLine(self.lastPoint, curPoint))
+            self.lastPoint = curPoint
+        # FreeCAD.Console.PrintLog("Add Point Rel: " + str(curPoint) + "\n")
+
     def StartPoint(self, x, z):
         self.Reset()
         self.AddPoint(x, z)

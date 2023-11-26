@@ -34,51 +34,84 @@ def makeHexNutWFlange(self, fa):
     Supported types:
     - EN1661 nuts with flange
     - ASME B18.2.2 UNC flanged nuts
+    - DIN6331 Hexagon nuts with collar height 1,5 d
     """
     dia = self.getDia(fa.calc_diam, True)
-    if fa.type == "EN1661":
-        P, da, c, dc, _, _, m, _, _, s = fa.dimTable
-        flange_edge_rounded = True
-    elif fa.type == "ASMEB18.2.2.12":
-        TPI, F, B, H, J, K = fa.dimTable
-        P = 1 / TPI * 25.4
-        s = F * 25.4
-        dc = B * 25.4
-        da = 1.05 * dia
-        m = H * 25.4
-        c = K * 25.4
-        flange_edge_rounded = False
-    sqrt3 = math.sqrt(3)
-    inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
-    inner_cham_ht = math.tan(math.radians(15)) * (da / 2 - inner_rad)
-    # create the body of the nut
-    fm = FastenerBase.FSFaceMaker()
-    fm.AddPoint(inner_rad, m - inner_cham_ht)
-    fm.AddPoint(da / 2, m)
-    fm.AddPoint(s / 2, m)
-    fm.AddPoint(s / 2 + sqrt3 * m, 0)
-    fm.AddPoint(da / 2, 0)
-    fm.AddPoint(inner_rad, inner_cham_ht)
-    nut_body = self.RevolveZ(fm.GetFace())
-    # cut the hex flats with a boolean subtraction
-    nut_body = nut_body.common(self.makeHexPrism(s, m))
-    # add the flange with a boolean fuse
-    fm.Reset()
-    fm.AddPoint((da + s) / 4, 0.0)
-    if flange_edge_rounded:
-        fm.AddPoint((dc + sqrt3 * c) / 2, 0.0)
-        fm.AddPoint((dc - c) / 2, 0.0)
-        fm.AddArc2(0, c / 2, 150)
-        fm.AddPoint((da + s) / 4, sqrt3 / 3 * ((dc - c) /
-                    2 + c / (4 - 2 * sqrt3) - (da + s) / 4))
+
+    if fa.type == "DIN6331":
+        P, a, d1, damin, damax, m, s = fa.dimTable
+
+        da = (damax + damin) / 2.
+        tan30 = math.tan(math.radians(30.))
+        inner_rad = (dia - 1.0825 * P) / 2.
+        inner_chamfer_X = da / 2. - inner_rad
+        inner_chamfer_Z = inner_chamfer_X * tan30
+        outer_chamfer_X = (d1 - s) / 2.
+        outer_chamfer_Z = outer_chamfer_X * tan30
+
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint(0., -1.)
+        fm.AddPoint(inner_rad + inner_chamfer_X, -1.)
+        fm.AddPointRelative(0., 1.)
+        fm.AddPoint(inner_rad, inner_chamfer_Z)
+        fm.AddPoint(inner_rad, m - inner_chamfer_Z)
+        fm.AddPoint(inner_rad + inner_chamfer_X, m)
+        fm.AddPoint(s / 2., m)
+        fm.AddPoint(d1 /2., m - outer_chamfer_Z)
+        fm.AddPoint(d1 / 2., m + 1.)
+        fm.AddPoint(0., m + 1.)
+
+        import Part
+        nut_body = self.makeHexPrism(s, m)
+        collar = Part.makeCylinder(d1 / 2., a)
+        cutoff_body = self.RevolveZ(fm.GetFace())
+        nut_body = nut_body.fuse(collar)
+        nut_body = nut_body.cut(cutoff_body).removeSplitter()
     else:
-        fm.AddPoint(dc / 2, 0.0)
-        fm.AddPoint(dc / 2, c)
-        fm.AddPoint((da + s) / 4, c + (dc / 2 - (da + s) / 4) *
-                    math.tan(math.radians(30)))
-    face = fm.GetFace()
-    flange = self.RevolveZ(face)
-    nut_body = nut_body.fuse(flange).removeSplitter()
+        if fa.type == "EN1661":
+            P, da, c, dc, _, _, m, _, _, s = fa.dimTable
+            flange_edge_rounded = True
+        elif fa.type == "ASMEB18.2.2.12":
+            TPI, F, B, H, J, K = fa.dimTable
+            P = 1 / TPI * 25.4
+            s = F * 25.4
+            dc = B * 25.4
+            da = 1.05 * dia
+            m = H * 25.4
+            c = K * 25.4
+            flange_edge_rounded = False
+        sqrt3 = math.sqrt(3)
+        inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
+        inner_cham_ht = math.tan(math.radians(15)) * (da / 2 - inner_rad)
+        # create the body of the nut
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint(inner_rad, m - inner_cham_ht)
+        fm.AddPoint(da / 2, m)
+        fm.AddPoint(s / 2, m)
+        fm.AddPoint(s / 2 + sqrt3 * m, 0)
+        fm.AddPoint(da / 2, 0)
+        fm.AddPoint(inner_rad, inner_cham_ht)
+        nut_body = self.RevolveZ(fm.GetFace())
+        # cut the hex flats with a boolean subtraction
+        nut_body = nut_body.common(self.makeHexPrism(s, m))
+        # add the flange with a boolean fuse
+        fm.Reset()
+        fm.AddPoint((da + s) / 4, 0.0)
+        if flange_edge_rounded:
+            fm.AddPoint((dc + sqrt3 * c) / 2, 0.0)
+            fm.AddPoint((dc - c) / 2, 0.0)
+            fm.AddArc2(0, c / 2, 150)
+            fm.AddPoint((da + s) / 4, sqrt3 / 3 * ((dc - c) /
+                        2 + c / (4 - 2 * sqrt3) - (da + s) / 4))
+        else:
+            fm.AddPoint(dc / 2, 0.0)
+            fm.AddPoint(dc / 2, c)
+            fm.AddPoint((da + s) / 4, c + (dc / 2 - (da + s) / 4) *
+                        math.tan(math.radians(30)))
+        face = fm.GetFace()
+        flange = self.RevolveZ(face)
+        nut_body = nut_body.fuse(flange).removeSplitter()
+
     if fa.thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)
         nut_body = nut_body.cut(thread_cutter)

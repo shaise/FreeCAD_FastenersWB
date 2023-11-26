@@ -120,6 +120,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.4.71  26 Nov 2023:  Add DIN6331 Hexagon nuts with collar by @UR-0.  
+                       - Fix M6 pitch for DIN6330 by @UR-0.  
 * V0.4.70  02 Nov 2023:  Add custom length and width for heatset inserts.  
 * V0.4.69  01 Nov 2023:  Use the new loads/dumps system (supporting old versions as well) by @fra589.  
 * V0.4.68  29 Oct 2023:  Import translate module direcrtly by @Roy-043.  

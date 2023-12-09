@@ -417,6 +417,16 @@
         <source> Retaining Ring </source>
         <translation> Anneau de maintien </translation>
     </message>
+    <message>
+        <location filename="../FastenerBase.py" line="912"/>
+        <source>T-Slot Bolt </source>
+        <translation>Boulon à rainure en T </translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="916"/>
+        <source>T-Slot Nut </source>
+        <translation>Écrou pour rainures en T </translation>
+    </message>
 </context>
 <context>
     <name>FastenerCmd</name>
@@ -481,14 +491,29 @@
         <translation>Écroux pour rainures en T</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="94"/>
+        <source>T-Slot Fasteners</source>
+        <translation>Fixations pour rainures en T</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="97"/>
         <source>DIN 933 Hex head screw</source>
         <translation>DIN 933 Vis à tête hexagonale</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="103"/>
+        <source>DIN 961 Hex head screw</source>
+        <translation>DIN 961 Vis à tête hexagonale</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="98"/>
         <source>ISO 4017 Hex head screw</source>
         <translation>ISO 4017 Vis à tête hexagonale</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="105"/>
+        <source>ISO 8676 Hex head screw</source>
+        <translation>ISO 8676 Vis à tête hexagonale</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="99"/>
@@ -513,6 +538,11 @@
     <message>
         <location filename="../FastenersCmd.py" line="104"/>
         <source>ISO4762 Hexagon socket head cap screw</source>
+        <translation>ISO 4762 Vis à tête cylindrique à six pans creux</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="111"/>
+        <source>ISO 4762 Hexagon socket head cap screw</source>
         <translation>ISO 4762 Vis à tête cylindrique à six pans creux</translation>
     </message>
     <message>
@@ -616,6 +646,11 @@
         <translation>DIN 84 (remplacée par ISO 1207) Vis à tête cylindrique fendue</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="134"/>
+        <source>DIN 84 (superseded by ISO 1207) Slotted cheese head screw</source>
+        <translation>DIN 84 (remplacée par ISO 1207) Vis à tête cylindrique fendue</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="128"/>
         <source>DIN 96 Slotted half round head wood screw</source>
         <translation>DIN 96 Vis à bois à tête demi-ronde fendue</translation>
@@ -696,6 +731,21 @@
         <translation>ISO 4035 Écrou mince hexagonal, chanfreiné</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="154"/>
+        <source>ISO 8673 Hexagon regular nuts (style 1) with metric fine pitch thread — Product grades A and B</source>
+        <translation>ISO 8673 Écrous hexagonaux normaux (style 1) à filetage métrique à pas fin. Grades A et B</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="155"/>
+        <source>ISO 8674 Hexagon high nuts (style 2) with metric fine pitch thread </source>
+        <translation>ISO 8674 Écrous hexagonaux hauts (style 2) à filetage métrique à pas fin </translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="156"/>
+        <source>ISO 8675 Hexagon thin nuts chamfered (style 0) with metric fine pitch thread — Product grades A and B</source>
+        <translation>ISO 8675 Écrous bas hexagonaux chanfreinés (style 0) à filetage métrique à pas fin. Grades A et B</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="147"/>
         <source>DIN 934 (superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
         <translation>DIN 934 (remplacé par ISO 4035 et ISO 8673) Écrou mince hexagonal, chanfreiné</translation>
@@ -708,6 +758,11 @@
     <message>
         <location filename="../FastenersCmd.py" line="150"/>
         <source>DIN917 Cap nuts, thin style</source>
+        <translation>DIN 917 Écrou borgne, forme basse</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="160"/>
+        <source>DIN 917 Cap nuts, thin style</source>
         <translation>DIN 917 Écrou borgne, forme basse</translation>
     </message>
     <message>
@@ -781,6 +836,16 @@
         <translation>DIN 508 Écrou pour rainure en T</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="176"/>
+        <source>GN 505 Serrated Quarter-Turn T-Slot nuts</source>
+        <translation>GN 505 Écrou dentelé quart de tour à rainure en T</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="177"/>
+        <source>GN 505.4 Serrated T-Slot Bolts</source>
+        <translation>GN 505.4 Boulon à rainure en T dentelée</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="166"/>
         <source>GN 507 T-Slot nuts</source>
         <translation>GN 507 Écrou pour rainure en T</translation>
@@ -814,6 +879,11 @@
         <location filename="../FastenersCmd.py" line="174"/>
         <source>DIN6340 Washers for clamping devices</source>
         <translation>DIN 6340 Rondelle pour dispositif de serrage</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="186"/>
+        <source>DIN 6340 Washers for clamping devices</source>
+        <translation>DIN 6340 Rondelle pour dispositifs de serrage</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="175"/>
@@ -1081,6 +1151,11 @@
         <translation>Longueur de la vis</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="380"/>
+        <source>External Diameter</source>
+        <translation>Diamètre externe</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="368"/>
         <source>Screw major diameter custom</source>
         <translation>Diamètre principal de la vis personnalisé</translation>
@@ -1177,6 +1252,11 @@
         <location filename="../FastenersCmd.py" line="52"/>
         <source>RetainingRing</source>
         <translation>Anneau de maintien</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="53"/>
+        <source>T-Slot</source>
+        <translation>Rainure en T</translation>
     </message>
 </context>
 <context>

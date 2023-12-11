@@ -177,6 +177,7 @@ screwTables = {
     "ISO4029": ("Screw", "makeSetScrew"),
     "ISO4032": ("Nut", "makeHexNut"),
     "ISO4033": ("Nut", "makeHexNut"),
+    "ISO4034": ("Nut", "makeHexNut"),
     "ISO4035": ("Nut", "makeHexNut"),
     "ISO8673": ("Nut", "makeHexNut"),
     "ISO8674": ("Nut", "makeHexNut"),

@@ -33,24 +33,26 @@ import FastenerBase
 def makeHexNut(self, fa):
     """Creates a basic hexagonal nut.
     Supported types:
-    - ISO 4032 hexagon nuts
-    - ISO 4033 hexagon high nuts
-    - ISO 4035 hexagon thin nuts, chamfered
+    - ISO 4032 Hexagon regular nuts (style 1) — Product grades A and B
+    - ISO 4033 Hexagon high nuts (style 2) — Product grades A and B
+    - ISO 4034 Hexagon regular nuts (style 1) — Product grade C
+    - ISO 4035 Hexagon thin nuts chamfered (style 0) — Product grades A and B
     - ASME B18.2.2 machine screw, thin, and regular hexagon nuts
     - DIN 6334 3xD length hexagon nuts
     - ASME B18.2.2 coupling nuts
     """
+
     SType = fa.type
     dia = self.getDia(fa.calc_diam, True)
     if SType[:3] == 'ISO' or SType == "DIN934":
-        P, c, da, dw, e, m, mw, s = fa.dimTable
+        P, _, da, _, _, m, _, s = fa.dimTable
     elif SType == 'ASMEB18.2.2.1A':
-        P, da, e, m, s = fa.dimTable
+        P, da, _, m, s = fa.dimTable
     elif SType == 'ASMEB18.2.2.4A':
-        P, da, e, m_a, m_b, s = fa.dimTable
+        P, da, _, m_a, m_b, s = fa.dimTable
         m = m_a
     elif SType == 'ASMEB18.2.2.4B':
-        P, da, e, m_a, m_b, s = fa.dimTable
+        P, da, _, m_a, m_b, s = fa.dimTable
         m = m_b
     elif SType == "DIN6334":
         P, da, m, s = fa.dimTable

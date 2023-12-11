@@ -19,7 +19,7 @@
     <rdf:RDF>
       <cc:Work
          rdf:about="">
-        <dc:title>FreeCAD SVG Export</dc:title>
+        <dc:title>DIN6912</dc:title>
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
@@ -54,7 +54,7 @@
      inkscape:current-layer="svg1905"
      inkscape:document-rotation="0" />
   <title
-     id="title2">FreeCAD SVG Export</title>
+     id="title2">DIN6912</title>
   <desc
      id="desc4">Drawing page: Page exported from FreeCAD document: Unbenannt</desc>
   <defs

@@ -1,8 +1,8 @@
-# Contributing to FastenerWB
+# Contributing to FastenersWB
 
 Table of Contents:
 
-- [Contributing to FastenerWB](#contributing-to-fastenerwb)
+- [Contributing to FastenersWB](#contributing-to-fastenerswb)
 - [Adding new fasteners](#adding-new-fasteners)
   - [Creating data files](#creating-data-files)
     - [Converting data to a csv file](#converting-data-to-a-csv-file)

@@ -98,7 +98,7 @@ def makePEMStandoff(self, fa):
         l = 6
         plen = "6"
 
-    bl = FsData[fa.type + "length"][plen][0]
+    bl = FsData[fa.baseType + "length"][plen][0]
     f = soMakeFace(b, c, h, d, l, bl, fa.blind)
     p = self.RevolveZ(f)
     htool = self.makeHexPrism(h, l * 1.1)

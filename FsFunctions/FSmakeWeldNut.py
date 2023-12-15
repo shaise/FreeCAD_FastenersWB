@@ -35,9 +35,9 @@ def makeWeldNut(self, fa):
     - DIN 928 square weld nuts
     - DIN 929 hexagon weld nuts
     """
-    if fa.type == "DIN928":
+    if fa.baseType == "DIN928":
         return _makeSquareWeldNut(self, fa)
-    elif fa.type == "DIN929":
+    elif fa.baseType == "DIN929":
         return _makeHexWeldNut(self, fa)
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.type}")
@@ -101,7 +101,7 @@ def _makeHexWeldNut(self, fa):
 
 def _makeSquareWeldNut(self, fa):
     dia = self.getDia(fa.calc_diam, True)
-    if fa.type == "DIN928":
+    if fa.baseType == "DIN928":
         P, b, d2, d4, h1, h2, m, s = fa.dimTable
     # the main body of the nut is a rectangular prism
     shape = Part.makeBox(s, s, m + h1 + h2)

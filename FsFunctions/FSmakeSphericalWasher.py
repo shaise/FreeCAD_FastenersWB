@@ -43,7 +43,7 @@ def makeSphericalWasher(self, fa):
     - DIN6319G Conical Seat
     """
 
-    if fa.type == "DIN6319C":
+    if fa.baseType == "DIN6319C":
         d1, d3, d5, f1, h1, h2, r1, csh_diam = fa.dimTable
     
         Phi_Start = math.asin(d1 / (2. * r1))
@@ -64,7 +64,7 @@ def makeSphericalWasher(self, fa):
     
         washer_body = self.RevolveZ(fm.GetFace())
     
-    elif fa.type == "DIN6319D" or fa.type == "DIN6319G":
+    elif fa.baseType == "DIN6319D" or fa.baseType == "DIN6319G":
         d2, d4, d5, h3 = fa.dimTable
         
         tan30 = math.tan(math.radians(30.))

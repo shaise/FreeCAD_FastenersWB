@@ -36,7 +36,7 @@ def makeCupNut(self, fa):
     - GOST11860-1 cap (or 'acorn') nut
     - SAE J483a cap nuts, both low and high styles
     """
-    SType = fa.type
+    SType = fa.baseType
     dia = self.getDia(fa.calc_diam, True)
     if SType == "DIN1587" or SType == "GOST11860-1":
         P, d_k, h, m, s, t, w = fa.dimTable

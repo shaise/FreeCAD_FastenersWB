@@ -37,7 +37,7 @@ def makeCheeseHeadScrew(self, fa):
     - ISO 7048 cross recessed screw
     - ISO 14580 Hexalobular socket cheese head screws
     """
-    SType = fa.type
+    SType = fa.baseType
     length = fa.calc_len
     dia = self.getDia(fa.calc_diam, False)
     if SType == "ISO1207" or SType == "DIN84":

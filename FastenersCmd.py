@@ -33,6 +33,7 @@ from FastenerBase import FSParam
 from FastenerBase import FSBaseObject
 import ScrewMaker
 from FSutils import iconPath
+from FSAliases import FSGetIconAlias, FSGetTypeAlias
 
 screwMaker = ScrewMaker.Instance
 
@@ -175,6 +176,7 @@ FSScrewCommandTable = {
     "DIN1624": (translate("FastenerCmd", "DIN 1624 Tee nuts"), NutGroup, NutParameters, "DIN"),
 
     "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "DIN"),
+    "ISO299": (translate("FastenerCmd", "ISO 299 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "ISO"),
     "GN505": (translate("FastenerCmd", "GN 505 Serrated Quarter-Turn T-Slot nuts"), TSlotGroup, TSlotNutParameters, "other"),
     "GN505.4": (translate("FastenerCmd", "GN 505.4 Serrated T-Slot Bolts"), TSlotGroup, TSlotBoltParameters, "other"),
     "GN507": (translate("FastenerCmd", "GN 507 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "other"),
@@ -245,7 +247,6 @@ FSScrewCommandTable = {
     "DIN472": (translate("FastenerCmd", "Metric internal retaining rings"), RetainingRingGroup, RetainingRingParameters, "DIN"),
     "DIN6799": (translate("FastenerCmd", "Metric E-clip retaining rings"), RetainingRingGroup, RetainingRingParameters, "DIN"),
 }
-
 
 def GetParams(type):
     if type not in FSScrewCommandTable:
@@ -577,6 +578,7 @@ class FSScrewObject(FSBaseObject):
         screwMaker.updateFastenerParameters()
 
         self.BackupObject(fp)
+        self.baseType = FSGetTypeAlias(self.type)
 
         # Here we are generating a new key if is not present in cache. This key is also used in method
         # FastenerBase.FSCacheRemoveThreaded. This way it will allow to correctly recompute
@@ -657,12 +659,13 @@ class FSViewProviderTree:
             self.loads(state)
 
     def getIcon(self):
+        type = 'ISO4017.svg'
         if hasattr(self.Object, "type"):
-            return os.path.join(iconPath, self.Object.type + '.svg')
+            type = self.Object.type
         elif hasattr(self.Object.Proxy, "type"):
-                return os.path.join(iconPath, self.Object.Proxy.type + '.svg')
+            type = self.Object.Proxy.type
         # default to ISO4017.svg
-        return os.path.join(iconPath, 'ISO4017.svg')
+        return os.path.join(iconPath, FSGetIconAlias(type), '.svg')
 
 class FSScrewCommand:
     """Add Screw command"""
@@ -675,7 +678,7 @@ class FSScrewCommand:
     def GetResources(self):
         import GrammaticalTools
         
-        icon = os.path.join(iconPath, self.Type + '.svg')
+        icon = os.path.join(iconPath, FSGetIconAlias(self.Type) + '.svg')
         return {'Pixmap': icon,
                 # the name of a svg file available in the resources
                 'MenuText': translate("FastenerCmd", "Add ") + GrammaticalTools.ToDativeCase(self.Help),

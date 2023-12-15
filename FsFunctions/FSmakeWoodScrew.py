@@ -28,7 +28,7 @@
 from screw_maker import *
 
 def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
-    SType = fa.type
+    SType = fa.baseType
     if SType == "DIN571":
         return makeDIN571(self, fa)
     elif SType == "DIN96":
@@ -41,7 +41,7 @@ def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
 # DIN571 Wood screw
 
 def makeDIN571(screw_obj, fa):
-    SType = fa.type
+    SType = fa.baseType
     l = fa.calc_len
     dia = float(fa.calc_diam.split()[0])
     ds, da, d3, k, s, P = fa.dimTable
@@ -230,7 +230,7 @@ def makeDIN7996(screw_obj, fa):
 # GOST1144-4 Wood screw
 
 def makeGOST1144(self, fa):
-    SType = fa.type
+    SType = fa.baseType
     l = fa.calc_len
     dia = float(fa.calc_diam.split()[0])
 

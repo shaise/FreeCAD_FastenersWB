@@ -35,7 +35,7 @@ def makeTeeNut(self, fa):
     - DIN 1624 Tee nuts
     """
     dia = self.getDia(fa.calc_diam, True)
-    if fa.type == "DIN1624":
+    if fa.baseType == "DIN1624":
         P, d2, d3, l1, l2, a = fa.dimTable
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.type}")

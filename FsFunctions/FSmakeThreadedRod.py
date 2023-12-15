@@ -33,9 +33,9 @@ def makeThreadedRod(self, fa):
     ThreadType = fa.calc_diam
     if fa.diameter != 'Custom':
         dia = self.getDia(ThreadType, False)
-        if fa.type == 'ThreadedRod':
+        if fa.baseType == 'ThreadedRod':
             P, tunIn, tunEx = fa.dimTable
-        elif fa.type == 'ThreadedRodInch':
+        elif fa.baseType == 'ThreadedRodInch':
             P = fa.dimTable[0]
     else:  # custom pitch and diameter
         P = fa.calc_pitch

@@ -38,7 +38,7 @@ def makeHexNutWFlange(self, fa):
     """
     dia = self.getDia(fa.calc_diam, True)
 
-    if fa.type == "DIN6331":
+    if fa.baseType == "DIN6331":
         P, a, d1, damin, damax, m, s = fa.dimTable
 
         da = (damax + damin) / 2.
@@ -68,10 +68,10 @@ def makeHexNutWFlange(self, fa):
         nut_body = nut_body.fuse(collar)
         nut_body = nut_body.cut(cutoff_body).removeSplitter()
     else:
-        if fa.type == "EN1661":
+        if fa.baseType == "EN1661":
             P, da, c, dc, _, _, m, _, _, s = fa.dimTable
             flange_edge_rounded = True
-        elif fa.type == "ASMEB18.2.2.12":
+        elif fa.baseType == "ASMEB18.2.2.12":
             TPI, F, B, H, J, K = fa.dimTable
             P = 1 / TPI * 25.4
             s = F * 25.4

@@ -140,7 +140,7 @@ To create a new function, give it a name in the form of `makeXXXXXXXXX(self)`, a
 
 ```python
 def makeCarriageBolt(self, fa): # dynamically loaded method of class Screw
-    SType = fa.type
+    SType = fa.baseType
     l = fa.calc_len
     d = self.getDia(fa.calc_diam, False)
     if SType == 'ASMEB18.5.2':

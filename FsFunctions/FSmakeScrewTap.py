@@ -33,9 +33,9 @@ def makeScrewTap(self, fa):
     ThreadType = fa.calc_diam
     if fa.diameter != 'Custom':
         dia = self.getDia(ThreadType, True)
-        if fa.type == "ScrewTap":
+        if fa.baseType == "ScrewTap":
             P, tunIn, tunEx = fa.dimTable
-        elif fa.type == 'ScrewTapInch':
+        elif fa.baseType == 'ScrewTapInch':
             P = fa.dimTable[0]
     else:  # custom pitch and diameter
         P = fa.calc_pitch

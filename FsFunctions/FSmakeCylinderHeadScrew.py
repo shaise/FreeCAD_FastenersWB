@@ -38,7 +38,7 @@ def makeCylinderHeadScrew(self, fa):
     - ASMEB18.3.1A hexagon socket head cap screw
     - ASMEB18.3.1G hexagon socket low head cap screw
     """
-    SType = fa.type
+    SType = fa.baseType
     length = fa.calc_len
     dia = self.getDia(fa.calc_diam, False)
     if SType == 'ISO4762':

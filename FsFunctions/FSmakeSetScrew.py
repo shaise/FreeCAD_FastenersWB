@@ -41,7 +41,7 @@ def makeSetScrew(self, fa):
     - ASMEB18.3.5C UNC Hexagon socket set screws with dog point
     - ASMEB18.3.5D UNC Hexagon socket set screws with cup point
     """
-    SType = fa.type
+    SType = fa.baseType
     length = fa.calc_len
     if SType == 'ISO4026' or SType == 'ISO4027' or SType == 'ISO4029':
         P, t, dp, dt, df, s = fa.dimTable

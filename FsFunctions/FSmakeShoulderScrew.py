@@ -35,7 +35,7 @@ def makeShoulderScrew(self, fa):
     - ISO 7379 shoulder screws
     - ASMEB18.3.4 shoulder screws
     """
-    SType = fa.type
+    SType = fa.baseType
     length = fa.calc_len
     P, d1, d3, l2, l3, SW = fa.dimTable
     d2 = self.getDia(fa.calc_diam, False)

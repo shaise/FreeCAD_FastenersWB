@@ -113,29 +113,29 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
     # All dimensions depend on the slot width NOT in the diameter
     # with exception of the pitch
     swidth = fa.slotWidth # 8mm/10mm
-    i = FastenerBase.FsTitles[fa.type + "slotwidths"].index(swidth)
-    a = FsData[fa.type + "slotwidths"][d][i]
-    h = FsData[fa.type + "h"][d][i]
-    P = FsData[fa.type + "P"][d][i]
+    i = FastenerBase.FsTitles[fa.baseType + "slotwidths"].index(swidth)
+    a = FsData[fa.baseType + "slotwidths"][d][i]
+    h = FsData[fa.baseType + "h"][d][i]
+    P = FsData[fa.baseType + "P"][d][i]
 
-    if fa.type == "DIN508":
-        e1 = FsData[fa.type + "e"][d][i]
+    if fa.baseType == "DIN508":
+        e1 = FsData[fa.baseType + "e"][d][i]
         e2 = e1
-        f = FsData[fa.type + "f"][d][i]
-        k = FsData[fa.type + "k"][d][i]
+        f = FsData[fa.baseType + "f"][d][i]
+        k = FsData[fa.baseType + "k"][d][i]
 
         fastener = makeBaseBody(a, e1, e2, f, h, k)
         return makeHole(self, fastener, fa, dia, h, P)
-    elif fa.type[:2] == "GN":
-        e1 = FsData[fa.type + "e1"][d][i]
-        e2 = FsData[fa.type + "e2"][d][i]
-        k = FsData[fa.type + "k"][d][i]
+    elif fa.baseType[:2] == "GN":
+        e1 = FsData[fa.baseType + "e1"][d][i]
+        e2 = FsData[fa.baseType + "e2"][d][i]
+        k = FsData[fa.baseType + "k"][d][i]
         f = 0.125 * e2  # constant calculated with official GN step file
 
-        if fa.type == "GN507":
+        if fa.baseType == "GN507":
             fastener = makeBaseBody(a, e1, e2, f, h, k)
             return makeHole(self, fastener, fa, dia, h, P)
-        elif fa.type[:5] == "GN505":
+        elif fa.baseType[:5] == "GN505":
             k = k - 0.05 * e1 # Take into account strips height
 
             fastener = makeBaseBody(a, e1, e2, f, h, k)
@@ -162,7 +162,7 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
                 strip.translate(Base.Vector(0, -0.1 * e1, 0))
                 fastener = fastener.fuse(strip)
 
-            if fa.type == "GN505":
+            if fa.baseType == "GN505":
                 fastener = makeHole(self, fastener, fa, dia, h, P)
             
             # Cut corners to allow free rotation
@@ -182,7 +182,7 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
             qring.transformShape(myMat)
             fastener = fastener.cut(qring) # second corner
 
-            if fa.type == "GN505.4":
+            if fa.baseType == "GN505.4":
                 length = fa.calc_len
 
                 # We have to rotate the fastener because 
@@ -208,5 +208,5 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
 
             return fastener
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.baseType}")
 

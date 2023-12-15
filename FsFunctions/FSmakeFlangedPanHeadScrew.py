@@ -35,7 +35,7 @@ def makeFlangedPanHeadScrew(self, fa):
     Supported types:
     - DIN 967 cross recessed pan head Screw with collar
     """
-    SType = fa.type
+    SType = fa.baseType
     length = fa.calc_len
     dia = self.getDia(fa.calc_diam, False)
     if SType == 'DIN967':

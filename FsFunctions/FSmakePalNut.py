@@ -34,7 +34,7 @@ def makePalNut(self, fa):
     Supported types:
     - DIN 7967 self locking Pal nuts
     """
-    if fa.type == "DIN7967":
+    if fa.baseType == "DIN7967":
         od, id, m, s, t = fa.dimTable
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.type}")

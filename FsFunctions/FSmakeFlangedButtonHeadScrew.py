@@ -35,7 +35,7 @@ def makeFlangedButtonHeadScrew(self, fa):
     - ISO 7380-2 Button head Screw with collar
     - ASMEB18.3.3B UNC Hex socket button head screws with flange
     """
-    SType = fa.type
+    SType = fa.baseType
     length = fa.calc_len
     dia = self.getDia(fa.calc_diam, False)
     if SType == 'ISO7380-2':

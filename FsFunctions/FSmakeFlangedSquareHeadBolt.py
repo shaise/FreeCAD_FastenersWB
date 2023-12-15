@@ -34,7 +34,7 @@ def makeFlangedSquareHeadBolt(self, fa):
     """
     dia = self.getDia(fa.calc_diam, False)
     length = fa.calc_len
-    if fa.type == "DIN478":
+    if fa.baseType == "DIN478":
         P, b1, b2, c, da, dc, e, k, r, s = fa.dimTable
         if length < 125:
             b = b1

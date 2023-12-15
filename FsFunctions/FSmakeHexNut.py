@@ -42,7 +42,7 @@ def makeHexNut(self, fa):
     - ASME B18.2.2 coupling nuts
     """
 
-    SType = fa.type
+    SType = fa.baseType
     dia = self.getDia(fa.calc_diam, True)
     if SType[:3] == 'ISO' or SType == "DIN934":
         P, _, da, _, _, m, _, s = fa.dimTable

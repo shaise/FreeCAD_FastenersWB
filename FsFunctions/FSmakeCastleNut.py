@@ -33,22 +33,22 @@ def makeCastleNut(self, fa):
     - DIN 935 slotted & castle nuts
     - ASME B18.2.2 slotted nuts
     """
-    if fa.type == "DIN935":
+    if fa.baseType == "DIN935":
         if fa.calc_diam in ["M4", "M5", "M6", "M7", "M8", "M10"]:
             return _makeSlottedNut(self, fa)
         else:
             return _makeCastleNut(self, fa)
-    elif fa.type == "ASMEB18.2.2.5":
+    elif fa.baseType == "ASMEB18.2.2.5":
         return _makeSlottedNut(self, fa)
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.baseType}")
 
 
 def _makeCastleNut(self, fa):
-    if fa.type == "DIN935":
+    if fa.baseType == "DIN935":
         P, m, w, s, n, d_e_max, ns = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.baseType}")
     dia = self.getDia(fa.calc_diam, True)
     inner_rad = dia / 2 - P * 0.625 * math.sqrt(3) / 2
     outer_rad = 0.505 * dia
@@ -90,9 +90,9 @@ def _makeCastleNut(self, fa):
 
 
 def _makeSlottedNut(self, fa):
-    if fa.type == "DIN935":
+    if fa.baseType == "DIN935":
         P, m, w, s, n, d_e_max, ns = fa.dimTable
-    elif fa.type == "ASMEB18.2.2.5":
+    elif fa.baseType == "ASMEB18.2.2.5":
         TPI,  F,  H,  T,  S = fa.dimTable
         P = 1 / TPI * 25.4
         m = 25.4 * H
@@ -101,7 +101,7 @@ def _makeSlottedNut(self, fa):
         n = S * 25.4
         ns = 6
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.baseType}")
     dia = self.getDia(fa.calc_diam, True)
     inner_rad = dia / 2 - P * 0.625 * math.sqrt(3) / 2
     outer_rad = 0.505 * dia

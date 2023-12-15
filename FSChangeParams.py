@@ -21,6 +21,7 @@ import ScrewMaker
 import FastenersCmd
 import PEMInserts
 from FSutils import iconPath
+from FSAliases import FSGetIconAlias
 screwMaker = ScrewMaker.Instance
 
 ###############################################################################
@@ -263,7 +264,7 @@ class FSTaskChangeParamDialog:
         # FreeCAD.Console.PrintLog("nitems: " + str(len(fstype.items)) + "\n")
         for screw in fstype.items:
             ui.comboFastenerType.addItem(QtGui.QIcon(
-                os.path.join(iconPath, screw + '.svg')), screw)
+                os.path.join(iconPath, FSGetIconAlias(screw) + '.svg')), screw)
         if len(fstype.items) == 1:
             ui.comboFastenerType.setCurrentIndex(1)
             ui.comboFastenerType.setEnabled(False)

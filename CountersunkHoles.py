@@ -34,6 +34,7 @@ from FreeCAD import Base
 import FreeCAD
 import os
 import FastenerBase
+from FSAliases import FSGetIconAlias
 import ScrewMaker
 
 # Enable text translation support
@@ -246,7 +247,7 @@ class Ui_DlgCountersunktHoles(object):
         self.comboScrewType.addItem(translate("Fasteners", "Default"))
         for screw in screwList:
             self.comboScrewType.addItem(
-                QtGui.QIcon(os.path.join(iconPath, screw + ".svg")), screw
+                QtGui.QIcon(os.path.join(iconPath, FSGetIconAlias(screw) + ".svg")), screw
             )
 
     def fillDiameters(self, type):

@@ -32,7 +32,7 @@ def makeExternalRetainingRing(self, fa):
     supported types:
       DIN 471 - metric external retaining rings
     """
-    SType = fa.type
+    SType = fa.baseType
     if SType == "DIN471":
         S, d3, a_Max, b, d5_Min, d2 = fa.dimTable
     else:

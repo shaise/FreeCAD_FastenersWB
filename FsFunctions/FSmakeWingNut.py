@@ -34,10 +34,10 @@ def makeWingNut(self, fa):
     - DIN 315 wing nuts
     - ASME B18.6.9 wing nuts, type A
     """
-    if fa.type == "DIN315":
+    if fa.baseType == "DIN315":
         P, d2, d3, e, m, g, h = fa.dimTable
         wing_r = g / 4
-    elif fa.type == "ASMEB18.6.9A":
+    elif fa.baseType == "ASMEB18.6.9A":
         TPI, A, B, C, D, E, G = fa.dimTable
         P = 1 / TPI * 25.4
         d2 = E * 25.4

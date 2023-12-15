@@ -41,7 +41,7 @@ from screw_maker import *
 # ASMEB18.21.1.12C Washer
 
 def makeWasher(self, fa): # dynamically loaded method of class Screw
-    SType = fa.type
+    SType = fa.baseType
     # FreeCAD.Console.PrintMessage("the disc with dia: " + str(dia) + "\n")
     if SType[:3] == 'ISO':
         d1_min, d2_max, h, h_max = fa.dimTable

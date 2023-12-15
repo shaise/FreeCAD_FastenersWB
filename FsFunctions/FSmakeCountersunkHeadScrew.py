@@ -41,7 +41,7 @@ def makeCountersunkHeadScrew(self, fa):
     - ISO 7046 countersunk flat head screws with H cross recess
     - ISO 14582 Hexalobular socket countersunk head screws, high head
     """
-    SType = fa.type
+    SType = fa.baseType
     length = fa.calc_len
     dia = self.getDia(fa.calc_diam, False)
     if SType == "ISO10642":

@@ -34,7 +34,7 @@ def makeButtonHeadScrew(self, fa):
     - ISO 7380-1 Button head Screw
     - ASMEB18.3.3A UNC Hex socket button head screws
     """
-    SType = fa.type
+    SType = fa.baseType
     length = fa.calc_len
     dia = self.getDia(fa.calc_diam, False)
     if SType == 'ISO7380-1':

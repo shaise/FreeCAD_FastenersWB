@@ -35,7 +35,7 @@ def makePanHeadScrew(self, fa):
     -ISO 7045 Pan head screws with type H or type Z cross recess
     - ISO 14583 Hexalobular socket pan head screws
     """
-    SType = fa.type
+    SType = fa.baseType
     length = fa.calc_len
     dia = self.getDia(fa.calc_diam, False)
     if SType == "ISO7045":

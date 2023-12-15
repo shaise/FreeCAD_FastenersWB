@@ -137,11 +137,11 @@ class Screw:
         if (fastenerAttribs.diameter == "Custom"):
             fastenerAttribs.dimTable = None
         else:
-            fastenerAttribs.dimTable = FsData[fastenerAttribs.type +
+            fastenerAttribs.dimTable = FsData[fastenerAttribs.baseType +
                                               "def"][fastenerAttribs.diameter]
         self.leftHanded = fastenerAttribs.leftHanded
         # self.fastenerLen = l
-        # fa.type = ST_text
+        # fa.baseType = ST_text
         # fa.calc_diam = ND_text
         # self.customPitch = customPitch
         # self.customDia = customDia

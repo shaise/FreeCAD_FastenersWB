@@ -7,6 +7,7 @@ from screw_maker import FsData
 from FastenerBase import FsTitles
 import FastenerBase
 from FastenerBase import FSParam
+from FSAliases import FSGetTypeAlias
 import math
 
 FSCScrewHoleChart = (
@@ -386,9 +387,11 @@ class FSScrewMaker(Screw):
         return screwTables[type][FASTENER_FAMILY_POS]
 
     def GetAllDiams(self, type):
+        type = FSGetTypeAlias(type)
         return list(FsData[type + "def"].keys())
 
     def GetAllTcodes(self, type, diam):
+        FSGetTypeAlias(type)
         tcodes = FsTitles[type + "tcodes"]
         tdata = FsData[type + "tcodes"][diam]
         res = []
@@ -398,6 +401,7 @@ class FSScrewMaker(Screw):
         return res
 
     def GetAllSlotWidths(self, type, diam):
+        type = FSGetTypeAlias(type)
         swidths = FsTitles[type + "slotwidths"]
         swdata = FsData[type + "slotwidths"][diam]
         res = []
@@ -407,11 +411,13 @@ class FSScrewMaker(Screw):
         return res
 
     def GetAllWidthcodes(self, type, diam):
+        type = FSGetTypeAlias(type)
         widths = FsData[type + "width"][diam]
         return list(widths)
 
     def GetAllLengths(self, type, diam, addCustom=True, width=None):
         lenlist = []
+        type = FSGetTypeAlias(type)
         rangeTableName = type + "range"
         if diam != "Auto":
             if width is not None:
@@ -515,7 +521,7 @@ class FSScrewMaker(Screw):
             FastenerBase.FSCacheRemoveThreaded()
 
     def createFastener(self, fastenerAttribs):
-        func = screwTables[fastenerAttribs.type][FUNCTION_POS]
+        func = screwTables[fastenerAttribs.baseType][FUNCTION_POS]
         return self.createScrew(func, fastenerAttribs)
 
 

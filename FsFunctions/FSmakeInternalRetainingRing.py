@@ -32,7 +32,7 @@ def makeInternalRetainingRing(self, fa):
     supported types:
       DIN 472 - metric internal retaining rings
     """
-    SType = fa.type
+    SType = fa.baseType
     if SType == "DIN472":
         S, d_3, a_Max, b, d5_Min, d2 = fa.dimTable
     else:

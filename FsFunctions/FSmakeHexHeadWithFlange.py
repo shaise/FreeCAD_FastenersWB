@@ -37,7 +37,7 @@ def makeHexHeadWithFlange(self, fa):
     - ASMEB18.2.1.8 Hexagon bolts with flange, heavy series
     """
     dia = self.getDia(fa.calc_diam, False)
-    SType = fa.type
+    SType = fa.baseType
     length = fa.calc_len
     if SType == "EN1662" or SType == "EN1665":
         P, b0, b1, b2, b3, c, dc, dw, e, k, kw, f, r1, s = fa.dimTable

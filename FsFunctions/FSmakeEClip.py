@@ -32,7 +32,7 @@ def makeEClip(self, fa):
     supported types:
       DIN 6799 - metric E-clips
     """
-    SType = fa.type
+    SType = fa.baseType
     if SType == "DIN6799":
         groove_dia, shaft_dia_min, shaft_dia_max, \
             d3_max, S, a = fa.dimTable

@@ -35,7 +35,7 @@ def makeRaisedCountersunkScrew(self, fa):
     - ISO 7047 raised countersunk head screws with H cross recess
     - ISO 14584 raised countersunk head screws with hexalobular recess
     """
-    SType = fa.type
+    SType = fa.baseType
     length = fa.calc_len
     dia = self.getDia(fa.calc_diam, False)
     if SType == "ISO2010":

@@ -34,7 +34,7 @@ def makeSquareBolt(self, fa):
     """
     dia = self.getDia(fa.calc_diam, False)
     length = fa.calc_len
-    if fa.type == "ASMEB18.2.1.1":
+    if fa.baseType == "ASMEB18.2.1.1":
         TPI, F, H, R, L_T1, L_T2 = fa.dimTable
         r = R * 25.4
         s = F * 25.4
@@ -45,7 +45,7 @@ def makeSquareBolt(self, fa):
         else:
             b = L_T2 * 25.4
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.baseType}")
     # lay out the fastener profile
     fm = FSFaceMaker()
     fm.AddPoint(0.0, k)

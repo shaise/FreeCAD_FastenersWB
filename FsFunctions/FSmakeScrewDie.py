@@ -33,9 +33,9 @@ def makeScrewDie(self, fa):
     ThreadType = fa.calc_diam
     if fa.diameter != "Custom":
         dia = self.getDia(ThreadType, False)
-        if fa.type == "ScrewDie":
+        if fa.baseType == "ScrewDie":
             P, tunIn, tunEx = fa.dimTable
-        elif fa.type == "ScrewDieInch":
+        elif fa.baseType == "ScrewDieInch":
             P = fa.dimTable[0]
     else:  # custom pitch and diameter
         P = fa.calc_pitch

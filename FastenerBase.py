@@ -52,6 +52,7 @@ FsData = {}
 FsTitles = {}
 filelist = Path(fsdatapath).glob('*.csv')
 for item in filelist:
+    # FreeCAD.Console.PrintLog("reading " + str(item) + "\n")
     tables = csv2dict(str(item), item.stem, fieldsnamed=True)
     for tablename in tables.keys():
         if tablename == 'titles':

@@ -37,7 +37,7 @@ def makeSquareNut(self, fa):
     - ASME B18.2.2 square nuts
     - ASME B18.2.2 square machine screw nuts (small sizes)
     """
-    SType = fa.type
+    SType = fa.baseType
     dia = self.getDia(fa.calc_diam, True)
     if SType == 'DIN557':
         s, m, di, dw, P = fa.dimTable

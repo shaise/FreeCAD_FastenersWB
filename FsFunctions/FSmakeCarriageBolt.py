@@ -36,7 +36,7 @@ sqrt2 = math.sqrt(2)
 
 
 def makeCarriageBolt(self, fa):  # dynamically loaded method of class Screw
-    SType = fa.type
+    SType = fa.baseType
     length = fa.calc_len
     d = self.getDia(fa.calc_diam, False)
     if SType == 'ASMEB18.5.2':

@@ -41,15 +41,15 @@ def makeHexHeadBolt(self, fa):
     length = fa.calc_len
     
     # DIN933
-    if fa.type == 'DIN933' or fa.type == 'DIN961':
+    if fa.baseType == 'DIN933' or fa.baseType == 'DIN961':
         P, c, dw, e, k, r, s = fa.dimTable
         b = length
     
-    if fa.type == 'ISO4017' or fa.type == 'ISO8676':
+    if fa.baseType == 'ISO4017' or fa.baseType == 'ISO8676':
         P, c, dw, e, k, r, s = fa.dimTable
         b = length
 
-    if fa.type == 'ISO4014':
+    if fa.baseType == 'ISO4014':
         P, b1, b2, b3, c, dw, e, k, r, s = fa.dimTable
         if length <= 125.0:
             b = b1
@@ -59,7 +59,7 @@ def makeHexHeadBolt(self, fa):
             else:
                 b = b3
 
-    if fa.type == 'ASMEB18.2.1.6':
+    if fa.baseType == 'ASMEB18.2.1.6':
         b, P, c, dw, e, k, r, s = fa.dimTable
         if length > 6 * 25.4:
             b += 6.35

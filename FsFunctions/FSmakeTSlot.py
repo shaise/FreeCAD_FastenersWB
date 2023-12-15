@@ -30,7 +30,7 @@ import FastenerBase
 
 
 def makeBaseBody(a, e1, e2, f, h, k):
-    # T-Slot points, transversal cut
+    """ T-Slot points, transversal cut """
     fm = FastenerBase.FSFaceMaker()
     fm.AddPoint(e2 / 2 - f, -h)
     fm.AddPoint(e2 / 2, -h + f)
@@ -48,8 +48,8 @@ def makeBaseBody(a, e1, e2, f, h, k):
 
     return face.extrude(Base.Vector(0.0, e1, 0.0))
 
-# Cut corner delimited by 2 perpendicular rects and a quarter circunference
 def cutCorner(fastener, radio, depth):
+    """ Cut corner delimited by 2 perpendicular rects and a quarter circunference """
     p0 = Base.Vector(0.0, -radio, 0.0)
     p1= Base.Vector(radio, -radio, 0.0)
     p2 = Base.Vector(radio, 0.0, 0.0)
@@ -74,7 +74,7 @@ def cutCorner(fastener, radio, depth):
     return fastener
 
 def makeHole(self, fastener, fa, dia, h, P):
-    # Hole with chamfer
+    """ Hole with chamfer """
     da = 1.05 * dia
     inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
     inner_cham_ht = math.tan(math.radians(15)) * (da / 2 - inner_rad)
@@ -124,7 +124,8 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
 
         fastener = makeBaseBody(a, e1, e2, f, h, k)
         return makeHole(self, fastener, fa, dia, h, P)
-    elif fa.baseType[:2] == "GN":
+
+    if fa.baseType[:2] == "GN":
         e1 = FsData[fa.baseType + "e1"][d][i]
         e2 = FsData[fa.baseType + "e2"][d][i]
         k = FsData[fa.baseType + "k"][d][i]
@@ -133,7 +134,8 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
         if fa.baseType == "GN507":
             fastener = makeBaseBody(a, e1, e2, f, h, k)
             return makeHole(self, fastener, fa, dia, h, P)
-        elif fa.baseType[:5] == "GN505":
+
+        if fa.baseType[:5] == "GN505":
             k = k - 0.05 * e1 # Take into account strips height
 
             fastener = makeBaseBody(a, e1, e2, f, h, k)
@@ -146,23 +148,23 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
             p0 = Base.Vector(-e2 / 2, e1 / 2, -h + k)
             p1 = Base.Vector(-e2 / 2, (e1 / 2) - 0.1 * e1, -h + k)
             p2 = Base.Vector(-e2 / 2, (e1 / 2) - 0.05 * e1, -h + k + 0.05 * e1)
-    
+
             edge0 = Part.makeLine(p0, p1)
             edge1 = Part.makeLine(p1, p2)
             edge2 = Part.makeLine(p2, p0)
-    
+
             aWire = Part.Wire([edge0, edge1, edge2])
             aFace = Part.Face(aWire)
             strip = aFace.extrude(Base.Vector(e2, 0.0, 0.0))
             fastener = fastener.fuse(strip)
-            for x in range(9):
+            for _ in range(9):
                 myMat = Base.Matrix()
                 strip.translate(Base.Vector(0, -0.1 * e1, 0))
                 fastener = fastener.fuse(strip)
 
             if fa.baseType == "GN505":
                 fastener = makeHole(self, fastener, fa, dia, h, P)
-            
+
             # Cut corners to allow free rotation
             # Cut corners in the middle face
             fastener = cutCorner(fastener, e2 / 2, h)
@@ -183,8 +185,8 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
             if fa.baseType == "GN505.4":
                 length = fa.calc_len
 
-                # We have to rotate the fastener because 
-                # the threa dshoul be down
+                # We have to rotate the fastener because
+                # the thread should be down
                 myMat = Base.Matrix()
                 myMat.rotateX(math.pi)
                 fastener = fastener.transformShape(myMat)
@@ -207,4 +209,3 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
             return fastener
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.baseType}")
-

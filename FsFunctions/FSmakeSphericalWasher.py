@@ -45,7 +45,7 @@ def makeSphericalWasher(self, fa):
 
     if fa.baseType == "DIN6319C":
         d1, d3, d5, f1, h1, h2, r1, csh_diam = fa.dimTable
-    
+
         Phi_Start = math.asin(d1 / (2. * r1))
         Phi_End = math.asin(d3 / (2. * r1))
         Delta_Phi = Phi_End - Phi_Start
@@ -60,16 +60,16 @@ def makeSphericalWasher(self, fa):
         fm.AddPoint(d3 / 2., h2 - hZ)
         fm.AddPoint(d1 / 2. + f1, h2 - hZ)
         fm.AddPoint(d1 / 2., h2 - f1 - hZ)
-    
+
         washer_body = self.RevolveZ(fm.GetFace())
-    
+
     elif fa.baseType == "DIN6319D" or fa.baseType == "DIN6319G":
         d2, d4, d5, h3 = fa.dimTable
-        
+
         tan30 = math.tan(math.radians(30.))
         chamfer_X = (d5 - d2) / 2.
         chamfer_Z = chamfer_X * tan30
-        
+
         fm = FastenerBase.FSFaceMaker()
         fm.StartPoint(d2 / 2., 0.)
         fm.AddPoint(d4 / 2., 0.)

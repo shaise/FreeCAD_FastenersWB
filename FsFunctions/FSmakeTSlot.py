@@ -50,7 +50,6 @@ def makeBaseBody(a, e1, e2, f, h, k):
 
 # Cut corner delimited by 2 perpendicular rects and a quarter circunference
 def cutCorner(fastener, radio, depth):
-    sqrt2 = math.sqrt(2)
     p0 = Base.Vector(0.0, -radio, 0.0)
     p1= Base.Vector(radio, -radio, 0.0)
     p2 = Base.Vector(radio, 0.0, 0.0)
@@ -76,7 +75,6 @@ def cutCorner(fastener, radio, depth):
 
 def makeHole(self, fastener, fa, dia, h, P):
     # Hole with chamfer
-    sqrt3 = math.sqrt(3)
     da = 1.05 * dia
     inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
     inner_cham_ht = math.tan(math.radians(15)) * (da / 2 - inner_rad)

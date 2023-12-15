@@ -94,11 +94,12 @@ import FastenerBase
 from FastenerBase import FsData
 from FastenerBase import FSFaceMaker
 
-DEBUG = False  # set to True to show debug messages; does not work, still todo.
+DEBUG = False  # TODO: set to True to show debug messages; does not work.
 
 # some common constants
-sqrt3 = math.sqrt(3)
-cos30 = math.cos(math.radians(30))
+sqrt2 = math.sqrt(2.0)
+sqrt3 = math.sqrt(3.0)
+cos30 = math.cos(math.radians(30.0))
 
 
 class Screw:

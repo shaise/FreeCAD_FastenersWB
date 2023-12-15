@@ -50,11 +50,10 @@ def makeSphericalWasher(self, fa):
         Phi_End = math.asin(d3 / (2. * r1))
         Delta_Phi = Phi_End - Phi_Start
         Center_Z = r1 * math.cos(Phi_Start)
-    
-        Sqrt3 = math.sqrt(3.)
+
         # comments please see: Doc\DIN6319 Calculation Overlap hz.pdf
-        hZ = (Sqrt3 * d5 + math.sqrt(36. * r1**2 - 9. * d1**2) - 4. * Sqrt3 * r1) / 6
-    
+        hZ = (sqrt3 * d5 + math.sqrt(36. * r1**2 - 9. * d1**2) - 4. * sqrt3 * r1) / 6
+
         fm = FastenerBase.FSFaceMaker()
         fm.StartPoint(d1 / 2., -hZ)
         fm.AddArc2(-d1 / 2., Center_Z, math.degrees(Delta_Phi))

@@ -185,6 +185,9 @@ FSScrewCommandTable = {
     "ISO7092": (translate("FastenerCmd", "ISO 7092 Plain washers - Small series"), WasherGroup, WasherParameters, "ISO"),
     "ISO7093-1": (translate("FastenerCmd", "ISO 7093-1 Plain washers - Large series"), WasherGroup, WasherParameters, "ISO"),
     "ISO7094": (translate("FastenerCmd", "ISO 7094 Plain washers - Extra large series"), WasherGroup, WasherParameters, "ISO"),
+    "DIN6319C": (translate("FastenerCmd", "DIN 6319C Spherical washer"), WasherGroup, WasherParameters, "DIN"),
+    "DIN6319D": (translate("FastenerCmd", "DIN 6319D Conical seat"), WasherGroup, WasherParameters, "DIN"),
+    "DIN6319G": (translate("FastenerCmd", "DIN 6319G Conical seat"), WasherGroup, WasherParameters, "DIN"),
     "DIN6340": (translate("FastenerCmd", "DIN 6340 Washers for clamping devices"), WasherGroup, WasherParameters, "DIN"),
     "NFE27-619": (translate("FastenerCmd", "NFE27-619 Countersunk washer"), WasherGroup, WasherParameters, "other"),
 

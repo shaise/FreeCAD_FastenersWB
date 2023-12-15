@@ -169,6 +169,9 @@ screwTables = {
     "ISO7092": ("Washer", "makeWasher"),
     "ISO7093-1": ("Washer", "makeWasher"),
     "ISO7094": ("Washer", "makeWasher"),
+    "DIN6319C": ("Washer", "makeSphericalWasher"),
+    "DIN6319D": ("Washer", "makeSphericalWasher"),
+    "DIN6319G": ("Washer", "makeSphericalWasher"),
     "DIN6340": ("Washer", "makeWasher"),
     "NFE27-619": ("Washer", "makeWasher"),
     "ISO4026": ("Screw", "makeSetScrew"),
@@ -271,7 +274,7 @@ class FSScrewMaker(Screw):
                     mindif = diff
                     diam = m
 
-        # auto find width, if aplicable
+        # auto find width, if applicable
         if width is not None:
             width_table = FsData[type + "width"][diam]
             if width not in width_table:

@@ -1,8 +1,8 @@
-# Contributing to FastenerWB
+# Contributing to FastenersWB
 
 Table of Contents:
 
-- [Contributing to FastenerWB](#contributing-to-fastenerwb)
+- [Contributing to FastenersWB](#contributing-to-fastenerswb)
 - [Adding new fasteners](#adding-new-fasteners)
   - [Creating data files](#creating-data-files)
     - [Converting data to a csv file](#converting-data-to-a-csv-file)
@@ -258,8 +258,10 @@ Dust off your graphic design skills.
 The easiest way to create an icon for your new fastener type is as follows:
 - Create a TechDraw view of the fastener from a close-to-isometric view angle
 - Export the page and import it into Inkscape
-- You can now recolor the view of the part to look like the workbenches icons, use `#FFAF00` ![#FFAF00](https://placehold.co/15x15/FFAF00/FFAF00.png) for metric fasteners and `#5FD3C2` ![#5FD3C2](https://placehold.co/15x15/5FD3C2/5FD3C2.png) for imperial fasteners
+- You can now recolor the view of the part to look like the workbench's icons, use `#FFAF00` ![#FFAF00](https://placehold.co/15x15/FFAF00/FFAF00.png) for metric fasteners and `#5FD3C2` ![#5FD3C2](https://placehold.co/15x15/5FD3C2/5FD3C2.png) for imperial fasteners
 - Icons should be 48x48px plain svg files, on Inkscape set: `File>Document Properties>Display>Front Page>Format:` to `Icon 48x48`
+- The stroke width of black lines should be around 1.26px
+- Leave a margin of 2 pixels on 4 sides and make the fastener icon inside the margin. 
 
 ![](Resources/FSIconProcess.png)
 

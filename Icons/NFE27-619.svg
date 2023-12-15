@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>FreeCAD SVG Export</dc:title>
+        <dc:title>NFE27-619</dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -52,7 +52,7 @@
      fit-margin-right="0"
      fit-margin-bottom="0" />
   <title
-     id="title4597">FreeCAD SVG Export</title>
+     id="title4597">NFE27-619</title>
   <desc
      id="desc4599">Drawing page: Page exported from FreeCAD document: US_SB_Senk_check</desc>
   <defs

@@ -181,12 +181,13 @@ FSScrewCommandTable = {
     "GN505.4": (translate("FastenerCmd", "GN 505.4 Serrated T-Slot Bolts"), TSlotGroup, TSlotBoltParameters, "other"),
     "GN507": (translate("FastenerCmd", "GN 507 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "other"),
 
-    "ISO7089": (translate("FastenerCmd", "ISO 7089 Washer"), WasherGroup, WasherParameters, "ISO"),
+    "ISO7089": (translate("FastenerCmd", "ISO 7089 Plain washers - Normal series"), WasherGroup, WasherParameters, "ISO"),
     "ISO7090": (translate("FastenerCmd", "ISO 7090 Plain Washers, chamfered - Normal series"), WasherGroup, WasherParameters, "ISO"),
-    #    "ISO7091": (translate("FastenerCmd", "ISO 7091 Plain washer - Normal series Product Grade C"), WasherGroup, WasherParameters),   # same as 7089??
+    #"ISO7091": (translate("FastenerCmd", "ISO 7091 Plain washer - Normal series - Product Grade C"), WasherGroup, WasherParameters),   # same as 7089??
     "ISO7092": (translate("FastenerCmd", "ISO 7092 Plain washers - Small series"), WasherGroup, WasherParameters, "ISO"),
     "ISO7093-1": (translate("FastenerCmd", "ISO 7093-1 Plain washers - Large series"), WasherGroup, WasherParameters, "ISO"),
     "ISO7094": (translate("FastenerCmd", "ISO 7094 Plain washers - Extra large series"), WasherGroup, WasherParameters, "ISO"),
+    "ISO8738": (translate("FastenerCmd", "ISO 8738 Plain washers for clevis pins"), WasherGroup, WasherParameters, "ISO"),
     "DIN6319C": (translate("FastenerCmd", "DIN 6319C Spherical washer"), WasherGroup, WasherParameters, "DIN"),
     "DIN6319D": (translate("FastenerCmd", "DIN 6319D Conical seat"), WasherGroup, WasherParameters, "DIN"),
     "DIN6319G": (translate("FastenerCmd", "DIN 6319G Conical seat"), WasherGroup, WasherParameters, "DIN"),

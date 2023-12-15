@@ -27,24 +27,27 @@
 """
 from screw_maker import *
 
-# make Washer
-# ISO7089 Washer
-# ISO7090 Washer
-# ISO7091 Washer
-# ISO7092 Washer
-# ISO7093-1 Washer
-# ISO7094 Washer
-# DIN6340 Washers for clamping devices
-# NFE27-619 Washer
-# ASMEB18.21.1.12A Washer
-# ASMEB18.21.1.12B Washer
-# ASMEB18.21.1.12C Washer
-
 def makeWasher(self, fa): # dynamically loaded method of class Screw
+    """Creates a washer
+    Supported types:
+    - ISO7089 Plain washers - Normal series - Product grade A
+    - ISO7090 Plain washers, chamfered - Normal series - Product grade A
+    - ISO7091 Plain washers - Normal series - Product grade C
+    - ISO7092 Plain washers - Small series - Product grade A
+    - ISO7093-1 Plain washers - Large series - Part 1: Product grade A
+    - ISO7094 Plain washers - Extra large series - Product grade C
+    - ISO8738 Plain washers for clevis pins - Product grade A
+    - DIN6340 Washers for clamping devices
+    - NFE27-619 Washer
+    - ASMEB18.21.1.12A Washer
+    - ASMEB18.21.1.12B Washer
+    - ASMEB18.21.1.12C Washer
+    """
+
     SType = fa.baseType
     # FreeCAD.Console.PrintMessage("the disc with dia: " + str(dia) + "\n")
     if SType[:3] == 'ISO':
-        d1_min, d2_max, h, h_max = fa.dimTable
+        d1_min, d2_max, h, _ = fa.dimTable
     if SType[:3] == 'DIN':
         d1_min, d2_max, h = fa.dimTable
     elif SType[:3] == 'ASM':

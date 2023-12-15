@@ -120,6 +120,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.4.73  15 Dec 2023:  Add ISO4034 nut by @hasecilu.  
+                       - Add DIN6319 type C, D and G - Spherical Washers - Conical Seats by @UR-0.
 * V0.4.72  10 Dec 2023:  Update Polish translations by @kaktusus.  
 * V0.4.71  26 Nov 2023:  Add DIN6331 Hexagon nuts with collar by @UR-0.  
                        - Fix M6 pitch for DIN6330 by @UR-0.  

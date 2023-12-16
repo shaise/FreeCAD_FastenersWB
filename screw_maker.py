@@ -318,7 +318,7 @@ class Screw:
         isFrenet = True
         cutTool = Part.Wire(helix).makePipeShell([W0], makeSolid, isFrenet)
         return cutTool
-    
+
     def CreateKnurlCutter(self, outDia: float, inDia: float, zbase: float, height: float, leftHanded: bool) -> Part.Shape:
         ro = outDia / 2.0
         ri = inDia / 2.0
@@ -347,7 +347,7 @@ class Screw:
         ang = math.atan(y2 / d2) * 114.6 # 2 * 180 / pi
         numCuts = int(360.0 / ang)
         elementAng = 360 / numCuts
-        
+
         for i in range(1, numCuts):
             nextElement = cutElement.copy().rotate(Base.Vector(0,0,0), Base.Vector(0,0,1), i * elementAng)
             cutElements.append(nextElement)

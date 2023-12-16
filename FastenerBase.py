@@ -829,7 +829,7 @@ def InitCheckables():
     matchInnerButton.setCheckable(True)
     matchOuterButton.setChecked(match_outer)
     matchInnerButton.setChecked(not match_outer)
-    
+
 ########################## Generate BOM command ###############################
 
 class FSMakeBomCommand:
@@ -922,11 +922,11 @@ class FSMakeBomCommand:
     def AddTSlot(self, obj, cnt):
         if obj.type == "GN505.4":
             self.AddFastener(translate("FastenerBase", "T-Slot Bolt ") +
-                            obj.type + " " + obj.diameter + " " + obj.slotWidth, 
+                            obj.type + " " + obj.diameter + " " + obj.slotWidth,
                              cnt)
         else:
             self.AddFastener(translate("FastenerBase", "T-Slot Nut ") +
-                            obj.type + " " + obj.diameter + " " + obj.slotWidth, 
+                            obj.type + " " + obj.diameter + " " + obj.slotWidth,
                              cnt)
 
     def IsActive(self):

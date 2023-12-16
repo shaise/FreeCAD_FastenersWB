@@ -51,7 +51,7 @@ def makeDIN571(screw_obj, fa):
     e = s/math.cos(math.radians(30))
     sqrt2_ = 1.0 / math.sqrt(2.0)
     cham = (e - s) * math.sin(math.radians(15))  # needed for chamfer at head top
-    
+
     Pnt0 = Base.Vector(0.0, 0.0, k)
     Pnt2 = Base.Vector(s / 2.0, 0.0, k)
     Pnt3 = Base.Vector(s / math.sqrt(3.0), 0.0, k - cham)
@@ -89,12 +89,12 @@ def makeDIN571(screw_obj, fa):
                         -l + z2 + z3 - d * math.sin(angle / 2.0))
     PntB3 = Base.Vector(x2, 0.0, -l + z3)
     PntB4 = Base.Vector(0.0, 0.0, -l)
-    
+
     edge6 = Part.makeLine(Pnt9, PntB0)
     edge8 = Part.Arc(PntB1, PntB2, PntB3).toShape()
     edge9 = Part.makeLine(PntB3, PntB4)
     edgeZ0 = Part.makeLine(PntB4, Pnt0)
-    
+
     if fa.thread:
         PntB0t = Base.Vector(dt, 0.0, 0.4 * -ftl - (d - dt))
         edge7 = Part.makeLine(PntB0, PntB0t)
@@ -105,7 +105,7 @@ def makeDIN571(screw_obj, fa):
         edge7 = Part.makeLine(PntB0, PntB1)
         aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5, edge6,\
                         edge7, edge8, edge9, edgeZ0])
-    
+
     aFace = Part.Face(aWire)
     # Part.show(aFace)
     head = screw_obj.RevolveZ(aFace)
@@ -114,7 +114,7 @@ def makeDIN571(screw_obj, fa):
         thread = screw_obj.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d3h, d, P)
         #Part.show(thread)
         head = head.fuse(thread)
-    
+
     return head
 
 # DIN96 Wood screw
@@ -239,7 +239,7 @@ def makeGOST1144(self, fa):
         d2, P, D, K, sb, h = fa.dimTable
     elif SType == "GOST1144-3" or SType == "GOST1144-4":
         d2, P, D, K, PH, m, h = fa.dimTable
-        
+
     # types 2 and 4 have full length thread while types 1 and 3 do not
     b = l
     full_length=True
@@ -270,7 +270,7 @@ def makeGOST1144(self, fa):
     ###########################
     # Make full screw profile #
     ###########################
-    
+
     fm = FastenerBase.FSFaceMaker()
 
     # 1) screw head
@@ -290,7 +290,7 @@ def makeGOST1144(self, fa):
        fm.AddBSpline(ro, 0, sr, -slope_length) # create spline rounding
     else:
        fm.AddArc2(+0, -rr, 90) # in other cases create arc rounding
-    
+
     # 3) cylindrical part (place where thread will be added)
     if not full_length:
        if fa.thread:

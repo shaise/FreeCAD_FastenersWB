@@ -678,7 +678,7 @@ class FSScrewCommand:
 
     def GetResources(self):
         import GrammaticalTools
-        
+
         icon = os.path.join(iconPath, FSGetIconAlias(self.Type) + '.svg')
         return {'Pixmap': icon,
                 # the name of a svg file available in the resources

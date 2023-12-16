@@ -120,6 +120,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.4.75  16 Dec 2023:  Update Spanish translations by @hasecilu.  
+                       - fix aliased issue with bom generation.  
 * V0.4.74  16 Dec 2023:  Add ISO8738, plain washers for clevis pins by @hasecilu.  
                        - automatically add aliasses to screwTables  
 * V0.4.73  15 Dec 2023:  Add ISO4034 nut by @hasecilu.  

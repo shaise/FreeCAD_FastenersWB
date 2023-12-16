@@ -7,7 +7,8 @@ from screw_maker import FsData
 from FastenerBase import FsTitles
 import FastenerBase
 from FastenerBase import FSParam
-from FSAliases import FSGetTypeAlias
+from FSAliases import FSGetTypeAlias, FSAppendAliasesToTable
+
 import math
 
 FSCScrewHoleChart = (
@@ -254,6 +255,7 @@ screwTables = {
     "DIN6799": ("RetainingRing", "makeEClip"),
     # * diam pos and K pos were moved from this table to the csv titles
 }
+FSAppendAliasesToTable(screwTables)
 
 
 class FSScrewMaker(Screw):

@@ -854,7 +854,7 @@ class FSMakeBomCommand:
             name = FSRemoveDigits(obj.Name)
             # get total count
             cnt = GetTotalObjectRepeats(obj)
-            # FreeCAD.Console.PrintLog("Using method: Add" + name + "\n")
+            FreeCAD.Console.PrintLog("Using method: Add" + obj.Name + "\n")
             method = getattr(self, 'Add' + name, lambda x, y: "nothing")
             method(obj, cnt)
             # FreeCAD.Console.PrintLog('Add ' + str(cnt) + " " + obj.Name  + "\n")

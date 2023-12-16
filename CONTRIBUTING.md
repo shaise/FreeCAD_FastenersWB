@@ -251,6 +251,11 @@ it uses to generate a shape. This can usually be accomplished by looking
 at standards tables for parts the method already implements, or measuring
 existing fasteners in FreeCAD.
 
+### Reusing code for identical fasteners on different standards
+In the case you want to add a new fastener that is identical to an existing fastener but with different name (i.e. ISO299 is identical to existing DIN508), Do the following:
+- on `FastenersCmd.py` in `FSScrewCommandTable` table add an apropriate line.
+- on `FSAliases.py` add an entry to both `FSIconAliases` and `FSTypeAliases` tables. The key is the new fastener, and the data is the existing identical fastener.
+
 ## Making icons
 
 Dust off your graphic design skills.
@@ -264,6 +269,11 @@ The easiest way to create an icon for your new fastener type is as follows:
 - Leave a margin of 2 pixels on 4 sides and make the fastener icon inside the margin. 
 
 ![](Resources/FSIconProcess.png)
+
+### Reusing an icon
+
+If you want to use an existing icon for a new fastener, add an entry into `FSIconAliases` table located at `FSAliases.py`.  The key is the new fastener, and the data is the fastener who's icon is to be used.
+ 
 
 ## Appendix A - useful resources
 

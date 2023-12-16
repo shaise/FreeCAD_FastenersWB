@@ -33,7 +33,7 @@ from FastenerBase import FSParam
 from FastenerBase import FSBaseObject
 import ScrewMaker
 from FSutils import iconPath
-from FSAliases import FSGetIconAlias, FSGetTypeAlias
+from FSAliases import FSGetIconAlias, FSGetTypeAlias, FSAppendAliasesToTable
 
 screwMaker = ScrewMaker.Instance
 
@@ -761,5 +761,6 @@ FastenerBase.FSAddFastenerType("Stud")
 FastenerBase.FSAddFastenerType("HeatSet", False)
 FastenerBase.FSAddFastenerType("RetainingRing", False)
 FastenerBase.FSAddFastenerType("T-Slot", False)
+FSAppendAliasesToTable(ScrewMaker.screwTables)
 for item in ScrewMaker.screwTables:
     FastenerBase.FSAddItemsToType(ScrewMaker.screwTables[item][0], item)

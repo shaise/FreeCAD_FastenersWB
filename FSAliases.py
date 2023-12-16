@@ -26,3 +26,6 @@ def FSGetTypeAlias(type):
         return FSTypeAliases[type]
     return type
 
+def FSAppendAliasesToTable(table):
+    for item in FSTypeAliases.keys():
+        table[item] = table[FSTypeAliases[item]]

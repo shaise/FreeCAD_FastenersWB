@@ -847,7 +847,7 @@ class FSMakeBomCommand:
         sheet = FreeCAD.ActiveDocument.addObject('Spreadsheet::Sheet',
                                                  'Fasteners_BOM')
         sheet.Label = translate("FastenerBase", 'Fasteners_BOM')
-        sheet.setColumnWidth('A', 200)
+        sheet.setColumnWidth('A', 300)
         sheet.set('A1', translate("FastenerBase", "Type"))
         sheet.set('B1', translate("FastenerBase", "Qty"))
         for obj in FreeCAD.ActiveDocument.Objects:

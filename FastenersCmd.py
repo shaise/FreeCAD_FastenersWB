@@ -666,7 +666,7 @@ class FSViewProviderTree:
         elif hasattr(self.Object.Proxy, "type"):
             type = self.Object.Proxy.type
         # default to ISO4017.svg
-        return os.path.join(iconPath, FSGetIconAlias(type), '.svg')
+        return os.path.join(iconPath, FSGetIconAlias(type) + '.svg')
 
 class FSScrewCommand:
     """Add Screw command"""

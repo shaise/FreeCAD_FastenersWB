@@ -32,7 +32,6 @@ import FastenerBase
 # DIN603 Mushroom head square neck bolts
 cos22_5 = math.cos(math.radians(22.5))
 sin22_5 = math.sin(math.radians(22.5))
-sqrt2 = math.sqrt(2)
 
 
 def makeCarriageBolt(self, fa):  # dynamically loaded method of class Screw

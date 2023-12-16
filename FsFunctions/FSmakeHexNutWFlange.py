@@ -80,7 +80,6 @@ def makeHexNutWFlange(self, fa):
             m = H * 25.4
             c = K * 25.4
             flange_edge_rounded = False
-        sqrt3 = math.sqrt(3)
         inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
         inner_cham_ht = math.tan(math.radians(15)) * (da / 2 - inner_rad)
         # create the body of the nut

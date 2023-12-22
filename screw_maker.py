@@ -557,7 +557,7 @@ class Screw:
     def makeHexRecess(cls, width: float, depth: float, chamfer: bool) -> Part.Shape:
         """create a standard internal hexagonal driving feature (or 'Allen' recess)
         Parameters:
-        - width: dimension across flats of th recess shape.
+        - width: dimension across flats of the recess shape.
         - depth: usable depth of the recess. the returned shape has a larger overall
           height due to a tapered point at the bottom
         - chamfer: if True, a 45 degree chamfer is added at the top part of the shape

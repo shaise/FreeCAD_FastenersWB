@@ -451,7 +451,6 @@ class FSScrewMaker(Screw):
         if name not in titles:
             return -1
         return titles.index(name)
-    
     def GetTableProperty(self, type, diam, property, default_val):
         tablepos = self.GetTablePos(type, property)
         FreeCAD.Console.PrintLog("Found pos for " + property + ": " + str(tablepos) + "\n")

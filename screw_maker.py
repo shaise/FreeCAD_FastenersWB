@@ -160,7 +160,8 @@ class Screw:
         return screw
 
     def makeDin7998Thread(
-        self, zs: float, ze: float, zt: float, ri: float, ro: float, p: float
+        self, zs: float, ze: float, zt: float, ri: float, ro: float, p: float,
+        isFlat: bool = False
     ) -> Part.Shape:
         """create a DIN 7998 Wood Thread
         Parameters:
@@ -193,23 +194,27 @@ class Screw:
         bWire = fm.GetClosedWire()
         bWire.translate(FreeCAD.Vector(ri - epsilon, 0.0, tphb + tipH))
 
-        # create helix for tip thread part
-        numTurns = math.floor(tipH / p)
-        # Part.show(hlx)
-        hlx = Part.makeLongHelix(p, numTurns * p, 5, 0, self.leftHanded)
-        sweep = Part.BRepOffsetAPI.MakePipeShell(hlx)
-        sweep.setFrenetMode(True)
-        sweep.setTransitionMode(1)  # right corner transition
-        sweep.add(aWire)
-        sweep.add(bWire)
-        if sweep.isReady():
-            sweep.build()
-            sweep.makeSolid()
-            tip_solid = sweep.shape()
-            tip_solid.translate(FreeCAD.Vector(0.0, 0.0, zt))
-            # Part.show(tip_solid)
-        else:
-            raise RuntimeError("Failed to create woodscrew tip thread")
+        # Only make the tip helix when the point is not flat
+        if not isFlat:
+            # create helix for tip thread part
+            numTurns = math.floor(tipH / p) or 1
+            FreeCAD.Console.PrintMessage(str(numTurns))
+            # Part.show(hlx)
+            hlx = Part.makeLongHelix(p, numTurns * p, 5, 0, self.leftHanded)
+            sweep = Part.BRepOffsetAPI.MakePipeShell(hlx)
+            sweep.setFrenetMode(True)
+            sweep.setTransitionMode(1)  # right corner transition
+            sweep.add(aWire)
+            sweep.add(bWire)
+            if sweep.isReady():
+                sweep.build()
+                sweep.makeSolid()
+                tip_solid = sweep.shape()
+                tip_solid.translate(FreeCAD.Vector(0.0, 0.0, zt))
+                # Part.show(tip_solid)
+            else:
+                raise RuntimeError("Failed to create woodscrew tip thread")
+
 
         # create helix for body thread part
         hlx = Part.makeLongHelix(p, zs - ze, 5, 0, self.leftHanded)
@@ -227,7 +232,10 @@ class Screw:
         else:
             raise RuntimeError("Failed to create woodscrew body thread")
 
-        thread_solid = body_solid.fuse(tip_solid)
+        if isFlat:
+            thread_solid = body_solid
+        else:
+            thread_solid = body_solid.fuse(tip_solid)
         # rotate the thread solid to prevent OCC errors due to cylinder seams aligning
         thread_solid.rotate(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 180)
         #Part.show(thread_solid, "thread_solid")

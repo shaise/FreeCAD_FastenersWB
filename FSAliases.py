@@ -8,12 +8,14 @@
 
 # a table to reuse icons:
 FSIconAliases = {
-    'ISO299' : 'DIN508'
+    'ISO299' : 'DIN508',
+    'ISO7049-C' : 'DIN7996',
+    'ISO7049-R' : 'DIN7996',
 }
 
 # a table to reuse similar type standards
 FSTypeAliases = {
-    'ISO299' : 'DIN508'
+    'ISO299' : 'DIN508',
 }
 
 def FSGetIconAlias(name):

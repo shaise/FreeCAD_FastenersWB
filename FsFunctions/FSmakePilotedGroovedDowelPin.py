@@ -70,7 +70,6 @@ def makePilotedGroovedDowelPin(self, fa):
     fm.AddPoint(d_2 / 2 - dp + c + cham_ht, -length)
     fm.AddPoint(d_2 / 2 - dp, -length)
     inter = self.RevolveZ(fm.GetFace())
-    Part.show(inter)
     groove_cutter = groove_cutter.cut(inter)
     for i in range(3):
         shape = shape.cut(

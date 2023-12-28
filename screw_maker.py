@@ -693,7 +693,7 @@ class Screw:
     def getDia(self, ThreadDiam: str, isNut: bool) -> float:
         """returns a numerical diameter given a value in string format
         Parameters:
-        - ThreadDiam: e.g: "1/4in" or "M6"
+        - ThreadDiam: e.g: "1/4in" or "#6" or "M6" or "ST 6.3"
         - isNut: if true, calculates the diameter for an internal thread,
           as would be found on a standard hex-nut
 

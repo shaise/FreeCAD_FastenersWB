@@ -28,7 +28,7 @@ from screw_maker import *
 
 
 def makeClevisPin(self, fa):
-    if fa.type == "ISO2341":
+    if fa.type.startswith("ISO2341"):
         d, d_k, d_l, c, e, k, l_e, r = fa.dimTable
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.type}")
@@ -44,12 +44,35 @@ def makeClevisPin(self, fa):
     fm.AddPoint(d / 2 - c * math.sqrt(3) / 3, -length)
     fm.AddPoint(0.0, -length)
     shape = self.RevolveZ(fm.GetFace())
-    # cut out the cross-hole
-    drill = Part.makeCylinder(
-        d_l / 2,
-        1.1 * d,
-        Base.Vector(0.0, 0.55 * d, -length + l_e),
-        Base.Vector(0.0, -1.0, 0.0),
-    )
-    shape = shape.cut(drill)
+    if fa.type == "ISO2341B":
+        # cut out the cross-hole
+        drill = Part.makeCylinder(
+            d_l / 2,
+            1.1 * d,
+            Base.Vector(0.0, 0.55 * d, -length + l_e),
+            Base.Vector(0.0, -1.0, 0.0),
+        )
+        shape = shape.cut(drill)
+        # chamfer the cross hole. This is needed to create a circular edge
+        # that can be selected for a split pin to attach to
+        # chamfer the cross-holes
+        cham_cutter = Part.makeCone(
+            0.6 * d_l,
+            0,
+            0.6 * d_l,
+            Base.Vector(0.0, -d / 2, -length + l_e),
+            Base.Vector(0.0, 1.0, 0.0),
+        )
+        # rotate cone to align seam with the through-hole
+        cham_cutter = cham_cutter.rotate(
+            Base.Vector(0.0, 0.0, -length + l_e),
+            Base.Vector(0.0, 1.0, 0.0),
+            180
+        )
+        cham_cutter = cham_cutter.fuse(
+            cham_cutter.mirror(
+                Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 1.0, 0.0)
+            )
+        )
+        shape = shape.cut(cham_cutter)
     return shape

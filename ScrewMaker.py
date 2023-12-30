@@ -308,6 +308,7 @@ screwTables = {
     "ISO8737": ("Pin", "makeExternalThreadedTaperPin"),
     "ISO8739": ("Pin", "makePilotedGroovedDowelPin"),
     "ISO8740": ("Pin", "makeGroovedParallelPin"),
+    "ISO8741": ("Pin", "makeReverseTaperGroovedPin"),
     "ISO8742": ("Pin", "makeCenterGroovedPin"),
     "ISO8743": ("Pin", "makeCenterGroovedPin"),
     "ISO8744": ("Pin", "makeTaperGroovedPin"),

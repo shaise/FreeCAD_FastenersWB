@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="48" height="48" version="1.1" viewBox="0 0 12.7 12.7" xmlns="http://www.w3.org/2000/svg">
+ <g transform="rotate(45,6.35,6.35)" fill="#ffaf00" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width=".265">
+  <path d="m4.233 0v12.7l0.7938 0.7938h2.646l0.7938-0.7938v-12.7l-0.7938-0.7937h-2.646z"/>
+  <path d="m8.467 12.7h-4.233"/>
+  <path d="m4.233 0h4.233"/>
+ </g>
+</svg>

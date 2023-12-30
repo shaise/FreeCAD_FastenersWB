@@ -28,7 +28,7 @@ from screw_maker import *
 
 
 def makeHeadlessClevisPin(self, fa):
-    if fa.type == "ISO2340":
+    if fa.type.startswith("ISO2340"):
         d_1, d_2, c, l_e = fa.dimTable
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.type}")
@@ -41,34 +41,35 @@ def makeHeadlessClevisPin(self, fa):
     fm.AddPoint(d_1 / 2 - c * math.tan(math.pi / 6), -length)
     fm.AddPoint(0.0, -length)
     shape = self.RevolveZ(fm.GetFace())
-    # cut the cross-holes
-    drill = Part.makeCylinder(
-        d_2 / 2,
-        1.1 * d_1,
-        Base.Vector(0.0, 0.55 * d_1, -length + l_e),
-        Base.Vector(0.0, -1.0, 0.0),
-    )
-    shape = shape.cut(drill)
-    shape = shape.cut(
-        drill.mirror(Base.Vector(0.0, 0.0, -length / 2), Base.Vector(0.0, 0.0, 1.0))
-    )
-    # chamfer the cross-holes
-    cham_cutter = Part.makeCone(
-        0.6 * d_2,
-        0,
-        0.6 * d_2,
-        Base.Vector(0.0, -d_1 / 2, -l_e),
-        Base.Vector(0.0, 1.0, 0.0),
-    )
-    cham_cutter = cham_cutter.fuse(
-        cham_cutter.mirror(
-            Base.Vector(0.0, 0.0, -length / 2), Base.Vector(0.0, 0.0, 1.0)
+    if fa.type == "ISO2340B":
+        # cut the split-pin holes
+        drill = Part.makeCylinder(
+            d_2 / 2,
+            1.1 * d_1,
+            Base.Vector(0.0, 0.55 * d_1, -length + l_e),
+            Base.Vector(0.0, -1.0, 0.0),
         )
-    )
-    cham_cutter = cham_cutter.fuse(
-        cham_cutter.mirror(
-            Base.Vector(0.0, 0.0, -length / 2), Base.Vector(0.0, 1.0, 0.0)
+        shape = shape.cut(drill)
+        shape = shape.cut(
+            drill.mirror(Base.Vector(0.0, 0.0, -length / 2), Base.Vector(0.0, 0.0, 1.0))
         )
-    )
-    shape = shape.cut(cham_cutter)
+        # chamfer the holes
+        cham_cutter = Part.makeCone(
+            0.6 * d_2,
+            0,
+            0.6 * d_2,
+            Base.Vector(0.0, -d_1 / 2, -l_e),
+            Base.Vector(0.0, 1.0, 0.0),
+        )
+        cham_cutter = cham_cutter.fuse(
+            cham_cutter.mirror(
+                Base.Vector(0.0, 0.0, -length / 2), Base.Vector(0.0, 0.0, 1.0)
+            )
+        )
+        cham_cutter = cham_cutter.fuse(
+            cham_cutter.mirror(
+                Base.Vector(0.0, 0.0, -length / 2), Base.Vector(0.0, 1.0, 0.0)
+            )
+        )
+        shape = shape.cut(cham_cutter)
     return shape

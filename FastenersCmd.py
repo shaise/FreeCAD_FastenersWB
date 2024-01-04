@@ -575,7 +575,7 @@ class FSScrewObject(FSBaseObject):
             if oldcode in tcodes:
                 fp.tcode = oldcode
 
-        if diameterchange and "slotWidth" in params:
+        if (typechange or diameterchange) and "slotWidth" in params:
             swidths = screwMaker.GetAllSlotWidths(fp.type, fp.diameter)
             oldsw = fp.slotWidth
             fp.slotWidth = swidths

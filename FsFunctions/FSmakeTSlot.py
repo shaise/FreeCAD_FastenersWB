@@ -112,9 +112,9 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
     # with exception of the pitch
     swidth = fa.slotWidth # 8mm/10mm
     i = FastenerBase.FsTitles[fa.baseType + "slotwidths"].index(swidth)
+    P = FsData["ISO262def"][fa.diameter][0]
     a = FsData[fa.baseType + "slotwidths"][d][i]
     h = FsData[fa.baseType + "h"][d][i]
-    P = FsData[fa.baseType + "P"][d][i]
 
     if fa.baseType == "DIN508":
         e1 = FsData[fa.baseType + "e"][d][i]

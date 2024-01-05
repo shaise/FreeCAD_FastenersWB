@@ -9,8 +9,12 @@
 # a table to reuse icons:
 FSIconAliases = {
     'ISO299' : 'DIN508',
+    'ISO4766' : 'ISO4026',
     'ISO7049-C' : 'DIN7996',
     'ISO7049-R' : 'DIN7996',
+    'ISO7434' : 'ISO4027',
+    'ISO7435' : 'ISO4028',
+    'ISO7436' : 'ISO4029',
 }
 
 # a table to reuse similar type standards

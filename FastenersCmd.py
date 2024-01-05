@@ -52,6 +52,7 @@ translate("FastenerCmdTreeView", "ScrewDie")
 translate("FastenerCmdTreeView", "Insert")
 translate("FastenerCmdTreeView", "RetainingRing")
 translate("FastenerCmdTreeView", "T-Slot")
+translate("FastenerCmdTreeView", "SetScrew")
 
 ScrewParameters = {"type", "diameter",
                    "matchOuter", "thread", "leftHanded", "length"}
@@ -93,6 +94,7 @@ ThreadedRodGroup = translate("FastenerCmd", "ThreadedRod")
 InsertGroup = translate("FastenerCmd", "Inserts")
 RetainingRingGroup = translate("FastenerCmd", "Retaining Rings")
 TSlotGroup = translate("FastenerCmd", "T-Slot Fasteners")
+SetScrewGroup = translate("FastenerCmd", "Set screws")
 
 CMD_HELP = 0
 CMD_GROUP = 1
@@ -116,10 +118,6 @@ FSScrewCommandTable = {
     "ISO7380-2": (translate("FastenerCmd", "ISO 7380 Hexagon socket button head screws with collar"), HexagonSocketGroup, ScrewParametersLC, 'ISO'),
     "ISO10642": (translate("FastenerCmd", "ISO 10642 Hexagon socket countersunk head screw"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
     "ISO7379": (translate("FastenerCmd", "ISO 7379 Hexagon socket head shoulder screw"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
-    "ISO4026": (translate("FastenerCmd", "ISO 4026 Hexagon socket set screws with flat point"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
-    "ISO4027": (translate("FastenerCmd", "ISO 4027 Hexagon socket set screws with cone point"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
-    "ISO4028": (translate("FastenerCmd", "ISO 4028 Hexagon socket set screws with dog point"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
-    "ISO4029": (translate("FastenerCmd", "ISO 4029 Hexagon socket set screws with cup point"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
 
     "ISO14579": (translate("FastenerCmd", "ISO 14579 Hexalobular socket head cap screws"), HexalobularSocketGroup, ScrewParametersLC, "ISO"),
     "ISO14580": (translate("FastenerCmd", "ISO 14580 Hexalobular socket cheese head screws"), HexalobularSocketGroup, ScrewParametersLC, "ISO"),
@@ -151,6 +149,19 @@ FSScrewCommandTable = {
 
     "DIN603": (translate("FastenerCmd", "DIN 603 Mushroom head square neck bolts"), OtherHeadGroup, ScrewParametersLC, "DIN"),
     "DIN478": (translate("FastenerCmd", "DIN 478 Square head bolts with collar"), OtherHeadGroup, ScrewParametersLC, "DIN"),
+
+    "ISO4026": (translate("FastenerCmd", "ISO 4026 Hexagon socket set screws with flat point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO4027": (translate("FastenerCmd", "ISO 4027 Hexagon socket set screws with cone point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO4028": (translate("FastenerCmd", "ISO 4028 Hexagon socket set screws with dog point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO4029": (translate("FastenerCmd", "ISO 4029 Hexagon socket set screws with cup point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO4766": (translate("FastenerCmd", "ISO 4766 Slotted socket set screws with flat point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO7434": (translate("FastenerCmd", "ISO 7434 Slotted socket set screws with cone point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO7435": (translate("FastenerCmd", "ISO 7435 Slotted socket set screws with long dog point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO7436": (translate("FastenerCmd", "ISO 7436 Slotted socket set screws with cup point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ASMEB18.3.5A": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with flat point"), SetScrewGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.5B": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cone point"), SetScrewGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.5C": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with dog point"), SetScrewGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.5D": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cup point"), SetScrewGroup, ScrewParametersLC, "ASME"),
 
     "ISO4032": (translate("FastenerCmd", "ISO 4032 Hexagon nuts, Style 1"), NutGroup, NutParameters, "ISO"),
     "ISO4033": (translate("FastenerCmd", "ISO 4033 Hexagon nuts, Style 2"), NutGroup, NutParameters, "ISO"),
@@ -209,10 +220,6 @@ FSScrewCommandTable = {
     "ASMEB18.3.3A": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket button head screws"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
     "ASMEB18.3.3B": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket button head screws with flange"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
     "ASMEB18.3.4": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket head shoulder screws"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.5A": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with flat point"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.5B": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cone point"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.5C": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with dog point"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.5D": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cup point"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
 
     "ASMEB18.6.3.1A": (translate("FastenerCmd", "ASME B18.6.3 UNC slotted countersunk flat head screws"), SlottedGroup, ScrewParametersLC, "ASME"),
 
@@ -444,7 +451,7 @@ class FSScrewObject(FSBaseObject):
     def ActiveLength(self, obj):
         if not hasattr(obj, 'length'):
             return '0'
-        if type(obj.length) != type(""):
+        if not isinstance(obj.length, str):
             return self.CleanDecimals(float(obj.length))
         if obj.length == 'Custom':
             return self.CleanDecimals(float(obj.lengthCustom))

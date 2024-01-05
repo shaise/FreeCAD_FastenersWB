@@ -704,7 +704,7 @@ class Screw:
         then:
           self.getDia("M6", True) == 6.65  # 6 * 1.1 + 0.05
         """
-        if type(ThreadDiam) == type(""):
+        if isinstance(ThreadDiam, str):
             threadstring = ThreadDiam.strip("()")
             dia = FsData["DiaList"][threadstring][0]
         else:
@@ -716,10 +716,36 @@ class Screw:
                 dia = self.smScrewThrScaleA * dia + self.smScrewThrScaleB
         return dia
 
+    # NOTE:
+    # - On ISO 724 is presemted a table with the cooresponding minor
+    #   and pitch diameters (d_1, d_2) for a given pair of major diameter and
+    #   pitch (D, P), getDia1() amd getDia2() implement that correspondance.
+    # - On ISO 262 is presented tha available pitches for a given diameter.
+    # - On ISO 965-1 is presented the tolerances for metric screw thread.
+    def getDia1(self, D: float, P: float) -> float:
+        """ Returns the basic minor diameter of metric thread according to ISO 68-1
+        d_1 = D - 2 * 5/8 * H
+        Parameters:
+        - D: major diameter
+        - P: pitch
+        """
+        H_5_8 = FsData["ISO68-1def"][str(P)][1]
+        return D - 2 *  H_5_8
+
+    def getDia2(self, D: float, P: float) -> float:
+        """ Returns the basic pitch diameter of metric thread according to ISO 68-1
+        d_2 = D - 2 * 3/8 * H
+        Parameters:
+        - D: major diameter
+        - P: pitch
+        """
+        H_3_8 = FsData["ISO68-1def"][str(P)][2]
+        return D - 2 *  H_3_8
+
     def getLength(self, LenStr: str) -> float:
         # washers and nuts pass an int (1), for their unused length attribute
         # handle this circumstance if necessary
-        if type(LenStr) == int:
+        if isinstance(LenStr, int):
             return LenStr
         # otherwise convert the string to a number using predefined rules
         if 'in' not in LenStr:

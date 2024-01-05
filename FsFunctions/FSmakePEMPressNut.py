@@ -69,7 +69,7 @@ def makePEMPressNut(self, fa):
     if a == 0:
         return None
     do = self.getDia(diam, True)
-    P = FsData["MetricPitchTable"][diam][0]
+    P = FsData["ISO262def"][diam][0]
     di = self.GetInnerThreadMinDiameter(do, P)
     fFace = clMakeFace(do * 1.05, di, a, c, e, t)
     fSolid = self.RevolveZ(fFace)

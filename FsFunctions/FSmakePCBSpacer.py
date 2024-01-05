@@ -69,7 +69,7 @@ def makePCBSpacer(self, fa):
 
     th, _ = fa.dimTable
     dia = self.getDia(fa.calc_diam, True)
-    P = FsData["MetricPitchTable"][fa.diameter][0]
+    P = FsData["ISO262def"][fa.diameter][0]
     id = self.GetInnerThreadMinDiameter(dia, P)
     w = float(width)
     l = float(flen)

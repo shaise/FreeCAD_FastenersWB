@@ -25,31 +25,41 @@
 *                                                                         *
 ***************************************************************************
 """
-from screw_maker import *
+import math
+import Part
+from FreeCAD import Base
 import FastenerBase
-
+from screw_maker import FsData, sqrt2, sqrt3
 
 def makeBaseBody(a, e1, e2, f, h, k):
     """ T-Slot points, transversal cut """
     fm = FastenerBase.FSFaceMaker()
-    fm.AddPoint(e2 / 2 - f, -h)
-    fm.AddPoint(e2 / 2, -h + f)
-    fm.AddPoint(e2 / 2, -h + k)
-    fm.AddPoint(a / 2, -h + k)
+    fm.AddPoint(0.0, 0.0)
     fm.AddPoint(a / 2, 0.0)
-    fm.AddPoint(-a / 2, 0.0)
-    fm.AddPoint(-a / 2, -h + k)
-    fm.AddPoint(-e2 / 2, -h + k)
-    fm.AddPoint(-e2 / 2, -h + f)
-    fm.AddPoint(-e2 / 2 + f, -h)
-    face = fm.GetFace()
+    fm.AddPoint(a / 2, -h + k)
+    fm.AddPoint(e2 / 2, -h + k)
+    fm.AddPoint(e2 / 2, -h + f)
+    fm.AddPoint(e2 / 2 - f, -h)
+    fm.AddPoint(0, -h)
+    # half face on +X semiaxis
+    halfFace = fm.GetFace()
     # translate to plane y = -e1 / 2 to extrude up to y = e1 / 2
-    face.translate(Base.Vector(0.0, -e1 / 2, 0.0))
+    halfFace.translate(Base.Vector(0.0, -e1 / 2, 0.0))
 
-    return face.extrude(Base.Vector(0.0, e1, 0.0))
+    solid = halfFace.extrude(Base.Vector(0.0, e1, 0.0))
+    solid = solid.fuse(
+        solid.mirror(
+            Base.Vector(0, 0, 0),
+            Base.Vector(1, 0, 0)
+        )
+    ).removeSplitter()
+    return solid
 
-def cutCorner(fastener, radio, depth):
-    """ Cut corner delimited by 2 perpendicular rects and a quarter circunference """
+def cutCorners(fastener, radio, depth):
+    """
+    Cut corners on upper face to enable turn,
+    delimited by 2 perpendicular rects and a quarter circunference
+    """
     p0 = Base.Vector(0.0, -radio, 0.0)
     p1= Base.Vector(radio, -radio, 0.0)
     p2 = Base.Vector(radio, 0.0, 0.0)
@@ -64,12 +74,12 @@ def cutCorner(fastener, radio, depth):
     aFace = Part.Face(aWire)
     corner = aFace.extrude(Base.Vector(0.0, 0.0, -depth))
     # Part.show(corner) # See profile
-    fastener = fastener.cut(corner)
+    fastener = fastener.cut(corner).removeSplitter()
 
     myMat = Base.Matrix()
     myMat.rotateZ(math.pi)
     corner.transformShape(myMat)
-    fastener = fastener.cut(corner)
+    fastener = fastener.cut(corner).removeSplitter()
 
     return fastener
 
@@ -100,50 +110,56 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
     """
     Creates fasteners suited for T-Slot Aluminum profiles or steel tabletops.
     Supported types:
-    - DIN508 T-Slot nut for tabletops, don't fit Aluminum profiles
-    - GN505 Serrated Quarter-Turn T-Slot Nuts
-    - GN505.4 Serrated T-Slot Bolts
-    - GN507 T-Slot nut for Aluminum Profiles
+    - ISO 299:  T-slots and corresponding bolts; (ISO 299 = DIN 508)
+    - DIN 508:  T-Slot nut for tabletops, don't fit Aluminum profiles
+    - GN 505:   Serrated Quarter-Turn T-Slot Nuts
+    - GN 505.4: Serrated T-Slot Bolts
+    - GN 506:   T-Slot nut to swivel in for Aluminum Profiles
+    - GN 507:   T-Slot sliding nut for Aluminum Profiles
     """
     d = fa.calc_diam # String value, ex: M6
     dia = self.getDia(fa.calc_diam, True) # Converted numeric value
-
-    # All dimensions depend on the slot width NOT in the diameter
-    # with exception of the pitch
-    swidth = fa.slotWidth # 8mm/10mm
-    i = FastenerBase.FsTitles[fa.baseType + "slotwidths"].index(swidth)
     P = FsData["ISO262def"][fa.diameter][0]
+
+    # NOTE: - All dimensions depend on the slot width NOT in the diameter
+    # with exception of the pitch and that's why the data files are a mess.
+    # - The slot width of fasteners made for Aluminum profiles are denoted
+    # as: "20 series", "30 series", "40 series", "45 series" and the ones
+    # that are not are denoted with their dimension: "6 mm", "8 mm", "10 mm" etc.
+    sWidth = fa.slotWidth
+    i = FastenerBase.FsTitles[fa.baseType + "slotwidths"].index(sWidth)
     a = FsData[fa.baseType + "slotwidths"][d][i]
-    h = FsData[fa.baseType + "h"][d][i]
 
     if fa.baseType == "DIN508":
         e1 = FsData[fa.baseType + "e"][d][i]
         e2 = e1
         f = FsData[fa.baseType + "f"][d][i]
+        h = FsData[fa.baseType + "h"][d][i]
         k = FsData[fa.baseType + "k"][d][i]
 
         fastener = makeBaseBody(a, e1, e2, f, h, k)
         return makeHole(self, fastener, fa, dia, h, P)
 
-    if fa.baseType[:2] == "GN":
+    if fa.baseType[:5] == "GN505":
         e1 = FsData[fa.baseType + "e1"][d][i]
         e2 = FsData[fa.baseType + "e2"][d][i]
+        h = FsData[fa.baseType + "h"][d][i]
         k = FsData[fa.baseType + "k"][d][i]
         f = 0.125 * e2  # constant calculated with official GN step file
 
-        if fa.baseType == "GN507":
-            fastener = makeBaseBody(a, e1, e2, f, h, k)
-            return makeHole(self, fastener, fa, dia, h, P)
+        # Bolt and nut share geometries
 
-        if fa.baseType[:5] == "GN505":
+        if fa.thread:
             k = k - 0.05 * e1 # Take into account strips height
 
-            fastener = makeBaseBody(a, e1, e2, f, h, k)
+        fastener = makeBaseBody(a, e1, e2, f, h, k)
+        # Cut corners in the upper face to enable rotation on slot
+        # a = e1
+        fastener = cutCorners(fastener, a/2, h-k)
+        # Cut corners from the middle face
+        fastener = cutCorners(fastener, e2 / 2, h)
 
-            # Cut corners in the upper face to enable rotation on slot
-            # a = e1
-            fastener = cutCorner(fastener, a/2, h-k)
-
+        if fa.thread:
             # Add strips
             p0 = Base.Vector(-e2 / 2, e1 / 2, -h + k)
             p1 = Base.Vector(-e2 / 2, (e1 / 2) - 0.1 * e1, -h + k)
@@ -156,56 +172,104 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
             aWire = Part.Wire([edge0, edge1, edge2])
             aFace = Part.Face(aWire)
             strip = aFace.extrude(Base.Vector(e2, 0.0, 0.0))
-            fastener = fastener.fuse(strip)
+            fastener = fastener.fuse(strip).removeSplitter()
             for _ in range(9):
                 myMat = Base.Matrix()
                 strip.translate(Base.Vector(0, -0.1 * e1, 0))
-                fastener = fastener.fuse(strip)
+                fastener = fastener.fuse(strip).removeSplitter()
 
-            if fa.baseType == "GN505":
-                fastener = makeHole(self, fastener, fa, dia, h, P)
+        # Draw a triangle on x = e2 / 2
+        # to cut opposite corners on the bottom
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint((e2 / 2) - f, -h)
+        fm.AddPoint(e2 / 2, -h)
+        fm.AddPoint(e2 / 2, -h + f )
+        qring = self.RevolveZ(fm.GetFace(), angle=-90)
+        fastener = fastener.cut(qring) # first corner
 
-            # Cut corners to allow free rotation
-            # Cut corners in the middle face
-            fastener = cutCorner(fastener, e2 / 2, h)
-            # Draw a triangle on x = e2 / 2
-            # to cut opposite corners on the bottom
-            fm = FastenerBase.FSFaceMaker()
-            fm.AddPoint((e2 / 2) - f, -h)
-            fm.AddPoint(e2 / 2, -h)
-            fm.AddPoint(e2 / 2, -h + f )
-            qring = self.RevolveZ(fm.GetFace(), angle=-90)
-            fastener = fastener.cut(qring) # first corner
+        myMat = Base.Matrix()
+        myMat.rotateZ(math.pi)
+        qring.transformShape(myMat)
+        fastener = fastener.cut(qring) # second corner
 
+        if fa.baseType == "GN505":
+            fastener = makeHole(self, fastener, fa, dia, h, P)
+        elif fa.baseType == "GN505.4":
+            length = fa.calc_len
+
+            # We have to rotate the fastener because
+            # the thread should be down
             myMat = Base.Matrix()
-            myMat.rotateZ(math.pi)
-            qring.transformShape(myMat)
-            fastener = fastener.cut(qring) # second corner
+            myMat.rotateX(math.pi)
+            fastener = fastener.transformShape(myMat)
 
-            if fa.baseType == "GN505.4":
-                length = fa.calc_len
+            fm = FastenerBase.FSFaceMaker()
+            fm.AddPoint(0.0, 0.0)
+            fm.AddPoint(dia / 2 + 0.02 * dia, 0.0)
+            fm.AddArc2(0.0, -0.02 * dia, 90)
+            fm.AddPoint(dia / 2, -length + dia / 10)
+            fm.AddPoint(dia * 4 / 10, -length)
+            fm.AddPoint(0.0, -length)
+            L = self.RevolveZ(fm.GetFace()) # body
+            fastener = fastener.fuse(L)
 
-                # We have to rotate the fastener because
-                # the thread should be down
-                myMat = Base.Matrix()
-                myMat.rotateX(math.pi)
-                fastener = fastener.transformShape(myMat)
+            thread_length = length
+            if fa.thread:
+                thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
+                fastener = fastener.cut(thread_cutter)
 
-                fm = FastenerBase.FSFaceMaker()
-                fm.AddPoint(0.0, 0.0)
-                fm.AddPoint(dia / 2 + 0.02 * dia, 0.0)
-                fm.AddArc2(0.0, -0.02 * dia, 90)
-                fm.AddPoint(dia / 2, -length + dia / 10)
-                fm.AddPoint(dia * 4 / 10, -length)
-                fm.AddPoint(0.0, -length)
-                L = self.RevolveZ(fm.GetFace()) # body
-                fastener = fastener.fuse(L)
+        return fastener
 
-                thread_length = length
-                if fa.thread:
-                    thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
-                    fastener = fastener.cut(thread_cutter)
+    # TODO: Add new sizes
+    # The current data is from Elesa+Ganter
+    # there are other sizes in the market but
+    # the dimensions data is not complete.
+    # Buy and measure.
+    if fa.baseType == "GN506":
+        d2 = FsData[fa.baseType + "d2"][d][i]
+        e1 = FsData[fa.baseType + "e1"][d][i]
+        e2 = FsData[fa.baseType + "e2"][d][i]
+        h1 = FsData[fa.baseType + "h1"][d][i]
+        h2 = FsData[fa.baseType + "h2"][d][i]
+        h3 = FsData[fa.baseType + "h3"][d][i]
+        m = FsData[fa.baseType + "m"][d][i]
 
-            return fastener
-    else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.baseType}")
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint(0.0, 0.0)
+        fm.AddPoint(a / 2, 0.0)
+        fm.AddPoint(a / 2, -h3)
+        fm.AddPoint(e2 / 2, -h3)
+        fm.AddBSpline(e2 / 2, -h1, 0, -h1)
+        # half face on +X semiaxis
+        halfFace = fm.GetFace()
+        # translate to plane y = -m to extrude e1 units
+        halfFace.translate(Base.Vector(0.0, -m, 0.0))
+
+        fastener = halfFace.extrude(Base.Vector(0.0, e1, 0.0))
+        fastener = fastener.fuse(
+            fastener.mirror(
+                Base.Vector(0, 0, 0),
+                Base.Vector(1, 0, 0)
+            )
+        ).removeSplitter()
+
+        s = FastenerBase.FSFaceMaker()
+        s.AddPoint(0.0, d2 / 2)
+        s.AddArc(d2 / 2, 0.0, 0.0, -d2 / 2)
+        sph = self.RevolveZ(s.GetFace())
+        sph.translate(Base.Vector(0.0, e1 - 2 * m, h2 - h1))
+
+        fastener = fastener.fuse(sph)
+
+        return makeHole(self, fastener, fa, dia, h1, P)
+
+    if fa.baseType == "GN507":
+        e1 = FsData[fa.baseType + "e1"][d][i]
+        e2 = FsData[fa.baseType + "e2"][d][i]
+        h = FsData[fa.baseType + "h"][d][i]
+        k = FsData[fa.baseType + "k"][d][i]
+        f = 0.125 * e2  # constant calculated with official GN step file
+        fastener = makeBaseBody(a, e1, e2, f, h, k)
+        return makeHole(self, fastener, fa, dia, h, P)
+
+    raise NotImplementedError(f"Unknown fastener type: {fa.baseType}")

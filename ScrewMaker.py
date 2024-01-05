@@ -215,6 +215,7 @@ screwTables = {
     "DIN1624": ("Nut", "makeTeeNut"),
     "GN505": ("TSlot", "makeTSlot"),
     "GN505.4": ("TSlot", "makeTSlot"),
+    "GN506": ("TSlot", "makeTSlot"),
     "GN507": ("TSlot", "makeTSlot"),
     "ASMEB18.2.1.1": ("Screw", "makeSquareBolt"),
     "ASMEB18.2.1.6": ("Screw", "makeHexHeadBolt"),

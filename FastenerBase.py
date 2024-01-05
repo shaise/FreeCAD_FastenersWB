@@ -949,13 +949,11 @@ class FSMakeBomCommand:
 
     def AddTSlot(self, obj, cnt):
         if obj.type == "GN505.4":
-            self.AddFastener(translate("FastenerBase", "T-Slot Bolt ") +
-                            obj.type + " " + obj.diameter + " " + obj.slotWidth,
-                             cnt)
+            self.AddFastener(obj.type + translate("FastenerBase", " T-Slot Bolt ")
+                             + obj.diameter + " " + obj.slotWidth, cnt)
         else:
-            self.AddFastener(translate("FastenerBase", "T-Slot Nut ") +
-                            obj.type + " " + obj.diameter + " " + obj.slotWidth,
-                             cnt)
+            self.AddFastener(obj.type + translate("FastenerBase", " T-Slot Nut ")
+                             + obj.diameter + " " + obj.slotWidth, cnt)
 
     def IsActive(self):
         return Gui.ActiveDocument is not None

@@ -53,6 +53,7 @@ translate("FastenerCmdTreeView", "Insert")
 translate("FastenerCmdTreeView", "RetainingRing")
 translate("FastenerCmdTreeView", "T-Slot")
 translate("FastenerCmdTreeView", "SetScrew")
+translate("FastenerCmdTreeView", "HexKey")
 
 ScrewParameters = {"type", "diameter",
                    "matchOuter", "thread", "leftHanded", "length"}
@@ -76,9 +77,11 @@ TSlotNutParameters = { "type", "diameter", "matchOuter",
                         "thread", "leftHanded", "slotWidth" }
 TSlotBoltParameters = { "type", "diameter", "length", "lengthCustom",
                        "matchOuter", "thread", "leftHanded", "slotWidth" }
+HexKeyParameters = { "type", "diameter", "matchOuter", "keySize" }
 # this is a list of all possible fastener attribs
-FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length', 'lengthCustom', 'width',
-                   'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength', "slotWidth", 'externalDiam']
+FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length',
+                   'lengthCustom', 'width', 'diameterCustom', 'pitchCustom', 'tcode',
+                   'blind', 'screwLength', "slotWidth", 'externalDiam', 'keySize']
 
 # Names of fasteners groups translated once before FSScrewCommandTable created.
 # For make FSScrewCommandTable more compact and readable
@@ -118,6 +121,7 @@ FSScrewCommandTable = {
     "ISO7380-2": (translate("FastenerCmd", "ISO 7380 Hexagon socket button head screws with collar"), HexagonSocketGroup, ScrewParametersLC, 'ISO'),
     "ISO10642": (translate("FastenerCmd", "ISO 10642 Hexagon socket countersunk head screw"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
     "ISO7379": (translate("FastenerCmd", "ISO 7379 Hexagon socket head shoulder screw"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
+    "ISO2936": (translate("FastenerCmd", "ISO 2936 Hexagon socket screw keys"), HexagonSocketGroup, HexKeyParameters, "ISO"),
 
     "ISO14579": (translate("FastenerCmd", "ISO 14579 Hexalobular socket head cap screws"), HexalobularSocketGroup, ScrewParametersLC, "ISO"),
     "ISO14580": (translate("FastenerCmd", "ISO 14580 Hexalobular socket cheese head screws"), HexalobularSocketGroup, ScrewParametersLC, "ISO"),
@@ -415,6 +419,11 @@ class FSScrewObject(FSBaseObject):
             obj.addProperty("App::PropertyEnumeration", "slotWidth", "Parameters", translate(
                 "FastenerCmd", "Slot width")).slotWidth = screwMaker.GetAllSlotWidths(type, diameter)
 
+        # hex key length
+        if "keySize" in params and not hasattr(obj, "keySize"):
+            obj.addProperty("App::PropertyEnumeration", "keySize", "Parameters", translate(
+                "FastenerCmd", "Key size")).keySize = screwMaker.GetAllKeySizes(type, diameter)
+
         # misc
         if "blindness" in params and not hasattr(obj, "blind"):
             obj.addProperty("App::PropertyBool", "blind", "Parameters", translate(
@@ -582,6 +591,13 @@ class FSScrewObject(FSBaseObject):
             fp.slotWidth = swidths
             if oldsw in swidths:
                 fp.slotWidth = oldsw
+
+        if diameterchange and "keySize" in params:
+            sizes = screwMaker.GetAllKeySizes(fp.type, fp.diameter)
+            olds = fp.keySize
+            fp.keySize = sizes
+            if olds in sizes:
+                fp.keySize = olds
 
         if fp.diameter == 'Custom' and hasattr(fp, "pitchCustom"):
             self.calc_pitch = fp.pitchCustom.Value
@@ -773,5 +789,7 @@ FastenerBase.FSAddFastenerType("Stud")
 FastenerBase.FSAddFastenerType("HeatSet", False)
 FastenerBase.FSAddFastenerType("RetainingRing", False)
 FastenerBase.FSAddFastenerType("T-Slot", False)
+FastenerBase.FSAddFastenerType("SetScrew")
+FastenerBase.FSAddFastenerType("HexKey", False)
 for item in ScrewMaker.screwTables:
     FastenerBase.FSAddItemsToType(ScrewMaker.screwTables[item][0], item)

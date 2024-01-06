@@ -261,6 +261,7 @@ screwTables = {
     "DIN471": ("RetainingRing", "makeExternalRetainingRing"),
     "DIN472": ("RetainingRing", "makeInternalRetainingRing"),
     "DIN6799": ("RetainingRing", "makeEClip"),
+    "ISO2936":("HexKey", "makeHexKey"),
     # * diam pos and K pos were moved from this table to the csv titles
 }
 FSAppendAliasesToTable(screwTables)
@@ -419,6 +420,16 @@ class FSScrewMaker(Screw):
         for i in range(len(swdata)):
             if swdata[i] != 0:
                 res.append(swidths[i])
+        return res
+
+    def GetAllKeySizes(self, type, diam):
+        FSGetTypeAlias(type)
+        klengths = FsTitles[type + "keysizes"]
+        ldata = FsData[type + "keysizes"][diam]
+        res = []
+        for i in range(len(ldata)):
+            if ldata[i] != 0:
+                res.append(klengths[i])
         return res
 
     def GetAllWidthcodes(self, type, diam):

@@ -955,6 +955,10 @@ class FSMakeBomCommand:
             self.AddFastener(obj.type + translate("FastenerBase", " T-Slot Nut ")
                              + obj.diameter + " " + obj.slotWidth, cnt)
 
+    def AddHexKey(self, obj, cnt):
+        self.AddFastener(obj.type + translate("FastenerBase",
+                         " Hex key ") + obj.diameter + "mm", cnt)
+
     def IsActive(self):
         return Gui.ActiveDocument is not None
 

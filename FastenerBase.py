@@ -45,7 +45,8 @@ matchInnerButton = None
 matchInnerButtonText = translate("FastenerBase", 'Match for tap hole')
 
 
-FsUseGetSetState =  ((FreeCAD.Version()[0]+'.'+FreeCAD.Version()[1]) < '0.22') or (FreeCAD.Version()[5] == 'LinkDaily')
+FsUseGetSetState =  ((FreeCAD.Version()[0]+'.'+FreeCAD.Version()[1]) < '0.22')\
+                    or (FreeCAD.Version()[5] == 'LinkDaily')
 
 # function to open a csv file and convert it to a dictionary
 FsData = {}
@@ -65,19 +66,19 @@ class FSBaseObject:
     '''Base Class for all fasteners'''
 
     def __init__(self, obj, attachTo):
-        obj.addProperty("App::PropertyDistance", "offset",
-                        "Parameters", "Offset from surface").offset = 0.0
-        obj.addProperty("App::PropertyBool", "invert",
-                        "Parameters", "Invert screw direction").invert = False
-        obj.addProperty("App::PropertyXLinkSub", "baseObject",
-                        "Parameters", "Base object").baseObject = attachTo
+        obj.addProperty("App::PropertyDistance", "offset", "Parameters", translate(
+            "FastenerCmd", "Offset from surface")).offset = 0.0
+        obj.addProperty("App::PropertyBool", "invert", "Parameters", translate(
+            "FastenerCmd", "Invert fastener direction")).invert = False
+        obj.addProperty("App::PropertyXLinkSub", "baseObject", "Parameters", translate(
+            "FastenerCmd", "Base object")).baseObject = attachTo
 
     def updateProps(self, obj):
         if obj.getTypeIdOfProperty("baseObject") != "App::PropertyXLinkSub":
             linkedObj = obj.baseObject
             obj.removeProperty("baseObject")
-            obj.addProperty("App::PropertyXLinkSub", "baseObject",
-                            "Parameters", "Base object").baseObject = linkedObj
+            obj.addProperty("App::PropertyXLinkSub", "baseObject", "Parameters", translate(
+                "FastenerCmd", "Base object")).baseObject = linkedObj
 
 
 class FSGroupCommand:
@@ -190,8 +191,8 @@ def FSScrewStr(obj):
     return desc
 
 
-# show traceback of system error
 def FSShowError():
+    """ Show traceback of system error """
     lastErr = sys.exc_info()
     tb = lastErr[2]
     tbnext = tb
@@ -205,8 +206,8 @@ def FSShowError():
         str(lastErr[1]) + ": " + lastErr[1].__doc__ + "\n")
 
 
-# get instance of a toolbar item
 def FSGetToolbarItem(tname, iname):
+    """ Get instance of a toolbar item """
     mw = QtGui.QApplication.activeWindow()
     tb = None
     for c in mw.children():
@@ -458,20 +459,20 @@ class FSFaceMaker:
             elif len(arg) == 4:
                 self.AddArc(arg[0], arg[1], arg[2], arg[3])
 
-    def GetWire(self):
+    def GetWire(self) -> Part.Wire:
         """ Returns a Part.Wire object representing the edges of the face. """
         return Part.Wire(self.edges)
 
-    def GetClosedWire(self):
+    def GetClosedWire(self) -> Part.Wire:
         """
-        Returns a closed Part.Wire object by adding a line from the last point 
+        Returns a closed Part.Wire object by adding a line from the last point
         to the first point.
         """
         self.edges.append(Part.makeLine(self.lastPoint, self.firstPoint))
         w = Part.Wire(self.edges)
         return w
 
-    def GetFace(self):
+    def GetFace(self) -> Part.Face:
         """ Returns a Part.Face object representing the closed wire as a face. """
         w = self.GetClosedWire()
         return Part.Face(w)

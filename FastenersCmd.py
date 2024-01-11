@@ -334,7 +334,7 @@ class FSScrewObject(FSBaseObject):
                     FreeCAD.Console.PrintMessage(
                         "using original type: " + type + "\n")
             obj.addProperty("App::PropertyEnumeration", "type", "Parameters", translate(
-                "FastenerCmd", "Screw type")).type = self.GetCompatibleTypes(type)
+                "FastenerCmd", "Fastener type")).type = self.GetCompatibleTypes(type)
             obj.type = type
         else:
             type = obj.type

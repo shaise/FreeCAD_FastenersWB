@@ -130,13 +130,16 @@ def makeISO7049(self, fa):
     if fa.thread:
         if SType == "ISO7049-C":
             # vanilla usage
-            thread = self.makeDin7998Thread(-l+b+slope_length, -l+tip_length, -l, ri, ro, P)
+            thread = self.makeDin7998Thread(-l+b+slope_length, -l+tip_length,
+                                            -l, ri, ro, P)
         if SType == "ISO7049-F":
             # sent flag to omit the tip thread
-            thread = self.makeDin7998Thread(-l+b+slope_length, -l+tip_length, -l, ri, ro, P, True)
+            thread = self.makeDin7998Thread(-l+b+slope_length, -l+tip_length,
+                                            -l, ri, ro, P, True)
         if SType == "ISO7049-R":
             # move the tip a little up to compensate roundness
-            thread = self.makeDin7998Thread(-l+b+slope_length, -l+tip_length, -l+rR, ri, ro, P)
+            thread = self.makeDin7998Thread(-l+b+slope_length, -l+tip_length,
+                                            -l+rR, ri, ro, P)
         screw = screw.fuse(thread)
 
     return screw

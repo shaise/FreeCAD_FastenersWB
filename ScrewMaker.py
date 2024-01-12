@@ -165,6 +165,9 @@ screwTables = {
     "GOST1144-2": ("Screw", "makeWoodScrew"),
     "GOST1144-3": ("Screw", "makeWoodScrew"),
     "GOST1144-4": ("Screw", "makeWoodScrew"),
+    "ISO7049-C": ("Screw", "makeSelfTappingScrew"),
+    "ISO7049-F": ("Screw", "makeSelfTappingScrew"),
+    "ISO7049-R": ("Screw", "makeSelfTappingScrew"),
     "ISO7089": ("Washer", "makeWasher"),
     "ISO7090": ("Washer", "makeWasher"),
     "ISO7091": ("Washer", "makeWasher"),
@@ -181,6 +184,10 @@ screwTables = {
     "ISO4027": ("Screw", "makeSetScrew"),
     "ISO4028": ("Screw", "makeSetScrew"),
     "ISO4029": ("Screw", "makeSetScrew"),
+    "ISO4766": ("Screw", "makeSetScrew"),
+    "ISO7434": ("Screw", "makeSetScrew"),
+    "ISO7435": ("Screw", "makeSetScrew"),
+    "ISO7436": ("Screw", "makeSetScrew"),
     "ISO4032": ("Nut", "makeHexNut"),
     "ISO4033": ("Nut", "makeHexNut"),
     "ISO4034": ("Nut", "makeHexNut"),
@@ -208,6 +215,7 @@ screwTables = {
     "DIN1624": ("Nut", "makeTeeNut"),
     "GN505": ("TSlot", "makeTSlot"),
     "GN505.4": ("TSlot", "makeTSlot"),
+    "GN506": ("TSlot", "makeTSlot"),
     "GN507": ("TSlot", "makeTSlot"),
     "ASMEB18.2.1.1": ("Screw", "makeSquareBolt"),
     "ASMEB18.2.1.6": ("Screw", "makeHexHeadBolt"),
@@ -253,6 +261,7 @@ screwTables = {
     "DIN471": ("RetainingRing", "makeExternalRetainingRing"),
     "DIN472": ("RetainingRing", "makeInternalRetainingRing"),
     "DIN6799": ("RetainingRing", "makeEClip"),
+    "ISO2936":("HexKey", "makeHexKey"),
     # * diam pos and K pos were moved from this table to the csv titles
 }
 FSAppendAliasesToTable(screwTables)
@@ -413,6 +422,16 @@ class FSScrewMaker(Screw):
                 res.append(swidths[i])
         return res
 
+    def GetAllKeySizes(self, type, diam):
+        FSGetTypeAlias(type)
+        klengths = FsTitles[type + "keysizes"]
+        ldata = FsData[type + "keysizes"][diam]
+        res = []
+        for i in range(len(ldata)):
+            if ldata[i] != 0:
+                res.append(klengths[i])
+        return res
+
     def GetAllWidthcodes(self, type, diam):
         type = FSGetTypeAlias(type)
         widths = FsData[type + "width"][diam]
@@ -451,7 +470,6 @@ class FSScrewMaker(Screw):
         if name not in titles:
             return -1
         return titles.index(name)
-    
     def GetTableProperty(self, type, diam, property, default_val):
         tablepos = self.GetTablePos(type, property)
         FreeCAD.Console.PrintLog("Found pos for " + property + ": " + str(tablepos) + "\n")

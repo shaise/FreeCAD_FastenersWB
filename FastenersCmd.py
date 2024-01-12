@@ -52,6 +52,8 @@ translate("FastenerCmdTreeView", "ScrewDie")
 translate("FastenerCmdTreeView", "Insert")
 translate("FastenerCmdTreeView", "RetainingRing")
 translate("FastenerCmdTreeView", "T-Slot")
+translate("FastenerCmdTreeView", "SetScrew")
+translate("FastenerCmdTreeView", "HexKey")
 
 ScrewParameters = {"type", "diameter",
                    "matchOuter", "thread", "leftHanded", "length"}
@@ -75,9 +77,11 @@ TSlotNutParameters = { "type", "diameter", "matchOuter",
                         "thread", "leftHanded", "slotWidth" }
 TSlotBoltParameters = { "type", "diameter", "length", "lengthCustom",
                        "matchOuter", "thread", "leftHanded", "slotWidth" }
-# this is a list of all possible fastener attribs 
-FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length', 'lengthCustom', 'width', 
-                   'diameterCustom', 'pitchCustom', 'tcode', 'blind', 'screwLength', "slotWidth", 'externalDiam']
+HexKeyParameters = { "type", "diameter", "matchOuter", "keySize" }
+# this is a list of all possible fastener attribs
+FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length',
+                   'lengthCustom', 'width', 'diameterCustom', 'pitchCustom', 'tcode',
+                   'blind', 'screwLength', "slotWidth", 'externalDiam', 'keySize']
 
 # Names of fasteners groups translated once before FSScrewCommandTable created.
 # For make FSScrewCommandTable more compact and readable
@@ -93,13 +97,14 @@ ThreadedRodGroup = translate("FastenerCmd", "ThreadedRod")
 InsertGroup = translate("FastenerCmd", "Inserts")
 RetainingRingGroup = translate("FastenerCmd", "Retaining Rings")
 TSlotGroup = translate("FastenerCmd", "T-Slot Fasteners")
+SetScrewGroup = translate("FastenerCmd", "Set screws")
 
 CMD_HELP = 0
 CMD_GROUP = 1
 CMD_PARAMETER_GRP = 2
 CMD_STD_GROUP = 3
 FSScrewCommandTable = {
-    # type - (help, group, parameter-group, standard-group)  
+    # type - (help, group, parameter-group, standard-group)
     "DIN933": (translate("FastenerCmd", "DIN 933 Hex head screw"), HexHeadGroup, ScrewParametersLC, "DIN"),
     "DIN961": (translate("FastenerCmd", "DIN 961 Hex head screw"), HexHeadGroup, ScrewParametersLC, "DIN"),
     "ISO4017": (translate("FastenerCmd", "ISO 4017 Hex head screw"), HexHeadGroup, ScrewParametersLC, "ISO"),
@@ -116,10 +121,7 @@ FSScrewCommandTable = {
     "ISO7380-2": (translate("FastenerCmd", "ISO 7380 Hexagon socket button head screws with collar"), HexagonSocketGroup, ScrewParametersLC, 'ISO'),
     "ISO10642": (translate("FastenerCmd", "ISO 10642 Hexagon socket countersunk head screw"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
     "ISO7379": (translate("FastenerCmd", "ISO 7379 Hexagon socket head shoulder screw"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
-    "ISO4026": (translate("FastenerCmd", "ISO 4026 Hexagon socket set screws with flat point"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
-    "ISO4027": (translate("FastenerCmd", "ISO 4027 Hexagon socket set screws with cone point"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
-    "ISO4028": (translate("FastenerCmd", "ISO 4028 Hexagon socket set screws with dog point"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
-    "ISO4029": (translate("FastenerCmd", "ISO 4029 Hexagon socket set screws with cup point"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
+    "ISO2936": (translate("FastenerCmd", "ISO 2936 Hexagon socket screw keys"), HexagonSocketGroup, HexKeyParameters, "ISO"),
 
     "ISO14579": (translate("FastenerCmd", "ISO 14579 Hexalobular socket head cap screws"), HexalobularSocketGroup, ScrewParametersLC, "ISO"),
     "ISO14580": (translate("FastenerCmd", "ISO 14580 Hexalobular socket cheese head screws"), HexalobularSocketGroup, ScrewParametersLC, "ISO"),
@@ -142,12 +144,28 @@ FSScrewCommandTable = {
     "ISO7046": (translate("FastenerCmd", "ISO 7046 Countersunk flat head screws H cross r."), HCrossGroup, ScrewParametersLC, "ISO"),
     "ISO7047": (translate("FastenerCmd", "ISO 7047 Raised countersunk head screws H cross r."), HCrossGroup, ScrewParametersLC, "ISO"),
     "ISO7048": (translate("FastenerCmd", "ISO 7048 Cheese head screws with type H cross r."), HCrossGroup, ScrewParametersLC, "ISO"),
+    "ISO7049-C": (translate("FastenerCmd", "ISO 7049-C Pan head self tapping screws with conical point, type H cross r."), HCrossGroup, ScrewParametersLC, "ISO"),
+    "ISO7049-F": (translate("FastenerCmd", "ISO 7049-F Pan head self tapping screws with flat point, type H cross r."), HCrossGroup, ScrewParametersLC, "ISO"),
+    "ISO7049-R": (translate("FastenerCmd", "ISO 7049-R Pan head self tapping screws with rounded point type H cross r."), HCrossGroup, ScrewParametersLC, "ISO"),
     "DIN7996": (translate("FastenerCmd", "DIN 7996 Cross recessed pan head wood screw"), HCrossGroup, ScrewParametersLC, "DIN"),
     "GOST1144-3": (translate("FastenerCmd", "GOST 1144 (Type 3) Half — round head wood screw"), HCrossGroup, ScrewParametersLC, "GOST"),
     "GOST1144-4": (translate("FastenerCmd", "GOST 1144 (Type 4) Half — round head wood screw"), HCrossGroup, ScrewParametersLC, "GOST"),
 
     "DIN603": (translate("FastenerCmd", "DIN 603 Mushroom head square neck bolts"), OtherHeadGroup, ScrewParametersLC, "DIN"),
     "DIN478": (translate("FastenerCmd", "DIN 478 Square head bolts with collar"), OtherHeadGroup, ScrewParametersLC, "DIN"),
+
+    "ISO4026": (translate("FastenerCmd", "ISO 4026 Hexagon socket set screws with flat point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO4027": (translate("FastenerCmd", "ISO 4027 Hexagon socket set screws with cone point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO4028": (translate("FastenerCmd", "ISO 4028 Hexagon socket set screws with dog point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO4029": (translate("FastenerCmd", "ISO 4029 Hexagon socket set screws with cup point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO4766": (translate("FastenerCmd", "ISO 4766 Slotted socket set screws with flat point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO7434": (translate("FastenerCmd", "ISO 7434 Slotted socket set screws with cone point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO7435": (translate("FastenerCmd", "ISO 7435 Slotted socket set screws with long dog point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ISO7436": (translate("FastenerCmd", "ISO 7436 Slotted socket set screws with cup point"), SetScrewGroup, ScrewParametersLC, "ISO"),
+    "ASMEB18.3.5A": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with flat point"), SetScrewGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.5B": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cone point"), SetScrewGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.5C": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with dog point"), SetScrewGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.5D": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cup point"), SetScrewGroup, ScrewParametersLC, "ASME"),
 
     "ISO4032": (translate("FastenerCmd", "ISO 4032 Hexagon nuts, Style 1"), NutGroup, NutParameters, "ISO"),
     "ISO4033": (translate("FastenerCmd", "ISO 4033 Hexagon nuts, Style 2"), NutGroup, NutParameters, "ISO"),
@@ -168,7 +186,7 @@ FSScrewCommandTable = {
     "DIN6334": (translate("FastenerCmd", "DIN 6334 elongated hexagon nuts"), NutGroup, NutParameters, "DIN"),
     "DIN7967": (translate("FastenerCmd", "DIN 7967 self locking counter nuts"), NutGroup, WasherParameters, "DIN"),
     "DIN1587": (translate("FastenerCmd", "DIN 1587 Cap nuts"), NutGroup, NutParameters, "DIN"),
-    "GOST11860-1": (translate("FastenerCmd", "GOST 11860 (Type 1) Cap nuts"), NutGroup, NutParameters, "GOST"), 
+    "GOST11860-1": (translate("FastenerCmd", "GOST 11860 (Type 1) Cap nuts"), NutGroup, NutParameters, "GOST"),
     "DIN315": (translate("FastenerCmd", "DIN 315 wing nuts"), NutGroup, NutParameters, "DIN"),
     "DIN557": (translate("FastenerCmd", "DIN 557 Square nuts"), NutGroup, NutParameters, "DIN"),
     "DIN562": (translate("FastenerCmd", "DIN 562 Square nuts"), NutGroup, NutParameters, "DIN"),
@@ -179,7 +197,8 @@ FSScrewCommandTable = {
     "ISO299": (translate("FastenerCmd", "ISO 299 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "ISO"),
     "GN505": (translate("FastenerCmd", "GN 505 Serrated Quarter-Turn T-Slot nuts"), TSlotGroup, TSlotNutParameters, "other"),
     "GN505.4": (translate("FastenerCmd", "GN 505.4 Serrated T-Slot Bolts"), TSlotGroup, TSlotBoltParameters, "other"),
-    "GN507": (translate("FastenerCmd", "GN 507 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "other"),
+    "GN506": (translate("FastenerCmd", "GN 506 T-Slot nuts to swivel in"), TSlotGroup, TSlotNutParameters, "other"),
+    "GN507": (translate("FastenerCmd", "GN 507 T-Slot sliding nuts"), TSlotGroup, TSlotNutParameters, "other"),
 
     "ISO7089": (translate("FastenerCmd", "ISO 7089 Plain washers - Normal series"), WasherGroup, WasherParameters, "ISO"),
     "ISO7090": (translate("FastenerCmd", "ISO 7090 Plain Washers, chamfered - Normal series"), WasherGroup, WasherParameters, "ISO"),
@@ -206,10 +225,6 @@ FSScrewCommandTable = {
     "ASMEB18.3.3A": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket button head screws"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
     "ASMEB18.3.3B": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket button head screws with flange"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
     "ASMEB18.3.4": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket head shoulder screws"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.5A": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with flat point"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.5B": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cone point"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.5C": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with dog point"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.5D": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cup point"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
 
     "ASMEB18.6.3.1A": (translate("FastenerCmd", "ASME B18.6.3 UNC slotted countersunk flat head screws"), SlottedGroup, ScrewParametersLC, "ASME"),
 
@@ -232,11 +247,12 @@ FSScrewCommandTable = {
     "ASMEB18.21.1.12C": (translate("FastenerCmd", "ASME B18.21.1 UN washers, wide series"), WasherGroup, WasherParameters, "ASME"),
 
     "ScrewTap": (translate("FastenerCmd", "Metric threaded rod for tapping holes"), ThreadedRodGroup, RodParameters, "ISO"),
-    "ScrewTapInch": (translate("FastenerCmd", "Inch threaded rod for tapping holes"), ThreadedRodGroup, RodParameters, "ASME"),
     "ScrewDie": (translate("FastenerCmd", "Tool object to cut external metric threads"), ThreadedRodGroup, RodParameters, "ISO"),
-    "ScrewDieInch": (translate("FastenerCmd", "Tool object to cut external non-metric threads"), ThreadedRodGroup, RodParameters, "ASME"),
     "ThreadedRod": (translate("FastenerCmd", "DIN 975 metric threaded rod"), ThreadedRodGroup, RodParameters, "DIN"),
+    "ScrewTapInch": (translate("FastenerCmd", "Inch threaded rod for tapping holes"), ThreadedRodGroup, RodParameters, "ASME"),
+    "ScrewDieInch": (translate("FastenerCmd", "Tool object to cut external non-metric threads"), ThreadedRodGroup, RodParameters, "ASME"),
     "ThreadedRodInch": (translate("FastenerCmd", "UNC threaded rod"), ThreadedRodGroup, RodParameters, "ASME"),
+
     "PEMPressNut": (translate("FastenerCmd", "PEM Self Clinching nut"), InsertGroup, PEMPressNutParameters, "other"),
     "PEMStandoff": (translate("FastenerCmd", "PEM Self Clinching standoff"), InsertGroup, PEMStandoffParameters, "other"),
     "PEMStud": (translate("FastenerCmd", "PEM Self Clinching stud"), InsertGroup, ScrewParameters, "other"),
@@ -318,7 +334,7 @@ class FSScrewObject(FSBaseObject):
                     FreeCAD.Console.PrintMessage(
                         "using original type: " + type + "\n")
             obj.addProperty("App::PropertyEnumeration", "type", "Parameters", translate(
-                "FastenerCmd", "Screw type")).type = self.GetCompatibleTypes(type)
+                "FastenerCmd", "Fastener type")).type = self.GetCompatibleTypes(type)
             obj.type = type
         else:
             type = obj.type
@@ -403,6 +419,11 @@ class FSScrewObject(FSBaseObject):
             obj.addProperty("App::PropertyEnumeration", "slotWidth", "Parameters", translate(
                 "FastenerCmd", "Slot width")).slotWidth = screwMaker.GetAllSlotWidths(type, diameter)
 
+        # hex key length
+        if "keySize" in params and not hasattr(obj, "keySize"):
+            obj.addProperty("App::PropertyEnumeration", "keySize", "Parameters", translate(
+                "FastenerCmd", "Key size")).keySize = screwMaker.GetAllKeySizes(type, diameter)
+
         # misc
         if "blindness" in params and not hasattr(obj, "blind"):
             obj.addProperty("App::PropertyBool", "blind", "Parameters", translate(
@@ -440,7 +461,7 @@ class FSScrewObject(FSBaseObject):
     def ActiveLength(self, obj):
         if not hasattr(obj, 'length'):
             return '0'
-        if type(obj.length) != type(""):
+        if not isinstance(obj.length, str):
             return self.CleanDecimals(float(obj.length))
         if obj.length == 'Custom':
             return self.CleanDecimals(float(obj.lengthCustom))
@@ -564,12 +585,19 @@ class FSScrewObject(FSBaseObject):
             if oldcode in tcodes:
                 fp.tcode = oldcode
 
-        if diameterchange and "slotWidth" in params:
+        if (typechange or diameterchange) and "slotWidth" in params:
             swidths = screwMaker.GetAllSlotWidths(fp.type, fp.diameter)
             oldsw = fp.slotWidth
             fp.slotWidth = swidths
             if oldsw in swidths:
                 fp.slotWidth = oldsw
+
+        if diameterchange and "keySize" in params:
+            sizes = screwMaker.GetAllKeySizes(fp.type, fp.diameter)
+            olds = fp.keySize
+            fp.keySize = sizes
+            if olds in sizes:
+                fp.keySize = olds
 
         if fp.diameter == 'Custom' and hasattr(fp, "pitchCustom"):
             self.calc_pitch = fp.pitchCustom.Value
@@ -678,7 +706,7 @@ class FSScrewCommand:
 
     def GetResources(self):
         import GrammaticalTools
-        
+
         icon = os.path.join(iconPath, FSGetIconAlias(self.Type) + '.svg')
         return {'Pixmap': icon,
                 # the name of a svg file available in the resources
@@ -761,5 +789,7 @@ FastenerBase.FSAddFastenerType("Stud")
 FastenerBase.FSAddFastenerType("HeatSet", False)
 FastenerBase.FSAddFastenerType("RetainingRing", False)
 FastenerBase.FSAddFastenerType("T-Slot", False)
+FastenerBase.FSAddFastenerType("SetScrew")
+FastenerBase.FSAddFastenerType("HexKey", False)
 for item in ScrewMaker.screwTables:
     FastenerBase.FSAddItemsToType(ScrewMaker.screwTables[item][0], item)

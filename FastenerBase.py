@@ -45,7 +45,8 @@ matchInnerButton = None
 matchInnerButtonText = translate("FastenerBase", 'Match for tap hole')
 
 
-FsUseGetSetState =  ((FreeCAD.Version()[0]+'.'+FreeCAD.Version()[1]) < '0.22') or (FreeCAD.Version()[5] == 'LinkDaily')
+FsUseGetSetState =  ((FreeCAD.Version()[0]+'.'+FreeCAD.Version()[1]) < '0.22')\
+                    or (FreeCAD.Version()[5] == 'LinkDaily')
 
 # function to open a csv file and convert it to a dictionary
 FsData = {}
@@ -65,19 +66,19 @@ class FSBaseObject:
     '''Base Class for all fasteners'''
 
     def __init__(self, obj, attachTo):
-        obj.addProperty("App::PropertyDistance", "offset",
-                        "Parameters", "Offset from surface").offset = 0.0
-        obj.addProperty("App::PropertyBool", "invert",
-                        "Parameters", "Invert screw direction").invert = False
-        obj.addProperty("App::PropertyXLinkSub", "baseObject",
-                        "Parameters", "Base object").baseObject = attachTo
+        obj.addProperty("App::PropertyDistance", "offset", "Parameters", translate(
+            "FastenerCmd", "Offset from surface")).offset = 0.0
+        obj.addProperty("App::PropertyBool", "invert", "Parameters", translate(
+            "FastenerCmd", "Invert fastener direction")).invert = False
+        obj.addProperty("App::PropertyXLinkSub", "baseObject", "Parameters", translate(
+            "FastenerCmd", "Base object")).baseObject = attachTo
 
     def updateProps(self, obj):
         if obj.getTypeIdOfProperty("baseObject") != "App::PropertyXLinkSub":
             linkedObj = obj.baseObject
             obj.removeProperty("baseObject")
-            obj.addProperty("App::PropertyXLinkSub", "baseObject",
-                            "Parameters", "Base object").baseObject = linkedObj
+            obj.addProperty("App::PropertyXLinkSub", "baseObject", "Parameters", translate(
+                "FastenerCmd", "Base object")).baseObject = linkedObj
 
 
 class FSGroupCommand:
@@ -190,8 +191,8 @@ def FSScrewStr(obj):
     return desc
 
 
-# show traceback of system error
 def FSShowError():
+    """ Show traceback of system error """
     lastErr = sys.exc_info()
     tb = lastErr[2]
     tbnext = tb
@@ -205,8 +206,8 @@ def FSShowError():
         str(lastErr[1]) + ": " + lastErr[1].__doc__ + "\n")
 
 
-# get instance of a toolbar item
 def FSGetToolbarItem(tname, iname):
+    """ Get instance of a toolbar item """
     mw = QtGui.QApplication.activeWindow()
     tb = None
     for c in mw.children():
@@ -346,16 +347,32 @@ def GetTotalObjectRepeats(obj):
 
 
 class FSFaceMaker:
-    '''Create a face point by point on the x,z plane'''
+    """
+    A class for creating faces point by point on the x,z plane
+
+    Attributes:
+    edges (list): A list of edges defining the shape of the face.
+    firstPoint (FreeCAD.Base.Vector or None): The first point of the face.
+    lastPoint (FreeCAD.Base.Vector): The last point added to the face.
+    """
 
     def __init__(self):
+        """ Initialize a new instance of FSFaceMaker. """
         self.Reset()
 
     def Reset(self):
+        """
+        Resets the state of the FSFaceMaker by clearing edges
+        and resetting firstPoint.
+        """
         self.edges = []
         self.firstPoint = None
 
     def AddPoint(self, x, z):
+        """
+        Adds a point (x, z) to the face, creating a line
+        from the last point to the new point.
+        """
         curPoint = FreeCAD.Base.Vector(x, 0, z)
         if self.firstPoint is None:
             self.firstPoint = curPoint
@@ -365,6 +382,7 @@ class FSFaceMaker:
         # FreeCAD.Console.PrintLog("Add Point: " + str(curPoint) + "\n")
 
     def AddPointRelative(self, dx, dz):
+        """ Adds a point relative to the last point, creating a line. """
         if self.firstPoint is None:
             FreeCAD.Console.PrintError(
                 "FSFaceMaker.AddPointRelative: A start point has to be set previous")
@@ -376,19 +394,20 @@ class FSFaceMaker:
         # FreeCAD.Console.PrintLog("Add Point Rel: " + str(curPoint) + "\n")
 
     def StartPoint(self, x, z):
+        """ Resets the state and sets the starting point for the face. """
         self.Reset()
         self.AddPoint(x, z)
 
-    # add an arc starting at last point and going through x1,z1 and x2,z2
     def AddArc(self, x1, z1, x2, z2):
+        """ Adds an arc from the last point through (x1, z1) to (x2, z2). """
         midPoint = FreeCAD.Base.Vector(x1, 0, z1)
         endPoint = FreeCAD.Base.Vector(x2, 0, z2)
         self.edges.append(
             Part.Arc(self.lastPoint, midPoint, endPoint).toShape())
         self.lastPoint = endPoint
 
-    # add an arc starting at last point, with relative center xc, zc and angle a
     def AddArc2(self, xc, zc, a):
+        """ Adds an arc starting at last point, with a relative center and angle a. """
         # convert to radians
         a = math.radians(a)
         # get absolute center
@@ -410,9 +429,12 @@ class FSFaceMaker:
         z2 = zac + r * math.sin(sa)
         self.AddArc(x1, z1, x2, z2)
 
-    # add B-Spline starting at last point and going through (x1,z1) (x2,z2) ... (xn,zn)
-    # example: contour.AddBSpline(0, 0, 0, 1, 1, 0)
     def AddBSpline(self, *args):
+        """
+        Adds a B-Spline curve starting at last point through a
+        sequence of points (x1,z1) (x2,z2) ... (xn,zn)
+        Example: contour.AddBSpline(0, 0, 0, 1, 1, 0)
+        """
         l = len(args)
         if l < 4 or (l & 1) == 1:
             FreeCAD.Console.PrintError(
@@ -428,6 +450,7 @@ class FSFaceMaker:
         self.lastPoint = pt
 
     def AddPoints(self, *args):
+        """ Adds points or arcs based on the number of arguments provided. """
         for arg in args:
             if len(arg) == 2:
                 self.AddPoint(arg[0], arg[1])
@@ -436,15 +459,21 @@ class FSFaceMaker:
             elif len(arg) == 4:
                 self.AddArc(arg[0], arg[1], arg[2], arg[3])
 
-    def GetWire(self):
+    def GetWire(self) -> Part.Wire:
+        """ Returns a Part.Wire object representing the edges of the face. """
         return Part.Wire(self.edges)
 
-    def GetClosedWire(self):
+    def GetClosedWire(self) -> Part.Wire:
+        """
+        Returns a closed Part.Wire object by adding a line from the last point
+        to the first point.
+        """
         self.edges.append(Part.makeLine(self.lastPoint, self.firstPoint))
         w = Part.Wire(self.edges)
         return w
 
-    def GetFace(self):
+    def GetFace(self) -> Part.Face:
+        """ Returns a Part.Face object representing the closed wire as a face. """
         w = self.GetClosedWire()
         return Part.Face(w)
 
@@ -829,7 +858,7 @@ def InitCheckables():
     matchInnerButton.setCheckable(True)
     matchOuterButton.setChecked(match_outer)
     matchInnerButton.setChecked(not match_outer)
-    
+
 ########################## Generate BOM command ###############################
 
 class FSMakeBomCommand:
@@ -847,7 +876,7 @@ class FSMakeBomCommand:
         sheet = FreeCAD.ActiveDocument.addObject('Spreadsheet::Sheet',
                                                  'Fasteners_BOM')
         sheet.Label = translate("FastenerBase", 'Fasteners_BOM')
-        sheet.setColumnWidth('A', 200)
+        sheet.setColumnWidth('A', 300)
         sheet.set('A1', translate("FastenerBase", "Type"))
         sheet.set('B1', translate("FastenerBase", "Qty"))
         for obj in FreeCAD.ActiveDocument.Objects:
@@ -921,13 +950,15 @@ class FSMakeBomCommand:
 
     def AddTSlot(self, obj, cnt):
         if obj.type == "GN505.4":
-            self.AddFastener(translate("FastenerBase", "T-Slot Bolt ") +
-                            obj.type + " " + obj.diameter + " " + obj.slotWidth, 
-                             cnt)
+            self.AddFastener(obj.type + translate("FastenerBase", " T-Slot Bolt ")
+                             + obj.diameter + " " + obj.slotWidth, cnt)
         else:
-            self.AddFastener(translate("FastenerBase", "T-Slot Nut ") +
-                            obj.type + " " + obj.diameter + " " + obj.slotWidth, 
-                             cnt)
+            self.AddFastener(obj.type + translate("FastenerBase", " T-Slot Nut ")
+                             + obj.diameter + " " + obj.slotWidth, cnt)
+
+    def AddHexKey(self, obj, cnt):
+        self.AddFastener(obj.type + translate("FastenerBase",
+                         " Hex key ") + obj.diameter + "mm", cnt)
 
     def IsActive(self):
         return Gui.ActiveDocument is not None

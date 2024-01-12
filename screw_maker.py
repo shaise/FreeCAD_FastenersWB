@@ -160,7 +160,8 @@ class Screw:
         return screw
 
     def makeDin7998Thread(
-        self, zs: float, ze: float, zt: float, ri: float, ro: float, p: float
+        self, zs: float, ze: float, zt: float, ri: float, ro: float, p: float,
+        isFlat: bool = False
     ) -> Part.Shape:
         """create a DIN 7998 Wood Thread
         Parameters:
@@ -193,23 +194,27 @@ class Screw:
         bWire = fm.GetClosedWire()
         bWire.translate(FreeCAD.Vector(ri - epsilon, 0.0, tphb + tipH))
 
-        # create helix for tip thread part
-        numTurns = math.floor(tipH / p)
-        # Part.show(hlx)
-        hlx = Part.makeLongHelix(p, numTurns * p, 5, 0, self.leftHanded)
-        sweep = Part.BRepOffsetAPI.MakePipeShell(hlx)
-        sweep.setFrenetMode(True)
-        sweep.setTransitionMode(1)  # right corner transition
-        sweep.add(aWire)
-        sweep.add(bWire)
-        if sweep.isReady():
-            sweep.build()
-            sweep.makeSolid()
-            tip_solid = sweep.shape()
-            tip_solid.translate(FreeCAD.Vector(0.0, 0.0, zt))
-            # Part.show(tip_solid)
-        else:
-            raise RuntimeError("Failed to create woodscrew tip thread")
+        # Only make the tip helix when the point is not flat
+        if not isFlat:
+            # create helix for tip thread part
+            numTurns = math.floor(tipH / p) or 1
+            FreeCAD.Console.PrintMessage(str(numTurns))
+            # Part.show(hlx)
+            hlx = Part.makeLongHelix(p, numTurns * p, 5, 0, self.leftHanded)
+            sweep = Part.BRepOffsetAPI.MakePipeShell(hlx)
+            sweep.setFrenetMode(True)
+            sweep.setTransitionMode(1)  # right corner transition
+            sweep.add(aWire)
+            sweep.add(bWire)
+            if sweep.isReady():
+                sweep.build()
+                sweep.makeSolid()
+                tip_solid = sweep.shape()
+                tip_solid.translate(FreeCAD.Vector(0.0, 0.0, zt))
+                # Part.show(tip_solid)
+            else:
+                raise RuntimeError("Failed to create woodscrew tip thread")
+
 
         # create helix for body thread part
         hlx = Part.makeLongHelix(p, zs - ze, 5, 0, self.leftHanded)
@@ -227,7 +232,10 @@ class Screw:
         else:
             raise RuntimeError("Failed to create woodscrew body thread")
 
-        thread_solid = body_solid.fuse(tip_solid)
+        if isFlat:
+            thread_solid = body_solid
+        else:
+            thread_solid = body_solid.fuse(tip_solid)
         # rotate the thread solid to prevent OCC errors due to cylinder seams aligning
         thread_solid.rotate(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 180)
         #Part.show(thread_solid, "thread_solid")
@@ -318,7 +326,7 @@ class Screw:
         isFrenet = True
         cutTool = Part.Wire(helix).makePipeShell([W0], makeSolid, isFrenet)
         return cutTool
-    
+
     def CreateKnurlCutter(self, outDia: float, inDia: float, zbase: float, height: float, leftHanded: bool) -> Part.Shape:
         ro = outDia / 2.0
         ri = inDia / 2.0
@@ -347,7 +355,7 @@ class Screw:
         ang = math.atan(y2 / d2) * 114.6 # 2 * 180 / pi
         numCuts = int(360.0 / ang)
         elementAng = 360 / numCuts
-        
+
         for i in range(1, numCuts):
             nextElement = cutElement.copy().rotate(Base.Vector(0,0,0), Base.Vector(0,0,1), i * elementAng)
             cutElements.append(nextElement)
@@ -557,7 +565,7 @@ class Screw:
     def makeHexRecess(cls, width: float, depth: float, chamfer: bool) -> Part.Shape:
         """create a standard internal hexagonal driving feature (or 'Allen' recess)
         Parameters:
-        - width: dimension across flats of th recess shape.
+        - width: dimension across flats of the recess shape.
         - depth: usable depth of the recess. the returned shape has a larger overall
           height due to a tapered point at the bottom
         - chamfer: if True, a 45 degree chamfer is added at the top part of the shape
@@ -685,7 +693,7 @@ class Screw:
     def getDia(self, ThreadDiam: str, isNut: bool) -> float:
         """returns a numerical diameter given a value in string format
         Parameters:
-        - ThreadDiam: e.g: "1/4in" or "M6"
+        - ThreadDiam: e.g: "1/4in" or "#6" or "M6" or "ST 6.3"
         - isNut: if true, calculates the diameter for an internal thread,
           as would be found on a standard hex-nut
 
@@ -696,7 +704,7 @@ class Screw:
         then:
           self.getDia("M6", True) == 6.65  # 6 * 1.1 + 0.05
         """
-        if type(ThreadDiam) == type(""):
+        if isinstance(ThreadDiam, str):
             threadstring = ThreadDiam.strip("()")
             dia = FsData["DiaList"][threadstring][0]
         else:
@@ -708,10 +716,36 @@ class Screw:
                 dia = self.smScrewThrScaleA * dia + self.smScrewThrScaleB
         return dia
 
+    # NOTE:
+    # - On ISO 724 is presemted a table with the cooresponding minor
+    #   and pitch diameters (d_1, d_2) for a given pair of major diameter and
+    #   pitch (D, P), getDia1() amd getDia2() implement that correspondance.
+    # - On ISO 262 is presented tha available pitches for a given diameter.
+    # - On ISO 965-1 is presented the tolerances for metric screw thread.
+    def getDia1(self, D: float, P: float) -> float:
+        """ Returns the basic minor diameter of metric thread according to ISO 68-1
+        d_1 = D - 2 * 5/8 * H
+        Parameters:
+        - D: major diameter
+        - P: pitch
+        """
+        H_5_8 = FsData["ISO68-1def"][str(P)][1]
+        return D - 2 *  H_5_8
+
+    def getDia2(self, D: float, P: float) -> float:
+        """ Returns the basic pitch diameter of metric thread according to ISO 68-1
+        d_2 = D - 2 * 3/8 * H
+        Parameters:
+        - D: major diameter
+        - P: pitch
+        """
+        H_3_8 = FsData["ISO68-1def"][str(P)][2]
+        return D - 2 *  H_3_8
+
     def getLength(self, LenStr: str) -> float:
         # washers and nuts pass an int (1), for their unused length attribute
         # handle this circumstance if necessary
-        if type(LenStr) == int:
+        if isinstance(LenStr, int):
             return LenStr
         # otherwise convert the string to a number using predefined rules
         if 'in' not in LenStr:

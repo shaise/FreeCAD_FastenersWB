@@ -84,7 +84,7 @@ def makePCBStandoff(self, fa):
     )
     diain = self.getDia(fa.calc_diam, True)
     diaout = self.getDia(fa.calc_diam, False)
-    P = FsData["MetricPitchTable"][fa.diameter][0]
+    P = FsData["ISO262def"][fa.diameter][0]
     id = self.GetInnerThreadMinDiameter(diain, P)
     f, thrPos = psMakeFace(diaout, width, screwlen, flen, id)
     p = self.RevolveZ(f)

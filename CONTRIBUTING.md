@@ -230,6 +230,37 @@ Explanation:
 
 **Note:** For reference, check out the corresponding source code [commit](https://github.com/shaise/FreeCAD_FastenersWB/commit/a60aa6a84a06ebd08072ad8e7e08d35095885f9f#diff-964aeb21792025cecf1c3e54451f5102de16b71312d66ff5d442ca5a63b82d13).
 
+#### Adding a new type of fastener
+
+When adding a new type of fastener you need to make sure to do this additional changes.
+
+On `FastenersCmd.py` file:
+
+- Add entries to translate the new type name
+- Add a set of parameters, these parameters will be available for the user on the property view on FreeCAD GUI.
+- Add the new type of fastener
+
+```python
+translate("FastenerCmdTreeView", "RetainingRing")
+...
+RetainingRingParameters = {"type", "diameter", "matchOuter"}
+...
+RetainingRingGroup = translate("FastenerCmd", "Retaining Rings")
+...
+FastenerBase.FSAddFastenerType("RetainingRing", False)
+```
+
+- You may need to make additional changes on `ScrewMaker.py` file.
+- On `FsFunctions` directory add the new python file(s) that create the geometry of the fastener.
+- In `FastenersBase.py` file on `FsMakeBomCommand` class add a new method to be able to add the fasteners to the BOM. Make sure that the method's name match the name of the type on `screwTables` dict.
+
+```python
+    def AddRetainingRing(self, obj, cnt):
+        self.AddFastener(obj.type + translate("FastenerBase", " Retaining Ring ") + obj.diameter, cnt)
+```
+
+**NOTE:** For reference, check out this [pull request](https://github.com/shaise/FreeCAD_FastenersWB/pull/222/files) to get a good idea on how to do it.
+
 ### Reusing existing code
 
 The `screw_maker.Screw` class generally has one method to create a 
@@ -262,11 +293,27 @@ Dust off your graphic design skills.
 
 The easiest way to create an icon for your new fastener type is as follows:
 - Create a TechDraw view of the fastener from a close-to-isometric view angle
-- Export the page and import it into Inkscape
-- You can now recolor the view of the part to look like the workbench's icons, use `#FFAF00` ![#FFAF00](https://placehold.co/15x15/FFAF00/FFAF00.png) for metric fasteners and `#5FD3C2` ![#5FD3C2](https://placehold.co/15x15/5FD3C2/5FD3C2.png) for imperial fasteners
-- Icons should be 48x48px plain svg files, on Inkscape set: `File>Document Properties>Display>Front Page>Format:` to `Icon 48x48`
-- The stroke width of black lines should be around 1.26px
-- Leave a margin of 2 pixels on 4 sides and make the fastener icon inside the margin. 
+- Right click on the fastener view and select `Export DXF` and import it into Inkscape. Note: `Export DXF` output is cleaner than `Export SVG`.
+- Select all paths and use `Path>Combine` tool, `Ctrl+K`
+- In the `Layers and Objects` tab right click on the resultant path and duplicate it, `Ctrl+D`
+- On the first path set:
+  - the `Fill` to "No paint"
+  - the `Stroke paint` to "Flat color" and to black, `#000000` ![#000000](https://placehold.co/15x15/000000/000000.png)
+  - the `Stroke style` width to be around 1.26px
+- On the second path:
+  - Use `Path>Stroke to Path` tool, `Ctrl+Alt+C`
+  - With the `Node Tool (N)` remove the internal nodes that create "holes" in the path
+  - Once it's done, recolor the path, set:
+    - the `Fill` to "Flat color" and
+      - use `#FFAF00` ![#FFAF00](https://placehold.co/15x15/FFAF00/FFAF00.png) for metric fasteners
+      - use `#5FD3C2` ![#5FD3C2](https://placehold.co/15x15/5FD3C2/5FD3C2.png) for imperial fasteners
+    - the `Stroke paint` to "No paint"
+- Use `Path>Simplify` tool, `Ctrl+L` as needed
+- Leave a margin of 2 pixels on 4 sides and fit the fastener icon inside the margin.
+- Icons should be **48x48px plain svg files**, on Inkscape set: `File>Document Properties>Display>Front Page>Format:` to `Icon 48x48`
+- Also set scale to one on: `File>Document Properties>Display>Front Page>Scale:` to `1.00000`
+- You can set the title in: `File>Document Properties>Metadata/Title`
+- To save the file use `File>Save as...` and choose either "Plain SVG" or "Optimized SVG"
 
 ![](Resources/FSIconProcess.png)
 

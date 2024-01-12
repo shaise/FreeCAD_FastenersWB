@@ -41,7 +41,6 @@ def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
 # DIN571 Wood screw
 
 def makeDIN571(screw_obj, fa):
-    SType = fa.baseType
     l = fa.calc_len
     dia = float(fa.calc_diam.split()[0])
     ds, da, d3, k, s, P = fa.dimTable
@@ -51,7 +50,7 @@ def makeDIN571(screw_obj, fa):
     e = s/math.cos(math.radians(30))
     sqrt2_ = 1.0 / math.sqrt(2.0)
     cham = (e - s) * math.sin(math.radians(15))  # needed for chamfer at head top
-    
+
     Pnt0 = Base.Vector(0.0, 0.0, k)
     Pnt2 = Base.Vector(s / 2.0, 0.0, k)
     Pnt3 = Base.Vector(s / math.sqrt(3.0), 0.0, k - cham)
@@ -89,12 +88,12 @@ def makeDIN571(screw_obj, fa):
                         -l + z2 + z3 - d * math.sin(angle / 2.0))
     PntB3 = Base.Vector(x2, 0.0, -l + z3)
     PntB4 = Base.Vector(0.0, 0.0, -l)
-    
+
     edge6 = Part.makeLine(Pnt9, PntB0)
     edge8 = Part.Arc(PntB1, PntB2, PntB3).toShape()
     edge9 = Part.makeLine(PntB3, PntB4)
     edgeZ0 = Part.makeLine(PntB4, Pnt0)
-    
+
     if fa.thread:
         PntB0t = Base.Vector(dt, 0.0, 0.4 * -ftl - (d - dt))
         edge7 = Part.makeLine(PntB0, PntB0t)
@@ -105,7 +104,7 @@ def makeDIN571(screw_obj, fa):
         edge7 = Part.makeLine(PntB0, PntB1)
         aWire = Part.Wire([edge1, edge2, edge3, edge4, edge5, edge6,\
                         edge7, edge8, edge9, edgeZ0])
-    
+
     aFace = Part.Face(aWire)
     # Part.show(aFace)
     head = screw_obj.RevolveZ(aFace)
@@ -114,7 +113,7 @@ def makeDIN571(screw_obj, fa):
         thread = screw_obj.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d3h, d, P)
         #Part.show(thread)
         head = head.fuse(thread)
-    
+
     return head
 
 # DIN96 Wood screw
@@ -176,7 +175,7 @@ def makeDIN96(screw_obj, fa):
 def makeDIN7996(screw_obj, fa):
     l = fa.calc_len
     dia = float(fa.calc_diam.split()[0])
-    dk, k, da, r, d3, P, PH, m, e = fa.dimTable
+    dk, k, da, _, d3, P, PH, m, _ = fa.dimTable
     d = dia/2
     d32 = d3/2
     sa = da/2
@@ -239,7 +238,7 @@ def makeGOST1144(self, fa):
         d2, P, D, K, sb, h = fa.dimTable
     elif SType == "GOST1144-3" or SType == "GOST1144-4":
         d2, P, D, K, PH, m, h = fa.dimTable
-        
+
     # types 2 and 4 have full length thread while types 1 and 3 do not
     b = l
     full_length=True
@@ -255,28 +254,28 @@ def makeGOST1144(self, fa):
     if fa.thread:
         sr = ri
 
-    # lenght of cylindrical part where thread begins to grow.    
-    slope_length = (ro-ri)
+    # length of cylindrical part where thread begins to grow.
+    slope_length = ro - ri
 
     # calculation of screw tip length
     # Sharpness of screw tip is equal 40 degrees. If imagine half of screw tip
-    # as a triangle, then acute-angled angle of the triangle (alpha) be which 
+    # as a triangle, then acute-angled angle of the triangle (alpha) be which
     # is equal to half of the screw tip angle.
     alpha = 40/2
     # And the adjacent cathetus be which is equal to least screw radius (sr)
-    # Then the opposite cathetus can be getted by formula: tip_lenght=sr/tg(alpha)
-    tip_lenght = sr/math.tan(math.radians(alpha))
+    # Then the opposite cathetus can be getted by formula: tip_length=sr/tg(alpha)
+    tip_length = sr/math.tan(math.radians(alpha))
 
     ###########################
     # Make full screw profile #
     ###########################
-    
+
     fm = FastenerBase.FSFaceMaker()
 
     # 1) screw head
-    # Head of screw builds by B-Spline instead two arcs builded by two radii 
-    # (values R1 and R2). A curve built with two arcs and a curve built with a 
-    # B-Spline are almost identical. That can be verified if build a contour of 
+    # Head of screw builds by B-Spline instead two arcs builded by two radii
+    # (values R1 and R2). A curve built with two arcs and a curve built with a
+    # B-Spline are almost identical. That can be verified if build a contour of
     # screw head by two ways in Sketch workbench and compare them. B-Spline also
     # allows to remove the contour that appears between two arcs during creation
     # process, and it use fewer points than two arcs.
@@ -284,13 +283,13 @@ def makeGOST1144(self, fa):
     fm.AddBSpline(D/2, K, D/2, 0)
 
     # 2) add rounding under screw head
-    rr=dia/10
-    fm.AddPoint(ro+rr, 0)      # first point of rounding
+    rr = dia / 10
+    fm.AddPoint(ro + rr, 0)      # first point of rounding
     if fa.thread and full_length:
        fm.AddBSpline(ro, 0, sr, -slope_length) # create spline rounding
     else:
        fm.AddArc2(+0, -rr, 90) # in other cases create arc rounding
-    
+
     # 3) cylindrical part (place where thread will be added)
     if not full_length:
        if fa.thread:
@@ -298,10 +297,10 @@ def makeGOST1144(self, fa):
        fm.AddPoint(sr, -l+b)   # start of full width thread b >= l*0.6
 
     # 4) sharp end (cone shape)
-    fm.AddPoint(sr, -l+tip_lenght)
+    fm.AddPoint(sr, -l+tip_length)
     fm.AddPoint(0, -l)
 
-    # make profile from points (lines and arcs)  
+    # make profile from points (lines and arcs)
     profile = fm.GetFace()
 
     # make screw solid body by revolve a profile
@@ -317,7 +316,7 @@ def makeGOST1144(self, fa):
 
     # make thread
     if fa.thread:
-        thread = self.makeDin7998Thread(-l+b+slope_length, -l+tip_lenght, -l, ri, ro, P)
+        thread = self.makeDin7998Thread(-l+b+slope_length, -l+tip_length, -l, ri, ro, P)
         screw = screw.fuse(thread)
 
     return screw

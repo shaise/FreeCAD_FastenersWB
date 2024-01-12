@@ -52,7 +52,7 @@ def iutMakeFace(d, a, e, c, c1, k1, k2, k3, k4, k5):
 def makeHeatInsert(self, fa):
     D, A, E, C, s1, s2 = fa.dimTable
     oD = self.getDia(fa.diameter, True)
-    P = FsData["MetricPitchTable"][fa.diameter][0]
+    P = FsData["ISO262def"][fa.diameter][0]
     iD = self.GetInnerThreadMinDiameter(oD, P)
  
     len =  FastenerBase.LenStr2Num(fa.length)

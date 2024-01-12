@@ -92,7 +92,7 @@ def makePEMStandoff(self, fa):
         dia_key = fa.diameter
     dia = self.getDia(dia_key, True)
     b = dia * 1.05
-    P = FsData["MetricPitchTable"][dia_key][0]
+    P = FsData["ISO262def"][dia_key][0]
     d = self.GetInnerThreadMinDiameter(dia, P)
     if fa.blind and l < 6:
         l = 6

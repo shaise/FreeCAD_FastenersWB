@@ -65,7 +65,7 @@ def makePEMStud(self, fa):
     if not fa.thread:
         return rev
     # real thread
-    P = FsData["MetricPitchTable"][fa.diameter][0]
+    P = FsData["ISO262def"][fa.diameter][0]
     rthread = self.CreateBlindThreadCutter(dia, P, l + thStart)
     rthread.translate(Base.Vector(0.0, 0.0, thStart))
     rev = rev.cut(rthread)

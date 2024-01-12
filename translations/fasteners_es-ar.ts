@@ -398,14 +398,29 @@
         <translation> Tuerca </translation>
     </message>
     <message>
+        <location filename="../FastenerBase.py" line="909"/>
+        <source>T-Slot Bolt </source>
+        <translation>Perno de ranura en T </translation>
+    </message>
+    <message>
         <location filename="../FastenerBase.py" line="911"/>
         <source> Washer </source>
         <translation> Arandela </translation>
     </message>
     <message>
+        <location filename="../FastenerBase.py" line="913"/>
+        <source>T-Slot Nut </source>
+        <translation>Tuerca de ranura en T </translation>
+    </message>
+    <message>
         <location filename="../FastenerBase.py" line="914"/>
         <source>Threaded Rod </source>
         <translation>Barra roscada </translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="915"/>
+        <source>T Slot Nut </source>
+        <translation>Tuerca de ranura en T </translation>
     </message>
     <message>
         <location filename="../FastenerBase.py" line="918"/>
@@ -428,11 +443,6 @@
         <translation>Espaciador de PCB </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="915"/>
-        <source>T Slot Nut </source>
-        <translation>Tuerca de ranura en T </translation>
-    </message>
-    <message>
         <location filename="../FastenerBase.py" line="932"/>
         <source>Heat Set Insert </source>
         <translation>Inserto metálico </translation>
@@ -443,18 +453,39 @@
         <translation> Anillo retenedor </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="909"/>
-        <source>T-Slot Bolt </source>
-        <translation>Perno de ranura en T </translation>
+        <location filename="../FastenerBase.py" line="952"/>
+        <source> T-Slot Bolt </source>
+        <translation> Perno de ranura en T </translation>
     </message>
     <message>
-        <location filename="../FastenerBase.py" line="913"/>
-        <source>T-Slot Nut </source>
-        <translation>Tuerca de ranura en T </translation>
+        <location filename="../FastenerBase.py" line="955"/>
+        <source> T-Slot Nut </source>
+        <translation> Tuerca de ranura en T </translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="959"/>
+        <source> Hex key </source>
+        <translatorcomment>Allen</translatorcomment>
+        <translation> Llave hexagonal </translation>
     </message>
 </context>
 <context>
     <name>FastenerCmd</name>
+    <message>
+        <location filename="../FastenerBase.py" line="69"/>
+        <source>Offset from surface</source>
+        <translation>Desplazamiento desde la superficie</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="71"/>
+        <source>Invert fastener direction</source>
+        <translation>Invertir dirección del elemento de sujeción</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="80"/>
+        <source>Base object</source>
+        <translation>Objeto base</translation>
+    </message>
     <message>
         <location filename="../FastenersCmd.py" line="71"/>
         <source>Hex head</source>
@@ -529,6 +560,11 @@
         <location filename="../FastenersCmd.py" line="92"/>
         <source>T-Slot Fasteners</source>
         <translation>Elementos de sujeción de ranura en T</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="100"/>
+        <source>Set screws</source>
+        <translation>Prisioneros</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="97"/>
@@ -611,24 +647,10 @@
         <translation>ISO 7379 Tornillo hexagonal cabeza de hombro</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="100"/>
-        <source>ISO 4026 Hexagon socket set screws with flat point</source>
-        <translation>ISO 4026 Prisionero hexagonal con punta plana</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="101"/>
-        <source>ISO 4027 Hexagon socket set screws with cone point</source>
-        <translation>ISO 4027 Prisionero hexagonal con punta cónica</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="102"/>
-        <source>ISO 4028 Hexagon socket set screws with dog point</source>
-        <translation>ISO 4028 Prisionero hexagonal con punta de perro (cilíndrica)</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="103"/>
-        <source>ISO 4029 Hexagon socket set screws with cup point</source>
-        <translation>ISO 4029 Prisionero hexagonal con punta de copa</translation>
+        <location filename="../FastenersCmd.py" line="124"/>
+        <source>ISO 2936 Hexagon socket screw keys</source>
+        <translatorcomment>Llave Allen</translatorcomment>
+        <translation>ISO 2936 Llave para tornillo hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="105"/>
@@ -676,11 +698,6 @@
         <translation>ISO 1207 Tornillo ranurado cabeza de queso</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="127"/>
-        <source>DIN84 (superseded by ISO 1207) Slotted cheese head screw</source>
-        <translation>DIN84 (remplezado por ISO 1207) Tornillo ranurado cabeza de queso</translation>
-    </message>
-    <message>
         <location filename="../FastenersCmd.py" line="135"/>
         <source>DIN 84 (superseded by ISO 1207) Slotted cheese head screw</source>
         <translation>DIN 84 (remplezado por ISO 1207) Tornillo ranurado cabeza de queso</translation>
@@ -726,6 +743,36 @@
         <translation>ISO 7048 Tornillo cabeza de queso con hendidura de cruz tipo H</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="147"/>
+        <source>ISO 7049-C Pan head self tapping screws with conical point, type H cross r.</source>
+        <translation>ISO 7049-C Tornillos autorroscantes de cabeza de sartén con punta cónica, con hendidura de cruz H.</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="147"/>
+        <source>ISO 7049 Pan head self tapping screws with conical point, type H cross r.</source>
+        <translation>ISO 7049 Tornillos autorroscantes de cabeza de sartén con punta cónica, con hendidura de cruz H.</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="148"/>
+        <source>ISO 7049-F Pan head self tapping screws with flat point, type H cross r.</source>
+        <translation>ISO 7049lF Tornillos autorroscantes de cabeza de sartén con puplana, con hendidura de cruz H.</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="148"/>
+        <source>ISO 7049 Pan head self tapping screws with flat point, type H cross r.</source>
+        <translation>ISO 7049 Tornillos autorroscantes de cabeza de sartén con punta plana, con hendidura de cruz H.</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="149"/>
+        <source>ISO 7049-R Pan head self tapping screws with rounded point type H cross r.</source>
+        <translation>ISO 7049-R Tornillos autorroscantes de cabeza de sartén con punta redondeada, con hendidura de cruz H.</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="149"/>
+        <source>ISO 7049 Pan head self tapping screws with rounded point type H cross r.</source>
+        <translation>ISO 7049 Tornillos autorroscantes de cabeza de sartén con punta redondeada, con hendidura de cruz H.</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="137"/>
         <source>DIN 7996 Cross recessed pan head wood screw</source>
         <translation>DIN 7996 Tornillo cabeza de sartén con hendidura de cruz para madera</translation>
@@ -749,6 +796,71 @@
         <location filename="../FastenersCmd.py" line="138"/>
         <source>DIN 478 Square head bolts with collar</source>
         <translation>DIN 478 Perno de cabeza cuadrada con arandela</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="100"/>
+        <source>ISO 4026 Hexagon socket set screws with flat point</source>
+        <translation>ISO 4026 Prisionero hexagonal con punta plana</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="101"/>
+        <source>ISO 4027 Hexagon socket set screws with cone point</source>
+        <translation>ISO 4027 Prisionero hexagonal con punta cónica</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="102"/>
+        <source>ISO 4028 Hexagon socket set screws with dog point</source>
+        <translation>ISO 4028 Prisionero hexagonal con punta de perro (cilíndrica)</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="103"/>
+        <source>ISO 4029 Hexagon socket set screws with cup point</source>
+        <translation>ISO 4029 Prisionero hexagonal con punta de copa</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="127"/>
+        <source>DIN84 (superseded by ISO 1207) Slotted cheese head screw</source>
+        <translation>DIN84 (remplezado por ISO 1207) Tornillo ranurado cabeza de queso</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="161"/>
+        <source>ISO 4766 Slotted socket set screws with flat point</source>
+        <translation>ISO 4766 Prisionero ranurado con punta plana</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="162"/>
+        <source>ISO 7434 Slotted socket set screws with cone point</source>
+        <translation>ISO 7434 Prisionero ranurado con punta cónica</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="163"/>
+        <source>ISO 7435 Slotted socket set screws with long dog point</source>
+        <translation>ISO 7435 Prisionero ranurado con punta de perro</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="164"/>
+        <source>ISO 7436 Slotted socket set screws with cup point</source>
+        <translation>ISO 7436 Prisionero ranurado con punta de copa</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="157"/>
+        <source>ASME B18.3 UNC Hexagon socket set screws with flat point</source>
+        <translation>ASME B18.3 UNC Prisionero hexagonal con punta plana</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="158"/>
+        <source>ASME B18.3 UNC Hexagon socket set screws with cone point</source>
+        <translation>ASME B18.3 UNC Prisionero hexagonal con punta cónica</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="159"/>
+        <source>ASME B18.3 UNC Hexagon socket set screws with dog point</source>
+        <translation>ASME B18.3 UNC Prisionero hexagonal con punta de perro (cilíndrica)</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="160"/>
+        <source>ASME B18.3 UNC Hexagon socket set screws with cup point</source>
+        <translation>ASME B18.3 UNC Prisionero hexagonal con punta de copa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="126"/>
@@ -896,9 +1008,9 @@
         <translation>GN 505 Tuerca de ranura en T de un cuarto de vuelta</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="170"/>
-        <source>GN 505.4 Serrated T-Slot Bolts</source>
-        <translation>GN 505.4 Pernos dentado de ranura en T</translation>
+        <location filename="../FastenersCmd.py" line="138"/>
+        <source>ISO 7089 Washer</source>
+        <translation>ISO 7089 Arandela</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="152"/>
@@ -906,9 +1018,19 @@
         <translation>GN 507 Tuercas de ranura en T</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="138"/>
-        <source>ISO 7089 Washer</source>
-        <translation>ISO 7089 Arandela</translation>
+        <location filename="../FastenersCmd.py" line="170"/>
+        <source>GN 505.4 Serrated T-Slot Bolts</source>
+        <translation>GN 505.4 Pernos dentado de ranura en T</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="200"/>
+        <source>GN 506 T-Slot nuts to swivel in</source>
+        <translation>GN 506 Tuercas de ranura en T para girar en posición</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="201"/>
+        <source>GN 507 T-Slot sliding nuts</source>
+        <translation>GN 507 Tuercas de ranura en T deslizables</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="184"/>
@@ -1014,26 +1136,6 @@
         <location filename="../FastenersCmd.py" line="156"/>
         <source>ASME B18.3 UNC Hexagon socket head shoulder screws</source>
         <translation>ASME B18.3 UNC Tornillo hexagonal cabeza con hombro</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="157"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with flat point</source>
-        <translation>ASME B18.3 UNC Prisionero hexagonal con punta plana</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="158"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with cone point</source>
-        <translation>ASME B18.3 UNC Prisionero hexagonal con punta cónica</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="159"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with dog point</source>
-        <translation>ASME B18.3 UNC Prisionero hexagonal con punta de perro (cilíndrica)</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="160"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with cup point</source>
-        <translation>ASME B18.3 UNC Prisionero hexagonal con punta de copa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="162"/>
@@ -1201,6 +1303,11 @@
         <translation>Tipo de tornillo</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="336"/>
+        <source>Fastener type</source>
+        <translation>Tipo de elemento de sujeción</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="269"/>
         <source>Standard diameter</source>
         <translation>Diámetro estándar</translation>
@@ -1259,6 +1366,11 @@
         <location filename="../FastenersCmd.py" line="357"/>
         <source>Slot width</source>
         <translation>Ancho de ranura</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="424"/>
+        <source>Key size</source>
+        <translation>Tamaño de llave</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="320"/>
@@ -1347,6 +1459,16 @@
         <location filename="../FastenersCmd.py" line="53"/>
         <source>T-Slot</source>
         <translation>Ranura en T</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="55"/>
+        <source>SetScrew</source>
+        <translation>Prisionero</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="56"/>
+        <source>HexKey</source>
+        <translation>Llave hexagonal</translation>
     </message>
 </context>
 <context>

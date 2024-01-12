@@ -8,12 +8,29 @@
 
 # a table to reuse icons:
 FSIconAliases = {
-    'ISO299' : 'DIN508'
+    'ASMEB18.2.2.4A' : 'ASMEB18.2.2.1A',
+    'DIN84' : 'ISO1207',
+    'DIN961' : 'ISO8676',
+    'DIN933' : 'ISO4017',
+    'DIN934' : 'ISO4032',
+    'GOST11860-1' : 'DIN1587',
+    'GOST1144-1' : 'DIN96',
+    'GOST1144-2' : 'DIN96',
+    'GOST1144-3' : 'DIN7996',
+    'GOST1144-4' : 'DIN7996',
+    'ISO299' : 'DIN508',
+    'ISO4766' : 'ISO4026',
+    'ISO7380-1' : 'ISO7380',
+    'ISO7049-C' : 'DIN7996',
+    'ISO7049-R' : 'DIN7996',
+    'ISO7434' : 'ISO4027',
+    'ISO7435' : 'ISO4028',
+    'ISO7436' : 'ISO4029',
 }
 
 # a table to reuse similar type standards
 FSTypeAliases = {
-    'ISO299' : 'DIN508'
+    'ISO299' : 'DIN508',
 }
 
 def FSGetIconAlias(name):

@@ -120,6 +120,15 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.00  12 Jan 2024:  Lots of improvements by @hasecilu:  
+                       - Add ISO1478: Self tapping screw thread  
+                       - Add ISO7049: cross-recessed pan head tapping screws  
+                       - Add ISO 68-1 & 2 thread dimensions  
+                       - Add ISO 262:  metric pitch table  
+                       - Add GN 506: T-slot nut to swivel in with ball spring  
+                       - Add ISO 2936: Hex key  
+                       - bug fixes  
+                       - code refacroting and cleanup  
 * V0.4.75  16 Dec 2023:  Update Spanish translations by @hasecilu.  
                        - fix aliased issue with bom generation.  
 * V0.4.74  16 Dec 2023:  Add ISO8738, plain washers for clevis pins by @hasecilu.  

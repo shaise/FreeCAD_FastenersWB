@@ -112,6 +112,23 @@ FSC_DIN7998_ScrewHoleChart = (
     ("20 mm", 15)
 )
 
+FSC_ISO1478_ScrewHoleChart = (
+    ("ST1.5", 0.91),
+    ("ST1.9", 1.24),
+    ("ST2.2", 1.63),
+    ("ST2.6", 1.9),
+    ("ST2.9", 2.18),
+    ("ST3.3", 2.39),
+    ("ST3.5", 2.64),
+    ("ST3.9", 2.92),
+    ("ST4.2", 3.1),
+    ("ST4.8", 3.58),
+    ("ST5.5", 4.17),
+    ("ST6.3", 4.88),
+    ("ST8", 6.2),
+    ("ST9.5", 7.85)
+)
+
 # prepare a dictionary for fast search of GetInnerThread
 FSCScrewHoleChartDict = {}
 for s in FSCScrewHoleChart:
@@ -119,6 +136,8 @@ for s in FSCScrewHoleChart:
 for s in FSC_Inch_ScrewHoleChart:
     FSCScrewHoleChartDict[s[0]] = s[1]
 for s in FSC_DIN7998_ScrewHoleChart:
+    FSCScrewHoleChartDict[s[0]] = s[1]
+for s in FSC_ISO1478_ScrewHoleChart:
     FSCScrewHoleChartDict[s[0]] = s[1]
 
 
@@ -483,7 +502,7 @@ class FSScrewMaker(Screw):
         return self.GetTableProperty(type, diam, 'thr_len', 10.0)
 
     def GetInnerThread(self, diam):
-        diam = FastenerBase.CleanM(diam)
+        diam = FastenerBase.cleanDiamStr(diam)
         return FSCScrewHoleChartDict[diam]
 
     def GetAllCountersunkTypes(self):

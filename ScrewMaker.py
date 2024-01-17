@@ -109,7 +109,7 @@ FSC_DIN7998_ScrewHoleChart = (
     ("10 mm", 7),
     ("12 mm", 9),
     ("16 mm", 12),
-    ("20 mm", 25)
+    ("20 mm", 15)
 )
 
 # prepare a dictionary for fast search of GetInnerThread

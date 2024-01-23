@@ -247,20 +247,26 @@ def FSCacheRemoveThreaded():
 # extruct the diameter code (metric/imperial) from the given string
 
 
-def CleanM(m):
-    res = re.findall("M[\d.]+|#\d+|[\d /]+in|[\d.]+ mm", m)
+def cleanDiamStr(m):
+    """
+    Clean dirty diameter string to be ready for dictionary.
+    Example output: 'M3', '#8', '5/8in', '4 mm' and 'ST6.3'
+    """
+    res = re.findall(r"M[\d.]+|#\d+|[\d /]+in|[\d.]+ mm|ST[\d.]+", m)
     # FreeCAD.Console.PrintMessage(m + " -> " + res[0] + "\n")
     return res[0]
 
 
 def MToFloat(m):
-    return float(CleanM(m).lstrip("M"))
+    """Convert a metric diameter string into a float."""
+    return float(cleanDiamStr(m).lstrip("M"))
 
 # accepts formats: 'Mx', '(Mx)' 'YYYMx' 'Mx-YYY'
 
 
 def DiaStr2Num(DiaStr):
-    DiaStr = CleanM(DiaStr)
+    """Convert a diameter string to a corresponding numeric value."""
+    DiaStr = cleanDiamStr(DiaStr)
     return FsData["DiaList"][DiaStr][0]
 
 # inch tolerant version of length string to number converter

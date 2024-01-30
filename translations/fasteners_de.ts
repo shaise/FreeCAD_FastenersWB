@@ -175,7 +175,7 @@
     <message>
         <location filename="../FSprefs.ui" line="37"/>
         <source>Toolbar screw icons grouping:</source>
-        <translation>Toolbar schraubenicons Gruppierung:</translation>
+        <translation>Toolbar Schraubenicons Gruppierung:</translation>
     </message>
     <message>
         <location filename="../FSprefs.ui" line="57"/>
@@ -417,9 +417,39 @@
         <source> Retaining Ring </source>
         <translation> Sprengring </translation>
     </message>
+    <message>
+        <location filename="../FastenerBase.py" line="959"/>
+        <source> T-Slot Bolt </source>
+        <translation> T-Nut Schraube </translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="962"/>
+        <source> T-Slot Nut </source>
+        <translation> T-Nutenstein </translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="966"/>
+        <source> Hex key </source>
+        <translation> Sechkantschlüssel </translation>
+    </message>
 </context>
 <context>
     <name>FastenerCmd</name>
+    <message>
+        <location filename="../FastenerBase.py" line="69"/>
+        <source>Offset from surface</source>
+        <translation>Offset zur Oberfläche</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="71"/>
+        <source>Invert fastener direction</source>
+        <translation>Invertiere Befestigungsmittelrichtung</translation>
+    </message>
+    <message>
+        <location filename="../FastenerBase.py" line="80"/>
+        <source>Base object</source>
+        <translation>Basisobjekt</translation>
+    </message>
     <message>
         <location filename="../FastenersCmd.py" line="78"/>
         <source>Hex head</source>
@@ -458,7 +488,7 @@
     <message>
         <location filename="../FastenersCmd.py" line="85"/>
         <source>Misc head</source>
-        <translation>Sonstige</translation>
+        <translation>Sonstige Kopfformen</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="86"/>
@@ -479,6 +509,16 @@
         <location filename="../FastenersCmd.py" line="89"/>
         <source>T Slot</source>
         <translation>T-Nut</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="99"/>
+        <source>T-Slot Fasteners</source>
+        <translation>T-Nutensteine</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="100"/>
+        <source>Set screws</source>
+        <translation>Gewindestifte</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="97"/>
@@ -561,24 +601,9 @@
         <translation>ISO 7379 Zylinderkopfschrauben mit Innensechskant und Ansatzschaft</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="111"/>
-        <source>ISO 4026 Hexagon socket set screws with flat point</source>
-        <translation>ISO 4026 Gewindestifte mit Innensechskant mit Kegelstumpf</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="112"/>
-        <source>ISO 4027 Hexagon socket set screws with cone point</source>
-        <translation>ISO 4027 Gewindestifte mit Innensechskant und abgeflachter Spitze</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="113"/>
-        <source>ISO 4028 Hexagon socket set screws with dog point</source>
-        <translation>ISO 4028 Gewindestifte mit Innensechskant und Zapfen</translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="114"/>
-        <source>ISO 4029 Hexagon socket set screws with cup point</source>
-        <translation>ISO 4029 Gewindestifte mit Innensechskant und Ringschneide</translation>
+        <location filename="../FastenersCmd.py" line="124"/>
+        <source>ISO 2936 Hexagon socket screw keys</source>
+        <translation>ISO 2936 Winkelschraubendreher für Schrauben mit Innensechskant</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="116"/>
@@ -626,11 +651,6 @@
         <translation>ISO 1207 Zylinderschrauben mit Schlitz</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="127"/>
-        <source>DIN84 (superseded by ISO 1207) Slotted cheese head screw</source>
-        <translation>DIN 84 Zylinderschrauben mit Schlitz (ersetzt durch ISO 1207)</translation>
-    </message>
-    <message>
         <location filename="../FastenersCmd.py" line="129"/>
         <source>DIN 84 (superseded by ISO 1207) Slotted cheese head screw</source>
         <translation>DIN 84 Zylinderschrauben mit Schlitz (ersetzt durch ISO 1207)</translation>
@@ -673,7 +693,22 @@
     <message>
         <location filename="../FastenersCmd.py" line="136"/>
         <source>ISO 7048 Cheese head screws with type H cross r.</source>
-        <translation>ISO 7048 Zylinderschrauben mit Kreuzschlitz</translation>
+        <translation>ISO 7048 Zylinderschrauben mit Kreuzschlitz Form H</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="147"/>
+        <source>ISO 7049-C Pan head self tapping screws with conical point, type H cross r.</source>
+        <translation>ISO 7049-C Linsenkopf-Blechschrauben mit Kreuzschlitz Form H und Spitze</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="148"/>
+        <source>ISO 7049-F Pan head self tapping screws with flat point, type H cross r.</source>
+        <translation>ISO 7049-F Linsenkopf-Blechschrauben mit Kreuzschlitz Form H und Zapfen</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="149"/>
+        <source>ISO 7049-R Pan head self tapping screws with rounded point type H cross r.</source>
+        <translation>ISO 7049-F Linsenkopf-Blechschrauben mit Kreuzschlitz Form H, Form R</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="137"/>
@@ -701,6 +736,71 @@
         <translation>DIN 478 Vierkantschrauben mit Bund</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="111"/>
+        <source>ISO 4026 Hexagon socket set screws with flat point</source>
+        <translation>ISO 4026 Gewindestifte mit Innensechskant und Kegelstumpf</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="112"/>
+        <source>ISO 4027 Hexagon socket set screws with cone point</source>
+        <translation>ISO 4027 Gewindestifte mit Innensechskant und abgeflachter Spitze</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="113"/>
+        <source>ISO 4028 Hexagon socket set screws with dog point</source>
+        <translation>ISO 4028 Gewindestifte mit Innensechskant und Zapfen</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="114"/>
+        <source>ISO 4029 Hexagon socket set screws with cup point</source>
+        <translation>ISO 4029 Gewindestifte mit Innensechskant und Ringschneide</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="127"/>
+        <source>DIN84 (superseded by ISO 1207) Slotted cheese head screw</source>
+        <translation>DIN 84 Zylinderschrauben mit Schlitz (ersetzt durch ISO 1207)</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="161"/>
+        <source>ISO 4766 Slotted socket set screws with flat point</source>
+        <translation>ISO 4766 Gewindestifte mit Schlitz und Kegelstumpf</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="162"/>
+        <source>ISO 7434 Slotted socket set screws with cone point</source>
+        <translation>ISO 7434 Gewindestifte mit Schlitz und Spitze</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="163"/>
+        <source>ISO 7435 Slotted socket set screws with long dog point</source>
+        <translation>ISO 7435 Gewindestifte mit Schlitz und Zapfen</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="164"/>
+        <source>ISO 7436 Slotted socket set screws with cup point</source>
+        <translation>ISO 7436 Gewindestifte mit Schlitz und Ringschneide</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="189"/>
+        <source>ASME B18.3 UNC Hexagon socket set screws with flat point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="190"/>
+        <source>ASME B18.3 UNC Hexagon socket set screws with cone point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="191"/>
+        <source>ASME B18.3 UNC Hexagon socket set screws with dog point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="192"/>
+        <source>ASME B18.3 UNC Hexagon socket set screws with cup point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="144"/>
         <source>ISO 4032 Hexagon nuts, Style 1</source>
         <translation>ISO 4032 Sechskantmuttern Typ 1</translation>
@@ -709,6 +809,11 @@
         <location filename="../FastenersCmd.py" line="145"/>
         <source>ISO 4033 Hexagon nuts, Style 2</source>
         <translation>ISO 4033 Sechskantmuttern, Typ 2</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="172"/>
+        <source>ISO 4034 Hexagon nuts, Style 1</source>
+        <translation>ISO 4034 Sechskantmuttern (Typ 1) - Produktklasse C</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="146"/>
@@ -771,6 +876,11 @@
         <translation>DIN 6330 Sechskantmuttern 1,5 d hoch</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="185"/>
+        <source>DIN 6331 Hexagon nuts with collar height 1,5 d</source>
+        <translation>DIN 6331 Sechskantmuttern 1,5 d hoch mit Bund</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="155"/>
         <source>DIN 6334 elongated hexagon nuts</source>
         <translation>DIN 6334 Sechskantmuttern, 3 d hoch</translation>
@@ -831,6 +941,36 @@
         <translation>ISO 7089 Flache Scheibe - Normale Reihe</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="197"/>
+        <source>ISO 299 T-Slot nuts</source>
+        <translation>ISO 299 T-Nutensteine</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="198"/>
+        <source>GN 505 Serrated Quarter-Turn T-Slot nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="199"/>
+        <source>GN 505.4 Serrated T-Slot Bolts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="200"/>
+        <source>GN 506 T-Slot nuts to swivel in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="201"/>
+        <source>GN 507 T-Slot sliding nuts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="203"/>
+        <source>ISO 7089 Plain washers - Normal series</source>
+        <translation>ISO 7089 Flache Scheiben - Normale Reihe</translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="169"/>
         <source>ISO 7090 Plain Washers, chamfered - Normal series</source>
         <translation>ISO 7090 Flache Scheibe mit Fase - Normale Reihe</translation>
@@ -854,6 +994,26 @@
         <location filename="../FastenersCmd.py" line="174"/>
         <source>DIN6340 Washers for clamping devices</source>
         <translation>DIN 6340 Scheibe für Spannzeuge</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="209"/>
+        <source>ISO 8738 Plain washers for clevis pins</source>
+        <translation>ISO 8738 Scheiben für Bolzen</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="210"/>
+        <source>DIN 6319C Spherical washer</source>
+        <translation>DIN 6319-C Kugelscheibe</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="211"/>
+        <source>DIN 6319D Conical seat</source>
+        <translation>DIN 6319-D Kegelpfanne Form D</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="212"/>
+        <source>DIN 6319G Conical seat</source>
+        <translation>DIN 6319-G Kegelpfanne Form G</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="179"/>
@@ -908,26 +1068,6 @@
     <message>
         <location filename="../FastenersCmd.py" line="188"/>
         <source>ASME B18.3 UNC Hexagon socket head shoulder screws</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="189"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with flat point</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="190"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with cone point</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="191"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with dog point</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../FastenersCmd.py" line="192"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with cup point</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1016,24 +1156,29 @@
         <translation>Werkzeug für metrische Innengewinde</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="215"/>
-        <source>Inch threaded rod for tapping holes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../FastenersCmd.py" line="216"/>
         <source>Tool object to cut external metric threads</source>
         <translation>Werkzeug für metrische Außengewinde</translation>
     </message>
     <message>
-        <location filename="../FastenersCmd.py" line="217"/>
-        <source>Tool object to cut external non-metric threads</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../FastenersCmd.py" line="218"/>
         <source>DIN 975 metric threaded rod</source>
         <translation>DIN 975 Gewindestange</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="748"/>
+        <source>Other </source>
+        <translation>Andere </translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="215"/>
+        <source>Inch threaded rod for tapping holes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="217"/>
+        <source>Tool object to cut external non-metric threads</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="219"/>
@@ -1091,6 +1236,11 @@
         <translation>Schraubentyp</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="336"/>
+        <source>Fastener type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="317"/>
         <source>Standard diameter</source>
         <translation>Standarddurchmesser</translation>
@@ -1126,6 +1276,11 @@
         <translation>Schraubenlänge</translation>
     </message>
     <message>
+        <location filename="../FastenersCmd.py" line="403"/>
+        <source>External Diameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../FastenersCmd.py" line="368"/>
         <source>Screw major diameter custom</source>
         <translation>benutzerdefinierter Schraubendurchmesser</translation>
@@ -1144,6 +1299,11 @@
         <location filename="../FastenersCmd.py" line="381"/>
         <source>Slot width</source>
         <translation>Nutbreite</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="424"/>
+        <source>Key size</source>
+        <translation>Schlüsselgröße</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="385"/>
@@ -1223,6 +1383,21 @@
         <source>RetainingRing</source>
         <translation>Sprengring</translation>
     </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="54"/>
+        <source>T-Slot</source>
+        <translation>T-Nut</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="55"/>
+        <source>SetScrew</source>
+        <translation>Gewindestift</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="56"/>
+        <source>HexKey</source>
+        <translation>Sechskantschlüssel</translation>
+    </message>
 </context>
 <context>
     <name>Fasteners</name>
@@ -1252,7 +1427,7 @@
     <message>
         <location filename="../InitGui.py" line="78"/>
         <source>Add Fasteners</source>
-        <translation>Erzeuge befestigungsmittel</translation>
+        <translation>Erzeuge Befestigungsmittel</translation>
     </message>
     <message>
         <location filename="../InitGui.py" line="81"/>

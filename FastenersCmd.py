@@ -105,41 +105,64 @@ CMD_PARAMETER_GRP = 2
 CMD_STD_GROUP = 3
 FSScrewCommandTable = {
     # type - (help, group, parameter-group, standard-group)
+    
+    # HexHeadGroup
+    
+    "ASMEB18.2.1.6": (translate("FastenerCmd", "ASME B18.2.1 UNC Hex head screws"), HexHeadGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.2.1.8": (translate("FastenerCmd", "ASME B18.2.1 UNC Hex head screws with flange"), HexHeadGroup, ScrewParametersLC, "ASME"),
+    "DIN571": (translate("FastenerCmd", "DIN 571 Hex head wood screw"), HexHeadGroup, ScrewParametersLC, "DIN"),
     "DIN933": (translate("FastenerCmd", "DIN 933 Hex head screw"), HexHeadGroup, ScrewParametersLC, "DIN"),
     "DIN961": (translate("FastenerCmd", "DIN 961 Hex head screw"), HexHeadGroup, ScrewParametersLC, "DIN"),
-    "ISO4017": (translate("FastenerCmd", "ISO 4017 Hex head screw"), HexHeadGroup, ScrewParametersLC, "ISO"),
-    "ISO8676": (translate("FastenerCmd", "ISO 8676 Hex head screw"), HexHeadGroup, ScrewParametersLC, "ISO"),
-    "ISO4014": (translate("FastenerCmd", "ISO 4014 Hex head bolt"), HexHeadGroup, ScrewParametersLC, "ISO"),
     "EN1662": (translate("FastenerCmd", "EN 1662 Hexagon bolt with flange, small series"), HexHeadGroup, ScrewParametersLC, "EN"),
     "EN1665": (translate("FastenerCmd", "EN 1665 Hexagon bolt with flange, heavy series"), HexHeadGroup, ScrewParametersLC, "EN"),
-    "DIN571": (translate("FastenerCmd", "DIN 571 Hex head wood screw"), HexHeadGroup, ScrewParametersLC, "DIN"),
+    "ISO4014": (translate("FastenerCmd", "ISO 4014 Hex head bolt"), HexHeadGroup, ScrewParametersLC, "ISO"),
+    "ISO4017": (translate("FastenerCmd", "ISO 4017 Hex head screw"), HexHeadGroup, ScrewParametersLC, "ISO"),
+    "ISO8676": (translate("FastenerCmd", "ISO 8676 Hex head screw"), HexHeadGroup, ScrewParametersLC, "ISO"),
 
-    "ISO4762": (translate("FastenerCmd", "ISO 4762 Hexagon socket head cap screw"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
-    "DIN7984": (translate("FastenerCmd", "DIN 7984 Hexagon socket head cap screws with low head"), HexagonSocketGroup, ScrewParametersLC, "DIN"),
+    # HexagonSocketGroup
+
+    "ASMEB18.3.1A": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket head cap screws"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.1G": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket head cap screws with low head"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.2": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket countersunk head screws"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.3A": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket button head screws"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.3B": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket button head screws with flange"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.4": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket head shoulder screws"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
     "DIN6912": (translate("FastenerCmd", "DIN 6912 Hexagon socket head cap screws with low head with centre"), HexagonSocketGroup, ScrewParametersLC, "DIN"),
+    "DIN7984": (translate("FastenerCmd", "DIN 7984 Hexagon socket head cap screws with low head"), HexagonSocketGroup, ScrewParametersLC, "DIN"),
+    "ISO2936": (translate("FastenerCmd", "ISO 2936 Hexagon socket screw keys"), HexagonSocketGroup, HexKeyParameters, "ISO"),
+    "ISO4762": (translate("FastenerCmd", "ISO 4762 Hexagon socket head cap screw"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
+    "ISO7379": (translate("FastenerCmd", "ISO 7379 Hexagon socket head shoulder screw"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
     "ISO7380-1": (translate("FastenerCmd", "ISO 7380 Hexagon socket button head screw"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
     "ISO7380-2": (translate("FastenerCmd", "ISO 7380 Hexagon socket button head screws with collar"), HexagonSocketGroup, ScrewParametersLC, 'ISO'),
     "ISO10642": (translate("FastenerCmd", "ISO 10642 Hexagon socket countersunk head screw"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
-    "ISO7379": (translate("FastenerCmd", "ISO 7379 Hexagon socket head shoulder screw"), HexagonSocketGroup, ScrewParametersLC, "ISO"),
-    "ISO2936": (translate("FastenerCmd", "ISO 2936 Hexagon socket screw keys"), HexagonSocketGroup, HexKeyParameters, "ISO"),
+
+    # HexalobularSocketGroup
 
     "ISO14579": (translate("FastenerCmd", "ISO 14579 Hexalobular socket head cap screws"), HexalobularSocketGroup, ScrewParametersLC, "ISO"),
     "ISO14580": (translate("FastenerCmd", "ISO 14580 Hexalobular socket cheese head screws"), HexalobularSocketGroup, ScrewParametersLC, "ISO"),
-    #    "ISO14581": (translate("FastenerCmd", "ISO 14581 Hexalobular socket countersunk flat head screws"), HexalobularSocketGroup, ScrewParametersLC),
+    # "ISO14581": (translate("FastenerCmd", "ISO 14581 Hexalobular socket countersunk flat head screws"), HexalobularSocketGroup, ScrewParametersLC),
     "ISO14582": (translate("FastenerCmd", "ISO 14582 Hexalobular socket countersunk head screws, high head"), HexalobularSocketGroup, ScrewParametersLC, "ISO"),
     "ISO14583": (translate("FastenerCmd", "ISO 14583 Hexalobular socket pan head screws"), HexalobularSocketGroup, ScrewParametersLC, "ISO"),
     "ISO14584": (translate("FastenerCmd", "ISO 14584 Hexalobular socket raised countersunk head screws"), HexalobularSocketGroup, ScrewParametersLC, "ISO"),
 
-    "ISO2009": (translate("FastenerCmd", "ISO 2009 Slotted countersunk flat head screw"), SlottedGroup, ScrewParametersLC, "ISO"),
-    "ISO2010": (translate("FastenerCmd", "ISO 2010 Slotted raised countersunk head screw"), SlottedGroup, ScrewParametersLC, "ISO"),
-    "ISO1580": (translate("FastenerCmd", "ISO 1580 Slotted pan head screw"), SlottedGroup, ScrewParametersLC, "ISO"),
-    "ISO1207": (translate("FastenerCmd", "ISO 1207 Slotted cheese head screw"), SlottedGroup, ScrewParametersLC, "ISO"),
+    # SlottedGroup
+
+    "ASMEB18.6.3.1A": (translate("FastenerCmd", "ASME B18.6.3 UNC slotted countersunk flat head screws"), SlottedGroup, ScrewParametersLC, "ASME"),
     "DIN84": (translate("FastenerCmd", "DIN 84 (superseded by ISO 1207) Slotted cheese head screw"), SlottedGroup, ScrewParametersLC, "DIN"),
     "DIN96":   (translate("FastenerCmd", "DIN 96 Slotted half round head wood screw"), SlottedGroup, ScrewParametersLC, "DIN"),
     "GOST1144-1": (translate("FastenerCmd", "GOST 1144 (Type 1) Half — round head wood screw"), SlottedGroup, ScrewParametersLC, "GOST"),
     "GOST1144-2": (translate("FastenerCmd", "GOST 1144 (Type 2) Half — round head wood screw"), SlottedGroup, ScrewParametersLC, "GOST"),
+    "ISO1207": (translate("FastenerCmd", "ISO 1207 Slotted cheese head screw"), SlottedGroup, ScrewParametersLC, "ISO"),
+    "ISO1580": (translate("FastenerCmd", "ISO 1580 Slotted pan head screw"), SlottedGroup, ScrewParametersLC, "ISO"),
+    "ISO2009": (translate("FastenerCmd", "ISO 2009 Slotted countersunk flat head screw"), SlottedGroup, ScrewParametersLC, "ISO"),
+    "ISO2010": (translate("FastenerCmd", "ISO 2010 Slotted raised countersunk head screw"), SlottedGroup, ScrewParametersLC, "ISO"),
+
+    # HCrossGroup
 
     "DIN967": (translate("FastenerCmd", "DIN 967 Cross recessed pan head screws with collar"), HCrossGroup, ScrewParametersLC, "DIN"),
+    "DIN7996": (translate("FastenerCmd", "DIN 7996 Cross recessed pan head wood screw"), HCrossGroup, ScrewParametersLC, "DIN"),
+    "GOST1144-3": (translate("FastenerCmd", "GOST 1144 (Type 3) Half — round head wood screw"), HCrossGroup, ScrewParametersLC, "GOST"),
+    "GOST1144-4": (translate("FastenerCmd", "GOST 1144 (Type 4) Half — round head wood screw"), HCrossGroup, ScrewParametersLC, "GOST"),
     "ISO7045": (translate("FastenerCmd", "ISO 7045 Pan head screws type H cross recess"), HCrossGroup, ScrewParametersLC, "ISO"),
     "ISO7046": (translate("FastenerCmd", "ISO 7046 Countersunk flat head screws H cross r."), HCrossGroup, ScrewParametersLC, "ISO"),
     "ISO7047": (translate("FastenerCmd", "ISO 7047 Raised countersunk head screws H cross r."), HCrossGroup, ScrewParametersLC, "ISO"),
@@ -147,13 +170,20 @@ FSScrewCommandTable = {
     "ISO7049-C": (translate("FastenerCmd", "ISO 7049-C Pan head self tapping screws with conical point, type H cross r."), HCrossGroup, ScrewParametersLC, "ISO"),
     "ISO7049-F": (translate("FastenerCmd", "ISO 7049-F Pan head self tapping screws with flat point, type H cross r."), HCrossGroup, ScrewParametersLC, "ISO"),
     "ISO7049-R": (translate("FastenerCmd", "ISO 7049-R Pan head self tapping screws with rounded point type H cross r."), HCrossGroup, ScrewParametersLC, "ISO"),
-    "DIN7996": (translate("FastenerCmd", "DIN 7996 Cross recessed pan head wood screw"), HCrossGroup, ScrewParametersLC, "DIN"),
-    "GOST1144-3": (translate("FastenerCmd", "GOST 1144 (Type 3) Half — round head wood screw"), HCrossGroup, ScrewParametersLC, "GOST"),
-    "GOST1144-4": (translate("FastenerCmd", "GOST 1144 (Type 4) Half — round head wood screw"), HCrossGroup, ScrewParametersLC, "GOST"),
 
-    "DIN603": (translate("FastenerCmd", "DIN 603 Mushroom head square neck bolts"), OtherHeadGroup, ScrewParametersLC, "DIN"),
+    # OtherHeadGroup
+
+    "ASMEB18.2.1.1": (translate("FastenerCmd", "ASME B18.2.1 UNC Square bolts"), OtherHeadGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.5.2": (translate("FastenerCmd", "ASME B18.5 UNC Round head square neck bolts"), OtherHeadGroup, ScrewParametersLC, "ASME"),
     "DIN478": (translate("FastenerCmd", "DIN 478 Square head bolts with collar"), OtherHeadGroup, ScrewParametersLC, "DIN"),
+    "DIN603": (translate("FastenerCmd", "DIN 603 Mushroom head square neck bolts"), OtherHeadGroup, ScrewParametersLC, "DIN"),
 
+    # SetScrewGroup
+
+    "ASMEB18.3.5A": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with flat point"), SetScrewGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.5B": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cone point"), SetScrewGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.5C": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with dog point"), SetScrewGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.3.5D": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cup point"), SetScrewGroup, ScrewParametersLC, "ASME"),
     "ISO4026": (translate("FastenerCmd", "ISO 4026 Hexagon socket set screws with flat point"), SetScrewGroup, ScrewParametersLC, "ISO"),
     "ISO4027": (translate("FastenerCmd", "ISO 4027 Hexagon socket set screws with cone point"), SetScrewGroup, ScrewParametersLC, "ISO"),
     "ISO4028": (translate("FastenerCmd", "ISO 4028 Hexagon socket set screws with dog point"), SetScrewGroup, ScrewParametersLC, "ISO"),
@@ -162,73 +192,8 @@ FSScrewCommandTable = {
     "ISO7434": (translate("FastenerCmd", "ISO 7434 Slotted socket set screws with cone point"), SetScrewGroup, ScrewParametersLC, "ISO"),
     "ISO7435": (translate("FastenerCmd", "ISO 7435 Slotted socket set screws with long dog point"), SetScrewGroup, ScrewParametersLC, "ISO"),
     "ISO7436": (translate("FastenerCmd", "ISO 7436 Slotted socket set screws with cup point"), SetScrewGroup, ScrewParametersLC, "ISO"),
-    "ASMEB18.3.5A": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with flat point"), SetScrewGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.5B": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cone point"), SetScrewGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.5C": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with dog point"), SetScrewGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.5D": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket set screws with cup point"), SetScrewGroup, ScrewParametersLC, "ASME"),
 
-    "ISO4032": (translate("FastenerCmd", "ISO 4032 Hexagon nuts, Style 1"), NutGroup, NutParameters, "ISO"),
-    "ISO4033": (translate("FastenerCmd", "ISO 4033 Hexagon nuts, Style 2"), NutGroup, NutParameters, "ISO"),
-    "ISO4034": (translate("FastenerCmd", "ISO 4034 Hexagon nuts, Style 1"), NutGroup, NutParameters, "ISO"),
-    "ISO4035": (translate("FastenerCmd", "ISO 4035 Hexagon thin nuts, chamfered"), NutGroup, NutParameters, "ISO"),
-    "ISO8673": (translate("FastenerCmd", "ISO 8673 Hexagon regular nuts (style 1) with metric fine pitch thread — Product grades A and B"), NutGroup, NutParameters, "ISO"),
-    "ISO8674": (translate("FastenerCmd", "ISO 8674 Hexagon high nuts (style 2) with metric fine pitch thread "), NutGroup, NutParameters, "ISO"),
-    "ISO8675": (translate("FastenerCmd", "ISO 8675 Hexagon thin nuts chamfered (style 0) with metric fine pitch thread — Product grades A and B"), NutGroup, NutParameters, "ISO"),
-    "DIN934": (translate("FastenerCmd", "DIN 934 (superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered"), NutGroup, NutParameters, "DIN"),
-    #    "ISO4036": (translate("FastenerCmd", "ISO 4035 Hexagon thin nuts, unchamfered"), NutGroup, NutParameters),
-    "EN1661": (translate("FastenerCmd", "EN 1661 Hexagon nuts with flange"), NutGroup, NutParameters, "EN"),
-    "DIN917": (translate("FastenerCmd", "DIN 917 Cap nuts, thin style"), NutGroup, NutParameters, "DIN"),
-    "DIN928": (translate("FastenerCmd", "DIN 928 square weld nuts"), NutGroup, NutParameters, "DIN"),
-    "DIN929": (translate("FastenerCmd", "DIN 929 hexagonal weld nuts"), NutGroup, NutParameters, "DIN"),
-    "DIN935": (translate("FastenerCmd", "DIN 935 Slotted / Castle nuts"), NutGroup, NutParameters, "DIN"),
-    "DIN6330": (translate("FastenerCmd", "DIN 6330 Hexagon nuts with a height of 1,5 d"), NutGroup, NutParameters, "DIN"),
-    "DIN6331": (translate("FastenerCmd", "DIN 6331 Hexagon nuts with collar height 1,5 d"), NutGroup, NutParameters, "DIN"),
-    "DIN6334": (translate("FastenerCmd", "DIN 6334 elongated hexagon nuts"), NutGroup, NutParameters, "DIN"),
-    "DIN7967": (translate("FastenerCmd", "DIN 7967 self locking counter nuts"), NutGroup, WasherParameters, "DIN"),
-    "DIN1587": (translate("FastenerCmd", "DIN 1587 Cap nuts"), NutGroup, NutParameters, "DIN"),
-    "GOST11860-1": (translate("FastenerCmd", "GOST 11860 (Type 1) Cap nuts"), NutGroup, NutParameters, "GOST"),
-    "DIN315": (translate("FastenerCmd", "DIN 315 wing nuts"), NutGroup, NutParameters, "DIN"),
-    "DIN557": (translate("FastenerCmd", "DIN 557 Square nuts"), NutGroup, NutParameters, "DIN"),
-    "DIN562": (translate("FastenerCmd", "DIN 562 Square nuts"), NutGroup, NutParameters, "DIN"),
-    "DIN985": (translate("FastenerCmd", "DIN 985 Nyloc nuts"), NutGroup, NutParameters, "DIN"),
-    "DIN1624": (translate("FastenerCmd", "DIN 1624 Tee nuts"), NutGroup, NutParameters, "DIN"),
-
-    "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "DIN"),
-    "ISO299": (translate("FastenerCmd", "ISO 299 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "ISO"),
-    "GN505": (translate("FastenerCmd", "GN 505 Serrated Quarter-Turn T-Slot nuts"), TSlotGroup, TSlotNutParameters, "other"),
-    "GN505.4": (translate("FastenerCmd", "GN 505.4 Serrated T-Slot Bolts"), TSlotGroup, TSlotBoltParameters, "other"),
-    "GN506": (translate("FastenerCmd", "GN 506 T-Slot nuts to swivel in"), TSlotGroup, TSlotNutParameters, "other"),
-    "GN507": (translate("FastenerCmd", "GN 507 T-Slot sliding nuts"), TSlotGroup, TSlotNutParameters, "other"),
-
-    "ISO7089": (translate("FastenerCmd", "ISO 7089 Plain washers - Normal series"), WasherGroup, WasherParameters, "ISO"),
-    "ISO7090": (translate("FastenerCmd", "ISO 7090 Plain Washers, chamfered - Normal series"), WasherGroup, WasherParameters, "ISO"),
-    #"ISO7091": (translate("FastenerCmd", "ISO 7091 Plain washer - Normal series - Product Grade C"), WasherGroup, WasherParameters),   # same as 7089??
-    "ISO7092": (translate("FastenerCmd", "ISO 7092 Plain washers - Small series"), WasherGroup, WasherParameters, "ISO"),
-    "ISO7093-1": (translate("FastenerCmd", "ISO 7093-1 Plain washers - Large series"), WasherGroup, WasherParameters, "ISO"),
-    "ISO7094": (translate("FastenerCmd", "ISO 7094 Plain washers - Extra large series"), WasherGroup, WasherParameters, "ISO"),
-    "ISO8738": (translate("FastenerCmd", "ISO 8738 Plain washers for clevis pins"), WasherGroup, WasherParameters, "ISO"),
-    "DIN6319C": (translate("FastenerCmd", "DIN 6319C Spherical washer"), WasherGroup, WasherParameters, "DIN"),
-    "DIN6319D": (translate("FastenerCmd", "DIN 6319D Conical seat"), WasherGroup, WasherParameters, "DIN"),
-    "DIN6319G": (translate("FastenerCmd", "DIN 6319G Conical seat"), WasherGroup, WasherParameters, "DIN"),
-    "DIN6340": (translate("FastenerCmd", "DIN 6340 Washers for clamping devices"), WasherGroup, WasherParameters, "DIN"),
-    "NFE27-619": (translate("FastenerCmd", "NFE27-619 Countersunk washer"), WasherGroup, WasherParameters, "other"),
-
-    # Inch
-
-    "ASMEB18.2.1.1": (translate("FastenerCmd", "ASME B18.2.1 UNC Square bolts"), OtherHeadGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.2.1.6": (translate("FastenerCmd", "ASME B18.2.1 UNC Hex head screws"), HexHeadGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.2.1.8": (translate("FastenerCmd", "ASME B18.2.1 UNC Hex head screws with flange"), HexHeadGroup, ScrewParametersLC, "ASME"),
-
-    "ASMEB18.3.1A": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket head cap screws"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.1G": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket head cap screws with low head"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.2": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket countersunk head screws"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.3A": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket button head screws"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.3B": (translate("FastenerCmd", "ASME B18.3 UNC Hex socket button head screws with flange"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-    "ASMEB18.3.4": (translate("FastenerCmd", "ASME B18.3 UNC Hexagon socket head shoulder screws"), HexagonSocketGroup, ScrewParametersLC, "ASME"),
-
-    "ASMEB18.6.3.1A": (translate("FastenerCmd", "ASME B18.6.3 UNC slotted countersunk flat head screws"), SlottedGroup, ScrewParametersLC, "ASME"),
-
-    "ASMEB18.5.2": (translate("FastenerCmd", "ASME B18.5 UNC Round head square neck bolts"), OtherHeadGroup, ScrewParametersLC, "ASME"),
+    # NutGroup
 
     "ASMEB18.2.2.1A": (translate("FastenerCmd", "ASME B18.2.2 UNC Hex Machine screw nuts"), NutGroup, NutParameters, "ASME"),
     "ASMEB18.2.2.1B": (translate("FastenerCmd", "ASME B18.2.2 UNC Square machine screw nuts"), NutGroup, NutParameters, "ASME"),
@@ -239,26 +204,80 @@ FSScrewCommandTable = {
     "ASMEB18.2.2.12": (translate("FastenerCmd", "ASME B18.2.2 UNC Hex flange nuts"), NutGroup, NutParameters, "ASME"),
     "ASMEB18.2.2.13": (translate("FastenerCmd", "ASME B18.2.2 UNC Hex coupling nuts"), NutGroup, NutParameters, "ASME"),
     "ASMEB18.6.9A": (translate("FastenerCmd", "ASME B18.6.9 wing nuts, type A"), NutGroup, NutParameters, "ASME"),
+    "DIN315": (translate("FastenerCmd", "DIN 315 wing nuts"), NutGroup, NutParameters, "DIN"),
+    "DIN557": (translate("FastenerCmd", "DIN 557 Square nuts"), NutGroup, NutParameters, "DIN"),
+    "DIN562": (translate("FastenerCmd", "DIN 562 Square nuts"), NutGroup, NutParameters, "DIN"),
+    "DIN917": (translate("FastenerCmd", "DIN 917 Cap nuts, thin style"), NutGroup, NutParameters, "DIN"),
+    "DIN928": (translate("FastenerCmd", "DIN 928 square weld nuts"), NutGroup, NutParameters, "DIN"),
+    "DIN929": (translate("FastenerCmd", "DIN 929 hexagonal weld nuts"), NutGroup, NutParameters, "DIN"),
+    "DIN934": (translate("FastenerCmd", "DIN 934 (superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered"), NutGroup, NutParameters, "DIN"),
+    "DIN935": (translate("FastenerCmd", "DIN 935 Slotted / Castle nuts"), NutGroup, NutParameters, "DIN"),
+    "DIN985": (translate("FastenerCmd", "DIN 985 Nyloc nuts"), NutGroup, NutParameters, "DIN"),
+    "DIN1587": (translate("FastenerCmd", "DIN 1587 Cap nuts"), NutGroup, NutParameters, "DIN"),
+    "DIN1624": (translate("FastenerCmd", "DIN 1624 Tee nuts"), NutGroup, NutParameters, "DIN"),
+    "DIN6330": (translate("FastenerCmd", "DIN 6330 Hexagon nuts with a height of 1,5 d"), NutGroup, NutParameters, "DIN"),
+    "DIN6331": (translate("FastenerCmd", "DIN 6331 Hexagon nuts with collar height 1,5 d"), NutGroup, NutParameters, "DIN"),
+    "DIN6334": (translate("FastenerCmd", "DIN 6334 elongated hexagon nuts"), NutGroup, NutParameters, "DIN"),
+    "DIN7967": (translate("FastenerCmd", "DIN 7967 self locking counter nuts"), NutGroup, WasherParameters, "DIN"),
+    "EN1661": (translate("FastenerCmd", "EN 1661 Hexagon nuts with flange"), NutGroup, NutParameters, "EN"),
+    "GOST11860-1": (translate("FastenerCmd", "GOST 11860 (Type 1) Cap nuts"), NutGroup, NutParameters, "GOST"),
+    "ISO4032": (translate("FastenerCmd", "ISO 4032 Hexagon nuts, Style 1"), NutGroup, NutParameters, "ISO"),
+    "ISO4033": (translate("FastenerCmd", "ISO 4033 Hexagon nuts, Style 2"), NutGroup, NutParameters, "ISO"),
+    "ISO4034": (translate("FastenerCmd", "ISO 4034 Hexagon nuts, Style 1"), NutGroup, NutParameters, "ISO"),
+    "ISO4035": (translate("FastenerCmd", "ISO 4035 Hexagon thin nuts, chamfered"), NutGroup, NutParameters, "ISO"),
+    # "ISO4036": (translate("FastenerCmd", "ISO 4035 Hexagon thin nuts, unchamfered"), NutGroup, NutParameters),
+    "ISO8673": (translate("FastenerCmd", "ISO 8673 Hexagon regular nuts (style 1) with metric fine pitch thread — Product grades A and B"), NutGroup, NutParameters, "ISO"),
+    "ISO8674": (translate("FastenerCmd", "ISO 8674 Hexagon high nuts (style 2) with metric fine pitch thread "), NutGroup, NutParameters, "ISO"),
+    "ISO8675": (translate("FastenerCmd", "ISO 8675 Hexagon thin nuts chamfered (style 0) with metric fine pitch thread — Product grades A and B"), NutGroup, NutParameters, "ISO"),
     "SAEJ483a1": (translate("FastenerCmd", "SAE J483a low cap nuts"), NutGroup, NutParameters, "SAE"),
     "SAEJ483a2": (translate("FastenerCmd", "SAE J483a high cap nuts"), NutGroup, NutParameters, "SAE"),
+    
+    # TSlotGroup
+
+    "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "DIN"),
+    "GN505": (translate("FastenerCmd", "GN 505 Serrated Quarter-Turn T-Slot nuts"), TSlotGroup, TSlotNutParameters, "other"),
+    "GN505.4": (translate("FastenerCmd", "GN 505.4 Serrated T-Slot Bolts"), TSlotGroup, TSlotBoltParameters, "other"),
+    "GN506": (translate("FastenerCmd", "GN 506 T-Slot nuts to swivel in"), TSlotGroup, TSlotNutParameters, "other"),
+    "GN507": (translate("FastenerCmd", "GN 507 T-Slot sliding nuts"), TSlotGroup, TSlotNutParameters, "other"),
+    "ISO299": (translate("FastenerCmd", "ISO 299 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "ISO"),
+
+    # WasherGroup
 
     "ASMEB18.21.1.12A": (translate("FastenerCmd", "ASME B18.21.1 UN washers, narrow series"), WasherGroup, WasherParameters, "ASME"),
     "ASMEB18.21.1.12B": (translate("FastenerCmd", "ASME B18.21.1 UN washers, regular series"), WasherGroup, WasherParameters, "ASME"),
     "ASMEB18.21.1.12C": (translate("FastenerCmd", "ASME B18.21.1 UN washers, wide series"), WasherGroup, WasherParameters, "ASME"),
+    "DIN6319C": (translate("FastenerCmd", "DIN 6319C Spherical washer"), WasherGroup, WasherParameters, "DIN"),
+    "DIN6319D": (translate("FastenerCmd", "DIN 6319D Conical seat"), WasherGroup, WasherParameters, "DIN"),
+    "DIN6319G": (translate("FastenerCmd", "DIN 6319G Conical seat"), WasherGroup, WasherParameters, "DIN"),
+    "DIN6340": (translate("FastenerCmd", "DIN 6340 Washers for clamping devices"), WasherGroup, WasherParameters, "DIN"),
+    "ISO7089": (translate("FastenerCmd", "ISO 7089 Plain washers - Normal series"), WasherGroup, WasherParameters, "ISO"),
+    "ISO7090": (translate("FastenerCmd", "ISO 7090 Plain Washers, chamfered - Normal series"), WasherGroup, WasherParameters, "ISO"),
+    # "ISO7091": (translate("FastenerCmd", "ISO 7091 Plain washer - Normal series - Product Grade C"), WasherGroup, WasherParameters),   # same as 7089??
+    "ISO7092": (translate("FastenerCmd", "ISO 7092 Plain washers - Small series"), WasherGroup, WasherParameters, "ISO"),
+    "ISO7093-1": (translate("FastenerCmd", "ISO 7093-1 Plain washers - Large series"), WasherGroup, WasherParameters, "ISO"),
+    "ISO7094": (translate("FastenerCmd", "ISO 7094 Plain washers - Extra large series"), WasherGroup, WasherParameters, "ISO"),
+    "ISO8738": (translate("FastenerCmd", "ISO 8738 Plain washers for clevis pins"), WasherGroup, WasherParameters, "ISO"),
+    "NFE27-619": (translate("FastenerCmd", "NFE27-619 Countersunk washer"), WasherGroup, WasherParameters, "other"),
+    
+    # ThreadedRodGroup
 
-    "ScrewTap": (translate("FastenerCmd", "Metric threaded rod for tapping holes"), ThreadedRodGroup, RodParameters, "ISO"),
-    "ScrewDie": (translate("FastenerCmd", "Tool object to cut external metric threads"), ThreadedRodGroup, RodParameters, "ISO"),
-    "ThreadedRod": (translate("FastenerCmd", "DIN 975 metric threaded rod"), ThreadedRodGroup, RodParameters, "DIN"),
     "ScrewTapInch": (translate("FastenerCmd", "Inch threaded rod for tapping holes"), ThreadedRodGroup, RodParameters, "ASME"),
     "ScrewDieInch": (translate("FastenerCmd", "Tool object to cut external non-metric threads"), ThreadedRodGroup, RodParameters, "ASME"),
     "ThreadedRodInch": (translate("FastenerCmd", "UNC threaded rod"), ThreadedRodGroup, RodParameters, "ASME"),
+    "ThreadedRod": (translate("FastenerCmd", "DIN 975 metric threaded rod"), ThreadedRodGroup, RodParameters, "DIN"),
+    "ScrewTap": (translate("FastenerCmd", "Metric threaded rod for tapping holes"), ThreadedRodGroup, RodParameters, "ISO"),
+    "ScrewDie": (translate("FastenerCmd", "Tool object to cut external metric threads"), ThreadedRodGroup, RodParameters, "ISO"),
+    
+    # InsertGroup
 
+    "IUTHeatInsert": (translate("FastenerCmd", "IUT[A/B/C] Heat Staked Metric Insert"), InsertGroup, HeatInsertParameters, "other"),
     "PEMPressNut": (translate("FastenerCmd", "PEM Self Clinching nut"), InsertGroup, PEMPressNutParameters, "other"),
     "PEMStandoff": (translate("FastenerCmd", "PEM Self Clinching standoff"), InsertGroup, PEMStandoffParameters, "other"),
     "PEMStud": (translate("FastenerCmd", "PEM Self Clinching stud"), InsertGroup, ScrewParameters, "other"),
-    "PCBStandoff": (translate("FastenerCmd", "Wurth WA-SSTII  PCB standoff"), InsertGroup, PCBStandoffParameters, "other"),
     "PCBSpacer": (translate("FastenerCmd", "Wurth WA-SSTII PCB spacer"), InsertGroup, PCBSpacerParameters, "other"),
-    "IUTHeatInsert": (translate("FastenerCmd", "IUT[A/B/C] Heat Staked Metric Insert"), InsertGroup, HeatInsertParameters, "other"),
+    "PCBStandoff": (translate("FastenerCmd", "Wurth WA-SSTII  PCB standoff"), InsertGroup, PCBStandoffParameters, "other"),
+
+    # RetainingRingGroup
 
     "DIN471": (translate("FastenerCmd", "Metric external retaining rings"), RetainingRingGroup, RetainingRingParameters, "DIN"),
     "DIN472": (translate("FastenerCmd", "Metric internal retaining rings"), RetainingRingGroup, RetainingRingParameters, "DIN"),

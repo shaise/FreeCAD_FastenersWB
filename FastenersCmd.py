@@ -62,6 +62,7 @@ ScrewParametersLC = {"type", "diameter", "matchOuter",
 RodParameters = {"type", "diameter", "matchOuter", "thread",
                  "leftHanded", "lengthArbitrary",  "diameterCustom", "pitchCustom"}
 NutParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded"}
+WoodInsertParameters = {"type", "diameter", "matchOuter", "thread", "leftHanded"}
 HeatInsertParameters = {"type", "diameter", "lengthArbitrary", "externalDiam", "matchOuter", "thread", "leftHanded"}
 WasherParameters = {"type", "diameter", "matchOuter"}
 PCBStandoffParameters = {"type", "diameter", "matchOuter", "thread",
@@ -214,7 +215,6 @@ FSScrewCommandTable = {
     "DIN935": (translate("FastenerCmd", "DIN 935 Slotted / Castle nuts"), NutGroup, NutParameters, "DIN"),
     "DIN985": (translate("FastenerCmd", "DIN 985 Nyloc nuts"), NutGroup, NutParameters, "DIN"),
     "DIN1587": (translate("FastenerCmd", "DIN 1587 Cap nuts"), NutGroup, NutParameters, "DIN"),
-    "DIN1624": (translate("FastenerCmd", "DIN 1624 Tee nuts"), NutGroup, NutParameters, "DIN"),
     "DIN6330": (translate("FastenerCmd", "DIN 6330 Hexagon nuts with a height of 1,5 d"), NutGroup, NutParameters, "DIN"),
     "DIN6331": (translate("FastenerCmd", "DIN 6331 Hexagon nuts with collar height 1,5 d"), NutGroup, NutParameters, "DIN"),
     "DIN6334": (translate("FastenerCmd", "DIN 6334 elongated hexagon nuts"), NutGroup, NutParameters, "DIN"),
@@ -276,6 +276,7 @@ FSScrewCommandTable = {
     "PEMStud": (translate("FastenerCmd", "PEM Self Clinching stud"), InsertGroup, ScrewParameters, "other"),
     "PCBSpacer": (translate("FastenerCmd", "Wurth WA-SSTII PCB spacer"), InsertGroup, PCBSpacerParameters, "other"),
     "PCBStandoff": (translate("FastenerCmd", "Wurth WA-SSTII  PCB standoff"), InsertGroup, PCBStandoffParameters, "other"),
+    "4PWTI": (translate("FastenerCmd", "4 Prong Wood Thread Insert (DIN 1624 Tee nuts)"), InsertGroup, WoodInsertParameters, "other"),
 
     # RetainingRingGroup
 

@@ -362,6 +362,11 @@ class FSScrewObject(FSBaseObject):
         if obj.type == "ISO7380":
             # backward compatibility - remove at FreeCAD version 0.23
             obj.type = type = "ISO7380-1"
+        if obj.type == "DIN1624":
+            # backward compatibility - remove at FreeCAD version 0.23
+            type = "4PWTI"
+            obj.type = self.GetCompatibleTypes(type)
+            obj.type = type
         self.familyType = screwMaker.GetTypeName(type)
 
         if not hasattr(obj, "diameter"):

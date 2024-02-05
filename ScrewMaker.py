@@ -261,6 +261,8 @@ screwTables = {
     "ASMEB18.3.5C": ("Screw", "makeSetScrew"),
     "ASMEB18.3.5D": ("Screw", "makeSetScrew"),
     "ASMEB18.6.3.1A": ("Screw", "makeCountersunkHeadScrew"),
+    "ASMEB18.6.3.1B": ("Screw", "makeCountersunkHeadScrew"),
+    "ASMEB18.6.3.4A": ("Screw", "makeRaisedCountersunkScrew"),
     "ASMEB18.5.2": ("Screw", "makeCarriageBolt"),
     "ASMEB18.21.1.12A": ("Washer", "makeWasher"),
     "ASMEB18.21.1.12B": ("Washer", "makeWasher"),

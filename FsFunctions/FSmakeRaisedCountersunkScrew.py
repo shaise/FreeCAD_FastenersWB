@@ -56,13 +56,26 @@ def makeRaisedCountersunkScrew(self, fa):
         ht = rf - (dk_mean / 2.0) / math.tan(head_arc_angle)
         recess = self.makeHCrossRecess(cT, mH)
         recess.translate(Base.Vector(0.0, 0.0, ht))
-    if SType == 'ISO14584':
+    elif SType == 'ISO14584':
         csk_angle = math.radians(90)
         P, b, dk_theo, dk_mean, f, k, r, rf, x, tt, A, t_mean = fa.dimTable
         head_arc_angle = math.asin(dk_mean / 2.0 / rf)
         ht = rf - math.sqrt(rf ** 2 - A ** 2 / 4) + f
         recess = self.makeHexalobularRecess(tt, t_mean, True)
         recess.translate(Base.Vector(0.0, 0.0, f))
+    elif SType == 'ASMEB18.6.3.4A':
+        csk_angle = math.radians(80)
+        P, dk_theo, dk_mean, k, f, n_min, t_mean = fa.dimTable
+        # Lengths and angles for calculation of head rounding
+        r = 0.05    #ASME doesn't spec a radius, so just assume 0.5mm
+        b = 25.4    #ASME doesn't spec, so just assume 1"
+        #Calculate head radius (rf)
+        rf = (4*f*f+dk_theo*dk_theo)/(8*f)
+        head_arc_angle = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
+        # height of raised head top
+        ht = rf - (dk_mean / 2.0) / math.tan(head_arc_angle)
+        recess = self.makeSlotRecess(n_min, t_mean)
+        recess.translate(Base.Vector(0.0, 0.0, ht))
     # lay out fastener profile
     head_flat_ht = (dk_theo - dk_mean) / 2 / math.tan(csk_angle / 2)
     sharp_corner_ht = -1 * (head_flat_ht + (dk_mean - dia) /

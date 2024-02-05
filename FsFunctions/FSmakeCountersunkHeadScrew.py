@@ -70,9 +70,7 @@ def makeCountersunkHeadScrew(self, fa):
         recess = self.makeSlotRecess(n_min, t_mean)
     elif SType == 'ASMEB18.6.3.1B':
         csk_angle = math.radians(82)
-        P, b, dk_theo, dk_mean, k, n_min, r, t_mean = FsData["ASMEB18.6.3.1Adef"][
-            fa.calc_diam
-        ]
+        P, b, dk_theo, dk_mean, k, n_min, r, t_mean = fa.dimTable
         chamfer_end = False
         cT, mH = FsData["ASMEB18.6.3.1Bextra"][fa.calc_diam]
         recess = self.makeHCrossRecess(cT, mH*25.4)

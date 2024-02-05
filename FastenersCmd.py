@@ -148,6 +148,7 @@ FSScrewCommandTable = {
     # SlottedGroup
 
     "ASMEB18.6.3.1A": (translate("FastenerCmd", "ASME B18.6.3 UNC slotted countersunk flat head screws"), SlottedGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.6.3.4A": (translate("FastenerCmd", "ASME B18.6.3 UNC Slotted oval countersunk head screws"), SlottedGroup, ScrewParametersLC, "ASME"),
     "DIN84": (translate("FastenerCmd", "DIN 84 (superseded by ISO 1207) Slotted cheese head screw"), SlottedGroup, ScrewParametersLC, "DIN"),
     "DIN96":   (translate("FastenerCmd", "DIN 96 Slotted half round head wood screw"), SlottedGroup, ScrewParametersLC, "DIN"),
     "GOST1144-1": (translate("FastenerCmd", "GOST 1144 (Type 1) Half — round head wood screw"), SlottedGroup, ScrewParametersLC, "GOST"),
@@ -158,7 +159,8 @@ FSScrewCommandTable = {
     "ISO2010": (translate("FastenerCmd", "ISO 2010 Slotted raised countersunk head screw"), SlottedGroup, ScrewParametersLC, "ISO"),
 
     # HCrossGroup
-
+    
+    "ASMEB18.6.3.1B": (translate("FastenerCmd", "ASME B18.6.3 UNC Cross recessed countersunk flat head screws"), HCrossGroup, ScrewParametersLC, "ASME"),
     "DIN967": (translate("FastenerCmd", "DIN 967 Cross recessed pan head screws with collar"), HCrossGroup, ScrewParametersLC, "DIN"),
     "DIN7996": (translate("FastenerCmd", "DIN 7996 Cross recessed pan head wood screw"), HCrossGroup, ScrewParametersLC, "DIN"),
     "GOST1144-3": (translate("FastenerCmd", "GOST 1144 (Type 3) Half — round head wood screw"), HCrossGroup, ScrewParametersLC, "GOST"),

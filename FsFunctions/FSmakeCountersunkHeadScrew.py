@@ -68,7 +68,15 @@ def makeCountersunkHeadScrew(self, fa):
         P, b, dk_theo, dk_mean, k, n_min, r, t_mean = fa.dimTable
         chamfer_end = False
         recess = self.makeSlotRecess(n_min, t_mean)
-    if SType == "ISO7046":
+    elif SType == 'ASMEB18.6.3.1B':
+        csk_angle = math.radians(82)
+        P, b, dk_theo, dk_mean, k, n_min, r, t_mean = FsData["ASMEB18.6.3.1Adef"][
+            fa.calc_diam
+        ]
+        chamfer_end = False
+        cT, mH = FsData["ASMEB18.6.3.1Bextra"][fa.calc_diam]
+        recess = self.makeHCrossRecess(cT, mH*25.4)
+    elif SType == "ISO7046":
         csk_angle = math.radians(90)
         P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["ISO2009def"][
             fa.calc_diam
@@ -76,7 +84,7 @@ def makeCountersunkHeadScrew(self, fa):
         chamfer_end = False
         cT, mH, mZ = FsData["ISO7046extra"][fa.calc_diam]
         recess = self.makeHCrossRecess(cT, mH)
-    if SType == "ISO14582":
+    elif SType == "ISO14582":
         csk_angle = math.radians(90)
         P, a, b, dk_theo, dk_mean, k, r, tt, A, t_mean = fa.dimTable
         chamfer_end = True

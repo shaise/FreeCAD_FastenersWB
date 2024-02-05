@@ -120,6 +120,10 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.01  05 Feb 2024:  updated german translation by @berberic2.  
+                       - Screw Table sorting by @tobiasfalk.   
+                       - DIN1624 renaming to 4 Prong Wood Thread Insert by @tobiasfalk.   
+                       - Add ASME B18.6.3 1B & 4A @cfunseth.   
 * V0.5.00  12 Jan 2024:  Lots of improvements by @hasecilu:  
                        - Add ISO1478: Self tapping screw thread  
                        - Add ISO7049: cross-recessed pan head tapping screws  

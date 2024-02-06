@@ -54,6 +54,7 @@ translate("FastenerCmdTreeView", "RetainingRing")
 translate("FastenerCmdTreeView", "T-Slot")
 translate("FastenerCmdTreeView", "SetScrew")
 translate("FastenerCmdTreeView", "HexKey")
+translate("FastenerCmdTreeView", "Nail")
 
 ScrewParameters = {"type", "diameter",
                    "matchOuter", "thread", "leftHanded", "length"}
@@ -79,6 +80,7 @@ TSlotNutParameters = { "type", "diameter", "matchOuter",
 TSlotBoltParameters = { "type", "diameter", "length", "lengthCustom",
                        "matchOuter", "thread", "leftHanded", "slotWidth" }
 HexKeyParameters = { "type", "diameter", "matchOuter", "keySize" }
+NailParameters = { "type", "diameter", "matchOuter", }
 # this is a list of all possible fastener attribs
 FastenerAttribs = ['type', 'diameter', 'thread', 'leftHanded', 'matchOuter', 'length',
                    'lengthCustom', 'width', 'diameterCustom', 'pitchCustom', 'tcode',
@@ -99,6 +101,7 @@ InsertGroup = translate("FastenerCmd", "Inserts")
 RetainingRingGroup = translate("FastenerCmd", "Retaining Rings")
 TSlotGroup = translate("FastenerCmd", "T-Slot Fasteners")
 SetScrewGroup = translate("FastenerCmd", "Set screws")
+NailGroup = translate("FastenerCmd", "Nails")
 
 CMD_HELP = 0
 CMD_GROUP = 1
@@ -106,9 +109,9 @@ CMD_PARAMETER_GRP = 2
 CMD_STD_GROUP = 3
 FSScrewCommandTable = {
     # type - (help, group, parameter-group, standard-group)
-    
+
     # HexHeadGroup
-    
+
     "ASMEB18.2.1.6": (translate("FastenerCmd", "ASME B18.2.1 UNC Hex head screws"), HexHeadGroup, ScrewParametersLC, "ASME"),
     "ASMEB18.2.1.8": (translate("FastenerCmd", "ASME B18.2.1 UNC Hex head screws with flange"), HexHeadGroup, ScrewParametersLC, "ASME"),
     "DIN571": (translate("FastenerCmd", "DIN 571 Hex head wood screw"), HexHeadGroup, ScrewParametersLC, "DIN"),
@@ -160,7 +163,7 @@ FSScrewCommandTable = {
     "ISO2010": (translate("FastenerCmd", "ISO 2010 Slotted raised countersunk head screw"), SlottedGroup, ScrewParametersLC, "ISO"),
 
     # HCrossGroup
-    
+
     "ASMEB18.6.3.1B": (translate("FastenerCmd", "ASME B18.6.3 UNC Cross recessed countersunk flat head screws"), HCrossGroup, ScrewParametersLC, "ASME"),
     "DIN967": (translate("FastenerCmd", "DIN 967 Cross recessed pan head screws with collar"), HCrossGroup, ScrewParametersLC, "DIN"),
     "DIN7996": (translate("FastenerCmd", "DIN 7996 Cross recessed pan head wood screw"), HCrossGroup, ScrewParametersLC, "DIN"),
@@ -233,7 +236,7 @@ FSScrewCommandTable = {
     "ISO8675": (translate("FastenerCmd", "ISO 8675 Hexagon thin nuts chamfered (style 0) with metric fine pitch thread — Product grades A and B"), NutGroup, NutParameters, "ISO"),
     "SAEJ483a1": (translate("FastenerCmd", "SAE J483a low cap nuts"), NutGroup, NutParameters, "SAE"),
     "SAEJ483a2": (translate("FastenerCmd", "SAE J483a high cap nuts"), NutGroup, NutParameters, "SAE"),
-    
+
     # TSlotGroup
 
     "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "DIN"),
@@ -260,7 +263,7 @@ FSScrewCommandTable = {
     "ISO7094": (translate("FastenerCmd", "ISO 7094 Plain washers - Extra large series"), WasherGroup, WasherParameters, "ISO"),
     "ISO8738": (translate("FastenerCmd", "ISO 8738 Plain washers for clevis pins"), WasherGroup, WasherParameters, "ISO"),
     "NFE27-619": (translate("FastenerCmd", "NFE27-619 Countersunk washer"), WasherGroup, WasherParameters, "other"),
-    
+
     # ThreadedRodGroup
 
     "ScrewTapInch": (translate("FastenerCmd", "Inch threaded rod for tapping holes"), ThreadedRodGroup, RodParameters, "ASME"),
@@ -269,7 +272,7 @@ FSScrewCommandTable = {
     "ThreadedRod": (translate("FastenerCmd", "DIN 975 metric threaded rod"), ThreadedRodGroup, RodParameters, "DIN"),
     "ScrewTap": (translate("FastenerCmd", "Metric threaded rod for tapping holes"), ThreadedRodGroup, RodParameters, "ISO"),
     "ScrewDie": (translate("FastenerCmd", "Tool object to cut external metric threads"), ThreadedRodGroup, RodParameters, "ISO"),
-    
+
     # InsertGroup
 
     "IUTHeatInsert": (translate("FastenerCmd", "IUT[A/B/C] Heat Staked Metric Insert"), InsertGroup, HeatInsertParameters, "other"),
@@ -285,6 +288,11 @@ FSScrewCommandTable = {
     "DIN471": (translate("FastenerCmd", "Metric external retaining rings"), RetainingRingGroup, RetainingRingParameters, "DIN"),
     "DIN472": (translate("FastenerCmd", "Metric internal retaining rings"), RetainingRingGroup, RetainingRingParameters, "DIN"),
     "DIN6799": (translate("FastenerCmd", "Metric E-clip retaining rings"), RetainingRingGroup, RetainingRingParameters, "DIN"),
+
+    # NailsGroup
+
+    "DIN1160-A": (translate("FastenerCmd", "Clout or slate nails"), NailGroup, NailParameters, "DIN"),
+    "DIN1160-B": (translate("FastenerCmd", "Clout or slate nails"), NailGroup, NailParameters, "DIN"),
 }
 
 def GetParams(type):

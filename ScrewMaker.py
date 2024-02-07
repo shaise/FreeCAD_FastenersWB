@@ -282,7 +282,9 @@ screwTables = {
     "DIN471": ("RetainingRing", "makeExternalRetainingRing"),
     "DIN472": ("RetainingRing", "makeInternalRetainingRing"),
     "DIN6799": ("RetainingRing", "makeEClip"),
-    "ISO2936":("HexKey", "makeHexKey"),
+    "ISO2936": ("HexKey", "makeHexKey"),
+    "DIN1160-A": ("Nail", "makeNail"),
+    "DIN1160-B": ("Nail", "makeNail"),
     # * diam pos and K pos were moved from this table to the csv titles
 }
 FSAppendAliasesToTable(screwTables)

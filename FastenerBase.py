@@ -966,6 +966,11 @@ class FSMakeBomCommand:
         self.AddFastener(obj.type + translate("FastenerBase",
                          " Hex key ") + obj.diameter + "mm", cnt)
 
+    def AddNail(self, obj, cnt):
+        self.AddFastener(
+            obj.type + translate("FastenerBase", " Nail ") + obj.diameter, cnt
+        )
+
     def IsActive(self):
         return Gui.ActiveDocument is not None
 

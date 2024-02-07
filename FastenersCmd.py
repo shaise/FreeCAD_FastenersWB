@@ -292,7 +292,7 @@ FSScrewCommandTable = {
     # NailsGroup
 
     "DIN1160-A": (translate("FastenerCmd", "Clout or slate nails"), NailGroup, NailParameters, "DIN"),
-    "DIN1160-B": (translate("FastenerCmd", "Clout or slate nails"), NailGroup, NailParameters, "DIN"),
+    "DIN1160-B": (translate("FastenerCmd", "Clout or slate wide head nails"), NailGroup, NailParameters, "DIN"),
 }
 
 def GetParams(type):

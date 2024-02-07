@@ -120,6 +120,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.02  07 Feb 2024:  Add DIN1160 nails by @hasecilu.  
+                       - Code fixes and cleanup by @hasecilu.   
 * V0.5.01  05 Feb 2024:  updated german translation by @berberic2.  
                        - Screw Table sorting by @tobiasfalk.   
                        - DIN1624 renaming to 4 Prong Wood Thread Insert by @tobiasfalk.   

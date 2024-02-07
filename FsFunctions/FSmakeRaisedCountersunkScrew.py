@@ -40,8 +40,8 @@ def makeRaisedCountersunkScrew(self, fa):
     dia = self.getDia(fa.calc_diam, False)
     if SType == "ISO2010":
         csk_angle = math.radians(90)
-        P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = fa.dimTable
-        rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][fa.calc_diam]
+        P, _, b, dk_theo, dk_mean, _, n_min, r, t_mean, _ = fa.dimTable
+        rf, t_mean, cT, mH, _ = FsData["Raised_countersunk_def"][fa.calc_diam]
         # Lengths and angles for calculation of head rounding
         head_arc_angle = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
         # height of raised head top
@@ -50,27 +50,27 @@ def makeRaisedCountersunkScrew(self, fa):
         recess.translate(Base.Vector(0.0, 0.0, ht))
     elif SType == "ISO7047":
         csk_angle = math.radians(90)
-        P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = fa.dimTable
-        rf, t_mean, cT, mH, mZ = FsData["Raised_countersunk_def"][fa.calc_diam]
+        P, _, b, dk_theo, dk_mean, _, n_min, r, t_mean, _ = fa.dimTable
+        rf, t_mean, cT, mH, _ = FsData["Raised_countersunk_def"][fa.calc_diam]
         head_arc_angle = math.asin(dk_mean / 2.0 / rf)
         ht = rf - (dk_mean / 2.0) / math.tan(head_arc_angle)
         recess = self.makeHCrossRecess(cT, mH)
         recess.translate(Base.Vector(0.0, 0.0, ht))
-    elif SType == 'ISO14584':
+    elif SType == "ISO14584":
         csk_angle = math.radians(90)
-        P, b, dk_theo, dk_mean, f, k, r, rf, x, tt, A, t_mean = fa.dimTable
+        P, b, dk_theo, dk_mean, f, _, r, rf, _, tt, A, t_mean = fa.dimTable
         head_arc_angle = math.asin(dk_mean / 2.0 / rf)
-        ht = rf - math.sqrt(rf ** 2 - A ** 2 / 4) + f
+        ht = rf - math.sqrt(rf**2 - A**2 / 4) + f
         recess = self.makeHexalobularRecess(tt, t_mean, True)
         recess.translate(Base.Vector(0.0, 0.0, f))
-    elif SType == 'ASMEB18.6.3.4A':
+    elif SType == "ASMEB18.6.3.4A":
         csk_angle = math.radians(80)
-        P, dk_theo, dk_mean, k, f, n_min, t_mean = fa.dimTable
+        P, dk_theo, dk_mean, _, f, n_min, t_mean = fa.dimTable
         # Lengths and angles for calculation of head rounding
-        r = 0.05    #ASME doesn't spec a radius, so just assume 0.5mm
-        b = 25.4    #ASME doesn't spec, so just assume 1"
-        #Calculate head radius (rf)
-        rf = (4*f*f+dk_theo*dk_theo)/(8*f)
+        r = 0.05  # ASME doesn't spec a radius, so just assume 0.5mm
+        b = 25.4  # ASME doesn't spec, so just assume 1"
+        # Calculate head radius (rf)
+        rf = (4 * f * f + dk_theo * dk_theo) / (8 * f)
         head_arc_angle = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
         # height of raised head top
         ht = rf - (dk_mean / 2.0) / math.tan(head_arc_angle)
@@ -78,8 +78,9 @@ def makeRaisedCountersunkScrew(self, fa):
         recess.translate(Base.Vector(0.0, 0.0, ht))
     # lay out fastener profile
     head_flat_ht = (dk_theo - dk_mean) / 2 / math.tan(csk_angle / 2)
-    sharp_corner_ht = -1 * (head_flat_ht + (dk_mean - dia) /
-                            (2 * math.tan(csk_angle / 2)))
+    sharp_corner_ht = -1 * (
+        head_flat_ht + (dk_mean - dia) / (2 * math.tan(csk_angle / 2))
+    )
     fillet_start_ht = sharp_corner_ht - r * math.tan(csk_angle / 4)
     fm = FSFaceMaker()
     fm.AddPoint(0.0, -length)
@@ -98,14 +99,12 @@ def makeRaisedCountersunkScrew(self, fa):
         rf * math.sin(head_arc_angle / 2),
         ht + rf * (math.cos(head_arc_angle / 2) - 1),
         0.0,
-        ht
+        ht,
     )
     shape = self.RevolveZ(fm.GetFace())
     shape = shape.cut(recess)
     if fa.thread:
         thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
-        thread_cutter.translate(
-            Base.Vector(0.0, 0.0, -1 * (length - thread_length))
-        )
+        thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)
     return shape

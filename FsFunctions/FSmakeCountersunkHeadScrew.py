@@ -28,7 +28,6 @@
 from screw_maker import *
 from FastenerBase import FSFaceMaker
 import math
-import Part
 
 
 def makeCountersunkHeadScrew(self, fa):
@@ -46,53 +45,46 @@ def makeCountersunkHeadScrew(self, fa):
     dia = self.getDia(fa.calc_diam, False)
     if SType == "ISO10642":
         csk_angle = math.radians(90)
-        P, b, dk_theo, dk_mean, da, ds_min, e, k, r, s_mean, t, w = fa.dimTable
-        a = 2 * P
+        P, b, dk_theo, dk_mean, _, _, _, _, r, s_mean, t, _ = fa.dimTable
         chamfer_end = True
         recess = self.makeHexRecess(s_mean, t, True)
     elif SType == "ASMEB18.3.2":
         csk_angle = math.radians(82)
-        P, b, dk_theo, dk_mean, k, r, s_mean, t = fa.dimTable
-        a = 2 * P
+        P, b, dk_theo, dk_mean, _, r, s_mean, t = fa.dimTable
         chamfer_end = True
         recess = self.makeHexRecess(s_mean, t, True)
     elif SType == "ISO2009":
         csk_angle = math.radians(90)
-        P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["ISO2009def"][
-            fa.calc_diam
-        ]
+        P, _, b, dk_theo, dk_mean, _, n_min, r, t_mean, _ = fa.dimTable
         chamfer_end = False
         recess = self.makeSlotRecess(n_min, t_mean)
-    elif SType == 'ASMEB18.6.3.1A':
+    elif SType == "ASMEB18.6.3.1A":
         csk_angle = math.radians(82)
-        P, b, dk_theo, dk_mean, k, n_min, r, t_mean = fa.dimTable
+        P, b, dk_theo, dk_mean, _, n_min, r, t_mean = fa.dimTable
         chamfer_end = False
         recess = self.makeSlotRecess(n_min, t_mean)
-    elif SType == 'ASMEB18.6.3.1B':
+    elif SType == "ASMEB18.6.3.1B":
         csk_angle = math.radians(82)
-        P, b, dk_theo, dk_mean, k, n_min, r, t_mean = FsData["ASMEB18.6.3.1Adef"][
-            fa.calc_diam
-        ]
+        P, b, dk_theo, dk_mean, _, n_min, r, t_mean = fa.dimTable
         chamfer_end = False
         cT, mH = FsData["ASMEB18.6.3.1Bextra"][fa.calc_diam]
-        recess = self.makeHCrossRecess(cT, mH*25.4)
+        recess = self.makeHCrossRecess(cT, mH * 25.4)
     elif SType == "ISO7046":
         csk_angle = math.radians(90)
-        P, a, b, dk_theo, dk_mean, k, n_min, r, t_mean, x = FsData["ISO2009def"][
-            fa.calc_diam
-        ]
+        P, _, b, dk_theo, dk_mean, _, n_min, r, t_mean, _ = fa.dimTable
         chamfer_end = False
-        cT, mH, mZ = FsData["ISO7046extra"][fa.calc_diam]
+        cT, mH, _ = FsData["ISO7046extra"][fa.calc_diam]
         recess = self.makeHCrossRecess(cT, mH)
     elif SType == "ISO14582":
         csk_angle = math.radians(90)
-        P, a, b, dk_theo, dk_mean, k, r, tt, A, t_mean = fa.dimTable
+        P, _, b, dk_theo, dk_mean, _, r, tt, _, t_mean = fa.dimTable
         chamfer_end = True
         recess = self.makeHexalobularRecess(tt, t_mean, False)
     # lay out fastener profile
     head_flat_ht = (dk_theo - dk_mean) / 2 / math.tan(csk_angle / 2)
-    sharp_corner_ht = -1 * (head_flat_ht + (dk_mean - dia) /
-                            (2 * math.tan(csk_angle / 2)))
+    sharp_corner_ht = -1 * (
+        head_flat_ht + (dk_mean - dia) / (2 * math.tan(csk_angle / 2))
+    )
     fillet_start_ht = sharp_corner_ht - r * math.tan(csk_angle / 4)
     fm = FSFaceMaker()
     fm.AddPoint(0.0, -length)
@@ -116,8 +108,6 @@ def makeCountersunkHeadScrew(self, fa):
     shape = shape.cut(recess)
     if fa.thread:
         thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
-        thread_cutter.translate(
-            Base.Vector(0.0, 0.0, -1 * (length - thread_length))
-        )
+        thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)
     return shape

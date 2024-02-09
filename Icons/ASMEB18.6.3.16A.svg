@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="48"
+   height="48"
+   viewBox="0 0 12.7 12.7"
+   version="1.1"
+   id="svg5"
+   xml:space="preserve"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs2"><marker
+       id="DistanceX"
+       orient="auto"
+       refX="0"
+       refY="0"
+       style="overflow:visible"><path
+         d="M 3,-3 -3,3 M 0,-5 V 5"
+         style="stroke:#000000;stroke-width:0.5"
+         id="path134" /></marker><pattern
+       id="Hatch"
+       patternUnits="userSpaceOnUse"
+       width="8"
+       height="8"
+       x="0"
+       y="0"><path
+         d="M8 4 l-4,4"
+         stroke="#000000"
+         stroke-width="0.25"
+         linecap="square"
+         id="path137" /><path
+         d="M6 2 l-4,4"
+         stroke="#000000"
+         stroke-width="0.25"
+         linecap="square"
+         id="path139" /><path
+         d="M4 0 l-4,4"
+         stroke="#000000"
+         stroke-width="0.25"
+         linecap="square"
+         id="path141" /></pattern><symbol
+       id="*MODEL_SPACE" /><symbol
+       id="*PAPER_SPACE" /></defs><g
+     id="layer1"><g
+       id="g205"
+       transform="matrix(0.22994897,0,0,0.22994897,-115.0632,-157.95686)"><g
+         id="g176"><path
+           id="path1037"
+           style="display:inline;fill:#5fd3c2;fill-opacity:1;stroke:none"
+           d="m 516,726.104 v 2.94408 c -4e-5,9.0431 12.92573,13.57188 20.48531,7.17747 C 538.73573,734.32199 540,731.74022 540,729.0481 v -2.9441 m 7.85898,-25.48166 c -9.33482,-14.37946 -30.383,-14.37951 -39.71789,-10e-5 m -6e-5,0.002 c -5.42796,8.3613 -2.75953,18.82639 6.26034,24.55187 9.01986,5.72549 21.64474,4.96804 29.61889,-1.77703 7.12338,-6.02543 8.68756,-15.30564 3.8387,-22.77486" /><path
+           id="path372"
+           style="display:inline;fill:none;stroke:#000000;stroke-width:1.26;stroke-dasharray:none"
+           d="m 540,726.104 v 2.944 m -24,-2.944 v 2.944 m 31.85898,-28.42566 a 23.676624,23.676624 0 0 0 -39.71789,-10e-5 M 516,729.04816 a 12,10.150344 0 0 0 20.48531,7.17739 m 0,0 A 12,10.150344 0 0 0 540,729.04819 m -23.112,-36.28719 27.315,23.104 m -36.06197,-15.2408 a 22.656,19.163849 0 0 0 35.87923,22.77484 m 0,0 a 22.656,19.163849 0 0 0 3.8387,-22.77486 m -5.96634,17.59633 a 19.647118,16.618751 0 0 0 2.31033,-2.35211 m 0.002,-5e-5 A 23.40131,8.826319 49.773385 0 0 516.89,692.76389 m -0.002,-9e-5 a 19.647118,16.618751 0 0 0 -5.09117,4.30643 m 27.31294,23.103 A 23.40131,8.826319 49.773385 0 0 511.7952,697.06877 m 27.3167,23.10597 a 19.647118,16.618751 0 0 0 2.78072,-1.95423" /></g></g></g></svg>

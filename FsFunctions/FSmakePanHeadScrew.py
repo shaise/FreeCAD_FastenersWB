@@ -59,7 +59,7 @@ def makePanHeadScrew(self, fa):
         P, A, H, R_head, J, T = (25.4 * x for x in (P, A, H, R_head, J, T))
         dk_max = A
         k = H
-        rf = 10  # To avoid error in evaluating alpha/beta (not actually needed)
+        rf = dk_max  # To avoid error in evaluating alpha/beta (not actually needed)
         recess = self.makeSlotRecess(J, T)
         recess.translate(Base.Vector(0.0, 0.0, k))
     elif SType == "ASMEB18.6.3.9B":

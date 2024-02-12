@@ -971,6 +971,11 @@ class FSMakeBomCommand:
             obj.type + translate("FastenerBase", " Nail ") + obj.diameter, cnt
         )
 
+    def AddPin(self, obj, cnt):
+        self.AddFastener(
+            obj.type + translate("Fastenerbase", " Pin ") + obj.diameter + "x" + obj.length, cnt
+        )
+
     def IsActive(self):
         return Gui.ActiveDocument is not None
 

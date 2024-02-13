@@ -37,6 +37,8 @@ def makeWoodScrew(self, fa): # dynamically loaded method of class Screw
         return makeDIN7996(self, fa)
     elif SType == "GOST1144-1" or SType == "GOST1144-2" or SType == "GOST1144-3" or SType == "GOST1144-4":
         return makeGOST1144(self, fa)
+    elif SType == "ASMEB18.6.1.2" or SType == "ASMEB18.6.1.3" or SType == "ASMEB18.6.1.4" or SType == "ASMEB18.6.1.5":
+        return makeASMEB1861(self, fa)
 
 # DIN571 Wood screw
 
@@ -317,6 +319,82 @@ def makeGOST1144(self, fa):
     # make thread
     if fa.thread:
         thread = self.makeDin7998Thread(-l+b+slope_length, -l+tip_length, -l, ri, ro, P)
+        screw = screw.fuse(thread)
+
+    return screw
+
+def makeASMEB1861(self, fa):
+    SType = fa.baseType
+    length = fa.calc_len
+    P, E, F, A_max, A_min, H, J, T, r = fa.dimTable
+    P, E, F, A_max, A_min, H, J, T, r = (x * 25.4 for x in (P, E, F, A_max, A_min, H, J, T, r))
+    
+    if SType == "ASMEB18.6.1.2" or SType == "ASMEB18.6.1.4":
+        recess = self.makeSlotRecess(J, T)
+    elif SType == "ASMEB18.6.1.3" or SType == "ASMEB18.6.1.5":
+        cT, M = FsData["ASMEB18.6.1.3extra"][fa.calc_diam]
+        M = M * 25.4
+        recess = self.makeHCrossRecess(cT, M)
+
+    A_mean = (A_max - A_min) / 2 + A_min
+    dia = E
+    b = 0.667 * length  # Per paragraph 2.4.1
+
+    csk_angle = math.radians(82)    
+    head_flat_ht = (A_max - A_mean) / 2 / math.tan(csk_angle / 2)
+    sharp_corner_ht = -1 * (head_flat_ht + (A_mean - dia) / (2 * math.tan(csk_angle / 2)))
+    fillet_start_ht = sharp_corner_ht - r * math.tan(csk_angle / 4)        
+
+    if length + fillet_start_ht > b:  # partially threaded fastener
+        thread_length = b
+    else:
+        thread_length = length + fillet_start_ht
+        
+    fm = FastenerBase.FSFaceMaker()
+    fm.AddPoint(0.0, -length)
+    
+    if fa.thread:
+        fm.AddPoint(dia / 2 - F, -length + dia) # Assume length of taper = diameter
+        fm.AddPoint(dia / 2 - F, -length + thread_length - dia);
+        fm.AddPoint(dia / 2, -length + thread_length) 
+    else:
+        fm.AddPoint(dia / 2, -length + dia)
+        fm.AddPoint(dia / 2, -length + thread_length)
+        
+    fm.AddPoint(dia / 2, fillet_start_ht)
+    fm.AddArc2(r, 0.0, -math.degrees(csk_angle / 2))
+    fm.AddPoint(A_mean / 2, -head_flat_ht)
+    fm.AddPoint(A_mean / 2, 0.0)
+    
+    if SType == "ASMEB18.6.1.4" or SType == "ASMEB18.6.1.5" :
+        O, _ = FsData["ASMEB18.6.1.4extra"][fa.calc_diam]
+        C = O * 25.4 - H
+        # Calculate head radius (rf)
+        rf = (4 * C * C + A_max * A_max) / (8 * C)
+        head_arc_angle = math.asin(A_mean / 2.0 / rf)  # angle of head edge
+        # height of raised head top
+        ht = rf - (A_mean / 2.0) / math.tan(head_arc_angle)
+
+        fm.AddArc(
+            rf * math.sin(head_arc_angle / 2),
+            ht + rf * (math.cos(head_arc_angle / 2) - 1),
+            0.0,
+            ht,
+        )
+        recess.translate(Base.Vector(0.0, 0.0, 1.0 * C))
+    else:
+        fm.AddPoint(0.0, 0.0)
+
+    # make profile from points (lines and arcs)
+    profile = fm.GetFace()
+
+    # make screw solid body by revolve a profile
+    screw = self.RevolveZ(profile)
+    screw = screw.cut(recess)
+
+    # make thread
+    if fa.thread:
+        thread = self.makeDin7998Thread(-length + thread_length, -length + dia, -length, E/2 - F, E/2, P)
         screw = screw.fuse(thread)
 
     return screw

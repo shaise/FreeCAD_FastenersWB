@@ -257,6 +257,8 @@ FSScrewCommandTable = {
 
     # SlottedGroup
 
+    "ASMEB18.6.1.2": (translate("FastenerCmd", "ASME B18.6.1 Slotted flat countersunk head wood screws"), SlottedGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.6.1.4": (translate("FastenerCmd", "ASME B18.6.1 Slotted oval countersunk head wood screws"), SlottedGroup, ScrewParametersLC, "ASME"),
     "ASMEB18.6.3.1A": (translate("FastenerCmd", "ASME B18.6.3 UNC slotted countersunk flat head screws"), SlottedGroup, ScrewParametersLC, "ASME"),
     "ASMEB18.6.3.4A": (translate("FastenerCmd", "ASME B18.6.3 UNC Slotted oval countersunk head screws"), SlottedGroup, ScrewParametersLC, "ASME"),
     "ASMEB18.6.3.9A": (translate("FastenerCmd", "ASME B18.6.3 UNC Slotted pan head screws"), SlottedGroup, ScrewParametersLC, "ASME"),
@@ -274,6 +276,8 @@ FSScrewCommandTable = {
 
     # HCrossGroup
 
+    "ASMEB18.6.1.3": (translate("FastenerCmd", "ASME B18.6.1 Cross recessed flat countersunk head wood screws"), HCrossGroup, ScrewParametersLC, "ASME"),
+    "ASMEB18.6.1.5": (translate("FastenerCmd", "ASME B18.6.1 Cross recessed oval countersunk head wood screws"), HCrossGroup, ScrewParametersLC, "ASME"),
     "ASMEB18.6.3.1B": (translate("FastenerCmd", "ASME B18.6.3 UNC Cross recessed countersunk flat head screws"), HCrossGroup, ScrewParametersLC, "ASME"),
     "ASMEB18.6.3.4B": (translate("FastenerCmd", "ASME B18.6.3 UNC Cross recessed oval countersunk head screws"), HCrossGroup, ScrewParametersLC, "ASME"),
     "ASMEB18.6.3.9B": (translate("FastenerCmd", "ASME B18.6.3 UNC Cross recessed pan head screws"), HCrossGroup, ScrewParametersLC, "ASME"),

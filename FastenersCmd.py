@@ -167,7 +167,6 @@ FSScrewCommandTable = {
     "DIN557": (translate("FastenerCmd", "DIN 557 Square nuts"), NutGroup, NutParameters, "DIN"),
     "DIN562": (translate("FastenerCmd", "DIN 562 Square nuts"), NutGroup, NutParameters, "DIN"),
     "DIN985": (translate("FastenerCmd", "DIN 985 Nyloc nuts"), NutGroup, NutParameters, "DIN"),
-    "DIN1624": (translate("FastenerCmd", "DIN 1624 Tee nuts"), NutGroup, NutParameters, "DIN"),
 
     "DIN508": (translate("FastenerCmd", "DIN 508 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "DIN"),
     "ISO299": (translate("FastenerCmd", "ISO 299 T-Slot nuts"), TSlotGroup, TSlotNutParameters, "ISO"),

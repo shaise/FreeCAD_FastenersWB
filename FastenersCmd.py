@@ -57,6 +57,7 @@ translate("FastenerCmdTreeView", "HexKey")
 translate("FastenerCmdTreeView", "Nail")
 translate("FastenerCmdTreeView", "Pin")
 
+# fmt: off
 ScrewParameters = {"type", "diameter",
                    "matchOuter", "thread", "leftHanded", "length"}
 ScrewParametersLC = {"type", "diameter", "matchOuter",
@@ -332,6 +333,11 @@ FSScrewCommandTable = {
 
     # NailsGroup
 
+    "DIN1143": (translate("FastenerCmd", "Round plain head nails for use in automatic nailing machines"), NailGroup, NailParameters),
+    "DIN1144-A": (translate("FastenerCmd", "Nails for the installation of wood wool composite panels, 20mm round head"), NailGroup, NailParameters),
+    "DIN1151-A": (translate("FastenerCmd", "Round plain head wire nails"), NailGroup, NailParameters),
+    "DIN1151-B": (translate("FastenerCmd", "Round countersunk head wire nails"), NailGroup, NailParameters),
+    "DIN1152": (translate("FastenerCmd", "Round lost head wire nails"), NailGroup, NailParameters),
     "DIN1160-A": (translate("FastenerCmd", "Clout or slate nails"), NailGroup, NailParameters),
     "DIN1160-B": (translate("FastenerCmd", "Clout or slate wide head nails"), NailGroup, NailParameters),
 
@@ -367,6 +373,8 @@ FSScrewCommandTable = {
 FatenersStandards = { "ASME", "DIN", "ISO", "SAE", "EN", "GOST"}
 FastenersStandardMap = {"ScrewTapInch": "ASME", "ScrewDieInch": "ASME", "ThreadedRodInch": "ASME",
                         "ThreadedRod": "DIN", "ScrewTap": "ISO", "ScrewDie": "ISO" }
+# fmt: on
+
 
 def FSGetStandardFromType(type):
     if type in FastenersStandardMap:

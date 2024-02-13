@@ -123,8 +123,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 * V0.5.10  13 Feb 2024:  Add ASMEB18.6.1 wood screws by @cfunseth.  
                        - Add lots of metric pin types by @alexneufeld:  
                        -  ISO1234, ISO2338, ISO2339, ISO2340A, ISO2340B, ISO2341A, ISO2341B, ISO8733  
-                       -  ISO8734, ISO8735, ISO8736, ISO8737, ISO8739, ISO8740, ISO8741, ISO8742, 
-                       -  ISO8743, ISO8744, ISO8745, ISO8746, ISO8747, ISO8748, ISO8750, ISO8751, 
+                       -  ISO8734, ISO8735, ISO8736, ISO8737, ISO8739, ISO8740, ISO8741, ISO8742,  
+                       -  ISO8743, ISO8744, ISO8745, ISO8746, ISO8747, ISO8748, ISO8750, ISO8751,  
                        -  ISO8752 and ISO13337  
                        - Merge def files to reduce load
 * V0.5.03  10 Feb 2024:  Add remaining ASME B18.6.3 fasteners by @cfunseth.  

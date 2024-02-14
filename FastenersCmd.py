@@ -200,6 +200,7 @@ FSScrewCommandTable = {
     "ASMEB18.5.2": (translate("FastenerCmd", "ASME B18.5 UNC Round head square neck bolts"), OtherHeadGroup, ScrewParametersLC, "ASME"),
     "DIN478": (translate("FastenerCmd", "DIN 478 Square head bolts with collar"), OtherHeadGroup, ScrewParametersLC, "DIN"),
     "DIN603": (translate("FastenerCmd", "DIN 603 Mushroom head square neck bolts"), OtherHeadGroup, ScrewParametersLC, "DIN"),
+    "ISO2342": (translate("FastenerCmd", "ISO 2342 headless screws with shank"), OtherHeadGroup, ScrewParametersLC, "ISO"),
 
     # SetScrewGroup
 

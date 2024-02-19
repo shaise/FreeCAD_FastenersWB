@@ -120,6 +120,10 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.11  19 Feb 2024:  Add ISO 2342 headless screws by @alexneufeld.  
+                       - Add remaining unimplemented ISO nuts by @alexneufeld:  
+                       - ISO 4161, ISO 7040, ISO 7041, ISO 7043, ISO 7044, ISO 7719, ISO 7720, ISO 10511,  
+                       - ISO 10512, ISO 10513, ISO 10663, ISO 12125, ISO 12126 and ISO 21670  
 * V0.5.10  13 Feb 2024:  Add ASMEB18.6.1 wood screws by @cfunseth.  
                        - Add lots of metric pin types by @alexneufeld:  
                        -  ISO1234, ISO2338, ISO2339, ISO2340A, ISO2340B, ISO2341A, ISO2341B, ISO8733  

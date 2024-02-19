@@ -27,6 +27,16 @@ FSIconAliases = {
     'ISO7434' : 'ISO4027',
     'ISO7435' : 'ISO4028',
     'ISO7436' : 'ISO4029',
+    'ISO4161' : 'EN1661',
+    'ISO10663' : 'EN1661',
+    'ISO7040' : 'DIN985',
+    'ISO7041' : 'DIN985',
+    'ISO7720' : 'ISO7719',
+    'ISO10511' : 'DIN985',
+    'ISO10512' : 'DIN985',
+    'ISO10513' : 'ISO7719',
+    'ISO12125' : 'ISO7043',
+    'ISO12126' : 'ISO7044',
 }
 
 # a table to reuse similar type standards

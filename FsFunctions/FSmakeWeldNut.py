@@ -34,11 +34,14 @@ def makeWeldNut(self, fa):
     Supported types:
     - DIN 928 square weld nuts
     - DIN 929 hexagon weld nuts
+    - ISO 2167 hexagon weld nuts with flange
     """
     if fa.baseType == "DIN928":
         return _makeSquareWeldNut(self, fa)
     elif fa.baseType == "DIN929":
         return _makeHexWeldNut(self, fa)
+    elif fa.baseType == "ISO21670":
+        return _makeFlangedWeldNut(self, fa)
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.type}")
 
@@ -96,6 +99,66 @@ def _makeHexWeldNut(self, fa):
     mat = Base.Matrix()
     mat.move(Base.Vector(0.0, 0.0, -h1))
     shape = shape.transformGeometry(mat)
+    return shape
+
+
+def _makeFlangedWeldNut(self, fa):
+    dia = self.getDia(fa.calc_diam, True)
+    P,b,c,d_a,d_c,e,f,g,m_min,m_max,s,r_1,r_2,_ = fa.dimTable
+    m=m_max
+    # main hexagonal body of the nut
+    shape = self.makeHexPrism(s, m)
+    # flanged section
+    fm = FSFaceMaker()
+    fm.AddPoint(0.0, f)
+    fm.AddPoint(d_c/2 - r_2, f)
+    fm.AddArc2(0.0, -r_2, -90)
+    fm.AddPoint(d_c/2, 0.0)
+    h3 = r_1 * math.sin(math.radians(15))
+    h4 = r_1 * math.sin(math.radians(45))
+    fm.AddPoint(d_c/2 - abs(-c+r_1-h3) * math.tan(math.radians(15)) , -c+r_1-h3)
+    fm.AddArc2(-h3/math.tan(math.radians(15)), h3, -120)
+    fm.AddPointRelative(-1*(c-r_1+h4),c-r_1+h4)
+    fm.AddPoint(0.0, 0.0)
+    shape = shape.fuse(self.RevolveZ(fm.GetFace()))
+    # internal bore
+    fm.Reset()
+    id = self.GetInnerThreadMinDiameter(dia, P, 0.0)
+    bore_cham_ht = (dia * 1.05 - id) / 2 * math.tan(math.radians(30))
+    fm.AddPoint(0.0, 0.0)
+    fm.AddPoint(dia * 1.05 / 2, 0.0)
+    fm.AddPoint(id / 2, bore_cham_ht)
+    fm.AddPoint(id / 2, m - bore_cham_ht - 0.2)
+    fm.AddPoint(dia * 1.05 / 2, m)
+    fm.AddPoint(0.0, m)
+    bore_cutter = self.RevolveZ(fm.GetFace())
+    shape = shape.cut(bore_cutter)
+    # outer chamfer on the hex
+    fm.Reset()
+    fm.AddPoint(s / 2, m)
+    fm.AddPoint(s / math.sqrt(3),  m)
+    cham_ht = s * (1 / math.sqrt(3) - 0.5) * math.tan(math.radians(30))
+    fm.AddPoint(s / math.sqrt(3), m - cham_ht)
+    top_cham_cutter = self.RevolveZ(fm.GetFace())
+    shape = shape.cut(top_cham_cutter)
+    # bottom notches in the weld tabs
+    fm.Reset()
+    fm.AddPoint(g/2,g/2*math.tan(math.radians(30)))
+    fm.AddPoint(g/2, d_c/2)
+    th1 = math.degrees(math.atan((g/2)/(d_c/2)))
+    fm.AddArc2(-g/2, -d_c/2 , -(120-2*th1))
+    cutter_face = fm.GetFace()
+    cutter_face = cutter_face.rotated(Base.Vector(0.0, 0.0, 0.0), Base.Vector(1.0, 0.0, 0.0), 90)
+    cutter = cutter_face.extrude(Base.Vector(0.0, 0.0, -20.0))
+    for i in range(3):
+        cutter.rotate(Base.Vector(0.0, 0.0, 0.0),
+                          Base.Vector(0.0, 0.0, 1.0), 120)
+        shape = shape.cut(cutter)
+    shape = shape.removeSplitter()
+    # add modelled threads if needed
+    if fa.thread:
+        thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)
+        shape = shape.cut(thread_cutter)
     return shape
 
 

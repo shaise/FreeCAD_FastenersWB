@@ -27,7 +27,6 @@
 from screw_maker import *
 import FastenerBase
 
-# DIN985 Nyloc Nuts
 
 tan30 = math.tan(math.radians(30.0))
 
@@ -55,11 +54,24 @@ def nylocMakeFace(do, p, da, dw, e, m, h, s):
 
 
 def makeNylocNut(self, fa):
-    P, da, dw, e, m, h, s = fa.dimTable
+    """Create a nut with a non-metallic locking insert
+    Supported Types:
+    - DIN 985 Nyloc nuts
+    - ISO 7040 Nyloc nuts
+    - ISO 7041 Nyloc nuts
+    - ISO 10511 thin nyloc nuts
+    - ISO 10512 fine thread nyloc nuts
+    """
+    if fa.baseType == "DIN985":
+        P, da, dw, e, m, h, s = fa.dimTable
+    elif fa.baseType in ["ISO7040", "ISO7041", "ISO10511", "ISO10512"]:
+        P,da,_,dw,e,h,_,m,_,s,_ = fa.dimTable
+    else:
+        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
     dia = self.getDia(fa.calc_diam, True)
     section = nylocMakeFace(dia, P, da, dw, e, m, h, s)
     nutSolid = self.RevolveZ(section)
-    htool = htool = self.makeHexPrism(s, m * 2)
+    htool = htool = self.makeHexPrism(s, m * 3)
     nutSolid = nutSolid.common(htool)
     if fa.thread:
         threadCutter = self.CreateInnerThreadCutter(dia, P, h + P)

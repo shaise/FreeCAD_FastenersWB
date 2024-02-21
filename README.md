@@ -120,16 +120,18 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.12  21 Feb 2024:  Add remaining unimplemented ISO hex head fasteners by @alexneufeld:  
+                       -  ISO 4015, ISO 4016, ISO 4018, ISO 4162, ISO 8765, ISO 15071 and ISO 15072.  
 * V0.5.11  19 Feb 2024:  Add ISO 2342 headless screws by @alexneufeld.  
                        - Add remaining unimplemented ISO nuts by @alexneufeld:  
                        - ISO 4161, ISO 7040, ISO 7041, ISO 7043, ISO 7044, ISO 7719, ISO 7720, ISO 10511,  
-                       - ISO 10512, ISO 10513, ISO 10663, ISO 12125, ISO 12126 and ISO 21670  
+                       - ISO 10512, ISO 10513, ISO 10663, ISO 12125, ISO 12126 and ISO 21670.  
 * V0.5.10  13 Feb 2024:  Add ASMEB18.6.1 wood screws by @cfunseth.  
                        - Add lots of metric pin types by @alexneufeld:  
                        -  ISO1234, ISO2338, ISO2339, ISO2340A, ISO2340B, ISO2341A, ISO2341B, ISO8733  
                        -  ISO8734, ISO8735, ISO8736, ISO8737, ISO8739, ISO8740, ISO8741, ISO8742,  
                        -  ISO8743, ISO8744, ISO8745, ISO8746, ISO8747, ISO8748, ISO8750, ISO8751,  
-                       -  ISO8752 and ISO13337  
+                       -  ISO8752 and ISO13337.  
                        - Merge def files to reduce load
 * V0.5.03  10 Feb 2024:  Add remaining ASME B18.6.3 fasteners by @cfunseth.  
 * V0.5.02  07 Feb 2024:  Add DIN1160 nails by @hasecilu.  

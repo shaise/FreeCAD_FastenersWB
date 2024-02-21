@@ -32,25 +32,43 @@ def makeHexHeadBolt(self, fa):
     """Creates a bolt with a hexagonal head
 
     supported types:
-    - DIN 933 Hex-head-screw
-    - ISO 4017 Hex-head-screw
-    - ISO 4014 Hex-head-bolt
-    - ASMEB18.2.1.6 Hex-head-bolt
+    - DIN 933 hex head screws
+    - DIN 961 hex head screws with fine thread
+    - ISO 4014 Hex head bolts
+    - ISO 4016 hex head bolts, grade c
+    - ISO 4017 Hex head screws
+    - ISO 4018 hex head screws, grade c
+    - ISO 8676 hex head screws with fine thread
+    - ISO 8765 hex head bolts with fine thread
+    - ASMEB18.2.1.6 hex head bolts
     """
     dia = self.getDia(fa.calc_diam, False)
     length = fa.calc_len
-    
-    # DIN933
-    if fa.baseType == 'DIN933' or fa.baseType == 'DIN961':
-        P, c, dw, e, k, r, s = fa.dimTable
-        b = length
-    
-    if fa.baseType == 'ISO4017' or fa.baseType == 'ISO8676':
-        P, c, dw, e, k, r, s = fa.dimTable
-        b = length
 
-    if fa.baseType == 'ISO4014':
+    if fa.baseType == "DIN933" or fa.baseType == "DIN961":
+        P, c, dw, e, k, r, s = fa.dimTable
+        b = length
+    elif fa.baseType == "ISO4017" or fa.baseType == "ISO8676":
+        P, c, dw, e, k, r, s = fa.dimTable
+        b = length
+    elif fa.baseType == "ISO8765":
+        P, b1, b2, b3, c = fa.dimTable[:5]
+        dw = fa.dimTable[11]
+        e = fa.dimTable[13]
+        k = fa.dimTable[15]
+        r = fa.dimTable[22]
+        s = fa.dimTable[23]
+
+    elif fa.baseType == "ISO4018":
+        P, _, _, c, _, dw, e, k, _, _, _, r, s, _ = fa.dimTable
+        b = length
+    elif fa.baseType == "ISO4014":
         P, b1, b2, b3, c, dw, e, k, r, s = fa.dimTable
+    elif fa.baseType == "ISO4016":
+        P, b1, b2, b3, c, _, _, _, dw, e, k, _, _, _, r, s, _ = fa.dimTable
+    else:
+        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+    if fa.baseType in ["ISO4014", "ISO4016", "ISO8765"]:
         if length <= 125.0:
             b = b1
         else:
@@ -59,7 +77,7 @@ def makeHexHeadBolt(self, fa):
             else:
                 b = b3
 
-    if fa.baseType == 'ASMEB18.2.1.6':
+    if fa.baseType == "ASMEB18.2.1.6":
         b, P, c, dw, e, k, r, s = fa.dimTable
         if length > 6 * 25.4:
             b += 6.35
@@ -91,8 +109,6 @@ def makeHexHeadBolt(self, fa):
     shape = shape.common(extrude)
     if fa.thread:
         thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
-        thread_cutter.translate(
-            Base.Vector(0.0, 0.0, -1 * (length - thread_length))
-        )
+        thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)
     return shape

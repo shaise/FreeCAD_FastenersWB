@@ -123,9 +123,16 @@ FSScrewCommandTable = {
     "DIN961": (translate("FastenerCmd", "DIN 961 Hex head screw"), HexHeadGroup, ScrewParametersLC, "DIN"),
     "EN1662": (translate("FastenerCmd", "EN 1662 Hexagon bolt with flange, small series"), HexHeadGroup, ScrewParametersLC, "EN"),
     "EN1665": (translate("FastenerCmd", "EN 1665 Hexagon bolt with flange, heavy series"), HexHeadGroup, ScrewParametersLC, "EN"),
-    "ISO4014": (translate("FastenerCmd", "ISO 4014 Hex head bolt"), HexHeadGroup, ScrewParametersLC, "ISO"),
-    "ISO4017": (translate("FastenerCmd", "ISO 4017 Hex head screw"), HexHeadGroup, ScrewParametersLC, "ISO"),
-    "ISO8676": (translate("FastenerCmd", "ISO 8676 Hex head screw"), HexHeadGroup, ScrewParametersLC, "ISO"),
+    "ISO4014": (translate("FastenerCmd", "ISO 4014 Hex head bolt - Product grades A and B"), HexHeadGroup, ScrewParametersLC, "ISO"),
+    "ISO4015": (translate("FastenerCmd", "ISO 4015 Hexagon head bolts with reduced shank"), HexHeadGroup, ScrewParametersLC, "ISO"),
+    "ISO4016": (translate("FastenerCmd", "ISO 4016 Hex head bolts - Product grade C"), HexHeadGroup, ScrewParametersLC, "ISO"),
+    "ISO4017": (translate("FastenerCmd", "ISO 4017 Hex head screw - Product grades A and B"), HexHeadGroup, ScrewParametersLC, "ISO"),
+    "ISO4018": (translate("FastenerCmd", "ISO 4018 Hex head screws - Product grade C"), HexHeadGroup, ScrewParametersLC, "ISO"),
+    "ISO4162": (translate("FastenerCmd", "ISO 4162 Hexagon bolts with flange - Small series - Product grade A with driving feature of product grade B"), HexHeadGroup, ScrewParametersLC, "ISO"),
+    "ISO8676": (translate("FastenerCmd", "ISO 8676 Hex head screws with fine pitch thread"), HexHeadGroup, ScrewParametersLC, "ISO"),
+    "ISO8765": (translate("FastenerCmd", "ISO 8765 Hex head bolt with fine pitch thread"), HexHeadGroup, ScrewParametersLC, "ISO"),
+    "ISO15071": (translate("FastenerCmd", "ISO 15071 Hexagon bolts with flange - Small series - Product grade A"), HexHeadGroup, ScrewParametersLC, "ISO"),
+    "ISO15072": (translate("FastenerCmd", "ISO 15072 Hexagon bolts with flange with fine pitch thread - Small series - Product grade A"), HexHeadGroup, ScrewParametersLC, "ISO"),
 
     # HexagonSocketGroup
 

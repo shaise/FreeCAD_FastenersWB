@@ -762,31 +762,9 @@ class FSCountersunkObject:
             shape = shape.cut(cshole)
         fp.Shape = shape
 
+    def loads(self, state):
+        FreeCAD.Console.PrintWarning(translate("CountersunkDeprecation", "The Fasteners Workbench countersunk holes feature is deprecated, and may be removed in the future. Please consider using a PartDesign Hole feature instead") + "\n")
 
-class FSFilletCommand:
-    """Make holes for countersunk screws"""
-
-    def GetResources(self):
-        icon = os.path.join(iconPath, "IconCSHole.svg")
-        return {
-            "Pixmap": icon,
-            # the name of a svg file available in the resources
-            "MenuText": _translate("DlgCountersunktHoles", "Make countersunk", None),
-            "ToolTip": _translate(
-                "DlgCountersunktHoles", "Chamfer holes for countersunk screws", None
-            ),
-        }
-
-    def Activated(self):
-        Gui.Control.showDialog(FSTaskFilletDialog(None))
-        return
-
-    def IsActive(self):
-        return len(Gui.Selection.getSelectionEx()) == 1
-
-
-Gui.addCommand("FSFillet", FSFilletCommand())
-FastenerBase.FSCommands.append("FSFillet", "command")
 
 # to monitor selections: add SelObserver http://www.freecadweb.org/wiki/index.php?title=Code_snippets#Function_resident_with_the_mouse_click_action
 # to filter selections: use Gui.Selection.SelectionGate

@@ -504,343 +504,343 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="96"/>
-        <source>DIN 933 Hex head screw</source>
-        <translation>DIN 933 — Śruba z łbem sześciokątnym</translation>
+        <source>Hex head screw</source>
+        <translation>— Śruba z łbem sześciokątnym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="103"/>
-        <source>DIN 961 Hex head screw</source>
-        <translation>DIN 961 — Śruba z łbem sześciokątnym</translation>
+        <source>Hex head screw</source>
+        <translation>— Śruba z łbem sześciokątnym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="97"/>
-        <source>ISO 4017 Hex head screw</source>
-        <translation>ISO 4017 — Śruba z łbem sześciokątnym</translation>
+        <source>Hex head screw</source>
+        <translation>— Śruba z łbem sześciokątnym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="105"/>
-        <source>ISO 8676 Hex head screw</source>
-        <translation>ISO 8676 — Śruba z łbem sześciokątnym</translation>
+        <source>Hex head screw</source>
+        <translation>— Śruba z łbem sześciokątnym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="98"/>
-        <source>ISO 4014 Hex head bolt</source>
-        <translation>ISO 4014 — Śruba z łbem sześciokątnym</translation>
+        <source>Hex head bolt</source>
+        <translation>— Śruba z łbem sześciokątnym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="99"/>
-        <source>EN 1662 Hexagon bolt with flange, small series</source>
-        <translation>EN 1662 — Śruba sześciokątna z kołnierzem, seria mała</translation>
+        <source>Hexagon bolt with flange, small series</source>
+        <translation>— Śruba sześciokątna z kołnierzem, seria mała</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="100"/>
-        <source>EN 1665 Hexagon bolt with flange, heavy series</source>
-        <translation>EN 1665 — Śruba sześciokątna z kołnierzem, seria ciężka</translation>
+        <source>Hexagon bolt with flange, heavy series</source>
+        <translation>— Śruba sześciokątna z kołnierzem, seria ciężka</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="101"/>
-        <source>DIN 571 Hex head wood screw</source>
-        <translation>DIN 571 — Wkręt do drewna z łbem sześciokątnym</translation>
+        <source>Hex head wood screw</source>
+        <translation>— Wkręt do drewna z łbem sześciokątnym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="103"/>
         <source>ISO4762 Hexagon socket head cap screw</source>
-        <translation>ISO 4762 — Śruba z łbem walcowym z gniazdem na imbus</translation>
+        <translation>— Śruba z łbem walcowym z gniazdem na imbus</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="111"/>
-        <source>ISO 4762 Hexagon socket head cap screw</source>
-        <translation>ISO 4762 — Śruba z łbem sześciokątnym z gniazdem na imbus</translation>
+        <source>Hexagon socket head cap screw</source>
+        <translation>— Śruba z łbem sześciokątnym z gniazdem na imbus</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="104"/>
-        <source>DIN 7984 Hexagon socket head cap screws with low head</source>
-        <translation>DIN 7984 — Wkręty z łbem sześciokątnym z gniazdem sześciokątnym z niskim łbem</translation>
+        <source>Hexagon socket head cap screws with low head</source>
+        <translation>— Wkręty z łbem sześciokątnym z gniazdem sześciokątnym z niskim łbem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="105"/>
-        <source>DIN 6912 Hexagon socket head cap screws with low head with centre</source>
-        <translation>DIN 6912 — Wkręty z łbem walcowym z gniazdem na imbus z niskim łbem i środkiem</translation>
+        <source>Hexagon socket head cap screws with low head with centre</source>
+        <translation>— Wkręty z łbem walcowym z gniazdem na imbus z niskim łbem i środkiem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="106"/>
-        <source>ISO 7380 Hexagon socket button head screw</source>
-        <translation>ISO 7380 — Śruba z łbem kulistym z gniazdem na imbus</translation>
+        <source>Hexagon socket button head screw</source>
+        <translation>— Śruba z łbem kulistym z gniazdem na imbus</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="107"/>
-        <source>ISO 7380 Hexagon socket button head screws with collar</source>
-        <translation>ISO 7380 — Śruba z łbem kulistym z kołnierzem z gniazdem na imbus</translation>
+        <source>Hexagon socket button head screws with collar</source>
+        <translation>— Śruba z łbem kulistym z kołnierzem z gniazdem na imbus</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="108"/>
-        <source>ISO 10642 Hexagon socket countersunk head screw</source>
-        <translation>ISO 10642 — Wkręt z łbem stożkowym z gniazdem sześciokątnym</translation>
+        <source>Hexagon socket countersunk head screw</source>
+        <translation>— Wkręt z łbem stożkowym z gniazdem sześciokątnym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="109"/>
-        <source>ISO 7379 Hexagon socket head shoulder screw</source>
-        <translation>ISO 7379 — Śruba z łbem walcowym z gniazdem na imbus</translation>
+        <source>Hexagon socket head shoulder screw</source>
+        <translation>— Śruba z łbem walcowym z gniazdem na imbus</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="110"/>
-        <source>ISO 4026 Hexagon socket set screws with flat point</source>
-        <translation>ISO 4026 — Wkręt dociskowy z gniazdem na imbus i płaskim końcem</translation>
+        <source>Hexagon socket set screws with flat point</source>
+        <translation>— Wkręt dociskowy z gniazdem na imbus i płaskim końcem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="111"/>
-        <source>ISO 4027 Hexagon socket set screws with cone point</source>
-        <translation>ISO 4027 — Wkręt dociskowy z gniazdem na imbus i końcówką stożkową</translation>
+        <source>Hexagon socket set screws with cone point</source>
+        <translation>— Wkręt dociskowy z gniazdem na imbus i końcówką stożkową</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="112"/>
-        <source>ISO 4028 Hexagon socket set screws with dog point</source>
-        <translation>ISO 4028 — Wkręt dociskowy z gniazdem na imbus z końcówką kłową</translation>
+        <source>Hexagon socket set screws with dog point</source>
+        <translation>— Wkręt dociskowy z gniazdem na imbus z końcówką kłową</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="113"/>
-        <source>ISO 4029 Hexagon socket set screws with cup point</source>
-        <translation>ISO 4029 - Wkręt dociskowy z gniazdem na imbus i końcówką panewkową</translation>
+        <source>Hexagon socket set screws with cup point</source>
+        <translation>- Wkręt dociskowy z gniazdem na imbus i końcówką panewkową</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="115"/>
-        <source>ISO 14579 Hexalobular socket head cap screws</source>
-        <translation>ISO 14579 — Wkręty z gniazdem torks</translation>
+        <source>Hexalobular socket head cap screws</source>
+        <translation>— Wkręty z gniazdem torks</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="116"/>
-        <source>ISO 14580 Hexalobular socket cheese head screws</source>
-        <translation>ISO 14580 — Wkręty z łbem walcowym z gniazdem torks</translation>
+        <source>Hexalobular socket cheese head screws</source>
+        <translation>— Wkręty z łbem walcowym z gniazdem torks</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="118"/>
-        <source>ISO 14582 Hexalobular socket countersunk head screws, high head</source>
-        <translation>ISO 14582 — Śruba z wysokim łbem stożkowym z gniazdem torks</translation>
+        <source>Hexalobular socket countersunk head screws, high head</source>
+        <translation>— Śruba z wysokim łbem stożkowym z gniazdem torks</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="119"/>
-        <source>ISO 14583 Hexalobular socket pan head screws</source>
-        <translation>ISO 14583 — Wkręty z łbem soczewkowym z gniazdem torks</translation>
+        <source>Hexalobular socket pan head screws</source>
+        <translation>— Wkręty z łbem soczewkowym z gniazdem torks</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="120"/>
-        <source>ISO 14584 Hexalobular socket raised countersunk head screws</source>
-        <translation>ISO 14584 — Śruba z łbem stożkowym wypukłym z gniazdem torks</translation>
+        <source>Hexalobular socket raised countersunk head screws</source>
+        <translation>— Śruba z łbem stożkowym wypukłym z gniazdem torks</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="122"/>
-        <source>ISO 2009 Slotted countersunk flat head screw</source>
-        <translation>ISO 2009 — Śruba z łbem stożkowym płaskim z rowkiem</translation>
+        <source>Slotted countersunk flat head screw</source>
+        <translation>— Śruba z łbem stożkowym płaskim z rowkiem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="123"/>
-        <source>ISO 2010 Slotted raised countersunk head screw</source>
-        <translation>ISO 2010 — Śruba z łbem stożkowym wypukłym z rowkiem</translation>
+        <source>Slotted raised countersunk head screw</source>
+        <translation>— Śruba z łbem stożkowym wypukłym z rowkiem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="124"/>
-        <source>ISO 1580 Slotted pan head screw</source>
-        <translation>ISO 1580 — Śruba z łbem soczewkowym</translation>
+        <source>Slotted pan head screw</source>
+        <translation>— Śruba z łbem soczewkowym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="125"/>
-        <source>ISO 1207 Slotted cheese head screw</source>
-        <translation>ISO 1207 — Wkręt z łbem walcowym z rowkiem</translation>
+        <source>Slotted cheese head screw</source>
+        <translation>— Wkręt z łbem walcowym z rowkiem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="126"/>
         <source>DIN84 (superseded by ISO 1207) Slotted cheese head screw</source>
-        <translation>DIN 84 (zastąpiony przez ISO 1207) — Wkręt z łbem walcowym z rowkiem</translation>
+        <translation>(zastąpiony przez ISO 1207) — Wkręt z łbem walcowym z rowkiem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
-        <source>DIN 84 (superseded by ISO 1207) Slotted cheese head screw</source>
-        <translation>DIN 84 (zastąpiony przez ISO 1207) — Śruba z łbem walcowym z rowkiem</translation>
+        <source>(superseded by ISO 1207) Slotted cheese head screw</source>
+        <translation>(zastąpiony przez ISO 1207) — Śruba z łbem walcowym z rowkiem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="127"/>
-        <source>DIN 96 Slotted half round head wood screw</source>
-        <translation>DIN 96 — Wkręt do drewna z rowkiem i łbem półokrągłym</translation>
+        <source>Slotted half round head wood screw</source>
+        <translation>— Wkręt do drewna z rowkiem i łbem półokrągłym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="128"/>
-        <source>GOST 1144 (Type 1) Half — round head wood screw</source>
-        <translation>GOST 1144 (Typ 1) — Wkręt do drewna z łbem półokrągłym</translation>
+        <source>(Type 1) Half — round head wood screw</source>
+        <translation>(Typ 1) — Wkręt do drewna z łbem półokrągłym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="129"/>
-        <source>GOST 1144 (Type 2) Half — round head wood screw</source>
-        <translation>GOST 1144 (Typ 2) — Wkręt do drewna z łbem półokrągłym</translation>
+        <source>(Type 2) Half — round head wood screw</source>
+        <translation>(Typ 2) — Wkręt do drewna z łbem półokrągłym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="131"/>
-        <source>DIN 967 Cross recessed pan head screws with collar</source>
-        <translation>DIN 967 — Śruba krzyżowe z łbem wpuszczanym z kołnierzem</translation>
+        <source>Cross recessed pan head screws with collar</source>
+        <translation>— Śruba krzyżowe z łbem wpuszczanym z kołnierzem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="132"/>
-        <source>ISO 7045 Pan head screws type H cross recess</source>
-        <translation>ISO 7045 — Śruba z łbem soczewkowym typu H z gniazdem krzyżowym</translation>
+        <source>Pan head screws type H cross recess</source>
+        <translation>— Śruba z łbem soczewkowym typu H z gniazdem krzyżowym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="133"/>
-        <source>ISO 7046 Countersunk flat head screws H cross r.</source>
-        <translation>ISO 7046 — Śruba z łbem stożkowym płaskim krzyżak typu H r.</translation>
+        <source>Countersunk flat head screws H cross r.</source>
+        <translation>— Śruba z łbem stożkowym płaskim krzyżak typu H r.</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
-        <source>ISO 7047 Raised countersunk head screws H cross r.</source>
-        <translation>ISO 7047 — Śruba z łbem stożkowym wypukłym krzyżak typu H r.</translation>
+        <source>Raised countersunk head screws H cross r.</source>
+        <translation>— Śruba z łbem stożkowym wypukłym krzyżak typu H r.</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="135"/>
-        <source>ISO 7048 Cheese head screws with type H cross r.</source>
-        <translation>ISO 7048 — Śruba z łbem walcowym krzyżak typu H r.</translation>
+        <source>Cheese head screws with type H cross r.</source>
+        <translation>— Śruba z łbem walcowym krzyżak typu H r.</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="136"/>
-        <source>DIN 7996 Cross recessed pan head wood screw</source>
-        <translation>DIN 7996 — Wkręt do drewna z łbem krzyżowym wpuszczanym</translation>
+        <source>Cross recessed pan head wood screw</source>
+        <translation>— Wkręt do drewna z łbem krzyżowym wpuszczanym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="137"/>
-        <source>GOST 1144 (Type 3) Half — round head wood screw</source>
-        <translation>GOST 1144 (Typ 3) — Wkręt do drewna z łbem półokrągłym</translation>
+        <source>(Type 3) Half — round head wood screw</source>
+        <translation>(Typ 3) — Wkręt do drewna z łbem półokrągłym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="138"/>
-        <source>GOST 1144 (Type 4) Half — round head wood screw</source>
-        <translation>GOST 1144 (Typ 4) — Wkręt do drewna z łbem półokrągłym</translation>
+        <source>(Type 4) Half — round head wood screw</source>
+        <translation>(Typ 4) — Wkręt do drewna z łbem półokrągłym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="140"/>
-        <source>DIN 603 Mushroom head square neck bolts</source>
-        <translation>DIN 603 — Śruba z łbem grzybkowym z kwadratową szyjką</translation>
+        <source>Mushroom head square neck bolts</source>
+        <translation>— Śruba z łbem grzybkowym z kwadratową szyjką</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="141"/>
-        <source>DIN 478 Square head bolts with collar</source>
-        <translation>DIN 478 — Śruba z łbem kwadratowym z kołnierzem</translation>
+        <source>Square head bolts with collar</source>
+        <translation>— Śruba z łbem kwadratowym z kołnierzem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="143"/>
-        <source>ISO 4032 Hexagon nuts, Style 1</source>
-        <translation>ISO 4032 — Nakrętka sześciokątna, typ 1</translation>
+        <source>Hexagon nuts, Style 1</source>
+        <translation>— Nakrętka sześciokątna, typ 1</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="144"/>
-        <source>ISO 4033 Hexagon nuts, Style 2</source>
-        <translation>ISO 4033 — Nakrętka sześciokątna, typ 2</translation>
+        <source>Hexagon nuts, Style 2</source>
+        <translation>— Nakrętka sześciokątna, typ 2</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="145"/>
-        <source>ISO 4035 Hexagon thin nuts, chamfered</source>
-        <translation>ISO 4035 — Nakrętka cienka sześciokątna, fazowane</translation>
+        <source>Hexagon thin nuts, chamfered</source>
+        <translation>— Nakrętka cienka sześciokątna, fazowane</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="154"/>
-        <source>ISO 8673 Hexagon regular nuts (style 1) with metric fine pitch thread — Product grades A and B</source>
-        <translation>ISO 8673 — Nakrętka sześciokątna zwykła (typ 1) z gwintem metrycznym drobnozwojnym - Klasy produktu A i B</translation>
+        <source>Hexagon regular nuts (style 1) with metric fine pitch thread — Product grades A and B</source>
+        <translation>— Nakrętka sześciokątna zwykła (typ 1) z gwintem metrycznym drobnozwojnym - Klasy produktu A i B</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="155"/>
-        <source>ISO 8674 Hexagon high nuts (style 2) with metric fine pitch thread </source>
-        <translation>ISO 8674 — Nakrętka sześciokątna (typ 2) z gwintem metrycznym drobnozwojnym</translation>
+        <source>Hexagon high nuts (style 2) with metric fine pitch thread </source>
+        <translation>— Nakrętka sześciokątna (typ 2) z gwintem metrycznym drobnozwojnym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="156"/>
-        <source>ISO 8675 Hexagon thin nuts chamfered (style 0) with metric fine pitch thread — Product grades A and B</source>
-        <translation>ISO 8675 — Nakrętka sześciokątna cienka, fazowana (typ 0) z gwintem metrycznym drobnozwojnym - Klasy produktu A i B</translation>
+        <source>Hexagon thin nuts chamfered (style 0) with metric fine pitch thread — Product grades A and B</source>
+        <translation>— Nakrętka sześciokątna cienka, fazowana (typ 0) z gwintem metrycznym drobnozwojnym - Klasy produktu A i B</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="146"/>
-        <source>DIN 934 (superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
-        <translation>DIN 934 (zastąpione przez ISO 4035 i ISO 8673) — Nakrętka sześciokątna cienka, fazowana</translation>
+        <source>(superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
+        <translation>(zastąpione przez ISO 4035 i ISO 8673) — Nakrętka sześciokątna cienka, fazowana</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="148"/>
-        <source>EN 1661 Hexagon nuts with flange</source>
-        <translation>EN 1661 — Nakrętka sześciokątna z kołnierzem</translation>
+        <source>Hexagon nuts with flange</source>
+        <translation>— Nakrętka sześciokątna z kołnierzem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="149"/>
         <source>DIN917 Cap nuts, thin style</source>
-        <translation>DIN 917 — Nakrętka kołpakowa, wykonanie cienkie</translation>
+        <translation>— Nakrętka kołpakowa, wykonanie cienkie</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="160"/>
-        <source>DIN 917 Cap nuts, thin style</source>
-        <translation>DIN 917 — Nakrętka kołpakowa, wykonanie cienkie</translation>
+        <source>Cap nuts, thin style</source>
+        <translation>— Nakrętka kołpakowa, wykonanie cienkie</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="150"/>
-        <source>DIN 928 square weld nuts</source>
-        <translation>DIN 928 — Nakrętka kwadratowa do spawania</translation>
+        <source>square weld nuts</source>
+        <translation>— Nakrętka kwadratowa do spawania</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="151"/>
-        <source>DIN 929 hexagonal weld nuts</source>
-        <translation>DIN 929 — Nakrętka sześciokątna do spawania</translation>
+        <source>hexagonal weld nuts</source>
+        <translation>— Nakrętka sześciokątna do spawania</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="152"/>
-        <source>DIN 935 Slotted / Castle nuts</source>
-        <translation>DIN 935 — Nakrętka z rowkiem / koronowa</translation>
+        <source>Slotted / Castle nuts</source>
+        <translation>— Nakrętka z rowkiem / koronowa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="154"/>
-        <source>DIN 6330 Hexagon nuts with a height of 1,5 d</source>
-        <translation>DIN 6330 — Nakrętka sześciokątna o wysokości 1,5 d</translation>
+        <source>Hexagon nuts with a height of 1,5 d</source>
+        <translation>— Nakrętka sześciokątna o wysokości 1,5 d</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="153"/>
-        <source>DIN 6334 elongated hexagon nuts</source>
-        <translation>DIN 6334 — Nakrętka sześciokątna wydłużona</translation>
+        <source>elongated hexagon nuts</source>
+        <translation>— Nakrętka sześciokątna wydłużona</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="154"/>
-        <source>DIN 7967 self locking counter nuts</source>
-        <translation>DIN 7967 — Przeciwnakrętka samozabezpieczająca</translation>
+        <source>self locking counter nuts</source>
+        <translation>— Przeciwnakrętka samozabezpieczająca</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="155"/>
-        <source>DIN 1587 Cap nuts</source>
-        <translation>DIN 1587 — Nakrętka kołpakowa</translation>
+        <source>Cap nuts</source>
+        <translation>— Nakrętka kołpakowa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="156"/>
-        <source>GOST 11860 (Type 1) Cap nuts</source>
-        <translation>GOST 11860 (typ 1) — Nakrętka kołpakowa</translation>
+        <source>(Type 1) Cap nuts</source>
+        <translation>(typ 1) — Nakrętka kołpakowa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="157"/>
-        <source>DIN 315 wing nuts</source>
-        <translation>DIN 315 — Nakrętka motylkowa</translation>
+        <source>wing nuts</source>
+        <translation>— Nakrętka motylkowa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="158"/>
-        <source>DIN 557 Square nuts</source>
-        <translation>DIN 557 — Nakrętka kwadratowa</translation>
+        <source>Square nuts</source>
+        <translation>— Nakrętka kwadratowa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="159"/>
-        <source>DIN 562 Square nuts</source>
-        <translation>DIN 562 — Nakrętka kwadratowa</translation>
+        <source>Square nuts</source>
+        <translation>— Nakrętka kwadratowa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="160"/>
-        <source>DIN 985 Nyloc nuts</source>
-        <translation>DIN 985 — Nakrętka Nyloc</translation>
+        <source>Nyloc nuts</source>
+        <translation>— Nakrętka Nyloc</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="161"/>
-        <source>DIN 1624 Tee nuts</source>
-        <translation>DIN 1624 — Nakrętka teowa</translation>
+        <source>Tee nuts</source>
+        <translation>— Nakrętka teowa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="163"/>
-        <source>DIN 508 T-Slot nuts</source>
-        <translation>DIN 508 — Nakrętka do rowka - T</translation>
+        <source>T-Slot nuts</source>
+        <translation>— Nakrętka do rowka - T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="176"/>
@@ -859,38 +859,38 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="166"/>
-        <source>ISO 7089 Washer</source>
-        <translation>ISO 7089 — Podkładka</translation>
+        <source>Washer</source>
+        <translation>— Podkładka</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="167"/>
-        <source>ISO 7090 Plain Washers, chamfered - Normal series</source>
-        <translation>ISO 7090 — Podkładka zwykła , sfazowane - Seria Normalna</translation>
+        <source>Plain Washers, chamfered - Normal series</source>
+        <translation>— Podkładka zwykła , sfazowane - Seria Normalna</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="169"/>
-        <source>ISO 7092 Plain washers - Small series</source>
-        <translation>ISO 7092 — Podkładka zwykła  - seria mała</translation>
+        <source>Plain washers - Small series</source>
+        <translation>— Podkładka zwykła  - seria mała</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="170"/>
-        <source>ISO 7093-1 Plain washers - Large series</source>
-        <translation>ISO 7093-1 — Podkładka zwykła  - seria duża</translation>
+        <source>Plain washers - Large series</source>
+        <translation>— Podkładka zwykła  - seria duża</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="171"/>
-        <source>ISO 7094 Plain washers - Extra large series</source>
-        <translation>ISO 7094 — Podkładka zwykła - seria poszerzona</translation>
+        <source>Plain washers - Extra large series</source>
+        <translation>— Podkładka zwykła - seria poszerzona</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="172"/>
         <source>DIN6340 Washers for clamping devices</source>
-        <translation>DIN 6340 — Podkładka do urządzeń zaciskowych</translation>
+        <translation>— Podkładka do urządzeń zaciskowych</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="186"/>
-        <source>DIN 6340 Washers for clamping devices</source>
-        <translation>DIN 6340 — Podkładka do urządzeń zaciskowych</translation>
+        <source>Washers for clamping devices</source>
+        <translation>— Podkładka do urządzeń zaciskowych</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="173"/>
@@ -899,148 +899,148 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="177"/>
-        <source>ASME B18.2.1 UNC Square bolts</source>
-        <translation>ASME B18.2.1 UNC — Śruba z łbem kwadratowym</translation>
+        <source>UNC Square bolts</source>
+        <translation>UNC — Śruba z łbem kwadratowym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="178"/>
-        <source>ASME B18.2.1 UNC Hex head screws</source>
-        <translation>ASME B18.2.1 UNC — Śruba z łbem sześciokątnym</translation>
+        <source>UNC Hex head screws</source>
+        <translation>UNC — Śruba z łbem sześciokątnym</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="179"/>
-        <source>ASME B18.2.1 UNC Hex head screws with flange</source>
-        <translation>ASME B18.2.1 UNC — Śruba z łbem sześciokątnym z kołnierzem</translation>
+        <source>UNC Hex head screws with flange</source>
+        <translation>UNC — Śruba z łbem sześciokątnym z kołnierzem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="181"/>
-        <source>ASME B18.3 UNC Hex socket head cap screws</source>
-        <translation>ASME B18.3 — Śruba UNC z łbem walcowym z gniazdem na imbus</translation>
+        <source>UNC Hex socket head cap screws</source>
+        <translation>— Śruba UNC z łbem walcowym z gniazdem na imbus</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="182"/>
-        <source>ASME B18.3 UNC Hex socket head cap screws with low head</source>
-        <translation>ASME B18.3 — Śruba UNC z łbem walcowym z gniazdem na imbus i niskim łbem</translation>
+        <source>UNC Hex socket head cap screws with low head</source>
+        <translation>— Śruba UNC z łbem walcowym z gniazdem na imbus i niskim łbem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="183"/>
-        <source>ASME B18.3 UNC Hex socket countersunk head screws</source>
-        <translation>ASME B18.3 — Śruba UNC z łbem stożkowym z gniazdem na imbus</translation>
+        <source>UNC Hex socket countersunk head screws</source>
+        <translation>— Śruba UNC z łbem stożkowym z gniazdem na imbus</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="184"/>
-        <source>ASME B18.3 UNC Hex socket button head screws</source>
-        <translation>ASME B18.3 — Śruba UNC z łbem kulistym z gniazdem na imbus</translation>
+        <source>UNC Hex socket button head screws</source>
+        <translation>— Śruba UNC z łbem kulistym z gniazdem na imbus</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="185"/>
-        <source>ASME B18.3 UNC Hex socket button head screws with flange</source>
-        <translation>ASME B18.3 — Śruba UNC z łbem kulistym z kołnierzem z gniazdem na imbus</translation>
+        <source>UNC Hex socket button head screws with flange</source>
+        <translation>— Śruba UNC z łbem kulistym z kołnierzem z gniazdem na imbus</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="186"/>
-        <source>ASME B18.3 UNC Hexagon socket head shoulder screws</source>
-        <translation>ASME B18.3 — Śruba UNC z łbem walcowym z gniazdem na imbus</translation>
+        <source>UNC Hexagon socket head shoulder screws</source>
+        <translation>— Śruba UNC z łbem walcowym z gniazdem na imbus</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="187"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with flat point</source>
-        <translation>ASME B18.3.5A — Wkręt UNC dociskowy z gniazdem na imbus i płaskim końcem</translation>
+        <source>UNC Hexagon socket set screws with flat point</source>
+        <translation>— Wkręt UNC dociskowy z gniazdem na imbus i płaskim końcem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="188"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with cone point</source>
-        <translation>ASME B18.3.5B — Wkręt UNC dociskowy z gniazdem na imbus i końcówką stożkową</translation>
+        <source>UNC Hexagon socket set screws with cone point</source>
+        <translation>— Wkręt UNC dociskowy z gniazdem na imbus i końcówką stożkową</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="189"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with dog point</source>
-        <translation>ASME B18.3.5C — Wkręt UNC dociskowy z gniazdem na imbus z końcówką zaczepową</translation>
+        <source>UNC Hexagon socket set screws with dog point</source>
+        <translation>— Wkręt UNC dociskowy z gniazdem na imbus z końcówką zaczepową</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="190"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with cup point</source>
-        <translation>ASME B18.3.5D — Wkręt UNC dociskowy z gniazdem na imbus i końcówką kielichową</translation>
+        <source>UNC Hexagon socket set screws with cup point</source>
+        <translation>— Wkręt UNC dociskowy z gniazdem na imbus i końcówką kielichową</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="192"/>
-        <source>ASME B18.6.3 UNC slotted countersunk flat head screws</source>
-        <translation>ASME B18.6.3 — Wkręty UNC z łbem stożkowym z gniazdem płaskim</translation>
+        <source>UNC slotted countersunk flat head screws</source>
+        <translation>— Wkręty UNC z łbem stożkowym z gniazdem płaskim</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="194"/>
-        <source>ASME B18.5 UNC Round head square neck bolts</source>
-        <translation>ASME B18.5 — Śruba UNC z łbem okrągłym z kwadratową szyjką</translation>
+        <source>UNC Round head square neck bolts</source>
+        <translation>— Śruba UNC z łbem okrągłym z kwadratową szyjką</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="196"/>
-        <source>ASME B18.2.2 UNC Hex Machine screw nuts</source>
-        <translation>ASME B18.2.2 — Nakrętka sześciokątna UNC do śrub maszynowych</translation>
+        <source>UNC Hex Machine screw nuts</source>
+        <translation>— Nakrętka sześciokątna UNC do śrub maszynowych</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="197"/>
-        <source>ASME B18.2.2 UNC Square machine screw nuts</source>
-        <translation>ASME B18.2.2 — Nakrętka kwadratowa UNC do śrub maszynowych</translation>
+        <source>UNC Square machine screw nuts</source>
+        <translation>— Nakrętka kwadratowa UNC do śrub maszynowych</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="198"/>
-        <source>ASME B18.2.2 UNC Square nuts</source>
-        <translation>ASME B18.2.2 — Nakrętki kwadratowe UNC</translation>
+        <source>UNC Square nuts</source>
+        <translation>— Nakrętki kwadratowe UNC</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="199"/>
-        <source>ASME B18.2.2 UNC Hexagon nuts</source>
-        <translation>ASME B18.2.2 — Nakrętki sześciokątne UNC</translation>
+        <source>UNC Hexagon nuts</source>
+        <translation>— Nakrętki sześciokątne UNC</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="200"/>
-        <source>ASME B18.2.2 UNC Hexagon thin nuts</source>
-        <translation>ASME B18.2.2 — Nakrętka sześciokątna UNC, cienka</translation>
+        <source>UNC Hexagon thin nuts</source>
+        <translation>— Nakrętka sześciokątna UNC, cienka</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="201"/>
-        <source>ASME B18.2.2 UNC Hex slotted nuts</source>
-        <translation>ASME B18.2.2 — Nakrętka sześciokątna UNC z rowkiem</translation>
+        <source>UNC Hex slotted nuts</source>
+        <translation>— Nakrętka sześciokątna UNC z rowkiem</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="202"/>
-        <source>ASME B18.2.2 UNC Hex flange nuts</source>
-        <translation>ASME B18.2.2 — Nakrętka sześciokątna UNC, kołnierzowa</translation>
+        <source>UNC Hex flange nuts</source>
+        <translation>— Nakrętka sześciokątna UNC, kołnierzowa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="203"/>
-        <source>ASME B18.2.2 UNC Hex coupling nuts</source>
-        <translation>ASME B18.2.2 — Nakrętka UNC sześciokątna</translation>
+        <source>UNC Hex coupling nuts</source>
+        <translation>— Nakrętka UNC sześciokątna</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="204"/>
-        <source>ASME B18.6.9 wing nuts, type A</source>
-        <translation>ASME B18.6.9 — Nakrętka motylkowa, typ A</translation>
+        <source>wing nuts, type A</source>
+        <translation>— Nakrętka motylkowa, typ A</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="205"/>
-        <source>SAE J483a low cap nuts</source>
-        <translation>SAE J483a — Nakrętka kołpakowa, niskia</translation>
+        <source>low cap nuts</source>
+        <translation>— Nakrętka kołpakowa, niskia</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="206"/>
-        <source>SAE J483a high cap nuts</source>
-        <translation>SAE J483a — Nakrętka kołpakowa, wysoka</translation>
+        <source>high cap nuts</source>
+        <translation>— Nakrętka kołpakowa, wysoka</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="208"/>
-        <source>ASME B18.21.1 UN washers, narrow series</source>
-        <translation>ASME B18.21.1 - Podkładka UN, seria wąska</translation>
+        <source>UN washers, narrow series</source>
+        <translation>- Podkładka UN, seria wąska</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="209"/>
-        <source>ASME B18.21.1 UN washers, regular series</source>
-        <translation>ASME B18.21.1 - Podkładka UN, seria zwykła</translation>
+        <source>UN washers, regular series</source>
+        <translation>- Podkładka UN, seria zwykła</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="210"/>
-        <source>ASME B18.21.1 UN washers, wide series</source>
-        <translation>ASME B18.21.1 - Podkładka UN, seria poszerzona</translation>
+        <source>UN washers, wide series</source>
+        <translation>- Podkładka UN, seria poszerzona</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="212"/>
@@ -1064,8 +1064,8 @@ Funkcja może być również użyta do odłączenia elementu złącznego</transl
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="216"/>
-        <source>DIN 975 metric threaded rod</source>
-        <translation>DIN 975 — Pręt gwintowany metryczny</translation>
+        <source>metric threaded rod</source>
+        <translation>— Pręt gwintowany metryczny</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="217"/>

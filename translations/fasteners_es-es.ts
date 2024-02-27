@@ -568,254 +568,254 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="97"/>
-        <source>DIN 933 Hex head screw</source>
-        <translation>DIN 933 Tornillo cabeza hexagonal</translation>
+        <source>Hex head screw</source>
+        <translation>Tornillo cabeza hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="104"/>
-        <source>DIN 961 Hex head screw</source>
-        <translation>DIN 961 Tornillo cabeza hexagonal</translation>
+        <source>Hex head screw</source>
+        <translation>Tornillo cabeza hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="87"/>
-        <source>ISO 4017 Hex head screw</source>
-        <translation>ISO 4017 Tornillo de cabeza hexagonal</translation>
+        <source>Hex head screw</source>
+        <translation>Tornillo de cabeza hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="106"/>
-        <source>ISO 8676 Hex head screw</source>
-        <translation>ISO 8676 Tornillo cabeza hexagonal</translation>
+        <source>Hex head screw</source>
+        <translation>Tornillo cabeza hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="88"/>
-        <source>ISO 4014 Hex head bolt</source>
-        <translation>ISO 4014 Perno de cabeza hexagonal</translation>
+        <source>Hex head bolt</source>
+        <translation>Perno de cabeza hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="89"/>
-        <source>EN 1662 Hexagon bolt with flange, small series</source>
-        <translation>EN 1662 Perno hexagonal con brida, serie pequeña</translation>
+        <source>Hexagon bolt with flange, small series</source>
+        <translation>Perno hexagonal con brida, serie pequeña</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="90"/>
-        <source>EN 1665 Hexagon bolt with flange, heavy series</source>
-        <translation>EN 1665 Perno hexagonal con brida, serie pesada</translation>
+        <source>Hexagon bolt with flange, heavy series</source>
+        <translation>Perno hexagonal con brida, serie pesada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="91"/>
-        <source>DIN 571 Hex head wood screw</source>
-        <translation>DIN 571 Tornillo cabeza hexagonal para madera</translation>
+        <source>Hex head wood screw</source>
+        <translation>Tornillo cabeza hexagonal para madera</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="93"/>
         <source>ISO4762 Hexagon socket head cap screw</source>
-        <translation>ISO 4762 Tornillo hexagonal cabeza cilíndrica</translation>
+        <translation>Tornillo hexagonal cabeza cilíndrica</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="112"/>
-        <source>ISO 4762 Hexagon socket head cap screw</source>
-        <translation>ISO 4762 Tornillo hexagonal cabeza cilíndrica</translation>
+        <source>Hexagon socket head cap screw</source>
+        <translation>Tornillo hexagonal cabeza cilíndrica</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="94"/>
-        <source>DIN 7984 Hexagon socket head cap screws with low head</source>
-        <translation>DIN 7984 Tornillo hexagonal cabeza cilíndrica baja</translation>
+        <source>Hexagon socket head cap screws with low head</source>
+        <translation>Tornillo hexagonal cabeza cilíndrica baja</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="95"/>
-        <source>DIN 6912 Hexagon socket head cap screws with low head with centre</source>
-        <translation>DIN 6912 Tornillo hexagonal cabeza cilíndrica baja con centro</translation>
+        <source>Hexagon socket head cap screws with low head with centre</source>
+        <translation>Tornillo hexagonal cabeza cilíndrica baja con centro</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="96"/>
-        <source>ISO 7380 Hexagon socket button head screw</source>
-        <translation>ISO 7380 Tornillo hexagonal cabeza de botón</translation>
+        <source>Hexagon socket button head screw</source>
+        <translation>Tornillo hexagonal cabeza de botón</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="97"/>
-        <source>ISO 7380 Hexagon socket button head screws with collar</source>
-        <translation>ISO 7380 Tornillo hexagonal cabeza de botón con arandela</translation>
+        <source>Hexagon socket button head screws with collar</source>
+        <translation>Tornillo hexagonal cabeza de botón con arandela</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="98"/>
-        <source>ISO 10642 Hexagon socket countersunk head screw</source>
-        <translation>ISO 10642 Tornillo hexagonal de cabeza avellanada</translation>
+        <source>Hexagon socket countersunk head screw</source>
+        <translation>Tornillo hexagonal de cabeza avellanada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="99"/>
-        <source>ISO 7379 Hexagon socket head shoulder screw</source>
-        <translation>ISO 7379 Tornillo hexagonal cabeza de hombro</translation>
+        <source>Hexagon socket head shoulder screw</source>
+        <translation>Tornillo hexagonal cabeza de hombro</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="124"/>
-        <source>ISO 2936 Hexagon socket screw keys</source>
+        <source>Hexagon socket screw keys</source>
         <translatorcomment>Llave Allen</translatorcomment>
-        <translation>ISO 2936 Llave para tornillo hexagonal</translation>
+        <translation>Llave para tornillo hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="105"/>
-        <source>ISO 14579 Hexalobular socket head cap screws</source>
-        <translation>ISO 14579 Tornillo hexalobular de cabeza cilíndrica</translation>
+        <source>Hexalobular socket head cap screws</source>
+        <translation>Tornillo hexalobular de cabeza cilíndrica</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="106"/>
-        <source>ISO 14580 Hexalobular socket cheese head screws</source>
-        <translation>ISO 14580 Tornillo hexalobular de cabeza de queso</translation>
+        <source>Hexalobular socket cheese head screws</source>
+        <translation>Tornillo hexalobular de cabeza de queso</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="108"/>
-        <source>ISO 14582 Hexalobular socket countersunk head screws, high head</source>
-        <translation>ISO 14582 Tornillo hexalobular de cabeza avellanada, cabeza alta</translation>
+        <source>Hexalobular socket countersunk head screws, high head</source>
+        <translation>Tornillo hexalobular de cabeza avellanada, cabeza alta</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="109"/>
-        <source>ISO 14583 Hexalobular socket pan head screws</source>
-        <translation>ISO 14583 Tornillo hexalobular de cabeza de sartén</translation>
+        <source>Hexalobular socket pan head screws</source>
+        <translation>Tornillo hexalobular de cabeza de sartén</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="110"/>
-        <source>ISO 14584 Hexalobular socket raised countersunk head screws</source>
-        <translation>ISO 14584  Tornillo hexalobular de cabeza avellanada abultada</translation>
+        <source>Hexalobular socket raised countersunk head screws</source>
+        <translation> Tornillo hexalobular de cabeza avellanada abultada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="112"/>
-        <source>ISO 2009 Slotted countersunk flat head screw</source>
-        <translation>ISO 2009 Tornillo ranurado de cabeza avellanada plana</translation>
+        <source>Slotted countersunk flat head screw</source>
+        <translation>Tornillo ranurado de cabeza avellanada plana</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="113"/>
-        <source>ISO 2010 Slotted raised countersunk head screw</source>
-        <translation>ISO 2010 Tornillo ranurado de cabeza avellanada abultada</translation>
+        <source>Slotted raised countersunk head screw</source>
+        <translation>Tornillo ranurado de cabeza avellanada abultada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="114"/>
-        <source>ISO 1580 Slotted pan head screw</source>
-        <translation>ISO 1580 Tornillo ranurado de cabeza de sartén</translation>
+        <source>Slotted pan head screw</source>
+        <translation>Tornillo ranurado de cabeza de sartén</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="115"/>
-        <source>ISO 1207 Slotted cheese head screw</source>
-        <translation>ISO 1207 Tornillo ranurado cabeza de queso</translation>
+        <source>Slotted cheese head screw</source>
+        <translation>Tornillo ranurado cabeza de queso</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="135"/>
-        <source>DIN 84 (superseded by ISO 1207) Slotted cheese head screw</source>
-        <translation>DIN 84 (remplezado por ISO 1207) Tornillo ranurado cabeza de queso</translation>
+        <source>(superseded by ISO 1207) Slotted cheese head screw</source>
+        <translation>(remplezado por ISO 1207) Tornillo ranurado cabeza de queso</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="116"/>
-        <source>DIN 96 Slotted half round head wood screw</source>
-        <translation>DIN 96 Tornillo para madera ranurado cabeza mitad redonda</translation>
+        <source>Slotted half round head wood screw</source>
+        <translation>Tornillo para madera ranurado cabeza mitad redonda</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="117"/>
-        <source>GOST 1144 (Type 1) Half — round head wood screw</source>
-        <translation>GOST 1144 (Tipo 1) Mitad — tornillo para madera cabeza redonda</translation>
+        <source>(Type 1) Half — round head wood screw</source>
+        <translation>(Tipo 1) Mitad — tornillo para madera cabeza redonda</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="118"/>
-        <source>GOST 1144 (Type 2) Half — round head wood screw</source>
-        <translation>GOST 1144 (Tipo 2) Mitad — tornillo para madera cabeza redonda</translation>
+        <source>(Type 2) Half — round head wood screw</source>
+        <translation>(Tipo 2) Mitad — tornillo para madera cabeza redonda</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="120"/>
-        <source>DIN 967 Cross recessed pan head screws with collar</source>
-        <translation>DIN 967 Tornillo cabeza de sartén con hendidura de cruz con arandela</translation>
+        <source>Cross recessed pan head screws with collar</source>
+        <translation>Tornillo cabeza de sartén con hendidura de cruz con arandela</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="121"/>
-        <source>ISO 7045 Pan head screws type H cross recess</source>
-        <translation>ISO 7045 Tornillo cabeza de sartén de cruz tipo H</translation>
+        <source>Pan head screws type H cross recess</source>
+        <translation>Tornillo cabeza de sartén de cruz tipo H</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="122"/>
-        <source>ISO 7046 Countersunk flat head screws H cross r.</source>
-        <translation>ISO 7046 Tornillo de cabeza avellanada plana con hendidura de cruz H</translation>
+        <source>Countersunk flat head screws H cross r.</source>
+        <translation>Tornillo de cabeza avellanada plana con hendidura de cruz H</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="123"/>
-        <source>ISO 7047 Raised countersunk head screws H cross r.</source>
-        <translation>ISO 7047 Tornillo de cabeza avellanada abultada con hendidura de cruz H</translation>
+        <source>Raised countersunk head screws H cross r.</source>
+        <translation>Tornillo de cabeza avellanada abultada con hendidura de cruz H</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="124"/>
-        <source>ISO 7048 Cheese head screws with type H cross r.</source>
-        <translation>ISO 7048 Tornillo cabeza de queso con hendidura de cruz tipo H</translation>
+        <source>Cheese head screws with type H cross r.</source>
+        <translation>Tornillo cabeza de queso con hendidura de cruz tipo H</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="147"/>
-        <source>ISO 7049-C Pan head self tapping screws with conical point, type H cross r.</source>
-        <translation>ISO 7049-C Tornillos autorroscantes de cabeza de sartén con punta cónica, con hendidura de cruz H.</translation>
+        <source>Pan head self tapping screws with conical point, type H cross r.</source>
+        <translation>Tornillos autorroscantes de cabeza de sartén con punta cónica, con hendidura de cruz H.</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="147"/>
-        <source>ISO 7049 Pan head self tapping screws with conical point, type H cross r.</source>
-        <translation>ISO 7049 Tornillos autorroscantes de cabeza de sartén con punta cónica, con hendidura de cruz H.</translation>
+        <source>Pan head self tapping screws with conical point, type H cross r.</source>
+        <translation>Tornillos autorroscantes de cabeza de sartén con punta cónica, con hendidura de cruz H.</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="148"/>
-        <source>ISO 7049-F Pan head self tapping screws with flat point, type H cross r.</source>
-        <translation>ISO 7049lF Tornillos autorroscantes de cabeza de sartén con puplana, con hendidura de cruz H.</translation>
+        <source>Pan head self tapping screws with flat point, type H cross r.</source>
+        <translation>Tornillos autorroscantes de cabeza de sartén con puplana, con hendidura de cruz H.</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="148"/>
-        <source>ISO 7049 Pan head self tapping screws with flat point, type H cross r.</source>
-        <translation>ISO 7049 Tornillos autorroscantes de cabeza de sartén con punta plana, con hendidura de cruz H.</translation>
+        <source>Pan head self tapping screws with flat point, type H cross r.</source>
+        <translation>Tornillos autorroscantes de cabeza de sartén con punta plana, con hendidura de cruz H.</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="149"/>
-        <source>ISO 7049-R Pan head self tapping screws with rounded point type H cross r.</source>
-        <translation>ISO 7049-R Tornillos autorroscantes de cabeza de sartén con punta redondeada, con hendidura de cruz H.</translation>
+        <source>Pan head self tapping screws with rounded point type H cross r.</source>
+        <translation>Tornillos autorroscantes de cabeza de sartén con punta redondeada, con hendidura de cruz H.</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="149"/>
-        <source>ISO 7049 Pan head self tapping screws with rounded point type H cross r.</source>
-        <translation>ISO 7049 Tornillos autorroscantes de cabeza de sartén con punta redondeada, con hendidura de cruz H.</translation>
+        <source>Pan head self tapping screws with rounded point type H cross r.</source>
+        <translation>Tornillos autorroscantes de cabeza de sartén con punta redondeada, con hendidura de cruz H.</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="137"/>
-        <source>DIN 7996 Cross recessed pan head wood screw</source>
-        <translation>DIN 7996 Tornillo cabeza de sartén con hendidura de cruz para madera</translation>
+        <source>Cross recessed pan head wood screw</source>
+        <translation>Tornillo cabeza de sartén con hendidura de cruz para madera</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
-        <source>GOST 1144 (Type 3) Half — round head wood screw</source>
-        <translation>GOST 1144 (Tipo 3) Mitad — tornillo para madera cabeza redonda</translation>
+        <source>(Type 3) Half — round head wood screw</source>
+        <translation>(Tipo 3) Mitad — tornillo para madera cabeza redonda</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="135"/>
-        <source>GOST 1144 (Type 4) Half — round head wood screw</source>
-        <translation>GOST 1144 (Tipo 4) Mitad — tornillo para madera cabeza redonda</translation>
+        <source>(Type 4) Half — round head wood screw</source>
+        <translation>(Tipo 4) Mitad — tornillo para madera cabeza redonda</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="137"/>
-        <source>DIN 603 Mushroom head square neck bolts</source>
-        <translation>DIN 603 Perno cabeza de hongo y cuello cuadrado</translation>
+        <source>Mushroom head square neck bolts</source>
+        <translation>Perno cabeza de hongo y cuello cuadrado</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="138"/>
-        <source>DIN 478 Square head bolts with collar</source>
-        <translation>DIN 478 Perno de cabeza cuadrada con arandela</translation>
+        <source>Square head bolts with collar</source>
+        <translation>Perno de cabeza cuadrada con arandela</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="100"/>
-        <source>ISO 4026 Hexagon socket set screws with flat point</source>
-        <translation>ISO 4026 Prisionero hexagonal con punta plana</translation>
+        <source>Hexagon socket set screws with flat point</source>
+        <translation>Prisionero hexagonal con punta plana</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="101"/>
-        <source>ISO 4027 Hexagon socket set screws with cone point</source>
-        <translation>ISO 4027 Prisionero hexagonal con punta cónica</translation>
+        <source>Hexagon socket set screws with cone point</source>
+        <translation>Prisionero hexagonal con punta cónica</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="102"/>
-        <source>ISO 4028 Hexagon socket set screws with dog point</source>
-        <translation>ISO 4028 Prisionero hexagonal con punta de perro (cilíndrica)</translation>
+        <source>Hexagon socket set screws with dog point</source>
+        <translation>Prisionero hexagonal con punta de perro (cilíndrica)</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="103"/>
-        <source>ISO 4029 Hexagon socket set screws with cup point</source>
-        <translation>ISO 4029 Prisionero hexagonal con punta de copa</translation>
+        <source>Hexagon socket set screws with cup point</source>
+        <translation>Prisionero hexagonal con punta de copa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="127"/>
@@ -824,183 +824,183 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="161"/>
-        <source>ISO 4766 Slotted socket set screws with flat point</source>
-        <translation>ISO 4766 Prisionero ranurado con punta plana</translation>
+        <source>Slotted socket set screws with flat point</source>
+        <translation>Prisionero ranurado con punta plana</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="162"/>
-        <source>ISO 7434 Slotted socket set screws with cone point</source>
-        <translation>ISO 7434 Prisionero ranurado con punta cónica</translation>
+        <source>Slotted socket set screws with cone point</source>
+        <translation>Prisionero ranurado con punta cónica</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="163"/>
-        <source>ISO 7435 Slotted socket set screws with long dog point</source>
-        <translation>ISO 7435 Prisionero ranurado con punta de perro</translation>
+        <source>Slotted socket set screws with long dog point</source>
+        <translation>Prisionero ranurado con punta de perro</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="164"/>
-        <source>ISO 7436 Slotted socket set screws with cup point</source>
-        <translation>ISO 7436 Prisionero ranurado con punta de copa</translation>
+        <source>Slotted socket set screws with cup point</source>
+        <translation>Prisionero ranurado con punta de copa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="157"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with flat point</source>
-        <translation>ASME B18.3 UNC Prisionero hexagonal con punta plana</translation>
+        <source>UNC Hexagon socket set screws with flat point</source>
+        <translation>UNC Prisionero hexagonal con punta plana</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="158"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with cone point</source>
-        <translation>ASME B18.3 UNC Prisionero hexagonal con punta cónica</translation>
+        <source>UNC Hexagon socket set screws with cone point</source>
+        <translation>UNC Prisionero hexagonal con punta cónica</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="159"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with dog point</source>
-        <translation>ASME B18.3 UNC Prisionero hexagonal con punta de perro (cilíndrica)</translation>
+        <source>UNC Hexagon socket set screws with dog point</source>
+        <translation>UNC Prisionero hexagonal con punta de perro (cilíndrica)</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="160"/>
-        <source>ASME B18.3 UNC Hexagon socket set screws with cup point</source>
-        <translation>ASME B18.3 UNC Prisionero hexagonal con punta de copa</translation>
+        <source>UNC Hexagon socket set screws with cup point</source>
+        <translation>UNC Prisionero hexagonal con punta de copa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="126"/>
-        <source>ISO 4032 Hexagon nuts, Style 1</source>
-        <translation>ISO 4032 Tuerca hexagonal, estilo 1</translation>
+        <source>Hexagon nuts, Style 1</source>
+        <translation>Tuerca hexagonal, estilo 1</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="127"/>
-        <source>ISO 4033 Hexagon nuts, Style 2</source>
-        <translation>ISO 4033 Tuerca hexagonal, estilo 2</translation>
+        <source>Hexagon nuts, Style 2</source>
+        <translation>Tuerca hexagonal, estilo 2</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="154"/>
-        <source>ISO 4034 Hexagon nuts, Style 1</source>
-        <translation>ISO 4034 Tuerca hexagonal, estilo 1</translation>
+        <source>Hexagon nuts, Style 1</source>
+        <translation>Tuerca hexagonal, estilo 1</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="128"/>
-        <source>ISO 4035 Hexagon thin nuts, chamfered</source>
-        <translation>ISO 4035 Tuerca hexagonal delgada, biselada</translation>
+        <source>Hexagon thin nuts, chamfered</source>
+        <translation>Tuerca hexagonal delgada, biselada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="147"/>
-        <source>DIN 934(superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
-        <translation>DIN 934(remplezado por ISO 4035 e ISO 8673) Tuerca hexagonal delgada, biselada</translation>
+        <source>by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
+        <translation>por ISO 4035 e ISO 8673) Tuerca hexagonal delgada, biselada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="156"/>
-        <source>ISO 8673 Hexagon regular nuts (style 1) with metric fine pitch thread — Product grades A and B</source>
-        <translation>ISO 8673 Tuerca hexagonal regular (estilo 1) con rosca métrica de paso fino - Grados de producto A y B</translation>
+        <source>Hexagon regular nuts (style 1) with metric fine pitch thread — Product grades A and B</source>
+        <translation>Tuerca hexagonal regular (estilo 1) con rosca métrica de paso fino - Grados de producto A y B</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="157"/>
-        <source>ISO 8674 Hexagon high nuts (style 2) with metric fine pitch thread </source>
-        <translation>ISO 8674 Tuerca hexagonal alta (estilo 2) con rosca métrica de paso fino</translation>
+        <source>Hexagon high nuts (style 2) with metric fine pitch thread </source>
+        <translation>Tuerca hexagonal alta (estilo 2) con rosca métrica de paso fino</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="158"/>
-        <source>ISO 8675 Hexagon thin nuts chamfered (style 0) with metric fine pitch thread — Product grades A and B</source>
-        <translation>ISO 8675 Tuerca hexagonal delgada biselada (estilo 0) con rosca métrica de paso fino - Grados de producto A y B</translation>
+        <source>Hexagon thin nuts chamfered (style 0) with metric fine pitch thread — Product grades A and B</source>
+        <translation>Tuerca hexagonal delgada biselada (estilo 0) con rosca métrica de paso fino - Grados de producto A y B</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="159"/>
-        <source>DIN 934 (superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
-        <translation>DIN 934 (sustituida por ISO 4035 e ISO 8673) Tuerca hexagonal fina, biselada</translation>
+        <source>(superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered</source>
+        <translation>(sustituida por ISO 4035 e ISO 8673) Tuerca hexagonal fina, biselada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="130"/>
-        <source>EN 1661 Hexagon nuts with flange</source>
-        <translation>EN 1661 Tuerca hexagonal con brida</translation>
+        <source>Hexagon nuts with flange</source>
+        <translation>Tuerca hexagonal con brida</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="131"/>
         <source>DIN917 Cap nuts, thin style</source>
-        <translation>DIN 917 Tuerca bellota, estilo delgado</translation>
+        <translation>Tuerca bellota, estilo delgado</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="162"/>
-        <source>DIN 917 Cap nuts, thin style</source>
-        <translation>DIN 917 Tuerca bellota, estilo delgado</translation>
+        <source>Cap nuts, thin style</source>
+        <translation>Tuerca bellota, estilo delgado</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="145"/>
-        <source>DIN 928 square weld nuts</source>
-        <translation>DIN 928 Tuerca de soldadura cuadrada</translation>
+        <source>square weld nuts</source>
+        <translation>Tuerca de soldadura cuadrada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="146"/>
-        <source>DIN 929 hexagonal weld nuts</source>
-        <translation>DIN 929 Tuercas de soldadura hexagonales</translation>
+        <source>hexagonal weld nuts</source>
+        <translation>Tuercas de soldadura hexagonales</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="147"/>
-        <source>DIN 935 Slotted / Castle nuts</source>
-        <translation>DIN 935 Tuercas ranuradas/castillo</translation>
+        <source>Slotted / Castle nuts</source>
+        <translation>Tuercas ranuradas/castillo</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="154"/>
-        <source>DIN 6330 Hexagon nuts with a height of 1,5 d</source>
-        <translation>DIN 6330 Tuerca hexagonal, altura de 1.5 d</translation>
+        <source>Hexagon nuts with a height of 1,5 d</source>
+        <translation>Tuerca hexagonal, altura de 1.5 d</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="167"/>
-        <source>DIN 6331 Hexagon nuts with collar height 1,5 d</source>
-        <translation>DIN 6331 Tuerca hexagonal con arandela, altura de 1.5 d</translation>
+        <source>Hexagon nuts with collar height 1,5 d</source>
+        <translation>Tuerca hexagonal con arandela, altura de 1.5 d</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="148"/>
-        <source>DIN 6334 elongated hexagon nuts</source>
-        <translation>DIN 6334 Tuercas hexagonales elongadas</translation>
+        <source>elongated hexagon nuts</source>
+        <translation>Tuercas hexagonales elongadas</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="149"/>
-        <source>DIN 7967 self locking counter nuts</source>
-        <translation>DIN 7967 Contra-tuercas de auto bloqueo</translation>
+        <source>self locking counter nuts</source>
+        <translation>Contra-tuercas de auto bloqueo</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="132"/>
-        <source>DIN 1587 Cap nuts</source>
-        <translation>DIN 1587 Tuerca bellota</translation>
+        <source>Cap nuts</source>
+        <translation>Tuerca bellota</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="133"/>
-        <source>GOST 11860 (Type 1) Cap nuts</source>
-        <translation>GOST 11860 (Tipo 1) Tuercas bellota</translation>
+        <source>(Type 1) Cap nuts</source>
+        <translation>(Tipo 1) Tuercas bellota</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="152"/>
-        <source>DIN 315 wing nuts</source>
-        <translation>DIN 315 Tuercas mariposa</translation>
+        <source>wing nuts</source>
+        <translation>Tuercas mariposa</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
-        <source>DIN 557 Square nuts</source>
-        <translation>DIN 557 Tuerca cuadrada</translation>
+        <source>Square nuts</source>
+        <translation>Tuerca cuadrada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="135"/>
-        <source>DIN 562 Square nuts</source>
-        <translation>DIN 562 Tuerca cuadrada</translation>
+        <source>Square nuts</source>
+        <translation>Tuerca cuadrada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="136"/>
-        <source>DIN 985 Nyloc nuts</source>
-        <translation>DIN 985 Tuerca nyloc</translation>
+        <source>Nyloc nuts</source>
+        <translation>Tuerca nyloc</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="156"/>
-        <source>DIN 1624 Tee nuts</source>
-        <translation>DIN 1624 Tuerca T</translation>
+        <source>Tee nuts</source>
+        <translation>Tuerca T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="134"/>
-        <source>DIN 508 T-Slot nuts</source>
-        <translation>DIN 508 Tuercas de ranura en T</translation>
+        <source>T-Slot nuts</source>
+        <translation>Tuercas de ranura en T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="179"/>
-        <source>ISO 299 T-Slot nuts</source>
-        <translation>ISO 299 Tuercas de ranura en T</translation>
+        <source>T-Slot nuts</source>
+        <translation>Tuercas de ranura en T</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="166"/>
@@ -1009,8 +1009,8 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="138"/>
-        <source>ISO 7089 Washer</source>
-        <translation>ISO 7089 Arandela</translation>
+        <source>Washer</source>
+        <translation>Arandela</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="152"/>
@@ -1034,28 +1034,28 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="184"/>
-        <source>ISO 7089 Plain washers - Normal series</source>
-        <translation>ISO 7089 Arandela plana - Serie normal</translation>
+        <source>Plain washers - Normal series</source>
+        <translation>Arandela plana - Serie normal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="139"/>
-        <source>ISO 7090 Plain Washers, chamfered - Normal series</source>
-        <translation>ISO 7090 Arandela plana, biselada - Serie normal</translation>
+        <source>Plain Washers, chamfered - Normal series</source>
+        <translation>Arandela plana, biselada - Serie normal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="141"/>
-        <source>ISO 7092 Plain washers - Small series</source>
-        <translation>ISO 7092 Arandela plana - Serie pequeña</translation>
+        <source>Plain washers - Small series</source>
+        <translation>Arandela plana - Serie pequeña</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="142"/>
-        <source>ISO 7093-1 Plain washers - Large series</source>
-        <translation>ISO 7093-1 Arandela plana - Serie grande</translation>
+        <source>Plain washers - Large series</source>
+        <translation>Arandela plana - Serie grande</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="143"/>
-        <source>ISO 7094 Plain washers - Extra large series</source>
-        <translation>ISO 7094 Arandela plana - Serie extra grande</translation>
+        <source>Plain washers - Extra large series</source>
+        <translation>Arandela plana - Serie extra grande</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="175"/>
@@ -1064,28 +1064,28 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="190"/>
-        <source>ISO 8738 Plain washers for clevis pins</source>
-        <translation>ISO 8738 Arandela plana para pasadores de horquilla</translation>
+        <source>Plain washers for clevis pins</source>
+        <translation>Arandela plana para pasadores de horquilla</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="191"/>
-        <source>DIN 6319C Spherical washer</source>
-        <translation>DIN 6319C Arandela esférica</translation>
+        <source>Spherical washer</source>
+        <translation>Arandela esférica</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="192"/>
-        <source>DIN 6319D Conical seat</source>
-        <translation>DIN 6319D Asiento cónico</translation>
+        <source>Conical seat</source>
+        <translation>Asiento cónico</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="193"/>
-        <source>DIN 6319G Conical seat</source>
-        <translation>DIN 6319G Asiento cónico</translation>
+        <source>Conical seat</source>
+        <translation>Asiento cónico</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="194"/>
-        <source>DIN 6340 Washers for clamping devices</source>
-        <translation>DIN 6340 Arandela para dispositivos de sujeción</translation>
+        <source>Washers for clamping devices</source>
+        <translation>Arandela para dispositivos de sujeción</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="144"/>
@@ -1094,133 +1094,133 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="172"/>
-        <source>ASME B18.2.1 UNC Square bolts</source>
-        <translation>ASME B18.2.1 Perno cuadrado UNC</translation>
+        <source>UNC Square bolts</source>
+        <translation>Perno cuadrado UNC</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="148"/>
-        <source>ASME B18.2.1 UNC Hex head screws</source>
-        <translation>ASME B18.2.1 UNC Tornillo cabeza hexagonal</translation>
+        <source>UNC Hex head screws</source>
+        <translation>UNC Tornillo cabeza hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="149"/>
-        <source>ASME B18.2.1 UNC Hex head screws with flange</source>
-        <translation>ASME B18.2.1 UNC Tornillo cabeza hexagonal con brida</translation>
+        <source>UNC Hex head screws with flange</source>
+        <translation>UNC Tornillo cabeza hexagonal con brida</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="151"/>
-        <source>ASME B18.3 UNC Hex socket head cap screws</source>
-        <translation>ASME B18.3 UNC Tornillo hexagonal cabeza cilíndrica</translation>
+        <source>UNC Hex socket head cap screws</source>
+        <translation>UNC Tornillo hexagonal cabeza cilíndrica</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="152"/>
-        <source>ASME B18.3 UNC Hex socket head cap screws with low head</source>
-        <translation>ASME B18.3 UNC Tornillo hexagonal cabeza cilíndrica baja</translation>
+        <source>UNC Hex socket head cap screws with low head</source>
+        <translation>UNC Tornillo hexagonal cabeza cilíndrica baja</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="153"/>
-        <source>ASME B18.3 UNC Hex socket countersunk head screws</source>
-        <translation>ASME B18.3 UNC Tornillo hexagonal cabeza avellanada</translation>
+        <source>UNC Hex socket countersunk head screws</source>
+        <translation>UNC Tornillo hexagonal cabeza avellanada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="154"/>
-        <source>ASME B18.3 UNC Hex socket button head screws</source>
-        <translation>ASME B18.3 UNC Tornillo hexagonal cabeza de botón</translation>
+        <source>UNC Hex socket button head screws</source>
+        <translation>UNC Tornillo hexagonal cabeza de botón</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="155"/>
-        <source>ASME B18.3 UNC Hex socket button head screws with flange</source>
-        <translation>ASME B18.3 UNC Tornillo hexagonal cabeza de botón con brida</translation>
+        <source>UNC Hex socket button head screws with flange</source>
+        <translation>UNC Tornillo hexagonal cabeza de botón con brida</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="156"/>
-        <source>ASME B18.3 UNC Hexagon socket head shoulder screws</source>
-        <translation>ASME B18.3 UNC Tornillo hexagonal cabeza con hombro</translation>
+        <source>UNC Hexagon socket head shoulder screws</source>
+        <translation>UNC Tornillo hexagonal cabeza con hombro</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="162"/>
-        <source>ASME B18.6.3 UNC slotted countersunk flat head screws</source>
-        <translation>ASME B18.6.3 UNC Tornillo ranurado avellanado de cabeza plana</translation>
+        <source>UNC slotted countersunk flat head screws</source>
+        <translation>UNC Tornillo ranurado avellanado de cabeza plana</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="164"/>
-        <source>ASME B18.5 UNC Round head square neck bolts</source>
-        <translation>ASME B18.5 UNC Perno cabeza redonda cuello cuadrado</translation>
+        <source>UNC Round head square neck bolts</source>
+        <translation>UNC Perno cabeza redonda cuello cuadrado</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="166"/>
-        <source>ASME B18.2.2 UNC Machine screw nuts</source>
-        <translation>ASME B18.2.2 UNC Tuerca de tornillo de máquina</translation>
+        <source>UNC Machine screw nuts</source>
+        <translation>UNC Tuerca de tornillo de máquina</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="189"/>
-        <source>ASME B18.2.2 UNC Hex Machine screw nuts</source>
-        <translation>ASME B18.2.2 UNC Tuerca de tornillo de máquina hexagonal</translation>
+        <source>UNC Hex Machine screw nuts</source>
+        <translation>UNC Tuerca de tornillo de máquina hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="190"/>
-        <source>ASME B18.2.2 UNC Square machine screw nuts</source>
-        <translation>ASME B18.2.2 UNC Tuerca de tornillo de máquina cuadrada</translation>
+        <source>UNC Square machine screw nuts</source>
+        <translation>UNC Tuerca de tornillo de máquina cuadrada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="191"/>
-        <source>ASME B18.2.2 UNC Square nuts</source>
-        <translation>ASME B18.2.2 UNC Tuerca cuadrada</translation>
+        <source>UNC Square nuts</source>
+        <translation>UNC Tuerca cuadrada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="167"/>
-        <source>ASME B18.2.2 UNC Hexagon nuts</source>
-        <translation>ASME B18.2.2 UNC Tuerca hexagonal</translation>
+        <source>UNC Hexagon nuts</source>
+        <translation>UNC Tuerca hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="168"/>
-        <source>ASME B18.2.2 UNC Hexagon thin nuts</source>
-        <translation>ASME B18.2.2 UNC Tuerca hexagonal delgada</translation>
+        <source>UNC Hexagon thin nuts</source>
+        <translation>UNC Tuerca hexagonal delgada</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="194"/>
-        <source>ASME B18.2.2 UNC Hex slotted nuts</source>
-        <translation>ASME B18.2.2 UNC Tuerca ranurada hexagonal</translation>
+        <source>UNC Hex slotted nuts</source>
+        <translation>UNC Tuerca ranurada hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="195"/>
-        <source>ASME B18.2.2 UNC Hex flange nuts</source>
-        <translation>ASME B18.2.2 UNC Tuerca hexagonal con brida</translation>
+        <source>UNC Hex flange nuts</source>
+        <translation>UNC Tuerca hexagonal con brida</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="196"/>
-        <source>ASME B18.2.2 UNC Hex coupling nuts</source>
-        <translation>ASME B18.2.2 UNC Tuerca de acoplamiento hexagonal</translation>
+        <source>UNC Hex coupling nuts</source>
+        <translation>UNC Tuerca de acoplamiento hexagonal</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="197"/>
-        <source>ASME B18.6.9 wing nuts, type A</source>
-        <translation>ASME B18.6.9 Tuerca mariposa, tipo A</translation>
+        <source>wing nuts, type A</source>
+        <translation>Tuerca mariposa, tipo A</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="198"/>
-        <source>SAE J483a low cap nuts</source>
-        <translation>SAE J483a Tuerca bellota baja</translation>
+        <source>low cap nuts</source>
+        <translation>Tuerca bellota baja</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="199"/>
-        <source>SAE J483a high cap nuts</source>
-        <translation>SAE J483a Tuerca bellota alta</translation>
+        <source>high cap nuts</source>
+        <translation>Tuerca bellota alta</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="170"/>
-        <source>ASME B18.21.1 UN washers, narrow series</source>
-        <translation>ASME B18.21.1 Arandela UN, serie estrecha</translation>
+        <source>UN washers, narrow series</source>
+        <translation>Arandela UN, serie estrecha</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="171"/>
-        <source>ASME B18.21.1 UN washers, regular series</source>
-        <translation>ASME B18.21.1 Arandela UN, serie regular</translation>
+        <source>UN washers, regular series</source>
+        <translation>Arandela UN, serie regular</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="172"/>
-        <source>ASME B18.21.1 UN washers, wide series</source>
-        <translation>ASME B18.21.1 Arandela UN, serie amplia</translation>
+        <source>UN washers, wide series</source>
+        <translation>Arandela UN, serie amplia</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="174"/>
@@ -1234,8 +1234,8 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="178"/>
-        <source>DIN 975 metric threaded rod</source>
-        <translation>DIN 975 barra roscada métrica</translation>
+        <source>metric threaded rod</source>
+        <translation>barra roscada métrica</translation>
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="175"/>

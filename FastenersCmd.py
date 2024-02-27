@@ -397,6 +397,15 @@ def FSGetDescription(type):
         return ""
     return FSGetTypePretty(type) + " " + FSScrewCommandTable[type][CMD_HELP]
 
+def FSUpdateFormatString(fmtstr, type):
+    if type not in FSScrewCommandTable:
+        return fmtstr
+    params = FSScrewCommandTable[type][CMD_PARAMETER_GRP]
+    sizestr = ""
+    for par in {"diameter", "length"}:
+        if (par in params):
+            sizestr += " x " + par
+    return fmtstr.replace("{dimension}", "{" + sizestr[3:] + "}")
 
 
 class FSScrewObject(FSBaseObject):

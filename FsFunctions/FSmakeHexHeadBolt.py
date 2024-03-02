@@ -66,6 +66,10 @@ def makeHexHeadBolt(self, fa):
         P, b1, b2, b3, c, dw, e, k, r, s = fa.dimTable
     elif fa.baseType == "ISO4016":
         P, b1, b2, b3, c, _, _, _, dw, e, k, _, _, _, r, s, _ = fa.dimTable
+    elif fa.baseType == "ASMEB18.2.1.6":
+        b, P, c, dw, e, k, r, s = fa.dimTable
+        if length > 6 * 25.4:
+            b += 6.35
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.type}")
     if fa.baseType in ["ISO4014", "ISO4016", "ISO8765"]:
@@ -77,10 +81,6 @@ def makeHexHeadBolt(self, fa):
             else:
                 b = b3
 
-    if fa.baseType == "ASMEB18.2.1.6":
-        b, P, c, dw, e, k, r, s = fa.dimTable
-        if length > 6 * 25.4:
-            b += 6.35
     # needed for chamfer at head top
     cham = (e - s) * math.sin(math.radians(15))
     # lay out head profile

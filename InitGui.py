@@ -46,6 +46,7 @@ class FastenersWorkbench(FreeCADGui.Workbench):
         import CountersunkHoles
         import FSChangeParams
         import GrammaticalTools
+        import FastenersBillOfMaterials
 
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command")

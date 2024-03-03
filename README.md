@@ -120,6 +120,9 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.13  03 Mar 2024:  Deprecate countersunk hole feature by @alexneufeld.  
+                       - Update translation script by @hasecilu.  
+                       - Restore missing ASMEB18.2.1.6 fastener by @hasecilu.  
 * V0.5.12  21 Feb 2024:  Add remaining unimplemented ISO hex head fasteners by @alexneufeld:  
                        -  ISO 4015, ISO 4016, ISO 4018, ISO 4162, ISO 8765, ISO 15071 and ISO 15072.  
 * V0.5.11  19 Feb 2024:  Add ISO 2342 headless screws by @alexneufeld.  

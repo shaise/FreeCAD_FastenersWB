@@ -22,6 +22,7 @@
 #
 #
 ###############################################################################
+
 from FreeCAD import Gui
 from FreeCAD import Base
 from PySide import QtGui
@@ -257,14 +258,14 @@ def cleanDiamStr(m):
     return res[0]
 
 
-def MToFloat(m):
+def MToFloat(m: str) -> float:
     """Convert a metric diameter string into a float."""
     return float(cleanDiamStr(m).lstrip("M"))
 
 # accepts formats: 'Mx', '(Mx)' 'YYYMx' 'Mx-YYY'
 
 
-def DiaStr2Num(DiaStr):
+def DiaStr2Num(DiaStr: str) -> float:
     """Convert a diameter string to a corresponding numeric value."""
     DiaStr = cleanDiamStr(DiaStr)
     return FsData["DiaList"][DiaStr][0]
@@ -272,21 +273,22 @@ def DiaStr2Num(DiaStr):
 # inch tolerant version of length string to number converter
 
 
-def LenStr2Num(LenStr):
+def LenStr2Num(LenStr: str) -> float:
+    """Convert a length string to a corresponding numeric value."""
     # inch diameters of format 'x y/z\"'
-    if 'in' in LenStr:
-        components = LenStr.strip('in').split(' ')
+    if "in" in LenStr:
+        components = LenStr.strip("in").split(" ")
         total = 0
         for item in components:
-            if '/' in item:
-                subcmpts = item.split('/')
+            if "/" in item:
+                subcmpts = item.split("/")
                 total += float(subcmpts[0]) / float(subcmpts[1])
             else:
                 total += float(item)
         DiaFloat = total * 25.4
     # if there are no identifying unit chars, default to mm
     else:
-        LenStr = LenStr.strip(" m")
+        LenStr = LenStr.strip(" m()")
         DiaFloat = float(LenStr)
     return DiaFloat
 

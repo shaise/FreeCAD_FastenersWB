@@ -743,19 +743,20 @@ class Screw:
         return D - 2 *  H_3_8
 
     def getLength(self, LenStr: str) -> float:
+        """Convert a length string to a corresponding numeric value."""
         # washers and nuts pass an int (1), for their unused length attribute
         # handle this circumstance if necessary
         if isinstance(LenStr, int):
             return LenStr
         # otherwise convert the string to a number using predefined rules
-        if 'in' not in LenStr:
-            LenFloat = float(LenStr)
+        if "in" not in LenStr:
+            LenFloat = float(LenStr.strip("()"))
         else:
-            components = LenStr.strip('in').split(' ')
+            components = LenStr.strip("in").split(" ")
             total = 0
             for item in components:
-                if '/' in item:
-                    subcmpts = item.split('/')
+                if "/" in item:
+                    subcmpts = item.split("/")
                     total += float(subcmpts[0]) / float(subcmpts[1])
                 else:
                     total += float(item)

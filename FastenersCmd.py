@@ -56,6 +56,7 @@ translate("FastenerCmdTreeView", "SetScrew")
 translate("FastenerCmdTreeView", "HexKey")
 translate("FastenerCmdTreeView", "Nail")
 translate("FastenerCmdTreeView", "Pin")
+translate("FastenerCmdTreeView", "Thumbscrew")
 
 # fmt: off
 ScrewParameters = {"type", "diameter",
@@ -107,6 +108,7 @@ TSlotGroup = translate("FastenerCmd", "T-Slot Fasteners")
 SetScrewGroup = translate("FastenerCmd", "Set screws")
 NailGroup = translate("FastenerCmd", "Nails")
 PinGroup = translate("FastenerCmd", "Pins")
+ThumbScrewGroup = translate("FastenerCmd", "Thumb screws")
 
 CMD_HELP = 0
 CMD_GROUP = 1
@@ -226,6 +228,12 @@ FSScrewCommandTable = {
     "ISO7434": (translate("FastenerCmd", "Slotted socket set screws with cone point"), SetScrewGroup, ScrewParametersLC),
     "ISO7435": (translate("FastenerCmd", "Slotted socket set screws with long dog point"), SetScrewGroup, ScrewParametersLC),
     "ISO7436": (translate("FastenerCmd", "Slotted socket set screws with cup point"), SetScrewGroup, ScrewParametersLC),
+
+    # ThumbscrewGroup
+
+    "DIN464": (translate("FastenerCmd", "Knurled thumb screws, high type"), ThumbScrewGroup, ScrewParametersLC),
+    "DIN465": (translate("FastenerCmd", "Slotted knurled thumb screws, high type"), ThumbScrewGroup, ScrewParametersLC),
+    "DIN653": (translate("FastenerCmd", "Knurled thumb screws, low type"), ThumbScrewGroup, ScrewParametersLC),
 
     # NutGroup
 

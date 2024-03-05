@@ -416,7 +416,7 @@ def FSUpdateFormatString(fmtstr, type):
 
 class FSScrewObject(FSBaseObject):
     def __init__(self, obj, type, attachTo):
-        '''"Add screw type fastener" '''
+        """Add screw type fastener."""
         super().__init__(obj, attachTo)
         # FreeCAD.Console.PrintMessage("Added: " + type + "\n")
         # self.Proxy = obj.Name
@@ -619,7 +619,7 @@ class FSScrewObject(FSBaseObject):
         return getattr(self, param) != value
 
     def execute(self, fp):
-        '''"Print a short message when doing a recomputation, this method is mandatory" '''
+        """Print a short message when doing a recomputation, this method is mandatory."""
 
         try:
             baseobj = fp.baseObject[0]
@@ -796,7 +796,7 @@ class FSScrewObject(FSBaseObject):
 
 
 class FSViewProviderTree:
-    "A View provider for custom icon"
+    """A View provider for custom icon."""
 
     def __init__(self, obj):
         obj.Proxy = self

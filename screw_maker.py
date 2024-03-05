@@ -723,24 +723,24 @@ class Screw:
     # - On ISO 262 is presented tha available pitches for a given diameter.
     # - On ISO 965-1 is presented the tolerances for metric screw thread.
     def getDia1(self, D: float, P: float) -> float:
-        """ Returns the basic minor diameter of metric thread according to ISO 68-1
+        """Returns the basic minor diameter of metric thread according to ISO 68-1
         d_1 = D - 2 * 5/8 * H
         Parameters:
         - D: major diameter
         - P: pitch
         """
         H_5_8 = FsData["ISO68-1def"][str(P)][1]
-        return D - 2 *  H_5_8
+        return D - 2 * H_5_8
 
     def getDia2(self, D: float, P: float) -> float:
-        """ Returns the basic pitch diameter of metric thread according to ISO 68-1
+        """Returns the basic pitch diameter of metric thread according to ISO 68-1
         d_2 = D - 2 * 3/8 * H
         Parameters:
         - D: major diameter
         - P: pitch
         """
         H_3_8 = FsData["ISO68-1def"][str(P)][2]
-        return D - 2 *  H_3_8
+        return D - 2 * H_3_8
 
     def getLength(self, LenStr: str) -> float:
         """Convert a length string to a corresponding numeric value."""

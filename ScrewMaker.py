@@ -361,7 +361,7 @@ class FSScrewMaker(Screw):
         super().__init__()
 
     def FindClosest(self, type, diam, len, width=None):
-        ''' Find closest standard screw to given parameters '''
+        """Find closest standard screw to given parameters"""
         if type not in screwTables:
             return diam, len, width
 
@@ -401,7 +401,7 @@ class FSScrewMaker(Screw):
         return diam, len, width
 
     def AutoDiameter(self, type, holeObj, baseobj=None, matchOuter=False):
-        ''' Calculate screw diameter automatically based on given hole '''
+        """Calculate screw diameter automatically based on given hole"""
         # this function is also used to assign the default screw diameter
         if baseobj is not None and baseobj.Name.startswith("Washer"):
             matchOuter = True

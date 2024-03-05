@@ -49,7 +49,7 @@ class FastenersWorkbench(FreeCADGui.Workbench):
 
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command")
-        self.appendToolbar("FS Commands", cmdlist)
+        self.appendToolbar(translate("InitGui", "FS Commands"), cmdlist)
         self.appendMenu(
             translate("InitGui", "Fasteners"), cmdlist
         )  # creates a new menu
@@ -91,7 +91,9 @@ class FastenersWorkbench(FreeCADGui.Workbench):
                     cmd,
                 )
         if len(screwlist) > 0:
-            self.appendToolbar("FS Screws", screwlist)  # creates main screw toolbar
+            self.appendToolbar(
+                translate("InitGui", "FS Screws"), screwlist
+            )  # creates main screw toolbar
             self.list.extend(screwlist)
         FreeCADGui.addIconPath(FastenerBase.iconPath)
         FreeCADGui.addPreferencePage(

@@ -730,8 +730,8 @@ class FSFlipCommand:
         return screwObj
 
 
-Gui.addCommand('FSFlip', FSFlipCommand())
-FSCommands.append('FSFlip', "command")
+Gui.addCommand("Fasteners_Flip", FSFlipCommand())
+FSCommands.append("Fasteners_Flip", "command")
 
 ################################ Move command #################################
 
@@ -773,8 +773,8 @@ class FSMoveCommand:
         return screwObj, edgeObj
 
 
-Gui.addCommand('FSMove', FSMoveCommand())
-FSCommands.append('FSMove', "command")
+Gui.addCommand("Fasteners_Move", FSMoveCommand())
+FSCommands.append("Fasteners_Move", "command")
 
 ########################### Make Simple command ###############################
 
@@ -808,8 +808,9 @@ class FSMakeSimpleCommand:
         return False
 
 
-Gui.addCommand('FSSimple', FSMakeSimpleCommand())
-FSCommands.append('FSSimple', "command")
+# Fasteners_Shape
+Gui.addCommand("Fasteners_Simple", FSMakeSimpleCommand())
+FSCommands.append("Fasteners_Simple", "command")
 
 ######################## MatchTypeInner/Outer commands ########################
 
@@ -854,10 +855,10 @@ class FSMatchTypeOuterCommand:
         }
 
 
-FreeCADGui.addCommand('FSMatchTypeInner', FSMatchTypeInnerCommand())
-FreeCADGui.addCommand('FSMatchTypeOuter', FSMatchTypeOuterCommand())
-FSCommands.append('FSMatchTypeInner', "command")
-FSCommands.append('FSMatchTypeOuter', "command")
+FreeCADGui.addCommand("Fasteners_MatchTypeInner", FSMatchTypeInnerCommand())
+FreeCADGui.addCommand("Fasteners_MatchTypeOuter", FSMatchTypeOuterCommand())
+FSCommands.append("Fasteners_MatchTypeInner", "command")
+FSCommands.append("Fasteners_MatchTypeOuter", "command")
 
 def InitCheckables():
     match_outer = FSParam.GetBool("MatchOuterDiameter")
@@ -983,5 +984,6 @@ class FSMakeBomCommand:
         return Gui.ActiveDocument is not None
 
 
-Gui.addCommand('FSMakeBOM', FSMakeBomCommand())
-FSCommands.append('FSMakeBOM', "command")
+# Fasteners_BOM
+Gui.addCommand("Fasteners_MakeBOM", FSMakeBomCommand())
+FSCommands.append("Fasteners_MakeBOM", "command")

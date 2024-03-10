@@ -22,6 +22,7 @@
 #
 #
 ###############################################################################
+
 from FreeCAD import Gui
 from FreeCAD import Base
 from PySide import QtGui
@@ -63,7 +64,7 @@ for item in filelist:
 
 
 class FSBaseObject:
-    '''Base Class for all fasteners'''
+    """Base Class for all fasteners."""
 
     def __init__(self, obj, attachTo):
         obj.addProperty("App::PropertyDistance", "offset", "Parameters", translate(
@@ -176,10 +177,10 @@ def FSAddItemsToType(typeName, item):
 # common helpers
 
 def FSScrewStr(obj):
-    '''Return the textual representation of the screw diameter x length
+    """Return the textual representation of the screw diameter x length
     + optional handedness ([M]<dia>x<len>[LH]), also accounting for
-    custom size properties'''
     dia = obj.diameter if obj.diameter != 'Custom' else obj.diameterCustom
+    custom size properties"""
     if isinstance(dia, FreeCAD.Units.Quantity):
         dia = str(float(dia.Value)).rstrip('0').rstrip('.')
     length = obj.length if obj.length != 'Custom' else obj.lengthCustom
@@ -192,7 +193,7 @@ def FSScrewStr(obj):
 
 
 def FSShowError():
-    """ Show traceback of system error """
+    """Show traceback of system error."""
     lastErr = sys.exc_info()
     tb = lastErr[2]
     tbnext = tb
@@ -207,7 +208,7 @@ def FSShowError():
 
 
 def FSGetToolbarItem(tname, iname):
-    """ Get instance of a toolbar item """
+    """Get instance of a toolbar item."""
     mw = QtGui.QApplication.activeWindow()
     tb = None
     for c in mw.children():
@@ -257,14 +258,14 @@ def cleanDiamStr(m):
     return res[0]
 
 
-def MToFloat(m):
+def MToFloat(m: str) -> float:
     """Convert a metric diameter string into a float."""
     return float(cleanDiamStr(m).lstrip("M"))
 
 # accepts formats: 'Mx', '(Mx)' 'YYYMx' 'Mx-YYY'
 
 
-def DiaStr2Num(DiaStr):
+def DiaStr2Num(DiaStr: str) -> float:
     """Convert a diameter string to a corresponding numeric value."""
     DiaStr = cleanDiamStr(DiaStr)
     return FsData["DiaList"][DiaStr][0]
@@ -272,21 +273,22 @@ def DiaStr2Num(DiaStr):
 # inch tolerant version of length string to number converter
 
 
-def LenStr2Num(LenStr):
+def LenStr2Num(LenStr: str) -> float:
+    """Convert a length string to a corresponding numeric value."""
     # inch diameters of format 'x y/z\"'
-    if 'in' in LenStr:
-        components = LenStr.strip('in').split(' ')
+    if "in" in LenStr:
+        components = LenStr.strip("in").split(" ")
         total = 0
         for item in components:
-            if '/' in item:
-                subcmpts = item.split('/')
+            if "/" in item:
+                subcmpts = item.split("/")
                 total += float(subcmpts[0]) / float(subcmpts[1])
             else:
                 total += float(item)
         DiaFloat = total * 25.4
     # if there are no identifying unit chars, default to mm
     else:
-        LenStr = LenStr.strip(" m")
+        LenStr = LenStr.strip(" m()")
         DiaFloat = float(LenStr)
     return DiaFloat
 
@@ -363,7 +365,7 @@ class FSFaceMaker:
     """
 
     def __init__(self):
-        """ Initialize a new instance of FSFaceMaker. """
+        """Initialize a new instance of FSFaceMaker."""
         self.Reset()
 
     def Reset(self):
@@ -388,10 +390,11 @@ class FSFaceMaker:
         # FreeCAD.Console.PrintLog("Add Point: " + str(curPoint) + "\n")
 
     def AddPointRelative(self, dx, dz):
-        """ Adds a point relative to the last point, creating a line. """
+        """Adds a point relative to the last point, creating a line."""
         if self.firstPoint is None:
             FreeCAD.Console.PrintError(
-                "FSFaceMaker.AddPointRelative: A start point has to be set previous")
+                "FSFaceMaker.AddPointRelative: A start point has to be set previous"
+            )
             return
         else:
             curPoint = self.lastPoint + FreeCAD.Base.Vector(dx, 0, dz)
@@ -400,20 +403,19 @@ class FSFaceMaker:
         # FreeCAD.Console.PrintLog("Add Point Rel: " + str(curPoint) + "\n")
 
     def StartPoint(self, x, z):
-        """ Resets the state and sets the starting point for the face. """
+        """Resets the state and sets the starting point for the face."""
         self.Reset()
         self.AddPoint(x, z)
 
     def AddArc(self, x1, z1, x2, z2):
-        """ Adds an arc from the last point through (x1, z1) to (x2, z2). """
+        """Adds an arc from the last point through (x1, z1) to (x2, z2)."""
         midPoint = FreeCAD.Base.Vector(x1, 0, z1)
         endPoint = FreeCAD.Base.Vector(x2, 0, z2)
-        self.edges.append(
-            Part.Arc(self.lastPoint, midPoint, endPoint).toShape())
+        self.edges.append(Part.Arc(self.lastPoint, midPoint, endPoint).toShape())
         self.lastPoint = endPoint
 
     def AddArc2(self, xc, zc, a):
-        """ Adds an arc starting at last point, with a relative center and angle a. """
+        """Adds an arc starting at last point, with a relative center and angle a."""
         # convert to radians
         a = math.radians(a)
         # get absolute center
@@ -444,7 +446,8 @@ class FSFaceMaker:
         l = len(args)
         if l < 4 or (l & 1) == 1:
             FreeCAD.Console.PrintError(
-                "FSFaceMaker.AddBSpline: invalid num of args, must be even number >= 4")
+                "FSFaceMaker.AddBSpline: invalid num of args, must be even number >= 4"
+            )
             return
         pt = self.lastPoint
         pts = []
@@ -456,7 +459,7 @@ class FSFaceMaker:
         self.lastPoint = pt
 
     def AddPoints(self, *args):
-        """ Adds points or arcs based on the number of arguments provided. """
+        """Adds points or arcs based on the number of arguments provided."""
         for arg in args:
             if len(arg) == 2:
                 self.AddPoint(arg[0], arg[1])
@@ -466,7 +469,7 @@ class FSFaceMaker:
                 self.AddArc(arg[0], arg[1], arg[2], arg[3])
 
     def GetWire(self) -> Part.Wire:
-        """ Returns a Part.Wire object representing the edges of the face. """
+        """Returns a Part.Wire object representing the edges of the face."""
         return Part.Wire(self.edges)
 
     def GetClosedWire(self) -> Part.Wire:
@@ -479,7 +482,7 @@ class FSFaceMaker:
         return w
 
     def GetFace(self) -> Part.Face:
-        """ Returns a Part.Face object representing the closed wire as a face. """
+        """Returns a Part.Face object representing the closed wire as a face."""
         w = self.GetClosedWire()
         return Part.Face(w)
 
@@ -554,9 +557,9 @@ def GetEdgeName(obj, edge):
 
 
 def PositionDone(center, radius, done_list, tol=1e-6):
-    '''Check if the `position` of an edge is already processed by comparing
+    """Check if the `position` of an edge is already processed by comparing
     its center and radius against data in a list
-    '''
+    """
 
     for itm in done_list:
         if center.isEqual(itm[0], tol) and math.isclose(radius, itm[1], abs_tol=tol):
@@ -727,8 +730,8 @@ class FSFlipCommand:
         return screwObj
 
 
-Gui.addCommand('FSFlip', FSFlipCommand())
-FSCommands.append('FSFlip', "command")
+Gui.addCommand("Fasteners_Flip", FSFlipCommand())
+FSCommands.append("Fasteners_Flip", "command")
 
 ################################ Move command #################################
 
@@ -770,8 +773,8 @@ class FSMoveCommand:
         return screwObj, edgeObj
 
 
-Gui.addCommand('FSMove', FSMoveCommand())
-FSCommands.append('FSMove', "command")
+Gui.addCommand("Fasteners_Move", FSMoveCommand())
+FSCommands.append("Fasteners_Move", "command")
 
 ########################### Make Simple command ###############################
 
@@ -805,8 +808,9 @@ class FSMakeSimpleCommand:
         return False
 
 
-Gui.addCommand('FSSimple', FSMakeSimpleCommand())
-FSCommands.append('FSSimple', "command")
+# Fasteners_Shape
+Gui.addCommand("Fasteners_Simple", FSMakeSimpleCommand())
+FSCommands.append("Fasteners_Simple", "command")
 
 ######################## MatchTypeInner/Outer commands ########################
 
@@ -851,10 +855,10 @@ class FSMatchTypeOuterCommand:
         }
 
 
-FreeCADGui.addCommand('FSMatchTypeInner', FSMatchTypeInnerCommand())
-FreeCADGui.addCommand('FSMatchTypeOuter', FSMatchTypeOuterCommand())
-FSCommands.append('FSMatchTypeInner', "command")
-FSCommands.append('FSMatchTypeOuter', "command")
+FreeCADGui.addCommand("Fasteners_MatchTypeInner", FSMatchTypeInnerCommand())
+FreeCADGui.addCommand("Fasteners_MatchTypeOuter", FSMatchTypeOuterCommand())
+FSCommands.append("Fasteners_MatchTypeInner", "command")
+FSCommands.append("Fasteners_MatchTypeOuter", "command")
 
 def InitCheckables():
     match_outer = FSParam.GetBool("MatchOuterDiameter")
@@ -980,5 +984,6 @@ class FSMakeBomCommand:
         return Gui.ActiveDocument is not None
 
 
-Gui.addCommand('FSMakeBOM', FSMakeBomCommand())
-FSCommands.append('FSMakeBOM', "command")
+# Fasteners_BOM
+Gui.addCommand("Fasteners_MakeBOM", FSMakeBomCommand())
+FSCommands.append("Fasteners_MakeBOM", "command")

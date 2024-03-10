@@ -56,7 +56,9 @@ translate("FastenerCmdTreeView", "SetScrew")
 translate("FastenerCmdTreeView", "HexKey")
 translate("FastenerCmdTreeView", "Nail")
 translate("FastenerCmdTreeView", "Pin")
+translate("FastenerCmdTreeView", "Thumbscrew")
 
+# fmt: off
 ScrewParameters = {"type", "diameter",
                    "matchOuter", "thread", "leftHanded", "length"}
 ScrewParametersLC = {"type", "diameter", "matchOuter",
@@ -106,6 +108,7 @@ TSlotGroup = translate("FastenerCmd", "T-Slot Fasteners")
 SetScrewGroup = translate("FastenerCmd", "Set screws")
 NailGroup = translate("FastenerCmd", "Nails")
 PinGroup = translate("FastenerCmd", "Pins")
+ThumbScrewGroup = translate("FastenerCmd", "Thumb screws")
 
 CMD_HELP = 0
 CMD_GROUP = 1
@@ -172,7 +175,7 @@ FSScrewCommandTable = {
     "ASMEB18.6.3.10A": (translate("FastenerCmd", "UNC Slotted fillister head screws"), SlottedGroup, ScrewParametersLC),
     "ASMEB18.6.3.12A": (translate("FastenerCmd", "UNC Slotted truss head screws"), SlottedGroup, ScrewParametersLC),
     "ASMEB18.6.3.16A": (translate("FastenerCmd", "UNC Slotted round head screws"), SlottedGroup, ScrewParametersLC),
-    "DIN84": (translate("FastenerCmd", "(superseded by ISO 1207) Slotted cheese head screw"), SlottedGroup, ScrewParametersLC),
+    "DIN84": (translate("FastenerCmd", "(Superseded by ISO 1207) Slotted cheese head screw"), SlottedGroup, ScrewParametersLC),
     "DIN96":   (translate("FastenerCmd", "Slotted half round head wood screw"), SlottedGroup, ScrewParametersLC),
     "GOST1144-1": (translate("FastenerCmd", "(Type 1) Half — round head wood screw"), SlottedGroup, ScrewParametersLC),
     "GOST1144-2": (translate("FastenerCmd", "(Type 2) Half — round head wood screw"), SlottedGroup, ScrewParametersLC),
@@ -226,6 +229,12 @@ FSScrewCommandTable = {
     "ISO7435": (translate("FastenerCmd", "Slotted socket set screws with long dog point"), SetScrewGroup, ScrewParametersLC),
     "ISO7436": (translate("FastenerCmd", "Slotted socket set screws with cup point"), SetScrewGroup, ScrewParametersLC),
 
+    # ThumbscrewGroup
+
+    "DIN464": (translate("FastenerCmd", "Knurled thumb screws, high type"), ThumbScrewGroup, ScrewParametersLC),
+    "DIN465": (translate("FastenerCmd", "Slotted knurled thumb screws, high type"), ThumbScrewGroup, ScrewParametersLC),
+    "DIN653": (translate("FastenerCmd", "Knurled thumb screws, low type"), ThumbScrewGroup, ScrewParametersLC),
+
     # NutGroup
 
     "ASMEB18.2.2.1A": (translate("FastenerCmd", "UNC Hex Machine screw nuts"), NutGroup, NutParameters),
@@ -236,21 +245,21 @@ FSScrewCommandTable = {
     "ASMEB18.2.2.5": (translate("FastenerCmd", "UNC Hex slotted nuts"), NutGroup, NutParameters),
     "ASMEB18.2.2.12": (translate("FastenerCmd", "UNC Hex flange nuts"), NutGroup, NutParameters),
     "ASMEB18.2.2.13": (translate("FastenerCmd", "UNC Hex coupling nuts"), NutGroup, NutParameters),
-    "ASMEB18.6.9A": (translate("FastenerCmd", "wing nuts, type A"), NutGroup, NutParameters),
-    "DIN315": (translate("FastenerCmd", "wing nuts"), NutGroup, NutParameters),
+    "ASMEB18.6.9A": (translate("FastenerCmd", "Wing nuts, type A"), NutGroup, NutParameters),
+    "DIN315": (translate("FastenerCmd", "Wing nuts"), NutGroup, NutParameters),
     "DIN557": (translate("FastenerCmd", "Square nuts"), NutGroup, NutParameters),
     "DIN562": (translate("FastenerCmd", "Square nuts"), NutGroup, NutParameters),
     "DIN917": (translate("FastenerCmd", "Cap nuts, thin style"), NutGroup, NutParameters),
-    "DIN928": (translate("FastenerCmd", "square weld nuts"), NutGroup, NutParameters),
-    "DIN929": (translate("FastenerCmd", "hexagonal weld nuts"), NutGroup, NutParameters),
-    "DIN934": (translate("FastenerCmd", "(superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered"), NutGroup, NutParameters),
+    "DIN928": (translate("FastenerCmd", "Square weld nuts"), NutGroup, NutParameters),
+    "DIN929": (translate("FastenerCmd", "Hexagonal weld nuts"), NutGroup, NutParameters),
+    "DIN934": (translate("FastenerCmd", "(Superseded by ISO 4035 and ISO 8673) Hexagon thin nuts, chamfered"), NutGroup, NutParameters),
     "DIN935": (translate("FastenerCmd", "Slotted / Castle nuts"), NutGroup, NutParameters),
     "DIN985": (translate("FastenerCmd", "Nyloc nuts"), NutGroup, NutParameters),
     "DIN1587": (translate("FastenerCmd", "Cap nuts"), NutGroup, NutParameters),
     "DIN6330": (translate("FastenerCmd", "Hexagon nuts with a height of 1,5 d"), NutGroup, NutParameters),
     "DIN6331": (translate("FastenerCmd", "Hexagon nuts with collar height 1,5 d"), NutGroup, NutParameters),
-    "DIN6334": (translate("FastenerCmd", "elongated hexagon nuts"), NutGroup, NutParameters),
-    "DIN7967": (translate("FastenerCmd", "self locking counter nuts"), NutGroup, WasherParameters),
+    "DIN6334": (translate("FastenerCmd", "Elongated hexagon nuts"), NutGroup, NutParameters),
+    "DIN7967": (translate("FastenerCmd", "Self locking counter nuts"), NutGroup, WasherParameters),
     "EN1661": (translate("FastenerCmd", "Hexagon nuts with flange"), NutGroup, NutParameters),
     "GOST11860-1": (translate("FastenerCmd", "(Type 1) Cap nuts"), NutGroup, NutParameters),
     "ISO4032": (translate("FastenerCmd", "Hexagon nuts, Style 1"), NutGroup, NutParameters),
@@ -275,8 +284,8 @@ FSScrewCommandTable = {
     "ISO12125": (translate("FastenerCmd", "Prevailing torque type hexagon nuts with flange (with non-metallic insert) - fine pitch thread"), NutGroup, NutParameters),
     "ISO12126": (translate("FastenerCmd", "Prevailing torque type all-metal hexagon nuts with flange - fine pitch thread"), NutGroup, NutParameters),
     "ISO21670": (translate("FastenerCmd", "Hexagon weld nuts with flange"), NutGroup, NutParameters),
-    "SAEJ483a1": (translate("FastenerCmd", "low cap nuts"), NutGroup, NutParameters),
-    "SAEJ483a2": (translate("FastenerCmd", "high cap nuts"), NutGroup, NutParameters),
+    "SAEJ483a1": (translate("FastenerCmd", "Low cap nuts"), NutGroup, NutParameters),
+    "SAEJ483a2": (translate("FastenerCmd", "High cap nuts"), NutGroup, NutParameters),
 
     # TSlotGroup
 
@@ -310,7 +319,7 @@ FSScrewCommandTable = {
     "ScrewTapInch": (translate("FastenerCmd", "Inch threaded rod for tapping holes"), ThreadedRodGroup, RodParameters),
     "ScrewDieInch": (translate("FastenerCmd", "Tool object to cut external non-metric threads"), ThreadedRodGroup, RodParameters),
     "ThreadedRodInch": (translate("FastenerCmd", "UNC threaded rod"), ThreadedRodGroup, RodParameters),
-    "ThreadedRod": (translate("FastenerCmd", "metric threaded rod"), ThreadedRodGroup, RodParameters),
+    "ThreadedRod": (translate("FastenerCmd", "Metric threaded rod"), ThreadedRodGroup, RodParameters),
     "ScrewTap": (translate("FastenerCmd", "Metric threaded rod for tapping holes"), ThreadedRodGroup, RodParameters),
     "ScrewDie": (translate("FastenerCmd", "Tool object to cut external metric threads"), ThreadedRodGroup, RodParameters),
 
@@ -332,6 +341,11 @@ FSScrewCommandTable = {
 
     # NailsGroup
 
+    "DIN1143": (translate("FastenerCmd", "Round plain head nails for use in automatic nailing machines"), NailGroup, NailParameters),
+    "DIN1144-A": (translate("FastenerCmd", "Nails for the installation of wood wool composite panels, 20mm round head"), NailGroup, NailParameters),
+    "DIN1151-A": (translate("FastenerCmd", "Round plain head wire nails"), NailGroup, NailParameters),
+    "DIN1151-B": (translate("FastenerCmd", "Round countersunk head wire nails"), NailGroup, NailParameters),
+    "DIN1152": (translate("FastenerCmd", "Round lost head wire nails"), NailGroup, NailParameters),
     "DIN1160-A": (translate("FastenerCmd", "Clout or slate nails"), NailGroup, NailParameters),
     "DIN1160-B": (translate("FastenerCmd", "Clout or slate wide head nails"), NailGroup, NailParameters),
 
@@ -367,6 +381,8 @@ FSScrewCommandTable = {
 FatenersStandards = { "ASME", "DIN", "ISO", "SAE", "EN", "GOST"}
 FastenersStandardMap = {"ScrewTapInch": "ASME", "ScrewDieInch": "ASME", "ThreadedRodInch": "ASME",
                         "ThreadedRod": "DIN", "ScrewTap": "ISO", "ScrewDie": "ISO" }
+# fmt: on
+
 
 def FSGetStandardFromType(type):
     if type in FastenersStandardMap:
@@ -408,7 +424,7 @@ def FSUpdateFormatString(fmtstr, type):
 
 class FSScrewObject(FSBaseObject):
     def __init__(self, obj, type, attachTo):
-        '''"Add screw type fastener" '''
+        """Add screw type fastener."""
         super().__init__(obj, attachTo)
         # FreeCAD.Console.PrintMessage("Added: " + type + "\n")
         # self.Proxy = obj.Name
@@ -611,7 +627,7 @@ class FSScrewObject(FSBaseObject):
         return getattr(self, param) != value
 
     def execute(self, fp):
-        '''"Print a short message when doing a recomputation, this method is mandatory" '''
+        """Print a short message when doing a recomputation, this method is mandatory."""
 
         try:
             baseobj = fp.baseObject[0]
@@ -788,7 +804,7 @@ class FSScrewObject(FSBaseObject):
 
 
 class FSViewProviderTree:
-    "A View provider for custom icon"
+    """A View provider for custom icon."""
 
     def __init__(self, obj):
         obj.Proxy = self

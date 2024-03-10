@@ -439,5 +439,6 @@ class FSChangeParamCommand:
         return True
 
 
-Gui.addCommand("FSChangeParams", FSChangeParamCommand())
-FSCommands.append("FSChangeParams", "command")
+# Fasteners_ChangeParameters
+Gui.addCommand("Fasteners_ChangeParams", FSChangeParamCommand())
+FSCommands.append("Fasteners_ChangeParams", "command")

@@ -215,6 +215,9 @@ screwTables = {
     "ISO7434": ("Screw", "makeSetScrew"),
     "ISO7435": ("Screw", "makeSetScrew"),
     "ISO7436": ("Screw", "makeSetScrew"),
+    "DIN464": ("Screw", "makeThumbScrew"),
+    "DIN465": ("Screw", "makeThumbScrew"),
+    "DIN653": ("Screw", "makeThumbScrew"),
     "ISO4032": ("Nut", "makeHexNut"),
     "ISO4033": ("Nut", "makeHexNut"),
     "ISO4034": ("Nut", "makeHexNut"),
@@ -318,6 +321,11 @@ screwTables = {
     "DIN472": ("RetainingRing", "makeInternalRetainingRing"),
     "DIN6799": ("RetainingRing", "makeEClip"),
     "ISO2936": ("HexKey", "makeHexKey"),
+    "DIN1143": ("Nail", "makeNail"),
+    "DIN1144-A": ("Nail", "makeNail"),
+    "DIN1151-A": ("Nail", "makeNail"),
+    "DIN1151-B": ("Nail", "makeNail"),
+    "DIN1152": ("Nail", "makeNail"),
     "DIN1160-A": ("Nail", "makeNail"),
     "DIN1160-B": ("Nail", "makeNail"),
     "ISO1234": ("Pin", "makeSplitPin"),
@@ -356,7 +364,7 @@ class FSScrewMaker(Screw):
         super().__init__()
 
     def FindClosest(self, type, diam, len, width=None):
-        ''' Find closest standard screw to given parameters '''
+        """Find closest standard screw to given parameters"""
         if type not in screwTables:
             return diam, len, width
 
@@ -396,7 +404,7 @@ class FSScrewMaker(Screw):
         return diam, len, width
 
     def AutoDiameter(self, type, holeObj, baseobj=None, matchOuter=False):
-        ''' Calculate screw diameter automatically based on given hole '''
+        """Calculate screw diameter automatically based on given hole"""
         # this function is also used to assign the default screw diameter
         if baseobj is not None and baseobj.Name.startswith("Washer"):
             matchOuter = True

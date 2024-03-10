@@ -36,34 +36,74 @@ def makeNail(self, fa):
     Make a nail
 
     Supported types:
+    - DIN1143:      Round plain head nails for use in automatic nailing machines
+    - DIN1144-A:    Nails for the installation of wood wool composite panels
+    - DIN1151[A/B]: Round plain head and countersunk head wire nails
+    - DIN1152:      Round lost head wire nails
     - DIN1160[A/B]: Clout or slate nails
     """
-    if fa.baseType[:7] == "DIN1160":
-        return makeDIN1160(self, fa)
+    # NOTE: Details left unspecified are to be selected as appropiate
+
+    if fa.baseType[:7] == "DIN1143":
+        d1, d2, l = fa.dimTable
+        nail = self.RevolveZ(makeCountersunkHeadFace(d1, l, 1.3 * d2, csnk_ang=140))
+        # Cutter ring
+        fm = FSFaceMaker()
+        fm.AddPoint(d2 / 2, 0)
+        fm.AddPoint(1.5 * d2 / 2, 0)
+        fm.AddPoint(d2 / 2, -d2 / 2)
+        return nail.cut(self.RevolveZ(fm.GetFace()))
+    elif fa.baseType[:7] == "DIN1144":
+        # TODO: type B square head
+        d, l = fa.dimTable
+        nail = self.RevolveZ(makePlainHeadFace(d, l, 20, 1))
+        fm = FSFaceMaker()
+        fm.AddPoint(0.0, 0.6 * d)
+        fm.AddArc2(0.0, -d / 2, -180)
+        return nail.fuse(self.RevolveZ(fm.GetFace()))
+    elif fa.baseType[:7] == "DIN1151":
+        d, l = fa.dimTable
+        if fa.baseType == "DIN1151-A":
+            face = makePlainHeadFace(d, l, 2 * d, d / 4)
+        else:
+            face = makeCountersunkHeadFace(d, l, 3 * d, csnk_ang=120)
+        return self.RevolveZ(face)
+    elif fa.baseType[:7] == "DIN1152":
+        d, l = fa.dimTable
+        return self.RevolveZ(makePlainHeadFace(d, l, 1.25 * d, 1.5 * d))
+    elif fa.baseType[:7] == "DIN1160":
+        d, l, _, d2 = fa.dimTable
+        return self.RevolveZ(makePlainHeadFace(d, l, d2, d / 5))
 
     raise NotImplementedError(f"Unknown fastener type: {fa.baseType}")
 
 
-def makeDIN1160(self, fa):
-    """
-    Make a DIN1160[A/B] nail.
-    """
-    d, l, _, d2 = fa.dimTable
-
-    return self.RevolveZ(makePointFace(d, l, d2, d / 5))
-
-
-def makePointFace(dia, length, head_w, head_th, angle=20):
-    """Make the face for a point end nail."""
-    tip_length = (dia / 2) / math.tan(math.radians(angle / 2))
+def makePlainHeadFace(dia, length, head_w, head_th, p_angle=40):
+    """Make the face for a plain head with semi-sphere and point end nail."""
+    tip_length = (dia / 2) / math.tan(math.radians(p_angle / 2))
     r = dia / 10
     fm = FSFaceMaker()
     fm.AddPoint(0.0, head_th)
-    fm.AddPoint(head_w, head_th)
-    fm.AddPoint(head_w, 0.0)
-    fm.AddPoint(dia + r, 0.0)
+    fm.AddPoint(head_w / 2, head_th)
+    fm.AddPoint(head_w / 2, 0.0)
+    fm.AddPoint(dia / 2 + r, 0.0)
     fm.AddArc2(0.0, -r, 90)  # small fillet
-    fm.AddPoint(dia, -length + tip_length)
+    fm.AddPoint(dia / 2, -length + tip_length)
     fm.AddPoint(0.0, -length)
+
+    return fm.GetFace()
+
+
+def makeCountersunkHeadFace(dia, length, head_w, p_angle=40, csnk_ang=120):
+    """Make the face for a countersunk head and point end nail."""
+    # Calc distance in z to comply with countersunk the angle given
+    zz = (head_w - dia) / (2 * math.tan(math.radians(csnk_ang / 2)))
+    tip_length = dia / (2 * math.tan(math.radians(p_angle / 2)))
+    fm = FSFaceMaker()
+    fm.AddPoint(0.0, 0.0)
+    fm.AddPoint(head_w / 2, 0.0)
+    fm.AddPoint(dia / 2, -zz)
+    fm.AddPoint(dia / 2, -length + zz + tip_length)
+    fm.AddPoint(0.0, -length + zz)
 
     return fm.GetFace()

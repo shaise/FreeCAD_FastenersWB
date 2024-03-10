@@ -222,6 +222,5 @@ class FSScrewCalcCommand:
         return True
 
 
-# Fasteners_ScrewCalculator
-Gui.addCommand("Fasteners_ScrewCalc", FSScrewCalcCommand())
-FastenerBase.FSCommands.append("Fasteners_ScrewCalc", "command")
+Gui.addCommand("Fasteners_ScrewCalculator", FSScrewCalcCommand())
+FastenerBase.FSCommands.append("Fasteners_ScrewCalculator", "command")

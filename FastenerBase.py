@@ -808,9 +808,8 @@ class FSMakeSimpleCommand:
         return False
 
 
-# Fasteners_Shape
-Gui.addCommand("Fasteners_Simple", FSMakeSimpleCommand())
-FSCommands.append("Fasteners_Simple", "command")
+Gui.addCommand("Fasteners_Simplify", FSMakeSimpleCommand())
+FSCommands.append("Fasteners_Simplify", "command")
 
 ######################## MatchTypeInner/Outer commands ########################
 
@@ -984,6 +983,5 @@ class FSMakeBomCommand:
         return Gui.ActiveDocument is not None
 
 
-# Fasteners_BOM
-Gui.addCommand("Fasteners_MakeBOM", FSMakeBomCommand())
-FSCommands.append("Fasteners_MakeBOM", "command")
+Gui.addCommand("Fasteners_BOM", FSMakeBomCommand())
+FSCommands.append("Fasteners_BOM", "command")

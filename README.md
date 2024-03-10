@@ -120,6 +120,9 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.14  10 Feb 2024:  Add more nails & thumb screws by @alexneufeld:  
+                       -  DIN 464, DIN 465 and DIN 653 Thumb screws  
+                       -  DIN 1143, DIN 1144A, DIN 1151A, DIN 1151B and DIN1152 nails  
 * V0.5.13  03 Mar 2024:  Deprecate countersunk hole feature by @alexneufeld.  
                        - Update translation script by @hasecilu.  
                        - Restore missing ASMEB18.2.1.6 fastener by @hasecilu.  

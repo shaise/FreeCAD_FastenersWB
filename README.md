@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.16  05 Apr 2024:  Add option to set fasteners default color.  
 * V0.5.15  30 Mar 2024:  Fasteners logo to comply with freecad's guidlines.  
 * V0.5.14  10 Mar 2024:  Add more nails & thumb screws by @hasecilu:  
                        -  DIN 464, DIN 465 and DIN 653 Thumb screws  

@@ -809,7 +809,7 @@ class FSViewProviderTree:
     def __init__(self, obj):
         obj.Proxy = self
         self.Object = obj.Object
-
+ 
     def attach(self, obj):
         self.Object = obj.Object
         return
@@ -876,6 +876,7 @@ class FSScrewCommand:
                                                  self.TypeName)
             FSScrewObject(a, self.Type, selObj)
             a.Label = a.Proxy.familyType
+            a.ViewObject.DiffuseColor = FSParam.GetUnsigned("DefaultFastenerColor", 0xcccccc00)
             FSViewProviderTree(a.ViewObject)
         FreeCAD.ActiveDocument.recompute()
         return

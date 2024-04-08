@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.17  08 Apr 2024:  Add option to set fasteners default line and point size.  
 * V0.5.16  05 Apr 2024:  Add option to set fasteners default color.  
 * V0.5.15  30 Mar 2024:  Fasteners logo to comply with freecad's guidlines.  
 * V0.5.14  10 Mar 2024:  Add more nails & thumb screws by @hasecilu:  

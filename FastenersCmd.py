@@ -876,7 +876,13 @@ class FSScrewCommand:
                                                  self.TypeName)
             FSScrewObject(a, self.Type, selObj)
             a.Label = a.Proxy.familyType
-            a.ViewObject.DiffuseColor = FSParam.GetUnsigned("DefaultFastenerColor", 0xcccccc00)
+            if FSParam.GetBool("DefaultFastenerColorActive", False):
+                a.ViewObject.DiffuseColor = FSParam.GetUnsigned("DefaultFastenerColor", 0xcccccc00)
+            if FSParam.GetBool("DefaultLineWidthActive", False):
+                a.ViewObject.LineWidth = FSParam.GetFloat("DefaultLineWidth", 1.0)
+            if FSParam.GetBool("DefaultVertexSizeActive", False):
+                a.ViewObject.PointSize  = FSParam.GetFloat("DefaultVertexSize", 1.0)
+            
             FSViewProviderTree(a.ViewObject)
         FreeCAD.ActiveDocument.recompute()
         return

@@ -160,7 +160,7 @@ FSScrewCommandTable = {
 
     "ISO14579": (translate("FastenerCmd", "Hexalobular socket head cap screws"), HexalobularSocketGroup, ScrewParametersLC),
     "ISO14580": (translate("FastenerCmd", "Hexalobular socket cheese head screws"), HexalobularSocketGroup, ScrewParametersLC),
-    # "ISO14581": (translate("FastenerCmd", "Hexalobular socket countersunk flat head screws"), HexalobularSocketGroup, ScrewParametersLC),
+    "ISO14581": (translate("FastenerCmd", "Hexalobular socket countersunk flat head screws"), HexalobularSocketGroup, ScrewParametersLC),
     "ISO14582": (translate("FastenerCmd", "Hexalobular socket countersunk head screws, high head"), HexalobularSocketGroup, ScrewParametersLC),
     "ISO14583": (translate("FastenerCmd", "Hexalobular socket pan head screws"), HexalobularSocketGroup, ScrewParametersLC),
     "ISO14584": (translate("FastenerCmd", "Hexalobular socket raised countersunk head screws"), HexalobularSocketGroup, ScrewParametersLC),

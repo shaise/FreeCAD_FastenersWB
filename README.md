@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.19  17 Apr 2024:  Add ISO 14581 by @Roundwolf.  
 * V0.5.18  14 Apr 2024:  Update icons by @maxwxyz.  
                        - typo fixes by @Roy-043  
 * V0.5.17  08 Apr 2024:  Add option to set fasteners default line and point size.  

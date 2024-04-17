@@ -617,6 +617,11 @@
     </message>
     <message>
         <location filename="../FastenersCmd.py" line="119"/>
+        <source>Hexalobular socket countersunk head screws, flat head</source>
+        <translation>Senkschrauben mit Innensechsrund, flacher Kopf</translation>
+    </message>
+    <message>
+        <location filename="../FastenersCmd.py" line="119"/>
         <source>Hexalobular socket countersunk head screws, high head</source>
         <translation>Senkschrauben mit Innensechsrund, hoher Kopf</translation>
     </message>

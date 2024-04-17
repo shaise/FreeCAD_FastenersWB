@@ -38,6 +38,7 @@ def makeCountersunkHeadScrew(self, fa):
     - ASMEB18.3.2 UNC Hexagon socket countersunk head screws
     - ISO 2009 countersunk slotted flat head screws
     - ISO 7046 countersunk flat head screws with H cross recess
+    - ISO 14581 Hexalobular socket countersunk head screws, flat head
     - ISO 14582 Hexalobular socket countersunk head screws, high head
     """
     SType = fa.baseType
@@ -75,6 +76,11 @@ def makeCountersunkHeadScrew(self, fa):
         chamfer_end = False
         cT, mH, _ = FsData["ISO7046extra"][fa.calc_diam]
         recess = self.makeHCrossRecess(cT, mH)
+    elif SType == "ISO14581":
+        csk_angle = math.radians(90)
+        P, a, b, dk_theo, dk_mean, k, r, tt, A, t_mean = fa.dimTable
+        chamfer_end = True
+        recess = self.makeHexalobularRecess(tt, t_mean, False)
     elif SType == "ISO14582":
         csk_angle = math.radians(90)
         P, _, b, dk_theo, dk_mean, _, r, tt, _, t_mean = fa.dimTable

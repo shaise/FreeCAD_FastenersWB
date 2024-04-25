@@ -559,7 +559,7 @@ class FSTaskFilletDialog:
         Gui.Selection.removeObserver(self.selobserver)
 
     def getStandardButtons(self):
-        return int(QtGui.QDialogButtonBox.Ok) + int(QtGui.QDialogButtonBox.Cancel)
+        return QtGui.QDialogButtonBox.Ok + QtGui.QDialogButtonBox.Cancel
 
     def addSelectionEdge(self, objname, edge):
         if objname == self.baseObj.Name:

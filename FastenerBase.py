@@ -179,8 +179,8 @@ def FSAddItemsToType(typeName, item):
 def FSScrewStr(obj):
     """Return the textual representation of the screw diameter x length
     + optional handedness ([M]<dia>x<len>[LH]), also accounting for
-    dia = obj.diameter if obj.diameter != 'Custom' else obj.diameterCustom
     custom size properties"""
+    dia = obj.diameter if obj.diameter != 'Custom' else obj.diameterCustom
     if isinstance(dia, FreeCAD.Units.Quantity):
         dia = str(float(dia.Value)).rstrip('0').rstrip('.')
     length = obj.length if obj.length != 'Custom' else obj.lengthCustom

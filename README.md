@@ -120,6 +120,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.20  26 Apr 2024:  Fix Bom bug by @Syres916.  
+                       - Remove redundant casts for better compatibility by @YakoYakoYokuYoku.  
 * V0.5.19  17 Apr 2024:  Add ISO 14581 by @Roundwolf.  
 * V0.5.18  14 Apr 2024:  Update icons by @maxwxyz.  
                        - typo fixes by @Roy-043  

@@ -102,6 +102,21 @@ class FastenersWorkbench(FreeCADGui.Workbench):
 
     def Activated(self):
         "This function is executed when the workbench is activated"
+
+        if FreeCAD.ConfigGet("OCC_VERSION")[0:4] == "7.7.":
+            from TranslateUtils import translate
+
+            FreeCAD.Console.PrintWarning(
+                translate(
+                    "InitGui",
+                    "Fasteners: Your configuration of FreeCAD is based on OCC Version ",
+                )
+                + str(FreeCAD.ConfigGet("OCC_VERSION"))
+                + translate(
+                    "InitGui",
+                    " therefore some fasterners maybe displayed incorrectly\n",
+                )
+            )
         import FastenerBase
 
         FastenerBase.InitCheckables()

@@ -114,7 +114,7 @@ class FastenersWorkbench(FreeCADGui.Workbench):
                 + str(FreeCAD.ConfigGet("OCC_VERSION"))
                 + translate(
                     "InitGui",
-                    " therefore some fasterners maybe displayed incorrectly\n",
+                    " therefore some fasteners maybe displayed incorrectly\n",
                 )
             )
         import FastenerBase

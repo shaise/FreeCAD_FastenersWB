@@ -330,7 +330,7 @@ def makeASMEB1861(self, fa):
     P, E, F, A_max, A_min, H, J, T, r = (x * 25.4 for x in (P, E, F, A_max, A_min, H, J, T, r))
     
     if SType == "ASMEB18.6.1.2" or SType == "ASMEB18.6.1.4":
-        recess = self.makeSlotRecess(J, T)
+        recess = self.makeSlotRecess(J, T, E)
     elif SType == "ASMEB18.6.1.3" or SType == "ASMEB18.6.1.5":
         cT, M = FsData["ASMEB18.6.1.3extra"][fa.calc_diam]
         M = M * 25.4

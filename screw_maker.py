@@ -676,17 +676,18 @@ class Screw:
         return Part.Solid(recess)
 
     @staticmethod
-    def makeSlotRecess(width: float, depth: float) -> Part.Shape:
+    def makeSlotRecess(width: float, depth: float, head_diameter: float) -> Part.Shape:
         """Create a Cutting tool to add a slot driving feature to a screw head
         Parameters:
         - width: the width of the slot
         - depth: slot depth - the returned shape extends by this amount below Z=0
+        - head_diameter: the head diameter of the specified screw
         """
         shape = Part.makeBox(
-            1000.0,
+            head_diameter + 10,
             width,
             depth * 2,
-            Base.Vector(-500.0, -width / 2, -depth)
+            Base.Vector(-(head_diameter + 10) / 2, -width / 2, -depth)
         )
         return shape
 

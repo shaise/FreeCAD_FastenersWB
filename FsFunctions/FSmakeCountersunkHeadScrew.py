@@ -58,12 +58,12 @@ def makeCountersunkHeadScrew(self, fa):
         csk_angle = math.radians(90)
         P, _, b, dk_theo, dk_mean, _, n_min, r, t_mean, _ = fa.dimTable
         chamfer_end = False
-        recess = self.makeSlotRecess(n_min, t_mean)
+        recess = self.makeSlotRecess(n_min, t_mean, dk_theo)
     elif SType == "ASMEB18.6.3.1A":
         csk_angle = math.radians(82)
         P, b, dk_theo, dk_mean, _, n_min, r, t_mean = fa.dimTable
         chamfer_end = False
-        recess = self.makeSlotRecess(n_min, t_mean)
+        recess = self.makeSlotRecess(n_min, t_mean, dk_theo)
     elif SType == "ASMEB18.6.3.1B":
         csk_angle = math.radians(82)
         P, b, dk_theo, dk_mean, _, n_min, r, t_mean = fa.dimTable

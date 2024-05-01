@@ -43,7 +43,7 @@ def makeCheeseHeadScrew(self, fa):
     if SType == "ISO1207" or SType == "DIN84":
         P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = fa.dimTable
         r_fil = r * 2.0
-        recess = self.makeSlotRecess(n_min, t_min)
+        recess = self.makeSlotRecess(n_min, t_min, dk)
     elif SType == "ISO7048":
         P, a, b, dk, dk_mean, da, k, r, x, cT, mH, mZ = fa.dimTable
         r_fil = r * 2.0
@@ -51,7 +51,7 @@ def makeCheeseHeadScrew(self, fa):
     elif SType == "ISO1580":
         P, a, b, dk, da, k, n_min, r, rf, t_min, x = fa.dimTable
         r_fil = rf
-        recess = self.makeSlotRecess(n_min, t_min)
+        recess = self.makeSlotRecess(n_min, t_min, dk)
     elif SType == "ISO14580":
         P, a, b, dk, dk_mean, da, k, n_min, r, t_min, x = fa.dimTable
         tt, k, A, t_min = FsData["ISO14580extra"][fa.calc_diam]

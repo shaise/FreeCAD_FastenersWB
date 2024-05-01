@@ -133,7 +133,7 @@ def makeThumbScrew(self, fa):
 
     # Make recess
     if SType == "DIN465":
-        recess = self.makeSlotRecess(n, t)
+        recess = self.makeSlotRecess(n, t, dk)
         recess.translate(Base.Vector(0.0, 0.0, h))
         screw = screw.cut(recess)
 

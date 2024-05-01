@@ -46,7 +46,7 @@ def makeRaisedCountersunkScrew(self, fa):
         head_arc_angle = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
         # height of raised head top
         ht = rf - (dk_mean / 2.0) / math.tan(head_arc_angle)
-        recess = self.makeSlotRecess(n_min, t_mean)
+        recess = self.makeSlotRecess(n_min, t_mean, dk_theo)
         recess.translate(Base.Vector(0.0, 0.0, ht))
     elif SType == "ISO7047":
         csk_angle = math.radians(90)
@@ -74,7 +74,7 @@ def makeRaisedCountersunkScrew(self, fa):
         head_arc_angle = math.asin(dk_mean / 2.0 / rf)  # angle of head edge
         # height of raised head top
         ht = rf - (dk_mean / 2.0) / math.tan(head_arc_angle)
-        recess = self.makeSlotRecess(n_min, t_mean)
+        recess = self.makeSlotRecess(n_min, t_mean, dk_theo)
         recess.translate(Base.Vector(0.0, 0.0, ht))
     elif SType == 'ASMEB18.6.3.4B':
         csk_angle = math.radians(82)

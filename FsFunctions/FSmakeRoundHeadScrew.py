@@ -42,7 +42,7 @@ def makeRoundHeadScrew(self, fa):
     if SType == "ASMEB18.6.3.16A":
         P, A, H, J, T = fa.dimTable
         A, H, J, T = (25.4 * x for x in (A, H, J, T))
-        recess = self.makeSlotRecess(J, T)
+        recess = self.makeSlotRecess(J, T, A)
         recess.translate(Base.Vector(0.0, 0.0, H))
         b = 1.5 * 25.4    # Assume maximum threaded length of 1.5" per paragraph 2.4.1(b)
     elif SType == "ASMEB18.6.3.16B":

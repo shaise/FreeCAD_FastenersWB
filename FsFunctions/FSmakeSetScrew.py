@@ -107,7 +107,7 @@ def makeSetScrew(self, fa):
 
     # Make recess
     if SType == 'ISO4766' or SType[:5] == 'ISO74':
-        recess = self.makeSlotRecess(n, t)
+        recess = self.makeSlotRecess(n, t, dia)
     else:
         recess = self.makeHexRecess(s, t - 1, True)
     screw = screw.cut(recess)

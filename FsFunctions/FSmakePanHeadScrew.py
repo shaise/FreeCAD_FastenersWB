@@ -60,7 +60,7 @@ def makePanHeadScrew(self, fa):
         dk_max = A
         k = H
         rf = dk_max  # To avoid error in evaluating alpha/beta (not actually needed)
-        recess = self.makeSlotRecess(J, T)
+        recess = self.makeSlotRecess(J, T, dk_max)
         recess.translate(Base.Vector(0.0, 0.0, k))
     elif SType == "ASMEB18.6.3.9B":
         P, A, H, R_head, mH, cT = fa.dimTable
@@ -82,7 +82,7 @@ def makePanHeadScrew(self, fa):
         k = O
         rh = O - H
         rf = (4 * rh * rh + A * A) / (8 * rh)
-        recess = self.makeSlotRecess(J, T)
+        recess = self.makeSlotRecess(J, T, dk_max)
         recess.translate(Base.Vector(0.0, 0.0, k))
     elif SType == "ASMEB18.6.3.10B":
         P, A, H, O, _, _ = fa.dimTable
@@ -99,7 +99,7 @@ def makePanHeadScrew(self, fa):
         P, A, H, rf, J, T = (25.4 * x for x in (P, A, H, rf, J, T))
         dk_max = A
         k = H
-        recess = self.makeSlotRecess(J, T)
+        recess = self.makeSlotRecess(J, T, dk_max)
         recess.translate(Base.Vector(0.0, 0.0, k))
     elif SType == "ASMEB18.6.3.12C":
         P, A, H, rf, _, _ = fa.dimTable

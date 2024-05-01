@@ -788,6 +788,8 @@ class FSScrewObject(FSBaseObject):
         if hasattr(fp, 'leftHanded'):
             if self.leftHanded:
                 label += 'LH'
+        if hasattr(fp, 'slotWidth'):
+            label += ' x ' + fp.slotWidth
         # Add translated name of fastener type
         selfFamilyType = translate("FastenerCmdTreeView", self.familyType)
         label += '-' + selfFamilyType

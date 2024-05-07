@@ -118,7 +118,10 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
     - GN 507:   T-Slot sliding nut for Aluminum Profiles
     """
     d = fa.calc_diam # String value, ex: M6
-    dia = self.getDia(fa.calc_diam, True) # Converted numeric value
+    if fa.baseType == "GN505.4":
+        dia = self.getDia(fa.calc_diam, False) # Converted numeric value
+    else:
+        dia = self.getDia(fa.calc_diam, True) # Converted numeric value
     P = FsData["ISO262def"][fa.diameter][0]
 
     # NOTE: - All dimensions depend on the slot width NOT in the diameter

@@ -242,7 +242,7 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
         fm.AddPoint(a / 2, 0.0)
         fm.AddPoint(a / 2, -h3)
         fm.AddPoint(e2 / 2, -h3)
-        fm.AddBSpline(e2 / 2, -h1, 0, -h1)
+        fm.AddBSpline(e2 / 2, -h3 - (h1-h3) / 4, e2 / 4, -h1, 0, -h1)
         # half face on +X semiaxis
         halfFace = fm.GetFace()
         # translate to plane y = -m to extrude e1 units

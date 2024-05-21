@@ -631,7 +631,7 @@ class FSScrewObject(FSBaseObject):
 
         try:
             baseobj = fp.baseObject[0]
-            shape = baseobj.Shape.getElement(fp.baseObject[1][0])
+            shape = baseobj.getSubObject(fp.baseObject[1][0])
         except:
             baseobj = None
             shape = None
@@ -811,7 +811,7 @@ class FSViewProviderTree:
     def __init__(self, obj):
         obj.Proxy = self
         self.Object = obj.Object
- 
+
     def attach(self, obj):
         self.Object = obj.Object
         return
@@ -884,7 +884,7 @@ class FSScrewCommand:
                 a.ViewObject.LineWidth = FSParam.GetFloat("DefaultLineWidth", 1.0)
             if FSParam.GetBool("DefaultVertexSizeActive", False):
                 a.ViewObject.PointSize  = FSParam.GetFloat("DefaultVertexSize", 1.0)
-            
+
             FSViewProviderTree(a.ViewObject)
         FreeCAD.ActiveDocument.recompute()
         return

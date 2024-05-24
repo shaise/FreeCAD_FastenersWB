@@ -419,7 +419,7 @@ class FSScrewMaker(Screw):
             d = holeObj.Curve.Radius * 2
             table = FsData[type + "def"]
             tablepos = self.GetTablePos(type, 'csh_diam')
-            mindif = 10.0
+            mindif = 100000.0
             dif = mindif
             for m in table:
                 # FreeCAD.Console.PrintLog("Test M:" + m + "\n")
@@ -443,7 +443,7 @@ class FSScrewMaker(Screw):
             d = holeObj.Curve.Radius * 2
             table = FsData[type + "def"]
             is_external_ring = type in ["DIN471", "DIN6799"]
-            mindif = 10.0
+            mindif = 100000.0
             dif = mindif
             tablepos = self.GetTablePos(type, 'groove_dia')
             if matchOuter ^ is_external_ring:
@@ -577,7 +577,9 @@ class FSScrewMaker(Screw):
 
     def GetInnerThread(self, diam):
         diam = FastenerBase.cleanDiamStr(diam)
-        return FSCScrewHoleChartDict[diam]
+        if diam in FSCScrewHoleChartDict:
+            return FSCScrewHoleChartDict[diam]
+        return 0
 
     def GetAllCountersunkTypes(self):
         list = []

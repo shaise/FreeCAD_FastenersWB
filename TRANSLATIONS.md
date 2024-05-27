@@ -1,11 +1,15 @@
+# Workbench translation guide
+
 # Upgate!
 From now on, all translations should be done via Crowdin:  
 (https://crowdin.com/project/freecad-addons)
 
 Please do not submit your translations via PR.
 
-# Workbench translation guide
 
+
+
+## Old system - for reference
 ### Table of contents:
 
 * [How to make a translation](#how-to-make-a-translation)

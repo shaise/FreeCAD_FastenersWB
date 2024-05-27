@@ -1,6 +1,6 @@
 # Workbench translation guide
 
-# Upgate!
+# Update!
 From now on, all translations should be done via Crowdin:  
 (https://crowdin.com/project/freecad-addons)
 

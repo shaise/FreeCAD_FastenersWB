@@ -2,7 +2,7 @@
 From now on, all translations should be done via Crowdin:  
 (https://crowdin.com/project/freecad-addons)
 
-Please do not submit your translations vi PR.
+Please do not submit your translations via PR.
 
 # Workbench translation guide
 

@@ -41,9 +41,10 @@ from FSutils import iconPath
 from FSutils import fsdatapath
 
 matchOuterButton = None
-matchOuterButtonText = translate("FastenerBase", 'Match for pass hole')
+matchOuterButtonText = translate("FastenerBase", "Match for pass hole")
 matchInnerButton = None
-matchInnerButtonText = translate("FastenerBase", 'Match for tap hole')
+matchInnerButtonText = translate("FastenerBase", "Match for tap hole")
+commandsToolbarText = translate("FastenerBase", "FS Commands")
 
 
 FsUseGetSetState =  ((FreeCAD.Version()[0]+'.'+FreeCAD.Version()[1]) < '0.22')\
@@ -817,10 +818,8 @@ FSParam.SetBool("MatchOuterDiameter", False)
 
 class FSMatchTypeInnerCommand:
     def Activated(self):
-        matchOuterButton = FSGetToolbarItem(
-            "FS Commands", matchOuterButtonText)
-        matchInnerButton = FSGetToolbarItem(
-            "FS Commands", matchInnerButtonText)
+        matchOuterButton = FSGetToolbarItem(commandsToolbarText, matchOuterButtonText)
+        matchInnerButton = FSGetToolbarItem(commandsToolbarText, matchInnerButtonText)
         matchInnerButton.setChecked(True)
         matchOuterButton.setChecked(False)
         FSParam.SetBool("MatchOuterDiameter", False)
@@ -836,10 +835,8 @@ class FSMatchTypeInnerCommand:
 
 class FSMatchTypeOuterCommand:
     def Activated(self):
-        matchOuterButton = FSGetToolbarItem(
-            "FS Commands", matchOuterButtonText)
-        matchInnerButton = FSGetToolbarItem(
-            "FS Commands", matchInnerButtonText)
+        matchOuterButton = FSGetToolbarItem(commandsToolbarText, matchOuterButtonText)
+        matchInnerButton = FSGetToolbarItem(commandsToolbarText, matchInnerButtonText)
         matchInnerButton.setChecked(False)
         matchOuterButton.setChecked(True)
         FSParam.SetBool("MatchOuterDiameter", True)
@@ -861,8 +858,8 @@ FSCommands.append("Fasteners_MatchTypeOuter", "command")
 
 def InitCheckables():
     match_outer = FSParam.GetBool("MatchOuterDiameter")
-    matchOuterButton = FSGetToolbarItem("FS Commands", matchOuterButtonText)
-    matchInnerButton = FSGetToolbarItem("FS Commands", matchInnerButtonText)
+    matchOuterButton = FSGetToolbarItem(commandsToolbarText, matchOuterButtonText)
+    matchInnerButton = FSGetToolbarItem(commandsToolbarText, matchInnerButtonText)
     matchOuterButton.setCheckable(True)
     matchInnerButton.setCheckable(True)
     matchOuterButton.setChecked(match_outer)

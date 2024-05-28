@@ -333,6 +333,11 @@ W zastępstwie należy rozważyć użycie funkcji Otwór ze środowiska Projekt 
       <translation>Dopasowanie otworu pod gwint</translation>
     </message>
     <message>
+      <location filename="../FastenerBase.py" line="47"/>
+      <source>FS Commands</source>
+      <translation>Polecenia środowiska pracy</translation>
+    </message>
+    <message>
       <location filename="../FastenerBase.py" line="701"/>
       <source>Invert fastener</source>
       <translation>Odwróć</translation>

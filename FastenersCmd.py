@@ -610,7 +610,7 @@ class FSScrewObject(FSBaseObject):
 
     def CleanDecimals(self, val):
         val = str(val)
-        if len(re.findall("[.]\d*$", val)) > 0:
+        if len(re.findall(r"[.]\d*$", val)) > 0:
             return val.rstrip('0').rstrip('.')
         return val
 

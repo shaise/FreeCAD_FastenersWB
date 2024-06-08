@@ -400,7 +400,7 @@ class FSTaskChangeParamDialog:
         return
 
     def getStandardButtons(self):
-        return QtGui.QDialogButtonBox.Ok + QtGui.QDialogButtonBox.Cancel
+        return QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel
 
 
 class FSChangeParamCommand:

@@ -378,7 +378,7 @@ class FSTaskChangeParamDialog:
                         obj.length = str(ui.comboLength.currentText())
                     else:
                         if ui.checkSetLength.isChecked():
-                            if isinstance(obj.Proxy, FastenersCmd.FSScrewRodObject):
+                            if not self.fstype.lengthFixed:
                                 obj.length = ui.spinLength.value()
                             else:
                                 d, l = screwMaker.FindClosest(

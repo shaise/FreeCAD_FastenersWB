@@ -36,14 +36,14 @@ def makeInternalRetainingRing(self, fa):
     if SType == "DIN472":
         S, d_3, a_Max, b, d5_Min, d2 = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     small_sizes = [
         "8 mm", "9 mm", "10 mm", "11 mm", "12 mm",
         "13 mm", "14 mm", "15 mm", "16 mm", "17 mm",
         "18 mm", "19 mm", "20 mm", "21 mm", "22 mm",
         "23 mm", "24 mm"
     ]
-    if fa.diameter in small_sizes:
+    if fa.Diameter in small_sizes:
         offset = b/4
         pnt1 = Base.Vector(0, d_3/2 - b)
         pnt2 = Base.Vector(0, d_3/2)

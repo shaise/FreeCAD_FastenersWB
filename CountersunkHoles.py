@@ -511,7 +511,7 @@ class FSTaskFilletDialog:
             edgelist = []
         else:
             edgelist = obj.diameters
-            self.baseObj = obj.baseObject[0]
+            self.baseObj = obj.BaseObject[0]
             Gui.ActiveDocument.getObject(obj.Name).Visibility = False
             Gui.ActiveDocument.getObject(self.baseObj.Name).Visibility = True
         FSFilletDialog = QtGui.QWidget()
@@ -642,8 +642,8 @@ class FSViewProviderCountersunk:
 
     def claimChildren(self):
         objs = []
-        if hasattr(self.Object, "baseObject"):
-            objs.append(self.Object.baseObject[0])
+        if hasattr(self.Object, "BaseObject"):
+            objs.append(self.Object.BaseObject[0])
         return objs
 
     def getIcon(self):
@@ -741,15 +741,15 @@ class FSCountersunkObject:
         ).diameters = []
         # obj.addProperty("Part::PropertyFilletEdges","diameters","Parameters","Countersunk diameters").diameters = [(1,1,1), (2,1,1)]
         obj.addProperty(
-            "App::PropertyLinkSub", "baseObject", "Parameters", "Base object"
-        ).baseObject = attachTo
+            "App::PropertyLinkSub", "BaseObject", "Parameters", "Base object"
+        ).BaseObject = attachTo
         obj.setEditorMode("diameters", 2)
         obj.Proxy = self
 
     def execute(self, fp):
         '''"Print a short message when doing a recomputation, this method is mandatory"'''
         # fp.Shape = Part.makeBox(1,1,1 + len(fp.diameters))
-        origshape = fp.baseObject[0].Shape
+        origshape = fp.BaseObject[0].Shape
         shape = origshape
         for diam in fp.diameters:
             FreeCAD.Console.PrintLog(

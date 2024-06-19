@@ -44,7 +44,7 @@ def makeThumbScrew(self, fa):
     SType = fa.baseType
     length = fa.calc_len
     dia = self.getDia(fa.calc_diam, False)
-    P = FsData["ISO262def"][fa.diameter][0]
+    P = FsData["ISO262def"][fa.Diameter][0]
     if SType in ["DIN464", "DIN465"]:
         _, c, dk, _, _, ds, _, h, _, _, k, _, n, _, _, r, t, _, _, knurl = fa.dimTable
         kn0 = h - k
@@ -57,7 +57,7 @@ def makeThumbScrew(self, fa):
         f2 = 4.5 * P
         fm = FSFaceMaker()
         fm.AddPoint(0.0, h)
-        if fa.diameter in ["M1", "M1.2", "M1.4", "M1.6", "M2"]:
+        if fa.Diameter in ["M1", "M1.2", "M1.4", "M1.6", "M2"]:
             fm.AddPoint(dk / 2, h)
             fm.AddPoint(dk / 2, h - k)
         else:
@@ -88,8 +88,8 @@ def makeThumbScrew(self, fa):
         f2 = 4.5 * P
         fm = FSFaceMaker()
         # Head
-        if fa.diameter in ["M1", "M1.2", "M1.4", "M1.6", "M2"]:
-            if fa.diameter != "M2":
+        if fa.Diameter in ["M1", "M1.2", "M1.4", "M1.6", "M2"]:
+            if fa.Diameter != "M2":
                 kn0 = 0
                 fm.AddPoint(0.0, k)
                 fm.AddPoint(dk / 2, k)
@@ -105,12 +105,12 @@ def makeThumbScrew(self, fa):
             fm.AddPoint(dk / 2, e + c)
             fm.AddPoint(dk / 2 - c, e)
         # Shoulder
-        if fa.diameter not in ["M1", "M1.2", "M1.4", "M1.6"]:
+        if fa.Diameter not in ["M1", "M1.2", "M1.4", "M1.6"]:
             fm.AddPoint(ds / 2 + r, e)
             fm.AddArc2(0.0, -r, 90)
             fm.AddPoint(ds / 2, 0.0)
         # Shaft
-        if fa.diameter in ["M1", "M1.2", "M1.4", "M1.6"]:
+        if fa.Diameter in ["M1", "M1.2", "M1.4", "M1.6"]:
             fm.AddPoint(dia / 2 + r, 0.0)
             fm.AddArc2(0.0, -r, 90)
             fm.AddPoint(dia / 2, -length)
@@ -127,7 +127,7 @@ def makeThumbScrew(self, fa):
             thread_dz = -f1
             thread_l = length - f1
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
 
     screw = self.RevolveZ(fm.GetFace())
 
@@ -138,7 +138,7 @@ def makeThumbScrew(self, fa):
         screw = screw.cut(recess)
 
     # produce a modelled knurling & thread if necessary
-    if fa.thread:
+    if fa.Thread:
         knurling_cutter = straightCutter(dk, 0.975 * dk, kn0, kn)
         screw = screw.cut(knurling_cutter)
         thread_cutter = self.CreateThreadCutter(dia, P, thread_l)

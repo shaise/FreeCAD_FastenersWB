@@ -61,7 +61,7 @@ def makeHexHeadWithFlange(self, fa):
         r1 = fa.dimTable[19]
         s = fa.dimTable[24]
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     if length < b0:
         b = length - r1
     elif SType != "ASMEB18.2.1.8":
@@ -112,7 +112,7 @@ def makeHexHeadWithFlange(self, fa):
     fm.AddPoint(dia / 2, -length + dia / 10)
     if length - r1 > b:  # partially threaded fastener
         thread_length = b
-        if not fa.thread:
+        if not fa.Thread:
             fm.AddPoint(dia / 2, -1 * (length - b))
     else:
         thread_length = length - r1
@@ -128,7 +128,7 @@ def makeHexHeadWithFlange(self, fa):
     face = fm.GetFace()
     flange = self.RevolveZ(face)
     shape = head.fuse(flange)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)

@@ -80,7 +80,7 @@ def makeSetScrew(self, fa):
             t = te
             z = ze
     elif SType == 'ISO4766' or SType[:5] == 'ISO74':
-        P = FsData["ISO262def"][fa.diameter][0] # coarse pitch
+        P = FsData["ISO262def"][fa.Diameter][0] # coarse pitch
         df = self.getDia1(dia, P)
         if SType == 'ISO7434':
             dt, _, n, _, t, _ = fa.dimTable
@@ -113,7 +113,7 @@ def makeSetScrew(self, fa):
     screw = screw.cut(recess)
 
     # produce a modelled thread if necessary
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateThreadCutter(dia, P, length)
         screw = screw.cut(thread_cutter)
 

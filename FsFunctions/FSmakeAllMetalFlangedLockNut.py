@@ -40,7 +40,7 @@ def makeAllMetalFlangedLockNut(self, fa):
         P, c, _, _, dc, _, _, h, _, m_min, _, s, _, _ = fa.dimTable
         m_w = m_min
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     # main hexagonal body of the nut
     shape = self.makeHexPrism(s, h)
     # flange of the hex
@@ -77,7 +77,7 @@ def makeAllMetalFlangedLockNut(self, fa):
     top_cham_cutter = self.RevolveZ(fm.GetFace())
     shape = shape.cut(top_cham_cutter)
     # add modelled threads if needed
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, h + P)
         shape = shape.cut(thread_cutter)
     return shape

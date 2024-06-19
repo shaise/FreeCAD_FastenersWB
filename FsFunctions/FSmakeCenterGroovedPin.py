@@ -32,14 +32,14 @@ import Part
 
 def makeCenterGroovedPin(self, fa):
     length = fa.calc_len
-    if fa.type == "ISO8742":
+    if fa.Type == "ISO8742":
         d_1, a = fa.dimTable
         groove_l = length / 3
-    elif fa.type == "ISO8743":
+    elif fa.Type == "ISO8743":
         d_1, a = fa.dimTable
         groove_l = length / 2
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     fm = FSFaceMaker()
     fm.AddPoint(0.0, 0.0)
     fm.AddArc2(0.0, -d_1, -90)

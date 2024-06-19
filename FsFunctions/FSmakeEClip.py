@@ -37,7 +37,7 @@ def makeEClip(self, fa):
         groove_dia, shaft_dia_min, shaft_dia_max, \
             d3_max, S, a = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     solid = Part.makeCylinder(
         d3_max/2,
         S,

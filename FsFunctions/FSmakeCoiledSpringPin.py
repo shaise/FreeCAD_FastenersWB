@@ -28,10 +28,10 @@ from screw_maker import *
 
 
 def makeCoiledSpringPin(self, fa):
-    if fa.type in ["ISO8748", "ISO8750", "ISO8751"]:
+    if fa.Type in ["ISO8748", "ISO8750", "ISO8751"]:
         d_1, d_2, a, s = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     length = fa.calc_len
     fm = FSFaceMaker()
     fm.AddPoint(d_1 / 2-s, -a)

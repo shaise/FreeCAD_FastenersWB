@@ -28,10 +28,10 @@ from screw_maker import *
 
 
 def makeHeadlessClevisPin(self, fa):
-    if fa.type.startswith("ISO2340"):
+    if fa.Type.startswith("ISO2340"):
         d_1, d_2, c, l_e = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     length = fa.calc_len
     fm = FSFaceMaker()
     fm.AddPoint(0.0, 0.0)
@@ -41,7 +41,7 @@ def makeHeadlessClevisPin(self, fa):
     fm.AddPoint(d_1 / 2 - c * math.tan(math.pi / 6), -length)
     fm.AddPoint(0.0, -length)
     shape = self.RevolveZ(fm.GetFace())
-    if fa.type == "ISO2340B":
+    if fa.Type == "ISO2340B":
         # cut the split-pin holes
         drill = Part.makeCylinder(
             d_2 / 2,

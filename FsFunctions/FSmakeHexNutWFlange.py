@@ -43,7 +43,7 @@ def makeHexNutWFlange(self, fa):
         case "DIN6331":
             return _makeHexNutWithSquareFlange(self, fa)
         case _:
-            raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+            raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
 
 
 def _makeHexNutWithTaperedFlange(self, fa):
@@ -116,7 +116,7 @@ def _makeHexNutWithTaperedFlange(self, fa):
     flange = self.RevolveZ(face)
     nut_body = nut_body.fuse(flange).removeSplitter()
 
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)
         nut_body = nut_body.cut(thread_cutter)
     return nut_body
@@ -156,7 +156,7 @@ def _makeHexNutWithSquareFlange(self, fa):
     nut_body = nut_body.fuse(collar)
     nut_body = nut_body.cut(cutoff_body).removeSplitter()
 
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)
         nut_body = nut_body.cut(thread_cutter)
     return nut_body

@@ -31,7 +31,7 @@ from screw_maker import *
 def makeScrewDie(self, fa):
     """make object to cut external threads on a shaft"""
     ThreadType = fa.calc_diam
-    if fa.diameter != "Custom":
+    if fa.Diameter != "Custom":
         dia = self.getDia(ThreadType, False)
         if fa.baseType == "ScrewDie":
             P, tunIn, tunEx = fa.dimTable
@@ -46,7 +46,7 @@ def makeScrewDie(self, fa):
     length = fa.calc_len
     refpoint = Base.Vector(0, 0, -1 * length)
     screwDie = Part.makeCylinder(dia * 1.2 / 2, length, refpoint)
-    if fa.thread:
+    if fa.Thread:
         thread_cylinder = Part.makeCylinder(dia / 2, length, refpoint)
         thread_cutter = self.CreateThreadCutter(dia, P, length)
         thread_cutter = thread_cylinder.cut(thread_cutter)

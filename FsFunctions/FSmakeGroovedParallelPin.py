@@ -28,10 +28,10 @@ from screw_maker import *
 
 
 def makeGroovedParallelPin(self, fa):
-    if fa.type == "ISO8740":
+    if fa.Type == "ISO8740":
         d_1, c_1, c_2, a = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     length = fa.calc_len
     fm = FSFaceMaker()
     fm.AddPoint(0.0, 0.0)

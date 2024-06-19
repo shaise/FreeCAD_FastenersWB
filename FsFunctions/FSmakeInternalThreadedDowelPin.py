@@ -28,16 +28,16 @@ from screw_maker import *
 
 
 def makeInternalThreadedDowelPin(self, fa):
-    if fa.type == "ISO8733":
+    if fa.Type == "ISO8733":
         d_1, c_1, c_2, d_2, P, d_3, t_1, t_2, t_3 = fa.dimTable
         end = "square"
-    elif fa.type == "ISO8735":
+    elif fa.Type == "ISO8735":
         d_1, a, c, d_2, P, d_3, t_1, t_2, t_3 = fa.dimTable
         c_1 = a
         c_2 = c
         end = "round"
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     length = fa.calc_len
     fm = FSFaceMaker()
     cham_top = math.tan(math.radians(15)) * c_1
@@ -62,7 +62,7 @@ def makeInternalThreadedDowelPin(self, fa):
         fm.AddArc2(-d_1,0.0,-90)
         bottom_cutter = self.RevolveZ(fm.GetFace())
         shape = shape.common(bottom_cutter)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindInnerThreadCutter(d_2, P, t_1)
         thread_cutter.rotate(
             Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 1.0, 0.0), 180

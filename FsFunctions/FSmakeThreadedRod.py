@@ -31,7 +31,7 @@ from screw_maker import *
 def makeThreadedRod(self, fa):
     """make a length of standard threaded rod"""
     ThreadType = fa.calc_diam
-    if fa.diameter != 'Custom':
+    if fa.Diameter != 'Custom':
         dia = self.getDia(ThreadType, False)
         if fa.baseType == 'ThreadedRod':
             P, tunIn, tunEx = fa.dimTable
@@ -54,7 +54,7 @@ def makeThreadedRod(self, fa):
     fm.AddPoint(dia / 2 - cham, -1 * length)
     fm.AddPoint(0, -1 * length)
     screw = self.RevolveZ(fm.GetFace())
-    if fa.thread:
+    if fa.Thread:
         # make the threaded section
         thread_cutter = self.CreateThreadCutter(dia, P, length)
         screw = screw.cut(thread_cutter)

@@ -32,14 +32,14 @@ import Part
 
 def makeTaperGroovedPin(self, fa):
     length = fa.calc_len
-    if fa.type == "ISO8744":
+    if fa.Type == "ISO8744":
         d_1, a = fa.dimTable
         groove_l = length
-    elif fa.type == "ISO8745":
+    elif fa.Type == "ISO8745":
         d_1, a = fa.dimTable
         groove_l = length / 2
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     fm = FSFaceMaker()
     fm.AddPoint(0.0, 0.0)
     fm.AddArc2(0.0, -d_1, -90)

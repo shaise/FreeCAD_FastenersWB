@@ -71,7 +71,7 @@ def makeHexHeadBolt(self, fa):
         if length > 6 * 25.4:
             b += 6.35
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     if fa.baseType in ["ISO4014", "ISO4016", "ISO8765"]:
         if length <= 125.0:
             b = b1
@@ -95,7 +95,7 @@ def makeHexHeadBolt(self, fa):
     fm.AddArc2(0.0, -r, 90)
     if length - r > b:  # partially threaded fastener
         thread_length = b
-        if not fa.thread:
+        if not fa.Thread:
             fm.AddPoint(dia / 2, -1 * (length - b))
     else:
         thread_length = length - r
@@ -107,7 +107,7 @@ def makeHexHeadBolt(self, fa):
     extrude = self.makeHexPrism(s, k + length + 2)
     extrude.translate(Base.Vector(0.0, 0.0, -length - 1))
     shape = shape.common(extrude)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)

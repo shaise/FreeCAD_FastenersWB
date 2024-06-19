@@ -55,7 +55,7 @@ def makeSquareBolt(self, fa):
     fm.AddArc2(0.0, -r, 90)
     if length - r > b:  # partially threaded fastener
         thread_length = b
-        if not fa.thread:
+        if not fa.Thread:
             fm.AddPoint(dia / 2, -1 * (length - b))
     else:
         thread_length = length - r
@@ -66,7 +66,7 @@ def makeSquareBolt(self, fa):
     head_square = Part.makeBox(s, s, 2 * k + length)
     head_square.translate(Base.Vector(-s / 2, -s / 2, -length - k))
     shape = shape.common(head_square)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
         thread_cutter.translate(
             Base.Vector(0.0, 0.0, -1 * (length - thread_length))

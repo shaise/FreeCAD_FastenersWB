@@ -37,12 +37,12 @@ def makeHexKey(self, fa):
     Implemented:
     - ISO 2936: Hexagon socket screw keys
     """
-    if fa.type == "ISO2936":
+    if fa.Type == "ISO2936":
         # Width across flats
         s = float(fa.calc_diam)
         r = max(1.5, s)
         l2, f = fa.dimTable
-        keySize = fa.keySize
+        keySize = fa.KeySize
         i = FastenerBase.FsTitles[fa.baseType + "keysizes"].index(keySize)
         l1 = FsData[fa.baseType + "keysizes"][fa.calc_diam][i]
 
@@ -90,4 +90,4 @@ def makeHexKey(self, fa):
 
         return key
 
-    raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+    raise NotImplementedError(f"Unknown fastener type: {fa.Type}")

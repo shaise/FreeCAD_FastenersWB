@@ -29,11 +29,11 @@ from screw_maker import *
 
 def makeExternalThreadedTaperPin(self, fa):
     length = fa.calc_len
-    if fa.type == "ISO8737":
+    if fa.Type == "ISO8737":
         d_1, a, b, d_2, P, d_3, z = fa.dimTable
         d_5 = d_1 + (length - a-b) / 50
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     fm = FSFaceMaker()
     fm.AddPoint(0.0, b+a)
     fm.AddPoint(d_3/2, b+a)
@@ -51,7 +51,7 @@ def makeExternalThreadedTaperPin(self, fa):
     fm.AddPoint(d_2, a+b-d_2)
     fm.AddArc2(-d_2,0.0,90)
     shape = shape.common(self.RevolveZ(fm.GetFace()))
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindThreadCutter(d_2, P, b)
         thread_cutter.rotate(Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 1.0, 0.0), 180)
         thread_cutter.translate(Base.Vector(0.0, 0.0, a))

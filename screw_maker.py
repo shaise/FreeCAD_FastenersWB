@@ -106,7 +106,7 @@ class Screw:
     def __init__(self):
         self.objAvailable = True
         self.Tuner = 510
-        self.leftHanded = False
+        self.LeftHanded = False
         # thread scaling for 3D printers
         # scaled_diam = diam * ScaleA + ScaleB
         self.sm3DPrintMode = False
@@ -135,12 +135,12 @@ class Screw:
                 "Error! nom_dia and length values must be valid numbers!\n")
             return None
 
-        if (fastenerAttribs.diameter == "Custom"):
+        if (fastenerAttribs.Diameter == "Custom"):
             fastenerAttribs.dimTable = None
         else:
             fastenerAttribs.dimTable = FsData[fastenerAttribs.baseType +
-                                              "def"][fastenerAttribs.diameter]
-        self.leftHanded = fastenerAttribs.leftHanded
+                                              "def"][fastenerAttribs.Diameter]
+        self.LeftHanded = fastenerAttribs.LeftHanded
         # self.fastenerLen = l
         # fa.baseType = ST_text
         # fa.calc_diam = ND_text
@@ -154,7 +154,7 @@ class Screw:
             done = True
         else:
             FreeCAD.Console.PrintMessage(
-                "No suitable function for " + fastenerAttribs.type + " Screw Type!\n")
+                "No suitable function for " + fastenerAttribs.Type + " Screw Type!\n")
             return None
         # Part.show(screw)
         return screw
@@ -200,7 +200,7 @@ class Screw:
             numTurns = math.floor(tipH / p) or 1
             FreeCAD.Console.PrintMessage(str(numTurns))
             # Part.show(hlx)
-            hlx = Part.makeLongHelix(p, numTurns * p, 5, 0, self.leftHanded)
+            hlx = Part.makeLongHelix(p, numTurns * p, 5, 0, self.LeftHanded)
             sweep = Part.BRepOffsetAPI.MakePipeShell(hlx)
             sweep.setFrenetMode(True)
             sweep.setTransitionMode(1)  # right corner transition
@@ -217,7 +217,7 @@ class Screw:
 
 
         # create helix for body thread part
-        hlx = Part.makeLongHelix(p, zs - ze, 5, 0, self.leftHanded)
+        hlx = Part.makeLongHelix(p, zs - ze, 5, 0, self.LeftHanded)
         hlx.translate(FreeCAD.Vector(0.0, 0.0, tipH))
         sweep = Part.BRepOffsetAPI.MakePipeShell(hlx)
         sweep.setFrenetMode(True)
@@ -281,7 +281,7 @@ class Screw:
         # NOTE: makeLongHelix creates slightly conical
         # helices unless the 4th parameter is set to 0!
         helix = Part.makeLongHelix(
-            P, helix_height, dia / 2, 0, self.leftHanded)
+            P, helix_height, dia / 2, 0, self.LeftHanded)
         helix.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
         sweep = Part.BRepOffsetAPI.MakePipeShell(helix)
         sweep.setFrenetMode(True)
@@ -304,7 +304,7 @@ class Screw:
 
         # make just one turn, length is identical to pitch
         helix = Part.makeLongHelix(
-            P, blen, r, 0, self.leftHanded
+            P, blen, r, 0, self.LeftHanded
         )
 
         # points for inner thread profile
@@ -397,9 +397,9 @@ class Screw:
         # NOTE: makeLongHelix creates slightly conical
         # helices unless the 4th parameter is set to 0!
         main_helix = Part.makeLongHelix(
-            P, helix_height, dia / 2, 0, self.leftHanded)
+            P, helix_height, dia / 2, 0, self.LeftHanded)
         lead_out_helix = Part.makeLongHelix(
-            P, P / 2, dia / 2 + 0.55 * (5 / 8 * H + 0.5 * fillet_r), 0, self.leftHanded)
+            P, P / 2, dia / 2 + 0.55 * (5 / 8 * H + 0.5 * fillet_r), 0, self.LeftHanded)
         main_helix.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
         lead_out_helix.translate(Base.Vector(
             0.55 * (-1 * (5 / 8 * H + 0.5 * fillet_r)), 0, 0))

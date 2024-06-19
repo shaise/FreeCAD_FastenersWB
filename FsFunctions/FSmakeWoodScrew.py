@@ -71,10 +71,10 @@ def makeDIN571(screw_obj, fa):
     # Parameters s, k, outer circle diameter =  e/2.0+10.0
     extrude = screw_obj.makeHexPrism(s, k + l * 2)
     extrude.translate(Base.Vector(0.0, 0.0, -1.5 * l))
-    #if fa.thread:
+    #if fa.Thread:
     #  pass
     #else:
-    if fa.thread:
+    if fa.Thread:
         dt = d3 / 2.0
     else:
         dt = d
@@ -96,7 +96,7 @@ def makeDIN571(screw_obj, fa):
     edge9 = Part.makeLine(PntB3, PntB4)
     edgeZ0 = Part.makeLine(PntB4, Pnt0)
 
-    if fa.thread:
+    if fa.Thread:
         PntB0t = Base.Vector(dt, 0.0, 0.4 * -ftl - (d - dt))
         edge7 = Part.makeLine(PntB0, PntB0t)
         edge7t = Part.makeLine(PntB0t, PntB1)
@@ -111,7 +111,7 @@ def makeDIN571(screw_obj, fa):
     # Part.show(aFace)
     head = screw_obj.RevolveZ(aFace)
     head = head.common(extrude)
-    if fa.thread:
+    if fa.Thread:
         thread = screw_obj.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d3h, d, P)
         #Part.show(thread)
         head = head.fuse(thread)
@@ -132,7 +132,7 @@ def makeDIN96(screw_obj, fa):
     zm = math.sqrt(1-dk*dk/(16*r*r))*r - (r-k)
 
     # calc screw
-    if fa.thread:
+    if fa.Thread:
         dt = d3 / 2.0
     else:
         dt = d
@@ -149,7 +149,7 @@ def makeDIN96(screw_obj, fa):
         (dk/4, zm, dk/2, 0),
         (d, 0),
         (d, -0.4*ftl))
-    if fa.thread:
+    if fa.Thread:
         fm.AddPoints((dt, -0.4*ftl-(d-dt)))
     fm.AddPoints(
         (dt, -ftl),
@@ -166,7 +166,7 @@ def makeDIN96(screw_obj, fa):
     screw = screw.cut(slot)
 
     # make thread
-    if fa.thread:
+    if fa.Thread:
         thread = screw_obj.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d32, d, P)
         screw = screw.fuse(thread)
 
@@ -183,7 +183,7 @@ def makeDIN7996(screw_obj, fa):
     sa = da/2
 
     # calc screw
-    if fa.thread:
+    if fa.Thread:
         dt = d32
     else:
         dt = d
@@ -202,7 +202,7 @@ def makeDIN7996(screw_obj, fa):
         (sa, 0),
         (0, d-sa, 90),
         (d, -0.4*ftl))
-    if fa.thread:
+    if fa.Thread:
         fm.AddPoints((dt, -0.4*ftl-(d-dt)))
     fm.AddPoints(
         (dt, -ftl),
@@ -219,7 +219,7 @@ def makeDIN7996(screw_obj, fa):
     screw = screw.cut(recess)
 
     # make thread
-    if fa.thread:
+    if fa.Thread:
         thread = screw_obj.makeDin7998Thread(0.4 * -ftl, -ftl, -l, d32, d, P)
         screw = screw.fuse(thread)
 
@@ -253,7 +253,7 @@ def makeGOST1144(self, fa):
  
     # inner radius of screw section
     sr = ro
-    if fa.thread:
+    if fa.Thread:
         sr = ri
 
     # length of cylindrical part where thread begins to grow.
@@ -287,14 +287,14 @@ def makeGOST1144(self, fa):
     # 2) add rounding under screw head
     rr = dia / 10
     fm.AddPoint(ro + rr, 0)      # first point of rounding
-    if fa.thread and full_length:
+    if fa.Thread and full_length:
        fm.AddBSpline(ro, 0, sr, -slope_length) # create spline rounding
     else:
        fm.AddArc2(+0, -rr, 90) # in other cases create arc rounding
 
     # 3) cylindrical part (place where thread will be added)
     if not full_length:
-       if fa.thread:
+       if fa.Thread:
           fm.AddPoint(ro, -l+b+slope_length)    # entery point of thread
        fm.AddPoint(sr, -l+b)   # start of full width thread b >= l*0.6
 
@@ -317,7 +317,7 @@ def makeGOST1144(self, fa):
     screw = screw.cut(recess)
 
     # make thread
-    if fa.thread:
+    if fa.Thread:
         thread = self.makeDin7998Thread(-l+b+slope_length, -l+tip_length, -l, ri, ro, P)
         screw = screw.fuse(thread)
 
@@ -353,7 +353,7 @@ def makeASMEB1861(self, fa):
     fm = FastenerBase.FSFaceMaker()
     fm.AddPoint(0.0, -length)
     
-    if fa.thread:
+    if fa.Thread:
         fm.AddPoint(dia / 2 - F, -length + dia) # Assume length of taper = diameter
         fm.AddPoint(dia / 2 - F, -length + thread_length - dia);
         fm.AddPoint(dia / 2, -length + thread_length) 
@@ -393,7 +393,7 @@ def makeASMEB1861(self, fa):
     screw = screw.cut(recess)
 
     # make thread
-    if fa.thread:
+    if fa.Thread:
         thread = self.makeDin7998Thread(-length + thread_length, -length + dia, -length, E/2 - F, E/2, P)
         screw = screw.fuse(thread)
 

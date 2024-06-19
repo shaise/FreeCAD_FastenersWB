@@ -41,7 +41,7 @@ def makeFlangedSquareHeadBolt(self, fa):
         else:
             b = b2
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     # lay out the fastener profile
     fm = FSFaceMaker()
     fm.AddPoint(0.0, k)
@@ -61,7 +61,7 @@ def makeFlangedSquareHeadBolt(self, fa):
     fm.AddArc2(0.0, -r, 90)
     if length - r > b:  # partially threaded fastener
         thread_length = b
-        if not fa.thread:
+        if not fa.Thread:
             fm.AddPoint(dia / 2, -1 * (length - b))
     else:
         thread_length = length - r
@@ -70,7 +70,7 @@ def makeFlangedSquareHeadBolt(self, fa):
     fm.AddPoint(0.0, -length)
     shape = self.RevolveZ(fm.GetFace())
     shape = shape.fuse(head_square)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
         thread_cutter.translate(
             Base.Vector(0.0, 0.0, -1 * (length - thread_length))

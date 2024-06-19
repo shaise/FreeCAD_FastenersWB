@@ -40,7 +40,7 @@ def makeAllMetalLockNut(self, fa):
     if fa.baseType in ["ISO7719", "ISO7720", "ISO10513"]:
         P, _, _, _, _, h, _, m_w, s, _ = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     # main hexagonal body of the nut
     shape = self.makeHexPrism(s, h)
 
@@ -72,7 +72,7 @@ def makeAllMetalLockNut(self, fa):
     top_cham_cutter = self.RevolveZ(fm.GetFace())
     shape = shape.cut(top_cham_cutter)
     # add modelled threads if needed
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, h + P)
         shape = shape.cut(thread_cutter)
     return shape

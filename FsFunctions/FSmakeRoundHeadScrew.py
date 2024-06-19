@@ -77,7 +77,7 @@ def makeRoundHeadScrew(self, fa):
     screw = screw.cut(recess)
 
     # Add modeled threads if needed
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindThreadCutter(dia, P, length)
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         screw = screw.cut(thread_cutter)

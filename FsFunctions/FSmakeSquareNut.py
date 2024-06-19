@@ -75,7 +75,7 @@ def makeSquareNut(self, fa):
         cham_solid = Part.makeCone(dw / 2 + m * math.sqrt(3), dw / 2, m)
         nut = nut.common(cham_solid)
     # cut modeled threads if needed
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)
         nut = nut.cut(thread_cutter)
     return nut

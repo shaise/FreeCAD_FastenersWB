@@ -82,7 +82,7 @@ def makeCarriageBolt(self, fa):  # dynamically loaded method of class Screw
     fm.AddPoint(sqrt2 / 2 * O, -1 * P + (sqrt2 / 2 * O - d / 2))
     fm.AddPoint(d / 2, -1 * P)
     if (flat_len > L_t):
-        if not fa.thread:
+        if not fa.Thread:
             fm.AddPoint(d / 2, -length + L_t)
         thread_length = L_t
     else:
@@ -117,7 +117,7 @@ def makeCarriageBolt(self, fa):  # dynamically loaded method of class Screw
     innerBox = innerBox.makeFillet(d * 0.08, edges_to_fillet)
     tool = outerBox.cut(innerBox)
     p_solid = p_solid.cut(tool)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindThreadCutter(d, pitch, thread_length)
         thread_cutter.translate(
             Base.Vector(0.0, 0.0, -1 * (length - thread_length))

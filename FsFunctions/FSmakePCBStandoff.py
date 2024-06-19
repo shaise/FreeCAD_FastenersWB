@@ -68,8 +68,8 @@ def psMakeFace(m, sw, lo, l, id):
 
 def makePCBStandoff(self, fa):
     diam = fa.calc_diam
-    width = fa.width
-    screwlen = FastenerBase.LenStr2Num(fa.screwLength)
+    width = fa.Width
+    screwlen = FastenerBase.LenStr2Num(fa.ScrewLength)
     flen = float(fa.calc_len)
     FreeCAD.Console.PrintLog(
         "Making PCB standof"
@@ -84,7 +84,7 @@ def makePCBStandoff(self, fa):
     )
     diain = self.getDia(fa.calc_diam, True)
     diaout = self.getDia(fa.calc_diam, False)
-    P = FsData["ISO262def"][fa.diameter][0]
+    P = FsData["ISO262def"][fa.Diameter][0]
     id = self.GetInnerThreadMinDiameter(diain, P)
     f, thrPos = psMakeFace(diaout, width, screwlen, flen, id)
     p = self.RevolveZ(f)
@@ -92,7 +92,7 @@ def makePCBStandoff(self, fa):
     htool = self.makeHexPrism(w, flen + screwlen)
     htool.translate(Base.Vector(0.0, 0.0, -screwlen - 0.1))
     shape = p.common(htool)
-    if fa.thread:
+    if fa.Thread:
         # outer thread
         tool = self.CreateBlindThreadCutter(diaout, P, screwlen)
         b = Part.makeBox(20, 20, 10, Base.Vector(-10.0, -10.0, -0.6))

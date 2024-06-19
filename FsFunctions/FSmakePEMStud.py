@@ -62,10 +62,10 @@ def makePEMStud(self, fa):
 
     profile, thStart = fhMakeFace(dia, h, d, l)
     rev = self.RevolveZ(profile)
-    if not fa.thread:
+    if not fa.Thread:
         return rev
     # real thread
-    P = FsData["ISO262def"][fa.diameter][0]
+    P = FsData["ISO262def"][fa.Diameter][0]
     rthread = self.CreateBlindThreadCutter(dia, P, l + thStart)
     rthread.translate(Base.Vector(0.0, 0.0, thStart))
     rev = rev.cut(rthread)

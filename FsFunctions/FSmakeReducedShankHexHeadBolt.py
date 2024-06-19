@@ -44,7 +44,7 @@ def makeReducedShankHexHeadBolt(self, fa):
         else:
             b = b1
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     dp = (dia / 2 - 0.375 * math.sqrt(3) / 2 * P) * 2
     # needed for chamfer at head top
     cham = (e - s) * math.sin(math.radians(15))
@@ -78,7 +78,7 @@ def makeReducedShankHexHeadBolt(self, fa):
     extrude = self.makeHexPrism(s, k + length + 2)
     extrude.translate(Base.Vector(0.0, 0.0, -length - 1))
     shape = shape.common(extrude)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)

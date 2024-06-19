@@ -83,7 +83,7 @@ def _makeCastleNut(self, fa):
         slot_cutter.rotate(Base.Vector(0.0, 0.0, 0.0),
                            Base.Vector(0.0, 0.0, 1.0), 360 / ns)
         shape = shape.cut(slot_cutter)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)
         shape = shape.cut(thread_cutter)
     return shape
@@ -129,7 +129,7 @@ def _makeSlottedNut(self, fa):
         slot_cutter.rotate(Base.Vector(0.0, 0.0, 0.0),
                            Base.Vector(0.0, 0.0, 1.0), 360 / ns)
         shape = shape.cut(slot_cutter)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)
         shape = shape.cut(thread_cutter)
     return shape

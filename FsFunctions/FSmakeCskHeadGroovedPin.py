@@ -28,14 +28,14 @@ from screw_maker import *
 
 
 def makeCskHeadGroovedPin(self, fa):
-    if fa.type == "ISO8747":
+    if fa.Type == "ISO8747":
         d_1_max, d_1_min, d_k_max, d_k_min, d_2, c = fa.dimTable
         d_1 = (d_1_max + d_1_min) / 2
         d_k = (d_k_max + d_k_min) / 2
         csk_angle = math.radians(75)
         a = math.radians((15 + 30) / 2)
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     length = fa.calc_len
     fm = FSFaceMaker()
     fm.AddPoint(0.0, 0.0)

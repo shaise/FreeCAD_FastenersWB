@@ -67,13 +67,13 @@ def makeNylocNut(self, fa):
     elif fa.baseType in ["ISO7040", "ISO7041", "ISO10511", "ISO10512"]:
         P,da,_,dw,e,h,_,m,_,s,_ = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     dia = self.getDia(fa.calc_diam, True)
     section = nylocMakeFace(dia, P, da, dw, e, m, h, s)
     nutSolid = self.RevolveZ(section)
     htool = htool = self.makeHexPrism(s, m * 3)
     nutSolid = nutSolid.common(htool)
-    if fa.thread:
+    if fa.Thread:
         threadCutter = self.CreateInnerThreadCutter(dia, P, h + P)
         nutSolid = nutSolid.cut(threadCutter)
 

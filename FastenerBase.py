@@ -68,19 +68,41 @@ class FSBaseObject:
     """Base Class for all fasteners."""
 
     def __init__(self, obj, attachTo):
-        obj.addProperty("App::PropertyDistance", "offset", "Parameters", translate(
-            "FastenerCmd", "Offset from surface")).offset = 0.0
-        obj.addProperty("App::PropertyBool", "invert", "Parameters", translate(
-            "FastenerCmd", "Invert fastener direction")).invert = False
-        obj.addProperty("App::PropertyXLinkSub", "baseObject", "Parameters", translate(
-            "FastenerCmd", "Base object")).baseObject = attachTo
+        self.addBasicProperties(obj, attachTo)
+
+    def addBasicProperties(self, obj, attachTo):
+        if not hasattr(obj, "Offset"):
+            obj.addProperty("App::PropertyDistance", "Offset", "Parameters", translate(
+                "FastenerCmd", "Offset from surface")).Offset = 0.0
+        if not hasattr(obj, "Invert"):
+            obj.addProperty("App::PropertyBool", "Invert", "Parameters", translate(
+                "FastenerCmd", "Invert fastener direction")).Invert = False
+        if not hasattr(obj, "BaseObject"):
+            obj.addProperty("App::PropertyXLinkSub", "BaseObject", "Parameters", translate(
+                "FastenerCmd", "Base object")).BaseObject = attachTo
 
     def updateProps(self, obj):
-        if obj.getTypeIdOfProperty("baseObject") != "App::PropertyXLinkSub":
-            linkedObj = obj.baseObject
+        if hasattr(obj, "baseObject") and obj.getTypeIdOfProperty("baseObject") != "App::PropertyXLinkSub":
+            linkedObj = obj.BaseObject
             obj.removeProperty("baseObject")
-            obj.addProperty("App::PropertyXLinkSub", "baseObject", "Parameters", translate(
-                "FastenerCmd", "Base object")).baseObject = linkedObj
+            obj.addProperty("App::PropertyXLinkSub", "BaseObject", "Parameters", translate(
+                "FastenerCmd", "Base object")).BaseObject = linkedObj
+            
+    def migrateToUpperCase(self, obj):
+        self.addBasicProperties(obj, None)
+        if not hasattr(obj, 'offset'):
+            return       # quick return, already converted
+        FreeCAD.Console.PrintLog("migrating fasteners to new names\n")
+        for propName in obj.PropertiesList:
+            lc = propName[0].lower()
+            if lc != propName[0]:
+                lcname = lc + propName[1:]
+                if hasattr(obj, lcname):
+                    # print ("migrating ", lcname, " to ", propName)
+                    setattr(obj, propName, obj.getPropertyByName(lcname))
+                    obj.removeProperty(lcname)
+
+
 
 
 class FSGroupCommand:
@@ -181,14 +203,14 @@ def FSScrewStr(obj):
     """Return the textual representation of the screw diameter x length
     + optional handedness ([M]<dia>x<len>[LH]), also accounting for
     custom size properties"""
-    dia = obj.diameter if obj.diameter != 'Custom' else obj.diameterCustom
+    dia = obj.Diameter if obj.Diameter != 'Custom' else obj.DiameterCustom
     if isinstance(dia, FreeCAD.Units.Quantity):
         dia = str(float(dia.Value)).rstrip('0').rstrip('.')
-    length = obj.length if obj.length != 'Custom' else obj.lengthCustom
+    length = obj.Length if obj.Length != 'Custom' else obj.LengthCustom
     if isinstance(length, FreeCAD.Units.Quantity):
         length = str(float(length.Value)).rstrip('0').rstrip('.')
     desc = dia + "x" + length
-    if obj.leftHanded:
+    if obj.LeftHanded:
         desc += 'LH'
     return desc
 
@@ -711,8 +733,8 @@ class FSFlipCommand:
         if len(selObjs) == 0:
             return
         for selObj in selObjs:
-            FreeCAD.Console.PrintLog("sel obj: " + str(selObj.invert) + "\n")
-            selObj.invert = not selObj.invert
+            FreeCAD.Console.PrintLog("sel obj: " + str(selObj.Invert) + "\n")
+            selObj.Invert = not selObj.Invert
         FreeCAD.ActiveDocument.recompute()
         return
 
@@ -726,7 +748,7 @@ class FSFlipCommand:
             obj = selobj.Object
             # FreeCAD.Console.PrintLog("sel obj: " + str(obj) + "\n")
             if hasattr(obj, 'Proxy') and isinstance(obj.Proxy, FSBaseObject):
-                if obj.baseObject is not None:
+                if obj.BaseObject is not None:
                     screwObj.append(obj)
         return screwObj
 
@@ -751,7 +773,7 @@ class FSMoveCommand:
         selObj = self.GetSelection()
         if selObj[0] is None:
             return
-        selObj[0].baseObject = selObj[1]
+        selObj[0].BaseObject = selObj[1]
         FreeCAD.ActiveDocument.recompute()
         return
 
@@ -908,21 +930,21 @@ class FSMakeBomCommand:
             self.fastenerDB[fastener] = cnt
 
     def AddScrew(self, obj, cnt):
-        desc = obj.type + translate("FastenerBase",
+        desc = obj.Type + translate("FastenerBase",
                                     " Screw ") + FSScrewStr(obj)
         self.AddFastener(desc, cnt)
 
     def AddNut(self, obj, cnt):
-        if hasattr(obj, 'type'):
-            type = obj.type
+        if hasattr(obj, 'Type'):
+            type = obj.Type
         else:
             type = 'ISO4033'
         self.AddFastener(type + translate("FastenerBase",
-                         " Nut ") + obj.diameter, cnt)
+                         " Nut ") + obj.Diameter, cnt)
 
     def AddWasher(self, obj, cnt):
-        self.AddFastener(obj.type + translate("FastenerBase",
-                         " Washer ") + obj.diameter, cnt)
+        self.AddFastener(obj.Type + translate("FastenerBase",
+                         " Washer ") + obj.Diameter, cnt)
 
     def AddThreadedRod(self, obj, cnt):
         desc = translate("FastenerBase", "Threaded Rod ") + FSScrewStr(obj)
@@ -930,50 +952,50 @@ class FSMakeBomCommand:
 
     def AddPressNut(self, obj, cnt):
         self.AddFastener(translate("FastenerBase", "PEM PressNut ") +
-                         obj.diameter + "-" + obj.tcode, cnt)
+                         obj.Diameter + "-" + obj.Tcode, cnt)
 
     def AddStandoff(self, obj, cnt):
         self.AddFastener(translate("FastenerBase", "PEM Standoff ") +
-                         obj.diameter + "x" + obj.length, cnt)
+                         obj.Diameter + "x" + obj.Length, cnt)
 
     def AddStud(self, obj, cnt):
         self.AddFastener(translate("FastenerBase", "PEM Stud ") +
-                         obj.diameter + "x" + obj.length, cnt)
+                         obj.Diameter + "x" + obj.Length, cnt)
 
     def AddPcbStandoff(self, obj, cnt):
         self.AddFastener(
             translate("FastenerBase", "PCB Standoff ") +
-            obj.diameter + "x" + obj.width + "x" + obj.length,
+            obj.Diameter + "x" + obj.Width + "x" + obj.Length,
             cnt)
 
     def AddHeatSet(self, obj, cnt):
         self.AddFastener(
-            translate("FastenerBase", "Heat Set Insert ") + obj.diameter, cnt)
+            translate("FastenerBase", "Heat Set Insert ") + obj.Diameter, cnt)
 
     def AddRetainingRing(self, obj, cnt):
-        self.AddFastener(obj.type + translate("FastenerBase",
-                         " Retaining Ring ") + obj.diameter, cnt)
+        self.AddFastener(obj.Type + translate("FastenerBase",
+                         " Retaining Ring ") + obj.Diameter, cnt)
 
     def AddTSlot(self, obj, cnt):
-        if obj.type == "GN505.4":
-            self.AddFastener(obj.type + translate("FastenerBase", " T-Slot Bolt ")
-                             + obj.diameter + " " + obj.slotWidth, cnt)
+        if obj.Type == "GN505.4":
+            self.AddFastener(obj.Type + translate("FastenerBase", " T-Slot Bolt ")
+                             + obj.Diameter + " " + obj.SlotWidth, cnt)
         else:
-            self.AddFastener(obj.type + translate("FastenerBase", " T-Slot Nut ")
-                             + obj.diameter + " " + obj.slotWidth, cnt)
+            self.AddFastener(obj.Type + translate("FastenerBase", " T-Slot Nut ")
+                             + obj.Diameter + " " + obj.SlotWidth, cnt)
 
     def AddHexKey(self, obj, cnt):
-        self.AddFastener(obj.type + translate("FastenerBase",
-                         " Hex key ") + obj.diameter + "mm", cnt)
+        self.AddFastener(obj.Type + translate("FastenerBase",
+                         " Hex key ") + obj.Diameter + "mm", cnt)
 
     def AddNail(self, obj, cnt):
         self.AddFastener(
-            obj.type + translate("FastenerBase", " Nail ") + obj.diameter, cnt
+            obj.Type + translate("FastenerBase", " Nail ") + obj.Diameter, cnt
         )
 
     def AddPin(self, obj, cnt):
         self.AddFastener(
-            obj.type + translate("Fastenerbase", " Pin ") + obj.diameter + "x" + obj.length, cnt
+            obj.Type + translate("Fastenerbase", " Pin ") + obj.Diameter + "x" + obj.Length, cnt
         )
 
     def IsActive(self):

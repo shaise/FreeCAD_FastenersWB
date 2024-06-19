@@ -29,10 +29,10 @@ from screw_maker import *
 
 
 def makeSplitPin(self, fa):
-    if fa.type == "ISO1234":
+    if fa.Type == "ISO1234":
         a, b, c, d = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     length = fa.calc_len
     # dia = FsData["DiaList"][fa.calc_diam][0]
     fm = FSFaceMaker()

@@ -152,17 +152,17 @@ def FSCPGetDiametersFromSelection(sel):
         if len(sel) == 0:
             return []
         obj0 = sel[0]
-        listDiams = screwMaker.GetAllDiams(obj0.type)
+        listDiams = screwMaker.GetAllDiams(obj0.Type)
         if len(sel) == 1:
             return listDiams
-        listTypes = [obj0.type]
+        listTypes = [obj0.Type]
         for obj in sel:
-            if obj.type in listTypes:
+            if obj.Type in listTypes:
                 continue
-            listTypes.append(obj.type)
+            listTypes.append(obj.Type)
             tmpList = listDiams
             listDiams = []
-            for diam in screwMaker.GetAllDiams(obj.type):
+            for diam in screwMaker.GetAllDiams(obj.Type):
                 if diam in tmpList:
                     listDiams.append(diam)
         return listDiams
@@ -220,7 +220,7 @@ class FSTaskChangeParamDialog:
         self.baseObj = obj
         self.disableUpdate = True
         self.selection = Gui.Selection.getSelection()
-        self.matchOuter = FSParam.GetBool("MatchOuterDiameter")
+        self.MatchOuter = FSParam.GetBool("MatchOuterDiameter")
         FSChangeParamDialog = QtGui.QWidget()
         FSChangeParamDialog.ui = Ui_DlgChangeParams()
         FSChangeParamDialog.ui.setupUi(FSChangeParamDialog)
@@ -361,29 +361,29 @@ class FSTaskChangeParamDialog:
             # apply type and diameter
             for obj in self.selection:
                 if ui.comboFastenerType.isEnabled() and ui.comboFastenerType.currentIndex() > 0:
-                    obj.type = str(ui.comboFastenerType.currentText())
+                    obj.Type = str(ui.comboFastenerType.currentText())
                 if ui.checkAutoDiameter.isChecked():
                     if self.hatMatchOption and ui.comboMatchType.currentIndex() > 0:
                         obj.Proxy.VerifyCreateMatchOuter(obj)
-                        obj.matchOuter = ui.comboMatchType.currentIndex() == 2
-                    obj.diameter = 'Auto'
+                        obj.MatchOuter = ui.comboMatchType.currentIndex() == 2
+                    obj.Diameter = 'Auto'
                 elif ui.comboDiameter.currentIndex() > 0:
-                    obj.diameter = str(ui.comboDiameter.currentText())
+                    obj.Diameter = str(ui.comboDiameter.currentText())
             FreeCAD.ActiveDocument.recompute()
 
             # apply length
             for obj in self.selection:
                 if self.fstype.hasLength:
                     if self.fixedLength:
-                        obj.length = str(ui.comboLength.currentText())
+                        obj.Length = str(ui.comboLength.currentText())
                     else:
                         if ui.checkSetLength.isChecked():
                             if not self.fstype.lengthFixed:
-                                obj.length = ui.spinLength.value()
+                                obj.Length = ui.spinLength.value()
                             else:
                                 d, l = screwMaker.FindClosest(
-                                    obj.type, obj.diameter, ui.spinLength.value())
-                                obj.length = l
+                                    obj.Type, obj.Diameter, ui.spinLength.value())
+                                obj.Length = l
             FreeCAD.ActiveDocument.recompute()
         except:
             FSShowError()
@@ -416,7 +416,7 @@ class FSChangeParamCommand:
 
     def Activated(self):
         dlg = FSTaskChangeParamDialog(None)
-        fstype = FSFastenerTypeDB[self.type]
+        fstype = FSFastenerTypeDB[self.Type]
         dlg.FillFields(fstype)
         Gui.Control.showDialog(dlg)
         return
@@ -425,16 +425,16 @@ class FSChangeParamCommand:
         sel = Gui.Selection.getSelection()
         if len(sel) == 0:
             return False
-        self.type = None
+        self.Type = None
         tmaxlen = 0
         for typename in FSFastenerTypeDB:
             # FreeCAD.Console.PrintLog(typename + "\n")
             if FSRemoveDigits(sel[0].Name) == typename:
-                self.type = typename
-        if self.type is None:
+                self.Type = typename
+        if self.Type is None:
             return False
         for obj in sel:
-            if FSRemoveDigits(obj.Name) != self.type:
+            if FSRemoveDigits(obj.Name) != self.Type:
                 return False
         return True
 

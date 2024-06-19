@@ -71,7 +71,7 @@ def makeCupNut(self, fa):
     solidHex = self.makeHexPrism(s, h * 1.1)
     solid = solid.common(solidHex)
     # cut the threads
-    if fa.thread:
+    if fa.Thread:
         tap_tool = self.CreateBlindInnerThreadCutter(dia, P, h - w)
         fm.Reset()
         fm.AddPoint(0, h - w),

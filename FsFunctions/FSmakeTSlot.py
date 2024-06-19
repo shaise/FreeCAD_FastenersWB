@@ -97,7 +97,7 @@ def makeHole(self, fastener, fa, dia, h, P):
     fm.AddPoint(0.0, -h)
     hole = self.RevolveZ(fm.GetFace())
     fastener = fastener.cut(hole)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, h + P)
         thread_cutter.rotate(
             Base.Vector(0.0, 0.0, 0.0), Base.Vector(1.0, 0.0, 0.0), 180
@@ -122,14 +122,14 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
         dia = self.getDia(fa.calc_diam, False) # Converted numeric value
     else:
         dia = self.getDia(fa.calc_diam, True) # Converted numeric value
-    P = FsData["ISO262def"][fa.diameter][0]
+    P = FsData["ISO262def"][fa.Diameter][0]
 
     # NOTE: - All dimensions depend on the slot width NOT in the diameter
     # with exception of the pitch and that's why the data files are a mess.
     # - The slot width of fasteners made for Aluminum profiles are denoted
     # as: "20 series", "30 series", "40 series", "45 series" and the ones
     # that are not are denoted with their dimension: "6 mm", "8 mm", "10 mm" etc.
-    sWidth = fa.slotWidth
+    sWidth = fa.SlotWidth
     i = FastenerBase.FsTitles[fa.baseType + "slotwidths"].index(sWidth)
     a = FsData[fa.baseType + "slotwidths"][d][i]
 
@@ -152,7 +152,7 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
 
         # Bolt and nut share geometries
 
-        if fa.thread:
+        if fa.Thread:
             k = k - 0.05 * e1 # Take into account strips height
 
         fastener = makeBaseBody(a, e1, e2, f, h, k)
@@ -162,7 +162,7 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
         # Cut corners from the middle face
         fastener = cutCorners(fastener, e2 / 2, h)
 
-        if fa.thread:
+        if fa.Thread:
             # Add strips
             p0 = Base.Vector(-e2 / 2, e1 / 2, -h + k)
             p1 = Base.Vector(-e2 / 2, (e1 / 2) - 0.1 * e1, -h + k)
@@ -217,7 +217,7 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
             fastener = fastener.fuse(L)
 
             thread_length = length
-            if fa.thread:
+            if fa.Thread:
                 thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
                 fastener = fastener.cut(thread_cutter)
 

@@ -36,9 +36,9 @@ def makeExternalRetainingRing(self, fa):
     if SType == "DIN471":
         S, d3, a_Max, b, d5_Min, d2 = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     small_sizes = ["3 mm", "4 mm", "5 mm", "6 mm", "7 mm", "8 mm", "9 mm"]
-    if fa.diameter in small_sizes:
+    if fa.Diameter in small_sizes:
         pnt1 = Base.Vector(d5_Min/2, -1*math.sqrt(d3**2-d5_Min**2)/2)
         pnt2 = Base.Vector(d5_Min/2, -1*math.sqrt(d3**2-d5_Min**2)/2-a_Max)
         pnt3 = Base.Vector(
@@ -111,7 +111,7 @@ def makeExternalRetainingRing(self, fa):
         r_b = (d3 + b + a_Max/2)/2
         offset = b/5
         adjust_sizes = ["10 mm", "11 mm", "12 mm", "13 mm", "14 mm", "15 mm"]
-        pnt5_adjust = 5 if fa.diameter in adjust_sizes else 0
+        pnt5_adjust = 5 if fa.Diameter in adjust_sizes else 0
         pnt5 = Base.Vector(
             r_b*math.cos(math.radians(300+pnt5_adjust)),
             offset + r_b*math.sin(math.radians(300+pnt5_adjust))

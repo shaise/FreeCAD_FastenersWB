@@ -28,14 +28,14 @@ from screw_maker import *
 
 
 def makeRoundHeadGroovedPin(self, fa):
-    if fa.type == "ISO8746":
+    if fa.Type == "ISO8746":
         d_1_max, d_1_min, d_k_max, d_k_min, k_max, k_min, r, c = fa.dimTable
         d_1 = (d_1_max + d_1_min) / 2
         d_k = (d_k_max + d_k_min) / 2
         k = (k_max + k_min) / 2
         a = math.radians((15 + 30) / 2)
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     length = fa.calc_len
     fm = FSFaceMaker()
     fm.AddPoint(0.0, k)

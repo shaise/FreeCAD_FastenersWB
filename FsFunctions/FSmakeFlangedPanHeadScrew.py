@@ -58,7 +58,7 @@ def makeFlangedPanHeadScrew(self, fa):
     fm.AddArc2(0.0, -r, 90)
     if length - r > b:  # partially threaded fastener
         thread_length = b
-        if not fa.thread:
+        if not fa.Thread:
             fm.AddPoint(dia / 2, -1 * (length - b))
     else:
         thread_length = length - r
@@ -66,7 +66,7 @@ def makeFlangedPanHeadScrew(self, fa):
     fm.AddPoint(0.0, -length)
     shape = self.RevolveZ(fm.GetFace())
     shape = shape.cut(recess)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
         thread_cutter.translate(
             Base.Vector(0.0, 0.0, -1 * (length - thread_length))

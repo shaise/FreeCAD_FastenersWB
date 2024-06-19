@@ -98,7 +98,7 @@ def makeHexNut(self, fa):
     extrude = self.makeHexPrism(s, m)
     nut = head.common(extrude)
     # add modeled threads if necessary
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)
         nut = nut.cut(thread_cutter)
     return nut

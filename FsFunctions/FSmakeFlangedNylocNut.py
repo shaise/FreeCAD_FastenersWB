@@ -39,7 +39,7 @@ def makeFlangedNylocNut(self, fa):
     if fa.baseType in ["ISO7043", "ISO12125"]:
         P, c, _, _, dc, _, _, h, _, m, _, s, _, _ = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     # main hexagonal body of the nut
     shape = self.makeHexPrism(s, h)
 
@@ -84,7 +84,7 @@ def makeFlangedNylocNut(self, fa):
     shape = shape.cut(bore_cutter)
 
     # add modelled threads if needed
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, h + P)
         shape = shape.cut(thread_cutter)
     return shape

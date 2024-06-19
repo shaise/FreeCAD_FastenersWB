@@ -28,10 +28,10 @@ from screw_maker import *
 
 
 def makeTaperedPin(self, fa):
-    if fa.type == "ISO2339":
+    if fa.Type == "ISO2339":
         d_1, a = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     length = fa.calc_len
     d_2 = d_1 + (length -2*a)/ 50
     r_1 = d_1

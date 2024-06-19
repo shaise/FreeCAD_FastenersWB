@@ -60,7 +60,7 @@ def pspMakeFace(m, sw, l, id, thl):
 
 def makePCBSpacer(self, fa):
     diam = fa.calc_diam
-    width = fa.width
+    width = fa.Width
     flen = fa.calc_len
 
     FreeCAD.Console.PrintLog(
@@ -69,7 +69,7 @@ def makePCBSpacer(self, fa):
 
     th, _ = fa.dimTable
     dia = self.getDia(fa.calc_diam, True)
-    P = FsData["ISO262def"][fa.diameter][0]
+    P = FsData["ISO262def"][fa.Diameter][0]
     id = self.GetInnerThreadMinDiameter(dia, P)
     w = float(width)
     l = float(flen)
@@ -86,7 +86,7 @@ def makePCBSpacer(self, fa):
     htool = self.makeHexPrism(w, l)
     htool.translate(Base.Vector(0.0, 0.0, - 0.1))
     fSolid = p.common(htool)
-    if fa.thread:
+    if fa.Thread:
         if thl > 0:  # blind & threaded from both sides
             threadCutter = self.CreateInnerThreadCutter(dia, P, thl - dia / 2)
             fSolid = fSolid.cut(threadCutter)

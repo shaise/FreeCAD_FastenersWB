@@ -80,36 +80,36 @@ def soMakeFace(b, c, h, d, l1, bl, isBlind):
 
 def makePEMStandoff(self, fa):
     l = fa.calc_len
-    plen = fa.length
+    plen = fa.Length
     _, c, h, _, lmin, lmax = fa.dimTable
     # there is an additional M3 size available for this fastener type,
     # designated by "3.5M3".
     # We must account for the fact that this size is not available in
     # thread data tables
-    if fa.diameter.startswith("3.5"):
+    if fa.Diameter.startswith("3.5"):
         dia_key = "M3"
     else:
-        dia_key = fa.diameter
+        dia_key = fa.Diameter
     dia = self.getDia(dia_key, True)
     b = dia * 1.05
     P = FsData["ISO262def"][dia_key][0]
     d = self.GetInnerThreadMinDiameter(dia, P)
-    if fa.blind and l < 6:
+    if fa.Blind and l < 6:
         l = 6
         plen = "6"
 
     bl = FsData[fa.baseType + "length"][plen][0]
-    f = soMakeFace(b, c, h, d, l, bl, fa.blind)
+    f = soMakeFace(b, c, h, d, l, bl, fa.Blind)
     p = self.RevolveZ(f)
     htool = self.makeHexPrism(h, l * 1.1)
     htool.translate(Base.Vector(0.0, 0.0, -1.05 * l))
     fSolid = p.common(htool)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, l * 1.25)
         thread_cutter.rotate(
             Base.Vector(0.0, 0.0, 0.0), Base.Vector(1.0, 0.0, 0.0), 180.0
         )
-        if fa.blind:
+        if fa.Blind:
             thread_cutter.translate(Base.Vector(0.0, 0.0, -d))
         fSolid = fSolid.cut(thread_cutter)
     return fSolid

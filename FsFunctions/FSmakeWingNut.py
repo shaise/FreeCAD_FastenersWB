@@ -48,7 +48,7 @@ def makeWingNut(self, fa):
         h = B * 25.4
         wing_r = g / 5
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     # create the main body of the nut
     fm = FSFaceMaker()
     fm.AddPoint(0.0, 0.0)
@@ -83,7 +83,7 @@ def makeWingNut(self, fa):
     bore_cutter = self.RevolveZ(fm.GetFace())
     shape = shape.cut(bore_cutter)
     # add modeled threads if necessary
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + 2 * P)
         shape = shape.cut(thread_cutter)
     return shape

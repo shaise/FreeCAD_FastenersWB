@@ -28,10 +28,10 @@ from screw_maker import *
 
 
 def makeClevisPin(self, fa):
-    if fa.type.startswith("ISO2341"):
+    if fa.Type.startswith("ISO2341"):
         d, d_k, d_l, c, e, k, l_e, r = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     length = fa.calc_len
     fm = FSFaceMaker()
     fm.AddPoint(0.0, k)
@@ -44,7 +44,7 @@ def makeClevisPin(self, fa):
     fm.AddPoint(d / 2 - c * math.sqrt(3) / 3, -length)
     fm.AddPoint(0.0, -length)
     shape = self.RevolveZ(fm.GetFace())
-    if fa.type == "ISO2341B":
+    if fa.Type == "ISO2341B":
         # cut out the cross-hole
         drill = Part.makeCylinder(
             d_l / 2,

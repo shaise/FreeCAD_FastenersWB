@@ -31,7 +31,7 @@ from screw_maker import *
 def makeScrewTap(self, fa):
     """negative-threaded rod for tapping holes"""
     ThreadType = fa.calc_diam
-    if fa.diameter != 'Custom':
+    if fa.Diameter != 'Custom':
         dia = self.getDia(ThreadType, True)
         if fa.baseType == "ScrewTap":
             P, tunIn, tunEx = fa.dimTable
@@ -49,7 +49,7 @@ def makeScrewTap(self, fa):
         fa.calc_len + 2
     )
     tap.translate(Base.Vector(0.0, 0.0, -1.0))
-    if fa.thread:
+    if fa.Thread:
         threads = self.CreateInnerThreadCutter(dia, P, fa.calc_len + P)
         tap = tap.fuse(threads)
     tap.rotate(

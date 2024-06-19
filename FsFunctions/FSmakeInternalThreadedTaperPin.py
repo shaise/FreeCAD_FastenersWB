@@ -29,11 +29,11 @@ from screw_maker import *
 
 def makeInternalThreadedTaperPin(self, fa):
     length = fa.calc_len
-    if fa.type == "ISO8736":
+    if fa.Type == "ISO8736":
         d_1, a, d_2, P, d_3, t_1, t_2, t_3 = fa.dimTable
         d_5 = d_1 + (length - 2 * a) / 50
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     fm = FSFaceMaker()
     cham_top = math.tan(math.radians(15)) * a
     fm.AddPoint(0.0, -t_2)
@@ -53,7 +53,7 @@ def makeInternalThreadedTaperPin(self, fa):
         -length,
     )
     shape = self.RevolveZ(fm.GetFace())
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindInnerThreadCutter(d_2, P, t_1)
         thread_cutter.rotate(
             Base.Vector(0.0, 0.0, 0.0), Base.Vector(0.0, 1.0, 0.0), 180

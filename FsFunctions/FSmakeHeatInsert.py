@@ -51,12 +51,12 @@ def iutMakeFace(d, a, e, c, c1, k1, k2, k3, k4, k5):
 
 def makeHeatInsert(self, fa):
     D, A, E, C, s1, s2 = fa.dimTable
-    oD = self.getDia(fa.diameter, True)
-    P = FsData["ISO262def"][fa.diameter][0]
+    oD = self.getDia(fa.Diameter, True)
+    P = FsData["ISO262def"][fa.Diameter][0]
     iD = self.GetInnerThreadMinDiameter(oD, P)
  
-    len =  FastenerBase.LenStr2Num(fa.length)
-    extDiam = FastenerBase.LenStr2Num(fa.externalDiam)
+    len =  FastenerBase.LenStr2Num(fa.Length)
+    extDiam = FastenerBase.LenStr2Num(fa.ExternalDiam)
     scale = len / A
     a = -len
     d = iD / 2
@@ -74,7 +74,7 @@ def makeHeatInsert(self, fa):
     fSolid = self.RevolveZ(fFace)
 
 
-    if fa.thread:
+    if fa.Thread:
         dia = self.getDia(fa.calc_diam, True)
         thread_cutter = self.CreateInnerThreadCutter(dia, P, A + P)
         thread_cutter.rotate(

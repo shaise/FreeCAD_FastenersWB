@@ -43,7 +43,7 @@ def makeWeldNut(self, fa):
     elif fa.baseType == "ISO21670":
         return _makeFlangedWeldNut(self, fa)
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
 
 
 def _makeHexWeldNut(self, fa):
@@ -92,7 +92,7 @@ def _makeHexWeldNut(self, fa):
     bore_cutter = self.RevolveZ(fm.GetFace())
     shape = shape.cut(bore_cutter)
     # add modelled threads if needed
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)
         shape = shape.cut(thread_cutter)
     # transform so that the XY-plane relates better to the installed height
@@ -156,7 +156,7 @@ def _makeFlangedWeldNut(self, fa):
         shape = shape.cut(cutter)
     shape = shape.removeSplitter()
     # add modelled threads if needed
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)
         shape = shape.cut(thread_cutter)
     return shape
@@ -205,7 +205,7 @@ def _makeSquareWeldNut(self, fa):
     revolve = self.RevolveZ(fm.GetFace())
     shape = shape.common(revolve)
     # add modelled threads if needed
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + h1 + h2 + P)
         shape = shape.cut(thread_cutter)
     # transform so that the XY-plane relates better to the installed height

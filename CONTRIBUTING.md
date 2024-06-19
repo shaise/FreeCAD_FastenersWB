@@ -166,7 +166,7 @@ def makeCarriageBolt(self, fa): # dynamically loaded method of class Screw
     fm.AddPoint(d / 2, -1 * P)
     wire1 = fm.GetWire()
     head_shell = self.RevolveZ(wire1)
-    if not fa.thread:
+    if not fa.Thread:
         # simplified threaded section
         fm.Reset()
         fm.AddPoint(d / 2, -1 * P)
@@ -243,7 +243,7 @@ On `FastenersCmd.py` file:
 ```python
 translate("FastenerCmdTreeView", "RetainingRing")
 ...
-RetainingRingParameters = {"type", "diameter", "matchOuter"}
+RetainingRingParameters = {"type", "diameter", "MatchOuter"}
 ...
 RetainingRingGroup = translate("FastenerCmd", "Retaining Rings")
 ...
@@ -256,7 +256,7 @@ FastenerBase.FSAddFastenerType("RetainingRing", False)
 
 ```python
     def AddRetainingRing(self, obj, cnt):
-        self.AddFastener(obj.type + translate("FastenerBase", " Retaining Ring ") + obj.diameter, cnt)
+        self.AddFastener(obj.type + translate("FastenerBase", " Retaining Ring ") + obj.Diameter, cnt)
 ```
 
 **NOTE:** For reference, check out this [pull request](https://github.com/shaise/FreeCAD_FastenersWB/pull/222/files) to get a good idea on how to do it.

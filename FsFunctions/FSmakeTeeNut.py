@@ -38,7 +38,7 @@ def makeTeeNut(self, fa):
     if fa.baseType == "4PWTI":
         P, d2, d3, l1, l2, a = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     # lay out the fastener profile
     id = self.GetInnerThreadMinDiameter(dia, P, 0.0)
     bore_cham_ht = (dia * 1.05 - id) / 2 * math.tan(math.radians(30))
@@ -87,7 +87,7 @@ def makeTeeNut(self, fa):
                           Base.Vector(0.0, 0.0, 1.0), 90)
         shape = shape.fuse(barb_shape)
     # add modelled threads if needed
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateInnerThreadCutter(dia, P, l1 + P)
         shape = shape.cut(thread_cutter)
     return shape

@@ -37,7 +37,7 @@ def makePalNut(self, fa):
     if fa.baseType == "DIN7967":
         od, id, m, s, t = fa.dimTable
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     # construct the base of the hexagonal shape
     fm = FSFaceMaker()
     fm.AddPoint(s / math.sqrt(3), 0.0)

@@ -60,7 +60,7 @@ def clMakeFace(do, di, a, c, e, t):
 
 def makePEMPressNut(self, fa):
     diam = fa.calc_diam
-    code = fa.tcode
+    code = fa.Tcode
 
     i = FastenerBase.FsTitles[fa.baseType + "tcodes"].index(code)
 
@@ -73,7 +73,7 @@ def makePEMPressNut(self, fa):
     di = self.GetInnerThreadMinDiameter(do, P)
     fFace = clMakeFace(do * 1.05, di, a, c, e, t)
     fSolid = self.RevolveZ(fFace)
-    if fa.thread:
+    if fa.Thread:
         dia = self.getDia(diam, True)
         H = a + t
         thread_cutter = self.CreateInnerThreadCutter(dia, P, H * 2)

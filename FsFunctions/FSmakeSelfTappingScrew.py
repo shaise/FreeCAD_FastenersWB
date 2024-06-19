@@ -68,7 +68,7 @@ def makeISO7049(self, fa):
 
     # inner radius of screw section
     sr = ro
-    if fa.thread:
+    if fa.Thread:
         sr = ri
 
     # length of cylindrical part where thread begins to grow.
@@ -93,14 +93,14 @@ def makeISO7049(self, fa):
     # 2) add rounding under screw head
     rr = r
     fm.AddPoint(ro+rr, 0)      # first point of rounding
-    if fa.thread and full_length:
+    if fa.Thread and full_length:
         fm.AddBSpline(ro, 0, sr, -slope_length) # create spline rounding
     else:
         fm.AddArc2(+0, -rr, 90) # in other cases create arc rounding
 
     # 3) cylindrical part (place where thread will be added)
     if not full_length:
-        if fa.thread:
+        if fa.Thread:
             fm.AddPoint(ro, -l+b+slope_length)    # entery point of thread
         fm.AddPoint(sr, -l+b)   # start of full width thread b >= l*0.6
 
@@ -127,7 +127,7 @@ def makeISO7049(self, fa):
     screw = screw.cut(recess)
 
     # make thread
-    if fa.thread:
+    if fa.Thread:
         if SType == "ISO7049-C":
             # vanilla usage
             thread = self.makeDin7998Thread(-l+b+slope_length, -l+tip_length,

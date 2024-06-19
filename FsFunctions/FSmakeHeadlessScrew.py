@@ -41,7 +41,7 @@ def makeHeadlessScrew(self, fa):
         n = n_nom
         cham = dia / 10
     else:
-        raise NotImplementedError(f"Unknown fastener type: {fa.type}")
+        raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     fm = FSFaceMaker()
     fm.AddPoint(0.0, 0.0)
     fm.AddPoint(dia / 2 - cham, 0.0)
@@ -57,7 +57,7 @@ def makeHeadlessScrew(self, fa):
             n, 1.1 * dia, 1.1 * t, Base.Vector(-n / 2, -0.55 * dia, -t)
         )
         shape = shape.cut(slot_shape)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindThreadCutter(dia, P, b)
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - b)))
         shape = shape.cut(thread_cutter)

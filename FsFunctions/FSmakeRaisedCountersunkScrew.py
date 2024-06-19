@@ -101,7 +101,7 @@ def makeRaisedCountersunkScrew(self, fa):
     fm.AddPoint(dia / 2, -length)
     if length + fillet_start_ht > b:  # partially threaded fastener
         thread_length = b
-        if not fa.thread:
+        if not fa.Thread:
             fm.AddPoint(dia / 2, -length + thread_length)
     else:
         thread_length = length + fillet_start_ht
@@ -117,7 +117,7 @@ def makeRaisedCountersunkScrew(self, fa):
     )
     shape = self.RevolveZ(fm.GetFace())
     shape = shape.cut(recess)
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)

@@ -60,7 +60,7 @@ def makeShoulderScrew(self, fa):
     recess.translate(Base.Vector(0.0, 0.0, l1 + l3))
     screw = screw.cut(recess)
     # add modelled threads if needed
-    if fa.thread:
+    if fa.Thread:
         thread_cutter = self.CreateBlindThreadCutter(d2, P, l2)
         screw = screw.cut(thread_cutter)
     return screw

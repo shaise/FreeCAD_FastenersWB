@@ -35,7 +35,7 @@ def makeThinCupNut(self, fa):
     P, g2, h, r, s, t, w = fa.dimTable
 
     H = P * math.cos(math.radians(30)) * 5.0 / 8.0
-    if fa.thread: H *= 1.1
+    if fa.Thread: H *= 1.1
     e = s / math.sqrt(3) * 2.0
     cham_i = H * math.tan(math.radians(15.0))
     cham_o = (e - s) * math.tan(math.radians(15.0))
@@ -58,7 +58,7 @@ def makeThinCupNut(self, fa):
     extrude = self.makeHexPrism(s, h)
     nut = head.common(extrude)
 
-    if fa.thread:
+    if fa.Thread:
         threadCutter = self.CreateBlindInnerThreadCutter(dia, P, t - 1.5 * P)
     else:
         fm.Reset()

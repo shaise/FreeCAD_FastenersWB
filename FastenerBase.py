@@ -74,6 +74,9 @@ class FSBaseObject:
         if not hasattr(obj, "Offset"):
             obj.addProperty("App::PropertyDistance", "Offset", "Parameters", translate(
                 "FastenerCmd", "Offset from surface")).Offset = 0.0
+        if not hasattr(obj, "OffsetAngle"):
+            obj.addProperty("App::PropertyAngle", "OffsetAngle", "Parameters", translate(
+                "FastenerCmd", "Attachment rotation offset")).OffsetAngle = 0.0
         if not hasattr(obj, "Invert"):
             obj.addProperty("App::PropertyBool", "Invert", "Parameters", translate(
                 "FastenerCmd", "Invert fastener direction")).Invert = False
@@ -650,7 +653,7 @@ def FSGetAttachableSelections(screwObj=None):
     return asels
 
 
-def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
+def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset, offsetAngle):
     Pnt1 = None
     Axis1 = None
     Axis2 = None
@@ -707,6 +710,7 @@ def FSMoveToObject(ScrewObj_m, attachToObject, invert, offset):
 
         # FreeCAD.Console.PrintMessage("pl mit Rot: "+ str(pl) + "\n")
         ScrewObj_m.Placement = FreeCAD.Placement()
+        ScrewObj_m.Placement.rotate(Base.Vector(0,0,0), Base.Vector(0,0,1), offsetAngle)
         ScrewObj_m.Placement.Rotation = pl.Rotation.multiply(
             ScrewObj_m.Placement.Rotation)
         ScrewObj_m.Placement.move(Pnt1)

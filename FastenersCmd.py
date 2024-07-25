@@ -808,7 +808,7 @@ class FSScrewObject(FSBaseObject):
         if shape is not None:
             # feature = FreeCAD.ActiveDocument.getObject(self.Proxy)
             # fp.Placement = FreeCAD.Placement() # reset placement
-            FastenerBase.FSMoveToObject(fp, shape, fp.Invert, fp.Offset.Value)
+            FastenerBase.FSMoveToObject(fp, shape, fp.Invert, fp.Offset.Value, fp.OffsetAngle.Value)
 
 
 class FSViewProviderTree:

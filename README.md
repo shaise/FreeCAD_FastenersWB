@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.25  25 Jul 2024:  Add angle offset when attaching fasteners.
 * V0.5.24  19 Jun 2024:  Change all property names to Title Case.
 * V0.5.23  17 Jun 2024:  Fix error when changing length of threaded rod in change ui.
 * V0.5.22  08 Jun 2024:  Fix regular expression issue.

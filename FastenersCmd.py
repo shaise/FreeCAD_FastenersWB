@@ -789,8 +789,7 @@ class FSScrewObject(FSBaseObject):
             dispLen = self.ActiveLength(fp)
             label += 'x' + dispLen
             if hasattr(fp, 'Width'):
-                dispWidth = 'x' + fp.Width
-                label += 'x' + dispWidth
+                label += 'x' + fp.Width
         if hasattr(fp, 'LeftHanded'):
             if self.LeftHanded:
                 label += 'LH'

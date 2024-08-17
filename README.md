@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.27  17 Aug 2024:  Fix fastener naming bug.  
 * V0.5.26  09 Aug 2024:  Fix DIN6334 lengths.  
 * V0.5.25  25 Jul 2024:  Add angle offset when attaching fasteners.  
 * V0.5.24  19 Jun 2024:  Change all property names to Title Case.  

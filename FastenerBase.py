@@ -86,7 +86,7 @@ class FSBaseObject:
 
     def updateProps(self, obj):
         if hasattr(obj, "baseObject") and obj.getTypeIdOfProperty("baseObject") != "App::PropertyXLinkSub":
-            linkedObj = obj.BaseObject
+            linkedObj = obj.baseObject
             obj.removeProperty("baseObject")
             obj.addProperty("App::PropertyXLinkSub", "BaseObject", "Parameters", translate(
                 "FastenerCmd", "Base object")).BaseObject = linkedObj

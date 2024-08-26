@@ -933,19 +933,28 @@ class FSWasherObject(FSScrewObject):
 
 class FSScrewRodObject(FSScrewObject):
     def onDocumentRestored(self, obj):
-        self.originalType = obj.Proxy.Type
+        if hasattr(obj.Proxy, "type"):
+            self.originalType = obj.Proxy.type
+        elif hasattr(obj.Proxy, "Type"):
+            self.originalType = obj.Proxy.Type
         super().onDocumentRestored(obj)
 
 
 class FSScrewDieObject(FSScrewObject):
     def onDocumentRestored(self, obj):
-        self.originalType = obj.Proxy.Type
+        if hasattr(obj.Proxy, "type"):
+            self.originalType = obj.Proxy.type
+        elif hasattr(obj.Proxy, "Type"):
+            self.originalType = obj.Proxy.Type
         super().onDocumentRestored(obj)
 
 
 class FSThreadedRodObject(FSScrewObject):
     def onDocumentRestored(self, obj):
-        self.originalType = obj.Proxy.Type
+        if hasattr(obj.Proxy, "type"):
+            self.originalType = obj.Proxy.type
+        elif hasattr(obj.Proxy, "Type"):
+            self.originalType = obj.Proxy.Type
         super().onDocumentRestored(obj)
 
 

@@ -381,7 +381,7 @@ class FSTaskChangeParamDialog:
                             if not self.fstype.lengthFixed:
                                 obj.Length = ui.spinLength.value()
                             else:
-                                d, l = screwMaker.FindClosest(
+                                d, l, w = screwMaker.FindClosest(
                                     obj.Type, obj.Diameter, ui.spinLength.value())
                                 obj.Length = l
             FreeCAD.ActiveDocument.recompute()

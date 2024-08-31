@@ -54,9 +54,9 @@ FsUseGetSetState =  ((FreeCAD.Version()[0]+'.'+FreeCAD.Version()[1]) < '0.22')\
 FsData = {}
 FsTitles = {}
 filelist = Path(fsdatapath).glob('*.csv')
-for item in filelist:
+for fileitem in filelist:
     # FreeCAD.Console.PrintLog("reading " + str(item) + "\n")
-    tables = csv2dict(str(item), item.stem, fieldsnamed=True)
+    tables = csv2dict(str(fileitem), fileitem.stem, fieldsnamed=True)
     for tablename in tables.keys():
         if tablename == 'titles':
             FsTitles.update(tables[tablename])
@@ -302,6 +302,8 @@ def DiaStr2Num(DiaStr: str) -> float:
 def LenStr2Num(LenStr: str) -> float:
     """Convert a length string to a corresponding numeric value."""
     # inch diameters of format 'x y/z\"'
+    if isinstance(LenStr, float) or isinstance(LenStr, int):
+        return float(LenStr)
     if "in" in LenStr:
         components = LenStr.strip("in").split(" ")
         total = 0

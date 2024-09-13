@@ -23,13 +23,14 @@
 *                                                                         *
 ***************************************************************************
 """
+
 import os
 import csv
 
 _dir = os.path.dirname(__file__)
-iconPath = os.path.join(_dir, 'Icons')
-fsdatapath = os.path.join(_dir, 'FsData')
-LanguagePath = os.path.join(_dir, 'translations')
+iconPath = os.path.join(_dir, "Icons")
+fsdatapath = os.path.join(_dir, "FsData")
+languagePath = os.path.join(_dir, "translations")
 pref_file_path = os.path.join(_dir, "FSprefs.ui")
 
 # read .csv files into dictionary tables
@@ -42,11 +43,11 @@ def csv2dict(filename, defaultTableName, fieldsnamed=True):
         reader = csv.reader(
             fp,
             skipinitialspace=True,
-            dialect='unix',
+            dialect="unix",
             quoting=csv.QUOTE_NONNUMERIC,
         )
         tables = {}
-        tables['titles'] = {}
+        tables["titles"] = {}
         newTable = False
         firstTime = True
         cur_table = {}
@@ -75,7 +76,7 @@ def csv2dict(filename, defaultTableName, fieldsnamed=True):
                     tables[tablename] = cur_table
                 if fieldsnamed:
                     for tablename in table_names:
-                        tables['titles'][tablename] = data
+                        tables["titles"][tablename] = data
                     continue
             cur_table[key] = data
         return tables

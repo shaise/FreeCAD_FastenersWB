@@ -1413,7 +1413,7 @@
     </message>
 </context>
 <context>
-    <name>InitGui</name>
+    <name>Workbench</name>
     <message>
         <location filename="../InitGui.py" line="35"/>
         <source>Create ISO Fasteners</source>

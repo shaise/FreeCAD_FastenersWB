@@ -35,10 +35,11 @@ import sys
 from pathlib import Path
 import DraftVecUtils
 import re
-from TranslateUtils import translate
 from FSutils import csv2dict
 from FSutils import iconPath
 from FSutils import fsdatapath
+
+translate = FreeCAD.Qt.translate
 
 matchOuterButton = None
 matchOuterButtonText = translate("FastenerBase", "Match for pass hole")

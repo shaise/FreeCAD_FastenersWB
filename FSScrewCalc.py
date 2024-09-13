@@ -24,8 +24,6 @@
 #
 ###############################################################################
 
-# Enable text translation support
-from TranslateUtils import translate
 import os
 import FastenerBase
 import FreeCAD
@@ -33,7 +31,11 @@ from FreeCAD import Gui
 from PySide import QtCore, QtGui
 import ScrewMaker
 from FSutils import iconPath
+
 screwMaker = ScrewMaker.Instance
+
+# Enable text translation support
+translate = FreeCAD.Qt.translate
 
 ###############################################################################
 # replace below with generated code from pyuic4

@@ -6,8 +6,6 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-# Enable text translation support
-from TranslateUtils import translate
 import os
 from FastenerBase import FSShowError
 from FastenerBase import FSFastenerTypeDB
@@ -22,7 +20,11 @@ import FastenersCmd
 import PEMInserts
 from FSutils import iconPath
 from FSAliases import FSGetIconAlias
+
 screwMaker = ScrewMaker.Instance
+
+# Enable text translation support
+translate = FreeCAD.Qt.translate
 
 ###############################################################################
 # replace below with generated code from pyuic4

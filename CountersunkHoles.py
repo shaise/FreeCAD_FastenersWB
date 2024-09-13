@@ -37,13 +37,14 @@ import FastenerBase
 from FSAliases import FSGetIconAlias
 import ScrewMaker
 
-# Enable text translation support
-from TranslateUtils import translate
 from FSutils import iconPath
 
 screwMaker = ScrewMaker.Instance
 
 QTVer = int(QtCore.qVersion().split(".")[0])
+
+# Enable text translation support
+translate = FreeCAD.Qt.translate
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8

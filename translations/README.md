@@ -1,14 +1,18 @@
 # About translating Fasteners Workbench
 
-> [!NOTE]
-> All commands **must** be run in `./translations/` directory.
+## Translators:
+
+Translations for this workbench is done by visiting the **FreeCAD-addons**
+project on CrowdIn platform at <https://crowdin.com/project/freecad-addons> webpage,
+then find your language, look for the **Fasteners** project and do the translation.
 
 > [!IMPORTANT]
-> Consider that translations are brought periodically from CrowdIn platform to the
-> GitHub repository, so, from now on, **all translations should be done via CrowdIn**.
-> You can access the  **FreeCAD-addons** project on CrowdIn platform at
-> <https://crowdin.com/project/freecad-addons> webpage and find the **Fasteners**
-> project, after that select the language you want to translate.
+> PR system of translations is no longer accepted. Please use CrowdIn above.
+
+## Maintainers:
+
+> [!NOTE]
+> All commands **must** be run in `./translations/` directory.
 
 > [!WARNING]
 > If you want to update/release the files you need to have installed
@@ -72,12 +76,6 @@ As of 13/09/2024 the supported locales on **FreeCAD**
 'Swedish': 'sv-SE', 'Turkish': 'tr', 'Ukrainian': 'uk', 'Valencian': 'val-ES',
 'Vietnamese': 'vi'}
 ```
-
-## Translating
-
-The recommended way to translate this workbench is by visiting the **FreeCAD-addons**
-project on CrowdIn platform at <https://crowdin.com/project/freecad-addons> webpage,
-then find your language, look for the **Fasteners** project and do the translation.
 
 Alternatively, you can edit your language file on `Qt Linguist` from
 `qt5-tools`/`qt6-tools` package (preferred) or in a text editor like `xed`, `mousepad`,

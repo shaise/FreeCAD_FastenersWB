@@ -1480,7 +1480,7 @@
     </message>
 </context>
 <context>
-    <name>InitGui</name>
+    <name>Workbench</name>
     <message>
         <location filename="../InitGui.py" line="39"/>
         <source>Create ISO Fasteners</source>

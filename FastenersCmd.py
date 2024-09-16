@@ -27,7 +27,6 @@ from FreeCAD import Gui
 import FreeCAD
 import os
 import re
-from TranslateUtils import translate
 import FastenerBase
 from FastenerBase import FSParam
 from FastenerBase import FSBaseObject
@@ -35,6 +34,7 @@ import ScrewMaker
 from FSutils import iconPath
 from FSAliases import FSGetIconAlias, FSGetTypeAlias
 
+translate = FreeCAD.Qt.translate
 screwMaker = ScrewMaker.Instance
 
 # These strings are required for fasteners translation in treeview.

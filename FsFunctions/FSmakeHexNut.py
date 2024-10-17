@@ -56,8 +56,6 @@ def makeHexNut(self, fa):
         m = m_b
     elif SType == "DIN6334":
         P, da, m, s = fa.dimTable
-    elif SType == "DIN6330":
-        P, da, d2, m, s, r = fa.dimTable
     elif SType == "ASMEB18.2.2.13":
         TPI, F, H = fa.dimTable
         P = 1 / TPI * 25.4
@@ -73,22 +71,10 @@ def makeHexNut(self, fa):
     cham_i = cham_i_delta * math.tan(math.radians(15.0))
     # layout the nut profile, then create a revolved solid
     fm = FastenerBase.FSFaceMaker()
-    if SType == "DIN6330":
-        cham_t = ((d2 / 2.0) - (dia / 2.0 - H * 5.0 / 8.0)) / 2.0
-        cent_y = m - sqrt(r * r - d2 * d2 / 4.0)
-        mid = s / sqrt(3.0) / 2.0 + d2 / 4.0
-        fm.AddPoint(dia / 2.0 - H * 5.0 / 8.0, m - cham_t)
-        fm.AddPoint(dia / 2.0 - H * 5.0 / 8.0 + cham_t, m)
-        fm.AddPoint(d2 / 2.0, m)
-        fm.AddArc(mid,
-                  sqrt(r * r - mid * mid) + cent_y,
-                  s / sqrt(3.0),
-                  sqrt(r * r - s * s / 3.0) + cent_y)
-    else:
-        fm.AddPoint(dia / 2.0 - H * 5.0 / 8.0, m - cham_i)
-        fm.AddPoint(da / 2.0, m)
-        fm.AddPoint(s / 2.0, m)
-        fm.AddPoint(s / sqrt(3.0), m - cham)
+    fm.AddPoint(dia / 2.0 - H * 5.0 / 8.0, m - cham_i)
+    fm.AddPoint(da / 2.0, m)
+    fm.AddPoint(s / 2.0, m)
+    fm.AddPoint(s / sqrt(3.0), m - cham)
     fm.AddPoint(s / sqrt(3.0), cham)
     fm.AddPoint(s / 2.0, 0.0)
     fm.AddPoint(da / 2.0, 0.0)

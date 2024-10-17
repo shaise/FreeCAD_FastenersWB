@@ -244,7 +244,7 @@ screwTables = {
     "EN1661": ("Nut", "makeHexNutWFlange"),
     "DIN917": ("Nut", "makeThinCupNut"),
     "DIN1587": ("Nut", "makeCupNut"),
-    "DIN6330": ("Nut", "makeHexNut"),
+    "DIN6330": ("Nut", "makeHexNutSpherical"),
     "DIN6331": ("Nut", "makeHexNutWFlange"),
     "DIN6334": ("Nut", "makeHexNut"),
     "DIN7967": ("Nut", "makePalNut"),

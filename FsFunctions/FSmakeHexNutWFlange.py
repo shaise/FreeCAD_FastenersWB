@@ -124,9 +124,7 @@ def _makeHexNutWithTaperedFlange(self, fa):
 
 def _makeHexNutWithSquareFlange(self, fa):
     dia = self.getDia(fa.calc_diam, True)
-
-    if fa.baseType == "DIN6331":
-        P, a, d1, damin, damax, m, s = fa.dimTable
+    P, a, d1, damin, damax, m, s = fa.dimTable
 
     da = (damax + damin) / 2.0
     tan30 = math.tan(math.radians(30.0))

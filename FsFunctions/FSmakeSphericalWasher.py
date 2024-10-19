@@ -106,6 +106,7 @@ def makeSphericalWasher(self, fa):
         # hz=2.64670056386491
         # ```
         # see also Doc/Dev/DIN6319_calculations.md
+
         hZ = (sqrt3 * d5 + math.sqrt(36. * r1**2 - 9. * d1**2) - 4. * sqrt3 * r1) / 6
 
         fm = FastenerBase.FSFaceMaker()

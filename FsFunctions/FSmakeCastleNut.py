@@ -50,9 +50,9 @@ def _makeCastleNut(self, fa):
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.baseType}")
     dia = self.getDia(fa.calc_diam, True)
-    inner_rad = dia / 2 - P * 0.625 * math.sqrt(3) / 2
+    inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
     outer_rad = 0.505 * dia
-    inner_cham_ht = math.tan(math.radians(15)) * (outer_rad - inner_rad)
+    inner_cham_ht = tan15 * (outer_rad - inner_rad)
     # create the nut profile
     fm = FSFaceMaker()
     fm.AddPoint(inner_rad, m - inner_cham_ht)
@@ -63,7 +63,7 @@ def _makeCastleNut(self, fa):
     fil_h = fil_r * math.sin(math.radians(60))
     fm.AddPoint(d_e_max / 2, w + fil_h)
     fm.AddArc2(fil_r, 0.0, 60)
-    fm.AddPoint(s / 2 + w * math.sqrt(3) / 2, w / 2)
+    fm.AddPoint(s / 2 + w * sqrt3 / 2, w / 2)
     fm.AddPoint(s / 2, 0.0)
     fm.AddPoint(outer_rad, 0.0)
     fm.AddPoint(inner_rad, inner_cham_ht)
@@ -103,15 +103,15 @@ def _makeSlottedNut(self, fa):
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.baseType}")
     dia = self.getDia(fa.calc_diam, True)
-    inner_rad = dia / 2 - P * 0.625 * math.sqrt(3) / 2
+    inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
     outer_rad = 0.505 * dia
-    inner_cham_ht = math.tan(math.radians(15)) * (outer_rad - inner_rad)
+    inner_cham_ht = tan15 * (outer_rad - inner_rad)
     # create the nut profile
     fm = FSFaceMaker()
     fm.AddPoint(inner_rad, m - inner_cham_ht)
     fm.AddPoint(outer_rad, m)
     fm.AddPoint(s / 2, m)
-    fm.AddPoint(s / 2 + m * math.sqrt(3) / 2, m / 2)
+    fm.AddPoint(s / 2 + m * sqrt3 / 2, m / 2)
     fm.AddPoint(s / 2, 0.0)
     fm.AddPoint(outer_rad, 0.0)
     fm.AddPoint(inner_rad, inner_cham_ht)

@@ -29,9 +29,6 @@ import FastenerBase
 
 # PCB standoffs / Wurth standard WA-SSTII
 
-cos30 = math.cos(math.radians(30))
-
-
 def psMakeFace(m, sw, lo, l, id):
     id2 = id / 2.0
     sw2 = float(sw) / 2.0

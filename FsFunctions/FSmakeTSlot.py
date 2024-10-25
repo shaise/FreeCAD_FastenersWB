@@ -29,7 +29,7 @@ import math
 import Part
 from FreeCAD import Base
 import FastenerBase
-from screw_maker import FsData, sqrt2, sqrt3
+from screw_maker import *
 
 def makeBaseBody(a, e1, e2, f, h, k):
     """ T-Slot points, transversal cut """
@@ -87,7 +87,7 @@ def makeHole(self, fastener, fa, dia, h, P):
     """ Hole with chamfer """
     da = 1.05 * dia
     inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
-    inner_cham_ht = math.tan(math.radians(15)) * (da / 2 - inner_rad)
+    inner_cham_ht = tan15 * (da / 2 - inner_rad)
     fm = FastenerBase.FSFaceMaker()
     fm.AddPoint(0.0, 0.0)
     fm.AddPoint(da / 2, 0.0)

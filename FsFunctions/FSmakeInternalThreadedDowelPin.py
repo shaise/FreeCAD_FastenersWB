@@ -40,8 +40,8 @@ def makeInternalThreadedDowelPin(self, fa):
         raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     length = fa.calc_len
     fm = FSFaceMaker()
-    cham_top = math.tan(math.radians(15)) * c_1
-    cham_bottom = math.tan(math.radians(15)) * c_2
+    cham_top = tan15 * c_1
+    cham_bottom = tan15 * c_2
     fm.AddPoint(0.0, -t_2)
     d_4 = self.GetInnerThreadMinDiameter(d_2, P)
     fm.AddPoint(d_4 / 2, d_4 / (2 * math.tan(math.radians(59))) - t_2)

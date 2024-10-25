@@ -42,7 +42,7 @@ def makeFlangedButtonHeadScrew(self, fa):
         P, b, c, da, dk, dk_c, s_mean, t_min, r, k, e, w = fa.dimTable
     if SType == 'ASMEB18.3.3B':
         P, b, c, dk, dk_c, s_mean, t_min, r, k = fa.dimTable
-    e_cham = 2.0 * s_mean / math.sqrt(3.0) * 1.005
+    e_cham = 2.0 * s_mean / sqrt3 * 1.005
     ak = -(4 * (k - c) ** 2 + e_cham ** 2 - dk ** 2) / (8 * (k - c))
     rH = math.sqrt((dk / 2.0) ** 2 + ak ** 2)  # radius of button arc
     alpha = (math.atan(2 * (k - c + ak) / e_cham) + math.atan((2 * ak) / dk)) / 2

@@ -41,7 +41,7 @@ def makeClevisPin(self, fa):
     fm.AddPoint(d / 2 + r, 0.0)
     fm.AddArc2(0.0, -r, 90)
     fm.AddPoint(d / 2, -length + c)
-    fm.AddPoint(d / 2 - c * math.sqrt(3) / 3, -length)
+    fm.AddPoint(d / 2 - c * sqrt3 / 3, -length)
     fm.AddPoint(0.0, -length)
     shape = self.RevolveZ(fm.GetFace())
     if fa.Type == "ISO2341B":

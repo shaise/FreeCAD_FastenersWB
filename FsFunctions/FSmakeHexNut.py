@@ -26,7 +26,6 @@
 ***************************************************************************
 """
 from screw_maker import *
-from math import sqrt
 import FastenerBase
 
 
@@ -63,10 +62,10 @@ def makeHexNut(self, fa):
         s = F * 25.4
         da = dia
     da = self.getDia(da, True)
-    sqrt2_ = 1.0 / sqrt(2.0)
+    sqrt2_ = 1.0 / sqrt2
     # needed for chamfer at nut top
-    cham = s * (sqrt(3) / 3 - 1 / 2) * math.tan(math.radians(22.5))
-    H = P * math.cos(math.radians(30))
+    cham = s * (sqrt3 / 3 - 1 / 2) * math.tan(math.radians(22.5))
+    H = P * cos30
     cham_i_delta = da / 2.0 - (dia / 2.0 - H * 5.0 / 8.0)
     cham_i = cham_i_delta * math.tan(math.radians(15.0))
     # layout the nut profile, then create a revolved solid
@@ -74,8 +73,8 @@ def makeHexNut(self, fa):
     fm.AddPoint(dia / 2.0 - H * 5.0 / 8.0, m - cham_i)
     fm.AddPoint(da / 2.0, m)
     fm.AddPoint(s / 2.0, m)
-    fm.AddPoint(s / sqrt(3.0), m - cham)
-    fm.AddPoint(s / sqrt(3.0), cham)
+    fm.AddPoint(s / sqrt3, m - cham)
+    fm.AddPoint(s / sqrt3, cham)
     fm.AddPoint(s / 2.0, 0.0)
     fm.AddPoint(da / 2.0, 0.0)
     fm.AddPoint(dia / 2.0 - H * 5.0 / 8.0, 0.0 + cham_i)

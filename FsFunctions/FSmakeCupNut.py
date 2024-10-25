@@ -52,19 +52,18 @@ def makeCupNut(self, fa):
     else:
         raise RuntimeError("unknown screw type")
     # create the profile of the nut in the x-z plane
-    sq3 = math.sqrt(3)
-    ec = (2 - sq3) * s / 6
+    ec = (2 - sqrt3) * s / 6
     fm = FastenerBase.FSFaceMaker()
     fm.AddPoint(0, 1.1 * dia / 4)
     fm.AddPoint(1.1 * dia / 2, 0)
     fm.AddPoint(s / 2, 0)
-    fm.AddPoint(s * sq3 / 3, ec)
-    fm.AddPoint(s * sq3 / 3, m - ec)
-    fm.AddPoint(d_k / 2, (m - ec) + (2 * s - sq3 * d_k) / 6)
+    fm.AddPoint(s * sqrt3 / 3, ec)
+    fm.AddPoint(s * sqrt3 / 3, m - ec)
+    fm.AddPoint(d_k / 2, (m - ec) + (2 * s - sqrt3 * d_k) / 6)
     fm.AddPoint(d_k / 2, h - d_k / 2)
     fm.AddArc(
-        d_k / 2 * math.sqrt(2) / 2, h - d_k / 2 + d_k /
-        2 * math.sqrt(2) / 2, 0, h
+        d_k / 2 * sqrt2 / 2, h - d_k / 2 + d_k /
+        2 * sqrt2 / 2, 0, h
     )
     solid = self.RevolveZ(fm.GetFace())
     # create an additional solid to cut the hex flats with
@@ -87,8 +86,8 @@ def makeCupNut(self, fa):
         fm.Reset()
         fm.AddPoint(0, 0),
         fm.AddPoint(0, h - w)
-        fm.AddPoint(dia / 2 - 0.625 * P * sq3 / 2, t)
-        fm.AddPoint(dia / 2 - 0.625 * P * sq3 / 2, 0)
+        fm.AddPoint(dia / 2 - 0.625 * P * sqrt3 / 2, t)
+        fm.AddPoint(dia / 2 - 0.625 * P * sqrt3 / 2, 0)
         hole = self.RevolveZ(fm.GetFace())
         solid = solid.cut(hole)
     return solid

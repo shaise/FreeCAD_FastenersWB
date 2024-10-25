@@ -47,7 +47,7 @@ def makeAllMetalLockNut(self, fa):
     # internal bore
     fm = FSFaceMaker()
     id = self.GetInnerThreadMinDiameter(dia, P, 0.0)
-    bore_cham_ht = (dia * 1.05 - id) / 2 * math.tan(math.radians(15))
+    bore_cham_ht = (dia * 1.05 - id) / 2 * tan15
     fm.AddPoint(0.0, 0.0)
     fm.AddPoint(dia * 1.05 / 2, 0.0)
     fm.AddPoint(id / 2, bore_cham_ht)
@@ -58,17 +58,17 @@ def makeAllMetalLockNut(self, fa):
     shape = shape.cut(bore_cutter)
     # outer chamfer on the hex
     fm.Reset()
-    fm.AddPoint((s / math.sqrt(3) + 1.05 * dia / 2) / 2, h)
-    fm.AddPoint(s / math.sqrt(3), h)
-    fm.AddPoint(s / math.sqrt(3), m_w)
+    fm.AddPoint((s / sqrt3 + 1.05 * dia / 2) / 2, h)
+    fm.AddPoint(s / sqrt3, h)
+    fm.AddPoint(s / sqrt3, m_w)
     top_cham_cutter = self.RevolveZ(fm.GetFace())
     shape = shape.cut(top_cham_cutter)
     # bottom chamfer
     fm.Reset()
     fm.AddPoint(s / 2, 0.0)
-    fm.AddPoint(s / math.sqrt(3), 0.0)
-    cham_ht = s * (1 / math.sqrt(3) - 0.5) * math.tan(math.radians(22.5))
-    fm.AddPoint(s / math.sqrt(3), cham_ht)
+    fm.AddPoint(s / sqrt3, 0.0)
+    cham_ht = s * (1 / sqrt3 - 0.5) * math.tan(math.radians(22.5))
+    fm.AddPoint(s / sqrt3, cham_ht)
     top_cham_cutter = self.RevolveZ(fm.GetFace())
     shape = shape.cut(top_cham_cutter)
     # add modelled threads if needed

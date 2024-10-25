@@ -99,7 +99,8 @@ DEBUG = False  # TODO: set to True to show debug messages; does not work.
 # some common constants
 sqrt2 = math.sqrt(2.0)
 sqrt3 = math.sqrt(3.0)
-cos30 = math.cos(math.radians(30.0))
+cos30 = sqrt3 / 2.0           # math identity: math.cos(math.radians(30.0))
+tan15 = 2.0 - sqrt3           # math identity: math.tan(math.radians(15))
 
 
 class Screw:
@@ -263,9 +264,9 @@ class Screw:
         """
         # create a sketch profile of the thread
         # ref: https://en.wikipedia.org/wiki/ISO_metric_screw_thread
-        H = math.sqrt(3) / 2 * P
+        H = sqrt3 / 2 * P
         trotations = blen // P + 1
-        fillet_r = P * math.sqrt(3) / 12
+        fillet_r = P * sqrt3 / 12
         helix_height = trotations * P
         dia2 = dia / 2
 
@@ -379,9 +380,9 @@ class Screw:
         """
         # create a sketch profile of the thread
         # ref: https://en.wikipedia.org/wiki/ISO_metric_screw_thread
-        H = math.sqrt(3) / 2 * P
+        H = sqrt3 / 2 * P
         trotations = blen // P + 1
-        fillet_r = P * math.sqrt(3) / 12
+        fillet_r = P * sqrt3 / 12
         helix_height = trotations * P
         dia2 = dia / 2
 
@@ -477,7 +478,7 @@ class Screw:
         mhex = Base.Matrix()
         mhex.rotateZ(math.radians(60.0))
         polygon = []
-        vhex = Base.Vector(width / math.sqrt(3.0), 0.0, 0.0)
+        vhex = Base.Vector(width / sqrt3, 0.0, 0.0)
         for i in range(6):
             polygon.append(vhex)
             vhex = mhex.multiply(vhex)
@@ -573,9 +574,9 @@ class Screw:
         prism = cls.makeHexPrism(width, 3.0 * depth)
         prism.rotate(Base.Vector(0.0, 0.0, depth / 2), Base.Vector(1.0, 0.0, 0.0), 180)
         cone1 = Part.makeCone(
-            (3 * depth + width) / math.sqrt(3) + depth * math.sqrt(3),
+            (3 * depth + width) / sqrt3 + depth * sqrt3,
             width * 0.08,
-            2 * depth + width / 3 - 0.08 * width * math.sqrt(3) / 3,
+            2 * depth + width / 3 - 0.08 * width * sqrt3 / 3,
             Base.Vector(0.0, 0.0, depth),
             Base.Vector(0.0, 0.0, -1.0),
             360
@@ -583,9 +584,9 @@ class Screw:
         recess = prism.common(cone1)
         if chamfer:
             r_3 = width * 0.49
-            r_2 = 1.005 * width / math.sqrt(3)
-            r_1 = depth / math.tan(math.radians(45)) + r_2
-            h_1 = math.tan(math.radians(45)) * (r_2 - r_3)
+            r_2 = 1.005 * width / sqrt3
+            r_1 = depth + r_2        # math.tan(math.radians(45.)) = 1.
+            h_1 = r_2 - r_3
             cone2 = Part.makeCone(
                 r_1,
                 r_3,
@@ -609,15 +610,14 @@ class Screw:
         - chamfer: if True, a chamfer is added at the top part of the shape
         """
         A, B, Re = FsData["iso10664def"][drive_size]
-        sqrt_3 = math.sqrt(3.0)
-        Ri = -((B + sqrt_3 * (2. * Re - A)) * B + (A - 4. * Re) * A) / \
-            (4. * B - 2. * sqrt_3 * A + (4. * sqrt_3 - 8.) * Re)
+        Ri = -((B + sqrt3 * (2. * Re - A)) * B + (A - 4. * Re) * A) / \
+            (4. * B - 2. * sqrt3 * A + (4. * sqrt3 - 8.) * Re)
         beta = math.acos(A / (4 * Ri + 4 * Re) - (2 * Re) /
                         (4 * Ri + 4 * Re)) - math.pi / 6
         Re_x = A / 2.0 - Re + Re * math.sin(beta)
         Re_y = Re * math.cos(beta)
         Ri_y = B / 4.0
-        Ri_x = sqrt_3 * B / 4.0
+        Ri_x = sqrt3 * B / 4.0
         mhex = Base.Matrix()
         mhex.rotateZ(math.radians(60.0))
         hexlobWireList = []
@@ -652,11 +652,11 @@ class Screw:
         # Extrude in z to create the cutting tool for the screw-head-face
         prism = face.extrude(Base.Vector(0.0, 0.0, -3 * depth))
         # add chamfers to surfaces
-        width = sqrt_3 * A / 2
+        width = sqrt3 * A / 2
         cone1 = Part.makeCone(
-            (3 * depth + width) / sqrt_3 + depth * sqrt_3,
+            (3 * depth + width) / sqrt3 + depth * sqrt3,
             width * 0.08,
-            2 * depth + width / 3 - 0.08 * width * sqrt_3 / 3,
+            2 * depth + width / 3 - 0.08 * width * sqrt3 / 3,
             Base.Vector(0.0, 0.0, depth),
             Base.Vector(0.0, 0.0, -1.0),
             360

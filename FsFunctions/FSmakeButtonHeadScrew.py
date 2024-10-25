@@ -42,7 +42,7 @@ def makeButtonHeadScrew(self, fa):
     elif SType == 'ASMEB18.3.3A':
         P, b, da, dk, s_mean, t_min, r, k = fa.dimTable
     # Bottom of recess
-    e_cham = 2.0 * s_mean / math.sqrt(3.0) * 1.005
+    e_cham = 2.0 * s_mean / sqrt3 * 1.005
     # helper value for button arc
     ak = -(4 * k ** 2 + e_cham ** 2 - dk ** 2) / (8 * k)
     # radius of button arc

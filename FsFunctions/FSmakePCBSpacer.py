@@ -29,9 +29,6 @@ import FastenerBase
 
 # PCB spacers / Wurth standard WA-SSTII
 
-cos30 = math.cos(math.radians(30))
-
-
 def pspMakeFace(m, sw, l, id, thl):
     id2 = id / 2.0
     sw2 = sw / 2.0

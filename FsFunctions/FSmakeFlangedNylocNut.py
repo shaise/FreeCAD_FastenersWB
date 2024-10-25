@@ -59,14 +59,14 @@ def makeFlangedNylocNut(self, fa):
     # flange of the hex
     fm.Reset()
     fm.AddPoint((1.05 * dia + s) / 4, 0.0)
-    fm.AddPoint((dc + math.sqrt(3) * c) / 2, 0.0)
+    fm.AddPoint((dc + sqrt3 * c) / 2, 0.0)
     fm.AddPoint((dc - c) / 2, 0.0)
     fm.AddArc2(0, c / 2, 150)
     fm.AddPoint(
         (1.05 * dia + s) / 4,
-        math.sqrt(3)
+        sqrt3
         / 3
-        * ((dc - c) / 2 + c / (4 - 2 * math.sqrt(3)) - (1.05 * dia + s) / 4),
+        * ((dc - c) / 2 + c / (4 - 2 * sqrt3) - (1.05 * dia + s) / 4),
     )
     flange = self.RevolveZ(fm.GetFace())
     shape = shape.fuse(flange).removeSplitter()
@@ -74,7 +74,7 @@ def makeFlangedNylocNut(self, fa):
     # internal bore
     fm.Reset()
     id = self.GetInnerThreadMinDiameter(dia, P, 0.0)
-    bore_cham_ht = (dia * 1.05 - id) / 2 * math.tan(math.radians(15))
+    bore_cham_ht = (dia * 1.05 - id) / 2 * tan15
     fm.AddPoint(0.0, 0.0)
     fm.AddPoint(dia * 1.05 / 2, 0.0)
     fm.AddPoint(id / 2, bore_cham_ht)

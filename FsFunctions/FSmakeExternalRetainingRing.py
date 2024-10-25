@@ -42,9 +42,9 @@ def makeExternalRetainingRing(self, fa):
         pnt1 = Base.Vector(d5_Min/2, -1*math.sqrt(d3**2-d5_Min**2)/2)
         pnt2 = Base.Vector(d5_Min/2, -1*math.sqrt(d3**2-d5_Min**2)/2-a_Max)
         pnt3 = Base.Vector(
-            d5_Min*(1/2+math.sqrt(2)/2),
+            d5_Min*(1/2+sqrt2/2),
             -1*math.sqrt(d3**2-d5_Min**2)/2-a_Max
-            + d5_Min*(1-math.sqrt(2)/2)
+            + d5_Min*(1-sqrt2/2)
         )
         pnt4 = Base.Vector(
             d5_Min*1.5,

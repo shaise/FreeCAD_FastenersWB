@@ -60,7 +60,7 @@ def makeSquareNut(self, fa):
     # subtract the internal bore from the nut using a revolved solid
     do = dia * 1.1
     inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
-    inner_cham_ht = math.tan(math.radians(15)) * (do / 2 - inner_rad)
+    inner_cham_ht = tan15 * (do / 2 - inner_rad)
     fm = FastenerBase.FSFaceMaker()
     fm.AddPoint(0.0, 0.0)
     fm.AddPoint(do / 2, 0.0)
@@ -72,7 +72,7 @@ def makeSquareNut(self, fa):
     nut = nut.cut(hole)
     # add a chamfer on one side of the outer corners if needed
     if top_chamfer:
-        cham_solid = Part.makeCone(dw / 2 + m * math.sqrt(3), dw / 2, m)
+        cham_solid = Part.makeCone(dw / 2 + m * sqrt3, dw / 2, m)
         nut = nut.common(cham_solid)
     # cut modeled threads if needed
     if fa.Thread:

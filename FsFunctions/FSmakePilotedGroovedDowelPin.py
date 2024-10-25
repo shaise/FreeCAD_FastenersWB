@@ -36,7 +36,7 @@ def makePilotedGroovedDowelPin(self, fa):
     fm = FSFaceMaker()
     fm.AddPoint(0.0, 0.0)
     fm.AddPoint(d_2 / 2, 0.0)
-    cham_ht = (d_2 - d_1) / 2 / math.tan(math.radians(15))
+    cham_ht = (d_2 - d_1) / 2 / tan15
     fm.AddPoint(d_2 / 2, -length + c + cham_ht)
     fm.AddPoint(d_1 / 2, c - length)
     fm.AddPoint(d_1 / 2, -length)

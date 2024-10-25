@@ -72,15 +72,15 @@ def makeHexHeadWithFlange(self, fa):
         else:
             b = b3
     # needed for chamfer at head top
-    cham = s * (2.0 / math.sqrt(3.0) - 1.0) * math.sin(math.radians(25))
-    sqrt2_ = 1.0 / math.sqrt(2.0)
+    cham = s * (2.0 / sqrt3 - 1.0) * math.sin(math.radians(25))
+    sqrt2_ = 1.0 / sqrt2
     # Flange is made with a radius of c
     beta = math.radians(25.0)
     tan_beta = math.tan(beta)
     # Calculation of Arc points of flange edge using dc and c
     arc1_x = dc / 2.0 - c / 2.0 + (c / 2.0) * math.sin(beta)
     arc1_z = c / 2.0 + (c / 2.0) * math.cos(beta)
-    kmean = arc1_z + (arc1_x - s / math.sqrt(3.0)) * tan_beta + kw * 1.1 + cham
+    kmean = arc1_z + (arc1_x - s / sqrt3) * tan_beta + kw * 1.1 + cham
     # lay out the fastener profile
     fm = FSFaceMaker()
     fm.AddPoint(0.0, kmean * 0.9)
@@ -99,7 +99,7 @@ def makeHexHeadWithFlange(self, fa):
         kmean,
     )
     fm.AddPoint(s / 2.0, kmean)
-    fm.AddPoint(s / 2 + (kmean - 0.1) * math.sqrt(3), 1.0)
+    fm.AddPoint(s / 2 + (kmean - 0.1) * sqrt3, 1.0)
     fm.AddPoint(0.0, 0.1)
     head = self.RevolveZ(fm.GetFace())
     # cut the hexagon flats with a boolean operation

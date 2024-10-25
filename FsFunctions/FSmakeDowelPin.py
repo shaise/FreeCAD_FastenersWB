@@ -34,7 +34,7 @@ def makeDowelPin(self, fa):
         raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     length = fa.calc_len
     fm = FSFaceMaker()
-    cham_d = math.tan(math.radians(15)) * cham
+    cham_d = tan15 * cham
     fm.AddPoint(0.0, 0.0)
     fm.AddPoint(dia / 2 - cham_d, 0.0)
     fm.AddPoint(dia / 2, -cham)

@@ -45,15 +45,15 @@ def makeReducedShankHexHeadBolt(self, fa):
             b = b1
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
-    dp = (dia / 2 - 0.375 * math.sqrt(3) / 2 * P) * 2
+    dp = (dia / 2 - 0.375 * sqrt3 / 2 * P) * 2
     # needed for chamfer at head top
     cham = (e - s) * math.sin(math.radians(15))
     # lay out head profile
     fm = FSFaceMaker()
     fm.AddPoint(0.0, k)
     fm.AddPoint(s / 2.0, k)
-    fm.AddPoint(s / math.sqrt(3.0), k - cham)
-    fm.AddPoint(s / math.sqrt(3.0), c)
+    fm.AddPoint(s / sqrt3, k - cham)
+    fm.AddPoint(s / sqrt3, c)
     fm.AddPoint(dw / 2.0, c)
     fm.AddPoint(dw / 2.0, 0.0)
     fm.AddPoint(dp / 2.0 + r, 0.0)

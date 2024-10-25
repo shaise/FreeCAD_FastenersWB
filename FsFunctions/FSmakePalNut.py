@@ -40,8 +40,8 @@ def makePalNut(self, fa):
         raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     # construct the base of the hexagonal shape
     fm = FSFaceMaker()
-    fm.AddPoint(s / math.sqrt(3), 0.0)
-    fm.AddPoint(s / math.sqrt(3), t)
+    fm.AddPoint(s / sqrt3, 0.0)
+    fm.AddPoint(s / sqrt3, t)
     fm.AddPoint(od / 2, t)
     fm.AddPoint(id / 2, t + (od - id) / 2 * math.tan(math.radians(30)))
     fm.AddPoint(id / 2, (od - id) / 2 * math.tan(math.radians(30)))

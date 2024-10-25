@@ -27,8 +27,6 @@
 from screw_maker import *
 import FastenerBase
 
-cos30 = math.cos(math.radians(30))
-
 # PEM Self Clinching studs types: FH/FHS/FHA
 
 def fhMakeFace(m, h, d, l):

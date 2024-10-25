@@ -45,7 +45,7 @@ def makeScrewTap(self, fa):
         else:
             dia = float(fa.calc_diam)
     tap = Part.makeCylinder(
-        dia / 2 - 0.625 * math.sqrt(3) / 2 * P,
+        dia / 2 - 0.625 * sqrt3 / 2 * P,
         fa.calc_len + 2
     )
     tap.translate(Base.Vector(0.0, 0.0, -1.0))

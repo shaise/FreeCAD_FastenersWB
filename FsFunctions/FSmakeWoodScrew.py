@@ -48,15 +48,15 @@ def makeDIN571(screw_obj, fa):
     ds, da, d3, k, s, P = fa.dimTable
     d = dia / 2.0
     d3h = d3 / 2.0
-    r = (da-ds)/2.0
-    e = s/math.cos(math.radians(30))
-    sqrt2_ = 1.0 / math.sqrt(2.0)
+    r = (da - ds) / 2.0
+    e = s / cos30
+    sqrt2_ = 1.0 / sqrt2
     cham = (e - s) * math.sin(math.radians(15))  # needed for chamfer at head top
 
     Pnt0 = Base.Vector(0.0, 0.0, k)
     Pnt2 = Base.Vector(s / 2.0, 0.0, k)
-    Pnt3 = Base.Vector(s / math.sqrt(3.0), 0.0, k - cham)
-    Pnt4 = Base.Vector(s / math.sqrt(3.0), 0.0, 0.0)
+    Pnt3 = Base.Vector(s / sqrt3, 0.0, k - cham)
+    Pnt4 = Base.Vector(s / sqrt3, 0.0, 0.0)
     Pnt7 = Base.Vector(d + r, 0.0, 0.0)  # start of fillet between head and shank
     Pnt8 = Base.Vector(d + r - r * sqrt2_, 0.0, -r + r * sqrt2_)  # arc-point of fillet
     Pnt9 = Base.Vector(d, 0.0, -r)  # end of fillet

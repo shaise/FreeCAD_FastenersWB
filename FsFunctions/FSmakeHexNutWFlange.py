@@ -83,7 +83,7 @@ def _makeHexNutWithTaperedFlange(self, fa):
         s = s_max
         flange_edge_rounded = True
     inner_rad = dia / 2 - P * 0.625 * sqrt3 / 2
-    inner_cham_ht = math.tan(math.radians(15)) * (da / 2 - inner_rad)
+    inner_cham_ht = tan15 * (da / 2 - inner_rad)
     # create the body of the nut
     fm = FastenerBase.FSFaceMaker()
     fm.AddPoint(inner_rad, m - inner_cham_ht)

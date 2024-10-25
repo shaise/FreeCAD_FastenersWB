@@ -34,9 +34,9 @@ def makeThinCupNut(self, fa):
     dia = self.getDia(fa.calc_diam, True)
     P, g2, h, r, s, t, w = fa.dimTable
 
-    H = P * math.cos(math.radians(30)) * 5.0 / 8.0
+    H = P * cos30 * 5.0 / 8.0
     if fa.Thread: H *= 1.1
-    e = s / math.sqrt(3) * 2.0
+    e = s / sqrt3 * 2.0
     cham_i = H * math.tan(math.radians(15.0))
     cham_o = (e - s) * math.tan(math.radians(15.0))
     d = dia / 2.0
@@ -53,7 +53,7 @@ def makeThinCupNut(self, fa):
         h
     )
     fm.AddPoint(0.0, h-w)
-    fm.AddPoint(0.0, d * math.tan(math.radians(15)))
+    fm.AddPoint(0.0, d * tan15)
     head = self.RevolveZ(fm.GetFace())
     extrude = self.makeHexPrism(s, h)
     nut = head.common(extrude)

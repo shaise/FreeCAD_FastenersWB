@@ -120,6 +120,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.30  11 Nov 2024:  Fix default fastener color issue by @berberic2.  
+                       - Use global constants if available. by @UR-0.  
 * V0.5.29  16 Sep 2024:  Update translation system by by @hasecilu.  
 * V0.5.28  31 Aug 2024:  Fix compatibility with very old files by @hasecilu.  
                        - Fix bug when changing fastener length.  

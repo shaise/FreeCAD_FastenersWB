@@ -55,7 +55,7 @@ def makeHexNutSpherical(self, fa):
     Delta_Phi = Phi_End - Phi_Start
     Center_Z = r * math.cos(Phi_Start)
 
-    # please see according comment in FSmakeSphericalWasher.py 
+    # please see according comment in FSmakeSphericalWasher.py
     hZ = (sqrt3 * d5 + math.sqrt(36. * r**2 - 9. * d1**2) - 4. * sqrt3 * r) / 6
 
     fm = FastenerBase.FSFaceMaker()
@@ -80,9 +80,8 @@ def makeHexNutSpherical(self, fa):
         thread_cutter = self.CreateInnerThreadCutter(dia, P, m + P)
         nut_body = nut_body.cut(thread_cutter)
 
-    transform_matrix = Base.Matrix()
-    transform_matrix.move(0., 0., -hZ)
-
-    nut_body = nut_body.transformGeometry(transform_matrix)
+    nut_body.translate(Base.Vector(0., 0., -hZ))
+    # incorporate placement into shape and reset placement
+    nut_body = nut_body.removeSplitter()
 
     return nut_body

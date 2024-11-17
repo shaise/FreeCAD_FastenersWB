@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.31  17 Nov 2024:  Fix generation of DIN 6330 hex nut by @UR-0.  
 * V0.5.30  11 Nov 2024:  Fix default fastener color issue by @berberic2.  
                        - Use global constants if available. by @UR-0.  
 * V0.5.29  16 Sep 2024:  Update translation system by by @hasecilu.  

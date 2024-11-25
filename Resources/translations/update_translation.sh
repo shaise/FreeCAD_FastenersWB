@@ -4,15 +4,15 @@
 #
 # Create, update and release translation files.
 #
-# Supported locales on FreeCAD <2024-09-13, FreeCADGui.supportedLocales(), total=43>:
+# Supported locales on FreeCAD <2024-10-14, FreeCADGui.supportedLocales(), total=44>:
 # 	{'English': 'en', 'Afrikaans': 'af', 'Arabic': 'ar', 'Basque': 'eu', 'Belarusian': 'be',
 # 	'Bulgarian': 'bg', 'Catalan': 'ca', 'Chinese Simplified': 'zh-CN',
-# 	'Chinese Traditional': 'zh-TW', 'Croatian': 'hr', 'Czech': 'cs', 'Dutch': 'nl',
-# 	'Filipino': 'fil', 'Finnish': 'fi', 'French': 'fr', 'Galician': 'gl', 'Georgian': 'ka',
-# 	'German': 'de', 'Greek': 'el', 'Hungarian': 'hu', 'Indonesian': 'id', 'Italian': 'it',
-# 	'Japanese': 'ja', 'Kabyle': 'kab', 'Korean': 'ko', 'Lithuanian': 'lt', 'Norwegian': 'no',
-# 	'Polish': 'pl', 'Portuguese': 'pt-PT', 'Portuguese, Brazilian': 'pt-BR', 'Romanian': 'ro',
-# 	'Russian': 'ru', 'Serbian': 'sr', 'Serbian, Latin': 'sr-CS', 'Slovak': 'sk',
+# 	'Chinese Traditional': 'zh-TW', 'Croatian': 'hr', 'Czech': 'cs', 'Danish': 'da',
+# 	 'Dutch': 'nl', 'Filipino': 'fil', 'Finnish': 'fi', 'French': 'fr', 'Galician': 'gl',
+# 	'Georgian': 'ka', 'German': 'de', 'Greek': 'el', 'Hungarian': 'hu', 'Indonesian': 'id',
+# 	'Italian': 'it', 'Japanese': 'ja', 'Kabyle': 'kab', 'Korean': 'ko', 'Lithuanian': 'lt',
+# 	'Norwegian': 'no', 'Polish': 'pl', 'Portuguese': 'pt-PT', 'Portuguese, Brazilian': 'pt-BR',
+# 	'Romanian': 'ro', 'Russian': 'ru', 'Serbian': 'sr', 'Serbian, Latin': 'sr-CS', 'Slovak': 'sk',
 # 	'Slovenian': 'sl', 'Spanish': 'es-ES', 'Spanish, Argentina': 'es-AR', 'Swedish': 'sv-SE',
 # 	'Turkish': 'tr', 'Ukrainian': 'uk', 'Valencian': 'val-ES', 'Vietnamese': 'vi'}
 #
@@ -23,7 +23,7 @@
 # 	Arch-based: $ sudo pacman -S qt6-tools python-pyqt6
 # - Make the script executable
 # 	$ chmod +x update_translation.sh
-# - The script has to be executed within the `translations` directory.
+# - The script has to be executed within the `Resources/translations` directory.
 # 	Executing the script with no flags invokes the help.
 # 	$ ./update_translation.sh
 #
@@ -40,7 +40,7 @@
 # - Execute the script passing the '-U' flag
 # 	$ ./update_translation.sh -U
 # - Upload the updated file to Crowdin and wait for translators do their thing ;-)
-# - Once done, download the translated files, copy them to `translations`
+# - Once done, download the translated files, copy them to `Resources/translations`
 # 	and release all the files to update the changes
 # 	$ ./update_translation.sh -R
 #
@@ -48,18 +48,16 @@
 
 supported_locales=(
 	"en" "af" "ar" "eu" "be" "bg" "ca" "zh-CN" "zh-TW" "hr"
-	"cs" "nl" "fil" "fi" "fr" "gl" "ka" "de" "el" "hu"
-	"id" "it" "ja" "kab" "ko" "lt" "no" "pl" "pt-PT" "pt-BR"
-	"ro" "ru" "sr" "sr-CS" "sk" "sl" "es-ES" "es-AR" "sv-SE" "tr"
-	"uk" "val-ES" "vi"
+	"cs" "da" "nl" "fil" "fi" "fr" "gl" "ka" "de" "el"
+	"hu" "id" "it" "ja" "kab" "ko" "lt" "no" "pl" "pt-PT"
+	"pt-BR" "ro" "ru" "sr" "sr-CS" "sk" "sl" "es-ES" "es-AR" "sv-SE"
+	"tr" "uk" "val-ES" "vi"
 )
 
 is_locale_supported() {
 	local locale="$1"
 	for supported_locale in "${supported_locales[@]}"; do
-		if [[ "$supported_locale" == "$locale" ]]; then
-			return 0
-		fi
+		[ "$supported_locale" == "$locale" ] && return 0
 	done
 	return 1
 }
@@ -67,19 +65,17 @@ is_locale_supported() {
 update_locale() {
 	local locale="$1"
 	local u=${locale:+_} # Conditional underscore
+	FILES="../../*.py ../../*.ui"
 
 	# NOTE: Execute the right commands depending on:
 	# - if it's a locale file or the main, agnostic one
-	if [ ! -f "${WB}${u}${locale}.ts" ]; then
-		echo -e "\033[1;34m\n\t<<< Creating '${WB}${u}${locale}.ts' file >>>\n\033[m"
-	else
-		echo -e "\033[1;34m\n\t<<< Updating '${WB}${u}${locale}.ts' file >>>\n\033[m"
-	fi
+	[ ! -f "${WB}${u}${locale}.ts" ] && action="Creating" || action="Updating"
+	echo -e "\033[1;34m\n\t<<< ${action} '${WB}${u}${locale}.ts' file >>>\n\033[m"
 	if [ "$u" == "" ]; then
-		$LUPDATE ../*.py ../*.ui -ts "${WB}.ts" # locale-agnostic file
+		eval $LUPDATE "$FILES" -ts "${WB}.ts" # locale-agnostic file
 	else
-		$LUPDATE ../*.py ../*.ui -source-language en -target-language "${locale//-/_}" \
-			-ts "${WB}_${locale,,}.ts"
+		eval $LUPDATE "$FILES" -source-language en_US -target-language "${locale//-/_}" \
+			-ts "${WB}_${locale}.ts"
 	fi
 }
 
@@ -103,13 +99,16 @@ LRELEASE=/usr/lib/qt6/bin/lrelease # from Qt6
 # LRELEASE=lrelease                 # from Qt5
 WB="fasteners"
 
+# Enforce underscore on locales
+sed -i '3s/-/_/' ${WB}*.ts
+
 if [ $# -eq 0 ]; then
 	help
 elif [ $# -eq 1 ]; then
 	if [ "$1" == "-R" ]; then
 		find . -type f -name '*_*.ts' | while IFS= read -r file; do
 			# Release all locales
-			$LRELEASE "$file"
+			$LRELEASE -nounfinished "$file"
 			echo
 		done
 	elif [ "$1" == "-U" ]; then
@@ -123,7 +122,7 @@ elif [ $# -eq 2 ]; then
 	if is_locale_supported "$LOCALE"; then
 		if [ "$1" == "-r" ]; then
 			# Release locale (creation of *.qm file from *.ts file)
-			$LRELEASE "${WB}_${LOCALE,,}.ts"
+			$LRELEASE -nounfinished "${WB}_${LOCALE,,}.ts"
 		elif [ "$1" == "-u" ]; then
 			# Update main & locale files
 			update_locale

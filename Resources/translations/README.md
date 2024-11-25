@@ -12,7 +12,7 @@ then find your language, look for the **Fasteners** project and do the translati
 ## Maintainers:
 
 > [!NOTE]
-> All commands **must** be run in `./translations/` directory.
+> All commands **must** be run in `./Resources/translations/` directory.
 
 > [!WARNING]
 > If you want to update/release the files you need to have installed

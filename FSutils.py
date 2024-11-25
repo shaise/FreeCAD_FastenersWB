@@ -30,7 +30,7 @@ import csv
 _dir = os.path.dirname(__file__)
 iconPath = os.path.join(_dir, "Icons")
 fsdatapath = os.path.join(_dir, "FsData")
-languagePath = os.path.join(_dir, "translations")
+languagePath = os.path.join(_dir, "Resources", "translations")
 pref_file_path = os.path.join(_dir, "FSprefs.ui")
 
 # read .csv files into dictionary tables

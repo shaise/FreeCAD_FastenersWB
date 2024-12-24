@@ -238,15 +238,18 @@ def FSGetToolbarItem(tname, iname):
     """Get instance of a toolbar item."""
     mw = QtGui.QApplication.activeWindow()
     tb = None
-    for c in mw.children():
-        if isinstance(c, QtGui.QToolBar) and c.windowTitle() == tname:
-            tb = c
-            break
-    if tb is None:
-        return None
-    for c in tb.children():
-        if isinstance(c, QtGui.QToolButton) and c.text() == iname:
-            return c
+    try
+        for c in mw.children():
+            if isinstance(c, QtGui.QToolBar) and c.windowTitle() == tname:
+                tb = c
+                break
+        if tb is None:
+            return None
+        for c in tb.children():
+            if isinstance(c, QtGui.QToolButton) and c.text() == iname:
+                return c
+    except Exception as e:
+        FreeCAD.Console.PrintError(e)
     return None
 
 

@@ -884,7 +884,8 @@ class FSScrewCommand:
             FSScrewObject(a, self.Type, selObj)
             a.Label = a.Proxy.familyType
             if FSParam.GetBool("DefaultFastenerColorActive", False):
-                a.ViewObject.DiffuseColor = FSParam.GetUnsigned("DefaultFastenerColor", 0xcccccc00) & 0xFFFFFF00
+                a.ViewObject.DiffuseColor = FSParam.GetUnsigned("DefaultFastenerColor", 0xccccccff)
+                a.ViewObject.Transparency = FSParam.GetUnsigned("DefaultFastenerTransparency", 0)
             if FSParam.GetBool("DefaultLineWidthActive", False):
                 a.ViewObject.LineWidth = FSParam.GetFloat("DefaultLineWidth", 1.0)
             if FSParam.GetBool("DefaultVertexSizeActive", False):

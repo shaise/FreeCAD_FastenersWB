@@ -245,7 +245,7 @@ def FSGetToolbarItem(tname, iname):
     """Get instance of a toolbar item."""
     mw = QtGui.QApplication.activeWindow()
     tb = None
-    try:
+    if mw is not None:
         for c in mw.children():
             if isinstance(c, QtGui.QToolBar) and c.windowTitle() == tname:
                 tb = c
@@ -255,8 +255,6 @@ def FSGetToolbarItem(tname, iname):
         for c in tb.children():
             if isinstance(c, QtGui.QToolButton) and c.text() == iname:
                 return c
-    except Exception as e:
-        FreeCAD.Console.PrintError(e)
     return None
 
 
@@ -854,15 +852,14 @@ FSParam.SetBool("MatchOuterDiameter", False)
 
 class FSMatchTypeInnerCommand:
     def Activated(self):
-        try:
-            matchOuterButton = FSGetToolbarItem(commandsToolbarText, matchOuterButtonText)
-            matchInnerButton = FSGetToolbarItem(commandsToolbarText, matchInnerButtonText)
+        matchOuterButton = FSGetToolbarItem(commandsToolbarText, matchOuterButtonText)
+        matchInnerButton = FSGetToolbarItem(commandsToolbarText, matchInnerButtonText)
+        if matchOuterButton is not None:
             matchInnerButton.setChecked(True)
+        if matchInnerButton is not None:
             matchOuterButton.setChecked(False)
             FSParam.SetBool("MatchOuterDiameter", False)
             FreeCAD.Console.PrintLog("Set auto diameter to match inner thread\n")
-        except Exception as e:
-            FreeCAD.Console.PrintError(e)
 
     def GetResources(self):
         return {
@@ -875,15 +872,13 @@ class FSMatchTypeInnerCommand:
 
 class FSMatchTypeOuterCommand:
     def Activated(self):
-        try:
-            matchOuterButton = FSGetToolbarItem(commandsToolbarText, matchOuterButtonText)
-            matchInnerButton = FSGetToolbarItem(commandsToolbarText, matchInnerButtonText)
-            matchInnerButton.setChecked(False)
-            matchOuterButton.setChecked(True)
+        matchOuterButton = FSGetToolbarItem(commandsToolbarText, matchOuterButtonText)
+        matchInnerButton = FSGetToolbarItem(commandsToolbarText, matchInnerButtonText)
+        if matchOuterButton is not None:
+            matchInnerButton.setChecked(True)
+        if matchInnerButton is not None:
             FSParam.SetBool("MatchOuterDiameter", True)
             FreeCAD.Console.PrintLog("Set auto diameter to match outer thread\n")
-        except Exception as e:
-            FreeCAD.Console.PrintError(e)
 
     def GetResources(self):
         return {
@@ -901,16 +896,15 @@ FSCommands.append("Fasteners_MatchTypeOuter", "command")
 
 
 def InitCheckables():
-    try:
-        match_outer = FSParam.GetBool("MatchOuterDiameter")
-        matchOuterButton = FSGetToolbarItem(commandsToolbarText, matchOuterButtonText)
-        matchInnerButton = FSGetToolbarItem(commandsToolbarText, matchInnerButtonText)
+    match_outer = FSParam.GetBool("MatchOuterDiameter")
+    matchOuterButton = FSGetToolbarItem(commandsToolbarText, matchOuterButtonText)
+    matchInnerButton = FSGetToolbarItem(commandsToolbarText, matchInnerButtonText)
+    if matchOuterButton is not None:
         matchOuterButton.setCheckable(True)
-        matchInnerButton.setCheckable(True)
         matchOuterButton.setChecked(match_outer)
+    if matchInnerButton is not None:
+        matchInnerButton.setCheckable(True)
         matchInnerButton.setChecked(not match_outer)
-    except Exception as e:
-        FreeCAD.Console.PrintError(e)
 
 
 ########################## Generate BOM command ###############################

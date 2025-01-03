@@ -158,9 +158,7 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
         fastener = makeBaseBody(a, e1, e2, f, h, k)
         # Cut corners in the upper face to enable rotation on slot
         # a = e1
-        fastener = cutCorners(fastener, a/2, h-k)
-        # Cut corners from the middle face
-        fastener = cutCorners(fastener, e2 / 2, h)
+        fastener = cutCorners(fastener, a / 2, h - k)
 
         if fa.Thread:
             # Add strips
@@ -179,7 +177,10 @@ def makeTSlot(self, fa):  # dynamically loaded method of class Screw
             for _ in range(9):
                 myMat = Base.Matrix()
                 strip.translate(Base.Vector(0, -0.1 * e1, 0))
-                fastener = fastener.fuse(strip).removeSplitter()
+                fastener = fastener.fuse(strip)
+
+        # Cut corners from the middle face
+        fastener = cutCorners(fastener, e2 / 2, h)
 
         # Draw a triangle on x = e2 / 2
         # to cut opposite corners on the bottom

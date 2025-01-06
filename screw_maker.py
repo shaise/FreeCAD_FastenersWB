@@ -258,7 +258,7 @@ class Screw:
         - P: thread pitch
         - blen: thread length. The actual returned shape will be slightly
           longer, to ensure that a thread of the specified length can be
-          cut without errors at it's ends
+          cut without errors at its ends
 
         The shape is created at the origin, extending in the -Z direction.
         """
@@ -372,7 +372,7 @@ class Screw:
         - P: thread pitch
         - blen: thread length. The actual returned shape will be slightly
           longer, to ensure that a thread of the specified length can be
-          cut without errors at it's ends
+          cut without errors at its ends
 
         The shape is created at the origin, extending in the -Z direction.
         It has a tapered lead out at the top of the shape, to simulate the

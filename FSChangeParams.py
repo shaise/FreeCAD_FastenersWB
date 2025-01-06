@@ -409,11 +409,11 @@ class FSChangeParamCommand:
     """Make holes for countersunk screws"""
 
     def GetResources(self):
-        icon = os.path.join(iconPath, 'IconChangeParam.svg')
+        icon = os.path.join(iconPath, "IconChangeParam.svg")
         return {
-            'Pixmap': icon,  # the name of a svg file available in the resources
-            'MenuText': _translate("DlgChangeParams", "Change fastener parameters", None),
-            'ToolTip': _translate("DlgChangeParams", "Change parameters of selected fasteners", None)
+            "Pixmap": icon,  # the name of a svg file available in the resources
+            "MenuText": translate("DlgChangeParams", "Change fastener parameters"),
+            "ToolTip": translate("DlgChangeParams", "Change parameters of selected fasteners"),
         }
 
     def Activated(self):

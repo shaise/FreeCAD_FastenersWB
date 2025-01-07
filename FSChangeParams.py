@@ -37,15 +37,6 @@ except AttributeError:
     def _fromUtf8(s):
         return s
 
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
-
 
 class Ui_DlgChangeParams(object):
     def setupUi(self, DlgChangeParams):
@@ -113,20 +104,20 @@ class Ui_DlgChangeParams(object):
         QtCore.QMetaObject.connectSlotsByName(DlgChangeParams)
 
     def retranslateUi(self, DlgChangeParams):
-        DlgChangeParams.setWindowTitle(_translate(
-            "DlgChangeParams", "Change fastener parameters", None))
-        self.mainGroup.setTitle(_translate(
-            "DlgChangeParams", "Fastener Parameters", None))
-        self.labelFastenerType.setText(_translate(
-            "DlgChangeParams", "Fastener type:", None))
-        self.checkAutoDiameter.setText(_translate(
-            "DlgChangeParams", "Auto set diameter", None))
-        self.labelDiameter.setText(_translate(
-            "DlgChangeParams", "Diameter:", None))
-        self.labelLength.setText(_translate(
-            "DlgChangeParams", "Length:", None))
-        self.checkSetLength.setText(_translate(
-            "DlgChangeParams", "Set length (mm):", None))
+        DlgChangeParams.setWindowTitle(translate(
+            "DlgChangeParams", "Change fastener parameters"))
+        self.mainGroup.setTitle(translate(
+            "DlgChangeParams", "Fastener Parameters"))
+        self.labelFastenerType.setText(translate(
+            "DlgChangeParams", "Fastener type:"))
+        self.checkAutoDiameter.setText(translate(
+            "DlgChangeParams", "Auto set diameter"))
+        self.labelDiameter.setText(translate(
+            "DlgChangeParams", "Diameter:"))
+        self.labelLength.setText(translate(
+            "DlgChangeParams", "Length:"))
+        self.checkSetLength.setText(translate(
+            "DlgChangeParams", "Set length (mm):"))
 
         #######################################################################
         # End position for generated code from pyuic4
@@ -230,8 +221,8 @@ class FSTaskChangeParamDialog:
         # FSChangeParamDialog.ui.widgetVarLength.hide()
 
         self.form = FSChangeParamDialog
-        self.form.setWindowTitle(_translate(
-            "DlgChangeParams", "Change fastener parameters", None))
+        self.form.setWindowTitle(translate(
+            "DlgChangeParams", "Change fastener parameters"))
         Gui.Selection.addSelectionGate(FSCPSelectionFilterGate)
         self.selobserver = FSCPSelObserver(self.selection)
         Gui.Selection.addObserver(self.selobserver)
@@ -261,8 +252,8 @@ class FSTaskChangeParamDialog:
         ui = self.form.ui
         self.fstype = fstype
         # FreeCAD.Console.PrintLog(fstype.typeName + str(fstype.hasLength) + str(fstype.lengthFixed) + "\n")
-        ui.comboFastenerType.addItem(_translate(
-            "DlgChangeParams", 'No Change', None))
+        ui.comboFastenerType.addItem(translate(
+            "DlgChangeParams", 'No Change'))
         # FreeCAD.Console.PrintLog("nitems: " + str(len(fstype.items)) + "\n")
         for screw in fstype.items:
             ui.comboFastenerType.addItem(QtGui.QIcon(
@@ -281,8 +272,8 @@ class FSTaskChangeParamDialog:
         try:
             ui = self.form.ui
             ui.comboDiameter.clear()
-            ui.comboDiameter.addItem(_translate(
-                "DlgChangeParams", 'No Change', None))
+            ui.comboDiameter.addItem(translate(
+                "DlgChangeParams", 'No Change'))
             # FreeCAD.Console.PrintLog(str(ui.comboFastenerType.currentIndex()) + " " + str(ui.comboFastenerType.count()) + "\n")
             if ui.comboFastenerType.currentIndex() == 0 and ui.comboFastenerType.isEnabled():
                 listDiams = FSCPGetDiametersFromSelection(self.selection)
@@ -311,8 +302,8 @@ class FSTaskChangeParamDialog:
                 ui.checkSetLength.hide()
                 ui.spinLength.hide()
                 ui.comboLength.clear()
-                ui.comboLength.addItem(_translate(
-                    "DlgChangeParams", 'No Change', None))
+                ui.comboLength.addItem(translate(
+                    "DlgChangeParams", 'No Change'))
                 for slen in FSCPGetLengths(self.fstype.typeName, ui.comboFastenerType.currentText(), ui.comboDiameter.currentText()):
                     ui.comboLength.addItem(slen)
             else:

@@ -49,18 +49,6 @@ except AttributeError:
     def _fromUtf8(s):
         return s
 
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-except AttributeError:
-
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
-
-
 class Ui_DockWidget(object):
     def setupUi(self, DockWidget):
         DockWidget.setObjectName(_fromUtf8("DockWidget"))
@@ -123,10 +111,10 @@ class Ui_DockWidget(object):
         QtCore.QMetaObject.connectSlotsByName(DockWidget)
 
     def retranslateUi(self, DockWidget):
-        DockWidget.setWindowTitle(_translate("DockWidget", "Screw hole calculator", None))
-        self.label.setText(_translate("DockWidget", "Fastener type:", None))
-        self.label_2.setText(_translate("DockWidget", "Screw Diameter:", None))
-        self.labelHoleSize.setText(_translate("DockWidget", "Suggested Hole diameter (mm):", None))
+        DockWidget.setWindowTitle(translate("DockWidget", "Screw hole calculator"))
+        self.label.setText(translate("DockWidget", "Fastener type:"))
+        self.label_2.setText(translate("DockWidget", "Screw Diameter:"))
+        self.labelHoleSize.setText(translate("DockWidget", "Suggested Hole diameter (mm):"))
 
         #######################################################################
         # End position for generated code from pyuic4

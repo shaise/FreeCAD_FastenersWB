@@ -53,19 +53,6 @@ except AttributeError:
     def _fromUtf8(s):
         return s
 
-
-try:
-    _encoding = QtGui.QApplication.UnicodeUTF8
-
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig, _encoding)
-
-except AttributeError:
-
-    def _translate(context, text, disambig):
-        return QtGui.QApplication.translate(context, text, disambig)
-
-
 class Ui_DlgCountersunktHoles(object):
     def setupUi(self, DlgCountersunktHoles):
         DlgCountersunktHoles.setObjectName(_fromUtf8("DlgCountersunktHoles"))
@@ -144,30 +131,30 @@ class Ui_DlgCountersunktHoles(object):
 
     def retranslateUi(self, DlgCountersunktHoles):
         DlgCountersunktHoles.setWindowTitle(
-            _translate("DlgCountersunktHoles", "Countersunk screw holes", None)
+            translate("DlgCountersunktHoles", "Countersunk screw holes")
         )
-        self.groupBox.setTitle(_translate(
-            "DlgCountersunktHoles", "Shape", None))
-        self.label.setText(_translate(
-            "DlgCountersunktHoles", "Base shape:", None))
-        self.labelBaseObject.setText(_translate(
-            "DlgCountersunktHoles", "Base", None))
+        self.groupBox.setTitle(translate(
+            "DlgCountersunktHoles", "Shape"))
+        self.label.setText(translate(
+            "DlgCountersunktHoles", "Base shape:"))
+        self.labelBaseObject.setText(translate(
+            "DlgCountersunktHoles", "Base"))
         self.groupBox_2.setTitle(
-            _translate("DlgCountersunktHoles", "Chamfer Parameters", None)
+            translate("DlgCountersunktHoles", "Chamfer Parameters")
         )
-        self.selectAllButton.setText(_translate(
-            "DlgCountersunktHoles", "All", None))
-        self.selectNoneButton.setText(_translate(
-            "DlgCountersunktHoles", "None", None))
-        self.labelRadius.setText(_translate(
-            "DlgCountersunktHoles", "Diameter:", None))
+        self.selectAllButton.setText(translate(
+            "DlgCountersunktHoles", "All"))
+        self.selectNoneButton.setText(translate(
+            "DlgCountersunktHoles", "None"))
+        self.labelRadius.setText(translate(
+            "DlgCountersunktHoles", "Diameter:"))
         self.comboDiameter.setItemText(
-            0, _translate("DlgCountersunktHoles", "No selection", None)
+            0, translate("DlgCountersunktHoles", "No selection")
         )
-        self.label_2.setText(_translate(
-            "DlgCountersunktHoles", "Screw type:", None))
+        self.label_2.setText(translate(
+            "DlgCountersunktHoles", "Screw type:"))
         self.comboScrewType.setItemText(
-            0, _translate("DlgCountersunktHoles", "No Selection", None)
+            0, translate("DlgCountersunktHoles", "No Selection")
         )
 
         #######################################################################

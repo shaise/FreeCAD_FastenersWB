@@ -120,8 +120,10 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
-* V0.5.34  25 Dec 2024:  Fix transparency compatibility with post 1.0 FreeCAD. 
-                       - Make fasteners loadable via preferences and other WB by @APEbbers 
+* V0.5.35  07 Jan 2025:  Complete translation support by @hasecilu.  
+                       - Fix cut on GN505 fasteners by @hasecilu.  
+* V0.5.34  25 Dec 2024:  Fix transparency compatibility with post 1.0 FreeCAD.  
+                       - Make fasteners loadable via preferences and other WB by @APEbbers  
 * V0.5.33  27 Nov 2024:  Fix cache clearing on 3dprint settings change by @wavexx.  
 * V0.5.32  24 Nov 2024:  Update translations from CrowdIn by @hasecilu.  
 * V0.5.31  17 Nov 2024:  Fix generation of DIN 6330 hex nut by @UR-0.  

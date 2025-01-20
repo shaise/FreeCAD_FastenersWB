@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.36  2- Jan 2025:  Fix issue that fasteners hang freecad on complex models.  
 * V0.5.35  07 Jan 2025:  Complete translation support by @hasecilu.  
                        - Fix cut on GN505 fasteners by @hasecilu.  
 * V0.5.34  25 Dec 2024:  Fix transparency compatibility with post 1.0 FreeCAD.  

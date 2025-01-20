@@ -789,10 +789,18 @@ class FSMoveCommand:
         return
 
     def IsActive(self):
-        selObj = self.GetSelection()
-        if selObj[0] is not None:
-            return True
-        return False
+        screw_valid = False 
+        edge_valid = False
+        for selObj in Gui.Selection.getSelectionEx():
+            obj = selObj.Object
+            if hasattr(obj, "Proxy") and isinstance(obj.Proxy, FSBaseObject):
+                screw_valid = True
+            for baseObjectName in selObj.SubElementNames:
+                shape = obj.getSubObject(baseObjectName)
+                if hasattr(shape, "Curve"):
+                    if hasattr(shape.Curve, "Center") or hasattr(shape.Curve, "Radius"):
+                        edge_valid = True
+        return screw_valid and edge_valid
 
     def GetSelection(self):
         screwObj = None

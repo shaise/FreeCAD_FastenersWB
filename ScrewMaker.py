@@ -306,6 +306,7 @@ screwTables = {
     "ASMEB18.21.1.12A": ("Washer", "makeWasher"),
     "ASMEB18.21.1.12B": ("Washer", "makeWasher"),
     "ASMEB18.21.1.12C": ("Washer", "makeWasher"),
+    "GroundScrew": ("Screw", "makeGroundScrew"),
     "ScrewTap": ("ScrewTap", "makeScrewTap"),
     "ScrewTapInch": ("ScrewTap", "makeScrewTap"),
     "ScrewDie": ("ScrewDie", "makeScrewDie"),

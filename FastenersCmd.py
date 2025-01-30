@@ -109,6 +109,7 @@ SetScrewGroup = translate("FastenerCmd", "Set screws")
 NailGroup = translate("FastenerCmd", "Nails")
 PinGroup = translate("FastenerCmd", "Pins")
 ThumbScrewGroup = translate("FastenerCmd", "Thumb screws")
+GroundScrewGroup = translate("FastenerCmd", "Ground screws")
 
 CMD_HELP = 0
 CMD_GROUP = 1
@@ -234,6 +235,9 @@ FSScrewCommandTable = {
     "DIN464": (translate("FastenerCmd", "Knurled thumb screws, high type"), ThumbScrewGroup, ScrewParametersLC),
     "DIN465": (translate("FastenerCmd", "Slotted knurled thumb screws, high type"), ThumbScrewGroup, ScrewParametersLC),
     "DIN653": (translate("FastenerCmd", "Knurled thumb screws, low type"), ThumbScrewGroup, ScrewParametersLC),
+
+    # GroundScrewGroup
+    "GroundScrew": (translate("FastenerCmd", "round plate ground screw"), GroundScrewGroup, ScrewParametersLC),
 
     # NutGroup
 

@@ -693,8 +693,9 @@ class FSScrewObject(FSBaseObject):
                     l = screwMaker.GetTableProperty(fp.Type, fp.Diameter, "Length", fp.Length.Value)
                 else:
                     l = fp.Length.Value
-                if l < 2.0:
-                    l = 2.0
+                minimumLength = FSParam.GetFloat("MinimumLength", 2.0)
+                if l < minimumLength:
+                    l = minimumLength
                 fp.Length = l
                 self.calc_len = str(l)
             else:

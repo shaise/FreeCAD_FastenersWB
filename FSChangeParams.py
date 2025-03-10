@@ -20,6 +20,7 @@ import FastenersCmd
 import PEMInserts
 from FSutils import iconPath
 from FSAliases import FSGetIconAlias
+from FreeCAD import Units
 
 screwMaker = ScrewMaker.Instance
 
@@ -89,9 +90,12 @@ class Ui_DlgChangeParams(object):
         self.checkSetLength = QtGui.QCheckBox(self.mainGroup)
         self.checkSetLength.setObjectName(_fromUtf8("checkSetLength"))
         self.layoutSetVarLength.addWidget(self.checkSetLength)
-        minimumLength = FSParam.GetFloat("MinimumLength", 2.0)
+        try:
+            minimumLength = Units.Quantity(FSParam.GetString("MinimumLength", "2.0 mm"))
+        except ValueError:
+            minimumLength = Units.Quantity("2.0 mm")
         self.spinLength = QtGui.QDoubleSpinBox(self.mainGroup)
-        self.spinLength.setMinimum(minimumLength)
+        self.spinLength.setMinimum(minimumLength.getValueAs(1.0,1))
         self.spinLength.setMaximum(9999.99)
         self.spinLength.setObjectName(_fromUtf8("spinLength"))
         self.layoutSetVarLength.addWidget(self.spinLength)

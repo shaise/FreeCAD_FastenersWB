@@ -33,6 +33,7 @@ from FastenerBase import FSBaseObject
 import ScrewMaker
 from FSutils import iconPath
 from FSAliases import FSGetIconAlias, FSGetTypeAlias
+from FreeCAD import Units
 
 translate = FreeCAD.Qt.translate
 screwMaker = ScrewMaker.Instance
@@ -693,8 +694,12 @@ class FSScrewObject(FSBaseObject):
                     l = screwMaker.GetTableProperty(fp.Type, fp.Diameter, "Length", fp.Length.Value)
                 else:
                     l = fp.Length.Value
-                if l < 2.0:
-                    l = 2.0
+                try:
+                    minimumLength = Units.Quantity(FSParam.GetString("MinimumLength", "2.0 mm"))
+                except ValueError:
+                    minimumLength = Units.Quantity("2.0 mm")
+                if Units.Quantity(l).UserString < minimumLength.UserString:
+                    l = minimumLength.getValueAs(1.0,1)
                 fp.Length = l
                 self.calc_len = str(l)
             else:

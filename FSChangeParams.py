@@ -12,6 +12,7 @@ from FastenerBase import FSFastenerTypeDB
 from FastenerBase import FSRemoveDigits
 from FastenerBase import FSCommands
 from FastenerBase import FSParam
+from FastenersCmd import FSGetDescription
 from PySide import QtCore, QtGui
 from FreeCAD import Gui
 import FreeCAD
@@ -255,14 +256,17 @@ class FSTaskChangeParamDialog:
 
     def FillFields(self, fstype):
         ui = self.form.ui
+        idx = 0
         self.fstype = fstype
         # FreeCAD.Console.PrintLog(fstype.typeName + str(fstype.hasLength) + str(fstype.lengthFixed) + "\n")
         ui.comboFastenerType.addItem(translate(
             "DlgChangeParams", 'No Change'))
         # FreeCAD.Console.PrintLog("nitems: " + str(len(fstype.items)) + "\n")
         for screw in fstype.items:
+            idx += 1
             ui.comboFastenerType.addItem(QtGui.QIcon(
                 os.path.join(iconPath, FSGetIconAlias(screw) + '.svg')), screw)
+            ui.comboFastenerType.setItemData(idx, FSGetDescription(screw), QtCore.Qt.ToolTipRole)
         if len(fstype.items) == 1:
             ui.comboFastenerType.setCurrentIndex(1)
             ui.comboFastenerType.setEnabled(False)

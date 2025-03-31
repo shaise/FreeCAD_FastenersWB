@@ -120,6 +120,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.38  31 Mar 2025:  Add tooltip desciption for each type by @Syres916.  
+                       - Add minimum length option in parameters by @Syres916.  
 * V0.5.37  30 Jan 2025:  Add Ground Screws by @tritao.  
 * V0.5.36  20 Jan 2025:  Fix issue that fasteners hang freecad on complex models.  
 * V0.5.35  07 Jan 2025:  Complete translation support by @hasecilu.  

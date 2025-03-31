@@ -698,7 +698,7 @@ class FSScrewObject(FSBaseObject):
                     minimumLength = Units.Quantity(FSParam.GetString("MinimumLength", "2.0 mm"))
                 except ValueError:
                     minimumLength = Units.Quantity("2.0 mm")
-                if Units.Quantity(l).UserString < minimumLength.UserString:
+                if Units.Quantity(l) < minimumLength.getValueAs(1.0,1):
                     l = minimumLength.getValueAs(1.0,1)
                 fp.Length = l
                 self.calc_len = str(l)

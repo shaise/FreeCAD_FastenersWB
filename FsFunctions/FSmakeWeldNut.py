@@ -98,7 +98,7 @@ def _makeHexWeldNut(self, fa):
     # transform so that the XY-plane relates better to the installed height
     mat = Base.Matrix()
     mat.move(Base.Vector(0.0, 0.0, -h1))
-    shape = shape.transformGeometry(mat)
+    shape = shape.transformShape(mat)
     return shape
 
 
@@ -211,5 +211,5 @@ def _makeSquareWeldNut(self, fa):
     # transform so that the XY-plane relates better to the installed height
     mat = Base.Matrix()
     mat.move(Base.Vector(0.0, 0.0, -h1))
-    shape = shape.transformGeometry(mat)
+    shape = shape.transformShape(mat)
     return shape

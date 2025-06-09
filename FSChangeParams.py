@@ -234,8 +234,14 @@ class FSTaskChangeParamDialog:
         Gui.Selection.addObserver(self.selobserver)
         ui.comboFastenerType.currentIndexChanged.connect(self.onFastenerChange)
         ui.comboDiameter.currentIndexChanged.connect(self.onDiameterChange)
-        ui.checkAutoDiameter.stateChanged.connect(self.onAutoDiamChange)
-        ui.checkSetLength.stateChanged.connect(self.onSetLengthChange)
+        if hasattr(ui.checkAutoDiameter, 'checkStateChanged'):
+            ui.checkAutoDiameter.checkStateChanged.connect(self.onAutoDiamChange)
+        else:
+            ui.checkAutoDiameter.stateChanged.connect(self.onAutoDiamChange)
+        if hasattr(ui.checkSetLength, 'checkStateChanged'):
+            ui.checkSetLength.checkStateChanged.connect(self.onSetLengthChange)
+        else:
+            ui.checkSetLength.stateChanged.connect(self.onSetLengthChange)
         ui.spinLength.setEnabled(False)
         self.hatMatchOption = False
         if len(self.selection) > 0:

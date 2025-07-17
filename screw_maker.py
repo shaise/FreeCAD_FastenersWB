@@ -265,7 +265,7 @@ class Screw:
         # create a sketch profile of the thread
         # ref: https://en.wikipedia.org/wiki/ISO_metric_screw_thread
         H = sqrt3 / 2 * P
-        trotations = blen // P + 1
+        trotations = blen // P + 2
         fillet_r = P * sqrt3 / 12
         helix_height = trotations * P
         dia2 = dia / 2

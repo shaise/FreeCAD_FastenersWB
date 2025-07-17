@@ -120,6 +120,10 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.39  17 Jul 2025:  Fix screw die thread generation.  
+                       - Fix QT compatibility by @Syres916.  
+                       - Update icon path by @chennes.  
+                       - Fix weld nut displacement by @Roy-043.  
 * V0.5.38  31 Mar 2025:  Add tooltip desciption for each type by @Syres916.  
                        - Add minimum length option in parameters by @Syres916.  
 * V0.5.37  30 Jan 2025:  Add Ground Screws by @tritao.  

@@ -881,10 +881,18 @@ class FSScrewCommand:
         import GrammaticalTools
 
         icon = os.path.join(iconPath, FSGetIconAlias(self.Type) + '.svg')
+
+        if FSParam.GetInt("ScrewToolbarGroupMode", 1) == 2:
+            menu_text = translate("FastenerCmd", "Add ") + GrammaticalTools.ToDativeCase(self.Help)
+            tooltip_text = "FS" + self.Type
+        else:
+            menu_text = translate("FastenerCmd", "Add ") + self.Type
+            tooltip_text = self.Help
+
         return {'Pixmap': icon,
                 # the name of a svg file available in the resources
-                'MenuText': translate("FastenerCmd", "Add ") + GrammaticalTools.ToDativeCase(self.Help),
-                'ToolTip': self.Help}
+                'MenuText': menu_text,
+                'ToolTip': tooltip_text}
 
     def Activated(self):
         for selObj in FastenerBase.FSGetAttachableSelections():

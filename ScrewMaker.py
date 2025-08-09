@@ -421,7 +421,7 @@ class FSScrewMaker(Screw):
             table = FsData[type + "def"]
             tablepos = self.GetTablePos(type, 'csh_diam')
             mindif = 100000.0
-            dif = mindif
+            dif = mindif - 0.001
             for m in table:
                 # FreeCAD.Console.PrintLog("Test M:" + m + "\n")
                 if tablepos == -1:

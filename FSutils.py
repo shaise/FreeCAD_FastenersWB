@@ -26,6 +26,7 @@
 
 import os
 import csv
+import FreeCAD
 
 _dir = os.path.dirname(__file__)
 iconPath = os.path.join(_dir, "Icons")
@@ -80,3 +81,10 @@ def csv2dict(filename, defaultTableName, fieldsnamed=True):
                     continue
             cur_table[key] = data
         return tables
+
+
+def isGuiLoaded():
+    """Check if the FreeCAD GUI is loaded."""
+    if hasattr(FreeCAD, "GuiUp"):
+        return FreeCAD.GuiUp
+    return False

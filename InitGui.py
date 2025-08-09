@@ -41,13 +41,17 @@ class FastenersWorkbench(FreeCADGui.Workbench):
     def Initialize(self):
         "This function is executed when FreeCAD starts"
         from FSutils import pref_file_path
+        from FSutils import iconPath
+        import FSutils
         import FastenerBase
-        import FSScrewCalc
         import PEMInserts
         import FastenersCmd
         import CountersunkHoles
-        import FSChangeParams
         import GrammaticalTools
+        if FSutils.isGuiLoaded():
+            import FSScrewCalc
+            import FSChangeParams
+            
 
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command")
@@ -102,7 +106,7 @@ class FastenersWorkbench(FreeCADGui.Workbench):
                 FreeCAD.Qt.translate("Workbench", "FS Screws"), screwlist
             )  # creates main screw toolbar
             self.list.extend(screwlist)
-        FreeCADGui.addIconPath(FastenerBase.iconPath)
+        FreeCADGui.addIconPath(iconPath)
         FreeCADGui.addPreferencePage(pref_file_path, "Fasteners")
 
     def Activated(self):

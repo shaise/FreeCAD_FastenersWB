@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.40  09 Aug 2025:  Make Fasteners console mode friendly.  
 * V0.5.39  17 Jul 2025:  Fix screw die thread generation.  
                        - Fix QT compatibility by @Syres916.  
                        - Update icon path by @chennes.  

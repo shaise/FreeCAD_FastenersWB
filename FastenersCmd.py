@@ -23,7 +23,6 @@
 #
 ###############################################################################
 
-from FreeCAD import Gui
 import FreeCAD
 import os
 import re
@@ -31,6 +30,7 @@ import FastenerBase
 from FastenerBase import FSParam
 from FastenerBase import FSBaseObject
 import ScrewMaker
+import FSutils
 from FSutils import iconPath
 from FSAliases import FSGetIconAlias, FSGetTypeAlias
 from FreeCAD import Units
@@ -819,122 +819,136 @@ class FSScrewObject(FSBaseObject):
             FastenerBase.FSMoveToObject(fp, shape, fp.Invert, fp.Offset.Value, fp.OffsetAngle.Value)
 
 
-class FSViewProviderTree:
-    """A View provider for custom icon."""
+##########################################################################################################
+# Gui code
+##########################################################################################################
 
-    def __init__(self, obj):
-        obj.Proxy = self
-        self.Object = obj.Object
-
-    def attach(self, obj):
-        self.Object = obj.Object
-        return
-
-    def updateData(self, fp, prop):
-        return
-
-    def getDisplayModes(self, obj):
-        modes = []
-        return modes
-
-    def setDisplayMode(self, mode):
-        return mode
-
-    def onChanged(self, vp, prop):
-        return
-
-    def dumps(self):
-        #        return {'ObjectName' : self.Object.Name}
-        return None
-
-    def loads(self, state):
-        if state is not None:
-            import FreeCAD
-            doc = FreeCAD.ActiveDocument  # crap
-            self.Object = doc.getObject(state['ObjectName'])
-
-    if FastenerBase.FsUseGetSetState: # compatibility with old versions
-        def __getstate__(self):
-            return self.dumps()
-
-        def __setstate__(self, state):
-            self.loads(state)
-
-    def getIcon(self):
-        type = 'ISO4017.svg'
-        if hasattr(self.Object, "Type"):
-            type = self.Object.Type
-        elif hasattr(self.Object.Proxy, "Type"):
-            type = self.Object.Proxy.Type
-        # default to ISO4017.svg
-        return os.path.join(iconPath, FSGetIconAlias(type) + '.svg')
-
-class FSScrewCommand:
-    """Add Screw command"""
-
-    def __init__(self, type, help):
-        self.Type = type
-        self.Help = help
-        self.TypeName = screwMaker.GetTypeName(type)
-
-    def GetResources(self):
-        import GrammaticalTools
-
-        icon = os.path.join(iconPath, FSGetIconAlias(self.Type) + '.svg')
-        return {'Pixmap': icon,
-                # the name of a svg file available in the resources
-                'MenuText': translate("FastenerCmd", "Add ") + GrammaticalTools.ToDativeCase(self.Help),
-                'ToolTip': self.Help}
-
-    def Activated(self):
-        for selObj in FastenerBase.FSGetAttachableSelections():
-            a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",
-                                                 self.TypeName)
-            FSScrewObject(a, self.Type, selObj)
-            a.Label = a.Proxy.familyType
-            if FSParam.GetBool("DefaultFastenerColorActive", False):
-                a.ViewObject.DiffuseColor = FSParam.GetUnsigned("DefaultFastenerColor", 0xccccccff)
-                a.ViewObject.Transparency = FSParam.GetUnsigned("DefaultFastenerTransparency", 0)
-            if FSParam.GetBool("DefaultLineWidthActive", False):
-                a.ViewObject.LineWidth = FSParam.GetFloat("DefaultLineWidth", 1.0)
-            if FSParam.GetBool("DefaultVertexSizeActive", False):
-                a.ViewObject.PointSize  = FSParam.GetFloat("DefaultVertexSize", 1.0)
-
-            FSViewProviderTree(a.ViewObject)
-        FreeCAD.ActiveDocument.recompute()
-        return
-
-    def IsActive(self):
-        return Gui.ActiveDocument is not None
+if FSutils.isGuiLoaded():
+    from PySide import QtCore, QtGui
+    from FreeCAD import Gui
 
 
-def FSAddScrewCommand(type):
-    enabled_fastener_toolbutton_types = {
-        # default to showing all toolbars if the preferences entry is not found
-        "ISO": FSParam.GetBool("ShowISOInToolbars", True),
-        "DIN": FSParam.GetBool("ShowDINInToolbars", True),
-        "EN": FSParam.GetBool("ShowENInToolbars", True),
-        "ASME": FSParam.GetBool("ShowASMEInToolbars", True),
-        "SAE": FSParam.GetBool("ShowSAEInToolbars", True),
-        "GOST": FSParam.GetBool("ShowGOSTInToolbars", True),
-        "other": True,
-    }
-    cmd = 'FS' + type
-    Gui.addCommand(cmd, FSScrewCommand(
-        type, FSGetDescription(type)))
-    group = FSScrewCommandTable[type][CMD_GROUP]
-    # Don't add the command to the toolbar for this session if the user has
-    # disabled the standard type in the preferences page:
-    if not enabled_fastener_toolbutton_types[FSGetStandardFromType(type)]:
-        group = "Other " + group
-    FastenerBase.FSCommands.append(cmd, "screws", group)
+
+    class FSViewProviderTree:
+        """A View provider for custom icon."""
+
+        def __init__(self, obj):
+            obj.Proxy = self
+            self.Object = obj.Object
+
+        def attach(self, obj):
+            self.Object = obj.Object
+            return
+
+        def updateData(self, fp, prop):
+            return
+
+        def getDisplayModes(self, obj):
+            modes = []
+            return modes
+
+        def setDisplayMode(self, mode):
+            return mode
+
+        def onChanged(self, vp, prop):
+            return
+
+        def dumps(self):
+            #        return {'ObjectName' : self.Object.Name}
+            return None
+
+        def loads(self, state):
+            if state is not None:
+                import FreeCAD
+                doc = FreeCAD.ActiveDocument  # crap
+                self.Object = doc.getObject(state['ObjectName'])
+
+        if FastenerBase.FsUseGetSetState: # compatibility with old versions
+            def __getstate__(self):
+                return self.dumps()
+
+            def __setstate__(self, state):
+                self.loads(state)
+
+        def getIcon(self):
+            type = 'ISO4017.svg'
+            if hasattr(self.Object, "Type"):
+                type = self.Object.Type
+            elif hasattr(self.Object.Proxy, "Type"):
+                type = self.Object.Proxy.Type
+            # default to ISO4017.svg
+            return os.path.join(iconPath, FSGetIconAlias(type) + '.svg')
+
+    class FSScrewCommand:
+        """Add Screw command"""
+
+        def __init__(self, type, help):
+            self.Type = type
+            self.Help = help
+            self.TypeName = screwMaker.GetTypeName(type)
+
+        def GetResources(self):
+            import GrammaticalTools
+
+            icon = os.path.join(iconPath, FSGetIconAlias(self.Type) + '.svg')
+            return {'Pixmap': icon,
+                    # the name of a svg file available in the resources
+                    'MenuText': translate("FastenerCmd", "Add ") + GrammaticalTools.ToDativeCase(self.Help),
+                    'ToolTip': self.Help}
+
+        def Activated(self):
+            for selObj in FastenerBase.FSGetAttachableSelections():
+                a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",
+                                                    self.TypeName)
+                FSScrewObject(a, self.Type, selObj)
+                a.Label = a.Proxy.familyType
+                if FSParam.GetBool("DefaultFastenerColorActive", False):
+                    a.ViewObject.DiffuseColor = FSParam.GetUnsigned("DefaultFastenerColor", 0xccccccff)
+                    a.ViewObject.Transparency = FSParam.GetUnsigned("DefaultFastenerTransparency", 0)
+                if FSParam.GetBool("DefaultLineWidthActive", False):
+                    a.ViewObject.LineWidth = FSParam.GetFloat("DefaultLineWidth", 1.0)
+                if FSParam.GetBool("DefaultVertexSizeActive", False):
+                    a.ViewObject.PointSize  = FSParam.GetFloat("DefaultVertexSize", 1.0)
+
+                FSViewProviderTree(a.ViewObject)
+            FreeCAD.ActiveDocument.recompute()
+            return
+
+        def IsActive(self):
+            return Gui.ActiveDocument is not None
 
 
-# generate all commands
-for key in FSScrewCommandTable:
-    FSAddScrewCommand(key)
+    def FSAddScrewCommand(type):
+        enabled_fastener_toolbutton_types = {
+            # default to showing all toolbars if the preferences entry is not found
+            "ISO": FSParam.GetBool("ShowISOInToolbars", True),
+            "DIN": FSParam.GetBool("ShowDINInToolbars", True),
+            "EN": FSParam.GetBool("ShowENInToolbars", True),
+            "ASME": FSParam.GetBool("ShowASMEInToolbars", True),
+            "SAE": FSParam.GetBool("ShowSAEInToolbars", True),
+            "GOST": FSParam.GetBool("ShowGOSTInToolbars", True),
+            "other": True,
+        }
+        cmd = 'FS' + type
+        Gui.addCommand(cmd, FSScrewCommand(
+            type, FSGetDescription(type)))
+        group = FSScrewCommandTable[type][CMD_GROUP]
+        # Don't add the command to the toolbar for this session if the user has
+        # disabled the standard type in the preferences page:
+        if not enabled_fastener_toolbutton_types[FSGetStandardFromType(type)]:
+            group = "Other " + group
+        FastenerBase.FSCommands.append(cmd, "screws", group)
+
+
+    # generate all commands
+    for key in FSScrewCommandTable:
+        FSAddScrewCommand(key)
 
 # for backward compatibility, add old objects as derivative of FSScrewObject
+
+##########################################################################################################
+# Object classs and creation function
+##########################################################################################################
 
 
 class FSWasherObject(FSScrewObject):

@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.41  11 Aug 2025:  Fix ISO7049-C table issue.  
 * V0.5.40  09 Aug 2025:  Make Fasteners console mode friendly.  
                        - Fix auto diameter issues.  
 * V0.5.39  17 Jul 2025:  Fix screw die thread generation.  

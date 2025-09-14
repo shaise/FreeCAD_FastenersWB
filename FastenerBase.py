@@ -741,10 +741,12 @@ if FSutils.isGuiLoaded():
             selObjs = self.GetSelection()
             if len(selObjs) == 0:
                 return
+            FreeCAD.ActiveDocument.openTransaction("Flip fastener")
             for selObj in selObjs:
                 FreeCAD.Console.PrintLog("sel obj: " + str(selObj.Invert) + "\n")
                 selObj.Invert = not selObj.Invert
             FreeCAD.ActiveDocument.recompute()
+            FreeCAD.ActiveDocument.commitTransaction()
             return
 
         def IsActive(self):
@@ -783,8 +785,10 @@ if FSutils.isGuiLoaded():
             selObj = self.GetSelection()
             if selObj[0] is None:
                 return
+            FreeCAD.ActiveDocument.openTransaction("Move fastener")
             selObj[0].BaseObject = selObj[1]
             FreeCAD.ActiveDocument.recompute()
+            FreeCAD.ActiveDocument.commitTransaction()
             return
 
         def IsActive(self):
@@ -832,6 +836,7 @@ if FSutils.isGuiLoaded():
             }
 
         def Activated(self):
+            FreeCAD.ActiveDocument.openTransaction("Simplify fastener")
             for selObj in Gui.Selection.getSelectionEx():
                 obj = selObj.Object
                 FreeCAD.Console.PrintLog("sel shape: " + str(obj.Shape) + "\n")
@@ -841,6 +846,7 @@ if FSutils.isGuiLoaded():
                     cobj.Shape = obj.Shape
                     Gui.ActiveDocument.getObject(obj.Name).Visibility = False
             FreeCAD.ActiveDocument.recompute()
+            FreeCAD.ActiveDocument.commitTransaction()
             return
 
         def IsActive(self):
@@ -930,6 +936,7 @@ if FSutils.isGuiLoaded():
             }
 
         def Activated(self):
+            FreeCAD.ActiveDocument.openTransaction("Make fastener BOM")
             self.fastenerDB = {}
             sheet = FreeCAD.ActiveDocument.addObject("Spreadsheet::Sheet", "Fasteners_BOM")
             sheet.Label = translate("FastenerBase", "Fasteners_BOM")
@@ -949,6 +956,7 @@ if FSutils.isGuiLoaded():
                 sheet.set("A" + str(line), fastener)
                 sheet.set("B" + str(line), str(self.fastenerDB[fastener]))
                 line += 1
+            FreeCAD.ActiveDocument.commitTransaction()
             FreeCAD.ActiveDocument.recompute()
             return
 

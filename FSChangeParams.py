@@ -366,6 +366,7 @@ class FSTaskChangeParamDialog:
     def accept(self):
         ui = self.form.ui
         try:
+            FreeCAD.ActiveDocument.openTransaction("Change fastener parameter")
             # apply type and diameter
             for obj in self.selection:
                 if ui.comboFastenerType.isEnabled() and ui.comboFastenerType.currentIndex() > 0:
@@ -393,8 +394,10 @@ class FSTaskChangeParamDialog:
                                     obj.Type, obj.Diameter, ui.spinLength.value())
                                 obj.Length = l
             FreeCAD.ActiveDocument.recompute()
+            FreeCAD.ActiveDocument.commitTransaction()
         except:
             FSShowError()
+            FreeCAD.ActiveDocument.abortTransaction()
         self.DialogClosing()
         return True
 

@@ -897,6 +897,7 @@ if FSutils.isGuiLoaded():
                     'ToolTip': self.Help}
 
         def Activated(self):
+            FreeCAD.ActiveDocument.openTransaction("Add fastener")
             for selObj in FastenerBase.FSGetAttachableSelections():
                 a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",
                                                     self.TypeName)
@@ -911,6 +912,7 @@ if FSutils.isGuiLoaded():
                     a.ViewObject.PointSize  = FSParam.GetFloat("DefaultVertexSize", 1.0)
 
                 FSViewProviderTree(a.ViewObject)
+            FreeCAD.ActiveDocument.commitTransaction()  
             FreeCAD.ActiveDocument.recompute()
             return
 

@@ -50,6 +50,7 @@ class FastenersWorkbench(FreeCADGui.Workbench):
         import GrammaticalTools
         if FSutils.isGuiLoaded():
             import FSScrewCalc
+            import FS3dpSettings
             import FSChangeParams
             
 

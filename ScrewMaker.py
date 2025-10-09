@@ -636,6 +636,8 @@ class FSScrewMaker(Screw):
         if oldState != newState:
             # thread parameters have changed, remove cached ones
             FastenerBase.FSCacheRemoveThreaded()
+            return True
+        return False
 
     def createFastener(self, fastenerAttribs):
         func = screwTables[fastenerAttribs.baseType][FUNCTION_POS]

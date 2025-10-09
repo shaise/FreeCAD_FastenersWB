@@ -33,6 +33,7 @@ iconPath = os.path.join(_dir, "Icons")
 fsdatapath = os.path.join(_dir, "FsData")
 languagePath = os.path.join(_dir, "Resources", "translations")
 pref_file_path = os.path.join(_dir, "FSprefs.ui")
+settings3d_file_path = os.path.join(_dir, "Widget3DPrintSettings.ui")
 
 # read .csv files into dictionary tables
 # multiple tables can be put in a single file by placing the table name as a single word before the table

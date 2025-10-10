@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.43  09 Oct 2025:  Add quick access to 3d printer parameters.  
 * V0.5.42  16 Sep 2025:  Add Undo support by @theo-vt.  
 * V0.5.41  11 Aug 2025:  Fix ISO7049-C table issue.  
 * V0.5.40  09 Aug 2025:  Make Fasteners console mode friendly.  

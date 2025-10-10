@@ -424,10 +424,10 @@
                 <number>3</number>
                </property>
                <property name="minimum">
-                <double>0.900000000000000</double>
+                <double>0.800000000000000</double>
                </property>
                <property name="maximum">
-                <double>1.100000000000000</double>
+                <double>1.200000000000000</double>
                </property>
                <property name="singleStep">
                 <double>0.010000000000000</double>
@@ -505,10 +505,10 @@
                 <number>3</number>
                </property>
                <property name="minimum">
-                <double>0.900000000000000</double>
+                <double>0.800000000000000</double>
                </property>
                <property name="maximum">
-                <double>1.100000000000000</double>
+                <double>1.200000000000000</double>
                </property>
                <property name="singleStep">
                 <double>0.010000000000000</double>
@@ -774,11 +774,6 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>Gui::PrefCheckBox</class>
-   <extends>QCheckBox</extends>
-   <header>Gui/PrefWidgets.h</header>
-  </customwidget>
-  <customwidget>
    <class>Gui::PrefComboBox</class>
    <extends>QComboBox</extends>
    <header>Gui/PrefWidgets.h</header>
@@ -786,6 +781,11 @@
   <customwidget>
    <class>Gui::PrefDoubleSpinBox</class>
    <extends>QDoubleSpinBox</extends>
+   <header>Gui/PrefWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Gui::PrefCheckBox</class>
+   <extends>QCheckBox</extends>
    <header>Gui/PrefWidgets.h</header>
   </customwidget>
   <customwidget>

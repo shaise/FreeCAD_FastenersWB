@@ -851,6 +851,10 @@ if FSutils.isGuiLoaded():
             return mode
 
         def onChanged(self, vp, prop):
+            if prop in {"Type", "RestoredIcon"}:
+                refresher = getattr(vp, "signalChangeIcon", None)
+                if callable(refresher):
+                    refresher()
             return
 
         def dumps(self):

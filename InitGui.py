@@ -56,7 +56,13 @@ class FastenersWorkbench(FreeCADGui.Workbench):
 
         self.list = []
         cmdlist = FastenerBase.FSGetCommands("command")
-        self.appendToolbar(FreeCAD.Qt.translate("Workbench", "FS Commands"), cmdlist)
+        toolbar_cmds = [
+            cmd
+            for cmd in cmdlist
+            if not (isinstance(cmd, str) and cmd == "Fasteners_RestoreProperties")
+        ]
+        if toolbar_cmds:
+            self.appendToolbar(FreeCAD.Qt.translate("Workbench", "FS Commands"), toolbar_cmds)
         self.appendMenu(
             FreeCAD.Qt.translate("Workbench", "Fasteners"), cmdlist
         )  # creates a new menu

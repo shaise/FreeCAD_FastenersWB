@@ -858,6 +858,81 @@ if FSutils.isGuiLoaded():
     Gui.addCommand("Fasteners_Simplify", FSMakeSimpleCommand())
     FSCommands.append("Fasteners_Simplify", "command")
 
+    ############################ Restore command #################################
+
+
+    class FSRestorePropertiesCommand:
+        """Restore fastener proxies in legacy documents."""
+
+        def GetResources(self):
+            icon = os.path.join(FSutils.iconPath, "IconRestore.svg")
+            return {
+                "Pixmap": icon,
+                "MenuText": translate("FastenerBase", "Restore fasteners"),
+                "ToolTip": translate(
+                    "FastenerBase",
+                    "Restore fastener objects saved without the Fasteners workbench",
+                ),
+            }
+
+        def Activated(self):
+            doc = FreeCAD.ActiveDocument
+            if doc is None:
+                return
+
+            to_restore = []
+            for obj in doc.Objects:
+                if hasattr(obj, "Invert") and hasattr(obj, "Type"):
+                    if getattr(obj, "Proxy", None) is None:
+                        to_restore.append(obj)
+
+            if not to_restore:
+                FreeCAD.Console.PrintMessage(
+                    translate("FastenerBase", "No fasteners required restoration.\n")
+                )
+                return
+
+            import FastenersCmd
+
+            doc.openTransaction("Restore fasteners")
+            for obj in to_restore:
+                FastenersCmd.FSScrewObject(obj, obj.Type, None)
+                FastenersCmd.FSViewProviderTree(obj.ViewObject)
+                self._refresh_tree_icon(obj.ViewObject)
+            doc.recompute()
+            doc.commitTransaction()
+            FreeCAD.Console.PrintMessage(
+                translate(
+                    "FastenerBase",
+                    "Restored {0} fastener(s).\n",
+                ).format(len(to_restore))
+            )
+
+        def IsActive(self):
+            return Gui.ActiveDocument is not None
+
+
+        @staticmethod
+        def _refresh_tree_icon(view_obj):
+            if view_obj is None:
+                return
+
+            refresh_icon = getattr(view_obj, "signalChangeIcon", None)
+            if callable(refresh_icon):
+                refresh_icon()
+                return
+
+            proxy = getattr(view_obj, "Proxy", None)
+            if proxy and hasattr(proxy, "onChanged"):
+                try:
+                    proxy.onChanged(view_obj, "RestoredIcon")
+                except Exception:  # pragma: no cover - best-effort refresh
+                    pass
+
+
+    Gui.addCommand("Fasteners_RestoreProperties", FSRestorePropertiesCommand())
+    FSCommands.append("Fasteners_RestoreProperties", "command")
+
     ######################## MatchTypeInner/Outer commands ########################
 
     FSParam.SetBool("MatchOuterDiameter", False)

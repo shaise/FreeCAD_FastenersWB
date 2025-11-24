@@ -943,11 +943,11 @@ if FSutils.isGuiLoaded():
             matchOuterButton = FSGetToolbarItem(commandsToolbarText, matchOuterButtonText)
             matchInnerButton = FSGetToolbarItem(commandsToolbarText, matchInnerButtonText)
             if matchOuterButton is not None:
-                matchInnerButton.setChecked(True)
-            if matchInnerButton is not None:
                 matchOuterButton.setChecked(False)
-                FSParam.SetBool("MatchOuterDiameter", False)
-                FreeCAD.Console.PrintLog("Set auto diameter to match inner thread\n")
+            if matchInnerButton is not None:
+                matchInnerButton.setChecked(True)
+            FSParam.SetBool("MatchOuterDiameter", False)
+            FreeCAD.Console.PrintLog("Set auto diameter to match inner thread\n")
 
         def GetResources(self):
             return {
@@ -963,10 +963,11 @@ if FSutils.isGuiLoaded():
             matchOuterButton = FSGetToolbarItem(commandsToolbarText, matchOuterButtonText)
             matchInnerButton = FSGetToolbarItem(commandsToolbarText, matchInnerButtonText)
             if matchOuterButton is not None:
-                matchInnerButton.setChecked(True)
+                matchOuterButton.setChecked(True)
             if matchInnerButton is not None:
-                FSParam.SetBool("MatchOuterDiameter", True)
-                FreeCAD.Console.PrintLog("Set auto diameter to match outer thread\n")
+                matchInnerButton.setChecked(False)
+            FSParam.SetBool("MatchOuterDiameter", True)
+            FreeCAD.Console.PrintLog("Set auto diameter to match outer thread\n")
 
         def GetResources(self):
             return {
@@ -1103,3 +1104,4 @@ if FSutils.isGuiLoaded():
 
     Gui.addCommand("Fasteners_BOM", FSMakeBomCommand())
     FSCommands.append("Fasteners_BOM", "command")
+

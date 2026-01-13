@@ -65,7 +65,8 @@ ScrewParameters = {"Type", "Diameter",
 ScrewParametersLC = {"Type", "Diameter", "MatchOuter",
                      "Thread", "LeftHanded", "Length", "LengthCustom"}
 RodParameters = {"Type", "Diameter", "MatchOuter", "Thread",
-                 "LeftHanded", "lengthArbitrary",  "DiameterCustom", "PitchCustom"}
+                 "LeftHanded", "lengthArbitrary",  "DiameterCustom", "PitchCustom", 
+                 "ScaleCustom", "ScaleCustomA", "ScaleCustomB"}
 NutParameters = {"Type", "Diameter", "MatchOuter", "Thread", "LeftHanded"}
 WoodInsertParameters = {"Type", "Diameter", "MatchOuter", "Thread", "LeftHanded"}
 HeatInsertParameters = {"Type", "Diameter", "lengthArbitrary", "ExternalDiam", "MatchOuter", "Thread", "LeftHanded"}
@@ -89,7 +90,8 @@ NailParameters = { "Type", "Diameter", "MatchOuter", }
 # this is a list of all possible fastener attribs
 FastenerAttribs = ['Type', 'Diameter', 'Thread', 'LeftHanded', 'MatchOuter', 'Length',
                    'LengthCustom', 'Width', 'DiameterCustom', 'PitchCustom', 'Tcode',
-                   'Blind', 'ScrewLength', "SlotWidth", 'ExternalDiam', 'KeySize']
+                   'Blind', 'ScrewLength', "SlotWidth", 'ExternalDiam', 'KeySize', 
+                   'ScaleCustom', 'ScaleCustomA', 'ScaleCustomB']
 
 
 # Names of fasteners groups translated once before FSScrewCommandTable created.
@@ -574,7 +576,33 @@ class FSScrewObject(FSBaseObject):
         if "PitchCustom" in params and not hasattr(obj, "PitchCustom"):
             obj.addProperty("App::PropertyLength", "PitchCustom", "Parameters", translate(
                 "FastenerCmd", "Screw pitch custom")).PitchCustom = 1.0
+        
+        # threading modes: 0 = standard, 1 = 3dprint
+        threadMode = FSParam.GetInt("ScrewToolbarThreadGeneration", 0)
+        
+        customizableScaleTypes = ['ScrewTapInch', 'ScrewDieInch', 'ThreadedRodInch', 'ThreadedRod', 'ScrewTap', 'ScrewDie']
+        customizableScale = threadMode == 1 and type in customizableScaleTypes
+        
+        # custom scaling for 3D printing
+        if customizableScale:
+            if "ScaleCustom" in params and not hasattr(obj, 'ScaleCustom'):
+                obj.addProperty("App::PropertyBool", "ScaleCustom", "Parameters", translate(
+                    "FastenerCmd", "Custom thread scale for 3D printing")).ScaleCustom = False
 
+            if type in ['ScrewTapInch', 'ScrewTap']:
+                defScaleA = FSParam.GetFloat('NutThrScaleA', 1.03)
+                defScaleB = FSParam.GetFloat('NutThrScaleB', 0.1)
+            else:
+                defScaleA = FSParam.GetFloat('ScrewThrScaleA', 0.99)
+                defScaleB = FSParam.GetFloat('ScrewThrScaleB', -0.05)
+
+            if "ScaleCustomA" in params and not hasattr(obj, "ScaleCustomA"):
+                obj.addProperty("App::PropertyFloat", "ScaleCustomA", "Parameters", translate(
+                    "FastenerCmd", "Custom thread scale for 3D printing (A)")).ScaleCustomA = defScaleA
+            if "ScaleCustomB" in params and not hasattr(obj, "ScaleCustomB"):
+                obj.addProperty("App::PropertyLength", "ScaleCustomB", "Parameters", translate(
+                    "FastenerCmd", "Custom thread scale for 3D printing (B)")).ScaleCustomB = defScaleB
+                        
         # thickness
         if "ThicknessCode" in params and not hasattr(obj, "Tcode"):
             obj.addProperty("App::PropertyEnumeration", "Tcode", "Parameters", translate(

@@ -691,12 +691,16 @@ class Screw:
         )
         return shape
 
-    def getDia(self, ThreadDiam: str, isNut: bool) -> float:
+    def getDia(self, ThreadDiam: str, isNut: bool, scaleCustomA: None, scaleCustomB: None) -> float:
         """returns a numerical diameter given a value in string format
         Parameters:
         - ThreadDiam: e.g: "1/4in" or "#6" or "M6" or "ST 6.3"
         - isNut: if true, calculates the diameter for an internal thread,
           as would be found on a standard hex-nut
+        - scaleCustomA: if other than None, uses this value instead of the one
+          from the workbench settings
+        - scaleCustomB: if other than None, uses this value instead of the one
+          from the workbench settings
 
         This function takes into account the 3D-print compensation settings
         of the instance, if they are enabled. for example, if:
@@ -710,11 +714,19 @@ class Screw:
             dia = FsData["DiaList"][threadstring][0]
         else:
             dia = ThreadDiam
+
         if self.sm3DPrintMode:
-            if isNut:
-                dia = self.smNutThrScaleA * dia + self.smNutThrScaleB
+            if scaleCustomA is None:
+                scaleA = self.smNutThrScaleA if isNut else self.smScrewThrScaleA
             else:
-                dia = self.smScrewThrScaleA * dia + self.smScrewThrScaleB
+                scaleA = scaleCustomA
+
+            if scaleCustomB is None:
+                scaleB = self.smNutThrScaleB if isNut else self.smScrewThrScaleB
+            else:
+                scaleB = scaleCustomB
+            
+            dia = scaleA * dia + scaleB
         return dia
 
     # NOTE:

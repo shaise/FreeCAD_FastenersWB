@@ -26,13 +26,22 @@
 ***************************************************************************
 """
 from screw_maker import *
+import FastenerBase
 
 
 def makeScrewTap(self, fa):
     """negative-threaded rod for tapping holes"""
     ThreadType = fa.calc_diam
+    scaleA = scaleB = None
+    if self.sm3DPrintMode:
+        if fa.ScaleCustom:
+            scaleA = fa.ScaleCustomA
+            scaleB = FastenerBase.LenStr2Num(fa.ScaleCustomB)
+        else:
+            scaleA = self.smNutThrScaleA
+            scaleB = self.smNutThrScaleB       
     if fa.Diameter != 'Custom':
-        dia = self.getDia(ThreadType, True)
+        dia = self.getDia(ThreadType, True, scaleA, scaleB)
         if fa.baseType == "ScrewTap":
             P, tunIn, tunEx = fa.dimTable
         elif fa.baseType == 'ScrewTapInch':
@@ -40,8 +49,7 @@ def makeScrewTap(self, fa):
     else:  # custom pitch and diameter
         P = fa.calc_pitch
         if self.sm3DPrintMode:
-            dia = self.smNutThrScaleA * \
-                float(fa.calc_diam) + self.smNutThrScaleB
+            dia = scaleA * float(fa.calc_diam) + scaleB
         else:
             dia = float(fa.calc_diam)
     tap = Part.makeCylinder(

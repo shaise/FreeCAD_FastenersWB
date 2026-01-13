@@ -26,13 +26,22 @@
 ***************************************************************************
 """
 from screw_maker import *
+import FastenerBase
 
 
 def makeThreadedRod(self, fa):
     """make a length of standard threaded rod"""
     ThreadType = fa.calc_diam
+    scaleA = scaleB = None
+    if self.sm3DPrintMode:
+        if fa.ScaleCustom:
+            scaleA = fa.ScaleCustomA
+            scaleB = FastenerBase.LenStr2Num(fa.ScaleCustomB)
+        else:
+            scaleA = self.smScrewThrScaleA
+            scaleB = self.smScrewThrScaleB
     if fa.Diameter != 'Custom':
-        dia = self.getDia(ThreadType, False)
+        dia = self.getDia(ThreadType, False, scaleA, scaleB)
         if fa.baseType == 'ThreadedRod':
             P, tunIn, tunEx = fa.dimTable
         elif fa.baseType == 'ThreadedRodInch':
@@ -40,7 +49,7 @@ def makeThreadedRod(self, fa):
     else:  # custom pitch and diameter
         P = fa.calc_pitch
         if self.sm3DPrintMode:
-            dia = self.smScrewThrScaleA * float(fa.calc_diam) + self.smScrewThrScaleB
+            dia = scaleA * float(fa.calc_diam) + scaleB
         else:
             dia = float(fa.calc_diam)
     #dia = dia * 1.01

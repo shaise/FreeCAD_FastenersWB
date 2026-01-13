@@ -26,13 +26,22 @@
 ***************************************************************************
 """
 from screw_maker import *
+import FastenerBase
 
 
 def makeScrewDie(self, fa):
     """make object to cut external threads on a shaft"""
     ThreadType = fa.calc_diam
+    scaleA = scaleB = None
+    if self.sm3DPrintMode:
+        if fa.ScaleCustom:
+            scaleA = fa.ScaleCustomA
+            scaleB = FastenerBase.LenStr2Num(fa.ScaleCustomB)
+        else:
+            scaleA = self.smScrewThrScaleA
+            scaleB = self.smScrewThrScaleB    
     if fa.Diameter != "Custom":
-        dia = self.getDia(ThreadType, False)
+        dia = self.getDia(ThreadType, False, scaleA, scaleB)
         if fa.baseType == "ScrewDie":
             P, tunIn, tunEx = fa.dimTable
         elif fa.baseType == "ScrewDieInch":
@@ -40,7 +49,7 @@ def makeScrewDie(self, fa):
     else:  # custom pitch and diameter
         P = fa.calc_pitch
         if self.sm3DPrintMode:
-            dia = self.smScrewThrScaleA * float(fa.calc_diam) + self.smScrewThrScaleB
+            dia = scaleA * float(fa.calc_diam) + scaleB
         else:
             dia = float(fa.calc_diam)
     length = fa.calc_len

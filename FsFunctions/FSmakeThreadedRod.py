@@ -26,7 +26,6 @@
 ***************************************************************************
 """
 from screw_maker import *
-import FastenerBase
 
 
 def makeThreadedRod(self, fa):
@@ -36,7 +35,7 @@ def makeThreadedRod(self, fa):
     if self.sm3DPrintMode:
         if fa.ScaleCustom:
             scaleA = fa.ScaleCustomA
-            scaleB = FastenerBase.LenStr2Num(fa.ScaleCustomB)
+            scaleB = fa.ScaleCustomB
         else:
             scaleA = self.smScrewThrScaleA
             scaleB = self.smScrewThrScaleB

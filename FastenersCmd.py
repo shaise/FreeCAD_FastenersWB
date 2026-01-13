@@ -600,7 +600,7 @@ class FSScrewObject(FSBaseObject):
                 obj.addProperty("App::PropertyFloat", "ScaleCustomA", "Parameters", translate(
                     "FastenerCmd", "Custom thread scale for 3D printing (A)")).ScaleCustomA = defScaleA
             if "ScaleCustomB" in params and not hasattr(obj, "ScaleCustomB"):
-                obj.addProperty("App::PropertyLength", "ScaleCustomB", "Parameters", translate(
+                obj.addProperty("App::PropertyFloat", "ScaleCustomB", "Parameters", translate(
                     "FastenerCmd", "Custom thread scale for 3D printing (B)")).ScaleCustomB = defScaleB
                         
         # thickness

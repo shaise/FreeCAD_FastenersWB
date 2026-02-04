@@ -49,3 +49,5 @@
 "DIN7996","2 mm", "8 mm"
 "ISO8738","M3","M100"
 "GroundScrew","68 mm","114 mm"
+"ScrewTapBSPP","G1/16","G6"
+"ScrewDieBSPP","G1/16","G6"

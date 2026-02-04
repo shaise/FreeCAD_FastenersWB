@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
-
-# A Wrapper to Ulrich's screw_maker macro
+###############################################################################
+#
+#  ScrewMaker.py
+#
+#  A Wrapper to Ulrich's screw_maker macro
+#
+#  Copyright 2015 Shai Seger <shaise at gmail dot com>
+#  BSP modifications (c) 2025-2026 Andrey Bekhterev <info at bekhterev dot in>
+#
+###############################################################################
 import FreeCAD
 from screw_maker import Screw
 from screw_maker import FsData
@@ -129,6 +137,34 @@ FSC_ISO1478_ScrewHoleChart = (
     ("ST9.5", 7.85)
 )
 
+FSC_BSPP_ScrewHoleChart = (
+    ("G1/16", 6.561),
+    ("G1/8", 8.566),
+    ("G1/4", 11.445),
+    ("G3/8", 14.950),
+    ("G1/2", 18.632),
+    ("G5/8", 20.588),
+    ("G3/4", 24.118),
+    ("G7/8", 27.878),
+    ("G1", 30.292),
+    ("G1-1/8", 34.940),
+    ("G1-1/4", 38.953),
+    ("G1-3/8", 41.363),
+    ("G1-1/2", 44.846),
+    ("G1-3/4", 50.789),
+    ("G2", 56.657),
+    ("G2-1/4", 62.753),
+    ("G2-1/2", 72.227),
+    ("G2-3/4", 78.577),
+    ("G3", 84.927),
+    ("G3-1/2", 97.373),
+    ("G4", 110.073),
+    ("G4-1/2", 122.773),
+    ("G5", 135.473),
+    ("G5-1/2", 148.173),
+    ("G6", 160.873)
+)
+
 # prepare a dictionary for fast search of GetInnerThread
 FSCScrewHoleChartDict = {}
 for s in FSCScrewHoleChart:
@@ -138,6 +174,8 @@ for s in FSC_Inch_ScrewHoleChart:
 for s in FSC_DIN7998_ScrewHoleChart:
     FSCScrewHoleChartDict[s[0]] = s[1]
 for s in FSC_ISO1478_ScrewHoleChart:
+    FSCScrewHoleChartDict[s[0]] = s[1]
+for s in FSC_BSPP_ScrewHoleChart:
     FSCScrewHoleChartDict[s[0]] = s[1]
 
 
@@ -309,8 +347,10 @@ screwTables = {
     "GroundScrew": ("Screw", "makeGroundScrew"),
     "ScrewTap": ("ScrewTap", "makeScrewTap"),
     "ScrewTapInch": ("ScrewTap", "makeScrewTap"),
+    "ScrewTapBSPP": ("ScrewTap", "makeScrewTap"),
     "ScrewDie": ("ScrewDie", "makeScrewDie"),
     "ScrewDieInch": ("ScrewDie", "makeScrewDie"),
+    "ScrewDieBSPP": ("ScrewDie", "makeScrewDie"),
     "ThreadedRod": ("ThreadedRod", "makeThreadedRod"),
     "ThreadedRodInch": ("ThreadedRod", "makeThreadedRod"),
     "PEMPressNut": ("PressNut", "makePEMPressNut"),

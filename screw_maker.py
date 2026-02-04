@@ -60,6 +60,8 @@ check chamfer angle on hexogon heads and nuts
 *   Copyright (c) 2013, 2014, 2015                                        *
 *   Ulrich Brammer <ulrich1a[at]users.sourceforge.net>                    *
 *   Refactor by shai 2022                                                 *
+*   BSP modifications (c) 2025                                            *
+*   Andrey Bekhterev <info[at]bekhterev.in>                                *
 *                                                                         *
 *   This file is a supplement to the FreeCAD CAx development system.      *
 *                                                                         *
@@ -323,6 +325,71 @@ class Screw:
         W0 = fm.GetClosedWire()
         W0.translate(Base.Vector(0, 0, -P * 9.0 / 16.0))
 
+        makeSolid = True
+        isFrenet = True
+        cutTool = Part.Wire(helix).makePipeShell([W0], makeSolid, isFrenet)
+        return cutTool
+
+    def CreateBSPThreadCutter(self, dia: float, P: float, blen: float) -> Part.Shape:
+        """Returns a shape for BSP 55-degree thread profile"""
+        # BSP thread geometry calculations
+        H = 0.9604939 * P  # Thread depth for 55° profile
+        r = 0.1373292 * P  # Root radius
+        rc = 0.108253 * P  # Crest radius
+        
+        trotations = blen // P + 2
+        helix_height = trotations * P
+        dia2 = dia / 2
+        
+        fm = FastenerBase.FSFaceMaker()
+        # BSP thread profile points (55° angle with rounded crests/roots)
+        fm.AddPoint(dia2 + rc, -0.475 * P)
+        fm.AddPoint(dia2 - 0.625 * H + r, -1 * P / 8)
+        fm.AddArc(dia2 - 0.625 * H + r - 0.5 * r,
+                  0, dia2 - 0.625 * H + r, P / 8)
+        fm.AddPoint(dia2 + rc, 0.475 * P)
+        
+        thread_profile_wire = fm.GetClosedWire()
+        thread_profile_wire.translate(Base.Vector(0, 0, -1 * helix_height))
+        
+        # Create helix and sweep (similar to existing CreateThreadCutter)
+        helix = Part.makeLongHelix(P, helix_height, dia / 2, 0, self.LeftHanded)
+        helix.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
+        
+        sweep = Part.BRepOffsetAPI.MakePipeShell(helix)
+        sweep.setFrenetMode(True)
+        sweep.setTransitionMode(1)
+        sweep.add(thread_profile_wire)
+        
+        if sweep.isReady():
+            sweep.build()
+            sweep.makeSolid()
+            threads = sweep.shape()
+            threads.translate(Base.Vector(0.0, 0.0, P / 2))
+            return threads
+        else:
+            raise RuntimeError("Failed to create BSP thread: could not sweep thread")
+
+    def CreateBSPInnerThreadCutter(self, dia: float, P: float, blen: float) -> Part.Shape:
+        """Returns a shape for BSP internal thread cutting"""
+        H = 0.9604939 * P
+        r = 0.1373292 * P
+        rc = 0.108253 * P
+        r_inner = dia / 2.0
+        
+        helix = Part.makeLongHelix(P, blen, r_inner, 0, self.LeftHanded)
+        
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint(r_inner - 0.875 * H + 0.025 * P * sqrt3,
+                    P / 2 * 0.95 + P * 1 / 16)
+        fm.AddPoint(r_inner, P * 2.0 / 16.0)
+        fm.AddArc(r_inner + H * 1 / 24.0, P * 2.0 / 32.0, r_inner, 0)
+        fm.AddPoint(r_inner - 0.875 * H + 0.025 * P * sqrt3,
+                    -P / 2 * 0.95 + P * 1 / 16)
+        
+        W0 = fm.GetClosedWire()
+        W0.translate(Base.Vector(0, 0, -P * 9.0 / 16.0))
+        
         makeSolid = True
         isFrenet = True
         cutTool = Part.Wire(helix).makePipeShell([W0], makeSolid, isFrenet)

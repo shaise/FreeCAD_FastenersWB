@@ -120,6 +120,10 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.44  05 Feb 2026:  Add BSP Thread Support (Taps & Dies) by @abehterev.  
+                       - Fix toggle of inner/outer toolbar buttons by @Roy-043.  
+                       - Add missing coarse diameter for some nuts by @kevinsmia1939.  
+                       - Add fastener recover function if saved w/o the WB. by kevinsmia1939.  
 * V0.5.43  09 Oct 2025:  Add quick access to 3d printer parameters.  
 * V0.5.42  16 Sep 2025:  Add Undo support by @theo-vt.  
 * V0.5.41  11 Aug 2025:  Fix ISO7049-C table issue.  

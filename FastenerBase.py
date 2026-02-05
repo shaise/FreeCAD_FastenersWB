@@ -4,6 +4,7 @@
 #  FastenerBase.py
 #
 #  Copyright 2015 Shai Seger <shaise at gmail dot com>
+#  BSP modifications (c) 2025-2026 Andrey Bekhterev <info at bekhterev dot in>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -203,9 +204,9 @@ def FSCacheRemoveThreaded():
 def cleanDiamStr(m):
     """
     Clean dirty diameter string to be ready for dictionary.
-    Example output: 'M3', '#8', '5/8in', '4 mm' and 'ST6.3'
+    Example output: 'M3', '#8', '5/8in', '4 mm' and 'ST6.3' or 'G1/2'
     """
-    res = re.findall(r"M[\d.]+|#\d+|[\d /]+in|[\d.]+ mm|ST[\d.]+", m)
+    res = re.findall(r"M[\d.]+|#\d+|[\d /]+in|[\d.]+ mm|ST[\d.]+|G[\d\-/]+", m)
     # FreeCAD.Console.PrintMessage(m + " -> " + res[0] + "\n")
     return res[0]
 

@@ -1,6 +1,8 @@
 "ScrewTapdef"
 "ScrewDiedef"
 "ThreadedRoddef"
+"ScrewTapBSPPdef"
+"ScrewDieBSPPdef"
 "Dia","P","tunIn","tunEx"
 "M1.6",0.35,516,516
 "M2",0.4,515,516

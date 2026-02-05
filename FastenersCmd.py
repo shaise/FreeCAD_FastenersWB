@@ -4,6 +4,7 @@
 #  FastenersCmd.py
 #
 #  Copyright 2015 Shai Seger <shaise at gmail dot com>
+#  BSP modifications (c) 2025-2026 Andrey Bekhterev <info at bekhterev dot in>
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -49,7 +50,9 @@ translate("FastenerCmdTreeView", "Standoff")
 translate("FastenerCmdTreeView", "Spacer")
 translate("FastenerCmdTreeView", "Stud")
 translate("FastenerCmdTreeView", "ScrewTap")
+translate("FastenerCmdTreeView", "ScrewTapBSPP")
 translate("FastenerCmdTreeView", "ScrewDie")
+translate("FastenerCmdTreeView", "ScrewDieBSPP")
 translate("FastenerCmdTreeView", "Insert")
 translate("FastenerCmdTreeView", "RetainingRing")
 translate("FastenerCmdTreeView", "T-Slot")
@@ -327,6 +330,8 @@ FSScrewCommandTable = {
     "ThreadedRod": (translate("FastenerCmd", "Metric threaded rod"), ThreadedRodGroup, RodParameters),
     "ScrewTap": (translate("FastenerCmd", "Metric threaded rod for tapping holes"), ThreadedRodGroup, RodParameters),
     "ScrewDie": (translate("FastenerCmd", "Tool object to cut external metric threads"), ThreadedRodGroup, RodParameters),
+    "ScrewTapBSPP": (translate("FastenerCmd", "BSP threaded tap for creating internal threads"), ThreadedRodGroup, RodParameters),
+    "ScrewDieBSPP": (translate("FastenerCmd", "Tool object to cut external BSP threads"), ThreadedRodGroup, RodParameters),
 
     # InsertGroup
 
@@ -383,9 +388,10 @@ FSScrewCommandTable = {
     "ISO13337": (translate("FastenerCmd", "Slotted spring pins, light duty"), PinGroup, PinParameters),
 }
 
-FatenersStandards = { "ASME", "DIN", "ISO", "SAE", "EN", "GOST"}
+FatenersStandards = { "ASME", "DIN", "ISO", "SAE", "EN", "GOST", "BSPP" }
 FastenersStandardMap = {"ScrewTapInch": "ASME", "ScrewDieInch": "ASME", "ThreadedRodInch": "ASME",
-                        "ThreadedRod": "DIN", "ScrewTap": "ISO", "ScrewDie": "ISO" }
+                        "ThreadedRod": "DIN", "ScrewTap": "ISO", "ScrewDie": "ISO",
+                        "ScrewTapBSPP": "BSPP", "ScrewDieBSPP": "BSPP" }
 # fmt: on
 
 
@@ -933,6 +939,7 @@ if FSutils.isGuiLoaded():
             "ASME": FSParam.GetBool("ShowASMEInToolbars", True),
             "SAE": FSParam.GetBool("ShowSAEInToolbars", True),
             "GOST": FSParam.GetBool("ShowGOSTInToolbars", True),
+            "BSPP": FSParam.GetBool("ShowBSPPInToolbars", True),
             "other": True,
         }
         cmd = 'FS' + type

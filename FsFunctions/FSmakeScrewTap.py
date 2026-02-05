@@ -4,6 +4,8 @@
 *   Copyright (c) 2013, 2014, 2015                                        *
 *   Original code by:                                                     *
 *   Ulrich Brammer <ulrich1a[at]users.sourceforge.net>                    *
+*   BSP modifications (c) 2025                                            *
+*   Andrey Bekhterev <info[at]bekhterev.in>                              *
 *                                                                         *
 *   This file is a supplement to the FreeCAD CAx development system.      *
 *                                                                         *
@@ -32,11 +34,15 @@ def makeScrewTap(self, fa):
     """negative-threaded rod for tapping holes"""
     ThreadType = fa.calc_diam
     if fa.Diameter != 'Custom':
-        dia = self.getDia(ThreadType, True)
         if fa.baseType == "ScrewTap":
+            dia = self.getDia(ThreadType, True)
             P, tunIn, tunEx = fa.dimTable
         elif fa.baseType == 'ScrewTapInch':
+            dia = self.getDia(ThreadType, True)
             P = fa.dimTable[0]
+        elif fa.baseType == 'ScrewTapBSPP':
+            P, TPI, MajorDia, MinorDia, thread_type, tunIn, tunEx = fa.dimTable
+            dia = MajorDia  # Use major diameter from BSP data
     else:  # custom pitch and diameter
         P = fa.calc_pitch
         if self.sm3DPrintMode:
@@ -50,7 +56,10 @@ def makeScrewTap(self, fa):
     )
     tap.translate(Base.Vector(0.0, 0.0, -1.0))
     if fa.Thread:
-        threads = self.CreateInnerThreadCutter(dia, P, fa.calc_len + P)
+        if fa.baseType == 'ScrewTapBSPP':
+            threads = self.CreateBSPInnerThreadCutter(dia, P, fa.calc_len + P)
+        else:
+            threads = self.CreateInnerThreadCutter(dia, P, fa.calc_len + P)
         tap = tap.fuse(threads)
     tap.rotate(
         Base.Vector(0.0, 0.0, 0.0),

@@ -342,12 +342,12 @@ class Screw:
         dia2 = dia / 2
         
         fm = FastenerBase.FSFaceMaker()
-        # BSP thread profile points (55° angle with rounded crests/roots)
-        fm.AddPoint(dia2 + rc, -0.475 * P)
-        fm.AddPoint(dia2 - 0.625 * H + r, -1 * P / 8)
-        fm.AddArc(dia2 - 0.625 * H + r - 0.5 * r,
-                  0, dia2 - 0.625 * H + r, P / 8)
-        fm.AddPoint(dia2 + rc, 0.475 * P)
+        # BSP thread profile points (55° angle with rounded roots for external cutter)
+        # Point calculations based on tan(27.5°) = 0.520567
+        fm.AddPoint(dia2 + 0.1121 * P, -0.475 * P)
+        fm.AddPoint(dia2 - 0.5664 * P, -0.1218 * P)
+        fm.AddArc(dia2 - 0.6403 * P, 0, dia2 - 0.5664 * P, 0.1218 * P)
+        fm.AddPoint(dia2 + 0.1121 * P, 0.475 * P)
         
         thread_profile_wire = fm.GetClosedWire()
         thread_profile_wire.translate(Base.Vector(0, 0, -1 * helix_height))
@@ -380,12 +380,11 @@ class Screw:
         helix = Part.makeLongHelix(P, blen, r_inner, 0, self.LeftHanded)
         
         fm = FastenerBase.FSFaceMaker()
-        fm.AddPoint(r_inner - 0.875 * H + 0.025 * P * sqrt3,
-                    P / 2 * 0.95 + P * 1 / 16)
-        fm.AddPoint(r_inner, P * 2.0 / 16.0)
-        fm.AddArc(r_inner + H * 1 / 24.0, P * 2.0 / 32.0, r_inner, 0)
-        fm.AddPoint(r_inner - 0.875 * H + 0.025 * P * sqrt3,
-                    -P / 2 * 0.95 + P * 1 / 16)
+        # Internal BSP thread profile points (55° angle with rounded tip)
+        fm.AddPoint(r_inner - 0.7524 * P, 0.475 * P)
+        fm.AddPoint(r_inner - 0.0739 * P, 0.1218 * P)
+        fm.AddArc(r_inner, 0, r_inner - 0.0739 * P, -0.1218 * P)
+        fm.AddPoint(r_inner - 0.7524 * P, -0.475 * P)
         
         W0 = fm.GetClosedWire()
         W0.translate(Base.Vector(0, 0, -P * 9.0 / 16.0))

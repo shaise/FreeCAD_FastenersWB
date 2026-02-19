@@ -324,11 +324,11 @@ FSScrewCommandTable = {
 
     # ThreadedRodGroup
 
-    "ScrewTapInch": (translate("FastenerCmd", "Inch threaded rod for tapping holes"), ThreadedRodGroup, RodParameters),
+    "ScrewTapInch": (translate("FastenerCmd", "Inch threaded tap for creating internal threads"), ThreadedRodGroup, RodParameters),
     "ScrewDieInch": (translate("FastenerCmd", "Tool object to cut external non-metric threads"), ThreadedRodGroup, RodParameters),
     "ThreadedRodInch": (translate("FastenerCmd", "UNC threaded rod"), ThreadedRodGroup, RodParameters),
     "ThreadedRod": (translate("FastenerCmd", "Metric threaded rod"), ThreadedRodGroup, RodParameters),
-    "ScrewTap": (translate("FastenerCmd", "Metric threaded rod for tapping holes"), ThreadedRodGroup, RodParameters),
+    "ScrewTap": (translate("FastenerCmd", "Metric threaded tap for creating internal threads"), ThreadedRodGroup, RodParameters),
     "ScrewDie": (translate("FastenerCmd", "Tool object to cut external metric threads"), ThreadedRodGroup, RodParameters),
     "ScrewTapBSPP": (translate("FastenerCmd", "BSP threaded tap for creating internal threads"), ThreadedRodGroup, RodParameters),
     "ScrewDieBSPP": (translate("FastenerCmd", "Tool object to cut external BSP threads"), ThreadedRodGroup, RodParameters),

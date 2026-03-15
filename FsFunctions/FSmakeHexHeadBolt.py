@@ -31,84 +31,115 @@ from screw_maker import *
 def makeHexHeadBolt(self, fa):
     """Creates a bolt with a hexagonal head
 
-    supported types:
-    - DIN 933 hex head screws
-    - DIN 961 hex head screws with fine thread
-    - ISO 4014 Hex head bolts
-    - ISO 4016 hex head bolts, grade c
-    - ISO 4017 Hex head screws
-    - ISO 4018 hex head screws, grade c
-    - ISO 8676 hex head screws with fine thread
-    - ISO 8765 hex head bolts with fine thread
-    - ASMEB18.2.1.6 hex head bolts
+    Supported types:
+    - DIN 933 / DIN 961 / ISO 4014 / 4016 / 4017 / 4018
+    - ISO 8676 / 8765 / ASMEB18.2.1.6
+
+    Thread diameter formulas (Dipak):
+      ASME/inch : thread_dia = dia - 0.15 / TPI
+      Metric    : thread_dia = dia - 0.15 * P
     """
-    dia = self.getDia(fa.calc_diam, False)
+    dia    = self.getDia(fa.calc_diam, False)
     length = fa.calc_len
+    is_asme = fa.baseType.startswith("ASME")
 
-    if fa.baseType == "DIN933" or fa.baseType == "DIN961":
-        P, c, dw, e, k, r, s = fa.dimTable
-        b = length
-    elif fa.baseType == "ISO4017" or fa.baseType == "ISO8676":
-        P, c, dw, e, k, r, s = fa.dimTable
-        b = length
-    elif fa.baseType == "ISO8765":
-        P, b1, b2, b3, c = fa.dimTable[:5]
-        dw = fa.dimTable[11]
-        e = fa.dimTable[13]
-        k = fa.dimTable[15]
-        r = fa.dimTable[22]
-        s = fa.dimTable[23]
-
+    # ── Unpack dimTable ───────────────────────────────────────────────────
+    if fa.baseType in ("DIN933", "DIN961", "ISO4017", "ISO8676"):
+        P_tbl, c, dw, e, k, r, s = fa.dimTable
+        b_tbl = length
     elif fa.baseType == "ISO4018":
-        P, _, _, c, _, dw, e, k, _, _, _, r, s, _ = fa.dimTable
-        b = length
+        P_tbl, _, _, c, _, dw, e, k, _, _, _, r, s, _ = fa.dimTable
+        b_tbl = length
     elif fa.baseType == "ISO4014":
-        P, b1, b2, b3, c, dw, e, k, r, s = fa.dimTable
+        P_tbl, b1, b2, b3, c, dw, e, k, r, s = fa.dimTable
+        b_tbl = b1 if length <= 125.0 else (b2 if length <= 200.0 else b3)
     elif fa.baseType == "ISO4016":
-        P, b1, b2, b3, c, _, _, _, dw, e, k, _, _, _, r, s, _ = fa.dimTable
+        P_tbl, b1, b2, b3, c, _, _, _, dw, e, k, _, _, _, r, s, _ = fa.dimTable
+        b_tbl = b1 if length <= 125.0 else (b2 if length <= 200.0 else b3)
+    elif fa.baseType == "ISO8765":
+        P_tbl, b1, b2, b3, c = fa.dimTable[:5]
+        dw = fa.dimTable[11]
+        e  = fa.dimTable[13]
+        k  = fa.dimTable[15]
+        r  = fa.dimTable[22]
+        s  = fa.dimTable[23]
+        b_tbl = b1 if length <= 125.0 else (b2 if length <= 200.0 else b3)
     elif fa.baseType == "ASMEB18.2.1.6":
-        b, P, c, dw, e, k, r, s = fa.dimTable
+        b_tbl, P_tbl, c, dw, e, k, r, s = fa.dimTable
         if length > 6 * 25.4:
-            b += 6.35
+            b_tbl += 6.35
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
-    if fa.baseType in ["ISO4014", "ISO4016", "ISO8765"]:
-        if length <= 125.0:
-            b = b1
-        else:
-            if length <= 200.0:
-                b = b2
-            else:
-                b = b3
 
-    # needed for chamfer at head top
+    # ── Pitch override (from ThreadPitch mm / ThreadTPI) ──────────────────
+    raw_pitch = getattr(fa, "calc_pitch", None)
+    P = raw_pitch if (raw_pitch is not None and raw_pitch > 0.0) else P_tbl
+
+    # ── Thread length override (from ThreadLength property) ───────────────
+    raw_tlen = getattr(fa, "calc_thread_length", 0.0) or 0.0
+    b = min(float(raw_tlen), length) if raw_tlen > 0.0 else b_tbl
+
+    # ── Thread diameter ───────────────────────────────────────────────────
+    # ASME/inch : thread_dia = dia - 0.15 / TPI
+    #             TPI = user override (fa.calc_tpi) or standard (25.4 / P_tbl)
+    # Metric    : thread_dia = dia - 0.15 * P   (P in mm)
+    if is_asme:
+        tpi = getattr(fa, "calc_tpi", None)
+        if not tpi or tpi <= 0:
+            tpi = round(25.4 / P_tbl)          # standard TPI from table
+        thread_dia = dia - (0.15 / tpi)
+        log_extra  = f"TPI={tpi}"
+    else:
+        thread_dia = dia - 0.15 * P
+        log_extra  = f"P={P:.3f}mm"
+
+    tr = thread_dia / 2.0
+
+    FreeCAD.Console.PrintMessage(
+        f"[Dipak] Threading: dia={dia:.4f}mm, "
+        f"thread_dia={thread_dia:.4f}mm, {log_extra}, "
+        f"allowance={dia - thread_dia:.4f}mm, "
+        f"thread_length={b:.2f}mm\n"
+    )
+
+    # ── Revolve profile ───────────────────────────────────────────────────
+    # Head uses full dia. After the fillet arc (ends at dia/2, -r) we step
+    # inward to tr at the same z so the entire shaft is at thread_dia.
     cham = (e - s) * math.sin(math.radians(15))
-    # lay out head profile
+
     fm = FSFaceMaker()
-    fm.AddPoint(0.0, k)
-    fm.AddPoint(s / 2.0, k)
-    fm.AddPoint(s / sqrt3, k - cham)
-    fm.AddPoint(s / sqrt3, c)
-    fm.AddPoint(dw / 2.0, c)
-    fm.AddPoint(dw / 2.0, 0.0)
+    fm.AddPoint(0.0,           k)
+    fm.AddPoint(s / 2.0,       k)
+    fm.AddPoint(s / sqrt3,     k - cham)
+    fm.AddPoint(s / sqrt3,     c)
+    fm.AddPoint(dw / 2.0,      c)
+    fm.AddPoint(dw / 2.0,      0.0)
     fm.AddPoint(dia / 2.0 + r, 0.0)
-    fm.AddArc2(0.0, -r, 90)
-    if length - r > b:  # partially threaded fastener
+    fm.AddArc2(0.0, -r, 90)             # ends at (dia/2, -r)
+    fm.AddPoint(tr, -r)                 # step in to thread radius at same z
+
+    if length - r > b:                  # partially threaded
         thread_length = b
         if not fa.Thread:
-            fm.AddPoint(dia / 2, -1 * (length - b))
+            fm.AddPoint(tr, -1 * (length - b))
     else:
         thread_length = length - r
-    fm.AddPoint(dia / 2, -length + dia / 10)
+
+    fm.AddPoint(tr,           -length + dia / 10)
     fm.AddPoint(dia * 4 / 10, -length)
-    fm.AddPoint(0.0, -length)
+    fm.AddPoint(0.0,          -length)
+
     shape = self.RevolveZ(fm.GetFace())
-    # create cutting tool for hexagon head
+
+    # ── Hex head cut ──────────────────────────────────────────────────────
     extrude = self.makeHexPrism(s, k + length + 2)
     extrude.translate(Base.Vector(0.0, 0.0, -length - 1))
     shape = shape.common(extrude)
+
+    # ── Thread cutter ─────────────────────────────────────────────────────
     if fa.Thread:
-        thread_cutter = self.CreateBlindThreadCutter(dia, P, thread_length)
+        thread_cutter = self.CreateBlindThreadCutter(thread_dia, P, thread_length)
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)
+
     return shape

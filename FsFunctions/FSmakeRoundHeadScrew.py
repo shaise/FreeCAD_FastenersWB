@@ -27,58 +27,89 @@
 """
 from screw_maker import *
 
+
 def makeRoundHeadScrew(self, fa):
     """Create a screw with a round head
-    
-    Supported types:
-    - ASMEB18.6.3 UNC round head screws
-    """
-    SType = fa.baseType
-    length = fa.calc_len
-    dia = self.getDia(fa.calc_diam, False)
-    half_dia = dia / 2.0
 
-    # Screw specific imports and calculations:
+    Supported types:
+    - ASMEB18.6.3.16A  UNC slotted round head screws
+    - ASMEB18.6.3.16B  UNC cross-recessed round head screws
+
+    Thread diameter formula (Dipak):
+      ASME/inch : thread_dia = dia - 0.15 / TPI
+    """
+    SType  = fa.baseType
+    length = fa.calc_len
+    dia    = self.getDia(fa.calc_diam, False)
+
+    # ── Unpack dimTable per screw type ────────────────────────────────────
     if SType == "ASMEB18.6.3.16A":
-        P, A, H, J, T = fa.dimTable
+        P_tbl, A, H, J, T = fa.dimTable
         A, H, J, T = (25.4 * x for x in (A, H, J, T))
         recess = self.makeSlotRecess(J, T, A)
         recess.translate(Base.Vector(0.0, 0.0, H))
-        b = 1.5 * 25.4    # Assume maximum threaded length of 1.5" per paragraph 2.4.1(b)
+        b_tbl = 1.5 * 25.4      # max threaded length per para 2.4.1(b)
+
     elif SType == "ASMEB18.6.3.16B":
-        P, A, H, _, _ = fa.dimTable
+        P_tbl, A, H, _, _ = fa.dimTable
         mH, cT = FsData["ASMEB18.6.3.16Bextra"][fa.calc_diam]
         A, H, mH = (25.4 * x for x in (A, H, mH))
         recess = self.makeHCrossRecess(cT, mH)
         recess.translate(Base.Vector(0.0, 0.0, H))
-        b = 1.5 * 25.4    # Assume maximum threaded length of 1.5" per paragraph 2.4.1(b)
-    
-    # Calculate head curve radius (r) and height (zm) on curve at 1/4 head diameter
-    r = (4 * H * H + A * A) / (8 * H)
-    zm = math.sqrt(1 - A * A / (16 * r * r)) * r - (r - H)
-    
-    # partially threaded fastener
-    if length > b:  
-        thread_length = b
-    else:
-        thread_length = length
+        b_tbl = 1.5 * 25.4      # max threaded length per para 2.4.1(b)
 
-    # Create a profile for head
+    else:
+        raise NotImplementedError(f"Unknown fastener type: {SType}")
+
+    # ── Pitch override (ThreadTPI from dashboard) ─────────────────────────
+    raw_pitch = getattr(fa, "calc_pitch", None)
+    P = raw_pitch if (raw_pitch is not None and raw_pitch > 0.0) else P_tbl
+
+    # ── Thread length override (ThreadLength from dashboard) ──────────────
+    raw_tlen = getattr(fa, "calc_thread_length", 0.0) or 0.0
+    b = min(float(raw_tlen), length) if raw_tlen > 0.0 else b_tbl
+
+    # ── Thread diameter: ASME inch formula ────────────────────────────────
+    # thread_dia = dia - 0.15 / TPI
+    tpi = getattr(fa, "calc_tpi", None)
+    if not tpi or tpi <= 0:
+        tpi = round(25.4 / P_tbl)          # standard TPI from table
+    thread_dia = dia - (0.15 / tpi)
+    tr         = thread_dia / 2.0
+
+    FreeCAD.Console.PrintMessage(
+        f"[Dipak] Threading: dia={dia:.4f}mm, "
+        f"thread_dia={thread_dia:.4f}mm, TPI={tpi}, "
+        f"allowance={dia - thread_dia:.4f}mm, "
+        f"thread_length={b:.2f}mm\n"
+    )
+
+    # ── Thread length for cutter ──────────────────────────────────────────
+    thread_length = b if length > b else length
+
+    # ── Head curve geometry ───────────────────────────────────────────────
+    r  = (4 * H * H + A * A) / (8 * H)
+    zm = math.sqrt(1 - A * A / (16 * r * r)) * r - (r - H)
+
+    # ── Revolve profile ───────────────────────────────────────────────────
+    # Shaft uses tr (= thread_dia/2) instead of half_dia so the revolved
+    # solid is at thread_dia → volume changes correctly.
     fm = FastenerBase.FSFaceMaker()
     fm.AddPoints(
-        (0, H),
-        (A / 4, zm, A / 2, 0),
-        (half_dia, 0),
-        (half_dia, -length),
-        (0, -length))
+        (0,      H),
+        (A / 4,  zm,  A / 2,  0),  # round head arc
+        (tr,     0),                # shaft starts at thread radius
+        (tr,    -length),
+        (0,     -length),
+    )
 
-    profile = fm.GetFace()   
     screw = self.RevolveZ(fm.GetFace())
     screw = screw.cut(recess)
 
-    # Add modeled threads if needed
+    # ── Thread cutter ─────────────────────────────────────────────────────
     if fa.Thread:
-        thread_cutter = self.CreateBlindThreadCutter(dia, P, length)
+        thread_cutter = self.CreateBlindThreadCutter(thread_dia, P, thread_length)
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         screw = screw.cut(thread_cutter)
+
     return screw

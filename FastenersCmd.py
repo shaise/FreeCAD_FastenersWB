@@ -64,35 +64,46 @@ translate("FastenerCmdTreeView", "Thumbscrew")
 
 # fmt: off
 ScrewParameters = {"Type", "Diameter",
-                   "MatchOuter", "Thread", "LeftHanded", "Length"}
+                   "MatchOuter", "Thread", "LeftHanded", "Length",
+                   "TThread"}
 ScrewParametersLC = {"Type", "Diameter", "MatchOuter",
-                     "Thread", "LeftHanded", "Length", "LengthCustom"}
+                     "Thread", "LeftHanded", "Length", "LengthCustom",
+                     "TPitch", "TLength", "TThread"}
 RodParameters = {"Type", "Diameter", "MatchOuter", "Thread",
-                 "LeftHanded", "lengthArbitrary",  "DiameterCustom", "PitchCustom"}
-NutParameters = {"Type", "Diameter", "MatchOuter", "Thread", "LeftHanded"}
+                 "LeftHanded", "lengthArbitrary", "DiameterCustom", "PitchCustom",
+                 "TPitch", "TLength", "TThread"}
+NutParameters = {"Type", "Diameter", "MatchOuter", "Thread", "LeftHanded",
+                  "TNutThread",  # TNutThread = has internal thread cutter
+                  "TPitch"}      # no TLength — nut thread length is fixed by standard
 WoodInsertParameters = {"Type", "Diameter", "MatchOuter", "Thread", "LeftHanded"}
 HeatInsertParameters = {"Type", "Diameter", "lengthArbitrary", "ExternalDiam", "MatchOuter", "Thread", "LeftHanded"}
 WasherParameters = {"Type", "Diameter", "MatchOuter"}
 PCBStandoffParameters = {"Type", "Diameter", "MatchOuter", "Thread",
-                         "LeftHanded", "ThreadLength", "LenByDiamAndWidth", "LengthCustom", "widthCode"}
+                         "LeftHanded", "ThreadLength", "LenByDiamAndWidth", "LengthCustom", "widthCode",
+                         "TPitch", "TLength", "TThread"}
 PCBSpacerParameters = {"Type", "Diameter", "MatchOuter", "Thread",
                        "LeftHanded", "LenByDiamAndWidth", "LengthCustom", "widthCode"}
 PEMPressNutParameters = {"Type", "Diameter",
-                         "MatchOuter", "Thread", "LeftHanded", "ThicknessCode"}
+                         "MatchOuter", "Thread", "LeftHanded", "ThicknessCode",
+                         "TPitch", "TNutThread"}
 PEMStandoffParameters = {"Type", "Diameter", "MatchOuter",
-                         "Thread", "LeftHanded", "Length", "blindness"}
+                         "Thread", "LeftHanded", "Length", "blindness",
+                         "TPitch", "TLength", "TThread"}
 RetainingRingParameters = {"Type", "Diameter", "MatchOuter"}
-PinParameters = {"Type", "Diameter", "Length", "LengthCustom", "LeftHanded", "Thread"}
+PinParameters = {"Type", "Diameter", "Length", "LengthCustom", "LeftHanded"}
 TSlotNutParameters = { "Type", "Diameter", "MatchOuter",
-                        "Thread", "LeftHanded", "SlotWidth" }
+                        "Thread", "LeftHanded", "SlotWidth",
+                        "TNutThread" }
 TSlotBoltParameters = { "Type", "Diameter", "Length", "LengthCustom",
-                       "MatchOuter", "Thread", "LeftHanded", "SlotWidth" }
+                        "MatchOuter", "Thread", "LeftHanded", "SlotWidth",
+                        "TPitch", "TLength", "TThread" }
 HexKeyParameters = { "Type", "Diameter", "MatchOuter", "KeySize" }
 NailParameters = { "Type", "Diameter", "MatchOuter", }
 # this is a list of all possible fastener attribs
 FastenerAttribs = ['Type', 'Diameter', 'Thread', 'LeftHanded', 'MatchOuter', 'Length',
                    'LengthCustom', 'Width', 'DiameterCustom', 'PitchCustom', 'Tcode',
-                   'Blind', 'ScrewLength', "SlotWidth", 'ExternalDiam', 'KeySize']
+                   'Blind', 'ScrewLength', "SlotWidth", 'ExternalDiam', 'KeySize',
+                   'ThreadPitch', 'ThreadTPI', 'ThreadLength']
 
 
 # Names of fasteners groups translated once before FSScrewCommandTable created.
@@ -433,6 +444,39 @@ def FSUpdateFormatString(fmtstr, type):
     return fmtstr.replace("{dimension}", "{" + sizestr[3:] + "}")
 
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  Toggle ThreadPitch / ThreadLength visibility (shown only when Thread=True)
+# ─────────────────────────────────────────────────────────────────────────────
+def _is_asme(fp):
+    """True when the fastener's type is an ASME/inch standard.
+    Explicitly casts fp.Type to str so FreeCAD PropertyEnumeration
+    objects compare correctly.
+    """
+    try:
+        return str(fp.Type).startswith("ASME")
+    except Exception:
+        return False
+
+
+def _set_thread_props_visibility(fp, thread_on):
+    """Show TPI field for ASME types, Pitch (mm) field for metric types.
+    ThreadLength is shown for screws/bolts only — nuts use standard length.
+    """
+    asme = _is_asme(fp)
+    params = FSGetParams(fp.Type)
+    is_nut = "TNutThread" in params and "TThread" not in params
+    # ThreadPitch (mm)  — visible only for metric + thread on
+    if hasattr(fp, "ThreadPitch"):
+        fp.setEditorMode("ThreadPitch", 0 if (thread_on and not asme) else 2)
+    # ThreadTPI (int)   — visible only for ASME + thread on
+    if hasattr(fp, "ThreadTPI"):
+        fp.setEditorMode("ThreadTPI", 0 if (thread_on and asme) else 2)
+    # ThreadLength — screws/bolts only; nuts use fixed standard length
+    if hasattr(fp, "ThreadLength"):
+        fp.setEditorMode("ThreadLength", 0 if (thread_on and not is_nut) else 2)
+
+
 class FSScrewObject(FSBaseObject):
     def __init__(self, obj, type, attachTo):
         """Add screw type fastener."""
@@ -455,8 +499,10 @@ class FSScrewObject(FSBaseObject):
 
         # calculated attribs
         self.familyType = ""
+        self.calc_thread_length = 0.0
         self.calc_diam = None
         self.calc_pitch = None
+        self.calc_tpi = None
         self.calc_len = None
 
         # some extra params
@@ -480,6 +526,21 @@ class FSScrewObject(FSBaseObject):
             if val is not None:
                 key += attr + ":" + str(val) + "|"
         return key.rstrip("|")
+
+
+    def onChanged(self, fp, prop):
+        """Show/hide TPI vs Pitch field depending on standard, and ThreadLength.
+        Reacts to both Thread toggle and Type switch (ASME <-> metric).
+        """
+        if prop in ("Thread", "Type"):
+            # Only act if this fastener type supports Thread cutter
+            params = FSGetParams(fp.Type)
+            if "TThread" not in params and "TNutThread" not in params:
+                return
+            if not (hasattr(fp, "ThreadPitch") and hasattr(fp, "ThreadTPI")):
+                return
+            thread_on = hasattr(fp, "Thread") and bool(fp.Thread)
+            _set_thread_props_visibility(fp, thread_on)
 
     def VerifyMissingAttrs(self, obj, type=None):
         self.updateProps(obj)
@@ -529,7 +590,10 @@ class FSScrewObject(FSBaseObject):
         params = FSGetParams(type)
 
         # thread parameters
-        if "Thread" in params and not hasattr(obj, "Thread"):
+        # Thread toggle: shown for screws/bolts (TThread) AND nuts (TNutThread)
+        # TThread    = external thread cutter (screws/bolts)
+        # TNutThread = internal thread cutter (nuts, inserts)
+        if ("TThread" in params or "TNutThread" in params) and not hasattr(obj, "Thread"):
             obj.addProperty("App::PropertyBool", "Thread", "Parameters", translate(
                 "FastenerCmd", "Generate real thread")).Thread = False
         if "LeftHanded" in params and not hasattr(obj, 'LeftHanded'):
@@ -597,6 +661,44 @@ class FSScrewObject(FSBaseObject):
                 "FastenerCmd", "Key size")).KeySize = screwMaker.GetAllKeySizes(type, diameter)
 
         # misc
+
+        # ── ThreadPitch: pitch override in mm (metric types only) ──────────
+        if "TPitch" in params and not hasattr(obj, "ThreadPitch"):
+            obj.addProperty(
+                "App::PropertyLength", "ThreadPitch", "Parameters",
+                translate("FastenerCmd", "Thread Pitch (mm). 0 = standard pitch")
+            ).ThreadPitch = 0.0
+            obj.setEditorMode("ThreadPitch", 2)
+
+        # ── ThreadTPI: TPI override (ASME/inch types only) ───────────────────
+        if "TPitch" in params and not hasattr(obj, "ThreadTPI"):
+            obj.addProperty(
+                "App::PropertyInteger", "ThreadTPI", "Parameters",
+                translate("FastenerCmd", "Thread TPI (threads per inch). 0 = standard TPI")
+            ).ThreadTPI = 0
+            obj.setEditorMode("ThreadTPI", 2)
+
+        # ── ThreadLength: thread length override (0 = standard) ─────────────
+        if "TLength" in params and not hasattr(obj, "ThreadLength"):
+            obj.addProperty(
+                "App::PropertyLength", "ThreadLength", "Parameters",
+                translate("FastenerCmd", "Thread Length (mm). 0 = standard")
+            ).ThreadLength = 0.0
+            obj.setEditorMode("ThreadLength", 2)
+
+        # Set visibility based on Thread state and fastener standard.
+        # TThread = screw/bolt (external), TNutThread = nut (internal)
+        _is_asme_type = (type is not None and str(type).startswith("ASME"))
+        _has_thread_cutter = ("TThread" in params or "TNutThread" in params)
+        _thread_on_init = (_has_thread_cutter and
+                           hasattr(obj, "Thread") and bool(obj.Thread))
+        _mode_pitch = 0 if (_thread_on_init and not _is_asme_type) else 2
+        _mode_tpi   = 0 if (_thread_on_init and     _is_asme_type) else 2
+        _mode_tlen  = 0 if  _thread_on_init else 2
+        if hasattr(obj, "ThreadPitch"):  obj.setEditorMode("ThreadPitch",  _mode_pitch)
+        if hasattr(obj, "ThreadTPI"):    obj.setEditorMode("ThreadTPI",    _mode_tpi)
+        if hasattr(obj, "ThreadLength"): obj.setEditorMode("ThreadLength", _mode_tlen)
+
         if "blindness" in params and not hasattr(obj, "Blind"):
             obj.addProperty("App::PropertyBool", "Blind", "Parameters", translate(
                 "FastenerCmd", "Blind Standoff type")).Blind = False
@@ -781,6 +883,50 @@ class FSScrewObject(FSBaseObject):
             self.calc_pitch = fp.PitchCustom.Value
         else:
             self.calc_pitch = None
+
+
+        # ── Thread overrides ─────────────────────────────────────────────────
+        # TThread = screw/bolt external cutter, TNutThread = nut internal cutter
+        # Both show Thread toggle + Pitch/TPI/Length when Thread=true
+        thread_on = (("TThread" in params or "TNutThread" in params) and
+                     hasattr(fp, "Thread") and bool(fp.Thread))
+        asme_type = str(fp.Type).startswith("ASME")  # direct check, always str
+        _set_thread_props_visibility(fp, thread_on)
+
+        if thread_on and asme_type:
+            # ASME/inch: user may set ThreadTPI override.
+            # If set (>0): convert TPI → pitch mm, store both.
+            # If not set : calc_tpi = None (bolt file uses table P to
+            #              compute standard TPI = round(25.4/P_tbl)).
+            tpi = getattr(fp, "ThreadTPI", 0)
+            try:
+                tpi_val = int(tpi)
+            except Exception:
+                tpi_val = 0
+            if tpi_val > 0:
+                # User override: convert TPI to pitch for geometry
+                self.calc_pitch = 25.4 / tpi_val
+                self.calc_tpi   = tpi_val
+            else:
+                # No override: bolt file will derive TPI from table P
+                self.calc_pitch = None
+                self.calc_tpi   = None
+        elif thread_on and hasattr(fp, "ThreadPitch"):
+            # Metric/ISO/DIN: read pitch directly in mm
+            v = fp.ThreadPitch.Value
+            if v > 0.0:
+                self.calc_pitch = v
+
+        if thread_on and hasattr(fp, "ThreadLength"):
+            # Nuts: thread length is fixed by standard — always 0.0 (use table)
+            # Screws/bolts: use user override if set
+            is_nut = "TNutThread" in params and "TThread" not in params
+            if is_nut:
+                self.calc_thread_length = 0.0
+            else:
+                self.calc_thread_length = fp.ThreadLength.Value
+        else:
+            self.calc_thread_length = 0.0
 
         screwMaker.updateFastenerParameters()
 

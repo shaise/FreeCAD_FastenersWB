@@ -1,4 +1,28 @@
 # -*- coding: utf-8 -*-
+###############################################################################
+#
+#  FastenerSearch.py
+#
+#  Copyright 2025 Shai Seger <shaise at gmail dot com>
+#  BSP modifications (c) 2025-2026 Andrey Bekhterev <info at bekhterev dot in>
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#  MA 02110-1301, USA.
+#
+#
+###############################################################################
 
 import os
 import FreeCADGui
@@ -233,9 +257,11 @@ class FastenerSearchDialog(QtWidgets.QDialog):
             text_words = text_lower.split()
             if all(word in searchable for word in text_words):
                 matched.append((cmd_name, ftype, desc, group, icon))
-
+        found_txt = translate("FastenerSearch", "found")
+        fastener_txt = translate("FastenerSearch", "fastener")
+        fasteners_txt = translate("FastenerSearch", "fasteners")
         self.count_label.setText(
-            f"{len(matched)} fastener{'s' if len(matched) != 1 else ''} found"
+            f"{len(matched)} {fastener_txt if len(matched) == 1 else fasteners_txt} {found_txt}"
         )
 
         for cmd_name, ftype, desc, group, icon in matched:

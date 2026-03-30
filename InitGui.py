@@ -52,6 +52,7 @@ class FastenersWorkbench(FreeCADGui.Workbench):
             import FSScrewCalc
             import FS3dpSettings
             import FSChangeParams
+            import FSSearchCmd
             
 
         self.list = []

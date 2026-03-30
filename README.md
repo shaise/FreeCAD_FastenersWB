@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.50  30 Mar 2026:  Add Fastener search dialog.  
 * V0.5.44  05 Feb 2026:  Add BSP Thread Support (Taps & Dies) by @abehterev.  
                        - Fix toggle of inner/outer toolbar buttons by @Roy-043.  
                        - Add missing coarse diameter for some nuts by @kevinsmia1939.  

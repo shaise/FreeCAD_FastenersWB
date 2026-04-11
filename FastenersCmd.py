@@ -370,6 +370,7 @@ FSScrewCommandTable = {
     "ISO8733": (translate("FastenerCmd", "Parallel pins with internal thread, unhardened"), PinGroup, PinParameters),
     "ISO8734": (translate("FastenerCmd", "Dowel pins"), PinGroup, PinParameters),
     "ISO8735": (translate("FastenerCmd", "Parallel pins with internal thread, hardened"), PinGroup, PinParameters),
+    "DIN7979": (translate("FastenerCmd", "Parallel pins with internal thread, hardened"), PinGroup, PinParameters),
     "ISO8736": (translate("FastenerCmd", "Taper pins with internal thread, unhardened"), PinGroup, PinParameters),
     "ISO8737": (translate("FastenerCmd", "Taper pins with external thread, unhardened"), PinGroup, PinParameters),
     "ISO8739": (translate("FastenerCmd", "Full-length grooved pins with pilot"), PinGroup, PinParameters),

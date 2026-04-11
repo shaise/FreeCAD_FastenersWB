@@ -36,6 +36,13 @@ def makeInternalThreadedDowelPin(self, fa):
         c_1 = a
         c_2 = c
         end = "round"
+    if fa.Type == "DIN7979":
+        d_1, a, _, c, d_2, P, t_1, t_2 = fa.dimTable
+        d_3 = d_2
+        t_3 = 0
+        c_1 = a
+        c_2 = c
+        end = "round"
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
     length = fa.calc_len
@@ -46,7 +53,8 @@ def makeInternalThreadedDowelPin(self, fa):
     d_4 = self.GetInnerThreadMinDiameter(d_2, P)
     fm.AddPoint(d_4 / 2, d_4 / (2 * math.tan(math.radians(59))) - t_2)
     fm.AddPoint(d_4 / 2, -t_3 - math.tan(math.radians(30)) * (d_3 - d_4))
-    fm.AddPoint(d_3 / 2, -t_3)
+    if t_3:
+        fm.AddPoint(d_3 / 2, -t_3)
     fm.AddPoint(d_3 / 2, 0.0)
     fm.AddPoint(d_1 / 2 - cham_top, 0.0)
     fm.AddPoint(d_1 / 2, -c_1)

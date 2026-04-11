@@ -378,6 +378,7 @@ screwTables = {
     "ISO2341A": ("Pin", "makeClevisPin"),
     "ISO2341B": ("Pin", "makeClevisPin"),
     "ISO8733": ("Pin", "makeInternalThreadedDowelPin"),
+    "DIN7979": ("Pin", "makeInternalThreadedDowelPin"),
     "ISO8734": ("Pin", "makeDowelPin"),
     "ISO8735": ("Pin", "makeInternalThreadedDowelPin"),
     "ISO8736": ("Pin", "makeInternalThreadedTaperPin"),

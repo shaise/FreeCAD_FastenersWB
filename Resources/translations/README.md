@@ -13,6 +13,7 @@ then find your language, look for the **Fasteners** project and do the translati
 
 > [!NOTE]
 > All commands **must** be run in `./Resources/translations/` directory.
+> QT6 lupdate must be installed (sudo apt install qt6-l10n-tools qt6-base-dev)
 
 > [!WARNING]
 > If you want to update/release the files you need to have installed
@@ -27,8 +28,10 @@ To update the template file from source files you should use this command:
 ./update_translation.sh -U
 ```
 
+This updates the fasteners.ts file
 Once done you can commit the changes and upload the new file to CrowdIn platform
-at <https://crowdin.com/project/freecad-addons> webpage and find the **Fasteners** project.
+at <https://crowdin.com/project/freecad-addons> webpage and find the **Fasteners** project.  
+(From the menu select sources, search the fasteners.ts file and click the update button.)
 
 ## Creating file for missing locale
 
@@ -45,19 +48,6 @@ the script with `-u` flag plus your locale:
 ```
 
 ### Renaming file
-
-Also you can rename new `Fasteners.ts` file by appending the locale code,
-for example, `Fasteners_de.ts` for German and change
-
-```xml
-<TS version="2.1">
-```
-
-to
-
-```xml
-<TS version="2.1" language="de" sourcelanguage="en">
-```
 
 As of 13/09/2024 the supported locales on **FreeCAD**
 (according to `FreeCADGui.supportedLocales()`) are 43:
@@ -99,6 +89,18 @@ to test it on **FreeCAD** you can use this command:
 ```
 
 This will update the `.qm` file for your language (German in this case).
+
+## Pulling updated translations from Crowdin
+
+- Log in to Crowdin at <https://crowdin.com/project/freecad-addons>
+- From the menu click translations.
+- Expand the Downloads pane.
+- If not existing, create a fastener bundle. In the bundle content select only fasteners.ts.
+- Click download icon of the fasteners bundle line.
+- Extract the files into an empty directory.
+- Delete all unused translation files. Rename the rest to match the current files. (some charactes need lower casing, some need removal)
+- Copy and overwrite current files.
+
 
 ## Updating translations
 

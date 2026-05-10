@@ -110,10 +110,6 @@ if [ $# -eq 1 ]; then
 			echo
 		done
 	elif [ "$1" == "-U" ]; then
-		for locale in "${supported_locales[@]}"; do
-			update_locale "$locale"
-		done
-	elif [ "$1" == "-u" ]; then
 		update_locale # Update main file (agnostic)
 	else
 		help

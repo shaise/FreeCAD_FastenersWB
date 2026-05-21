@@ -668,7 +668,7 @@ if FSutils.isGuiLoaded():
 
     def FSGetAttachableSelections(screwObj=None):
         asels = []
-        for selObj in Gui.Selection.getSelectionEx("", 0):
+        for selObj in Gui.Selection.getSelectionEx():
             if screwObj is not None and selObj.Object == screwObj:
                 continue
 
@@ -678,7 +678,7 @@ if FSutils.isGuiLoaded():
             # of processed edges to avoid duplicate fasteners
 
             for baseObjectName in baseObjectNames:
-                shape = obj.getSubObject(baseObjectName)
+                shape = obj.Shape.getElement(baseObjectName)
 
                 # add explicitly selected edges
                 if hasattr(shape, "Curve"):

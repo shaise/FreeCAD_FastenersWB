@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.52  21 May 2026:  Face selection for fastener population fixed.  
 * V0.5.51  12 Apr 2026:  Add DIN7979 by @Fomys.  
 * V0.5.50  30 Mar 2026:  Add Fastener search dialog.  
                        - Fix tapping tooltips by @efferre79.  

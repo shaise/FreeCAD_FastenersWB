@@ -69,9 +69,12 @@ ScrewParametersLC = {"Type", "Diameter", "MatchOuter",
                      "Thread", "LeftHanded", "Length", "LengthCustom"}
 RodParameters = {"Type", "Diameter", "MatchOuter", "Thread",
                  "LeftHanded", "lengthArbitrary",  "DiameterCustom", "PitchCustom"}
+TrapezoidRodParameters = {"Type", "Diameter", "Pitch", "NumStarts", "Thread",
+                 "lengthArbitrary",  "DiameterCustom", "PitchCustom"}
 NutParameters = {"Type", "Diameter", "MatchOuter", "Thread", "LeftHanded"}
 WoodInsertParameters = {"Type", "Diameter", "MatchOuter", "Thread", "LeftHanded"}
-HeatInsertParameters = {"Type", "Diameter", "lengthArbitrary", "ExternalDiam", "MatchOuter", "Thread", "LeftHanded"}
+HeatInsertParameters = {"Type", "Diameter", "lengthArbitrary", "ExternalDiam", "MatchOuter", 
+                        "Thread", "LeftHanded"}
 WasherParameters = {"Type", "Diameter", "MatchOuter"}
 PCBStandoffParameters = {"Type", "Diameter", "MatchOuter", "Thread",
                          "LeftHanded", "ThreadLength", "LenByDiamAndWidth", "LengthCustom", "widthCode"}
@@ -92,7 +95,8 @@ NailParameters = { "Type", "Diameter", "MatchOuter", }
 # this is a list of all possible fastener attribs
 FastenerAttribs = ['Type', 'Diameter', 'Thread', 'LeftHanded', 'MatchOuter', 'Length',
                    'LengthCustom', 'Width', 'DiameterCustom', 'PitchCustom', 'Tcode',
-                   'Blind', 'ScrewLength', "SlotWidth", 'ExternalDiam', 'KeySize']
+                   'Blind', 'ScrewLength', "SlotWidth", 'ExternalDiam', 'KeySize',
+                   "NumStarts", "Pitch"]
 
 
 # Names of fasteners groups translated once before FSScrewCommandTable created.
@@ -328,6 +332,7 @@ FSScrewCommandTable = {
     "ScrewDieInch": (translate("FastenerCmd", "Tool object to cut external non-metric threads"), ThreadedRodGroup, RodParameters),
     "ThreadedRodInch": (translate("FastenerCmd", "UNC threaded rod"), ThreadedRodGroup, RodParameters),
     "ThreadedRod": (translate("FastenerCmd", "Metric threaded rod"), ThreadedRodGroup, RodParameters),
+    "DIN130": (translate("FastenerCmd", "Trapezoidal threaded rod"), ThreadedRodGroup, TrapezoidRodParameters),
     "ScrewTap": (translate("FastenerCmd", "Metric threaded tap for creating internal threads"), ThreadedRodGroup, RodParameters),
     "ScrewDie": (translate("FastenerCmd", "Tool object to cut external metric threads"), ThreadedRodGroup, RodParameters),
     "ScrewTapBSPP": (translate("FastenerCmd", "BSP threaded tap for creating internal threads"), ThreadedRodGroup, RodParameters),
@@ -462,6 +467,7 @@ class FSScrewObject(FSBaseObject):
 
         # some extra params
         self.dimTable = None
+        self.LeftHanded = False
 
     def BackupObject(self, obj):
         for attr in FastenerAttribs:
@@ -529,7 +535,13 @@ class FSScrewObject(FSBaseObject):
             diameter = obj.Diameter
         params = FSGetParams(type)
 
-        # thread parameters
+        # Pitch parameters
+        if "Pitch" in params and not hasattr(obj, "Pitch"):
+            pitchs = screwMaker.GetAllPitches(type, diameter, "PitchCustom" in params)
+            obj.addProperty("App::PropertyEnumeration", "Pitch", "Parameters", translate(
+                "FastenerCmd", "Screw pitch")).Pitch = pitchs
+
+       # thread parameters
         if "Thread" in params and not hasattr(obj, "Thread"):
             obj.addProperty("App::PropertyBool", "Thread", "Parameters", translate(
                 "FastenerCmd", "Generate real thread")).Thread = False
@@ -567,6 +579,11 @@ class FSScrewObject(FSBaseObject):
             if addCustomLen:
                 obj.addProperty("App::PropertyLength", "LengthCustom", "Parameters", translate(
                     "FastenerCmd", "Custom length")).LengthCustom = self.inswap(slens[0])
+
+        # number of starts
+        if "NumStarts" in params and not hasattr(obj, "NumStarts"):
+            obj.addProperty("App::PropertyIntegerConstraint", "NumStarts", "Parameters", translate(
+                "FastenerCmd", "Number of helix starts")).NumStarts = (1, 1, 4, 1)
 
         # custom size parameters
         if "lengthArbitrary" in params and not hasattr(obj, "Length"):
@@ -778,10 +795,24 @@ class FSScrewObject(FSBaseObject):
             if olds in sizes:
                 fp.KeySize = olds
 
-        if fp.Diameter == 'Custom' and hasattr(fp, "PitchCustom"):
-            self.calc_pitch = fp.PitchCustom.Value
+        # Pitch changes
+        if hasattr(fp, 'Pitch'):
+            if diameterchange:
+                if fp.Diameter == 'Custom' and hasattr(fp, "PitchCustom"):
+                    fp.Pitch = ["Custom"]
+                    fp.Pitch = "Custom"
+                else:
+                    fp.Pitch = screwMaker.GetAllPitches(fp.Type, fp.Diameter, "PitchCustom" in params)
+            if fp.Pitch == 'Custom' and hasattr(fp, "PitchCustom"):
+                self.calc_pitch = fp.PitchCustom.Value
+            else:                
+                self.calc_pitch = FSutils.parseLength(fp.Pitch)
         else:
-            self.calc_pitch = None
+            if fp.Diameter == 'Custom' and hasattr(fp, "PitchCustom"):
+                self.calc_pitch = fp.PitchCustom.Value
+            else:
+                self.calc_pitch = None
+
 
         screwMaker.updateFastenerParameters()
 

@@ -89,3 +89,52 @@ def isGuiLoaded():
     if hasattr(FreeCAD, "GuiUp"):
         return FreeCAD.GuiUp
     return False
+
+def parseInch(txt : str):
+    """Parse a string representing an inch measurement, 
+       which may include fractions, and return its value in mm as a float.
+       Examples of valid formats:
+       "1" -> 25.4
+       "1/2" -> 12.7
+       "1 1/2in" -> 38.1
+       """
+    clean_txt = ""
+    for c in txt:
+        if c.isdecimal() or c in ".-":
+            clean_txt += c
+        else:
+            clean_txt += " "
+    parts = [float(x) for x in clean_txt.split()]
+    if len(parts) == 1:
+        return parts[0] * 25.4
+    elif len(parts) == 2:
+        return (parts[0] / parts[1]) * 25.4
+    elif len(parts) == 3:
+        return (parts[0] + parts[1] / parts[2]) * 25.4
+    else:
+        raise ValueError(f"Invalid inch format: '{txt}'")
+    
+def parseLength(txt : str):
+    """Parse a length string after cleaning all non-digit characters. return the first float value found.
+       if the string contains "in", it will be parsed as an inch measurement and converted to mm.
+       Examples of valid formats:
+       "10" -> 10.0
+       "10mm" -> 10.0
+       "M8" -> 8.0
+       "1in" -> 25.4
+       """
+    if "in" in txt:
+        # handle inch format, e.g: "1in", "1.5in", etc.
+        return parseInch(txt)
+
+    clean_txt = ""
+    for c in txt:
+        if c.isdecimal() or c in ".-":
+            clean_txt += c
+        else:
+            clean_txt += " "
+    parts = clean_txt.split()
+    if len(parts) > 0:
+        return float(parts[0])
+    else:
+        raise ValueError(f"Invalid float format: '{txt}'")

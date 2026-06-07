@@ -92,9 +92,12 @@ import Part
 import math
 from FreeCAD import Base
 import importlib
+
+import re
 import FastenerBase
 from FastenerBase import FsData
 from FastenerBase import FSFaceMaker
+import FSutils
 
 DEBUG = False  # TODO: set to True to show debug messages; does not work.
 
@@ -250,6 +253,66 @@ class Screw:
     ) -> float:
         H = P * cos30  # Thread depth H
         return dia - H * 5.0 / 4.0 + addEpsilon
+
+    def CreateDin130ThreadTool(self, dia: float, P: float, ac: float, blen: float, ns: int) -> Part.Shape:
+        """Returns a shape that can be fuzed to a shaft to create a
+        DIN 130 trapezoidal screw thread.
+        Parameters:
+        - dia: major diameter of the threads
+          (e.g: this would be 6.0 for an M6 thread with nominal dimensions)
+        - P: thread pitch
+        - ac: inner spacing
+        - blen: thread length
+        - ns: number of starts (e.g: 2 for a double-start thread)
+
+        The shape is created at the origin, extending in the -Z direction.
+        """
+        margin = 0.1 * P  # margin to ensure proper fusion with the shaft
+        ro = dia / 2.0
+        b = 0.5 * P * (1.0 - tan15)
+        h3 = 0.5 * P + ac + margin
+        b2 = h3 * tan15
+        ri = ro - h3
+        #trotations = blen // P
+        helix_height = blen - b2 * 2.0 - b
+        if helix_height <= P:
+            raise ValueError(
+                f"Thread length {blen} is too short for given pitch {P}"
+            )
+
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint(ri, 0)
+        fm.AddPoint(ri + h3, b2)
+        fm.AddPoint(ri + h3, b2 + b)
+        fm.AddPoint(ri, b2 * 2.0 + b)
+        thread_profile_wire = fm.GetClosedWire()
+        # Part.show(thread_profile_wire, "thread_profile_wire")
+        # make the helical paths to sweep along
+        # NOTE: makeLongHelix creates slightly conical
+        # helices unless the 4th parameter is set to 0!
+        helix = Part.makeLongHelix(
+            P * ns, helix_height, ro, 0, self.LeftHanded)
+        #helix.rotate(Base.Vector(0, 0, 0), Base.Vector(1, 0, 0), 180)
+        # Part.show(helix, "helix")
+        sweep = Part.BRepOffsetAPI.MakePipeShell(helix)
+        sweep.setFrenetMode(True)
+        sweep.setTransitionMode(1)  # right corner transition
+        sweep.add(thread_profile_wire)
+        if sweep.isReady():
+            sweep.build()
+        else:
+            # geometry couldn't be generated in
+            raise RuntimeError(
+                "Failed to create shell thread: could not sweep thread")
+        sweep.makeSolid()
+        shape = sweep.shape()
+        threads = shape.copy()
+        for i in range(1, ns):
+            next_thread = shape.copy().rotate(
+                Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), i * (360 / ns))
+            # Part.show(next_thread, f"thread_{i}")
+            threads = threads.fuse(next_thread)
+        return threads
 
     def CreateThreadCutter(self, dia: float, P: float, blen: float) -> Part.Shape:
         """Returns a shape that can be subtracted from a shaft to create a
@@ -772,8 +835,12 @@ class Screw:
           self.getDia("M6", True) == 6.65  # 6 * 1.1 + 0.05
         """
         if isinstance(ThreadDiam, str):
-            threadstring = ThreadDiam.strip("()")
-            dia = FsData["DiaList"][threadstring][0]
+            if ThreadDiam in FsData["DiaList"]:
+                # handle named diameters, e.g: "#6", "G1/4", etc.
+                dia = FsData["DiaList"][ThreadDiam][0]
+            else:
+                # handle metric format, e.g: "M6" or "ST 6.3"
+                dia = FSutils.parseLength(ThreadDiam)
         else:
             dia = ThreadDiam
         if self.sm3DPrintMode:
@@ -809,23 +876,15 @@ class Screw:
         H_3_8 = FsData["ISO68-1def"][str(P)][2]
         return D - 2 * H_3_8
 
-    def getLength(self, LenStr: str) -> float:
+    def getLength(self, LenStr: str | int | float) -> float:
         """Convert a length string to a corresponding numeric value."""
         # washers and nuts pass an int (1), for their unused length attribute
         # handle this circumstance if necessary
-        if isinstance(LenStr, int):
+        if isinstance(LenStr, int) or isinstance(LenStr, float):
             return LenStr
         # otherwise convert the string to a number using predefined rules
-        if "in" not in LenStr:
-            LenFloat = float(LenStr.strip("()"))
+        if "in" in LenStr:
+            LenFloat = FSutils.parseInch(LenStr)
         else:
-            components = LenStr.strip("in").split(" ")
-            total = 0
-            for item in components:
-                if "/" in item:
-                    subcmpts = item.split("/")
-                    total += float(subcmpts[0]) / float(subcmpts[1])
-                else:
-                    total += float(item)
-            LenFloat = total * 25.4
+            LenFloat = FSutils.parseLength(LenStr)
         return LenFloat

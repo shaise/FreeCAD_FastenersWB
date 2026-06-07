@@ -353,6 +353,7 @@ screwTables = {
     "ScrewDieBSPP": ("ScrewDie", "makeScrewDie"),
     "ThreadedRod": ("ThreadedRod", "makeThreadedRod"),
     "ThreadedRodInch": ("ThreadedRod", "makeThreadedRod"),
+    "DIN130": ("ThreadedRod", "makeTrapezoidRod"),
     "PEMPressNut": ("PressNut", "makePEMPressNut"),
     "PEMStandoff": ("Standoff", "makePEMStandoff"),
     "PEMStud": ("Stud", "makePEMStud"),
@@ -535,7 +536,10 @@ class FSScrewMaker(Screw):
 
     def GetAllDiams(self, type):
         type = FSGetTypeAlias(type)
-        return list(FsData[type + "def"].keys())
+        res = list(FsData[type + "def"].keys())
+        if "Unit" in res:
+            res.remove("Unit")
+        return res
 
     def GetAllTcodes(self, type, diam):
         FSGetTypeAlias(type)
@@ -599,6 +603,21 @@ class FSScrewMaker(Screw):
         if addCustom:
             lenlist.append("Custom")
         return lenlist
+
+    def GetAllPitches(self, type, diam, addCustom=True):
+        pitchlist = []
+        type = FSGetTypeAlias(type)
+        pitchTableName = type + "pitch"
+        if diam != "Auto":
+            if pitchTableName in FsData:
+                pitchTable = FsData[pitchTableName]
+                pitchlist = pitchTable[diam][0].split()
+                if "Unit" in pitchTable:
+                    unit = pitchTable["Unit"][0]
+                    pitchlist = [p + " " + unit for p in pitchlist]
+        if addCustom:
+            pitchlist.append("Custom")
+        return pitchlist
 
     def GetTablePos(self, type, name):
         titles = FsTitles[type + 'def']

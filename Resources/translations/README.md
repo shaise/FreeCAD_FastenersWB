@@ -13,9 +13,9 @@ then find your language, look for the **Fasteners** project, and do the translat
 
 > [!NOTE]
 > All commands **must** be run in the `./Resources/translations/` directory.
-> QT6 lupdate and lrelease must be installed and in PATH.
-> Linux: sudo apt install qt6-l10n-tools qt6-base-dev
-> Windows: pip install PySide6 / find executables under Python installation
+> QT6 lupdate and lrelease must be installed and in PATH.  
+> Linux: sudo apt install qt6-l10n-tools qt6-base-dev  
+> Windows: pip install PySide6 / find executables under Python installation  
 
 > [!WARNING]
 > If you want to update/release the files, you need to have `lupdate`

@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.60  08 Jun 2026:  Translation scripts updated, new languages added.  
 * V0.5.53  07 Jun 2026:  Add DIN130 Trapezoidal-threaded rod.  
 * V0.5.52  21 May 2026:  Face selection for fastener population fixed.  
 * V0.5.51  12 Apr 2026:  Add DIN7979 by @Fomys.  

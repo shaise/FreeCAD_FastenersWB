@@ -106,6 +106,10 @@ sqrt2 = math.sqrt(2.0)
 sqrt3 = math.sqrt(3.0)
 cos30 = sqrt3 / 2.0           # math identity: math.cos(math.radians(30.0))
 tan15 = 2.0 - sqrt3           # math identity: math.tan(math.radians(15))
+tan20 = math.tan(math.radians(20))
+sin110oversin55 = math.sin(math.radians(110)) / math.sin(math.radians(55))
+sin15 = math.sin(math.radians(15))
+cos15 = math.cos(math.radians(15))
 
 
 class Screw:
@@ -244,7 +248,7 @@ class Screw:
             thread_solid = body_solid.fuse(tip_solid)
         # rotate the thread solid to prevent OCC errors due to cylinder seams aligning
         thread_solid.rotate(Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), 180)
-        #Part.show(thread_solid, "thread_solid")
+        # Part.show(thread_solid, "thread_solid")
         return thread_solid
 
     @staticmethod
@@ -264,8 +268,6 @@ class Screw:
         - ac: inner spacing
         - blen: thread length
         - ns: number of starts (e.g: 2 for a double-start thread)
-
-        The shape is created at the origin, extending in the -Z direction.
         """
         margin = 0.1 * P  # margin to ensure proper fusion with the shaft
         ro = dia / 2.0
@@ -312,6 +314,118 @@ class Screw:
                 Base.Vector(0, 0, 0), Base.Vector(0, 0, 1), i * (360 / ns))
             # Part.show(next_thread, f"thread_{i}")
             threads = threads.fuse(next_thread)
+        return threads
+    
+    def MakeWNThreadProfile(self, ro: float, p2: float, ri: float, y: float) -> Part.Shape:
+        """Returns a shape that can be fuzed to a shaft to create a
+        WN self tapping screw thread.
+        Parameters:
+        - ro: major radius of the threads
+          (e.g: this would be 6.0 for an M6 thread with nominal dimensions)
+        - p2: half the thread pitch
+        - ri: inner radius of the threads
+        - y: max core width
+        """
+        x = ro - ri
+        a = x - y
+        b = a * sin110oversin55
+        c = x - b * cos15
+        d = b * sin15
+
+        fm = FastenerBase.FSFaceMaker()
+        fm.AddPoint(ri, p2)
+        fm.AddPoint(ri + c, d)
+        fm.AddPoint(ro, 0)
+        fm.AddPoint(ri + c, -d)
+        fm.AddPoint(ri, -p2)
+        threadProfileWire = fm.GetClosedWire()
+        return threadProfileWire
+    
+    def SweepProfile(self, helix: Part.Shape, profile1: Part.Shape, profile2: Part.Shape):
+        """ Sweep profile1 wire along helix into profile2 and make solid out of it
+        """
+        sweep = Part.BRepOffsetAPI.MakePipeShell(helix)
+        sweep.setFrenetMode(True)
+        sweep.setTransitionMode(1)  # right corner transition
+        sweep.add(profile1)
+        if profile2:
+            sweep.add(profile2)
+        if sweep.isReady():
+            sweep.build()
+        else:
+            # geometry couldn't be generated in
+            raise RuntimeError(
+                "Failed to sweep tip shell thread")
+        sweep.makeSolid()
+        solid = sweep.shape()
+        # Part.show(solid, "sweep")
+        return solid
+
+    def CreateWNThreadTool(self, dia: float, P: float, d2: float, blen: float) -> Part.Shape:
+        """Returns a shape that can be fuzed to a shaft to create a
+        WN self tapping screw thread.
+        Parameters:
+        - dia: major diameter of the threads
+          (e.g: this would be 6.0 for an M6 thread with nominal dimensions)
+        - P: thread pitch
+        - d2: inner diameter
+        - blen: thread length
+        """
+        margin = 0.01 * P  # margin to ensure proper fusion with the shaft
+        ro = dia / 2.0
+        ri = d2 / 2.0 - margin
+        p2 = P / 2.0 - margin
+        y = p2 * tan20
+        threadProfileWire = self.MakeWNThreadProfile(ro, p2, ri, y)
+        threadProfileWire.translate(Base.Vector(0, 0, P))
+        threadTipWire = self.MakeWNThreadProfile(ri + y + 0.1, p2, ri, y)
+        threadTipWire.translate(Base.Vector(-y, 0, 0))
+        brotations = blen // P - 1
+        helixBodyHeight = brotations * P
+        helixTopHeight = blen - P - helixBodyHeight
+        if helixTopHeight < (P / 3.0):
+            helixBodyHeight -= P
+            helixTopHeight = P
+        if helixBodyHeight < 0:
+            raise ValueError(
+                f"Thread length {blen} is too short for given pitch {P}"
+            )
+        # make the helical paths to sweep along
+        # NOTE: makeLongHelix creates slightly conical
+        # helices unless the 4th parameter is set to 0!
+        # Create tip
+        tipHelix = Part.makeLongHelix(
+            P, P, ro, 0, self.LeftHanded)
+        threads = self.SweepProfile(tipHelix, threadTipWire, threadProfileWire)
+
+
+        # create body
+        if helixBodyHeight > 0:
+            helix = Part.makeLongHelix(
+                P, helixBodyHeight, ro, 0, self.LeftHanded)
+            helix.translate(Base.Vector(0, 0, P))
+            sweep = self.SweepProfile(helix, threadProfileWire, None)
+            threads = threads.fuse(sweep)
+
+        # create top
+        topHelix = Part.makeLongHelix(
+            P, helixTopHeight, ro, 0, self.LeftHanded)
+        topHelix.translate(Base.Vector(0, 0, P + helixBodyHeight))
+        threadProfileWire.translate(Base.Vector(0, 0, helixBodyHeight))
+        threadTipWire.translate(Base.Vector(0, 0, P + helixBodyHeight + helixTopHeight))
+        topRotateAngle = 360 * helixTopHeight / P
+        threadTipWire.rotate(Base.Vector(0,0,0),Base.Vector(0,0,1), topRotateAngle)
+        sweep = self.SweepProfile(topHelix, threadProfileWire, threadTipWire)
+        threads = threads.fuse(sweep)
+       
+        # cut top and bottom
+        print("cutting bottom")
+        cutCyl = Part.makeCylinder(dia, P)
+        cutCyl.translate(Base.Vector(0, 0, -P))
+        threads = threads.cut(cutCyl)
+        # cutCyl.translate(Base.Vector(0, 0, 2 * P + helixBodyHeight + helixTopHeight))
+        # threads = threads.cut(cutCyl)
+
         return threads
 
     def CreateThreadCutter(self, dia: float, P: float, blen: float) -> Part.Shape:
@@ -616,6 +730,22 @@ class Screw:
         hexagon = Part.Face(hexagon)
         # Extrude in z to create the final shape
         solid = hexagon.extrude(Base.Vector(0.0, 0.0, height))
+        return solid
+
+    @staticmethod
+    def makeHexCutter(rad: float, width: float, height: float) -> Part.Shape:
+        """create a cylinder with hexagonal cut through all
+        Parameters:
+        - rad: radius of the cylinder
+        - width: width across flats.
+          (the cross-corner width is width * 2 / sqrt(3))
+        - height: overall height of the cutter tool
+        """
+        # create hexagon prizm
+        hex = Screw.makeHexPrism(width, height + 2)
+        hex.translate(Base.Vector(0.0, 0.0, -1))
+        solid = Part.makeCylinder(rad, height)
+        solid = solid.cut(hex)
         return solid
 
     @classmethod

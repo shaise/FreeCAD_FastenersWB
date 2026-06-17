@@ -92,6 +92,9 @@ TSlotBoltParameters = { "Type", "Diameter", "Length", "LengthCustom",
                        "MatchOuter", "Thread", "LeftHanded", "SlotWidth" }
 HexKeyParameters = { "Type", "Diameter", "MatchOuter", "KeySize" }
 NailParameters = { "Type", "Diameter", "MatchOuter", }
+WN14xxParameters = {"Type", "Diameter",
+                   "MatchOuter", "Thread", "Length"}
+
 # this is a list of all possible fastener attribs
 FastenerAttribs = ['Type', 'Diameter', 'Thread', 'LeftHanded', 'MatchOuter', 'Length',
                    'LengthCustom', 'Width', 'DiameterCustom', 'PitchCustom', 'Tcode',
@@ -116,6 +119,7 @@ TSlotGroup = translate("FastenerCmd", "T-Slot Fasteners")
 SetScrewGroup = translate("FastenerCmd", "Grub/Set screws")
 NailGroup = translate("FastenerCmd", "Nails")
 PinGroup = translate("FastenerCmd", "Pins")
+WN14xxGroup = translate("FastenerCmd", "EJOT PT WN14xx Screws for plastic")
 ThumbScrewGroup = translate("FastenerCmd", "Thumb screws")
 GroundScrewGroup = translate("FastenerCmd", "Ground screws")
 
@@ -392,9 +396,20 @@ FSScrewCommandTable = {
     "ISO8751": (translate("FastenerCmd", "Coiled spring pins, light duty"), PinGroup, PinParameters),
     "ISO8752": (translate("FastenerCmd", "Slotted spring pins, heavy duty"), PinGroup, PinParameters),
     "ISO13337": (translate("FastenerCmd", "Slotted spring pins, light duty"), PinGroup, PinParameters),
+
+    # WN14xx group
+    "WN1451": (translate("FastenerCmd", "Hexalobular socket flanged head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    "WN1452": (translate("FastenerCmd", "Hexalobular socket pan head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    "WN1453": (translate("FastenerCmd", "Hexalobular socket raised countersunk head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    "WN1423": (translate("FastenerCmd", "Hexalobular socket flat countersunk head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    "WN1411A": (translate("FastenerCmd", "H cross flanged head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    "WN1412A": (translate("FastenerCmd", "H cross pan head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    "WN1413A": (translate("FastenerCmd", "H cross flat countersunk head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    "WN1446": (translate("FastenerCmd", "Hex head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    "WN1447": (translate("FastenerCmd", "Flanged hex head self tapping screws"), WN14xxGroup, WN14xxParameters),
 }
 
-FatenersStandards = { "ASME", "DIN", "ISO", "SAE", "EN", "GOST", "BSPP" }
+FatenersStandards = { "ASME", "DIN", "ISO", "SAE", "EN", "GOST", "BSPP", "WN" }
 FastenersStandardMap = {"ScrewTapInch": "ASME", "ScrewDieInch": "ASME", "ThreadedRodInch": "ASME",
                         "ThreadedRod": "DIN", "ScrewTap": "ISO", "ScrewDie": "ISO",
                         "ScrewTapBSPP": "BSPP", "ScrewDieBSPP": "BSPP" }
@@ -972,6 +987,7 @@ if FSutils.isGuiLoaded():
             "SAE": FSParam.GetBool("ShowSAEInToolbars", True),
             "GOST": FSParam.GetBool("ShowGOSTInToolbars", True),
             "BSPP": FSParam.GetBool("ShowBSPPInToolbars", True),
+            "WN": FSParam.GetBool("ShowWNInToolbars", True),
             "other": True,
         }
         cmd = 'FS' + type

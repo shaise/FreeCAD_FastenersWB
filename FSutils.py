@@ -117,24 +117,32 @@ def parseInch(txt : str):
 def parseLength(txt : str):
     """Parse a length string after cleaning all non-digit characters. return the first float value found.
        if the string contains "in", it will be parsed as an inch measurement and converted to mm.
+       if the string start with K, (as in WN standard) length is devided by 10
        Examples of valid formats:
        "10" -> 10.0
        "10mm" -> 10.0
        "M8" -> 8.0
        "1in" -> 25.4
+       "K60" -> 6.0
        """
     if "in" in txt:
         # handle inch format, e.g: "1in", "1.5in", etc.
         return parseInch(txt)
 
     clean_txt = ""
+    leftover_txt = ""
     for c in txt:
         if c.isdecimal() or c in ".-":
             clean_txt += c
+            leftover_txt += " "
         else:
             clean_txt += " "
+            leftover_txt += c
     parts = clean_txt.split()
     if len(parts) > 0:
-        return float(parts[0])
+        res = float(parts[0])
+        if leftover_txt.rstrip() == "K":
+            res /= 10.0
+        return res
     else:
         raise ValueError(f"Invalid float format: '{txt}'")

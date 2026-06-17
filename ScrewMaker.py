@@ -398,6 +398,15 @@ screwTables = {
     "ISO8751": ("Pin", "makeCoiledSpringPin"),
     "ISO8752": ("Pin", "makeSlottedSpringPin"),
     "ISO13337": ("Pin", "makeSlottedSpringPin"),
+    "WN1451": ("Screw", "makeWNScrew"),
+    "WN1452": ("Screw", "makeWNScrew"),
+    "WN1453": ("Screw", "makeWNScrew"),
+    "WN1423": ("Screw", "makeWNScrew"),
+    "WN1411A": ("Screw", "makeWNScrew"),
+    "WN1412A": ("Screw", "makeWNScrew"),
+    "WN1413A": ("Screw", "makeWNScrew"),
+    "WN1446": ("Screw", "makeWNScrew"),
+    "WN1447": ("Screw", "makeWNScrew"),
     # * diam pos and K pos were moved from this table to the csv titles
 }
 FSAppendAliasesToTable(screwTables)

@@ -221,8 +221,13 @@ def MToFloat(m: str) -> float:
 
 def DiaStr2Num(DiaStr: str) -> float:
     """Convert a diameter string to a corresponding numeric value."""
-    DiaStr = cleanDiamStr(DiaStr)
-    return FsData["DiaList"][DiaStr][0]
+    if DiaStr in FsData["DiaList"]:
+        # handle named diameters, e.g: "#6", "G1/4", etc.
+        dia = FsData["DiaList"][DiaStr][0]
+    else:
+        # handle metric/inch format, e.g: "M6", "ST 6.3, 1 1/4in etc"
+        dia = FSutils.parseLength(DiaStr)
+    return dia
 
 
 # inch tolerant version of length string to number converter

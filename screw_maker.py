@@ -835,12 +835,7 @@ class Screw:
           self.getDia("M6", True) == 6.65  # 6 * 1.1 + 0.05
         """
         if isinstance(ThreadDiam, str):
-            if ThreadDiam in FsData["DiaList"]:
-                # handle named diameters, e.g: "#6", "G1/4", etc.
-                dia = FsData["DiaList"][ThreadDiam][0]
-            else:
-                # handle metric format, e.g: "M6" or "ST 6.3"
-                dia = FSutils.parseLength(ThreadDiam)
+            dia = FastenerBase.DiaStr2Num(ThreadDiam)
         else:
             dia = ThreadDiam
         if self.sm3DPrintMode:

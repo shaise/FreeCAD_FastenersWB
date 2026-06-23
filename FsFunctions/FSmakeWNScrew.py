@@ -126,7 +126,7 @@ def makeWN1423Body(obj, calc_diam, dia, core_dia, len, clean_len, isRealThread):
     fm.AddPoint(d2, c)
     fm.AddPoint(d2 , 0)
     print ("diag=",d2 - core_dia)
-    clean_len += d2 - core_dia / 2.0
+    clean_len = clean_len / 2.0 + d2 - core_dia / 2.0
     shape = add14xxStem(obj, fm, dia, core_dia, len, clean_len, isRealThread, d2)
     recess = obj.makeHexalobularRecess(DriveSize, t_mean, True)
     recess.translate(Base.Vector(0, 0, c))
@@ -180,7 +180,7 @@ def makeWN1413Body(obj, calc_diam, dia, core_dia, len, clean_len, isRealThread, 
     fm.AddPoint(d2, c)
     fm.AddPoint(d2 , 0)
     print ("diag=",d2 - core_dia)
-    clean_len += d2 - core_dia / 2.0
+    clean_len = clean_len / 2.0 + d2 - core_dia / 2.0
     shape = add14xxStem(obj, fm, dia, core_dia, len, clean_len, isRealThread, d2)
     if recessType == "A":
         recess = obj.makeHCrossRecess(crs, hcrw)

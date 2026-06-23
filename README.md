@@ -120,6 +120,9 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.61  23 Jun 2026:  Add EJOT PT self tapping screws.  
+                       - Add EJOT PT screw type to calculator.  
+                       - Fix string diameter conversions.
 * V0.5.60  08 Jun 2026:  Translation scripts updated, new languages added.  
 * V0.5.53  07 Jun 2026:  Add DIN130 Trapezoidal-threaded rod.  
 * V0.5.52  21 May 2026:  Face selection for fastener population fixed.  

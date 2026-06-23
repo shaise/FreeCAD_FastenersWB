@@ -60,6 +60,7 @@ class Ui_DockWidget(object):
         self.gridLayout.setObjectName(_fromUtf8("gridLayout"))
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
+        # Fastener Type Layout
         self.horizontalLayout = QtGui.QHBoxLayout()
         self.horizontalLayout.setObjectName(_fromUtf8("horizontalLayout"))
         self.label = QtGui.QLabel(self.dockWidgetContents)
@@ -73,6 +74,28 @@ class Ui_DockWidget(object):
         self.comboFastenerType.setObjectName(_fromUtf8("comboFastenerType"))
         self.horizontalLayout.addWidget(self.comboFastenerType)
         self.verticalLayout.addLayout(self.horizontalLayout)
+
+        # Material Type Layout
+        self.matWidget = QtGui.QWidget()
+        self.matHorizontalLayout = QtGui.QHBoxLayout(self.matWidget)
+        layout = self.matWidget.layout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        self.matHorizontalLayout.setObjectName(_fromUtf8("matHorizontalLayout"))
+        self.matLabel = QtGui.QLabel(self.dockWidgetContents)
+        self.matLabel.setObjectName(_fromUtf8("matlabel"))
+        self.matHorizontalLayout.addWidget(self.matLabel)
+        spacerItem = QtGui.QSpacerItem(
+            40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum
+        )
+        self.matHorizontalLayout.addItem(spacerItem)
+        self.comboMaterialType = QtGui.QComboBox(self.dockWidgetContents)
+        self.comboMaterialType.setObjectName(_fromUtf8("comboMaterialType"))
+        self.matHorizontalLayout.addWidget(self.comboMaterialType)
+        self.verticalLayout.addWidget(self.matWidget)
+        self.matWidget.hide()
+
+        # screw diameter layout
         self.horizontalLayout_2 = QtGui.QHBoxLayout()
         self.horizontalLayout_2.setObjectName(_fromUtf8("horizontalLayout_2"))
         self.label_2 = QtGui.QLabel(self.dockWidgetContents)
@@ -109,12 +132,15 @@ class Ui_DockWidget(object):
 
         self.retranslateUi(DockWidget)
         QtCore.QMetaObject.connectSlotsByName(DockWidget)
+        self.matTable = None
+        self.diamTable = None
 
     def retranslateUi(self, DockWidget):
         DockWidget.setWindowTitle(translate("DockWidget", "Screw hole calculator"))
         self.label.setText(translate("DockWidget", "Fastener type:"))
         self.label_2.setText(translate("DockWidget", "Screw Diameter:"))
         self.labelHoleSize.setText(translate("DockWidget", "Suggested Hole diameter (mm):"))
+        self.matLabel.setText(translate("DockWidget", "Material:"))
 
         #######################################################################
         # End position for generated code from pyuic4
@@ -123,22 +149,42 @@ class Ui_DockWidget(object):
     def fillScrewTypes(self):
         self.comboFastenerType.currentIndexChanged.connect(self.onTypeChange)
         self.comboDiameter.currentIndexChanged.connect(self.onDiameterChange)
+        self.comboMaterialType.currentIndexChanged.connect(self.onMaterialChange)
         self.comboFastenerType.clear()
         for type in FSCScrewTypes:
-            icon, name, table = type
+            icon, name, _diamtable, _mattable = type
             self.comboFastenerType.addItem(QtGui.QIcon(os.path.join(iconPath, icon)), name)
 
     def fillDiameters(self):
         self.comboDiameter.clear()
+        self.comboMaterialType.clear()
         idx = self.comboFastenerType.currentIndex()
-        table = FSCScrewTypes[idx][2]
-        for diam in table:
+        self.matTable = FSCScrewTypes[idx][3]
+        if self.matTable:
+            self.matWidget.show()
+            for material in self.matTable:
+                self.comboMaterialType.addItem(material[0])
+        else:
+            self.matWidget.hide()
+        self.diamTable = FSCScrewTypes[idx][2]
+        for diam in self.diamTable:
             self.comboDiameter.addItem(diam[0])
 
+    def onMaterialChange(self, matindex):
+        self.matIndex = matindex
+        self.updateHoleDiam()
+
     def onDiameterChange(self, diamindex):
-        idx = self.comboFastenerType.currentIndex()
-        table = FSCScrewTypes[idx][2]
-        self.textHole.setText(str(table[diamindex][1]))
+        self.diamIndex = diamindex
+        self.updateHoleDiam()
+
+    def updateHoleDiam(self):
+        val = self.diamTable[self.diamIndex][1]
+        if self.matTable:
+            val *= self.matTable[self.matIndex][1]
+        stval = f"{val:.3f}".rstrip("0").rstrip(".")
+        self.textHole.setText(stval)
+
 
     def onTypeChange(self, typeindex):
         self.fillDiameters()
@@ -176,16 +222,51 @@ FSCPEMStudHoleChart = (
     ("M8", 8),
 )
 
+EJOTDiamChart = (
+    ("K30", 3.0),
+    ("K35", 3.5),
+    ("K40", 4.0),
+    ("K50", 5.0),
+    ("K60", 6.0),
+    ("K70", 7.0),
+    ("K80", 8.0),
+    ("K100", 10.0),
+)
+
+EJOTMaterialChart = (
+    ("ABS", 0.8),
+    ("ABS PC Blend", 0.8),
+    ("ASA", 0.78),
+    ("PA 4.6", 0.73),
+    ("PA 6", 0.75),
+    ("PA 6.6", 0.75),
+    ("PBT", 0.75),
+    ("PE-LD", 0.70),
+    ("PE-HD", 0.75),
+    ("PET", 0.75),
+    ("PET-GF 30", 0.8),
+    ("POM", 0.75),
+    ("POM-GF 30", 0.8),
+    ("PP", 0.70),
+    ("PP-GF 30", 0.72),
+    ("PP-TV 20", 0.72),
+    ("PS", 0.8),
+    ("PVC", 0.8),
+    ("SAN", 0.77),
+    ("Other", 0.8),
+)
+
 FSCScrewTypes = (
-    ("ISO7045.svg", translate("DockWidget", "Metric Screw"), ScrewMaker.FSCScrewHoleChart),
-    ("PEMPressNut.svg", translate("DockWidget", "PEM Press-nut"), FSCPEMPressNutHoleChart),
-    ("PEMBLStandoff.svg", translate("DockWidget", "PEM Stand-off"), FSCPEMStandOffHoleChart),
-    ("PEMStud.svg", translate("DockWidget", "PEM Stud"), FSCPEMStudHoleChart),
+    ("ISO7045.svg", translate("DockWidget", "Metric Screw"), ScrewMaker.FSCScrewHoleChart, None),
+    ("PEMPressNut.svg", translate("DockWidget", "PEM Press-nut"), FSCPEMPressNutHoleChart, None),
+    ("PEMBLStandoff.svg", translate("DockWidget", "PEM Stand-off"), FSCPEMStandOffHoleChart, None),
+    ("PEMStud.svg", translate("DockWidget", "PEM Stud"), FSCPEMStudHoleChart, None),
     (
         "ASMEB18.2.1.6.svg",
         translate("DockWidget", "Inch Screw"),
-        ScrewMaker.FSC_Inch_ScrewHoleChart,
+        ScrewMaker.FSC_Inch_ScrewHoleChart, None,
     ),
+    ("WN1446.svg", "EJOT PT", EJOTDiamChart, EJOTMaterialChart),
 )
 
 FSScrewCalcDlg = QtGui.QDockWidget()

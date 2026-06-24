@@ -34,15 +34,13 @@ def makeScrewTap(self, fa):
     """negative-threaded rod for tapping holes"""
     ThreadType = fa.calc_diam
     if fa.Diameter != 'Custom':
+        dia = self.getDia(ThreadType, True)
         if fa.baseType == "ScrewTap":
-            dia = self.getDia(ThreadType, True)
             P, tunIn, tunEx = fa.dimTable
         elif fa.baseType == 'ScrewTapInch':
-            dia = self.getDia(ThreadType, True)
             P = fa.dimTable[0]
         elif fa.baseType == 'ScrewTapBSPP':
-            P, TPI, MajorDia, MinorDia, thread_type, tunIn, tunEx = fa.dimTable
-            dia = MajorDia  # Use major diameter from BSP data
+            P = fa.dimTable[0]
     else:  # custom pitch and diameter
         P = fa.calc_pitch
         if self.sm3DPrintMode:

@@ -34,15 +34,13 @@ def makeScrewDie(self, fa):
     """make object to cut external threads on a shaft"""
     ThreadType = fa.calc_diam
     if fa.Diameter != "Custom":
+        dia = self.getDia(ThreadType, False)
         if fa.baseType == "ScrewDie":
-            dia = self.getDia(ThreadType, False)
             P, tunIn, tunEx = fa.dimTable
         elif fa.baseType == "ScrewDieInch":
-            dia = self.getDia(ThreadType, False)
             P = fa.dimTable[0]
         elif fa.baseType == "ScrewDieBSPP":
-            P, TPI, MajorDia, MinorDia, thread_type, tunIn, tunEx = fa.dimTable
-            dia = MajorDia  # Use major diameter from BSP data
+            P = fa.dimTable[0]
     else:  # custom pitch and diameter
         P = fa.calc_pitch
         if self.sm3DPrintMode:

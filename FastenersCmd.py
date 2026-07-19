@@ -955,9 +955,14 @@ if FSutils.isGuiLoaded():
 
         def Activated(self):
             FreeCAD.ActiveDocument.openTransaction("Add fastener")
-            for selObj in FastenerBase.FSGetAttachableSelections():
+            activePart = None
+            if FreeCAD.GuiUp:
+                activePart = Gui.ActiveDocument.ActiveView.getActiveObject("part")
+            for selObj in FastenerBase.FSGetAttachableSelections(parentObj=activePart):
                 a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",
                                                     self.TypeName)
+                if activePart is not None:
+                    activePart.addObject(a)
                 FSScrewObject(a, self.Type, selObj)
                 a.Label = a.Proxy.familyType
                 if FSParam.GetBool("DefaultFastenerColorActive", False):

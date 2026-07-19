@@ -398,15 +398,15 @@ FSScrewCommandTable = {
     "ISO13337": (translate("FastenerCmd", "Slotted spring pins, light duty"), PinGroup, PinParameters),
 
     # WN14xx group
-    "WN1451": (translate("FastenerCmd", "Hexalobular socket flanged head self tapping screws"), WN14xxGroup, WN14xxParameters),
-    "WN1452": (translate("FastenerCmd", "Hexalobular socket pan head self tapping screws"), WN14xxGroup, WN14xxParameters),
-    "WN1453": (translate("FastenerCmd", "Hexalobular socket raised countersunk head self tapping screws"), WN14xxGroup, WN14xxParameters),
-    "WN1423": (translate("FastenerCmd", "Hexalobular socket flat countersunk head self tapping screws"), WN14xxGroup, WN14xxParameters),
     "WN1411A": (translate("FastenerCmd", "H cross flanged head self tapping screws"), WN14xxGroup, WN14xxParameters),
     "WN1412A": (translate("FastenerCmd", "H cross pan head self tapping screws"), WN14xxGroup, WN14xxParameters),
     "WN1413A": (translate("FastenerCmd", "H cross flat countersunk head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    "WN1423": (translate("FastenerCmd", "Hexalobular socket flat countersunk head self tapping screws"), WN14xxGroup, WN14xxParameters),
     "WN1446": (translate("FastenerCmd", "Hex head self tapping screws"), WN14xxGroup, WN14xxParameters),
     "WN1447": (translate("FastenerCmd", "Flanged hex head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    "WN1451": (translate("FastenerCmd", "Hexalobular socket flanged head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    "WN1452": (translate("FastenerCmd", "Hexalobular socket pan head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    "WN1453": (translate("FastenerCmd", "Hexalobular socket raised countersunk head self tapping screws"), WN14xxGroup, WN14xxParameters),
 }
 
 FatenersStandards = { "ASME", "DIN", "ISO", "SAE", "EN", "GOST", "BSPP", "WN" }

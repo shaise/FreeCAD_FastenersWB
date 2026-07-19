@@ -507,12 +507,26 @@ class FSViewProviderIcon:
             return self.dumps()
 
 
-def GetEdgeName(obj, edge):
-    i = 1
+def IsCircularEdge(edge):
+    return hasattr(edge, "Curve") and edge.Curve.isDerivedFrom("Part::GeomCircle")
+
+
+def GetEdgeName(obj, edge, tol=1e-6):
+    edgeNor = edge.Curve.normal(0)
+    edgeCen = edge.Curve.Center
+    edgeRad = edge.Curve.Radius
+    i = 0
     for e in obj.Edges:
-        if e.isSame(edge):
-            return "Edge" + str(i)
         i = i + 1
+        if not IsCircularEdge(e):
+            continue
+        if not edgeNor.isEqual(e.Curve.normal(0), tol):
+            continue
+        if not edgeCen.isEqual(e.Curve.Center, tol):
+            continue
+        if not math.isclose(edgeRad, e.Curve.Radius, abs_tol=tol):
+            continue
+        return "Edge" + str(i)
     return None
 
 
@@ -671,56 +685,86 @@ if FSutils.isGuiLoaded():
         return None
 
 
-    def FSGetAttachableSelections(screwObj=None):
+    def FSGetAttachableSelections(screwObj=None, parentObj=None):
+        doc = FreeCAD.ActiveDocument
         asels = []
-        for selObj in Gui.Selection.getSelectionEx():
-            if screwObj is not None and selObj.Object == screwObj:
+        screwName = None
+        parentName = None
+        if screwObj is not None:
+            screwName = screwObj.Name
+            parentObj = screwObj.getParentGeoFeatureGroup()
+            if parentObj is not None:
+                parentName = parentObj.Name
+        elif parentObj is not None:
+            parentName = parentObj.Name
+
+        for selObj in Gui.Selection.getSelectionEx("", 0):
+            objName = selObj.Object.Name
+            if screwName == objName:
                 continue
+            positionDoneList = []  # list with sublists to store the center and radius
+                                   # of processed edges to avoid duplicate fasteners
+            for subName in selObj.SubElementNames:
+                # Remove hasher data:
+                if ";" in subName:
+                    # Test code:
+                    # Gui.Selection.getSelectionEx("", 0)[0].SubElementNames
+                    # Return value examples:
+                    # ('Part.Body.;Edge10;:Hf19,E.Edge10',)
+                    # ('Part.Body.;#1a:1;:H-f28,E;:Hf28,E.Edge15',)
+                    # ('Part.Body.;#16:1;:G#28;FUS;:H-f28:a,E;:Hf28,E.Edge10',)
+                    # ('Part.Body.Pad.;#1d:1;:H-f28,F.Face7',)
+                    # ('Part.Box.Edge10',)
+                    # ('Part.Sketch.;g1;SKT.Edge1',)
+                    tmp = subName.split(";")
+                    subName = tmp[0] + tmp[-1].split(".")[-1]
+                if screwName is not None and (screwName + ".") in subName:
+                    continue
+                if parentName is not None:
+                    path = [objName] + subName.split(".")
+                    if parentName in path:
+                        path = path[path.index(parentName)+1:]
+                        if len(path) > 1:
+                            objName = path[0]
+                            subName = ".".join(path[1:])
 
-            baseObjectNames = selObj.SubElementNames
-            obj = selObj.Object
-            position_done_list = []  # list with sublists to store the center and radius
-            # of processed edges to avoid duplicate fasteners
-
-            for baseObjectName in baseObjectNames:
-                shape = obj.Shape.getElement(baseObjectName)
+                obj = doc.getObject(objName)
+                subShape = Part.getShape(obj, subName, needSubElement=True, noElementMap=True)
 
                 # add explicitly selected edges
-                if hasattr(shape, "Curve"):
-                    if not hasattr(shape.Curve, "Center"):
+                if hasattr(subShape, "Curve"):
+                    if not IsCircularEdge(subShape):
                         continue
-                    if not hasattr(shape.Curve, "Radius"):
+                    if PositionDone(subShape.Curve.Center, subShape.Curve.Radius, positionDoneList):
                         continue
-                    if PositionDone(shape.Curve.Center, shape.Curve.Radius, position_done_list):
-                        continue
-                    asels.append((obj, [baseObjectName]))
-                    position_done_list.append([shape.Curve.Center, shape.Curve.Radius])
-                    FreeCAD.Console.PrintLog("Linking to " + obj.Name + "[" + baseObjectName + "].\n")
+                    asels.append((obj, [subName]))
+                    positionDoneList.append([subShape.Curve.Center, subShape.Curve.Radius])
+                    FreeCAD.Console.PrintLog("Linking to " + objName + "[" + subName + "].\n")
 
                 # add edges of selected faces
-                elif isinstance(shape, Part.Face):
-                    outer_edge_list = shape.OuterWire.Edges
-                    for edge in shape.Edges:
-                        if not hasattr(edge, "Curve"):
+                elif isinstance(subShape, Part.Face):
+                    outerEdgeList = subShape.OuterWire.Edges
+                    objShape = Part.getShape(obj, subName, needSubElement=False, noElementMap=True)
+                    for edge in subShape.Edges:
+                        if not IsCircularEdge(edge):
                             continue
-                        if not hasattr(edge.Curve, "Center"):
+                        if PositionDone(edge.Curve.Center, edge.Curve.Radius, positionDoneList):
                             continue
-                        if not hasattr(edge.Curve, "Radius"):
-                            continue
-                        if PositionDone(edge.Curve.Center, edge.Curve.Radius, position_done_list):
-                            continue
-                        for outer_edge in outer_edge_list:
-                            if outer_edge.isSame(edge):
+                        for outerEdge in outerEdgeList:
+                            if outerEdge.isSame(edge):
                                 edge = None
                                 break
                         if edge is None:
                             continue
-                        edgeName = GetEdgeName(obj.Shape, edge)
+                        edgeName = GetEdgeName(objShape, edge)
                         if edgeName is None:
                             continue
-                        asels.append((obj, [edgeName]))
-                        position_done_list.append([edge.Curve.Center, edge.Curve.Radius])
-                        FreeCAD.Console.PrintLog("Linking to " + obj.Name + "[" + edgeName + "].\n")
+                        # Replace face name with edge name:
+                        tmp = subName.split(".")[:-1] + [edgeName]
+                        subName = ".".join(tmp)
+                        asels.append((obj, [subName]))
+                        positionDoneList.append([edge.Curve.Center, edge.Curve.Radius])
+                        FreeCAD.Console.PrintLog("Linking to " + objName + "[" + subName + "].\n")
         if len(asels) == 0:
             asels.append(None)
         return asels
@@ -798,17 +842,15 @@ if FSutils.isGuiLoaded():
             return
 
         def IsActive(self):
-            screw_valid = False 
+            screw_valid = False
             edge_valid = False
             for selObj in Gui.Selection.getSelectionEx():
                 obj = selObj.Object
                 if hasattr(obj, "Proxy") and isinstance(obj.Proxy, FSBaseObject):
                     screw_valid = True
-                for baseObjectName in selObj.SubElementNames:
-                    shape = obj.getSubObject(baseObjectName)
-                    if hasattr(shape, "Curve"):
-                        if hasattr(shape.Curve, "Center") or hasattr(shape.Curve, "Radius"):
-                            edge_valid = True
+                for subName in selObj.SubElementNames:
+                    shape = obj.getSubObject(subName)
+                    edge_valid = IsCircularEdge(shape)
             return screw_valid and edge_valid
 
         def GetSelection(self):

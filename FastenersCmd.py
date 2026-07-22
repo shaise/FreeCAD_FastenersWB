@@ -955,14 +955,17 @@ if FSutils.isGuiLoaded():
 
         def Activated(self):
             FreeCAD.ActiveDocument.openTransaction("Add fastener")
-            activePart = None
+            activeContainer = None
             if FreeCAD.GuiUp:
-                activePart = Gui.ActiveDocument.ActiveView.getActiveObject("part")
-            for selObj in FastenerBase.FSGetAttachableSelections(parentObj=activePart):
+                for context in ("part", "assembly"):
+                    activeContainer = Gui.ActiveDocument.ActiveView.getActiveObject(context)
+                    if activeContainer is not None:
+                        break
+            for selObj in FastenerBase.FSGetAttachableSelections(parentObj=activeContainer):
                 a = FreeCAD.ActiveDocument.addObject("Part::FeaturePython",
                                                     self.TypeName)
-                if activePart is not None:
-                    activePart.addObject(a)
+                if activeContainer is not None:
+                    activeContainer.addObject(a)
                 FSScrewObject(a, self.Type, selObj)
                 a.Label = a.Proxy.familyType
                 if FSParam.GetBool("DefaultFastenerColorActive", False):
@@ -974,7 +977,7 @@ if FSutils.isGuiLoaded():
                     a.ViewObject.PointSize  = FSParam.GetFloat("DefaultVertexSize", 1.0)
 
                 FSViewProviderTree(a.ViewObject)
-            FreeCAD.ActiveDocument.commitTransaction()  
+            FreeCAD.ActiveDocument.commitTransaction()
             FreeCAD.ActiveDocument.recompute()
             return
 

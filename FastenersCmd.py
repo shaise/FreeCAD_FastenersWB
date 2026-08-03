@@ -73,7 +73,7 @@ TrapezoidRodParameters = {"Type", "Diameter", "Pitch", "NumStarts", "Thread",
                  "lengthArbitrary",  "DiameterCustom", "PitchCustom"}
 NutParameters = {"Type", "Diameter", "MatchOuter", "Thread", "LeftHanded"}
 WoodInsertParameters = {"Type", "Diameter", "MatchOuter", "Thread", "LeftHanded"}
-HeatInsertParameters = {"Type", "Diameter", "lengthArbitrary", "ExternalDiam", "MatchOuter", 
+HeatInsertParameters = {"Type", "Diameter", "lengthArbitrary", "ExternalDiam", "MatchOuter",
                         "Thread", "LeftHanded"}
 WasherParameters = {"Type", "Diameter", "MatchOuter"}
 PCBStandoffParameters = {"Type", "Diameter", "MatchOuter", "Thread",
@@ -336,7 +336,7 @@ FSScrewCommandTable = {
     "ScrewDieInch": (translate("FastenerCmd", "Tool object to cut external non-metric threads"), ThreadedRodGroup, RodParameters),
     "ThreadedRodInch": (translate("FastenerCmd", "UNC threaded rod"), ThreadedRodGroup, RodParameters),
     "ThreadedRod": (translate("FastenerCmd", "Metric threaded rod"), ThreadedRodGroup, RodParameters),
-    "DIN130": (translate("FastenerCmd", "Trapezoidal threaded rod"), ThreadedRodGroup, TrapezoidRodParameters),
+    "DIN103": (translate("FastenerCmd", "Trapezoidal threaded rod"), ThreadedRodGroup, TrapezoidRodParameters),
     "ScrewTap": (translate("FastenerCmd", "Metric threaded tap for creating internal threads"), ThreadedRodGroup, RodParameters),
     "ScrewDie": (translate("FastenerCmd", "Tool object to cut external metric threads"), ThreadedRodGroup, RodParameters),
     "ScrewTapBSPP": (translate("FastenerCmd", "BSP threaded tap for creating internal threads"), ThreadedRodGroup, RodParameters),
@@ -820,7 +820,7 @@ class FSScrewObject(FSBaseObject):
                     fp.Pitch = screwMaker.GetAllPitches(fp.Type, fp.Diameter, "PitchCustom" in params)
             if fp.Pitch == 'Custom' and hasattr(fp, "PitchCustom"):
                 self.calc_pitch = fp.PitchCustom.Value
-            else:                
+            else:
                 self.calc_pitch = FSutils.parseLength(fp.Pitch)
         else:
             if fp.Diameter == 'Custom' and hasattr(fp, "PitchCustom"):

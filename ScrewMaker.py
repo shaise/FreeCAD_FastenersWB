@@ -353,7 +353,7 @@ screwTables = {
     "ScrewDieBSPP": ("ScrewDie", "makeScrewDie"),
     "ThreadedRod": ("ThreadedRod", "makeThreadedRod"),
     "ThreadedRodInch": ("ThreadedRod", "makeThreadedRod"),
-    "DIN130": ("ThreadedRod", "makeTrapezoidRod"),
+    "DIN103": ("ThreadedRod", "makeTrapezoidRod"),
     "PEMPressNut": ("PressNut", "makePEMPressNut"),
     "PEMStandoff": ("Standoff", "makePEMStandoff"),
     "PEMStud": ("Stud", "makePEMStud"),

@@ -160,7 +160,7 @@ class Screw:
 
         if function != "":
             function = "self." + function + "(fastenerAttribs)"
-            screw = eval(function)
+            screw = eval(function) # nosec
             done = True
         else:
             FreeCAD.Console.PrintMessage(

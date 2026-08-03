@@ -160,7 +160,7 @@ class Screw:
 
         if function != "":
             function = "self." + function + "(fastenerAttribs)"
-            screw = eval(function) # nosec
+            screw = eval(function)
             done = True
         else:
             FreeCAD.Console.PrintMessage(
@@ -258,9 +258,9 @@ class Screw:
         H = P * cos30  # Thread depth H
         return dia - H * 5.0 / 4.0 + addEpsilon
 
-    def CreateDin130ThreadTool(self, dia: float, P: float, ac: float, blen: float, ns: int) -> Part.Shape:
+    def CreateDin103ThreadTool(self, dia: float, P: float, ac: float, blen: float, ns: int) -> Part.Shape:
         """Returns a shape that can be fuzed to a shaft to create a
-        DIN 130 trapezoidal screw thread.
+        DIN 103 trapezoidal screw thread.
         Parameters:
         - dia: major diameter of the threads
           (e.g: this would be 6.0 for an M6 thread with nominal dimensions)

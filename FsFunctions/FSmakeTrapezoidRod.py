@@ -55,7 +55,7 @@ def makeTrapezoidRod(self, fa):
             )
         lenExtra = fa.calc_len + 2 * P
         screw = Part.makeCylinder(rin, lenExtra)
-        tool = self.CreateDin130ThreadTool(dia, P, ac, lenExtra, fa.NumStarts)
+        tool = self.CreateDin103ThreadTool(dia, P, ac, lenExtra, fa.NumStarts)
         screw = screw.fuse(tool)
         screw.translate(FreeCAD.Vector(0, 0, -P))
         tool = Part.makeCylinder(dia, P * 2)

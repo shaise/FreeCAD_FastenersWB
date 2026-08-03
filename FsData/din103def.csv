@@ -1,5 +1,5 @@
-"DIN130def"
-"DIN130pitch"
+"DIN103def"
+"DIN103pitch"
 "Dia","pitch"
 "Unit","mm"
 "Tr8","1.5"
@@ -68,7 +68,7 @@
 "Tr290","24 12 44"
 "Tr300","24 12 44"
 
-"DIN130clearance"
+"DIN103clearance"
 "pitch","ac"
 1.5,0.15
 2,0.25

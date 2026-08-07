@@ -159,8 +159,7 @@ class Screw:
         doc = FreeCAD.activeDocument()
 
         if function != "":
-            function = "self." + function + "(fastenerAttribs)"
-            screw = eval(function) # nosec
+            screw = getattr(self, function)(fastenerAttribs)
             done = True
         else:
             FreeCAD.Console.PrintMessage(

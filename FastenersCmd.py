@@ -528,6 +528,11 @@ class FSScrewObject(FSBaseObject):
         if obj.Type == "ISO7380":
             # backward compatibility - remove at FreeCAD version 0.23
             obj.Type = type = "ISO7380-1"
+        if obj.Type == "DIN130":
+            # backward compatibility 
+            type = "DIN103"
+            obj.Type = self.GetCompatibleTypes(type)
+            obj.Type = type
         if obj.Type == "DIN1624":
             # backward compatibility - remove at FreeCAD version 0.23
             type = "4PWTI"

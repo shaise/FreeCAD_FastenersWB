@@ -250,159 +250,159 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="742"/>
+        <location filename="../../FastenerBase.py" line="786"/>
         <source>Invert fastener</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="743"/>
+        <location filename="../../FastenerBase.py" line="787"/>
         <source>Invert fastener orientation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="786"/>
+        <location filename="../../FastenerBase.py" line="830"/>
         <source>Move fastener</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="787"/>
+        <location filename="../../FastenerBase.py" line="831"/>
         <source>Move fastener to a new location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="840"/>
+        <location filename="../../FastenerBase.py" line="882"/>
         <source>Simplify shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="841"/>
+        <location filename="../../FastenerBase.py" line="883"/>
         <source>Change object to simple non-parametric shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="877"/>
+        <location filename="../../FastenerBase.py" line="919"/>
         <source>Restore fasteners</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="878"/>
+        <location filename="../../FastenerBase.py" line="920"/>
         <source>Restore fastener objects saved without the Fasteners workbench</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="897"/>
+        <location filename="../../FastenerBase.py" line="939"/>
         <source>No fasteners required restoration.
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="911"/>
+        <location filename="../../FastenerBase.py" line="953"/>
         <source>Restored {0} fastener(s).
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="963"/>
+        <location filename="../../FastenerBase.py" line="1005"/>
         <source>Match screws by inner thread diameter (Tap hole)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="983"/>
+        <location filename="../../FastenerBase.py" line="1025"/>
         <source>Match screws by outer thread diameter (Pass hole)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1016"/>
+        <location filename="../../FastenerBase.py" line="1058"/>
         <source>Generate BOM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1017"/>
+        <location filename="../../FastenerBase.py" line="1059"/>
         <source>Generate fasteners bill of material</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1024"/>
+        <location filename="../../FastenerBase.py" line="1066"/>
         <source>Fasteners_BOM</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1026"/>
+        <location filename="../../FastenerBase.py" line="1068"/>
         <source>Type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1027"/>
+        <location filename="../../FastenerBase.py" line="1069"/>
         <source>Qty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1052"/>
+        <location filename="../../FastenerBase.py" line="1094"/>
         <source> Screw </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1060"/>
+        <location filename="../../FastenerBase.py" line="1102"/>
         <source> Nut </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1063"/>
+        <location filename="../../FastenerBase.py" line="1105"/>
         <source> Washer </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1066"/>
+        <location filename="../../FastenerBase.py" line="1108"/>
         <source>Threaded Rod </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1070"/>
+        <location filename="../../FastenerBase.py" line="1112"/>
         <source>PEM PressNut </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1073"/>
+        <location filename="../../FastenerBase.py" line="1115"/>
         <source>PEM Standoff </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1076"/>
+        <location filename="../../FastenerBase.py" line="1118"/>
         <source>PEM Stud </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1080"/>
+        <location filename="../../FastenerBase.py" line="1122"/>
         <source>PCB Standoff </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1084"/>
+        <location filename="../../FastenerBase.py" line="1126"/>
         <source>Heat Set Insert </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1087"/>
+        <location filename="../../FastenerBase.py" line="1129"/>
         <source> Retaining Ring </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1092"/>
+        <location filename="../../FastenerBase.py" line="1134"/>
         <source> T-Slot Bolt </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1096"/>
+        <location filename="../../FastenerBase.py" line="1138"/>
         <source> T-Slot Nut </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1100"/>
+        <location filename="../../FastenerBase.py" line="1142"/>
         <source> Hex key </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenerBase.py" line="1103"/>
+        <location filename="../../FastenerBase.py" line="1145"/>
         <source> Nail </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1564,17 +1564,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenersCmd.py" line="401"/>
+        <location filename="../../FastenersCmd.py" line="407"/>
         <source>Hexalobular socket flanged head self tapping screws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenersCmd.py" line="402"/>
+        <location filename="../../FastenersCmd.py" line="408"/>
         <source>Hexalobular socket pan head self tapping screws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenersCmd.py" line="403"/>
+        <location filename="../../FastenersCmd.py" line="409"/>
         <source>Hexalobular socket raised countersunk head self tapping screws</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1584,27 +1584,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenersCmd.py" line="405"/>
+        <location filename="../../FastenersCmd.py" line="401"/>
         <source>H cross flanged head self tapping screws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenersCmd.py" line="406"/>
+        <location filename="../../FastenersCmd.py" line="402"/>
         <source>H cross pan head self tapping screws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenersCmd.py" line="407"/>
+        <location filename="../../FastenersCmd.py" line="403"/>
         <source>H cross flat countersunk head self tapping screws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenersCmd.py" line="408"/>
+        <location filename="../../FastenersCmd.py" line="405"/>
         <source>Hex head self tapping screws</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../FastenersCmd.py" line="409"/>
+        <location filename="../../FastenersCmd.py" line="406"/>
         <source>Flanged hex head self tapping screws</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1860,7 +1860,7 @@
 <context>
     <name>Fastenerbase</name>
     <message>
-        <location filename="../../FastenerBase.py" line="1106"/>
+        <location filename="../../FastenerBase.py" line="1148"/>
         <source> Pin </source>
         <translation type="unfinished"></translation>
     </message>

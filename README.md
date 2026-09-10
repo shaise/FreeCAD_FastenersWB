@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.5.67  10 Sep 2026:  Added M2/2.5 Nyloc nut.
 * V0.5.66  06 Sep 2026:  Added M2 PCB standoffs/spacers.
 * V0.5.65  29 Aug 2026:  Insert fasteners in active assembly by @Roy-043.
                        - Rename DIN130 to DIN103 by @Roy-043.  

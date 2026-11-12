@@ -120,7 +120,8 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
-* V0.5.65  29 Aug 2026:  Insert fasteners in active assembly by @Roy-043.
+* V0.6.00  12 Nov 2026:  Update license to LGPL.  
+* V0.5.65  29 Aug 2026:  Insert fasteners in active assembly by @Roy-043.  
                        - Rename DIN130 to DIN103 by @Roy-043.  
                        - Avoid use of unsafe eval statement by @Roy-043. 
                        - Update translatios from crowdin.  

@@ -22,8 +22,6 @@ FSIconAliases = {
     'GOST1144-3' : 'DIN7996',
     'GOST1144-4' : 'DIN7996',
     'ISO299' : 'DIN508',
-    'ISO4379C': 'ISO7089',
-    'ISO4379F': 'ISO7089',
     'ISO4015' : 'ISO4014',
     'ISO4016' : 'ISO4014',
     'ISO4018' : 'ISO4017',

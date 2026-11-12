@@ -472,16 +472,6 @@ class FSScrewMaker(Screw):
         if is_attached and not is_retaining_ring:
             d = holeObj.Curve.Radius * 2
             table = FsData[type + "def"]
-            inner_diameter_pos = self.GetTablePos(type, "d1")
-            outer_diameter_pos = self.GetTablePos(type, "d2")
-            if inner_diameter_pos >= 0 and outer_diameter_pos >= 0:
-                return min(
-                    table,
-                    key=lambda diameter: min(
-                        abs(table[diameter][inner_diameter_pos] - d),
-                        abs(table[diameter][outer_diameter_pos] - d),
-                    ),
-                )
             tablepos = self.GetTablePos(type, 'csh_diam')
             mindif = 100000.0
             dif = mindif - 0.001

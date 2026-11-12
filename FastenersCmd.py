@@ -43,6 +43,7 @@ screwMaker = ScrewMaker.Instance
 # They are used by the pylupdate5 utility for update *.ts files. Don't delete them.
 translate("FastenerCmdTreeView", "Screw")
 translate("FastenerCmdTreeView", "Washer")
+translate("FastenerCmdTreeView", "Bushing")
 translate("FastenerCmdTreeView", "Nut")
 translate("FastenerCmdTreeView", "ThreadedRod")
 translate("FastenerCmdTreeView", "PressNut")
@@ -94,6 +95,7 @@ HexKeyParameters = { "Type", "Diameter", "MatchOuter", "KeySize" }
 NailParameters = { "Type", "Diameter", "MatchOuter", }
 WN14xxParameters = {"Type", "Diameter",
                    "MatchOuter", "Thread", "Length"}
+BushingParameters = {"Type", "Diameter"}
 
 # this is a list of all possible fastener attribs
 FastenerAttribs = ['Type', 'Diameter', 'Thread', 'LeftHanded', 'MatchOuter', 'Length',
@@ -111,6 +113,7 @@ SlottedGroup = translate("FastenerCmd", "Slotted")
 HCrossGroup = translate("FastenerCmd", "H cross")
 NutGroup = translate("FastenerCmd", "Nut")
 WasherGroup = translate("FastenerCmd", "Washer")
+BushingGroup = translate("FastenerCmd", "Bushings")
 OtherHeadGroup = translate("FastenerCmd", "Misc head")
 ThreadedRodGroup = translate("FastenerCmd", "ThreadedRod")
 InsertGroup = translate("FastenerCmd", "Inserts")
@@ -407,6 +410,10 @@ FSScrewCommandTable = {
     "WN1451": (translate("FastenerCmd", "Hexalobular socket flanged head self tapping screws"), WN14xxGroup, WN14xxParameters),
     "WN1452": (translate("FastenerCmd", "Hexalobular socket pan head self tapping screws"), WN14xxGroup, WN14xxParameters),
     "WN1453": (translate("FastenerCmd", "Hexalobular socket raised countersunk head self tapping screws"), WN14xxGroup, WN14xxParameters),
+    
+    # Bushings
+    "ISO4379C": (translate("FastenerCmd", "Plain bearing bushing, type C"), BushingGroup, BushingParameters),
+    "ISO4379F": (translate("FastenerCmd", "Plain bearing bushing, type F"), BushingGroup, BushingParameters),
 }
 
 FatenersStandards = { "ASME", "DIN", "ISO", "SAE", "EN", "GOST", "BSPP", "WN" }
@@ -1059,6 +1066,7 @@ class FSThreadedRodObject(FSScrewObject):
 # add fastener types
 FastenerBase.FSAddFastenerType("Screw")
 FastenerBase.FSAddFastenerType("Washer", False)
+FastenerBase.FSAddFastenerType("Bushing", False)
 FastenerBase.FSAddFastenerType("Nut", False)
 FastenerBase.FSAddFastenerType("ThreadedRod", True, False)
 FastenerBase.FSAddFastenerType("PressNut", False)

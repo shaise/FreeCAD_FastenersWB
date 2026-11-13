@@ -609,11 +609,65 @@ class FSScrewMaker(Screw):
                         lenlist.append(len)
             else:
                 lens = FsData[type + "length"]
-                lenlist = list(lens[diam])
+                lenlist = [length for length in lens[diam] if length not in (None, "")]
             lenlist.sort(key=FastenerBase.LenStr2Num)
+        lenlist = [format(length, "g") if isinstance(length, (int, float)) else length for length in lenlist]
         if addCustom:
             lenlist.append("Custom")
         return lenlist
+
+    def GetAllExternalDiameters(self, type, diam):
+        type = FSGetTypeAlias(type)
+        table = FsData.get(type + "def", {})
+        if diam == "Auto":
+            diam = next(iter(table), None)
+        if diam is None:
+            return []
+        outer_table = FsData.get(type + "outer")
+        if outer_table is not None and diam in outer_table:
+            values = outer_table[diam]
+            if values and isinstance(values[0], (tuple, list)):
+                values = tuple(row[0] for row in values if row)
+        else:
+            tablepos = self.GetTablePos(type, "d3")
+            if tablepos < 0 or diam not in table:
+                return []
+            values = (table[diam][tablepos],)
+        return [format(float(value), "g") for value in values if value not in (None, "")]
+
+    def GetOuterDimensions(self, type, diam, external_diam):
+        type = FSGetTypeAlias(type)
+        outer_table = FsData.get(type + "outer", {})
+        rows = outer_table.get(diam, ())
+        if rows and not isinstance(rows[0], (tuple, list)):
+            rows = (rows,)
+        for row in rows:
+            if row and format(float(row[0]), "g") == str(external_diam):
+                return row
+        if rows:
+            return rows[0]
+        raise ValueError(f"No outer dimensions are defined for {diam}")
+
+    def GetAllChamferAngles(self, type, diam):
+        type = FSGetTypeAlias(type)
+        chamfer_table = FsData.get(type + "chamfer", {})
+        rows = chamfer_table.get(diam, ())
+        if rows and not isinstance(rows[0], (tuple, list)):
+            rows = (rows,)
+        return [format(float(row[0]), "g") for row in rows if row and row[0] not in (None, "")]
+
+    def GetChamferDimensions(self, type, diam, angle):
+        type = FSGetTypeAlias(type)
+        chamfer_table = FsData.get(type + "chamfer", {})
+        rows = chamfer_table.get(diam, ())
+        if rows and not isinstance(rows[0], (tuple, list)):
+            rows = (rows,)
+        for row in rows:
+            if format(float(row[0]), "g") == str(angle):
+                return row
+        if rows:
+            return rows[0]
+        raise ValueError(f"No chamfer dimensions are defined for {diam}")
 
     def GetAllPitches(self, type, diam, addCustom=True):
         pitchlist = []

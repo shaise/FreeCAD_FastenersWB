@@ -95,7 +95,7 @@ HexKeyParameters = { "Type", "Diameter", "MatchOuter", "KeySize" }
 NailParameters = { "Type", "Diameter", "MatchOuter", }
 WN14xxParameters = {"Type", "Diameter",
                    "MatchOuter", "Thread", "Length"}
-BushingParameters = {"Type", "Diameter", "ExternalDiam", "Length"}
+BushingParameters = {"Type", "Diameter", "ExternalDiam", "Length", "LengthCustom"}
 
 # this is a list of all possible fastener attribs
 FastenerAttribs = ['Type', 'Diameter', 'Thread', 'LeftHanded', 'MatchOuter', 'Length',

@@ -80,7 +80,32 @@ def csv2dict(filename, defaultTableName, fieldsnamed=True):
                     for tablename in table_names:
                         tables["titles"][tablename] = data
                     continue
-            cur_table[key] = data
+            table_kind = next(
+                (kind for kind in ("outer", "length", "chamfer")
+                 if any(name.lower().endswith(kind) for name in table_names)),
+                None,
+            )
+            if table_kind == "chamfer" and key in cur_table:
+                previous = cur_table[key]
+                if previous and isinstance(previous[0], tuple):
+                    cur_table[key] = previous + (data,)
+                else:
+                    cur_table[key] = (previous, data)
+            elif table_kind == "outer" and sum(value not in (None, "") for value in data) > 1:
+                previous = cur_table.get(key, ())
+                if previous and isinstance(previous[0], tuple):
+                    cur_table[key] = previous + (data,)
+                elif previous:
+                    cur_table[key] = (previous, data)
+                else:
+                    cur_table[key] = (data,)
+            elif table_kind in ("outer", "length"):
+                previous = cur_table.get(key, ())
+                cur_table[key] = tuple(
+                    value for value in previous + data if value not in (None, "")
+                )
+            else:
+                cur_table[key] = data
         return tables
 
 

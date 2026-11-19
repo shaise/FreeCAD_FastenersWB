@@ -587,115 +587,47 @@ class FSScrewMaker(Screw):
         widths = FsData[type + "width"][diam]
         return list(widths)
 
-    def GetAllLengths(self, type, diam, addCustom=True, width=None):
+    # this function search for a list table <type + valueKeyword> and a range table <type + rangeKeyword>
+    # if range table exists, min and max vals are taken from it using the diam key, then all values in the 
+    # list table ranging from min to max are returnrd
+    # if range table is None or not exist, all values in the list table under diam key are returned 
+    def GetValueRange(self, type, diam, valueKeyword, rangeKeyword, addCustom=False, doSort = True):
         lenlist = []
         type = FSGetTypeAlias(type)
-        rangeTableName = type + "range"
-        if diam != "Auto":
-            if width is not None:
-                diam += "x" + width
-            if rangeTableName in FsData:
-                rangeTable = FsData[rangeTableName]
-                if "all" in rangeTable:
-                    lens = rangeTable["all"]
-                else:
-                    lens = FsData[type + "length"]
-                range = rangeTable[diam]
-                min = FastenerBase.LenStr2Num(range[0])
-                max = FastenerBase.LenStr2Num(range[1])
-                for len in lens:
-                    l = FastenerBase.LenStr2Num(len)
-                    if l >= min and l <= max:
-                        lenlist.append(len)
+        diamTable = FsData.get(type + valueKeyword, {})
+        if diam == "Auto":
+            diam = next(iter(diamTable), None)
+        if diam is None:
+            return []
+
+        rangeTableName = type + rangeKeyword if rangeKeyword else None
+        if rangeTableName and rangeTableName in FsData:
+            rangeTable = FsData[rangeTableName]
+            if "all" in rangeTable:
+                lens = rangeTable["all"]
             else:
-                lens = FsData[type + "length"]
-                lenlist = [length for length in lens[diam] if length not in (None, "")]
+                lens = diamTable
+            range = rangeTable[diam]
+            min = FastenerBase.LenStr2Num(range[0])
+            max = FastenerBase.LenStr2Num(range[1])
+            for len in lens:
+                l = FastenerBase.LenStr2Num(len)
+                if l >= min and l <= max:
+                    lenlist.append(len)
+        else:
+            lens = diamTable
+            lenlist = [length for length in lens[diam] if length not in (None, "")]
+        if doSort:
             lenlist.sort(key=FastenerBase.LenStr2Num)
         lenlist = [format(length, "g") if isinstance(length, (int, float)) else length for length in lenlist]
         if addCustom:
             lenlist.append("Custom")
         return lenlist
 
-    def GetAllExternalDiameters(self, type, diam):
-        type = FSGetTypeAlias(type)
-        table = FsData.get(type + "def", {})
-        if diam == "Auto":
-            diam = next(iter(table), None)
-        if diam is None:
-            return []
-        outer_table = FsData.get(type + "outer")
-        if outer_table is not None and diam in outer_table:
-            values = outer_table[diam]
-            if values and isinstance(values[0], (tuple, list)):
-                values = tuple(row[0] for row in values if row)
-            else:
-                titles = FsTitles.get(type + "outer", ())
-                d2_positions = [i for i, title in enumerate(titles) if title == "d2"]
-                if d2_positions and ("d3" in titles or len(d2_positions) > 1):
-                    values = tuple(values[i] for i in d2_positions if i < len(values))
-        else:
-            tablepos = self.GetTablePos(type, "d3")
-            if tablepos < 0 or diam not in table:
-                return []
-            values = (table[diam][tablepos],)
-        return [format(float(value), "g") for value in values if value not in (None, "")]
-
-    def GetOuterDimensions(self, type, diam, external_diam):
-        type = FSGetTypeAlias(type)
-        outer_table = FsData.get(type + "outer", {})
-        values = outer_table.get(diam, ())
-        if values and isinstance(values[0], (tuple, list)):
-            for row in values:
-                if row and format(float(row[0]), "g") == str(external_diam):
-                    return row
-            return values[0]
-
-        titles = FsTitles.get(type + "outer", ())
-        d2_positions = [i for i, title in enumerate(titles) if title == "d2"]
-        if "d3" in titles and "b2" in titles:
-            for position in d2_positions:
-                if position < len(values) and format(float(values[position]), "g") == str(external_diam):
-                    return values[position:position + 3]
-        elif values:
-            for position in d2_positions:
-                if position < len(values) and format(float(values[position]), "g") == str(external_diam):
-                    return (values[position],)
-            return (values[0],)
-        raise ValueError(f"No outer dimensions are defined for {diam}")
-
-    def GetAllChamferAngles(self, type, diam):
-        type = FSGetTypeAlias(type)
-        chamfer_table = FsData.get(type + "chamfer", {})
-        rows = chamfer_table.get(diam, ())
-        if rows and not isinstance(rows[0], (tuple, list)):
-            titles = FsTitles.get(type + "chamfer", ())
-            positions = [i for i, title in enumerate(titles) if title == "C"]
-            if positions:
-                return [format(float(rows[i]), "g") for i in positions
-                        if i < len(rows) and rows[i] not in (None, "")]
-            rows = (rows,)
-        return [format(float(row[0]), "g") for row in rows if row and row[0] not in (None, "")]
-
-    def GetChamferDimensions(self, type, diam, angle):
-        type = FSGetTypeAlias(type)
-        chamfer_table = FsData.get(type + "chamfer", {})
-        rows = chamfer_table.get(diam, ())
-        if rows and not isinstance(rows[0], (tuple, list)):
-            titles = FsTitles.get(type + "chamfer", ())
-            positions = [i for i, title in enumerate(titles) if title == "C"]
-            for position in positions:
-                if (position + 2 < len(rows)
-                        and format(float(rows[position]), "g") == str(angle)):
-                    return rows[position:position + 3]
-            if positions:
-                return rows[positions[0]:positions[0] + 3]
-            rows = (rows,)
-        for row in rows:
-            if format(float(row[0]), "g") == str(angle):
-                return row
-        if rows:
-            return rows[0]
-        raise ValueError(f"No chamfer dimensions are defined for {diam}")
+    def GetAllLengths(self, type, diam, addCustom=True, width=None):
+        if diam != "Auto" and width is not None:
+            diam += "x" + width
+        return self.GetValueRange(type, diam, "length", "range", addCustom)
 
     def GetAllPitches(self, type, diam, addCustom=True):
         pitchlist = []

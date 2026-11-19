@@ -630,7 +630,7 @@ class FSScrewObject(FSBaseObject):
             obj.addProperty("App::PropertyLength", "Length", "Parameters", translate(
                 "FastenerCmd", "Screw length")).Length = screwMaker.GetTableProperty(type, diameter, "Length", 20.0)
         if "ExternalDiam" in params and not hasattr(obj, "ExternalDiam"):
-            externalDiameters = screwMaker.GetAllExternalDiameters(type, diameter)
+            externalDiameters = screwMaker.GetValueRange(type, diameter, "outer", None)
             if externalDiameters:
                 obj.addProperty("App::PropertyEnumeration", "ExternalDiam", "Parameters", translate(
                     "FastenerCmd", "External Diameter")).ExternalDiam = externalDiameters
@@ -638,7 +638,7 @@ class FSScrewObject(FSBaseObject):
                 obj.addProperty("App::PropertyLength", "ExternalDiam", "Parameters", translate(
                     "FastenerCmd", "External Diameter")).ExternalDiam = screwMaker.GetTableProperty(type, diameter, "ExtDia", 8.0)
         if "BushingCamferAngle" in params and not hasattr(obj, "ChamferAngle"):
-            chamferAngles = screwMaker.GetAllChamferAngles(type, diameter)
+            chamferAngles = screwMaker.GetValueRange(type, "all", "chamferAngles", None, doSort=False)
             if chamferAngles:
                 obj.addProperty("App::PropertyEnumeration", "ChamferAngle", "Parameters", translate(
                     "FastenerCmd", "Chamfer angle")).ChamferAngle = chamferAngles
@@ -822,7 +822,7 @@ class FSScrewObject(FSBaseObject):
 
         if hasattr(fp, 'ExternalDiam'):
             if typechange or diameterchange:
-                externalDiameters = screwMaker.GetAllExternalDiameters(fp.Type, fp.Diameter)
+                externalDiameters = screwMaker.GetValueRange(fp.Type, fp.Diameter, "outer", None)
                 if externalDiameters:
                     if fp.getTypeIdOfProperty("ExternalDiam") == "App::PropertyEnumeration":
                         currentExternalDiam = fp.ExternalDiam
@@ -833,18 +833,6 @@ class FSScrewObject(FSBaseObject):
                         fp.ExternalDiam = float(externalDiameters[0])
                 elif fp.getTypeIdOfProperty("ExternalDiam") != "App::PropertyEnumeration":
                     fp.ExternalDiam = screwMaker.GetTableProperty(fp.Type, fp.Diameter, "ExtDia", 8.0)
-
-        if "BushingCamferAngle" in params:
-            chamferAngles = screwMaker.GetAllChamferAngles(fp.Type, fp.Diameter)
-            if chamferAngles:
-                if not hasattr(fp, "ChamferAngle"):
-                    fp.addProperty("App::PropertyEnumeration", "ChamferAngle", "Parameters", translate(
-                        "FastenerCmd", "Chamfer angle")).ChamferAngle = chamferAngles
-                elif typechange or diameterchange:
-                    currentChamfer = fp.ChamferAngle
-                    fp.ChamferAngle = chamferAngles
-                    if currentChamfer in chamferAngles:
-                        fp.ChamferAngle = currentChamfer
 
         if diameterchange and "ThicknessCode" in params:
             tcodes = screwMaker.GetAllTcodes(fp.Type, fp.Diameter)
@@ -890,16 +878,6 @@ class FSScrewObject(FSBaseObject):
 
         self.BackupObject(fp)
         self.baseType = FSGetTypeAlias(self.Type)
-        if "BushingCamferAngle" in params:
-            self.chamferTable = screwMaker.GetChamferDimensions(
-                self.Type, self.Diameter, self.ChamferAngle
-            )
-        try:
-            self.outerTable = screwMaker.GetOuterDimensions(
-                self.Type, self.Diameter, self.ExternalDiam
-            )
-        except (AttributeError, KeyError, ValueError):
-            self.outerTable = None
 
         # Here we are generating a new key if is not present in cache. This key is also used in method
         # FastenerBase.FSCacheRemoveThreaded. This way it will allow to correctly recompute

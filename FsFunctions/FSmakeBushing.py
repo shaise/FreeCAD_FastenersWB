@@ -4,8 +4,10 @@ import math
 
 def makeBushing(self, fa):
     if fa.Type == "ISO4379C":
-        d1 = fa.dimTable[0]
-        C, C1, C2 = fa.chamferTable
+        d1, C1, C2 = fa.dimTable
+        C = int(fa.ChamferAngle)
+        if C == 45:
+            C2 = C1
         d2 = float(fa.ExternalDiam)
         b1 = float(fa.calc_len)
             
@@ -54,10 +56,17 @@ def makeBushing(self, fa):
             profile.AddPoint(outer_radius, 0)
         return self.RevolveZ(profile.GetFace())
     elif fa.Type == "ISO4379F":
-        d1, u = fa.dimTable[0], fa.dimTable[1]
-        d2, d3, b2 = fa.outerTable
+        d1, u, C1, C2, d2, d3, b2, d2a, d3a, b2a = fa.dimTable
+        #d2, d3, b2 = fa.outerTable
+        od = float(fa.ExternalDiam)
+        if od == d2a:
+            d2, d3, b2 = d2a, d3a, b2a
+        elif od != d2:
+            raise ValueError("External diameter does not match any definition")
         b1 = float(fa.calc_len)
-        C, C1, C2 = fa.chamferTable
+        C = int(fa.ChamferAngle)
+        if C == 45:
+            C2 = C1
         inner_radius = d1 / 2
         body_radius = d2 / 2
         flange_radius = d3 / 2

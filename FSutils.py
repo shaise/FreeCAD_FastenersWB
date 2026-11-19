@@ -25,7 +25,6 @@
 """
 
 import os
-import csv
 import FreeCAD
 
 _dir = os.path.dirname(__file__)
@@ -40,14 +39,70 @@ settings3d_file_path = os.path.join(_dir, "Widget3DPrintSettings.ui")
 # several names can share the same table by placing all the names as a single word line above the table
 
 
+def _getEnclosed(line, index, closingChar = None):
+    """ return string between enclosing characters such as '[]' or '"' etc """
+    openingChar = line[index]
+    if not closingChar:
+        closingChar = openingChar
+    index += 1
+    res = ""
+    encloseCount = 1
+    while index < len(line) and encloseCount > 0:
+        ch = line[index]
+        index += 1
+        if closingChar != openingChar and ch == openingChar: 
+            # nested enclosure
+            encloseCount += 1
+            continue
+        if ch == closingChar:
+            encloseCount -= 1
+            continue
+        res += ch
+    if encloseCount > 0:
+        raise(Exception(f"Missing {closingChar} in csv line"))
+    return res, index
+
+
+def _toNumber(s):
+    try:
+        return int(s)
+    except ValueError:
+        return float(s)
+
+def _parseCsv(line):
+    res = []
+    line = line.strip()
+    buildVar = ""
+    i = 0
+    while i >= 0 and i < len(line):
+        ch = line[i]
+        if ch.isspace():
+            i += 1
+        elif ch == '"' or ch == "'":
+            var, i = _getEnclosed(line, i)
+            res.append(var)
+            buildVar = None
+        elif ch == '[':
+            var, i = _getEnclosed(line, i, ']')
+            res.append(_parseCsv(var))
+            buildVar = None
+        elif ch == ',':
+            if buildVar is not None:
+                buildVar = buildVar.strip()
+                res.append(_toNumber(buildVar) if buildVar else "")
+            buildVar = ""
+            i += 1
+        else:
+            if buildVar is not None:
+                buildVar += ch
+            i += 1
+    if buildVar is not None:
+        res.append(float(buildVar) if buildVar else "")
+    return res
+
+
 def csv2dict(filename, defaultTableName, fieldsnamed=True):
     with open(filename) as fp:
-        reader = csv.reader(
-            fp,
-            skipinitialspace=True,
-            dialect="unix",
-            quoting=csv.QUOTE_NONNUMERIC,
-        )
         tables = {}
         tables["titles"] = {}
         newTable = False
@@ -55,10 +110,12 @@ def csv2dict(filename, defaultTableName, fieldsnamed=True):
         cur_table = {}
         table_names = {defaultTableName}
 
-        # if fieldsnamed:
-        # skip the first line
-        #    next(reader)
-        for line_list in reader:
+        for i, line in enumerate(fp):
+            try:
+                line_list = _parseCsv(line)
+            except Exception as e:
+                FreeCAD.Console.PrintError(f"Error in csv file {filename}:{i} - {e}")
+                return {}
             if len(line_list) == 0:
                 continue
             elif len(line_list) == 1:

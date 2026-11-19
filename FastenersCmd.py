@@ -100,7 +100,7 @@ BushingParameters = {"Type", "Diameter", "ExternalDiam", "Length", "LengthCustom
 # this is a list of all possible fastener attribs
 FastenerAttribs = ['Type', 'Diameter', 'Thread', 'LeftHanded', 'MatchOuter', 'Length',
                    'LengthCustom', 'Width', 'DiameterCustom', 'PitchCustom', 'Tcode',
-                   'Blind', 'ScrewLength', "SlotWidth", 'ExternalDiam', 'Chamfer', 'KeySize',
+                   'Blind', 'ScrewLength', "SlotWidth", 'ExternalDiam', 'ChamferAngle', 'KeySize',
                    "NumStarts", "Pitch"]
 
 
@@ -637,11 +637,11 @@ class FSScrewObject(FSBaseObject):
             else:
                 obj.addProperty("App::PropertyLength", "ExternalDiam", "Parameters", translate(
                     "FastenerCmd", "External Diameter")).ExternalDiam = screwMaker.GetTableProperty(type, diameter, "ExtDia", 8.0)
-        if "BushingCamferAngle" in params and not hasattr(obj, "Chamfer"):
+        if "BushingCamferAngle" in params and not hasattr(obj, "ChamferAngle"):
             chamferAngles = screwMaker.GetAllChamferAngles(type, diameter)
             if chamferAngles:
-                obj.addProperty("App::PropertyEnumeration", "Chamfer", "Parameters", translate(
-                    "FastenerCmd", "Chamfer angle")).Chamfer = chamferAngles
+                obj.addProperty("App::PropertyEnumeration", "ChamferAngle", "Parameters", translate(
+                    "FastenerCmd", "Chamfer angle")).ChamferAngle = chamferAngles
         if "DiameterCustom" in params and not hasattr(obj, "DiameterCustom"):
             obj.addProperty("App::PropertyLength", "DiameterCustom", "Parameters", translate(
                 "FastenerCmd", "Screw major diameter custom")).DiameterCustom = 6
@@ -837,14 +837,14 @@ class FSScrewObject(FSBaseObject):
         if "BushingCamferAngle" in params:
             chamferAngles = screwMaker.GetAllChamferAngles(fp.Type, fp.Diameter)
             if chamferAngles:
-                if not hasattr(fp, "Chamfer"):
-                    fp.addProperty("App::PropertyEnumeration", "Chamfer", "Parameters", translate(
-                        "FastenerCmd", "Chamfer angle")).Chamfer = chamferAngles
+                if not hasattr(fp, "ChamferAngle"):
+                    fp.addProperty("App::PropertyEnumeration", "ChamferAngle", "Parameters", translate(
+                        "FastenerCmd", "Chamfer angle")).ChamferAngle = chamferAngles
                 elif typechange or diameterchange:
-                    currentChamfer = fp.Chamfer
-                    fp.Chamfer = chamferAngles
+                    currentChamfer = fp.ChamferAngle
+                    fp.ChamferAngle = chamferAngles
                     if currentChamfer in chamferAngles:
-                        fp.Chamfer = currentChamfer
+                        fp.ChamferAngle = currentChamfer
 
         if diameterchange and "ThicknessCode" in params:
             tcodes = screwMaker.GetAllTcodes(fp.Type, fp.Diameter)
@@ -892,7 +892,7 @@ class FSScrewObject(FSBaseObject):
         self.baseType = FSGetTypeAlias(self.Type)
         if "BushingCamferAngle" in params:
             self.chamferTable = screwMaker.GetChamferDimensions(
-                self.Type, self.Diameter, self.Chamfer
+                self.Type, self.Diameter, self.ChamferAngle
             )
         try:
             self.outerTable = screwMaker.GetOuterDimensions(
@@ -922,7 +922,7 @@ class FSScrewObject(FSBaseObject):
             label += 'x' + dispLen
             if hasattr(fp, 'Width'):
                 label += 'x' + fp.Width
-        if hasBushingChamfer and str(fp.Chamfer) == '15':
+        if hasBushingChamfer and str(fp.ChamferAngle) == '15':
             label += 'Y'
         if hasattr(fp, 'LeftHanded'):
             if self.LeftHanded:

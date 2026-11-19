@@ -95,7 +95,7 @@ HexKeyParameters = { "Type", "Diameter", "MatchOuter", "KeySize" }
 NailParameters = { "Type", "Diameter", "MatchOuter", }
 WN14xxParameters = {"Type", "Diameter",
                    "MatchOuter", "Thread", "Length"}
-BushingParameters = {"Type", "Diameter", "ExternalDiam", "Length", "LengthCustom"}
+BushingParameters = {"Type", "Diameter", "ExternalDiam", "Length", "LengthCustom", "BushingCamferAngle"}
 
 # this is a list of all possible fastener attribs
 FastenerAttribs = ['Type', 'Diameter', 'Thread', 'LeftHanded', 'MatchOuter', 'Length',
@@ -491,6 +491,19 @@ class FSScrewObject(FSBaseObject):
         self.dimTable = None
         self.LeftHanded = False
 
+    def onChanged(self, fp, prop):
+        if prop != "Type":
+            return
+        view_obj = getattr(fp, "ViewObject", None)
+        refresher = getattr(view_obj, "signalChangeIcon", None)
+        if callable(refresher):
+            refresher()
+            return
+        view_proxy = getattr(view_obj, "Proxy", None)
+        callback = getattr(view_proxy, "onChanged", None)
+        if callable(callback):
+            callback(view_obj, "Type")
+
     def BackupObject(self, obj):
         for attr in FastenerAttribs:
             if hasattr(obj, attr):
@@ -624,7 +637,7 @@ class FSScrewObject(FSBaseObject):
             else:
                 obj.addProperty("App::PropertyLength", "ExternalDiam", "Parameters", translate(
                     "FastenerCmd", "External Diameter")).ExternalDiam = screwMaker.GetTableProperty(type, diameter, "ExtDia", 8.0)
-        if type in ("ISO4379C", "ISO4379F") and not hasattr(obj, "Chamfer"):
+        if "BushingCamferAngle" in params and not hasattr(obj, "Chamfer"):
             chamferAngles = screwMaker.GetAllChamferAngles(type, diameter)
             if chamferAngles:
                 obj.addProperty("App::PropertyEnumeration", "Chamfer", "Parameters", translate(
@@ -808,7 +821,7 @@ class FSScrewObject(FSBaseObject):
             self.calc_len = None
 
         if hasattr(fp, 'ExternalDiam'):
-            if (diameterchange):
+            if typechange or diameterchange:
                 externalDiameters = screwMaker.GetAllExternalDiameters(fp.Type, fp.Diameter)
                 if externalDiameters:
                     if fp.getTypeIdOfProperty("ExternalDiam") == "App::PropertyEnumeration":
@@ -821,7 +834,7 @@ class FSScrewObject(FSBaseObject):
                 elif fp.getTypeIdOfProperty("ExternalDiam") != "App::PropertyEnumeration":
                     fp.ExternalDiam = screwMaker.GetTableProperty(fp.Type, fp.Diameter, "ExtDia", 8.0)
 
-        if fp.Type in ("ISO4379C", "ISO4379F"):
+        if "BushingCamferAngle" in params:
             chamferAngles = screwMaker.GetAllChamferAngles(fp.Type, fp.Diameter)
             if chamferAngles:
                 if not hasattr(fp, "Chamfer"):
@@ -877,14 +890,16 @@ class FSScrewObject(FSBaseObject):
 
         self.BackupObject(fp)
         self.baseType = FSGetTypeAlias(self.Type)
-        if self.Type in ("ISO4379C", "ISO4379F"):
+        if "BushingCamferAngle" in params:
             self.chamferTable = screwMaker.GetChamferDimensions(
                 self.Type, self.Diameter, self.Chamfer
             )
-        if self.Type == "ISO4379F":
+        try:
             self.outerTable = screwMaker.GetOuterDimensions(
                 self.Type, self.Diameter, self.ExternalDiam
             )
+        except (AttributeError, KeyError, ValueError):
+            self.outerTable = None
 
         # Here we are generating a new key if is not present in cache. This key is also used in method
         # FastenerBase.FSCacheRemoveThreaded. This way it will allow to correctly recompute
@@ -899,15 +914,15 @@ class FSScrewObject(FSBaseObject):
         # Formation of fastener name: DxLxH(LH)-Type
         dispDiam = self.CleanDecimals(self.calc_diam)
         label = dispDiam
-        isBushing = fp.Type in ("ISO4379C", "ISO4379F")
-        if isBushing:
+        hasBushingChamfer = "BushingCamferAngle" in params
+        if hasBushingChamfer:
             label += 'x' + self.CleanDecimals(fp.ExternalDiam)
         if hasattr(fp, 'Length'):
             dispLen = self.ActiveLength(fp)
             label += 'x' + dispLen
             if hasattr(fp, 'Width'):
                 label += 'x' + fp.Width
-        if isBushing and str(fp.Chamfer) == '15':
+        if hasBushingChamfer and str(fp.Chamfer) == '15':
             label += 'Y'
         if hasattr(fp, 'LeftHanded'):
             if self.LeftHanded:

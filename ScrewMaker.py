@@ -628,6 +628,11 @@ class FSScrewMaker(Screw):
             values = outer_table[diam]
             if values and isinstance(values[0], (tuple, list)):
                 values = tuple(row[0] for row in values if row)
+            else:
+                titles = FsTitles.get(type + "outer", ())
+                d2_positions = [i for i, title in enumerate(titles) if title == "d2"]
+                if d2_positions and ("d3" in titles or len(d2_positions) > 1):
+                    values = tuple(values[i] for i in d2_positions if i < len(values))
         else:
             tablepos = self.GetTablePos(type, "d3")
             if tablepos < 0 or diam not in table:
@@ -638,14 +643,24 @@ class FSScrewMaker(Screw):
     def GetOuterDimensions(self, type, diam, external_diam):
         type = FSGetTypeAlias(type)
         outer_table = FsData.get(type + "outer", {})
-        rows = outer_table.get(diam, ())
-        if rows and not isinstance(rows[0], (tuple, list)):
-            rows = (rows,)
-        for row in rows:
-            if row and format(float(row[0]), "g") == str(external_diam):
-                return row
-        if rows:
-            return rows[0]
+        values = outer_table.get(diam, ())
+        if values and isinstance(values[0], (tuple, list)):
+            for row in values:
+                if row and format(float(row[0]), "g") == str(external_diam):
+                    return row
+            return values[0]
+
+        titles = FsTitles.get(type + "outer", ())
+        d2_positions = [i for i, title in enumerate(titles) if title == "d2"]
+        if "d3" in titles and "b2" in titles:
+            for position in d2_positions:
+                if position < len(values) and format(float(values[position]), "g") == str(external_diam):
+                    return values[position:position + 3]
+        elif values:
+            for position in d2_positions:
+                if position < len(values) and format(float(values[position]), "g") == str(external_diam):
+                    return (values[position],)
+            return (values[0],)
         raise ValueError(f"No outer dimensions are defined for {diam}")
 
     def GetAllChamferAngles(self, type, diam):
@@ -653,6 +668,11 @@ class FSScrewMaker(Screw):
         chamfer_table = FsData.get(type + "chamfer", {})
         rows = chamfer_table.get(diam, ())
         if rows and not isinstance(rows[0], (tuple, list)):
+            titles = FsTitles.get(type + "chamfer", ())
+            positions = [i for i, title in enumerate(titles) if title == "C"]
+            if positions:
+                return [format(float(rows[i]), "g") for i in positions
+                        if i < len(rows) and rows[i] not in (None, "")]
             rows = (rows,)
         return [format(float(row[0]), "g") for row in rows if row and row[0] not in (None, "")]
 
@@ -661,6 +681,14 @@ class FSScrewMaker(Screw):
         chamfer_table = FsData.get(type + "chamfer", {})
         rows = chamfer_table.get(diam, ())
         if rows and not isinstance(rows[0], (tuple, list)):
+            titles = FsTitles.get(type + "chamfer", ())
+            positions = [i for i, title in enumerate(titles) if title == "C"]
+            for position in positions:
+                if (position + 2 < len(rows)
+                        and format(float(rows[position]), "g") == str(angle)):
+                    return rows[position:position + 3]
+            if positions:
+                return rows[positions[0]:positions[0] + 3]
             rows = (rows,)
         for row in rows:
             if format(float(row[0]), "g") == str(angle):

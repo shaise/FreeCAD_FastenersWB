@@ -91,7 +91,9 @@ def csv2dict(filename, defaultTableName, fieldsnamed=True):
                     cur_table[key] = previous + (data,)
                 else:
                     cur_table[key] = (previous, data)
-            elif table_kind == "outer" and sum(value not in (None, "") for value in data) > 1:
+            elif table_kind == "outer" and key in cur_table and sum(
+                value not in (None, "") for value in data
+            ) > 1:
                 previous = cur_table.get(key, ())
                 if previous and isinstance(previous[0], tuple):
                     cur_table[key] = previous + (data,)
@@ -99,7 +101,7 @@ def csv2dict(filename, defaultTableName, fieldsnamed=True):
                     cur_table[key] = (previous, data)
                 else:
                     cur_table[key] = (data,)
-            elif table_kind in ("outer", "length"):
+            elif table_kind in ("outer", "length") and key in cur_table:
                 previous = cur_table.get(key, ())
                 cur_table[key] = tuple(
                     value for value in previous + data if value not in (None, "")

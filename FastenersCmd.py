@@ -133,7 +133,7 @@ CMD_WORKBENCH = 3
 CMD_STD_GROUP = 4
 
 FSScrewCommandTable = {
-    # type - (help, group, parameter-group, standard-group, workbench)
+    # type - (help, group, parameter-group, workbench, standard-group)
 
     # HexHeadGroup
 

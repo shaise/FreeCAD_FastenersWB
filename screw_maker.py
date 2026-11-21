@@ -184,6 +184,14 @@ class Screw:
             FreeCAD.Console.PrintMessage(
                 "Error! nom_dia and length values must be valid numbers!\n")
             return None
+        
+        # Reload dimTable before calling designator function
+        if (fastenerAttribs.Diameter == "Custom"):
+            fastenerAttribs.dimTable = None
+        else:
+            fastenerAttribs.dimTable = FsData[fastenerAttribs.baseType +
+                                              "def"][fastenerAttribs.Diameter]
+        
         if functionDesignator != "":
             designator = getattr(self, functionDesignator)(fastenerAttribs)
             done = True

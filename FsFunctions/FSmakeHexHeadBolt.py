@@ -128,5 +128,9 @@ def stdDesignatorHexHeadBolt(self, fa):
         designator = f"Hexagon head screw ISO 4017-{fa.Diameter} x {lengthStr}"
     elif fa.baseType == "ISO4018":
         designator = f"Hexagon head screw ISO 4018-{fa.Diameter} x {lengthStr}"
+    elif fa.baseType == "DIN933":
+        designator = f"Hexagon head screw DIN 933-{fa.Diameter} x {lengthStr}"
+    elif fa.baseType == "DIN961":
+        designator = f"Hexagon head bolt DIN 961-{fa.Diameter} x {lengthStr}"
         
     return designator

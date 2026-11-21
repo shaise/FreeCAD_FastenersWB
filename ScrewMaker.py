@@ -185,8 +185,8 @@ STD_DESIGNATOR_POS = 2
 
 screwTables = {
     #            name,    obj function,     std designator function
-    "DIN933": ("Screw", "makeHexHeadBolt"),
-    "DIN961": ("Screw", "makeHexHeadBolt"),
+    "DIN933": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "DIN961": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
     "ISO4014": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
     "ISO4015": ("Screw", "makeReducedShankHexHeadBolt", "stdDesignatorReducedShankHexHeadBolt"),
     "ISO4016": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),

@@ -752,6 +752,25 @@
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="Gui::PrefCheckBox" name="checkStdDesignatorLabel">
+        <property name="text">
+         <string>Use StdDesignator as Fastener label/name</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+        <property name="toolTip">
+         <string>Automatically set the Fastener label/name to StdDesignator when it is not empty</string>
+        </property>
+        <property name="prefEntry" stdset="0">
+         <cstring>UseStdDesignatorAsLabel</cstring>
+        </property>
+        <property name="prefPath" stdset="0">
+         <cstring>Mod/Fasteners</cstring>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

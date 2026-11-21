@@ -181,16 +181,17 @@ for s in FSC_BSPP_ScrewHoleChart:
 
 FASTENER_FAMILY_POS = 0
 FUNCTION_POS = 1
+STD_DESIGNATOR_POS = 2
 
 screwTables = {
-    #            name,    function
-    "DIN933": ("Screw", "makeHexHeadBolt"),
-    "DIN961": ("Screw", "makeHexHeadBolt"),
-    "ISO4014": ("Screw", "makeHexHeadBolt"),
-    "ISO4015": ("Screw", "makeReducedShankHexHeadBolt"),
-    "ISO4016": ("Screw", "makeHexHeadBolt"),
-    "ISO4017": ("Screw", "makeHexHeadBolt"),
-    "ISO4018": ("Screw", "makeHexHeadBolt"),
+    #            name,    obj function,     std designator function
+    "DIN933": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "DIN961": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "ISO4014": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "ISO4015": ("Screw", "makeReducedShankHexHeadBolt", "stdDesignatorReducedShankHexHeadBolt"),
+    "ISO4016": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "ISO4017": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "ISO4018": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
     "ISO4162": ("Screw", "makeHexHeadWithFlange"),
     "ISO15071": ("Screw", "makeHexHeadWithFlange"),
     "ISO15072": ("Screw", "makeHexHeadWithFlange"),
@@ -241,8 +242,8 @@ screwTables = {
     "ISO7093-1": ("Washer", "makeWasher"),
     "ISO7094": ("Washer", "makeWasher"),
     "ISO8738": ("Washer", "makeWasher"),
-    "ISO4379C": ("Bushing", "makeBushing"),
-    "ISO4379F": ("Bushing", "makeBushing"),
+    "ISO4379C": ("Bushing", "makeBushing", "stdDesignatorBushing"),
+    "ISO4379F": ("Bushing", "makeBushing", "stdDesignatorBushing"),
     "DIN6319C": ("Washer", "makeSphericalWasher"),
     "DIN6319D": ("Washer", "makeSphericalWasher"),
     "DIN6319G": ("Washer", "makeSphericalWasher"),
@@ -727,6 +728,12 @@ class FSScrewMaker(Screw):
     def createFastener(self, fastenerAttribs):
         func = screwTables[fastenerAttribs.baseType][FUNCTION_POS]
         return self.createScrew(func, fastenerAttribs)
-
+    
+    def getStdDesignator(self, fastenerAttribs):
+        table_entry = screwTables[fastenerAttribs.baseType]
+        if len(table_entry) > STD_DESIGNATOR_POS:
+            return self.createStdDesignator(table_entry[STD_DESIGNATOR_POS], table_entry[FUNCTION_POS], fastenerAttribs)
+        return None
+ 
 
 Instance = FSScrewMaker()

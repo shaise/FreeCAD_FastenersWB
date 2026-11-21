@@ -112,3 +112,21 @@ def makeHexHeadBolt(self, fa):
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)
     return shape
+
+
+def stdDesignatorHexHeadBolt(self, fa):
+    designator = None
+    length = fa.calc_len
+    lengthStr = f"{length:.0f}"
+    if length % 1 != 0:
+        lengthStr = f"{length}"
+    if fa.baseType == "ISO4014":
+        designator = f"Hexagon head bolt ISO 4014-{fa.Diameter} x {lengthStr}"
+    elif fa.baseType == "ISO4016":
+        designator = f"Hexagon head bolt ISO 4016-{fa.Diameter} x {lengthStr}"
+    elif fa.baseType == "ISO4017":
+        designator = f"Hexagon head screw ISO 4017-{fa.Diameter} x {lengthStr}"
+    elif fa.baseType == "ISO4018":
+        designator = f"Hexagon head screw ISO 4018-{fa.Diameter} x {lengthStr}"
+        
+    return designator

@@ -83,3 +83,20 @@ def makeReducedShankHexHeadBolt(self, fa):
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)
     return shape
+
+
+def stdDesignatorReducedShankHexHeadBolt(self, fa):
+    designator = None
+    if fa.baseType == "ISO4015":
+        length = fa.calc_len
+        lengthStr = f"{length:.0f}"
+        P, b1, b2, c, _, _, dw, e, k, _, _, _, r, s, _, x = fa.dimTable
+        if length > 125 and b2 != 0:
+            b = b2
+        else:
+            b = b1
+        if length % 1 != 0:
+            lengthStr = f"{length}"
+        designator = f"Hexagon head bolt ISO 4015-{fa.Diameter} x {lengthStr}"
+        
+    return designator

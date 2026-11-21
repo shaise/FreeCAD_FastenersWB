@@ -123,3 +123,32 @@ def makeBushing(self, fa):
         return self.RevolveZ(profile.GetFace())
     else:
         raise NotImplementedError(f"Unknown fastener type: {fa.Type}")
+
+def stdDesignatorBushing(self, fa):
+    designator = None
+    if fa.Type == "ISO4379C":
+        d1, C1, C2 = fa.dimTable
+        C = int(fa.ChamferAngle)
+        if C == 45:
+            C2 = C1
+        d2 = float(fa.ExternalDiam)
+        b1 = float(fa.calc_len)
+        designator = f"ISO4379C-{d1}x{b1}"
+    elif fa.Type == "ISO4379F":
+        d1, u, C1, C2, d2, d3, b2, d2a, d3a, b2a = fa.dimTable
+        #d2, d3, b2 = fa.outerTable
+        od = float(fa.ExternalDiam)
+        if od == d2a:
+            d2, d3, b2 = d2a, d3a, b2a
+        elif od != d2:
+            raise ValueError("External diameter does not match any definition")
+        b1 = float(fa.calc_len)
+        C = int(fa.ChamferAngle)
+        if C == 45:
+            C2 = C1
+        inner_radius = d1 / 2
+        body_radius = d2 / 2
+        flange_radius = d3 / 2
+        designator = f"ISO4379F-{d1}x{b1}"
+    return designator
+    

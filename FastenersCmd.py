@@ -671,6 +671,12 @@ class FSScrewObject(FSBaseObject):
         if "ThreadLength" in params and not hasattr(obj, "ScrewLength"):
             obj.addProperty("App::PropertyLength", "ScrewLength", "Parameters", translate(
                 "FastenerCmd", "Threaded part length")).ScrewLength = screwMaker.GetThreadLength(type, diameter)
+            
+        if not hasattr(obj, "StdDesignator"):
+            obj.addProperty(
+                "App::PropertyString", "StdDesignator", "Parameters", translate("FastenerCmd", "StdDesignator")
+            ).StdDesignator = ""
+            obj.setPropertyStatus("StdDesignator", ["ReadOnly"])
 
         self.migrateToUpperCase(obj)
         self.BackupObject(obj)
@@ -912,7 +918,15 @@ class FSScrewObject(FSBaseObject):
         label += '-' + selfFamilyType
         # Set completed label
         fp.Label = label
-
+        
+        designator = screwMaker.getStdDesignator(self)
+        if hasattr(fp, "StdDesignator") and designator is not None:
+            fp.StdDesignator = designator
+        elif hasattr(fp, "StdDesignator") and designator is None:
+            fp.StdDesignator = ""
+            
+        # fp.Label = fp.StdDesignator
+        
         # self.familyType = s[1]
         fp.Shape = s
 

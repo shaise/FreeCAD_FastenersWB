@@ -167,6 +167,32 @@ class Screw:
             return None
         # Part.show(screw)
         return screw
+    
+    def createStdDesignator(self, functionDesignator, functionMake, fastenerAttribs):
+        if not self.objAvailable:
+            return None
+        try:
+            if fastenerAttribs.calc_len is not None:
+                fastenerAttribs.calc_len = self.getLength(
+                    fastenerAttribs.calc_len)
+            if not hasattr(self, functionDesignator):
+                module = "FsFunctions.FS" + functionMake
+                setattr(Screw, functionDesignator, getattr(
+                    importlib.import_module(module), functionDesignator))
+        except ValueError:
+            # print "Error! nom_dia and length values must be valid numbers!"
+            FreeCAD.Console.PrintMessage(
+                "Error! nom_dia and length values must be valid numbers!\n")
+            return None
+        if functionDesignator != "":
+            designator = getattr(self, functionDesignator)(fastenerAttribs)
+            done = True
+        else:
+            FreeCAD.Console.PrintMessage(
+                "No suitable designator function for " + fastenerAttribs.Type + " Screw Type!\n")
+            return None
+        # Part.show(screw)
+        return designator
 
     def makeDin7998Thread(
         self, zs: float, ze: float, zt: float, ri: float, ro: float, p: float,

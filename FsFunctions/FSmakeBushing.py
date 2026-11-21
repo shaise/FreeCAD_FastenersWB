@@ -133,7 +133,9 @@ def stdDesignatorBushing(self, fa):
             C2 = C1
         d2 = float(fa.ExternalDiam)
         b1 = float(fa.calc_len)
-        designator = f"ISO4379C-{d1}x{b1}"
+        designator = f"Bush ISO 4379-C {d1} x {d2} x {b1}"
+        if C== 15:
+            designator += f" Y"
     elif fa.Type == "ISO4379F":
         d1, u, C1, C2, d2, d3, b2, d2a, d3a, b2a = fa.dimTable
         #d2, d3, b2 = fa.outerTable
@@ -149,6 +151,8 @@ def stdDesignatorBushing(self, fa):
         inner_radius = d1 / 2
         body_radius = d2 / 2
         flange_radius = d3 / 2
-        designator = f"ISO4379F-{d1}x{b1}"
+        designator = f"Bush ISO 4379-F {d1} x {d2} x {b1}"
+        if C== 15:
+            designator += f" Y"
     return designator
     

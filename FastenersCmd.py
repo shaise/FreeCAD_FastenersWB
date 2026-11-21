@@ -922,10 +922,11 @@ class FSScrewObject(FSBaseObject):
         designator = screwMaker.getStdDesignator(self)
         if hasattr(fp, "StdDesignator") and designator is not None:
             fp.StdDesignator = designator
+            # Check if we should use StdDesignator as label
+            if FastenerBase.FSParam.GetBool("UseStdDesignatorAsLabel", False):
+                fp.Label = designator
         elif hasattr(fp, "StdDesignator") and designator is None:
             fp.StdDesignator = ""
-            
-        # fp.Label = fp.StdDesignator
         
         # self.familyType = s[1]
         fp.Shape = s

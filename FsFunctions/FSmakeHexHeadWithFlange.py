@@ -140,7 +140,7 @@ def stdDesignatorHexHeadWithFlange(self, fa):
     lengthStr = f"{length:.0f}"
     if length % 1 != 0:
         lengthStr = f"{length}"
-    # For ISO15071, ISO15072, ISO4162
+    # For ISO15071, ISO15072, ISO4162, EN1662
     # there is in theory the differentiation between Type F and R, but this is not represented by FastenerWB,
     # and leaving the - F, - U or - R suffix out of the designator is a valid option 
     # and with - F and - U it specifyes the head form, but in the model it uses a flat bottom flange 
@@ -151,4 +151,8 @@ def stdDesignatorHexHeadWithFlange(self, fa):
         designator = f"Hexagon bolt with flange ISO 15071-{fa.Diameter} x {lengthStr}" 
     elif fa.baseType == "ISO15072":
         designator = f"Hexagon bolt with flange ISO 15072-{fa.Diameter} x {lengthStr}" 
+    elif fa.baseType == "EN1662":
+        designator = f"Hexagon bolt with flange EN 1662-{fa.Diameter} x {lengthStr}" 
+    elif fa.baseType == "EN1665":
+        designator = f"Hexagon bolt with flange EN 1665-{fa.Diameter} x {lengthStr}" 
     return designator

@@ -225,7 +225,7 @@ screwTables = {
     "DIN478": ("Screw", "makeFlangedSquareHeadBolt"),
     "DIN603": ("Screw", "makeCarriageBolt"),
     "ISO2342": ("Screw", "makeHeadlessScrew"),
-    "DIN571": ("Screw", "makeWoodScrew"),
+    "DIN571": ("Screw", "makeWoodScrew", "stdDesignatorWoodScrew"),
     "DIN96": ("Screw", "makeWoodScrew"),
     "DIN7996": ("Screw", "makeWoodScrew"),
     "GOST1144-1": ("Screw", "makeWoodScrew"),

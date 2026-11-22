@@ -133,3 +133,22 @@ def makeHexHeadWithFlange(self, fa):
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)
     return shape
+
+def stdDesignatorHexHeadWithFlange(self, fa):
+    designator = None
+    length = fa.calc_len
+    lengthStr = f"{length:.0f}"
+    if length % 1 != 0:
+        lengthStr = f"{length}"
+    # For ISO15071, ISO15072, ISO4162
+    # there is in theory the differentiation between Type F and R, but this is not represented by FastenerWB,
+    # and leaving the - F, - U or - R suffix out of the designator is a valid option 
+    # and with - F and - U it specifyes the head form, but in the model it uses a flat bottom flange 
+    # with - R it specifey a reduced shank but is not modeld in the FastenerWB model
+    if fa.baseType == "ISO4162":
+        designator = f"Hexagon bolt with flange ISO 4162-{fa.Diameter} x {lengthStr}" 
+    elif fa.baseType == "ISO15071":
+        designator = f"Hexagon bolt with flange ISO 15071-{fa.Diameter} x {lengthStr}" 
+    elif fa.baseType == "ISO15072":
+        designator = f"Hexagon bolt with flange ISO 15072-{fa.Diameter} x {lengthStr}" 
+    return designator

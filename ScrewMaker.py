@@ -200,7 +200,7 @@ screwTables = {
     "EN1662": ("Screw", "makeHexHeadWithFlange", "stdDesignatorHexHeadWithFlange"),
     "EN1665": ("Screw", "makeHexHeadWithFlange", "stdDesignatorHexHeadWithFlange"),
     "ISO2009": ("Screw", "makeCountersunkHeadScrew", "stdDesignatorCountersunkHeadScrew"),
-    "ISO2010": ("Screw", "makeRaisedCountersunkScrew"),
+    "ISO2010": ("Screw", "makeRaisedCountersunkScrew", "stdDesignatorRaisedCountersunkScrew"),
     "ISO4762": ("Screw", "makeCylinderHeadScrew"),
     "ISO10642": ("Screw", "makeCountersunkHeadScrew"),
     "ISO1207": ("Screw", "makeCheeseHeadScrew"),

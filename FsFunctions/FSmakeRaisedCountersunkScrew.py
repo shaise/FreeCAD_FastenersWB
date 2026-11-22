@@ -122,3 +122,11 @@ def makeRaisedCountersunkScrew(self, fa):
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)
     return shape
+
+def stdDesignatorRaisedCountersunkScrew(self, fa):
+    designator = None
+    length = fa.calc_len
+    lengthStr = f"{length:.0f}"
+    if fa.baseType == "ISO2010":
+        designator = f"Countersunk raised head screw ISO 2010 - {fa.Diameter} x {fa.Length}"
+    return designator

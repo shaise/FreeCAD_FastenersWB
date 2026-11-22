@@ -155,4 +155,6 @@ def stdDesignatorHexHeadWithFlange(self, fa):
         designator = f"Hexagon bolt with flange EN 1662 - {fa.Diameter} x {lengthStr}" 
     elif fa.baseType == "EN1665":
         designator = f"Hexagon bolt with flange EN 1665 - {fa.Diameter} x {lengthStr}" 
+    elif fa.baseType == "ASMEB18.2.1.8":
+        designator = f"Hex Flange Screw per ASME B18.2.1, {fa.Diameter} x {fa.Length}" 
     return designator

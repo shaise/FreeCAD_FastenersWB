@@ -117,3 +117,11 @@ def makeCountersunkHeadScrew(self, fa):
         thread_cutter.translate(Base.Vector(0.0, 0.0, -1 * (length - thread_length)))
         shape = shape.cut(thread_cutter)
     return shape
+
+def stdDesignatorCountersunkHeadScrew(self, fa):
+    designator = None
+    length = fa.calc_len
+    lengthStr = f"{length:.0f}"
+    if fa.baseType == "ISO2009":
+        designator = f"Countersunk flat head screw ISO 2009 - {fa.Diameter} x {lengthStr}" 
+    return designator

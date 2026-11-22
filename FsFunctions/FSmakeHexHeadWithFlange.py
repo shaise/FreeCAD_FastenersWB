@@ -146,13 +146,13 @@ def stdDesignatorHexHeadWithFlange(self, fa):
     # and with - F and - U it specifyes the head form, but in the model it uses a flat bottom flange 
     # with - R it specifey a reduced shank but is not modeld in the FastenerWB model
     if fa.baseType == "ISO4162":
-        designator = f"Hexagon bolt with flange ISO 4162-{fa.Diameter} x {lengthStr}" 
+        designator = f"Hexagon bolt with flange ISO 4162 - {fa.Diameter} x {lengthStr}" 
     elif fa.baseType == "ISO15071":
-        designator = f"Hexagon bolt with flange ISO 15071-{fa.Diameter} x {lengthStr}" 
+        designator = f"Hexagon bolt with flange ISO 15071 - {fa.Diameter} x {lengthStr}" 
     elif fa.baseType == "ISO15072":
-        designator = f"Hexagon bolt with flange ISO 15072-{fa.Diameter} x {lengthStr}" 
+        designator = f"Hexagon bolt with flange ISO 15072 - {fa.Diameter} x {lengthStr}" 
     elif fa.baseType == "EN1662":
-        designator = f"Hexagon bolt with flange EN 1662-{fa.Diameter} x {lengthStr}" 
+        designator = f"Hexagon bolt with flange EN 1662 - {fa.Diameter} x {lengthStr}" 
     elif fa.baseType == "EN1665":
-        designator = f"Hexagon bolt with flange EN 1665-{fa.Diameter} x {lengthStr}" 
+        designator = f"Hexagon bolt with flange EN 1665 - {fa.Diameter} x {lengthStr}" 
     return designator

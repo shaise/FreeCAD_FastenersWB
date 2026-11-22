@@ -144,7 +144,7 @@ def stdDesignatorBushing(self, fa):
             raise ValueError("External diameter does not match any definition")
         b1 = float(fa.calc_len)
         C = int(fa.ChamferAngle)
-        designator = f"Bush ISO 4379-F {d1} x {d2} x {b1}"
+        designator = f"Bush ISO 4379 - F {d1} x {d2} x {b1}"
         if C== 15:
             designator += f" Y"
     return designator

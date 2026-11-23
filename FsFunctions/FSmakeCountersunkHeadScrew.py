@@ -126,4 +126,8 @@ def stdDesignatorCountersunkHeadScrew(self, fa):
         designator = f"Countersunk flat head screw ISO 2009 - {fa.Diameter} x {lengthStr}" 
     if fa.baseType == "ISO10642":
         designator = f"Hexagon socket countersunk head screw ISO 10642 - {fa.Diameter} x {lengthStr}" 
+    # There is a -1 and -2 variant, but we dimension them the same, and since we do not distinguish them here 
+    # so I prepeared the designator for ISO7046 but commented it out for now
+    #if fa.baseType == "ISO7046":
+    #    designator = f"Countersunk flat head screw ISO 7046 - {fa.Diameter} x {lengthStr}" 
     return designator

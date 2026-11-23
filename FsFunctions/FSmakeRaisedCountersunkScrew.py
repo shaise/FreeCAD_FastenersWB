@@ -129,4 +129,7 @@ def stdDesignatorRaisedCountersunkScrew(self, fa):
     lengthStr = f"{length:.0f}"
     if fa.baseType == "ISO2010":
         designator = f"Countersunk raised head screw ISO 2010 - {fa.Diameter} x {fa.Length}"
+    if fa.baseType == "ISO7047":
+        # There is a -Z and -H but we currently do not distinguish them
+        designator = f"Countersunk raised head screw ISO 7047 - {fa.Diameter} x {fa.Length}"
     return designator

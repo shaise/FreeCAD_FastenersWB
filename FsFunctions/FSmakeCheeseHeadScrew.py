@@ -101,4 +101,7 @@ def stdDesignatorCheeseHeadScrew(self, fa):
         designator = f"Cheese head screw DIN 84 - {fa.Diameter} x {fa.Length}"
     if fa.baseType == "ISO1580":
         designator = f"Pan head screw ISO 1580 - {fa.Diameter} x {fa.Length}"
+    if fa.baseType == "ISO7048":
+        # There is a -Z and -H but we currently do not distinguish them
+        designator = f"Cheese head screw ISO 7048 - {fa.Diameter} x {fa.Length}"
     return designator

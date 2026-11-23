@@ -210,7 +210,7 @@ screwTables = {
     "ISO7046": ("Screw", "makeCountersunkHeadScrew"), #, "stdDesignatorCountersunkHeadScrew"
     "ISO7047": ("Screw", "makeRaisedCountersunkScrew", "stdDesignatorRaisedCountersunkScrew"),
     "ISO7048": ("Screw", "makeCheeseHeadScrew", "stdDesignatorCheeseHeadScrew"),
-    "DIN967": ("Screw", "makeFlangedPanHeadScrew"),
+    "DIN967": ("Screw", "makeFlangedPanHeadScrew", "stdDesignatorFlangedPanHeadScrew"),
     "ISO7379": ("Screw", "makeShoulderScrew"),
     "ISO7380-1": ("Screw", "makeButtonHeadScrew"),
     "ISO7380-2": ("Screw", "makeFlangedButtonHeadScrew"),

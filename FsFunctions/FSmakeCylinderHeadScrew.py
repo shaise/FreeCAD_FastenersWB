@@ -104,3 +104,11 @@ def makeCylinderHeadScrew(self, fa):
         )
         shape = shape.cut(thread_cutter)
     return shape
+
+def stdDesignatorCylinderHeadScrew(self, fa):
+    designator = None
+    length = fa.calc_len
+    lengthStr = f"{length:.0f}"
+    if fa.baseType == "ISO4762":
+        designator = f"Hexagon socket head cap screw ISO 4762 - {fa.Diameter} x {fa.Length}"
+    return designator

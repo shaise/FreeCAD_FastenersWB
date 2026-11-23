@@ -124,3 +124,11 @@ def makeCarriageBolt(self, fa):  # dynamically loaded method of class Screw
         )
         p_solid = p_solid.cut(thread_cutter)
     return Part.Solid(p_solid)
+
+def stdDesignatorCarriageBolt(self, fa):
+    designator = None
+    length = fa.calc_len
+    lengthStr = f"{length:.0f}"
+    if fa.baseType == "DIN603":
+        designator = f"Mushroom head bolt DIN 603 - {fa.Diameter} x {fa.Length}"
+    return designator

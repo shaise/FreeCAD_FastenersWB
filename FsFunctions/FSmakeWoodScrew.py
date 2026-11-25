@@ -398,3 +398,11 @@ def makeASMEB1861(self, fa):
         screw = screw.fuse(thread)
 
     return screw
+
+def stdDesignatorWoodScrew(self, fa):
+    designator = None
+    length = fa.calc_len
+    lengthStr = f"{length:.0f}"
+    if fa.baseType == "DIN571":
+        designator = f"Wood Screw DIN 571 - {fa.Diameter} x {fa.Length}"
+    return designator

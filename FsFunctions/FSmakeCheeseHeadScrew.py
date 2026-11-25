@@ -90,3 +90,18 @@ def makeCheeseHeadScrew(self, fa):
         )
         screw = screw.cut(thread_cutter)
     return screw
+
+def stdDesignatorCheeseHeadScrew(self, fa):
+    designator = None
+    length = fa.calc_len
+    lengthStr = f"{length:.0f}"
+    if fa.baseType == "ISO1207":
+        designator = f"Cheese head screw ISO 1207 - {fa.Diameter} x {fa.Length}"
+    if fa.baseType == "DIN84":
+        designator = f"Cheese head screw DIN 84 - {fa.Diameter} x {fa.Length}"
+    if fa.baseType == "ISO1580":
+        designator = f"Pan head screw ISO 1580 - {fa.Diameter} x {fa.Length}"
+    if fa.baseType == "ISO7048":
+        # There is a -Z and -H but we currently do not distinguish them
+        designator = f"Cheese head screw ISO 7048 - {fa.Diameter} x {fa.Length}"
+    return designator

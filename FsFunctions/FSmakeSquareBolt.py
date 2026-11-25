@@ -73,3 +73,11 @@ def makeSquareBolt(self, fa):
         )
         shape = shape.cut(thread_cutter)
     return shape
+
+def stdDesignatorSquareBolt(self, fa):
+    designator = None
+    length = fa.calc_len
+    lengthStr = f"{length:.0f}"
+    if fa.baseType == "ASMEB18.2.1.1":
+        designator = f"Square Bolt per ASME B18.2.1, {fa.Diameter} x {fa.Length}" 
+    return designator

@@ -159,3 +159,11 @@ def makePanHeadScrew(self, fa):
         shape = shape.cut(thread_cutter)
         
     return shape
+
+def stdDesignatorPanHeadScrew(self, fa):
+    designator = None
+    length = fa.calc_len
+    lengthStr = f"{length:.0f}"
+    if fa.baseType == "ISO7045":
+        designator = f"Pan head screw ISO 7045 - {fa.Diameter} x {fa.Length}"
+    return designator

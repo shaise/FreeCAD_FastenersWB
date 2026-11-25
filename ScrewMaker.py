@@ -181,35 +181,36 @@ for s in FSC_BSPP_ScrewHoleChart:
 
 FASTENER_FAMILY_POS = 0
 FUNCTION_POS = 1
+STD_DESIGNATOR_POS = 2
 
 screwTables = {
-    #            name,    function
-    "DIN933": ("Screw", "makeHexHeadBolt"),
-    "DIN961": ("Screw", "makeHexHeadBolt"),
-    "ISO4014": ("Screw", "makeHexHeadBolt"),
-    "ISO4015": ("Screw", "makeReducedShankHexHeadBolt"),
-    "ISO4016": ("Screw", "makeHexHeadBolt"),
-    "ISO4017": ("Screw", "makeHexHeadBolt"),
-    "ISO4018": ("Screw", "makeHexHeadBolt"),
-    "ISO4162": ("Screw", "makeHexHeadWithFlange"),
-    "ISO15071": ("Screw", "makeHexHeadWithFlange"),
-    "ISO15072": ("Screw", "makeHexHeadWithFlange"),
-    "ISO8676": ("Screw", "makeHexHeadBolt"),
-    "ISO8765": ("Screw", "makeHexHeadBolt"),
-    "EN1662": ("Screw", "makeHexHeadWithFlange"),
-    "EN1665": ("Screw", "makeHexHeadWithFlange"),
-    "ISO2009": ("Screw", "makeCountersunkHeadScrew"),
-    "ISO2010": ("Screw", "makeRaisedCountersunkScrew"),
-    "ISO4762": ("Screw", "makeCylinderHeadScrew"),
-    "ISO10642": ("Screw", "makeCountersunkHeadScrew"),
-    "ISO1207": ("Screw", "makeCheeseHeadScrew"),
-    "DIN84": ("Screw", "makeCheeseHeadScrew"),
-    "ISO1580": ("Screw", "makeCheeseHeadScrew"),
-    "ISO7045": ("Screw", "makePanHeadScrew"),
-    "ISO7046": ("Screw", "makeCountersunkHeadScrew"),
-    "ISO7047": ("Screw", "makeRaisedCountersunkScrew"),
-    "ISO7048": ("Screw", "makeCheeseHeadScrew"),
-    "DIN967": ("Screw", "makeFlangedPanHeadScrew"),
+    #            name,    obj function,     std designator function
+    "DIN933": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "DIN961": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "ISO4014": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "ISO4015": ("Screw", "makeReducedShankHexHeadBolt", "stdDesignatorReducedShankHexHeadBolt"),
+    "ISO4016": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "ISO4017": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "ISO4018": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "ISO4162": ("Screw", "makeHexHeadWithFlange", "stdDesignatorHexHeadWithFlange"),
+    "ISO15071": ("Screw", "makeHexHeadWithFlange", "stdDesignatorHexHeadWithFlange"),
+    "ISO15072": ("Screw", "makeHexHeadWithFlange", "stdDesignatorHexHeadWithFlange"),
+    "ISO8676": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "ISO8765": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "EN1662": ("Screw", "makeHexHeadWithFlange", "stdDesignatorHexHeadWithFlange"),
+    "EN1665": ("Screw", "makeHexHeadWithFlange", "stdDesignatorHexHeadWithFlange"),
+    "ISO2009": ("Screw", "makeCountersunkHeadScrew", "stdDesignatorCountersunkHeadScrew"),
+    "ISO2010": ("Screw", "makeRaisedCountersunkScrew", "stdDesignatorRaisedCountersunkScrew"),
+    "ISO4762": ("Screw", "makeCylinderHeadScrew", "stdDesignatorCylinderHeadScrew"),
+    "ISO10642": ("Screw", "makeCountersunkHeadScrew", "stdDesignatorCountersunkHeadScrew"),
+    "ISO1207": ("Screw", "makeCheeseHeadScrew", "stdDesignatorCheeseHeadScrew"),
+    "DIN84": ("Screw", "makeCheeseHeadScrew", "stdDesignatorCheeseHeadScrew"),
+    "ISO1580": ("Screw", "makeCheeseHeadScrew", "stdDesignatorCheeseHeadScrew"),
+    "ISO7045": ("Screw", "makePanHeadScrew", "stdDesignatorPanHeadScrew"),
+    "ISO7046": ("Screw", "makeCountersunkHeadScrew"), #, "stdDesignatorCountersunkHeadScrew"
+    "ISO7047": ("Screw", "makeRaisedCountersunkScrew", "stdDesignatorRaisedCountersunkScrew"),
+    "ISO7048": ("Screw", "makeCheeseHeadScrew", "stdDesignatorCheeseHeadScrew"),
+    "DIN967": ("Screw", "makeFlangedPanHeadScrew", "stdDesignatorFlangedPanHeadScrew"),
     "ISO7379": ("Screw", "makeShoulderScrew"),
     "ISO7380-1": ("Screw", "makeButtonHeadScrew"),
     "ISO7380-2": ("Screw", "makeFlangedButtonHeadScrew"),
@@ -222,9 +223,9 @@ screwTables = {
     "DIN7984": ("Screw", "makeCylinderHeadScrew"),
     "DIN6912": ("Screw", "makeCylinderHeadScrew"),
     "DIN478": ("Screw", "makeFlangedSquareHeadBolt"),
-    "DIN603": ("Screw", "makeCarriageBolt"),
+    "DIN603": ("Screw", "makeCarriageBolt", "stdDesignatorCarriageBolt"),
     "ISO2342": ("Screw", "makeHeadlessScrew"),
-    "DIN571": ("Screw", "makeWoodScrew"),
+    "DIN571": ("Screw", "makeWoodScrew", "stdDesignatorWoodScrew"),
     "DIN96": ("Screw", "makeWoodScrew"),
     "DIN7996": ("Screw", "makeWoodScrew"),
     "GOST1144-1": ("Screw", "makeWoodScrew"),
@@ -241,8 +242,8 @@ screwTables = {
     "ISO7093-1": ("Washer", "makeWasher"),
     "ISO7094": ("Washer", "makeWasher"),
     "ISO8738": ("Washer", "makeWasher"),
-    "ISO4379C": ("Bushing", "makeBushing"),
-    "ISO4379F": ("Bushing", "makeBushing"),
+    "ISO4379C": ("Bushing", "makeBushing", "stdDesignatorBushing"),
+    "ISO4379F": ("Bushing", "makeBushing", "stdDesignatorBushing"),
     "DIN6319C": ("Washer", "makeSphericalWasher"),
     "DIN6319D": ("Washer", "makeSphericalWasher"),
     "DIN6319G": ("Washer", "makeSphericalWasher"),
@@ -302,9 +303,9 @@ screwTables = {
     "GN505.4": ("TSlot", "makeTSlot"),
     "GN506": ("TSlot", "makeTSlot"),
     "GN507": ("TSlot", "makeTSlot"),
-    "ASMEB18.2.1.1": ("Screw", "makeSquareBolt"),
-    "ASMEB18.2.1.6": ("Screw", "makeHexHeadBolt"),
-    "ASMEB18.2.1.8": ("Screw", "makeHexHeadWithFlange"),
+    "ASMEB18.2.1.1": ("Screw", "makeSquareBolt", "stdDesignatorSquareBolt"),
+    "ASMEB18.2.1.6": ("Screw", "makeHexHeadBolt", "stdDesignatorHexHeadBolt"),
+    "ASMEB18.2.1.8": ("Screw", "makeHexHeadWithFlange", "stdDesignatorHexHeadWithFlange"),
     "ASMEB18.2.2.1A": ("Nut", "makeHexNut"),
     "ASMEB18.2.2.1B": ("Nut", "makeSquareNut"),
     "ASMEB18.2.2.2": ("Nut", "makeSquareNut"),
@@ -727,6 +728,12 @@ class FSScrewMaker(Screw):
     def createFastener(self, fastenerAttribs):
         func = screwTables[fastenerAttribs.baseType][FUNCTION_POS]
         return self.createScrew(func, fastenerAttribs)
-
+    
+    def getStdDesignator(self, fastenerAttribs):
+        table_entry = screwTables[fastenerAttribs.baseType]
+        if len(table_entry) > STD_DESIGNATOR_POS:
+            return self.createStdDesignator(table_entry[STD_DESIGNATOR_POS], table_entry[FUNCTION_POS], fastenerAttribs)
+        return None
+ 
 
 Instance = FSScrewMaker()

@@ -73,3 +73,12 @@ def makeFlangedPanHeadScrew(self, fa):
         )
         shape = shape.cut(thread_cutter)
     return shape
+
+def stdDesignatorFlangedPanHeadScrew(self, fa):
+    designator = None
+    length = fa.calc_len
+    lengthStr = f"{length:.0f}"
+    if fa.baseType == "DIN967":
+        # There is a -Z and -H but we currently do not distinguish them
+        designator = f"Pan head screw DIN 967 - {fa.Diameter} x {fa.Length}"
+    return designator

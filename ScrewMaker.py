@@ -375,7 +375,8 @@ screwTables = {
     "DIN1160-A": ("Nail", "makeNail"),
     "DIN1160-B": ("Nail", "makeNail"),
     "ISO1234": ("Pin", "makeSplitPin"),
-    "ISO2338": ("Pin", "makeDowelPin"),
+    "ISO2338": ("Pin", "makeDowelPin", "stdDesignatorDowelPin"),
+    "DIN7": ("Pin", "makeDowelPin", "stdDesignatorDowelPin"),
     "ISO2339": ("Pin", "makeTaperedPin", "stdDesignatorTaperedPin"),
     "DIN1": ("Pin", "makeTaperedPin", "stdDesignatorTaperedPin"),
     "ISO2340A": ("Pin", "makeHeadlessClevisPin"),
@@ -384,7 +385,7 @@ screwTables = {
     "ISO2341B": ("Pin", "makeClevisPin"),
     "ISO8733": ("Pin", "makeInternalThreadedDowelPin"),
     "DIN7979": ("Pin", "makeInternalThreadedDowelPin"),
-    "ISO8734": ("Pin", "makeDowelPin"),
+    "ISO8734": ("Pin", "makeDowelPin", "stdDesignatorDowelPin"),
     "ISO8735": ("Pin", "makeInternalThreadedDowelPin"),
     "ISO8736": ("Pin", "makeInternalThreadedTaperPin"),
     "ISO8737": ("Pin", "makeExternalThreadedTaperPin"),
@@ -658,7 +659,25 @@ class FSScrewMaker(Screw):
             return default_val
         table = FsData[type + "def"]
         FreeCAD.Console.PrintLog("Fetching value for diam: " + diam + "\n")
-        return table[diam][tablepos]        
+        return table[diam][tablepos]
+    
+    def GetAllPossibleTableProperty(self, type, diams, property, default_val):
+        porperties: list[str] = []
+        for diam in diams:
+            if diam == 'Auto':
+                continue
+            porperties.append(self.GetTableProperty(type, diam, property, default_val))
+        result = []
+        if isinstance(porperties[0], list):
+            for val in porperties:
+                for prop in val:
+                    if prop not in result:
+                        result.append(prop)
+        else:
+            for prop in porperties:
+                if prop not in result:
+                    result.append(prop)
+        return result
 
     def GetThreadLength(self, type, diam):
         return self.GetTableProperty(type, diam, 'thr_len', 10.0)

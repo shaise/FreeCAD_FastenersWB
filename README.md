@@ -120,6 +120,7 @@ screwobj = sm.createFastener('ISO7046', 'M6', '8', 'simple')
 </details>
 
 #### Release Notes
+* V0.6.02  25 Nov 2026:  Add standard fastener naming support by @tobiasfalk.  
 * V0.6.01  19 Nov 2026:  Add ISO4379 bushings by @tobiasfalk.  
 * V0.6.00  12 Nov 2026:  Update license to LGPL.  
 * V0.5.65  29 Aug 2026:  Insert fasteners in active assembly by @Roy-043.  

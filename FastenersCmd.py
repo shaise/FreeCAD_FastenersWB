@@ -87,6 +87,7 @@ PEMStandoffParameters = {"Type", "Diameter", "MatchOuter",
                          "Thread", "LeftHanded", "Length", "blindness"}
 RetainingRingParameters = {"Type", "Diameter", "MatchOuter"}
 PinParameters = {"Type", "Diameter", "Length", "LengthCustom", "LeftHanded", "Thread"}
+PinParametersSurface = {"Type", "Diameter", "Length", "LengthCustom", "LeftHanded", "Thread", "Surface"}
 TSlotNutParameters = { "Type", "Diameter", "MatchOuter",
                         "Thread", "LeftHanded", "SlotWidth" }
 TSlotBoltParameters = { "Type", "Diameter", "Length", "LengthCustom",
@@ -101,7 +102,7 @@ BushingParameters = {"Type", "Diameter", "ExternalDiam", "Length", "LengthCustom
 FastenerAttribs = ['Type', 'Diameter', 'Thread', 'LeftHanded', 'MatchOuter', 'Length',
                    'LengthCustom', 'Width', 'DiameterCustom', 'PitchCustom', 'Tcode',
                    'Blind', 'ScrewLength', "SlotWidth", 'ExternalDiam', 'ChamferAngle', 'KeySize',
-                   "NumStarts", "Pitch"]
+                   "NumStarts", "Pitch", "Surface"]
 
 
 # Names of fasteners groups translated once before FSScrewCommandTable created.
@@ -374,7 +375,8 @@ FSScrewCommandTable = {
     # pins group
     "ISO1234": (translate("FastenerCmd", "Split pins"), PinGroup, PinParameters),
     "ISO2338": (translate("FastenerCmd", "Parallel pins"), PinGroup, PinParameters),
-    "ISO2339": (translate("FastenerCmd", "Taper pins"), PinGroup, PinParameters),
+    "ISO2339": (translate("FastenerCmd", "Taper pins, Surface A: ground B: turned"), PinGroup, PinParametersSurface),
+    "DIN1": (translate("FastenerCmd", "Taper pins, Surface A: ground B: turned"), PinGroup, PinParametersSurface),
     "ISO2340A": (translate("FastenerCmd", "Clevis pins without head"), PinGroup, PinParameters),
     "ISO2340B": (translate("FastenerCmd", "Clevis pins without head (with split pin holes)"), PinGroup, PinParameters),
     "ISO2341A": (translate("FastenerCmd", "Clevis pins with head"), PinGroup, PinParameters),
@@ -648,6 +650,11 @@ class FSScrewObject(FSBaseObject):
         if "PitchCustom" in params and not hasattr(obj, "PitchCustom"):
             obj.addProperty("App::PropertyLength", "PitchCustom", "Parameters", translate(
                 "FastenerCmd", "Screw pitch custom")).PitchCustom = 1.0
+            
+        #custom designator parameters
+        if "Surface" in params and not hasattr(obj, "Surface"):
+            obj.addProperty("App::PropertyEnumeration", "Surface", "Parameters", translate(
+                "FastenerCmd", "Surface")).Surface = screwMaker.GetTableProperty(type, diameter, "surface", None)
 
         # thickness
         if "ThicknessCode" in params and not hasattr(obj, "Tcode"):

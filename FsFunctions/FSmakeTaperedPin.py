@@ -80,8 +80,15 @@ def stdDesignatorTaperedPin(self, fa):
     lengthStr = f"{length:.0f}"
     if fa.baseType == "ISO2339":
         d_1, a, surface = fa.dimTable
-        designator = f"Taper pin ISO 2339 - {fa.Surface} - {fa.Diameter} x {fa.Length}"
+        if length % 1 != 0:
+            designator = f"Taper pin ISO 2339 - {fa.Surface} - {d_1} x {length}"
+        else:
+            designator = f"Taper pin ISO 2339 - {fa.Surface} - {d_1} x {lengthStr}"
     if fa.baseType == "DIN1":
+        dia, cham, radius, tolerance = fa.dimTable
+        if length % 1 != 0:
+            designator = f"Taper pin DIN 1 - {fa.Surface} {dia} x {length}"
+        else:
+            designator = f"Taper pin DIN 1 - {fa.Surface} {dia} x {lengthStr}"
         d_1, c, r, surface = fa.dimTable
-        designator = f"Taper pin DIN 1 - {fa.Surface} {fa.Diameter} x {fa.Length}"
     return designator

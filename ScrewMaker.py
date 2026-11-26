@@ -600,6 +600,8 @@ class FSScrewMaker(Screw):
             diam = next(iter(diamTable), None)
         if diam is None:
             return []
+        if "all" in diamTable:
+            diamTable = diamTable["all"]
 
         rangeTableName = type + rangeKeyword if rangeKeyword else None
         if rangeTableName and rangeTableName in FsData:

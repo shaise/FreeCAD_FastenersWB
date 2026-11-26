@@ -404,5 +404,9 @@ def stdDesignatorWoodScrew(self, fa):
     length = fa.calc_len
     lengthStr = f"{length:.0f}"
     if fa.baseType == "DIN571":
-        designator = f"Wood Screw DIN 571 - {fa.Diameter} x {fa.Length}"
+        dia = float(fa.calc_diam.split()[0])
+        if length % 1 != 0:
+            designator = f"Wood Screw DIN 571 - {dia:.0f} x {length}"
+        else:
+            designator = f"Wood Screw DIN 571 - {dia:.0f} x {lengthStr}"
     return designator
